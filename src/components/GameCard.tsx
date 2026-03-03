@@ -156,11 +156,11 @@ export default function GameCard({
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-[14px]">
           <div className="text-center px-6">
             <ShieldCheck className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
-            <p className="font-semibold text-charcoal mb-1">Sign up free to see full details</p>
+            <p className="font-semibold text-charcoal mb-1">Subscribe to see full details</p>
             <span
               className="inline-block mt-2 bg-hotpink-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
             >
-              Start Your 14-Day Free Trial
+              View Plans
             </span>
           </div>
         </div>

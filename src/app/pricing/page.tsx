@@ -1,34 +1,47 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Check, X, Star, ArrowRight, CreditCard, ShieldCheck } from "lucide-react";
+import { Check, X, ArrowRight, CreditCard, ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Pricing — MahjNearMe",
   description:
-    "Simple, transparent pricing for MahjNearMe. Start with a 14-day free trial. Full access to mahjong game details, interactive maps, travel planner, alerts, and more.",
+    "Simple, transparent pricing for MahjNearMe. Free account with limited access, or subscribe for full details, maps, travel planner, and more.",
 };
 
-const features = [
-  "Full access to all game details",
-  "Interactive map with directions",
-  "Travel Planner (search by date range)",
-  "Alerts for new games in your cities",
-  "Save favorite games & cities",
-  '"Verified Player" badge',
-  "Leave reviews & ratings",
-  "Priority city requests",
+const freeFeatures = [
+  { text: "Browse cities & states", included: true },
+  { text: "See game names & locations", included: true },
+  { text: "View game types & schedules", included: true },
+  { text: "Full game details (contact, description, etc.)", included: false },
+  { text: "Interactive map with directions", included: false },
+  { text: "Travel Planner (search by date range)", included: false },
+  { text: "Save favorite games & cities", included: false },
+  { text: "Alerts for new games in your cities", included: false },
+  { text: "Leave reviews & ratings", included: false },
+];
+
+const subscriberFeatures = [
+  { text: "Browse cities & states", included: true },
+  { text: "See game names & locations", included: true },
+  { text: "View game types & schedules", included: true },
+  { text: "Full game details (contact, description, etc.)", included: true },
+  { text: "Interactive map with directions", included: true },
+  { text: "Travel Planner (search by date range)", included: true },
+  { text: "Save favorite games & cities", included: true },
+  { text: "Alerts for new games in your cities", included: true },
+  { text: "Leave reviews & ratings", included: true },
 ];
 
 const faqs = [
   {
-    question: "Is there a free trial?",
+    question: "What do I get with a free account?",
     answer:
-      "Yes! Every new account gets a 14-day free trial with full access to all features. A credit card is required to start your trial, but you won't be charged until the trial ends. Cancel anytime during the trial and you'll never be billed.",
+      "With a free account you can browse all cities, see game names, types, schedules, and general locations. To see full details like contact info, descriptions, directions, and the interactive map, you'll need a subscription.",
   },
   {
-    question: "Why is a credit card required for the trial?",
+    question: "Is there a free trial?",
     answer:
-      "Requiring a credit card helps us keep the platform safe and prevents abuse. You won't be charged during your 14-day trial. If you cancel before the trial ends, you pay nothing.",
+      "Yes! Every new subscriber gets a 14-day free trial with full access to all features. A credit card is required to start your trial, but you won't be charged until the trial ends. Cancel anytime during the trial and you'll never be billed.",
   },
   {
     question: "Can I cancel anytime?",
@@ -38,7 +51,7 @@ const faqs = [
   {
     question: "What happens when my trial ends?",
     answer:
-      "When your 14-day trial ends, your subscription automatically begins and you'll be charged the plan you selected. You keep full access to all game details, the travel planner, favorites, and more — no interruption. If you cancel before the trial ends, you won't be charged.",
+      "When your 14-day trial ends, your subscription automatically begins and you'll be charged the plan you selected. You keep full access — no interruption. If you cancel before the trial ends, your account reverts to the free tier.",
   },
   {
     question: "How do payments work?",
@@ -57,7 +70,6 @@ export default function PricingPage() {
     <>
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        {/* Background photo */}
         <div className="absolute inset-0">
           <img src="/images/c2d2c03301c201e23fd4816059b397c4.jpg" alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-br from-[#FF1493]/85 via-[#FF69B4]/75 to-[#87CEEB]/80" />
@@ -74,17 +86,53 @@ export default function PricingPage() {
             <span className="bg-gradient-to-r from-hotpink-500 to-skyblue-500 bg-clip-text text-transparent">Pricing</span>
           </h1>
           <p className="text-lg sm:text-xl text-slate-500 mb-2 max-w-2xl mx-auto">
-            Full access to every mahjong game, map, and feature.
-            <br />
-            Start with a 14-day free trial, upgrade when you&apos;re ready.
+            Create a free account to get started. Upgrade to unlock full game details, maps, and more.
           </p>
         </div>
       </section>
 
       {/* Pricing Cards */}
       <section className="py-12 sm:py-16 section-warm">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="grid sm:grid-cols-2 gap-6 lg:gap-8">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="grid sm:grid-cols-3 gap-6 lg:gap-8">
+            {/* Free Account */}
+            <div className="mahj-tile p-8 flex flex-col">
+              <div className="mb-6">
+                <h3 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal mb-1">
+                  Free
+                </h3>
+                <p className="text-sm text-slate-500">
+                  What you get when you sign up
+                </p>
+              </div>
+              <div className="mb-6">
+                <span className="font-[family-name:var(--font-heading)] font-extrabold text-5xl text-charcoal">
+                  $0
+                </span>
+                <span className="text-slate-500 ml-1">/forever</span>
+              </div>
+              <ul className="space-y-3 mb-8 flex-1">
+                {freeFeatures.map((feature) => (
+                  <li key={feature.text} className="flex items-start gap-3">
+                    {feature.included ? (
+                      <Check className="w-5 h-5 text-hotpink-500 shrink-0 mt-0.5" />
+                    ) : (
+                      <X className="w-5 h-5 text-slate-300 shrink-0 mt-0.5" />
+                    )}
+                    <span className={`text-sm ${feature.included ? "text-slate-600" : "text-slate-400"}`}>
+                      {feature.text}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/signup"
+                className="block text-center bg-skyblue-100 text-skyblue-600 border-2 border-skyblue-300 px-6 py-3 rounded-xl font-semibold hover:bg-skyblue-200 transition-colors"
+              >
+                Create Free Account
+              </Link>
+            </div>
+
             {/* Monthly Plan */}
             <div className="mahj-tile p-8 flex flex-col">
               <div className="mb-6">
@@ -102,16 +150,16 @@ export default function PricingPage() {
                 <span className="text-slate-500 ml-1">/month</span>
               </div>
               <ul className="space-y-3 mb-8 flex-1">
-                {features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3">
+                {subscriberFeatures.map((feature) => (
+                  <li key={feature.text} className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-hotpink-500 shrink-0 mt-0.5" />
-                    <span className="text-sm text-slate-600">{feature}</span>
+                    <span className="text-sm text-slate-600">{feature.text}</span>
                   </li>
                 ))}
               </ul>
               <Link
                 href="/signup?plan=monthly"
-                className="block text-center bg-softpink-100 text-hotpink-500 border-2 border-hotpink-500 px-6 py-3 rounded-xl font-semibold hover:bg-softpink-100 transition-colors"
+                className="block text-center bg-softpink-100 text-hotpink-500 border-2 border-hotpink-500 px-6 py-3 rounded-xl font-semibold hover:bg-softpink-200 transition-colors"
               >
                 Start 14-Day Free Trial
               </Link>
@@ -122,10 +170,9 @@ export default function PricingPage() {
 
             {/* Annual Plan */}
             <div className="mahj-tile p-8 flex flex-col relative border-2 !border-hotpink-500">
-              {/* Badges */}
               <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-2">
                 <span className="bg-hotpink-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  Most Popular
+                  Best Value
                 </span>
                 <span className="bg-skyblue-500 text-white text-xs font-bold px-3 py-1 rounded-full">
                   Save 33%
@@ -149,10 +196,10 @@ export default function PricingPage() {
                 </p>
               </div>
               <ul className="space-y-3 mb-8 flex-1">
-                {features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3">
+                {subscriberFeatures.map((feature) => (
+                  <li key={feature.text} className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-hotpink-500 shrink-0 mt-0.5" />
-                    <span className="text-sm text-slate-600">{feature}</span>
+                    <span className="text-sm text-slate-600">{feature.text}</span>
                   </li>
                 ))}
               </ul>
@@ -172,139 +219,17 @@ export default function PricingPage() {
           <div className="text-center mt-8 bg-softpink-100 border border-hotpink-200 rounded-xl px-6 py-4 max-w-lg mx-auto">
             <div className="flex items-center justify-center gap-2 mb-2">
               <ShieldCheck className="w-5 h-5 text-hotpink-500" />
-              <span className="font-semibold text-charcoal">14-Day Free Trial</span>
+              <span className="font-semibold text-charcoal">14-Day Free Trial on Paid Plans</span>
             </div>
             <p className="text-slate-500 text-sm">
-              Credit card required to start. You won&apos;t be charged until your trial ends. Cancel anytime — no risk, no commitment.
+              Credit card required to start your trial. You won&apos;t be charged until it ends. Cancel anytime — no risk, no commitment.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Tier Comparison */}
-      <section className="py-12 sm:py-16 section-mint">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="mahj-divider mb-6">
-            <span className="text-2xl">🀄</span>
-          </div>
-          <h2 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-center text-charcoal mb-10">
-            Compare Access Levels
-          </h2>
-          <div className="grid sm:grid-cols-3 gap-6">
-            {/* Visitor (no account) */}
-            <div className="mahj-tile p-6 text-center">
-              <div className="w-12 h-12 bg-skyblue-50 rounded-xl flex items-center justify-center mx-auto mb-4 border border-skyblue-200">
-                <X className="w-6 h-6 text-slate-400" />
-              </div>
-              <h3 className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-1">
-                Visitor
-              </h3>
-              <p className="text-sm text-slate-500 mb-4">
-                Browse without an account
-              </p>
-              <div className="text-2xl font-bold text-charcoal mb-4">$0</div>
-              <ul className="text-sm text-slate-500 space-y-2 text-left">
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-hotpink-500 shrink-0" />
-                  Search any city
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-hotpink-500 shrink-0" />
-                  See game count per city
-                </li>
-                <li className="flex items-center gap-2">
-                  <X className="w-4 h-4 text-slate-300 shrink-0" />
-                  <span className="text-slate-400">Game details blurred</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <X className="w-4 h-4 text-slate-300 shrink-0" />
-                  <span className="text-slate-400">No map or directions</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Trial Tier */}
-            <div className="mahj-tile p-6 text-center !border-hotpink-400">
-              <div className="w-12 h-12 bg-skyblue-100 rounded-xl flex items-center justify-center mx-auto mb-4 border border-skyblue-200">
-                <Star className="w-6 h-6 text-hotpink-500" />
-              </div>
-              <h3 className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-1">
-                Free Trial
-              </h3>
-              <p className="text-sm text-slate-500 mb-4">
-                14 days free, then subscribes
-              </p>
-              <div className="text-2xl font-bold text-charcoal mb-1">$0</div>
-              <p className="text-xs text-slate-400 mb-3">Credit card required, cancel anytime</p>
-              <ul className="text-sm text-slate-500 space-y-2 text-left">
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-hotpink-500 shrink-0" />
-                  All game details unlocked
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-hotpink-500 shrink-0" />
-                  Interactive map + directions
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-hotpink-500 shrink-0" />
-                  Travel Planner access
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-hotpink-500 shrink-0" />
-                  All subscriber features
-                </li>
-              </ul>
-            </div>
-
-            {/* Subscriber Tier */}
-            <div className="mahj-tile p-6 text-center !border-hotpink-500 !border-2 bg-gradient-to-br from-hotpink-50 via-skyblue-50 to-hotpink-50">
-              <div className="w-12 h-12 bg-hotpink-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Star className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-1">
-                Subscriber
-              </h3>
-              <p className="text-sm text-slate-500 mb-4">
-                Full access forever
-              </p>
-              <div className="text-2xl font-bold text-hotpink-500 mb-4">
-                $3.33<span className="text-sm font-normal text-slate-500">/mo</span>
-              </div>
-              <ul className="text-sm text-slate-500 space-y-2 text-left">
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-hotpink-500 shrink-0" />
-                  Everything in Trial, forever
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-hotpink-500 shrink-0" />
-                  Alerts for new games
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-hotpink-500 shrink-0" />
-                  &ldquo;Verified Player&rdquo; badge
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-hotpink-500 shrink-0" />
-                  Priority city requests
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* CTA under tiers */}
-          <div className="text-center mt-8">
-            <Link
-              href="/signup"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-hotpink-500 to-hotpink-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-hotpink-600 hover:to-hotpink-700 transition-all shadow-sm"
-            >
-              Start 14-Day Free Trial <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* FAQ Section */}
-      <section className="py-12 sm:py-16 section-warm">
+      <section className="py-12 sm:py-16 section-mint">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-center text-charcoal mb-10">
             Frequently Asked Questions
