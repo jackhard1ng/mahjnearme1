@@ -18,18 +18,18 @@ export function getVerificationStatus(verified: boolean): {
   bgColor: string;
 } {
   if (verified) {
-    return { label: "Verified", color: "text-green-700", bgColor: "bg-green-50 border-green-200" };
+    return { label: "Verified", color: "text-mint-600", bgColor: "bg-mint-100 border-mint-300" };
   }
-  return { label: "Unverified", color: "text-gray-500", bgColor: "bg-gray-50 border-gray-200" };
+  return { label: "Unverified", color: "text-slate-500", bgColor: "bg-lavender-100 border-lavender-200" };
 }
 
 export function getGameTypeColor(type: string): string {
   switch (type) {
-    case "open_play": return "bg-jade-100 text-jade-800 border-jade-200";
-    case "lesson": return "bg-orange-100 text-orange-800 border-orange-200";
-    case "league": return "bg-yellow-100 text-yellow-800 border-yellow-200";
-    case "event": return "bg-purple-100 text-purple-800 border-purple-200";
-    default: return "bg-gray-100 text-gray-800 border-gray-200";
+    case "open_play": return "bg-mint-200 text-mint-600 border-mint-300";
+    case "lesson": return "bg-skyblue-200 text-skyblue-600 border-skyblue-300";
+    case "league": return "bg-gold-100 text-gold-600 border-gold-200";
+    case "event": return "bg-lavender-200 text-lavender-600 border-lavender-300";
+    default: return "bg-softpink-200 text-hotpink-500 border-softpink-300";
   }
 }
 
@@ -46,7 +46,7 @@ export function getGameTypeLabel(type: string): string {
 
 export function getMapPinColor(type: string): string {
   switch (type) {
-    case "open_play": return "#059669";
+    case "open_play": return "#5ECDB0";
     case "lesson": return "#F97316";
     case "league": return "#EAB308";
     case "event": return "#A855F7";

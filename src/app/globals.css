@@ -1,8 +1,64 @@
 @import "tailwindcss";
 
 @theme {
-  /* Mahjong-inspired color palette */
-  /* Rich jade green - primary (like bamboo tiles) */
+  /* ===== BOLD & GIRLY COLOR PALETTE ===== */
+
+  /* Hot Pink - Primary action color */
+  --color-hotpink-50: #FFF0F7;
+  --color-hotpink-100: #FFE4F0;
+  --color-hotpink-200: #FFC0D9;
+  --color-hotpink-300: #FF8CBF;
+  --color-hotpink-400: #FF69B4;
+  --color-hotpink-500: #FF1493;
+  --color-hotpink-600: #E01283;
+  --color-hotpink-700: #C71585;
+  --color-hotpink-800: #9B1066;
+  --color-hotpink-900: #6B0A47;
+
+  /* Soft Pink - Page backgrounds */
+  --color-softpink-50: #FFF5FA;
+  --color-softpink-100: #FFECF4;
+  --color-softpink-200: #FFD6E8;
+  --color-softpink-300: #FFC0D9;
+  --color-softpink-400: #FFA0C4;
+
+  /* Sky Blue - Alternating sections, secondary */
+  --color-skyblue-50: #F0F8FF;
+  --color-skyblue-100: #E3F2FD;
+  --color-skyblue-200: #D6EEFF;
+  --color-skyblue-300: #B0D9F5;
+  --color-skyblue-400: #87CEEB;
+  --color-skyblue-500: #5BB6D9;
+  --color-skyblue-600: #3A9CC4;
+
+  /* Mint - Cards, success, search area */
+  --color-mint-50: #F0FFF8;
+  --color-mint-100: #DFFFF0;
+  --color-mint-200: #C5F0E0;
+  --color-mint-300: #A0E4C8;
+  --color-mint-400: #5ECDB0;
+  --color-mint-500: #3CB896;
+  --color-mint-600: #2A9D7E;
+
+  /* Lavender - Cards, sidebar, inputs */
+  --color-lavender-50: #F9F3FF;
+  --color-lavender-100: #F3E8FF;
+  --color-lavender-200: #E8D5F5;
+  --color-lavender-300: #D4B8ED;
+  --color-lavender-400: #BB8FDF;
+  --color-lavender-500: #9B6BC4;
+  --color-lavender-600: #7C4DAE;
+
+  /* Gold - Alerts, accents */
+  --color-gold-50: #FFF9E6;
+  --color-gold-100: #FFF0C2;
+  --color-gold-200: #FFE08A;
+  --color-gold-300: #FFD054;
+  --color-gold-400: #D4A843;
+  --color-gold-500: #B8922A;
+  --color-gold-600: #8E6F1A;
+
+  /* Jade - verified badges + backward compat */
   --color-jade-50: #ecfdf5;
   --color-jade-100: #d1fae5;
   --color-jade-200: #a7f3d0;
@@ -14,7 +70,6 @@
   --color-jade-800: #064e3b;
   --color-jade-900: #022c22;
 
-  /* Keep teal for backwards compatibility */
   --color-teal-50: #ecfdf5;
   --color-teal-100: #d1fae5;
   --color-teal-200: #a7f3d0;
@@ -24,7 +79,7 @@
   --color-teal-800: #064e3b;
   --color-teal-900: #022c22;
 
-  /* Lucky red (like dragon/character tiles) */
+  /* Lucky red */
   --color-mahj-red-50: #fef2f2;
   --color-mahj-red-100: #fee2e2;
   --color-mahj-red-200: #fecaca;
@@ -33,30 +88,24 @@
   --color-mahj-red-600: #b91c1c;
   --color-mahj-red-700: #991b1b;
 
-  /* Gold (like coin/circle tiles) */
-  --color-gold-50: #fffbeb;
-  --color-gold-100: #fef3c7;
-  --color-gold-200: #fde68a;
-  --color-gold-300: #fcd34d;
-  --color-gold-400: #fbbf24;
-  --color-gold-500: #d97706;
-  --color-gold-600: #b45309;
-
   /* Coral/Orange accent */
   --color-coral-50: #fff7ed;
   --color-coral-100: #ffedd5;
   --color-coral-500: #f97316;
   --color-coral-600: #ea580c;
 
-  /* Ivory/cream (like the tile face) */
-  --color-ivory-50: #fefdfb;
-  --color-ivory-100: #fdf8f0;
-  --color-ivory-200: #f5eedf;
-  --color-ivory-300: #e8dcc8;
+  /* Ivory/cream - legacy compat */
+  --color-ivory-50: #FFF5FA;
+  --color-ivory-100: #FFECF4;
+  --color-ivory-200: #FFD6E8;
+  --color-ivory-300: #FFC0D9;
 
-  /* Rich deep backgrounds */
-  --color-mahj-dark: #1a2332;
-  --color-mahj-darker: #0f1724;
+  /* Dark backgrounds */
+  --color-mahj-dark: #C71585;
+  --color-mahj-darker: #9B1066;
+
+  /* Charcoal text */
+  --color-charcoal: #333333;
 
   /* Slate neutrals */
   --color-slate-50: #f8fafc;
@@ -79,19 +128,19 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - pink themed */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #f5eedf;
+  background: #FFD6E8;
 }
 ::-webkit-scrollbar-thumb {
-  background: #059669;
+  background: #FF1493;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #047857;
+  background: #C71585;
 }
 
 /* Blur effect for gated content */
@@ -101,52 +150,136 @@ html {
   pointer-events: none;
 }
 
-/* ===== MAHJONG TILE CARD STYLES ===== */
+/* ===== CARD STYLES - COLORFUL ===== */
+
+/* Default card - Lavender */
 .mahj-tile {
-  background: linear-gradient(145deg, #fefdfb 0%, #fdf8f0 50%, #f5eedf 100%);
-  border: 2px solid #e8dcc8;
-  border-radius: 12px;
+  background: linear-gradient(145deg, #F3E8FF 0%, #E8D5F5 50%, #DCC8ED 100%);
+  border: 2px solid #D4B8ED;
+  border-radius: 16px;
   box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.08),
+    0 4px 6px -1px rgba(155, 107, 196, 0.15),
     0 2px 4px -2px rgba(0, 0, 0, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
   position: relative;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .mahj-tile:hover {
   transform: translateY(-2px);
   box-shadow:
-    0 10px 25px -5px rgba(5, 150, 105, 0.15),
+    0 10px 25px -5px rgba(255, 20, 147, 0.2),
     0 8px 10px -6px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
-
-/* Corner decorations on tiles */
 .mahj-tile::before {
   content: "🀄";
   position: absolute;
   top: 8px;
   right: 12px;
   font-size: 14px;
-  opacity: 0.15;
+  opacity: 0.2;
 }
 
-/* Mahjong pattern background for sections */
+/* Mint card variant */
+.mahj-tile-mint {
+  background: linear-gradient(145deg, #DFFFF0 0%, #C5F0E0 50%, #A8E6CF 100%);
+  border: 2px solid #A0E4C8;
+  border-radius: 16px;
+  box-shadow:
+    0 4px 6px -1px rgba(94, 205, 176, 0.15),
+    0 2px 4px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.mahj-tile-mint:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 25px -5px rgba(94, 205, 176, 0.25),
+    0 8px 10px -6px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.mahj-tile-mint::before {
+  content: "🀄";
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 14px;
+  opacity: 0.2;
+}
+
+/* Pink card variant */
+.mahj-tile-pink {
+  background: linear-gradient(145deg, #FFF0F7 0%, #FFD6E8 50%, #FFC0D9 100%);
+  border: 2px solid #FFA0C4;
+  border-radius: 16px;
+  box-shadow:
+    0 4px 6px -1px rgba(255, 20, 147, 0.12),
+    0 2px 4px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.mahj-tile-pink:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 25px -5px rgba(255, 20, 147, 0.2),
+    0 8px 10px -6px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.mahj-tile-pink::before {
+  content: "🀄";
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 14px;
+  opacity: 0.2;
+}
+
+/* Blue card variant */
+.mahj-tile-blue {
+  background: linear-gradient(145deg, #F0F8FF 0%, #D6EEFF 50%, #B0D9F5 100%);
+  border: 2px solid #87CEEB;
+  border-radius: 16px;
+  box-shadow:
+    0 4px 6px -1px rgba(135, 206, 235, 0.2),
+    0 2px 4px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.mahj-tile-blue:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 25px -5px rgba(135, 206, 235, 0.3),
+    0 8px 10px -6px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.mahj-tile-blue::before {
+  content: "🀄";
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 14px;
+  opacity: 0.2;
+}
+
+/* Pattern background - pink themed */
 .mahj-pattern-bg {
-  background-color: #ecfdf5;
+  background-color: #FFD6E8;
   background-image:
-    radial-gradient(circle at 20% 30%, rgba(5, 150, 105, 0.06) 2px, transparent 2px),
-    radial-gradient(circle at 80% 70%, rgba(217, 119, 6, 0.06) 2px, transparent 2px),
-    radial-gradient(circle at 50% 50%, rgba(220, 38, 38, 0.04) 1px, transparent 1px);
+    radial-gradient(circle at 20% 30%, rgba(255, 20, 147, 0.08) 2px, transparent 2px),
+    radial-gradient(circle at 80% 70%, rgba(135, 206, 235, 0.08) 2px, transparent 2px),
+    radial-gradient(circle at 50% 50%, rgba(155, 107, 196, 0.06) 1px, transparent 1px);
   background-size: 60px 60px, 80px 80px, 40px 40px;
 }
 
-/* Rich gradient for hero sections */
+/* Hero gradient - Hot Pink to Light Blue */
 .mahj-hero-gradient {
-  background: linear-gradient(135deg, #ecfdf5 0%, #fef3c7 25%, #fefdfb 50%, #d1fae5 75%, #ecfdf5 100%);
+  background: linear-gradient(135deg, #FF1493 0%, #FF69B4 30%, #D6EEFF 70%, #87CEEB 100%);
 }
 
-/* Tile-like section divider */
+/* Section divider - pink */
 .mahj-divider {
   display: flex;
   align-items: center;
@@ -159,60 +292,59 @@ html {
   content: "";
   flex: 1;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #e8dcc8, transparent);
+  background: linear-gradient(90deg, transparent, #FF69B4, transparent);
 }
 
-/* Warm section backgrounds */
+/* ===== COLORFUL SECTION BACKGROUNDS ===== */
+/* Rotation: pink → blue → mint → lavender */
+.section-pink {
+  background: linear-gradient(180deg, #FFD6E8 0%, #FFECF4 50%, #FFD6E8 100%);
+}
+.section-blue {
+  background: linear-gradient(180deg, #D6EEFF 0%, #E3F2FD 50%, #D6EEFF 100%);
+}
+.section-mint {
+  background: linear-gradient(180deg, #C5F0E0 0%, #DFFFF0 50%, #C5F0E0 100%);
+}
+.section-lavender {
+  background: linear-gradient(180deg, #E8D5F5 0%, #F3E8FF 50%, #E8D5F5 100%);
+}
+
+/* Legacy section classes mapped to colorful rotation */
 .section-warm {
-  background: linear-gradient(180deg, #fdf8f0 0%, #fefdfb 100%);
+  background: linear-gradient(180deg, #FFD6E8 0%, #FFECF4 50%, #FFD6E8 100%);
 }
 .section-jade {
-  background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 50%, #ecfdf5 100%);
+  background: linear-gradient(180deg, #C5F0E0 0%, #DFFFF0 50%, #C5F0E0 100%);
 }
 .section-gold {
-  background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 50%, #fffbeb 100%);
+  background: linear-gradient(180deg, #D6EEFF 0%, #E3F2FD 50%, #D6EEFF 100%);
 }
 .section-red-accent {
-  background: linear-gradient(180deg, #fef2f2 0%, #fee2e2 50%, #fef2f2 100%);
+  background: linear-gradient(180deg, #E8D5F5 0%, #F3E8FF 50%, #E8D5F5 100%);
 }
 
 /* Map pin drop animation */
 @keyframes pin-drop {
-  0% {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  60% {
-    transform: translateY(2px);
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  0% { transform: translateY(-20px); opacity: 0; }
+  60% { transform: translateY(2px); }
+  100% { transform: translateY(0); opacity: 1; }
 }
-
 .animate-pin-drop {
   animation: pin-drop 0.4s ease-out;
 }
 
 /* Card fade in animation */
 @keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
 .animate-fade-in-up {
   animation: fade-in-up 0.4s ease-out forwards;
   opacity: 0;
 }
 
-/* Stagger animation delay for cards */
+/* Stagger animation delay */
 .stagger-1 { animation-delay: 0.05s; }
 .stagger-2 { animation-delay: 0.1s; }
 .stagger-3 { animation-delay: 0.15s; }
@@ -221,49 +353,34 @@ html {
 
 /* City marquee animation */
 @keyframes scroll-left {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
-
 .animate-scroll-left {
   animation: scroll-left 30s linear infinite;
 }
 
-/* Shimmer loading effect */
+/* Shimmer loading effect - pink themed */
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
-
 .animate-shimmer {
-  background: linear-gradient(90deg, #f5eedf 25%, #fdf8f0 50%, #f5eedf 75%);
+  background: linear-gradient(90deg, #FFD6E8 25%, #E8D5F5 50%, #FFD6E8 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
 /* Floating tile animation */
 @keyframes float-tile {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-8px) rotate(2deg);
-  }
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
 }
-
 .animate-float {
   animation: float-tile 4s ease-in-out infinite;
 }
 
-/* Mahjong tile emoji decorations */
+/* Decorative side tiles */
 .mahj-deco-left::before {
   content: "🀇 🀏 🀙";
   position: absolute;
@@ -271,11 +388,10 @@ html {
   top: 50%;
   transform: translateY(-50%);
   font-size: 24px;
-  opacity: 0.1;
+  opacity: 0.15;
   writing-mode: vertical-rl;
   letter-spacing: 12px;
 }
-
 .mahj-deco-right::after {
   content: "🀀 🀁 🀂";
   position: absolute;
@@ -283,7 +399,7 @@ html {
   top: 50%;
   transform: translateY(-50%);
   font-size: 24px;
-  opacity: 0.1;
+  opacity: 0.15;
   writing-mode: vertical-rl;
   letter-spacing: 12px;
 }

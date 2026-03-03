@@ -41,24 +41,24 @@ const faqs = [
 export default function FAQPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
-      <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl text-slate-900 mb-3">
+      <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl text-charcoal mb-3">
         Frequently Asked Questions
       </h1>
       <p className="text-slate-500 mb-10">
         Everything you need to know about MahjNearMe. Can&apos;t find your answer?{" "}
-        <Link href="/contact" className="text-jade-600 hover:text-jade-700 font-medium">Contact us</Link>.
+        <Link href="/contact" className="text-hotpink-500 hover:text-hotpink-600 font-medium">Contact us</Link>.
       </p>
 
       <div className="space-y-10">
         {faqs.map((category) => (
           <div key={category.category}>
-            <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl text-slate-800 mb-4">
+            <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal mb-4">
               {category.category}
             </h2>
             <div className="space-y-3">
               {category.questions.map((faq) => (
-                <details key={faq.q} className="bg-white border border-slate-200 rounded-xl group">
-                  <summary className="px-5 py-4 cursor-pointer font-medium text-slate-800 hover:text-jade-600 transition-colors list-none flex items-center justify-between">
+                <details key={faq.q} className="bg-lavender-100 border border-lavender-200 rounded-xl group">
+                  <summary className="px-5 py-4 cursor-pointer font-medium text-charcoal hover:text-hotpink-500 transition-colors list-none flex items-center justify-between">
                     {faq.q}
                     <span className="text-slate-400 group-open:rotate-180 transition-transform">&#9662;</span>
                   </summary>

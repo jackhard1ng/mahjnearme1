@@ -46,14 +46,14 @@ export default async function StatePage({ params }: Props) {
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm text-slate-400 mb-6">
-        <Link href="/" className="hover:text-jade-600">Home</Link>
+        <Link href="/" className="hover:text-hotpink-500">Home</Link>
         <ChevronRight className="w-3 h-3" />
-        <Link href="/cities" className="hover:text-jade-600">Cities</Link>
+        <Link href="/cities" className="hover:text-hotpink-500">Cities</Link>
         <ChevronRight className="w-3 h-3" />
         <span className="text-slate-600">{stateName}</span>
       </nav>
 
-      <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl text-slate-900 mb-3">
+      <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl text-charcoal mb-3">
         Mahjong Games in {stateName}
       </h1>
       <p className="text-slate-500 text-lg mb-10">
@@ -61,43 +61,43 @@ export default async function StatePage({ params }: Props) {
       </p>
 
       {/* Cities */}
-      <h2 className="font-semibold text-xl text-slate-800 mb-4">Cities with Mahjong Games</h2>
+      <h2 className="font-semibold text-xl text-charcoal mb-4">Cities with Mahjong Games</h2>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 mb-10">
         {cities.map((c) => (
           <Link
             key={`${c.city}-${c.state}`}
             href={`/cities/${state}/${slugify(c.city)}`}
-            className="flex items-center justify-between bg-white border border-slate-200 rounded-xl p-5 hover:border-jade-300 hover:shadow-sm transition-all"
+            className="flex items-center justify-between bg-lavender-100 border border-lavender-200 rounded-xl p-5 hover:border-hotpink-300 hover:shadow-sm transition-all"
           >
             <div>
-              <h3 className="font-semibold text-slate-800">{c.city}</h3>
+              <h3 className="font-semibold text-charcoal">{c.city}</h3>
               <p className="text-sm text-slate-500">
                 {c.count} mahjong {c.count === 1 ? "game" : "games"}
               </p>
             </div>
-            <ArrowRight className="w-5 h-5 text-jade-500" />
+            <ArrowRight className="w-5 h-5 text-hotpink-500" />
           </Link>
         ))}
       </div>
 
       {/* All Games in State */}
-      <h2 className="font-semibold text-xl text-slate-800 mb-4">All Games in {stateName}</h2>
+      <h2 className="font-semibold text-xl text-charcoal mb-4">All Games in {stateName}</h2>
       <div className="space-y-3 mb-10">
         {games.map((game) => (
           <Link
             key={game.id}
             href={`/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`}
-            className="flex items-center justify-between bg-white border border-slate-200 rounded-lg p-4 hover:border-jade-300 transition-all"
+            className="flex items-center justify-between bg-lavender-100 border border-lavender-200 rounded-lg p-4 hover:border-hotpink-300 transition-all"
           >
             <div className="flex items-center gap-3">
               <div className={`w-3 h-3 rounded-full ${
-                game.type === "open_play" ? "bg-jade-500" :
-                game.type === "lesson" ? "bg-orange-500" :
-                game.type === "league" ? "bg-yellow-500" :
-                "bg-purple-500"
+                game.type === "open_play" ? "bg-mint-400" :
+                game.type === "lesson" ? "bg-skyblue-400" :
+                game.type === "league" ? "bg-gold-500" :
+                "bg-lavender-400"
               }`} />
               <div>
-                <p className="font-medium text-slate-800">{game.name}</p>
+                <p className="font-medium text-charcoal">{game.name}</p>
                 <p className="text-sm text-slate-500">{game.city} &middot; {getGameTypeLabel(game.type)}</p>
               </div>
             </div>
@@ -107,8 +107,8 @@ export default async function StatePage({ params }: Props) {
       </div>
 
       {/* CTA */}
-      <div className="bg-gradient-to-br from-jade-50 to-white rounded-xl border border-jade-200 p-8 text-center">
-        <h2 className="font-semibold text-xl text-slate-800 mb-2">
+      <div className="bg-gradient-to-br from-softpink-100 to-lavender-100 rounded-xl border border-mint-300 p-8 text-center">
+        <h2 className="font-semibold text-xl text-charcoal mb-2">
           Don&apos;t see your city?
         </h2>
         <p className="text-slate-500 mb-4 text-sm">
@@ -116,7 +116,7 @@ export default async function StatePage({ params }: Props) {
         </p>
         <Link
           href="/signup"
-          className="inline-block bg-jade-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-jade-700 transition-colors"
+          className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
         >
           Start Free Trial
         </Link>

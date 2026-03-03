@@ -55,18 +55,18 @@ export default async function CityPage({ params }: Props) {
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm text-slate-400 mb-6">
-        <Link href="/" className="hover:text-jade-600">Home</Link>
+        <Link href="/" className="hover:text-hotpink-500">Home</Link>
         <ChevronRight className="w-3 h-3" />
-        <Link href="/cities" className="hover:text-jade-600">Cities</Link>
+        <Link href="/cities" className="hover:text-hotpink-500">Cities</Link>
         <ChevronRight className="w-3 h-3" />
-        <Link href={`/states/${state}`} className="hover:text-jade-600">{stateName}</Link>
+        <Link href={`/states/${state}`} className="hover:text-hotpink-500">{stateName}</Link>
         <ChevronRight className="w-3 h-3" />
         <span className="text-slate-600">{cityName}</span>
       </nav>
 
       {/* Hero */}
       <div className="mb-8">
-        <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl text-slate-900 mb-3">
+        <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl text-charcoal mb-3">
           Mahjong Games in {cityName}, {stateName}
         </h1>
         <p className="text-slate-500 text-lg">
@@ -80,21 +80,21 @@ export default async function CityPage({ params }: Props) {
           <div key={game.id} className="mahj-tile p-5">
             <div className="flex items-center gap-2 mb-2">
               <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                game.type === "open_play" ? "bg-jade-100 text-jade-800" :
-                game.type === "lesson" ? "bg-orange-100 text-orange-800" :
-                game.type === "league" ? "bg-yellow-100 text-yellow-800" :
-                "bg-purple-100 text-purple-800"
+                game.type === "open_play" ? "bg-mint-200 text-mint-600" :
+                game.type === "lesson" ? "bg-skyblue-200 text-skyblue-600" :
+                game.type === "league" ? "bg-gold-100 text-gold-600" :
+                "bg-lavender-200 text-lavender-600"
               }`}>
                 {getGameTypeLabel(game.type)}
               </span>
               {game.dropInFriendly && (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-mint-200 text-mint-600">
                   Drop-in Friendly
                 </span>
               )}
             </div>
 
-            <h3 className="font-semibold text-lg text-slate-800 mb-1">{game.name}</h3>
+            <h3 className="font-semibold text-lg text-charcoal mb-1">{game.name}</h3>
             <p className="text-sm text-slate-500 mb-3">{game.organizerName}</p>
 
             <div className="space-y-1.5 mb-3">
@@ -116,7 +116,7 @@ export default async function CityPage({ params }: Props) {
 
             <Link
               href={`/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`}
-              className="inline-flex items-center gap-1 text-sm font-semibold text-jade-600 hover:text-jade-700"
+              className="inline-flex items-center gap-1 text-sm font-semibold text-hotpink-500 hover:text-hotpink-600"
             >
               View Full Details <ArrowRight className="w-4 h-4" />
             </Link>
@@ -125,8 +125,8 @@ export default async function CityPage({ params }: Props) {
       </div>
 
       {/* Signup CTA */}
-      <div className="bg-gradient-to-br from-jade-50 to-white rounded-xl border border-jade-200 p-8 text-center mb-10">
-        <h2 className="font-semibold text-xl text-slate-800 mb-2">
+      <div className="bg-gradient-to-br from-softpink-100 to-lavender-100 rounded-xl border border-mint-300 p-8 text-center mb-10">
+        <h2 className="font-semibold text-xl text-charcoal mb-2">
           Want full details on every game?
         </h2>
         <p className="text-slate-500 mb-4 text-sm">
@@ -134,7 +134,7 @@ export default async function CityPage({ params }: Props) {
         </p>
         <Link
           href="/signup"
-          className="inline-block bg-jade-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-jade-700 transition-colors"
+          className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
         >
           Start Your 14-Day Free Trial
         </Link>
@@ -142,27 +142,27 @@ export default async function CityPage({ params }: Props) {
 
       {/* City FAQ (for SEO) */}
       <div className="mb-10">
-        <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-slate-900 mb-6">
+        <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-6">
           Frequently Asked Questions
         </h2>
         <div className="space-y-4">
-          <div className="bg-white border border-slate-200 rounded-xl p-5">
-            <h3 className="font-semibold text-slate-800 mb-2">Where can I play mahjong in {cityName}?</h3>
+          <div className="bg-lavender-100 border border-lavender-200 rounded-xl p-5">
+            <h3 className="font-semibold text-charcoal mb-2">Where can I play mahjong in {cityName}?</h3>
             <p className="text-sm text-slate-600">
               There are {games.length} mahjong {games.length === 1 ? "group" : "groups"} in {cityName}, {stateName}, including open play sessions, lessons, and leagues.
               Sign up for free to see full details including exact locations and schedules.
             </p>
           </div>
-          <div className="bg-white border border-slate-200 rounded-xl p-5">
-            <h3 className="font-semibold text-slate-800 mb-2">Are there beginner-friendly mahjong groups in {cityName}?</h3>
+          <div className="bg-lavender-100 border border-lavender-200 rounded-xl p-5">
+            <h3 className="font-semibold text-charcoal mb-2">Are there beginner-friendly mahjong groups in {cityName}?</h3>
             <p className="text-sm text-slate-600">
               {games.filter((g) => g.skillLevels.includes("beginner")).length > 0
                 ? `Yes! ${games.filter((g) => g.skillLevels.includes("beginner")).length} ${games.filter((g) => g.skillLevels.includes("beginner")).length === 1 ? "group welcomes" : "groups welcome"} beginners in ${cityName}. Look for the "Beginner Friendly" badge on game listings.`
                 : `We're still growing our listings in ${cityName}. Check back soon or request games for your area!`}
             </p>
           </div>
-          <div className="bg-white border border-slate-200 rounded-xl p-5">
-            <h3 className="font-semibold text-slate-800 mb-2">Can I drop in to a mahjong game in {cityName} without an RSVP?</h3>
+          <div className="bg-lavender-100 border border-lavender-200 rounded-xl p-5">
+            <h3 className="font-semibold text-charcoal mb-2">Can I drop in to a mahjong game in {cityName} without an RSVP?</h3>
             <p className="text-sm text-slate-600">
               {games.filter((g) => g.dropInFriendly).length > 0
                 ? `Yes, ${games.filter((g) => g.dropInFriendly).length} ${games.filter((g) => g.dropInFriendly).length === 1 ? "group is" : "groups are"} drop-in friendly in ${cityName}. No RSVP required — just show up and play!`
@@ -175,7 +175,7 @@ export default async function CityPage({ params }: Props) {
       {/* Nearby Cities */}
       {nearbyCities.length > 0 && (
         <div>
-          <h2 className="font-semibold text-xl text-slate-800 mb-4">
+          <h2 className="font-semibold text-xl text-charcoal mb-4">
             Also Check Nearby Cities
           </h2>
           <div className="flex flex-wrap gap-3">
@@ -183,11 +183,11 @@ export default async function CityPage({ params }: Props) {
               <Link
                 key={`${c.city}-${c.state}`}
                 href={`/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`}
-                className="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-4 py-2 hover:border-jade-300 transition-all text-sm"
+                className="inline-flex items-center gap-2 bg-lavender-100 border border-lavender-200 rounded-lg px-4 py-2 hover:border-hotpink-300 transition-all text-sm"
               >
-                <MapPin className="w-4 h-4 text-jade-500" />
+                <MapPin className="w-4 h-4 text-hotpink-500" />
                 {c.city}, {c.state}
-                <span className="text-jade-600 font-semibold">{c.count}</span>
+                <span className="text-hotpink-500 font-semibold">{c.count}</span>
               </Link>
             ))}
           </div>

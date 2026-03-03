@@ -33,7 +33,6 @@ function SearchContent() {
   const filteredGames = useMemo(() => {
     let games = mockGames.filter((g) => g.status === "active");
 
-    // Search filter
     if (query) {
       const q = query.toLowerCase();
       games = games.filter(
@@ -45,7 +44,6 @@ function SearchContent() {
       );
     }
 
-    // Day of week filter
     if (filters.daysOfWeek.length > 0) {
       games = games.filter(
         (g) =>
@@ -55,27 +53,22 @@ function SearchContent() {
       );
     }
 
-    // Game style filter
     if (filters.gameStyle !== "all") {
       games = games.filter((g) => g.gameStyle === filters.gameStyle);
     }
 
-    // Drop-in filter
     if (filters.dropInFriendly !== null) {
       games = games.filter((g) => g.dropInFriendly === filters.dropInFriendly);
     }
 
-    // Skill level filter
     if (filters.skillLevel !== "all") {
       games = games.filter((g) => g.skillLevels.includes(filters.skillLevel as "beginner" | "intermediate" | "advanced"));
     }
 
-    // Type filter
     if (filters.type !== "all") {
       games = games.filter((g) => g.type === filters.type);
     }
 
-    // Sort: promoted (organizer-posted) listings first, then verified, then the rest
     games.sort((a, b) => {
       if (a.promoted !== b.promoted) return a.promoted ? -1 : 1;
       if (a.verified !== b.verified) return a.verified ? -1 : 1;
@@ -87,8 +80,8 @@ function SearchContent() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      {/* Search Bar */}
-      <div className="mb-4">
+      {/* Search Bar - Mint background area */}
+      <div className="mb-4 bg-mint-200 rounded-xl p-4 -mx-4 sm:mx-0">
         <SearchBar defaultValue={query} />
       </div>
 
@@ -99,15 +92,15 @@ function SearchContent() {
 
       {/* Results Header */}
       <div className="flex items-center justify-between mb-4">
-        <h1 className="font-semibold text-lg text-slate-800">
+        <h1 className="font-semibold text-lg text-charcoal">
           {query ? (
             <>
-              <span className="text-jade-600">{filteredGames.length}</span> mahjong game{filteredGames.length !== 1 ? "s" : ""}{" "}
+              <span className="text-hotpink-500">{filteredGames.length}</span> mahjong game{filteredGames.length !== 1 ? "s" : ""}{" "}
               {query && <>found for &ldquo;{query}&rdquo;</>}
             </>
           ) : (
             <>
-              <span className="text-jade-600">{filteredGames.length}</span> mahjong games near you
+              <span className="text-hotpink-500">{filteredGames.length}</span> mahjong games near you
             </>
           )}
         </h1>
@@ -127,63 +120,62 @@ function SearchContent() {
         {/* Game Cards List */}
         <div className="order-2 lg:order-2 space-y-4">
           {filteredGames.length === 0 ? (
-            <div className="text-center py-16">
-              <SlidersHorizontal className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-              <h3 className="font-semibold text-lg text-slate-700 mb-2">No games found</h3>
+            <div className="mahj-tile-pink text-center py-16 px-6">
+              <SlidersHorizontal className="w-12 h-12 text-hotpink-300 mx-auto mb-4" />
+              <h3 className="font-semibold text-lg text-charcoal mb-2">No games found</h3>
               <p className="text-slate-500 text-sm mb-4">
                 Try adjusting your search or filters to find more games.
               </p>
-              <Link href="/" className="text-jade-600 hover:text-jade-700 font-medium text-sm">
+              <Link href="/" className="text-hotpink-500 hover:text-hotpink-700 font-medium text-sm">
                 Back to Home
               </Link>
             </div>
           ) : (
             <>
-              {/* First card: teaser for non-users */}
               {filteredGames.map((game, index) => {
                 if (!user && index === 0) {
-                  // Show partial teaser for first card
                   return (
                     <div key={game.id} className={`animate-fade-in-up stagger-${index + 1}`}>
                       <GameCard
                         game={game}
                         isTeaser={true}
                         userSkillLevel={userProfile?.skillLevel}
+                        index={index}
                       />
                     </div>
                   );
                 }
 
                 if (!user && index >= 1) {
-                  // Show blurred cards
                   return (
                     <div key={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)}`}>
                       <GameCard
                         game={game}
                         blurred={true}
                         userSkillLevel={userProfile?.skillLevel}
+                        index={index}
                       />
                     </div>
                   );
                 }
 
-                // Full details for authenticated users with access
                 return (
                   <div key={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)}`}>
                     <GameCard
                       game={game}
                       blurred={!hasAccess}
                       userSkillLevel={userProfile?.skillLevel}
+                      index={index}
                     />
                   </div>
                 );
               })}
 
-              {/* Signup CTA for non-users */}
+              {/* Signup CTA */}
               {!user && filteredGames.length > 1 && (
-                <div className="mahj-tile p-8 text-center bg-gradient-to-br from-ivory-50 via-jade-50 to-ivory-100">
-                  <ShieldCheck className="w-10 h-10 text-jade-600 mx-auto mb-3" />
-                  <h3 className="font-semibold text-xl text-slate-800 mb-2">
+                <div className="mahj-tile-pink p-8 text-center">
+                  <ShieldCheck className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
+                  <h3 className="font-semibold text-xl text-charcoal mb-2">
                     Unlock all {filteredGames.length} games
                   </h3>
                   <p className="text-slate-500 mb-4 text-sm">
@@ -191,7 +183,7 @@ function SearchContent() {
                   </p>
                   <Link
                     href="/signup"
-                    className="inline-block bg-gradient-to-r from-jade-600 to-jade-700 text-white px-8 py-3 rounded-xl font-semibold hover:from-jade-700 hover:to-jade-800 transition-all"
+                    className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-all shadow-lg"
                   >
                     Start Free Trial
                   </Link>
@@ -211,7 +203,7 @@ export default function SearchPage() {
     <Suspense fallback={
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="grid lg:grid-cols-2 gap-6">
-          <div className="h-[400px] bg-slate-100 rounded-xl animate-shimmer" />
+          <div className="h-[400px] rounded-xl animate-shimmer" />
           <div className="space-y-4">
             {[1, 2, 3].map((i) => <SkeletonCard key={i} />)}
           </div>

@@ -22,26 +22,26 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero Section */}
+      {/* Hero Section - Hot Pink → Light Blue gradient */}
       <section className="relative overflow-hidden mahj-hero-gradient">
         {/* Floating tile decorations */}
-        <div className="absolute top-10 left-[10%] text-5xl opacity-10 animate-float select-none" aria-hidden="true">🀇</div>
-        <div className="absolute top-24 right-[15%] text-4xl opacity-10 animate-float select-none" style={{ animationDelay: "1s" }} aria-hidden="true">🀙</div>
-        <div className="absolute bottom-12 left-[20%] text-3xl opacity-10 animate-float select-none" style={{ animationDelay: "2s" }} aria-hidden="true">🀀</div>
-        <div className="absolute bottom-20 right-[25%] text-4xl opacity-10 animate-float select-none" style={{ animationDelay: "0.5s" }} aria-hidden="true">🀄</div>
+        <div className="absolute top-10 left-[10%] text-5xl opacity-20 animate-float select-none" aria-hidden="true">🀇</div>
+        <div className="absolute top-24 right-[15%] text-4xl opacity-20 animate-float select-none" style={{ animationDelay: "1s" }} aria-hidden="true">🀙</div>
+        <div className="absolute bottom-12 left-[20%] text-3xl opacity-20 animate-float select-none" style={{ animationDelay: "2s" }} aria-hidden="true">🀀</div>
+        <div className="absolute bottom-20 right-[25%] text-4xl opacity-20 animate-float select-none" style={{ animationDelay: "0.5s" }} aria-hidden="true">🀄</div>
 
         <div className="max-w-5xl mx-auto px-4 pt-16 pb-12 sm:pt-24 sm:pb-16 text-center relative">
           {/* Mahjong tile accent above title */}
           <div className="flex justify-center gap-2 mb-6">
-            <span className="text-3xl opacity-60 animate-float" style={{ animationDelay: "0s" }}>🀇</span>
-            <span className="text-3xl opacity-60 animate-float" style={{ animationDelay: "0.3s" }}>🀄</span>
-            <span className="text-3xl opacity-60 animate-float" style={{ animationDelay: "0.6s" }}>🀙</span>
+            <span className="text-3xl opacity-70 animate-float" style={{ animationDelay: "0s" }}>🀇</span>
+            <span className="text-3xl opacity-70 animate-float" style={{ animationDelay: "0.3s" }}>🀄</span>
+            <span className="text-3xl opacity-70 animate-float" style={{ animationDelay: "0.6s" }}>🀙</span>
           </div>
-          <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-4xl sm:text-5xl lg:text-6xl text-slate-900 mb-4 tracking-tight">
+          <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-4xl sm:text-5xl lg:text-6xl text-white mb-4 tracking-tight drop-shadow-lg">
             Find Mahjong Games<br />
-            <span className="bg-gradient-to-r from-jade-600 via-jade-500 to-gold-500 bg-clip-text text-transparent">Anywhere You Go</span>
+            <span className="text-skyblue-200">Anywhere You Go</span>
           </h1>
-          <p className="text-lg sm:text-xl text-slate-500 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-white/80 mb-8 max-w-2xl mx-auto">
             The only directory of pickup mahjong games, open play sessions, lessons, and events across the United States
           </p>
 
@@ -51,24 +51,24 @@ export default function HomePage() {
           </div>
 
           {/* Live Counter */}
-          <p className="text-sm text-slate-400">
-            <span className="font-semibold text-jade-600">{stats.gameCount} games</span> across{" "}
-            <span className="font-semibold text-jade-600">{stats.cityCount} cities</span> and counting
+          <p className="text-sm text-white/70">
+            <span className="font-semibold text-white">{stats.gameCount} games</span> across{" "}
+            <span className="font-semibold text-white">{stats.cityCount} cities</span> and counting
           </p>
         </div>
       </section>
 
-      {/* City Marquee */}
-      <section className="py-6 border-y border-ivory-300 overflow-hidden bg-ivory-100">
+      {/* City Marquee - Mint section */}
+      <section className="py-6 border-y border-mint-300 overflow-hidden bg-mint-200">
         <div className="relative">
           <div className="animate-scroll-left whitespace-nowrap flex">
             {[...cities, ...cities].map((city, i) => (
               <Link
                 key={i}
                 href={`/search?q=${encodeURIComponent(city)}`}
-                className="inline-flex items-center px-6 text-slate-500 hover:text-jade-600 transition-colors text-sm font-medium"
+                className="inline-flex items-center px-6 text-charcoal hover:text-hotpink-500 transition-colors text-sm font-medium"
               >
-                <span className="w-1.5 h-1.5 bg-jade-400 rounded-full mr-3" />
+                <span className="w-1.5 h-1.5 bg-hotpink-400 rounded-full mr-3" />
                 {city}
               </Link>
             ))}
@@ -76,43 +76,43 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-16 sm:py-20 section-warm">
+      {/* How It Works - Pink section */}
+      <section className="py-16 sm:py-20 section-pink">
         <div className="max-w-7xl mx-auto px-4">
           <div className="mahj-divider mb-12">
             <span className="text-2xl">🀄</span>
           </div>
-          <h2 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-center text-slate-900 mb-12">
+          <h2 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-center text-charcoal mb-12">
             How It Works
           </h2>
           <div className="grid sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
-              <div className="w-16 h-16 bg-jade-100 rounded-2xl flex items-center justify-center mx-auto mb-5 border border-jade-200">
-                <Search className="w-7 h-7 text-jade-600" />
+              <div className="w-16 h-16 bg-hotpink-500 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">
+                <Search className="w-7 h-7 text-white" />
               </div>
-              <div className="text-xs font-bold text-jade-600 uppercase tracking-wider mb-2">Step 1</div>
-              <h3 className="font-semibold text-lg mb-2">Search your city</h3>
-              <p className="text-sm text-slate-500">
+              <div className="text-xs font-bold text-hotpink-500 uppercase tracking-wider mb-2">Step 1</div>
+              <h3 className="font-semibold text-lg mb-2 text-charcoal">Search your city</h3>
+              <p className="text-sm text-slate-600">
                 Type any city, zip code, or travel destination — or just tap &ldquo;Use My Location&rdquo;
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-mahj-red-100 rounded-2xl flex items-center justify-center mx-auto mb-5 border border-mahj-red-200">
-                <MapPin className="w-7 h-7 text-mahj-red-500" />
+              <div className="w-16 h-16 bg-skyblue-400 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">
+                <MapPin className="w-7 h-7 text-white" />
               </div>
-              <div className="text-xs font-bold text-mahj-red-500 uppercase tracking-wider mb-2">Step 2</div>
-              <h3 className="font-semibold text-lg mb-2">Browse games nearby</h3>
-              <p className="text-sm text-slate-500">
+              <div className="text-xs font-bold text-skyblue-500 uppercase tracking-wider mb-2">Step 2</div>
+              <h3 className="font-semibold text-lg mb-2 text-charcoal">Browse games nearby</h3>
+              <p className="text-sm text-slate-600">
                 See open play, lessons, leagues, and events on an interactive map — with all the details you need
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-gold-100 rounded-2xl flex items-center justify-center mx-auto mb-5 border border-gold-200">
-                <Sparkles className="w-7 h-7 text-gold-500" />
+              <div className="w-16 h-16 bg-mint-400 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">
+                <Sparkles className="w-7 h-7 text-white" />
               </div>
-              <div className="text-xs font-bold text-gold-500 uppercase tracking-wider mb-2">Step 3</div>
-              <h3 className="font-semibold text-lg mb-2">Show up and play!</h3>
-              <p className="text-sm text-slate-500">
+              <div className="text-xs font-bold text-mint-500 uppercase tracking-wider mb-2">Step 3</div>
+              <h3 className="font-semibold text-lg mb-2 text-charcoal">Show up and play!</h3>
+              <p className="text-sm text-slate-600">
                 Get the venue, schedule, contact info, and directions — then go enjoy a game
               </p>
             </div>
@@ -120,28 +120,28 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Value Props */}
-      <section className="py-16 sm:py-20 section-jade">
+      {/* Value Props - Blue section */}
+      <section className="py-16 sm:py-20 section-blue">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid sm:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="mahj-tile p-6">
-              <Globe className="w-8 h-8 text-jade-600 mb-4" />
-              <h3 className="font-semibold text-lg mb-2">Games everywhere</h3>
-              <p className="text-sm text-slate-500">
+            <div className="mahj-tile-mint p-6">
+              <Globe className="w-8 h-8 text-hotpink-500 mb-4" />
+              <h3 className="font-semibold text-lg mb-2 text-charcoal">Games everywhere</h3>
+              <p className="text-sm text-slate-600">
                 Traveling and want to play? Search any city in the US and find games near your hotel, Airbnb, or destination.
               </p>
             </div>
-            <div className="mahj-tile p-6">
-              <ShieldCheck className="w-8 h-8 text-jade-600 mb-4" />
-              <h3 className="font-semibold text-lg mb-2">Verified weekly</h3>
-              <p className="text-sm text-slate-500">
-                Every listing verified weekly — no outdated info, no dead links, no guessing if a game still meets.
+            <div className="mahj-tile-pink p-6">
+              <ShieldCheck className="w-8 h-8 text-mint-500 mb-4" />
+              <h3 className="font-semibold text-lg mb-2 text-charcoal">Verified listings</h3>
+              <p className="text-sm text-slate-600">
+                Every listing is verified — no outdated info, no dead links, no guessing if a game still meets.
               </p>
             </div>
-            <div className="mahj-tile p-6">
-              <Bell className="w-8 h-8 text-jade-600 mb-4" />
-              <h3 className="font-semibold text-lg mb-2">Never miss a game</h3>
-              <p className="text-sm text-slate-500">
+            <div className="mahj-tile-blue p-6">
+              <Bell className="w-8 h-8 text-lavender-500 mb-4" />
+              <h3 className="font-semibold text-lg mb-2 text-charcoal">Never miss a game</h3>
+              <p className="text-sm text-slate-600">
                 Get alerts when new groups are posted near you. Save your favorite cities and games for quick access.
               </p>
             </div>
@@ -149,35 +149,35 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Founder Story */}
-      <section className="py-16 sm:py-20 section-warm">
+      {/* Founder Story - Mint section */}
+      <section className="py-16 sm:py-20 section-mint">
         <div className="max-w-3xl mx-auto px-4">
-          <div className="mahj-tile p-8 sm:p-10 bg-gradient-to-br from-ivory-50 via-jade-50 to-ivory-100">
+          <div className="mahj-tile-pink p-8 sm:p-10">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 bg-jade-200 rounded-full flex items-center justify-center shrink-0 border-2 border-jade-300">
-                <span className="text-2xl font-bold text-jade-800">J</span>
+              <div className="w-16 h-16 bg-hotpink-500 rounded-full flex items-center justify-center shrink-0 shadow-lg">
+                <span className="text-2xl font-bold text-white">J</span>
               </div>
               <div>
-                <h3 className="font-[family-name:var(--font-heading)] font-bold text-xl text-slate-900">Why we built this</h3>
+                <h3 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal">Why we built this</h3>
               </div>
             </div>
             <blockquote className="text-slate-600 leading-relaxed mb-4">
               &ldquo;My mom plays mahjong everywhere we go. On a trip to Nashville, she spent hours searching Facebook groups, Googling different spellings of &lsquo;mahjongg,&rsquo; and DMing strangers on Instagram — just to find a game. We thought, there has to be a better way. So we built one.&rdquo;
             </blockquote>
-            <p className="font-semibold text-slate-700">
+            <p className="font-semibold text-charcoal">
               — Jack, Founder of MahjNearMe
             </p>
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-16 sm:py-20 section-gold">
+      {/* Testimonials - Lavender section */}
+      <section className="py-16 sm:py-20 section-lavender">
         <div className="max-w-7xl mx-auto px-4">
           <div className="mahj-divider mb-6">
             <span className="text-2xl">🀙</span>
           </div>
-          <h2 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-center text-slate-900 mb-12">
+          <h2 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-center text-charcoal mb-12">
             What Players Are Saying
           </h2>
           <div className="grid sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -185,61 +185,64 @@ export default function HomePage() {
               { name: "Linda M.", city: "Tulsa, OK", text: "I was traveling to Denver and found 3 games within walking distance of my hotel. This is a game-changer for traveling mahj players!", rating: 5 },
               { name: "Carol S.", city: "Nashville, TN", text: "Finally! A single place to find all the mahjong groups in my area. No more scrolling through endless Facebook posts.", rating: 5 },
               { name: "Barbara T.", city: "Miami, FL", text: "As a snowbird, I play in Miami in winter and Boston in summer. MahjNearMe makes it easy to find games in both cities.", rating: 5 },
-            ].map((testimonial, i) => (
-              <div key={i} className="mahj-tile p-6">
-                <div className="flex items-center gap-1 mb-3">
-                  {Array.from({ length: testimonial.rating }).map((_, j) => (
-                    <Star key={j} className="w-4 h-4 fill-gold-400 text-gold-400" />
-                  ))}
+            ].map((testimonial, i) => {
+              const cardClass = i === 0 ? "mahj-tile-mint" : i === 1 ? "mahj-tile-pink" : "mahj-tile-blue";
+              return (
+                <div key={i} className={`${cardClass} p-6`}>
+                  <div className="flex items-center gap-1 mb-3">
+                    {Array.from({ length: testimonial.rating }).map((_, j) => (
+                      <Star key={j} className="w-4 h-4 fill-gold-300 text-gold-300" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-slate-600 mb-4">&ldquo;{testimonial.text}&rdquo;</p>
+                  <div className="text-sm">
+                    <p className="font-semibold text-charcoal">{testimonial.name}</p>
+                    <p className="text-slate-500">{testimonial.city}</p>
+                  </div>
                 </div>
-                <p className="text-sm text-slate-600 mb-4">&ldquo;{testimonial.text}&rdquo;</p>
-                <div className="text-sm">
-                  <p className="font-semibold text-slate-700">{testimonial.name}</p>
-                  <p className="text-slate-400">{testimonial.city}</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 sm:py-24 section-warm">
+      {/* CTA Section - Pink section */}
+      <section className="py-16 sm:py-24 section-pink">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Organizer CTA */}
-            <div className="rounded-2xl bg-gradient-to-br from-mahj-red-50 via-coral-50 to-ivory-100 p-8 border border-mahj-red-200 text-center">
+            <div className="mahj-tile-blue p-8 text-center">
               <div className="text-3xl mb-3">🀄</div>
-              <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-slate-900 mb-3">
+              <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">
                 Are you a mahjong organizer?
               </h3>
-              <p className="text-slate-500 mb-6">
+              <p className="text-slate-600 mb-6">
                 List your group for free and reach players across the country.
               </p>
               <Link
                 href="/add-your-group"
-                className="inline-flex items-center gap-2 bg-mahj-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-mahj-red-600 transition-colors"
+                className="inline-flex items-center gap-2 bg-skyblue-400 text-white px-6 py-3 rounded-xl font-semibold hover:bg-skyblue-500 transition-colors shadow-lg"
               >
                 List Your Group <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
             {/* Player CTA */}
-            <div className="rounded-2xl bg-gradient-to-br from-jade-50 via-gold-50 to-ivory-100 p-8 border border-jade-200 text-center">
+            <div className="mahj-tile-mint p-8 text-center">
               <div className="text-3xl mb-3">🀇</div>
-              <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-slate-900 mb-3">
+              <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">
                 Ready to find your next game?
               </h3>
-              <p className="text-slate-500 mb-3">
+              <p className="text-slate-600 mb-3">
                 Full access for 14 days. Credit card required — cancel anytime.
               </p>
-              <div className="flex items-center justify-center gap-1 text-xs text-slate-400 mb-4">
+              <div className="flex items-center justify-center gap-1 text-xs text-slate-500 mb-4">
                 <CreditCard className="w-3.5 h-3.5" />
                 <span>Secure payment via Stripe</span>
               </div>
               <Link
                 href="/signup"
-                className="inline-flex items-center gap-2 bg-jade-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-jade-700 transition-colors"
+                className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors shadow-lg"
               >
                 Start Free Trial <ArrowRight className="w-4 h-4" />
               </Link>
@@ -248,7 +251,7 @@ export default function HomePage() {
 
           {/* Shop Teaser */}
           <div className="text-center mt-10">
-            <Link href="/shop" className="text-jade-600 hover:text-jade-700 font-medium transition-colors inline-flex items-center gap-2">
+            <Link href="/shop" className="text-hotpink-500 hover:text-hotpink-700 font-medium transition-colors inline-flex items-center gap-2">
               New to Mahj? Check out our gear picks <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

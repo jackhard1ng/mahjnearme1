@@ -10,19 +10,19 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
-      <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl text-slate-900 mb-6">
+      <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl text-charcoal mb-6">
         About MahjNearMe
       </h1>
 
       <div className="prose prose-slate max-w-none">
-        <div className="bg-gradient-to-br from-jade-50 to-white rounded-2xl p-8 border border-jade-100 mb-10">
+        <div className="bg-gradient-to-br from-softpink-100 to-lavender-100 rounded-2xl p-8 border border-mint-200 mb-10">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-jade-200 rounded-full flex items-center justify-center shrink-0">
-              <span className="text-2xl font-bold text-jade-800">J</span>
+            <div className="w-16 h-16 bg-mint-200 rounded-full flex items-center justify-center shrink-0">
+              <span className="text-2xl font-bold text-mint-600">J</span>
             </div>
             <div>
-              <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl text-slate-900 mb-0">The Story</h2>
-              <p className="text-sm text-jade-600">From Jack, Founder of MahjNearMe</p>
+              <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal mb-0">The Story</h2>
+              <p className="text-sm text-hotpink-500">From Jack, Founder of MahjNearMe</p>
             </div>
           </div>
           <div className="text-slate-600 space-y-4">
@@ -42,7 +42,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-slate-900 mb-6">
+        <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-6">
           What Makes Us Different
         </h2>
 
@@ -70,8 +70,8 @@ export default function AboutPage() {
             },
           ].map((item) => (
             <div key={item.title} className="mahj-tile p-5">
-              <item.icon className="w-6 h-6 text-jade-600 mb-3" />
-              <h3 className="font-semibold text-slate-800 mb-1">{item.title}</h3>
+              <item.icon className="w-6 h-6 text-hotpink-500 mb-3" />
+              <h3 className="font-semibold text-charcoal mb-1">{item.title}</h3>
               <p className="text-sm text-slate-500">{item.desc}</p>
             </div>
           ))}
@@ -80,7 +80,7 @@ export default function AboutPage() {
         <div className="text-center">
           <Link
             href="/search"
-            className="inline-block bg-jade-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-jade-700 transition-colors"
+            className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
           >
             Find a Game Near You
           </Link>
