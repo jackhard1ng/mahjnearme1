@@ -46,7 +46,7 @@ export default function SearchFiltersBar({ filters, onFiltersChange }: SearchFil
   };
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl">
+    <div className="mahj-tile">
       <button
         onClick={() => setExpanded(!expanded)}
         className="w-full flex items-center justify-between px-4 py-3"
@@ -55,7 +55,7 @@ export default function SearchFiltersBar({ filters, onFiltersChange }: SearchFil
           <Filter className="w-4 h-4 text-slate-500" />
           <span className="text-sm font-medium text-slate-700">Filters</span>
           {hasActiveFilters && (
-            <span className="bg-teal-100 text-teal-700 text-xs font-semibold px-2 py-0.5 rounded-full">
+            <span className="bg-jade-100 text-jade-700 text-xs font-semibold px-2 py-0.5 rounded-full">
               Active
             </span>
           )}
@@ -75,7 +75,7 @@ export default function SearchFiltersBar({ filters, onFiltersChange }: SearchFil
                   onClick={() => toggleDay(day)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                     filters.daysOfWeek.includes(day)
-                      ? "bg-teal-600 text-white"
+                      ? "bg-jade-600 text-white"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                   }`}
                 >

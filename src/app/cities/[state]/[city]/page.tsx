@@ -55,11 +55,11 @@ export default async function CityPage({ params }: Props) {
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm text-slate-400 mb-6">
-        <Link href="/" className="hover:text-teal-600">Home</Link>
+        <Link href="/" className="hover:text-jade-600">Home</Link>
         <ChevronRight className="w-3 h-3" />
-        <Link href="/cities" className="hover:text-teal-600">Cities</Link>
+        <Link href="/cities" className="hover:text-jade-600">Cities</Link>
         <ChevronRight className="w-3 h-3" />
-        <Link href={`/states/${state}`} className="hover:text-teal-600">{stateName}</Link>
+        <Link href={`/states/${state}`} className="hover:text-jade-600">{stateName}</Link>
         <ChevronRight className="w-3 h-3" />
         <span className="text-slate-600">{cityName}</span>
       </nav>
@@ -80,7 +80,7 @@ export default async function CityPage({ params }: Props) {
           <div key={game.id} className="bg-white border border-slate-200 rounded-xl p-5 hover:shadow-md transition-all">
             <div className="flex items-center gap-2 mb-2">
               <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                game.type === "open_play" ? "bg-teal-100 text-teal-800" :
+                game.type === "open_play" ? "bg-jade-100 text-jade-800" :
                 game.type === "lesson" ? "bg-orange-100 text-orange-800" :
                 game.type === "league" ? "bg-yellow-100 text-yellow-800" :
                 "bg-purple-100 text-purple-800"
@@ -116,7 +116,7 @@ export default async function CityPage({ params }: Props) {
 
             <Link
               href={`/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`}
-              className="inline-flex items-center gap-1 text-sm font-semibold text-teal-600 hover:text-teal-700"
+              className="inline-flex items-center gap-1 text-sm font-semibold text-jade-600 hover:text-jade-700"
             >
               View Full Details <ArrowRight className="w-4 h-4" />
             </Link>
@@ -125,7 +125,7 @@ export default async function CityPage({ params }: Props) {
       </div>
 
       {/* Signup CTA */}
-      <div className="bg-gradient-to-br from-teal-50 to-white rounded-xl border border-teal-200 p-8 text-center mb-10">
+      <div className="bg-gradient-to-br from-jade-50 to-white rounded-xl border border-jade-200 p-8 text-center mb-10">
         <h2 className="font-semibold text-xl text-slate-800 mb-2">
           Want full details on every game?
         </h2>
@@ -134,7 +134,7 @@ export default async function CityPage({ params }: Props) {
         </p>
         <Link
           href="/signup"
-          className="inline-block bg-teal-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-teal-700 transition-colors"
+          className="inline-block bg-jade-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-jade-700 transition-colors"
         >
           Start Your 14-Day Free Trial
         </Link>
@@ -183,11 +183,11 @@ export default async function CityPage({ params }: Props) {
               <Link
                 key={`${c.city}-${c.state}`}
                 href={`/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`}
-                className="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-4 py-2 hover:border-teal-300 transition-all text-sm"
+                className="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-4 py-2 hover:border-jade-300 transition-all text-sm"
               >
-                <MapPin className="w-4 h-4 text-teal-500" />
+                <MapPin className="w-4 h-4 text-jade-500" />
                 {c.city}, {c.state}
-                <span className="text-teal-600 font-semibold">{c.count}</span>
+                <span className="text-jade-600 font-semibold">{c.count}</span>
               </Link>
             ))}
           </div>

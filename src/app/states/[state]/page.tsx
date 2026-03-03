@@ -46,9 +46,9 @@ export default async function StatePage({ params }: Props) {
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm text-slate-400 mb-6">
-        <Link href="/" className="hover:text-teal-600">Home</Link>
+        <Link href="/" className="hover:text-jade-600">Home</Link>
         <ChevronRight className="w-3 h-3" />
-        <Link href="/cities" className="hover:text-teal-600">Cities</Link>
+        <Link href="/cities" className="hover:text-jade-600">Cities</Link>
         <ChevronRight className="w-3 h-3" />
         <span className="text-slate-600">{stateName}</span>
       </nav>
@@ -67,7 +67,7 @@ export default async function StatePage({ params }: Props) {
           <Link
             key={`${c.city}-${c.state}`}
             href={`/cities/${state}/${slugify(c.city)}`}
-            className="flex items-center justify-between bg-white border border-slate-200 rounded-xl p-5 hover:border-teal-300 hover:shadow-sm transition-all"
+            className="flex items-center justify-between bg-white border border-slate-200 rounded-xl p-5 hover:border-jade-300 hover:shadow-sm transition-all"
           >
             <div>
               <h3 className="font-semibold text-slate-800">{c.city}</h3>
@@ -75,7 +75,7 @@ export default async function StatePage({ params }: Props) {
                 {c.count} mahjong {c.count === 1 ? "game" : "games"}
               </p>
             </div>
-            <ArrowRight className="w-5 h-5 text-teal-500" />
+            <ArrowRight className="w-5 h-5 text-jade-500" />
           </Link>
         ))}
       </div>
@@ -87,11 +87,11 @@ export default async function StatePage({ params }: Props) {
           <Link
             key={game.id}
             href={`/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`}
-            className="flex items-center justify-between bg-white border border-slate-200 rounded-lg p-4 hover:border-teal-300 transition-all"
+            className="flex items-center justify-between bg-white border border-slate-200 rounded-lg p-4 hover:border-jade-300 transition-all"
           >
             <div className="flex items-center gap-3">
               <div className={`w-3 h-3 rounded-full ${
-                game.type === "open_play" ? "bg-teal-500" :
+                game.type === "open_play" ? "bg-jade-500" :
                 game.type === "lesson" ? "bg-orange-500" :
                 game.type === "league" ? "bg-yellow-500" :
                 "bg-purple-500"
@@ -107,7 +107,7 @@ export default async function StatePage({ params }: Props) {
       </div>
 
       {/* CTA */}
-      <div className="bg-gradient-to-br from-teal-50 to-white rounded-xl border border-teal-200 p-8 text-center">
+      <div className="bg-gradient-to-br from-jade-50 to-white rounded-xl border border-jade-200 p-8 text-center">
         <h2 className="font-semibold text-xl text-slate-800 mb-2">
           Don&apos;t see your city?
         </h2>
@@ -116,7 +116,7 @@ export default async function StatePage({ params }: Props) {
         </p>
         <Link
           href="/signup"
-          className="inline-block bg-teal-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-teal-700 transition-colors"
+          className="inline-block bg-jade-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-jade-700 transition-colors"
         >
           Start Free Trial
         </Link>

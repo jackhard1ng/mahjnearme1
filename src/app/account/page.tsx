@@ -54,14 +54,14 @@ export default function AccountPage() {
         {/* Profile Section */}
         <div className="bg-white border border-slate-200 rounded-xl p-6">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center">
-              <User className="w-8 h-8 text-teal-700" />
+            <div className="w-16 h-16 bg-jade-100 rounded-full flex items-center justify-center">
+              <User className="w-8 h-8 text-jade-700" />
             </div>
             <div>
               <h2 className="font-semibold text-xl text-slate-800">{userProfile.displayName || "Player"}</h2>
               <p className="text-sm text-slate-500">{userProfile.email}</p>
               <div className="flex items-center gap-2 mt-1">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-teal-100 text-teal-800">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-jade-100 text-jade-800">
                   {userProfile.accountType === "trial" ? "Free Trial" :
                    userProfile.accountType === "subscriber" ? "Subscriber" :
                    userProfile.accountType === "admin" ? "Admin" :
@@ -103,22 +103,22 @@ export default function AccountPage() {
         {/* Subscription Section */}
         <div className="bg-white border border-slate-200 rounded-xl p-6">
           <h3 className="font-semibold text-lg text-slate-800 mb-4 flex items-center gap-2">
-            <CreditCard className="w-5 h-5 text-teal-600" />
+            <CreditCard className="w-5 h-5 text-jade-600" />
             Subscription
           </h3>
 
           {userProfile.accountType === "trial" && (
-            <div className="bg-teal-50 border border-teal-200 rounded-lg p-4 mb-4">
+            <div className="bg-jade-50 border border-jade-200 rounded-lg p-4 mb-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-teal-800">Free Trial</p>
-                  <p className="text-sm text-teal-600">
+                  <p className="font-semibold text-jade-800">Free Trial</p>
+                  <p className="text-sm text-jade-600">
                     {trialDaysLeft > 0 ? `${trialDaysLeft} days remaining` : "Trial expired"}
                   </p>
                 </div>
                 <Link
                   href="/pricing"
-                  className="bg-teal-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-teal-700 transition-colors"
+                  className="bg-jade-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-jade-700 transition-colors"
                 >
                   Subscribe Now
                 </Link>
@@ -144,7 +144,7 @@ export default function AccountPage() {
                     : "—"}
                 </span>
               </div>
-              <button className="text-sm text-teal-600 hover:text-teal-700 font-medium mt-2">
+              <button className="text-sm text-jade-600 hover:text-jade-700 font-medium mt-2">
                 Manage Subscription (Stripe Portal)
               </button>
             </div>
@@ -154,7 +154,7 @@ export default function AccountPage() {
         {/* Saved Cities */}
         <div className="bg-white border border-slate-200 rounded-xl p-6">
           <h3 className="font-semibold text-lg text-slate-800 mb-4 flex items-center gap-2">
-            <MapPin className="w-5 h-5 text-teal-600" />
+            <MapPin className="w-5 h-5 text-jade-600" />
             Saved Cities
           </h3>
           <div className="flex flex-wrap gap-2 mb-4">
@@ -176,7 +176,7 @@ export default function AccountPage() {
               placeholder="Add a city..."
               className="border border-slate-200 rounded-lg px-3 py-2 text-sm flex-1"
             />
-            <button className="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-teal-700 transition-colors flex items-center gap-1">
+            <button className="bg-jade-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-jade-700 transition-colors flex items-center gap-1">
               <Plus className="w-4 h-4" /> Add
             </button>
           </div>
@@ -185,7 +185,7 @@ export default function AccountPage() {
         {/* Favorite Games */}
         <div className="bg-white border border-slate-200 rounded-xl p-6">
           <h3 className="font-semibold text-lg text-slate-800 mb-4 flex items-center gap-2">
-            <Heart className="w-5 h-5 text-teal-600" />
+            <Heart className="w-5 h-5 text-jade-600" />
             Favorite Games
           </h3>
           {userProfile.favoriteGames.length === 0 ? (
@@ -207,7 +207,7 @@ export default function AccountPage() {
         {/* Notification Preferences */}
         <div className="bg-white border border-slate-200 rounded-xl p-6">
           <h3 className="font-semibold text-lg text-slate-800 mb-4 flex items-center gap-2">
-            <Bell className="w-5 h-5 text-teal-600" />
+            <Bell className="w-5 h-5 text-jade-600" />
             Notifications
           </h3>
           <div className="space-y-3">
@@ -221,7 +221,7 @@ export default function AccountPage() {
                 <span className="text-sm text-slate-700">{pref.label}</span>
                 <button
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    pref.enabled ? "bg-teal-600" : "bg-slate-200"
+                    pref.enabled ? "bg-jade-600" : "bg-slate-200"
                   }`}
                 >
                   <span

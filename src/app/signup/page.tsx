@@ -187,7 +187,7 @@ export default function SignupPage() {
   if (authLoading) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-teal-600 animate-spin" />
+        <Loader2 className="w-8 h-8 text-jade-600 animate-spin" />
       </div>
     );
   }
@@ -195,7 +195,7 @@ export default function SignupPage() {
   // Onboarding Flow
   if (isRegistered) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-teal-50/50 via-white to-white">
+      <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 mahj-hero-gradient">
         <div className="w-full max-w-lg">
           {/* Progress Indicator */}
           <div className="mb-8">
@@ -215,7 +215,7 @@ export default function SignupPage() {
                 <div
                   key={i}
                   className={`h-1.5 flex-1 rounded-full transition-colors ${
-                    i < onboardingStep ? "bg-teal-600" : "bg-slate-200"
+                    i < onboardingStep ? "bg-jade-600" : "bg-slate-200"
                   }`}
                 />
               ))}
@@ -223,7 +223,7 @@ export default function SignupPage() {
           </div>
 
           {/* Card */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+          <div className="mahj-tile p-6 sm:p-8">
             {/* Step 1: Skill Level */}
             {onboardingStep === 1 && (
               <div>
@@ -243,24 +243,24 @@ export default function SignupPage() {
                         onClick={() => setSkillLevel(level.value)}
                         className={`w-full flex items-start gap-4 p-4 rounded-xl border-2 text-left transition-all ${
                           isSelected
-                            ? "border-teal-600 bg-teal-50 ring-1 ring-teal-600"
+                            ? "border-jade-600 bg-jade-50 ring-1 ring-jade-600"
                             : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
                         }`}
                       >
                         <div
                           className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
-                            isSelected ? "bg-teal-600 text-white" : "bg-slate-100 text-slate-500"
+                            isSelected ? "bg-jade-600 text-white" : "bg-slate-100 text-slate-500"
                           }`}
                         >
                           <Icon className="w-5 h-5" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <p className={`font-semibold ${isSelected ? "text-teal-900" : "text-slate-800"}`}>
+                            <p className={`font-semibold ${isSelected ? "text-jade-900" : "text-slate-800"}`}>
                               {level.label}
                             </p>
                             {isSelected && (
-                              <Check className="w-4 h-4 text-teal-600" />
+                              <Check className="w-4 h-4 text-jade-600" />
                             )}
                           </div>
                           <p className="text-sm text-slate-500 mt-0.5">{level.description}</p>
@@ -290,17 +290,17 @@ export default function SignupPage() {
                         onClick={() => setGameStyle(style.value)}
                         className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 text-left transition-all ${
                           isSelected
-                            ? "border-teal-600 bg-teal-50 ring-1 ring-teal-600"
+                            ? "border-jade-600 bg-jade-50 ring-1 ring-jade-600"
                             : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
                         }`}
                       >
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <p className={`font-semibold ${isSelected ? "text-teal-900" : "text-slate-800"}`}>
+                            <p className={`font-semibold ${isSelected ? "text-jade-900" : "text-slate-800"}`}>
                               {style.label}
                             </p>
                             {isSelected && (
-                              <Check className="w-4 h-4 text-teal-600" />
+                              <Check className="w-4 h-4 text-jade-600" />
                             )}
                           </div>
                           <p className="text-sm text-slate-500 mt-0.5">{style.description}</p>
@@ -333,7 +333,7 @@ export default function SignupPage() {
                       value={homeCity}
                       onChange={(e) => setHomeCity(e.target.value)}
                       placeholder="e.g., Nashville, TN"
-                      className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-colors"
+                      className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-jade-500/20 focus:border-jade-500 transition-colors"
                     />
                   </div>
                   <p className="text-xs text-slate-400 mt-2">
@@ -364,7 +364,7 @@ export default function SignupPage() {
                       value={travelCities}
                       onChange={(e) => setTravelCities(e.target.value)}
                       placeholder="e.g., Miami, Denver, Phoenix"
-                      className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-colors"
+                      className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-jade-500/20 focus:border-jade-500 transition-colors"
                     />
                   </div>
                   <p className="text-xs text-slate-400 mt-2">
@@ -390,7 +390,7 @@ export default function SignupPage() {
                 <button
                   onClick={handleOnboardingNext}
                   disabled={!canProceed()}
-                  className="flex items-center gap-1.5 bg-teal-600 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-teal-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center gap-1.5 bg-jade-600 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-jade-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Continue
                   <ChevronRight className="w-4 h-4" />
@@ -398,7 +398,7 @@ export default function SignupPage() {
               ) : (
                 <button
                   onClick={handleOnboardingComplete}
-                  className="flex items-center gap-1.5 bg-teal-600 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-teal-700 transition-colors"
+                  className="flex items-center gap-1.5 bg-jade-600 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-jade-700 transition-colors"
                 >
                   Find Games
                   <ChevronRight className="w-4 h-4" />
@@ -413,28 +413,28 @@ export default function SignupPage() {
 
   // Registration Form
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-teal-50/50 via-white to-white">
+    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 mahj-hero-gradient">
       <div className="w-full max-w-md">
         {/* Branding */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 bg-teal-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">M</span>
+            <div className="w-10 h-10 bg-gradient-to-br from-jade-600 to-jade-700 rounded-xl flex items-center justify-center">
+              <span className="text-white text-lg">🀄</span>
             </div>
             <span className="font-[family-name:var(--font-heading)] font-bold text-2xl text-slate-800">
-              MahjNearMe
+              Mahj<span className="text-jade-600">Near</span>Me
             </span>
           </Link>
           <h1 className="font-[family-name:var(--font-heading)] font-bold text-2xl sm:text-3xl text-slate-900 mb-2">
             Start your free trial
           </h1>
           <p className="text-slate-500">
-            14 days free. No credit card required.
+            14 days free. Credit card required — cancel anytime.
           </p>
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+        <div className="mahj-tile p-6 sm:p-8">
           {/* Error Message */}
           {error && (
             <div className="flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 mb-6 text-sm">
@@ -493,7 +493,7 @@ export default function SignupPage() {
                   placeholder="Your name"
                   required
                   autoComplete="name"
-                  className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-colors"
+                  className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-jade-500/20 focus:border-jade-500 transition-colors"
                 />
               </div>
             </div>
@@ -512,7 +512,7 @@ export default function SignupPage() {
                   placeholder="you@example.com"
                   required
                   autoComplete="email"
-                  className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-colors"
+                  className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-jade-500/20 focus:border-jade-500 transition-colors"
                 />
               </div>
             </div>
@@ -532,7 +532,7 @@ export default function SignupPage() {
                   required
                   minLength={6}
                   autoComplete="new-password"
-                  className="w-full pl-11 pr-12 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-colors"
+                  className="w-full pl-11 pr-12 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-jade-500/20 focus:border-jade-500 transition-colors"
                 />
                 <button
                   type="button"
@@ -548,7 +548,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading || !name || !email || !password}
-              className="w-full bg-teal-600 text-white py-3 rounded-xl font-semibold text-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-jade-600 text-white py-3 rounded-xl font-semibold text-sm hover:bg-jade-700 focus:outline-none focus:ring-2 focus:ring-jade-500/20 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -564,11 +564,11 @@ export default function SignupPage() {
           {/* Terms */}
           <p className="text-xs text-slate-400 text-center mt-4 leading-relaxed">
             By signing up, you agree to our{" "}
-            <Link href="/terms" className="text-teal-600 hover:text-teal-700 underline">
+            <Link href="/terms" className="text-jade-600 hover:text-jade-700 underline">
               Terms of Service
             </Link>{" "}
             and{" "}
-            <Link href="/privacy" className="text-teal-600 hover:text-teal-700 underline">
+            <Link href="/privacy" className="text-jade-600 hover:text-jade-700 underline">
               Privacy Policy
             </Link>
           </p>
@@ -577,7 +577,7 @@ export default function SignupPage() {
         {/* Login Link */}
         <p className="text-center text-sm text-slate-500 mt-6">
           Already have an account?{" "}
-          <Link href="/login" className="text-teal-600 hover:text-teal-700 font-semibold">
+          <Link href="/login" className="text-jade-600 hover:text-jade-700 font-semibold">
             Log in
           </Link>
         </p>

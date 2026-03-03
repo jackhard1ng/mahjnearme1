@@ -37,7 +37,7 @@ export default function AdminUsersPage() {
           { label: "Organizers", value: mockUsers.filter((u) => u.type === "organizer").length, icon: Users },
         ].map((s) => (
           <div key={s.label} className="bg-white border border-slate-200 rounded-xl p-4">
-            <s.icon className="w-5 h-5 text-teal-600 mb-2" />
+            <s.icon className="w-5 h-5 text-jade-600 mb-2" />
             <p className="text-2xl font-bold text-slate-800">{s.value}</p>
             <p className="text-sm text-slate-500">{s.label}</p>
           </div>
@@ -81,7 +81,7 @@ export default function AdminUsersPage() {
                 </td>
                 <td className="px-4 py-3">
                   <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                    user.type === "subscriber" ? "bg-teal-100 text-teal-700" :
+                    user.type === "subscriber" ? "bg-jade-100 text-jade-700" :
                     user.type === "organizer" ? "bg-purple-100 text-purple-700" :
                     user.type === "trial" ? "bg-blue-100 text-blue-700" :
                     "bg-slate-100 text-slate-600"

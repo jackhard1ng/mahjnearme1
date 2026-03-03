@@ -34,7 +34,7 @@ export default function ShopPage() {
               <ShoppingBag className="w-12 h-12 text-slate-300" />
             </div>
             <div className="p-4">
-              <p className="text-xs font-medium text-teal-600 uppercase tracking-wider mb-1">{product.category}</p>
+              <p className="text-xs font-medium text-jade-600 uppercase tracking-wider mb-1">{product.category}</p>
               <h3 className="font-semibold text-slate-800 mb-1 line-clamp-2">{product.name}</h3>
               <p className="text-sm text-slate-500 mb-3 line-clamp-2">{product.description}</p>
               <div className="flex items-center justify-between">
@@ -62,7 +62,7 @@ export default function ShopPage() {
               <ShoppingBag className="w-8 h-8 text-slate-300" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-medium text-teal-600 uppercase tracking-wider">{product.category}</p>
+              <p className="text-xs font-medium text-jade-600 uppercase tracking-wider">{product.category}</p>
               <h3 className="font-semibold text-slate-800 text-sm mb-1">{product.name}</h3>
               <p className="text-xs text-slate-500 line-clamp-2 mb-2">{product.description}</p>
               <div className="flex items-center justify-between">

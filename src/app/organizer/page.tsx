@@ -58,7 +58,7 @@ export default function OrganizerDashboardPage() {
         </div>
         <Link
           href="/add-your-group"
-          className="flex items-center gap-2 bg-teal-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-teal-700 transition-colors"
+          className="flex items-center gap-2 bg-jade-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-jade-700 transition-colors"
         >
           <Plus className="w-4 h-4" /> Add New Listing
         </Link>
@@ -67,7 +67,7 @@ export default function OrganizerDashboardPage() {
       {/* Stats */}
       <div className="grid sm:grid-cols-4 gap-4 mb-8">
         {[
-          { label: "Total Views", value: "142", icon: Eye, color: "text-teal-600" },
+          { label: "Total Views", value: "142", icon: Eye, color: "text-jade-600" },
           { label: "Click-throughs", value: "38", icon: TrendingUp, color: "text-coral-500" },
           { label: "Active Listings", value: "1", icon: LayoutDashboard, color: "text-blue-600" },
           { label: "Reviews", value: "3", icon: MessageSquare, color: "text-gold-500" },
@@ -117,7 +117,7 @@ export default function OrganizerDashboardPage() {
               </div>
             </div>
             <div className="mt-4 flex gap-3">
-              <button className="text-sm text-teal-600 hover:text-teal-700 font-medium">
+              <button className="text-sm text-jade-600 hover:text-jade-700 font-medium">
                 Re-verify Listing
               </button>
               <button className="text-sm text-slate-500 hover:text-slate-700 font-medium">
@@ -149,7 +149,7 @@ export default function OrganizerDashboardPage() {
               <span className="text-xs text-slate-400">{review.date}</span>
             </div>
             <p className="text-sm text-slate-600">{review.comment}</p>
-            <button className="text-xs text-teal-600 hover:text-teal-700 font-medium mt-2">Reply</button>
+            <button className="text-xs text-jade-600 hover:text-jade-700 font-medium mt-2">Reply</button>
           </div>
         ))}
       </div>

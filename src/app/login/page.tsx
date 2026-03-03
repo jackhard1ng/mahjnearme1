@@ -68,18 +68,18 @@ export default function LoginPage() {
   if (authLoading) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-teal-600 animate-spin" />
+        <Loader2 className="w-8 h-8 text-jade-600 animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-teal-50/50 via-white to-white">
+    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-jade-50/50 via-white to-white">
       <div className="w-full max-w-md">
         {/* Branding */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 bg-teal-600 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-jade-600 rounded-xl flex items-center justify-center">
               <span className="text-white font-bold text-lg">M</span>
             </div>
             <span className="font-[family-name:var(--font-heading)] font-bold text-2xl text-slate-800">
@@ -154,7 +154,7 @@ export default function LoginPage() {
                   placeholder="you@example.com"
                   required
                   autoComplete="email"
-                  className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-colors"
+                  className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-jade-500/20 focus:border-jade-500 transition-colors"
                 />
               </div>
             </div>
@@ -166,7 +166,7 @@ export default function LoginPage() {
                 </label>
                 <Link
                   href="/forgot-password"
-                  className="text-xs text-teal-600 hover:text-teal-700 font-medium"
+                  className="text-xs text-jade-600 hover:text-jade-700 font-medium"
                 >
                   Forgot password?
                 </Link>
@@ -181,7 +181,7 @@ export default function LoginPage() {
                   placeholder="Enter your password"
                   required
                   autoComplete="current-password"
-                  className="w-full pl-11 pr-12 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-colors"
+                  className="w-full pl-11 pr-12 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-jade-500/20 focus:border-jade-500 transition-colors"
                 />
                 <button
                   type="button"
@@ -197,7 +197,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading || !email || !password}
-              className="w-full bg-teal-600 text-white py-3 rounded-xl font-semibold text-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-jade-600 text-white py-3 rounded-xl font-semibold text-sm hover:bg-jade-700 focus:outline-none focus:ring-2 focus:ring-jade-500/20 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -214,7 +214,7 @@ export default function LoginPage() {
         {/* Sign Up Link */}
         <p className="text-center text-sm text-slate-500 mt-6">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="text-teal-600 hover:text-teal-700 font-semibold">
+          <Link href="/signup" className="text-jade-600 hover:text-jade-700 font-semibold">
             Start your free trial
           </Link>
         </p>

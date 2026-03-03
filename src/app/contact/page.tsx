@@ -63,14 +63,14 @@ export default function ContactPage() {
             <label className="block text-sm font-medium text-slate-700 mb-1">Message</label>
             <textarea required rows={5} value={form.message} onChange={(e) => setForm({...form, message: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" placeholder="How can we help?" />
           </div>
-          <button type="submit" className="flex items-center gap-2 bg-teal-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-teal-700 transition-colors">
+          <button type="submit" className="flex items-center gap-2 bg-jade-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-jade-700 transition-colors">
             <Send className="w-4 h-4" /> Send Message
           </button>
         </form>
       </div>
 
       <div className="mt-8 text-center text-sm text-slate-500">
-        <p>You can also reach us at <a href="mailto:hello@mahjnearme.com" className="text-teal-600 hover:text-teal-700 font-medium">hello@mahjnearme.com</a></p>
+        <p>You can also reach us at <a href="mailto:hello@mahjnearme.com" className="text-jade-600 hover:text-jade-700 font-medium">hello@mahjnearme.com</a></p>
       </div>
     </div>
   );

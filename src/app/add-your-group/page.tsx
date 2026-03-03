@@ -74,7 +74,7 @@ export default function AddYourGroupPage() {
         <p className="text-sm text-slate-400 mb-8">
           Want to manage your listing? Create an organizer account to claim it.
         </p>
-        <a href="/signup" className="inline-block bg-teal-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-teal-700 transition-colors">
+        <a href="/signup" className="inline-block bg-jade-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-jade-700 transition-colors">
           Create Organizer Account
         </a>
       </div>
@@ -97,12 +97,12 @@ export default function AddYourGroupPage() {
         {Array.from({ length: totalSteps }).map((_, i) => (
           <div key={i} className="flex items-center gap-2 flex-1">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-              step > i + 1 ? "bg-teal-600 text-white" : step === i + 1 ? "bg-teal-600 text-white" : "bg-slate-200 text-slate-500"
+              step > i + 1 ? "bg-jade-600 text-white" : step === i + 1 ? "bg-jade-600 text-white" : "bg-slate-200 text-slate-500"
             }`}>
               {step > i + 1 ? <CheckCircle className="w-4 h-4" /> : i + 1}
             </div>
             {i < totalSteps - 1 && (
-              <div className={`flex-1 h-1 rounded ${step > i + 1 ? "bg-teal-600" : "bg-slate-200"}`} />
+              <div className={`flex-1 h-1 rounded ${step > i + 1 ? "bg-jade-600" : "bg-slate-200"}`} />
             )}
           </div>
         ))}
@@ -113,7 +113,7 @@ export default function AddYourGroupPage() {
         {step === 1 && (
           <div className="space-y-5">
             <h2 className="font-semibold text-xl text-slate-800 flex items-center gap-2">
-              <Info className="w-5 h-5 text-teal-600" /> Basic Information
+              <Info className="w-5 h-5 text-jade-600" /> Basic Information
             </h2>
 
             <div className="grid sm:grid-cols-2 gap-4">
@@ -155,7 +155,7 @@ export default function AddYourGroupPage() {
                     type="button"
                     onClick={() => toggleSkillLevel(val)}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      form.skillLevels.includes(val) ? "bg-teal-600 text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                      form.skillLevels.includes(val) ? "bg-jade-600 text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                     }`}
                   >
                     {label}
@@ -181,7 +181,7 @@ export default function AddYourGroupPage() {
         {step === 2 && (
           <div className="space-y-5">
             <h2 className="font-semibold text-xl text-slate-800 flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-teal-600" /> Location & Schedule
+              <MapPin className="w-5 h-5 text-jade-600" /> Location & Schedule
             </h2>
 
             <div className="grid sm:grid-cols-2 gap-4">
@@ -214,7 +214,7 @@ export default function AddYourGroupPage() {
             <hr className="border-slate-100" />
 
             <h3 className="font-semibold text-lg text-slate-800 flex items-center gap-2">
-              <Clock className="w-5 h-5 text-teal-600" /> Schedule
+              <Clock className="w-5 h-5 text-jade-600" /> Schedule
             </h3>
 
             <div className="grid sm:grid-cols-3 gap-4">
@@ -262,7 +262,7 @@ export default function AddYourGroupPage() {
         {step === 3 && (
           <div className="space-y-5">
             <h2 className="font-semibold text-xl text-slate-800 flex items-center gap-2">
-              <Users className="w-5 h-5 text-teal-600" /> Details & Contact
+              <Users className="w-5 h-5 text-jade-600" /> Details & Contact
             </h2>
 
             <div>
@@ -328,11 +328,11 @@ export default function AddYourGroupPage() {
           )}
 
           {step < totalSteps ? (
-            <button type="button" onClick={() => setStep(step + 1)} className="flex items-center gap-2 bg-teal-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-teal-700 transition-colors">
+            <button type="button" onClick={() => setStep(step + 1)} className="flex items-center gap-2 bg-jade-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-jade-700 transition-colors">
               Continue <ArrowRight className="w-4 h-4" />
             </button>
           ) : (
-            <button type="submit" className="flex items-center gap-2 bg-teal-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-teal-700 transition-colors">
+            <button type="submit" className="flex items-center gap-2 bg-jade-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-jade-700 transition-colors">
               <Send className="w-4 h-4" /> Submit for Review
             </button>
           )}

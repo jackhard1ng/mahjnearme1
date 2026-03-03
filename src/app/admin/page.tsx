@@ -78,7 +78,7 @@ export default function AdminDashboardPage() {
           </Link>
           <Link
             href="/admin/games?action=new"
-            className="flex items-center gap-2 bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-teal-700 transition-colors"
+            className="flex items-center gap-2 bg-jade-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-jade-700 transition-colors"
           >
             <Plus className="w-4 h-4" /> Quick Add Game
           </Link>
@@ -89,7 +89,7 @@ export default function AdminDashboardPage() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div className="bg-white border border-slate-200 rounded-xl p-5">
           <div className="flex items-center justify-between mb-2">
-            <GamepadIcon className="w-5 h-5 text-teal-600" />
+            <GamepadIcon className="w-5 h-5 text-jade-600" />
             <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
               {stats.activeGames} active
             </span>
@@ -101,7 +101,7 @@ export default function AdminDashboardPage() {
         <div className="bg-white border border-slate-200 rounded-xl p-5">
           <div className="flex items-center justify-between mb-2">
             <Users className="w-5 h-5 text-blue-600" />
-            <span className="text-xs font-medium text-teal-600 bg-teal-50 px-2 py-0.5 rounded-full">
+            <span className="text-xs font-medium text-jade-600 bg-jade-50 px-2 py-0.5 rounded-full">
               {stats.subscribers} paid
             </span>
           </div>
@@ -137,10 +137,10 @@ export default function AdminDashboardPage() {
         <div className="bg-white border border-slate-200 rounded-xl">
           <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
             <h2 className="font-semibold text-slate-800 flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-teal-600" />
+              <ShieldCheck className="w-5 h-5 text-jade-600" />
               Needs Verification
             </h2>
-            <Link href="/admin/games?filter=unverified" className="text-sm text-teal-600 hover:text-teal-700 font-medium">
+            <Link href="/admin/games?filter=unverified" className="text-sm text-jade-600 hover:text-jade-700 font-medium">
               View All
             </Link>
           </div>
@@ -179,30 +179,30 @@ export default function AdminDashboardPage() {
             <div className="p-5 grid grid-cols-2 gap-3">
               <Link
                 href="/admin/games?action=new"
-                className="flex flex-col items-center gap-2 bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-200 rounded-xl p-4 transition-colors"
+                className="flex flex-col items-center gap-2 bg-slate-50 hover:bg-jade-50 border border-slate-200 hover:border-jade-200 rounded-xl p-4 transition-colors"
               >
-                <Plus className="w-6 h-6 text-teal-600" />
+                <Plus className="w-6 h-6 text-jade-600" />
                 <span className="text-sm font-medium text-slate-700">Add Game</span>
               </Link>
               <Link
                 href="/admin/games?action=csv"
-                className="flex flex-col items-center gap-2 bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-200 rounded-xl p-4 transition-colors"
+                className="flex flex-col items-center gap-2 bg-slate-50 hover:bg-jade-50 border border-slate-200 hover:border-jade-200 rounded-xl p-4 transition-colors"
               >
-                <Upload className="w-6 h-6 text-teal-600" />
+                <Upload className="w-6 h-6 text-jade-600" />
                 <span className="text-sm font-medium text-slate-700">CSV Upload</span>
               </Link>
               <Link
                 href="/admin/users"
-                className="flex flex-col items-center gap-2 bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-200 rounded-xl p-4 transition-colors"
+                className="flex flex-col items-center gap-2 bg-slate-50 hover:bg-jade-50 border border-slate-200 hover:border-jade-200 rounded-xl p-4 transition-colors"
               >
-                <UserPlus className="w-6 h-6 text-teal-600" />
+                <UserPlus className="w-6 h-6 text-jade-600" />
                 <span className="text-sm font-medium text-slate-700">Users</span>
               </Link>
               <Link
                 href="/admin/submissions"
-                className="flex flex-col items-center gap-2 bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-200 rounded-xl p-4 transition-colors"
+                className="flex flex-col items-center gap-2 bg-slate-50 hover:bg-jade-50 border border-slate-200 hover:border-jade-200 rounded-xl p-4 transition-colors"
               >
-                <FileSpreadsheet className="w-6 h-6 text-teal-600" />
+                <FileSpreadsheet className="w-6 h-6 text-jade-600" />
                 <span className="text-sm font-medium text-slate-700">Submissions</span>
               </Link>
             </div>
@@ -231,7 +231,7 @@ export default function AdminDashboardPage() {
                     </div>
                   </div>
                   <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                    signup.type === "subscriber" ? "bg-teal-50 text-teal-700" :
+                    signup.type === "subscriber" ? "bg-jade-50 text-jade-700" :
                     signup.type === "organizer" ? "bg-purple-50 text-purple-700" :
                     "bg-slate-100 text-slate-600"
                   }`}>

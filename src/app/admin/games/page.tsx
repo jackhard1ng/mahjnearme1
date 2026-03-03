@@ -107,7 +107,7 @@ export default function AdminGamesPage() {
           <button
             onClick={() => setView("csv")}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              view === "csv" ? "bg-teal-600 text-white" : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50"
+              view === "csv" ? "bg-jade-600 text-white" : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50"
             }`}
           >
             <Upload className="w-4 h-4" /> CSV Upload
@@ -115,7 +115,7 @@ export default function AdminGamesPage() {
           <button
             onClick={() => setView("add")}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
-              view === "add" ? "bg-teal-600 text-white" : "bg-teal-600 text-white hover:bg-teal-700"
+              view === "add" ? "bg-jade-600 text-white" : "bg-jade-600 text-white hover:bg-jade-700"
             }`}
           >
             <Plus className="w-4 h-4" /> Quick Add
@@ -127,7 +127,7 @@ export default function AdminGamesPage() {
       {view === "csv" && (
         <div className="bg-white border border-slate-200 rounded-xl p-6 mb-8">
           <h2 className="font-semibold text-lg text-slate-800 mb-4 flex items-center gap-2">
-            <FileSpreadsheet className="w-5 h-5 text-teal-600" />
+            <FileSpreadsheet className="w-5 h-5 text-jade-600" />
             CSV Bulk Upload
           </h2>
           <p className="text-sm text-slate-500 mb-4">
@@ -146,7 +146,7 @@ export default function AdminGamesPage() {
               a.download = "mahjnearme-template.csv";
               a.click();
             }}
-            className="flex items-center gap-2 text-sm text-teal-600 hover:text-teal-700 font-medium mb-4"
+            className="flex items-center gap-2 text-sm text-jade-600 hover:text-jade-700 font-medium mb-4"
           >
             <Download className="w-4 h-4" /> Download CSV Template
           </button>
@@ -154,7 +154,7 @@ export default function AdminGamesPage() {
           {/* Upload Area */}
           <div
             onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center cursor-pointer hover:border-teal-400 transition-colors"
+            className="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center cursor-pointer hover:border-jade-400 transition-colors"
           >
             <Upload className="w-10 h-10 text-slate-400 mx-auto mb-3" />
             <p className="text-sm text-slate-600 font-medium">Click to upload or drag and drop</p>
@@ -222,7 +222,7 @@ export default function AdminGamesPage() {
               <button
                 onClick={handleCsvImport}
                 disabled={csvErrors.length > 0}
-                className="mt-4 bg-teal-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-teal-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="mt-4 bg-jade-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-jade-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Import {csvData.length} Games
               </button>
@@ -303,7 +303,7 @@ export default function AdminGamesPage() {
             <textarea rows={2} value={form.description} onChange={(e) => setForm({...form, description: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
           </div>
           <div className="flex gap-3">
-            <button className="bg-teal-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-teal-700 transition-colors">
+            <button className="bg-jade-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-jade-700 transition-colors">
               Save Game
             </button>
             <button onClick={() => setView("list")} className="text-sm text-slate-500 hover:text-slate-700 font-medium">

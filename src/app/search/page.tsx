@@ -95,12 +95,12 @@ function SearchContent() {
         <h1 className="font-semibold text-lg text-slate-800">
           {query ? (
             <>
-              <span className="text-teal-600">{filteredGames.length}</span> mahjong game{filteredGames.length !== 1 ? "s" : ""}{" "}
+              <span className="text-jade-600">{filteredGames.length}</span> mahjong game{filteredGames.length !== 1 ? "s" : ""}{" "}
               {query && <>found for &ldquo;{query}&rdquo;</>}
             </>
           ) : (
             <>
-              <span className="text-teal-600">{filteredGames.length}</span> mahjong games near you
+              <span className="text-jade-600">{filteredGames.length}</span> mahjong games near you
             </>
           )}
         </h1>
@@ -126,7 +126,7 @@ function SearchContent() {
               <p className="text-slate-500 text-sm mb-4">
                 Try adjusting your search or filters to find more games.
               </p>
-              <Link href="/" className="text-teal-600 hover:text-teal-700 font-medium text-sm">
+              <Link href="/" className="text-jade-600 hover:text-jade-700 font-medium text-sm">
                 Back to Home
               </Link>
             </div>
@@ -174,8 +174,8 @@ function SearchContent() {
 
               {/* Signup CTA for non-users */}
               {!user && filteredGames.length > 1 && (
-                <div className="bg-gradient-to-br from-teal-50 to-white rounded-xl border border-teal-200 p-8 text-center">
-                  <ShieldCheck className="w-10 h-10 text-teal-600 mx-auto mb-3" />
+                <div className="mahj-tile p-8 text-center bg-gradient-to-br from-ivory-50 via-jade-50 to-ivory-100">
+                  <ShieldCheck className="w-10 h-10 text-jade-600 mx-auto mb-3" />
                   <h3 className="font-semibold text-xl text-slate-800 mb-2">
                     Unlock all {filteredGames.length} games
                   </h3>
@@ -184,10 +184,11 @@ function SearchContent() {
                   </p>
                   <Link
                     href="/signup"
-                    className="inline-block bg-teal-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-teal-700 transition-colors"
+                    className="inline-block bg-gradient-to-r from-jade-600 to-jade-700 text-white px-8 py-3 rounded-xl font-semibold hover:from-jade-700 hover:to-jade-800 transition-all"
                   >
-                    Start Free Trial — No Credit Card Required
+                    Start Free Trial
                   </Link>
+                  <p className="text-xs text-slate-400 mt-2">Credit card required &middot; Cancel anytime</p>
                 </div>
               )}
             </>

@@ -20,7 +20,7 @@ const faqs = [
   {
     category: "Account & Subscription",
     questions: [
-      { q: "Is there a free trial?", a: "Yes! When you sign up, you get 14 days of full access — no credit card required. You can see all game details, use the travel planner, save favorites, and more." },
+      { q: "Is there a free trial?", a: "Yes! When you sign up, you get 14 days of full access. A credit card is required to start, but you won't be charged until the trial ends. You can see all game details, use the travel planner, save favorites, and more." },
       { q: "How much does a subscription cost?", a: "We offer two plans: $4.99/month or $39.99/year (that's just $3.33/month — a 33% savings). Both give you full access to all features." },
       { q: "Can I cancel anytime?", a: "Yes, absolutely. No contracts, no cancellation fees. You can cancel anytime from your account settings or the Stripe customer portal. Your access continues until the end of your billing period." },
       { q: "What happens when my trial ends?", a: "If you don't subscribe, your account reverts to the free tier. You'll still be able to search and see that games exist, but the details will be blurred. You can subscribe at any time to regain full access." },
@@ -46,7 +46,7 @@ export default function FAQPage() {
       </h1>
       <p className="text-slate-500 mb-10">
         Everything you need to know about MahjNearMe. Can&apos;t find your answer?{" "}
-        <Link href="/contact" className="text-teal-600 hover:text-teal-700 font-medium">Contact us</Link>.
+        <Link href="/contact" className="text-jade-600 hover:text-jade-700 font-medium">Contact us</Link>.
       </p>
 
       <div className="space-y-10">
@@ -58,7 +58,7 @@ export default function FAQPage() {
             <div className="space-y-3">
               {category.questions.map((faq) => (
                 <details key={faq.q} className="bg-white border border-slate-200 rounded-xl group">
-                  <summary className="px-5 py-4 cursor-pointer font-medium text-slate-800 hover:text-teal-600 transition-colors list-none flex items-center justify-between">
+                  <summary className="px-5 py-4 cursor-pointer font-medium text-slate-800 hover:text-jade-600 transition-colors list-none flex items-center justify-between">
                     {faq.q}
                     <span className="text-slate-400 group-open:rotate-180 transition-transform">&#9662;</span>
                   </summary>

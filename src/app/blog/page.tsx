@@ -69,7 +69,7 @@ export default function BlogPage() {
             }`}
           >
             <div className="flex items-center gap-3 mb-3">
-              <span className="text-xs font-semibold text-teal-600 bg-teal-50 px-2.5 py-0.5 rounded-full">
+              <span className="text-xs font-semibold text-jade-600 bg-jade-50 px-2.5 py-0.5 rounded-full">
                 {post.category}
               </span>
               <span className="text-xs text-slate-400 flex items-center gap-1">
@@ -85,7 +85,7 @@ export default function BlogPage() {
             <p className={`text-slate-500 mb-4 ${i === 0 ? "" : "text-sm"}`}>
               {post.excerpt}
             </p>
-            <span className="inline-flex items-center gap-1 text-sm font-semibold text-teal-600 hover:text-teal-700 cursor-pointer">
+            <span className="inline-flex items-center gap-1 text-sm font-semibold text-jade-600 hover:text-jade-700 cursor-pointer">
               Read More <ArrowRight className="w-4 h-4" />
             </span>
           </article>

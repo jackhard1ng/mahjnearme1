@@ -140,8 +140,8 @@ function SidebarCta() {
   if (user && hasAccess) return null;
 
   return (
-    <div className="bg-gradient-to-br from-teal-50 to-white rounded-xl border border-teal-200 p-6 text-center">
-      <ShieldCheck className="w-10 h-10 text-teal-600 mx-auto mb-3" />
+    <div className="mahj-tile p-6 text-center bg-gradient-to-br from-ivory-50 via-jade-50 to-ivory-100">
+      <ShieldCheck className="w-10 h-10 text-jade-600 mx-auto mb-3" />
       <h3 className="font-semibold text-lg text-slate-800 mb-2">
         {user ? "Upgrade to see full details" : "Sign up to unlock everything"}
       </h3>
@@ -152,13 +152,13 @@ function SidebarCta() {
       </p>
       <Link
         href={user ? "/pricing" : "/signup"}
-        className="inline-block w-full bg-teal-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-teal-700 transition-colors"
+        className="inline-block w-full bg-gradient-to-r from-jade-600 to-jade-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-jade-700 hover:to-jade-800 transition-all"
       >
         {user ? "See Plans" : "Start Free Trial"}
       </Link>
       {!user && (
         <p className="text-xs text-slate-400 mt-2">
-          No credit card required
+          Credit card required &middot; Cancel anytime
         </p>
       )}
     </div>
@@ -171,9 +171,9 @@ function SidebarCta() {
 
 function BlurredOverlay() {
   return (
-    <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/70 backdrop-blur-sm rounded-xl">
+    <div className="absolute inset-0 z-10 flex items-center justify-center bg-ivory-100/70 backdrop-blur-sm rounded-xl">
       <div className="text-center px-8">
-        <Lock className="w-10 h-10 text-teal-600 mx-auto mb-3" />
+        <Lock className="w-10 h-10 text-jade-600 mx-auto mb-3" />
         <p className="font-semibold text-slate-800 text-lg mb-1">
           Sign up to see full details
         </p>
@@ -182,7 +182,7 @@ function BlurredOverlay() {
         </p>
         <Link
           href="/signup"
-          className="inline-block bg-teal-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-teal-700 transition-colors"
+          className="inline-block bg-jade-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-jade-700 transition-colors"
         >
           Start Free 14-Day Trial
         </Link>
@@ -241,20 +241,20 @@ export default function GameDetailPage() {
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-1.5 text-sm text-slate-500 mb-6 flex-wrap">
-          <Link href="/" className="hover:text-teal-600 transition-colors">
+          <Link href="/" className="hover:text-jade-600 transition-colors">
             Home
           </Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <Link
             href="/search"
-            className="hover:text-teal-600 transition-colors"
+            className="hover:text-jade-600 transition-colors"
           >
             Cities
           </Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <Link
             href={`/search?q=${encodeURIComponent(game.city)}`}
-            className="hover:text-teal-600 transition-colors"
+            className="hover:text-jade-600 transition-colors"
           >
             {game.city}, {game.state}
           </Link>
@@ -267,7 +267,7 @@ export default function GameDetailPage() {
         {/* Back link */}
         <Link
           href={`/search?q=${encodeURIComponent(game.city)}`}
-          className="inline-flex items-center gap-1.5 text-sm text-teal-600 hover:text-teal-700 font-medium mb-6 transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm text-jade-600 hover:text-jade-700 font-medium mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to {game.city} games
@@ -279,7 +279,7 @@ export default function GameDetailPage() {
           {/* ---------------------------------------------------------------- */}
           <div className="lg:col-span-2 space-y-6">
             {/* Header Card */}
-            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+            <div className="mahj-tile overflow-hidden">
               <div className="p-6">
                 {/* Badges row */}
                 <div className="flex items-center gap-2 flex-wrap mb-3">
@@ -346,9 +346,9 @@ export default function GameDetailPage() {
 
               <div className={!canSeeDetails && !loading ? "content-blur" : ""}>
                 {/* Location & Directions */}
-                <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
+                <div className="mahj-tile p-6 mb-6">
                   <h2 className="font-semibold text-lg text-slate-800 mb-4 flex items-center gap-2">
-                    <MapPin className="w-5 h-5 text-teal-600" />
+                    <MapPin className="w-5 h-5 text-jade-600" />
                     Location
                   </h2>
                   <p className="font-medium text-slate-800">
@@ -362,7 +362,7 @@ export default function GameDetailPage() {
                     href={googleMapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 mt-4 bg-teal-600 text-white px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-teal-700 transition-colors"
+                    className="inline-flex items-center gap-2 mt-4 bg-jade-600 text-white px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-jade-700 transition-colors"
                   >
                     <Navigation className="w-4 h-4" />
                     Get Directions
@@ -370,9 +370,9 @@ export default function GameDetailPage() {
                 </div>
 
                 {/* Schedule */}
-                <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
+                <div className="mahj-tile p-6 mb-6">
                   <h2 className="font-semibold text-lg text-slate-800 mb-4 flex items-center gap-2">
-                    <Clock className="w-5 h-5 text-teal-600" />
+                    <Clock className="w-5 h-5 text-jade-600" />
                     Schedule
                   </h2>
                   <p className="text-slate-700 font-medium">{schedule}</p>
@@ -391,18 +391,18 @@ export default function GameDetailPage() {
 
                 {/* Cost & Group Size */}
                 <div className="grid sm:grid-cols-2 gap-6 mb-6">
-                  <div className="bg-white rounded-xl border border-slate-200 p-6">
+                  <div className="mahj-tile p-6">
                     <h2 className="font-semibold text-lg text-slate-800 mb-3 flex items-center gap-2">
-                      <DollarSign className="w-5 h-5 text-teal-600" />
+                      <DollarSign className="w-5 h-5 text-jade-600" />
                       Cost
                     </h2>
                     <p className="text-2xl font-bold text-slate-900">
                       {game.cost}
                     </p>
                   </div>
-                  <div className="bg-white rounded-xl border border-slate-200 p-6">
+                  <div className="mahj-tile p-6">
                     <h2 className="font-semibold text-lg text-slate-800 mb-3 flex items-center gap-2">
-                      <Users className="w-5 h-5 text-teal-600" />
+                      <Users className="w-5 h-5 text-jade-600" />
                       Group Size
                     </h2>
                     <p className="text-2xl font-bold text-slate-900">
@@ -417,9 +417,9 @@ export default function GameDetailPage() {
                 </div>
 
                 {/* Description */}
-                <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
+                <div className="mahj-tile p-6 mb-6">
                   <h2 className="font-semibold text-lg text-slate-800 mb-3 flex items-center gap-2">
-                    <Info className="w-5 h-5 text-teal-600" />
+                    <Info className="w-5 h-5 text-jade-600" />
                     About This Game
                   </h2>
                   <p className="text-slate-600 leading-relaxed whitespace-pre-line">
@@ -429,9 +429,9 @@ export default function GameDetailPage() {
 
                 {/* How to Join */}
                 {game.howToJoin && (
-                  <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
+                  <div className="mahj-tile p-6 mb-6">
                     <h2 className="font-semibold text-lg text-slate-800 mb-3 flex items-center gap-2">
-                      <BookOpen className="w-5 h-5 text-teal-600" />
+                      <BookOpen className="w-5 h-5 text-jade-600" />
                       How to Join
                     </h2>
                     <p className="text-slate-600 leading-relaxed">
@@ -442,7 +442,7 @@ export default function GameDetailPage() {
                         href={game.registrationLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 mt-4 text-teal-600 hover:text-teal-700 font-medium text-sm transition-colors"
+                        className="inline-flex items-center gap-2 mt-4 text-jade-600 hover:text-jade-700 font-medium text-sm transition-colors"
                       >
                         <ExternalLink className="w-4 h-4" />
                         Register Online
@@ -453,9 +453,9 @@ export default function GameDetailPage() {
 
                 {/* What to Bring */}
                 {game.whatToBring && (
-                  <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
+                  <div className="mahj-tile p-6 mb-6">
                     <h2 className="font-semibold text-lg text-slate-800 mb-3 flex items-center gap-2">
-                      <Briefcase className="w-5 h-5 text-teal-600" />
+                      <Briefcase className="w-5 h-5 text-jade-600" />
                       What to Bring
                     </h2>
                     <p className="text-slate-600 leading-relaxed">
@@ -465,9 +465,9 @@ export default function GameDetailPage() {
                 )}
 
                 {/* Contact Info */}
-                <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
+                <div className="mahj-tile p-6 mb-6">
                   <h2 className="font-semibold text-lg text-slate-800 mb-4 flex items-center gap-2">
-                    <Mail className="w-5 h-5 text-teal-600" />
+                    <Mail className="w-5 h-5 text-jade-600" />
                     Contact Information
                   </h2>
                   <div className="space-y-3">
@@ -480,7 +480,7 @@ export default function GameDetailPage() {
                     {game.contactEmail && (
                       <a
                         href={`mailto:${game.contactEmail}`}
-                        className="flex items-center gap-2 text-teal-600 hover:text-teal-700 transition-colors"
+                        className="flex items-center gap-2 text-jade-600 hover:text-jade-700 transition-colors"
                       >
                         <Mail className="w-4 h-4" />
                         {game.contactEmail}
@@ -489,7 +489,7 @@ export default function GameDetailPage() {
                     {game.contactPhone && (
                       <a
                         href={`tel:${game.contactPhone}`}
-                        className="flex items-center gap-2 text-teal-600 hover:text-teal-700 transition-colors"
+                        className="flex items-center gap-2 text-jade-600 hover:text-jade-700 transition-colors"
                       >
                         <Phone className="w-4 h-4" />
                         {game.contactPhone}
@@ -500,7 +500,7 @@ export default function GameDetailPage() {
                         href={game.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-teal-600 hover:text-teal-700 transition-colors"
+                        className="flex items-center gap-2 text-jade-600 hover:text-jade-700 transition-colors"
                       >
                         <Globe className="w-4 h-4" />
                         {game.website}
@@ -511,7 +511,7 @@ export default function GameDetailPage() {
                         href={`https://instagram.com/${game.instagram.replace("@", "")}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-teal-600 hover:text-teal-700 transition-colors"
+                        className="flex items-center gap-2 text-jade-600 hover:text-jade-700 transition-colors"
                       >
                         <Instagram className="w-4 h-4" />
                         {game.instagram}
@@ -522,7 +522,7 @@ export default function GameDetailPage() {
                         href={game.facebookGroup}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-teal-600 hover:text-teal-700 transition-colors"
+                        className="flex items-center gap-2 text-jade-600 hover:text-jade-700 transition-colors"
                       >
                         <Facebook className="w-4 h-4" />
                         Facebook Group
@@ -532,9 +532,9 @@ export default function GameDetailPage() {
                 </div>
 
                 {/* Sets Provided */}
-                <div className="bg-white rounded-xl border border-slate-200 p-6">
+                <div className="mahj-tile p-6">
                   <h2 className="font-semibold text-lg text-slate-800 mb-3 flex items-center gap-2">
-                    <Package className="w-5 h-5 text-teal-600" />
+                    <Package className="w-5 h-5 text-jade-600" />
                     Equipment
                   </h2>
                   {game.setsProvided ? (
@@ -559,7 +559,7 @@ export default function GameDetailPage() {
           {/* ---------------------------------------------------------------- */}
           <div className="space-y-6">
             {/* Quick Info Card (always visible) */}
-            <div className="bg-white rounded-xl border border-slate-200 p-6">
+            <div className="mahj-tile p-6">
               <h2 className="font-semibold text-slate-800 mb-4">
                 Quick Info
               </h2>
@@ -612,7 +612,7 @@ export default function GameDetailPage() {
             <SidebarCta />
 
             {/* Share (placeholder) */}
-            <div className="bg-white rounded-xl border border-slate-200 p-6 text-center">
+            <div className="mahj-tile p-6 text-center">
               <p className="text-sm font-medium text-slate-700 mb-2">
                 Know someone who&apos;d love this game?
               </p>
@@ -629,7 +629,7 @@ export default function GameDetailPage() {
                     alert("Link copied to clipboard!");
                   }
                 }}
-                className="text-sm text-teal-600 hover:text-teal-700 font-medium transition-colors"
+                className="text-sm text-jade-600 hover:text-jade-700 font-medium transition-colors"
               >
                 Share this game
               </button>

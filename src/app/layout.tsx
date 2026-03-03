@@ -58,7 +58,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-[family-name:var(--font-sans)] text-slate-800 bg-white antialiased">
+      <body className="font-[family-name:var(--font-sans)] text-slate-800 bg-ivory-50 antialiased">
         <AuthProvider>
           <Header />
           <main className="min-h-screen">{children}</main>

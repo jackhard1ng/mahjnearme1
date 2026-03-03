@@ -49,7 +49,7 @@ export default function TravelPlannerPage() {
         </p>
         <Link
           href="/signup"
-          className="inline-block bg-teal-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-teal-700 transition-colors"
+          className="inline-block bg-jade-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-jade-700 transition-colors"
         >
           Start Your 14-Day Free Trial
         </Link>
@@ -60,7 +60,7 @@ export default function TravelPlannerPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
       <div className="flex items-center gap-3 mb-2">
-        <Plane className="w-7 h-7 text-teal-600" />
+        <Plane className="w-7 h-7 text-jade-600" />
         <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-slate-900">
           Travel Planner
         </h1>
@@ -73,7 +73,7 @@ export default function TravelPlannerPage() {
         <div className="grid sm:grid-cols-3 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-1.5">
-              <MapPin className="w-4 h-4 text-teal-600" /> Destination City
+              <MapPin className="w-4 h-4 text-jade-600" /> Destination City
             </label>
             <input
               type="text"
@@ -85,7 +85,7 @@ export default function TravelPlannerPage() {
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-1.5">
-              <Calendar className="w-4 h-4 text-teal-600" /> Arriving
+              <Calendar className="w-4 h-4 text-jade-600" /> Arriving
             </label>
             <input
               type="date"
@@ -96,7 +96,7 @@ export default function TravelPlannerPage() {
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-1.5">
-              <Calendar className="w-4 h-4 text-teal-600" /> Departing
+              <Calendar className="w-4 h-4 text-jade-600" /> Departing
             </label>
             <input
               type="date"
@@ -108,7 +108,7 @@ export default function TravelPlannerPage() {
         </div>
         <button
           onClick={() => setSearched(true)}
-          className="flex items-center gap-2 bg-teal-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-teal-700 transition-colors"
+          className="flex items-center gap-2 bg-jade-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-jade-700 transition-colors"
         >
           <Search className="w-4 h-4" /> Find Games During My Trip
         </button>
