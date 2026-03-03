@@ -143,24 +143,19 @@ function SidebarCta() {
     <div className="card-white p-6 text-center">
       <ShieldCheck className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
       <h3 className="font-semibold text-lg text-charcoal mb-2">
-        {user ? "Upgrade to see full details" : "Sign up to unlock everything"}
+        {user ? "Subscribe to see full details" : "Sign up to unlock everything"}
       </h3>
       <p className="text-slate-500 text-sm mb-4">
         {user
-          ? "Your trial may have expired. Subscribe to access contact info, directions, and more."
-          : "Start your free 14-day trial to see contact info, exact addresses, directions, and more."}
+          ? "Upgrade to access contact info, exact addresses, directions, and more."
+          : "Create a free account, then subscribe to see contact info, exact addresses, directions, and more."}
       </p>
       <Link
-        href={user ? "/pricing" : "/signup"}
+        href="/pricing"
         className="inline-block w-full bg-gradient-to-r from-hotpink-500 to-hotpink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-hotpink-600 hover:to-hotpink-700 transition-all"
       >
-        {user ? "See Plans" : "Start Free Trial"}
+        View Plans
       </Link>
-      {!user && (
-        <p className="text-xs text-slate-400 mt-2">
-          Credit card required &middot; Cancel anytime
-        </p>
-      )}
     </div>
   );
 }
@@ -171,20 +166,20 @@ function SidebarCta() {
 
 function BlurredOverlay() {
   return (
-    <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-xl">
+    <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/90 backdrop-blur-md rounded-xl">
       <div className="text-center px-8">
         <Lock className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
         <p className="font-semibold text-charcoal text-lg mb-1">
-          Sign up to see full details
+          Subscribe to see full details
         </p>
         <p className="text-sm text-slate-500 mb-4">
           Contact info, exact address, directions, and more
         </p>
         <Link
-          href="/signup"
+          href="/pricing"
           className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
         >
-          Start Free 14-Day Trial
+          View Plans
         </Link>
       </div>
     </div>
@@ -558,7 +553,7 @@ export default function GameDetailPage() {
           {/* Sidebar                                                          */}
           {/* ---------------------------------------------------------------- */}
           <div className="space-y-6">
-            {/* Quick Info Card (always visible) */}
+            {/* Quick Info Card */}
             <div className="mahj-tile p-6">
               <h2 className="font-semibold text-charcoal mb-4">
                 Quick Info
@@ -575,21 +570,27 @@ export default function GameDetailPage() {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Clock className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
-                  <p className="text-sm text-slate-700">{schedule}</p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <DollarSign className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
-                  <p className="text-sm text-slate-700">{game.cost}</p>
-                </div>
-                {game.typicalGroupSize && (
-                  <div className="flex items-start gap-3">
-                    <Users className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
-                    <p className="text-sm text-slate-700">
-                      {game.typicalGroupSize}
-                    </p>
-                  </div>
+                {canSeeDetails ? (
+                  <>
+                    <div className="flex items-start gap-3">
+                      <Clock className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
+                      <p className="text-sm text-slate-700">{schedule}</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <DollarSign className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
+                      <p className="text-sm text-slate-700">{game.cost}</p>
+                    </div>
+                    {game.typicalGroupSize && (
+                      <div className="flex items-start gap-3">
+                        <Users className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
+                        <p className="text-sm text-slate-700">
+                          {game.typicalGroupSize}
+                        </p>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-xs text-slate-400 italic">Subscribe to see schedule, cost, and more</p>
                 )}
               </div>
             </div>

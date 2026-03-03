@@ -22,6 +22,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, displayName: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
+  updateUserProfile: (updates: Partial<UserProfile>) => void;
   hasAccess: boolean;
   isAdmin: boolean;
 }
@@ -95,6 +96,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await firebaseSignOut(auth);
   };
 
+  const updateUserProfile = (updates: Partial<UserProfile>) => {
+    setUserProfile((prev) => prev ? { ...prev, ...updates } : prev);
+  };
+
   const hasAccess =
     userProfile?.accountType === "admin" ||
     userProfile?.accountType === "subscriber" ||
@@ -114,6 +119,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signUp,
         signInWithGoogle,
         signOut,
+        updateUserProfile,
         hasAccess,
         isAdmin,
       }}

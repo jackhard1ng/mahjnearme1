@@ -2,7 +2,7 @@ import Link from "next/link";
 import { mockGames, getCitiesWithGames } from "@/lib/mock-data";
 import { slugify, getGameTypeLabel, getGameTypeColor, getStateName } from "@/lib/utils";
 import { SKILL_LEVEL_LABELS } from "@/lib/constants";
-import { MapPin, Calendar, Users, ArrowRight, ChevronRight } from "lucide-react";
+import { MapPin, Users, ArrowRight, ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
 
 interface Props {
@@ -74,7 +74,7 @@ export default async function CityPage({ params }: Props) {
         </p>
       </div>
 
-      {/* Game Cards (teaser/SEO content) */}
+      {/* Game Cards (teaser/SEO content — limited details for non-subscribers) */}
       <div className="grid md:grid-cols-2 gap-4 mb-10">
         {games.map((game) => (
           <div key={game.id} className="mahj-tile p-5">
@@ -90,7 +90,6 @@ export default async function CityPage({ params }: Props) {
             </div>
 
             <h3 className="font-semibold text-lg text-charcoal mb-1">{game.name}</h3>
-            <p className="text-sm text-slate-500 mb-3">{game.organizerName}</p>
 
             <div className="space-y-1.5 mb-3">
               <div className="flex items-center gap-2 text-sm text-slate-600">
@@ -98,16 +97,10 @@ export default async function CityPage({ params }: Props) {
                 <span>{game.generalArea}</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-slate-600">
-                <Calendar className="w-4 h-4 text-slate-400" />
-                <span>{game.isRecurring && game.recurringSchedule ? `${game.recurringSchedule.dayOfWeek.charAt(0).toUpperCase() + game.recurringSchedule.dayOfWeek.slice(1)}s` : "See details"}</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-slate-600">
                 <Users className="w-4 h-4 text-slate-400" />
                 <span>{game.skillLevels.map((s) => SKILL_LEVEL_LABELS[s]).join(", ")}</span>
               </div>
             </div>
-
-            <p className="text-sm text-slate-500 line-clamp-2 mb-4">{game.description}</p>
 
             <Link
               href={`/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`}
@@ -119,19 +112,19 @@ export default async function CityPage({ params }: Props) {
         ))}
       </div>
 
-      {/* Signup CTA */}
+      {/* Subscribe CTA */}
       <div className="bg-gradient-to-br from-hotpink-50 to-skyblue-50 rounded-xl border border-hotpink-200 p-8 text-center mb-10">
         <h2 className="font-semibold text-xl text-charcoal mb-2">
           Want full details on every game?
         </h2>
         <p className="text-slate-500 mb-4 text-sm">
-          Get exact addresses, contact info, schedules, and directions with a free trial.
+          Subscribe to get exact addresses, contact info, schedules, and directions.
         </p>
         <Link
-          href="/signup"
+          href="/pricing"
           className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
         >
-          Start Your 14-Day Free Trial
+          View Plans
         </Link>
       </div>
 
