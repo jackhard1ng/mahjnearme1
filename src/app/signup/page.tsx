@@ -244,7 +244,7 @@ export default function SignupPage() {
                         className={`w-full flex items-start gap-4 p-4 rounded-xl border-2 text-left transition-all ${
                           isSelected
                             ? "border-hotpink-500 bg-softpink-100 ring-1 ring-hotpink-500"
-                            : "border-lavender-200 hover:border-lavender-300 hover:bg-skyblue-100"
+                            : "border-skyblue-300 hover:border-skyblue-300 hover:bg-skyblue-100"
                         }`}
                       >
                         <div
@@ -291,7 +291,7 @@ export default function SignupPage() {
                         className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 text-left transition-all ${
                           isSelected
                             ? "border-hotpink-500 bg-softpink-100 ring-1 ring-hotpink-500"
-                            : "border-lavender-200 hover:border-lavender-300 hover:bg-skyblue-100"
+                            : "border-skyblue-300 hover:border-skyblue-300 hover:bg-skyblue-100"
                         }`}
                       >
                         <div className="flex-1 min-w-0">
@@ -333,7 +333,7 @@ export default function SignupPage() {
                       value={homeCity}
                       onChange={(e) => setHomeCity(e.target.value)}
                       placeholder="e.g., Nashville, TN"
-                      className="w-full pl-11 pr-4 py-3 border border-lavender-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
+                      className="w-full pl-11 pr-4 py-3 border border-skyblue-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
                     />
                   </div>
                   <p className="text-xs text-slate-400 mt-2">
@@ -364,7 +364,7 @@ export default function SignupPage() {
                       value={travelCities}
                       onChange={(e) => setTravelCities(e.target.value)}
                       placeholder="e.g., Miami, Denver, Phoenix"
-                      className="w-full pl-11 pr-4 py-3 border border-lavender-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
+                      className="w-full pl-11 pr-4 py-3 border border-skyblue-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
                     />
                   </div>
                   <p className="text-xs text-slate-400 mt-2">
@@ -447,7 +447,7 @@ export default function SignupPage() {
           <button
             onClick={handleGoogleSignup}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 bg-lavender-100 border border-lavender-300 rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-skyblue-100 hover:border-slate-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-3 bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-skyblue-100 hover:border-slate-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -493,7 +493,7 @@ export default function SignupPage() {
                   placeholder="Your name"
                   required
                   autoComplete="name"
-                  className="w-full pl-11 pr-4 py-3 border border-lavender-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
+                  className="w-full pl-11 pr-4 py-3 border border-skyblue-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
                 />
               </div>
             </div>
@@ -512,7 +512,7 @@ export default function SignupPage() {
                   placeholder="you@example.com"
                   required
                   autoComplete="email"
-                  className="w-full pl-11 pr-4 py-3 border border-lavender-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
+                  className="w-full pl-11 pr-4 py-3 border border-skyblue-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
                 />
               </div>
             </div>
@@ -532,7 +532,7 @@ export default function SignupPage() {
                   required
                   minLength={6}
                   autoComplete="new-password"
-                  className="w-full pl-11 pr-12 py-3 border border-lavender-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
+                  className="w-full pl-11 pr-12 py-3 border border-skyblue-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
                 />
                 <button
                   type="button"

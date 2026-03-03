@@ -15,10 +15,10 @@ export default function AboutPage() {
       </h1>
 
       <div className="prose prose-slate max-w-none">
-        <div className="bg-gradient-to-br from-softpink-100 to-lavender-100 rounded-2xl p-8 border border-mint-200 mb-10">
+        <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mb-10">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-mint-200 rounded-full flex items-center justify-center shrink-0">
-              <span className="text-2xl font-bold text-mint-600">J</span>
+            <div className="w-16 h-16 bg-hotpink-100 rounded-full flex items-center justify-center shrink-0">
+              <span className="text-2xl font-bold text-hotpink-600">J</span>
             </div>
             <div>
               <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal mb-0">The Story</h2>

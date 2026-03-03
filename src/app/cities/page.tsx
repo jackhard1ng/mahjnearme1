@@ -30,7 +30,7 @@ export default function CitiesIndexPage() {
           <Link
             key={s.state}
             href={`/states/${slugify(s.stateName)}`}
-            className="flex items-center justify-between bg-lavender-100 border border-lavender-200 rounded-xl p-4 hover:border-hotpink-300 hover:shadow-sm transition-all"
+            className="flex items-center justify-between bg-white border border-slate-200 rounded-xl p-4 hover:border-hotpink-300 hover:shadow-sm transition-all"
           >
             <div>
               <h3 className="font-semibold text-charcoal">{s.stateName}</h3>
@@ -50,7 +50,7 @@ export default function CitiesIndexPage() {
           <Link
             key={`${c.city}-${c.state}`}
             href={`/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`}
-            className="flex items-center justify-between bg-lavender-100 border border-lavender-200 rounded-lg px-4 py-3 hover:border-hotpink-300 transition-all text-sm"
+            className="flex items-center justify-between bg-white border border-slate-200 rounded-lg px-4 py-3 hover:border-hotpink-300 transition-all text-sm"
           >
             <span className="font-medium text-slate-700">{c.city}, {c.state}</span>
             <span className="text-hotpink-500 font-semibold">{c.count}</span>

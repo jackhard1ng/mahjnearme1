@@ -8,13 +8,12 @@ export const ANNUAL_PRICE = 39.99;
 export const TRIAL_DAYS = 14;
 
 export const COLORS = {
-  primary: "#0D9488",
-  secondary: "#F97316",
-  accent: "#EAB308",
+  primary: "#FF1493",
+  secondary: "#87CEEB",
   background: "#FFFFFF",
-  backgroundAlt: "#F9FAFB",
-  text: "#1E293B",
-  success: "#22C55E",
+  backgroundAlt: "#FFF0F5",
+  text: "#333333",
+  navy: "#1E2A3A",
 };
 
 export const GAME_TYPE_LABELS: Record<string, string> = {
@@ -28,8 +27,8 @@ export const GAME_TYPE_LABELS: Record<string, string> = {
 export const GAME_TYPE_COLORS: Record<string, string> = {
   open_play: "bg-hotpink-500",
   lesson: "bg-skyblue-400",
-  league: "bg-gold-500",
-  event: "bg-lavender-400",
+  league: "bg-hotpink-400",
+  event: "bg-skyblue-500",
   private: "bg-slate-400",
 };
 
@@ -47,9 +46,9 @@ export const SKILL_LEVEL_LABELS: Record<string, string> = {
 };
 
 export const SKILL_LEVEL_COLORS: Record<string, string> = {
-  beginner: "bg-skyblue-200 text-mint-600",
-  intermediate: "bg-skyblue-200 text-hotpink-600",
-  advanced: "bg-skyblue-200 text-charcoal",
+  beginner: "bg-skyblue-100 text-skyblue-600",
+  intermediate: "bg-hotpink-100 text-hotpink-600",
+  advanced: "bg-slate-100 text-charcoal",
 };
 
 export const DAYS_OF_WEEK = [

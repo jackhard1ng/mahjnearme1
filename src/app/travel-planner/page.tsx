@@ -69,7 +69,7 @@ export default function TravelPlannerPage() {
         Traveling? Find games happening during your trip dates.
       </p>
 
-      <div className="bg-lavender-100 border border-lavender-200 rounded-xl p-6 mb-8">
+      <div className="bg-white border border-slate-200 rounded-xl p-6 mb-8">
         <div className="grid sm:grid-cols-3 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-1.5">
@@ -80,7 +80,7 @@ export default function TravelPlannerPage() {
               value={city}
               onChange={(e) => setCity(e.target.value)}
               placeholder="e.g., Nashville"
-              className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm"
+              className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm"
             />
           </div>
           <div>
@@ -91,7 +91,7 @@ export default function TravelPlannerPage() {
               type="date"
               value={dateFrom}
               onChange={(e) => setDateFrom(e.target.value)}
-              className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm"
+              className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm"
             />
           </div>
           <div>
@@ -102,7 +102,7 @@ export default function TravelPlannerPage() {
               type="date"
               value={dateTo}
               onChange={(e) => setDateTo(e.target.value)}
-              className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm"
+              className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm"
             />
           </div>
         </div>

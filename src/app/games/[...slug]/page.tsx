@@ -140,7 +140,7 @@ function SidebarCta() {
   if (user && hasAccess) return null;
 
   return (
-    <div className="mahj-tile-pink p-6 text-center">
+    <div className="card-white p-6 text-center">
       <ShieldCheck className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
       <h3 className="font-semibold text-lg text-charcoal mb-2">
         {user ? "Upgrade to see full details" : "Sign up to unlock everything"}
@@ -171,7 +171,7 @@ function SidebarCta() {
 
 function BlurredOverlay() {
   return (
-    <div className="absolute inset-0 z-10 flex items-center justify-center bg-softpink-200/70 backdrop-blur-sm rounded-xl">
+    <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-xl">
       <div className="text-center px-8">
         <Lock className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
         <p className="font-semibold text-charcoal text-lg mb-1">
@@ -297,7 +297,7 @@ export default function GameDetailPage() {
                     </span>
                   ))}
                   {game.dropInFriendly && (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-mint-200 text-mint-600 border border-mint-300">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-skyblue-100 text-skyblue-600">
                       Drop-in Friendly
                     </span>
                   )}
@@ -538,7 +538,7 @@ export default function GameDetailPage() {
                     Equipment
                   </h2>
                   {game.setsProvided ? (
-                    <div className="flex items-center gap-2 text-mint-600">
+                    <div className="flex items-center gap-2 text-hotpink-600">
                       <CheckCircle className="w-5 h-5" />
                       <span className="font-medium">
                         Mahjong sets are provided

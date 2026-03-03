@@ -79,21 +79,21 @@ export default function OrganizerDashboardPage() {
 
       {/* Verification Status Banner */}
       {isVerifiedOrganizer ? (
-        <div className="bg-mint-100 border border-mint-300 rounded-xl p-4 mb-8 flex items-center gap-3">
-          <ShieldCheck className="w-6 h-6 text-mint-500 shrink-0" />
+        <div className="bg-skyblue-100 border border-hotpink-200 rounded-xl p-4 mb-8 flex items-center gap-3">
+          <ShieldCheck className="w-6 h-6 text-hotpink-500 shrink-0" />
           <div>
-            <p className="font-semibold text-mint-600 text-sm">Verified Organizer</p>
-            <p className="text-mint-600 text-xs mt-0.5">
+            <p className="font-semibold text-hotpink-600 text-sm">Verified Organizer</p>
+            <p className="text-hotpink-600 text-xs mt-0.5">
               You can post and edit listings freely. Listings you post from MahjNearMe are automatically featured and shown first in search results.
             </p>
           </div>
         </div>
       ) : (
-        <div className="bg-gold-100 border border-gold-200 rounded-xl p-4 mb-8 flex items-center gap-3">
-          <XCircle className="w-6 h-6 text-gold-600 shrink-0" />
+        <div className="bg-skyblue-100 border border-skyblue-200 rounded-xl p-4 mb-8 flex items-center gap-3">
+          <XCircle className="w-6 h-6 text-skyblue-600 shrink-0" />
           <div>
-            <p className="font-semibold text-gold-800 text-sm">Pending Verification</p>
-            <p className="text-gold-700 text-xs mt-0.5">
+            <p className="font-semibold text-skyblue-800 text-sm">Pending Verification</p>
+            <p className="text-skyblue-700 text-xs mt-0.5">
               Your organizer account is awaiting admin verification. Once verified, you&apos;ll be able to post and manage listings directly.
             </p>
           </div>
@@ -106,9 +106,9 @@ export default function OrganizerDashboardPage() {
           { label: "Total Views", value: "142", icon: Eye, color: "text-hotpink-500" },
           { label: "Click-throughs", value: "38", icon: TrendingUp, color: "text-hotpink-400" },
           { label: "Active Listings", value: "1", icon: LayoutDashboard, color: "text-skyblue-500" },
-          { label: "Reviews", value: "3", icon: MessageSquare, color: "text-gold-500" },
+          { label: "Reviews", value: "3", icon: MessageSquare, color: "text-skyblue-500" },
         ].map((stat) => (
-          <div key={stat.label} className="bg-lavender-100 border border-lavender-200 rounded-xl p-5">
+          <div key={stat.label} className="bg-white border border-slate-200 rounded-xl p-5">
             <div className="flex items-center justify-between mb-2">
               <stat.icon className={`w-5 h-5 ${stat.color}`} />
               <BarChart3 className="w-4 h-4 text-slate-300" />
@@ -123,7 +123,7 @@ export default function OrganizerDashboardPage() {
       <h2 className="font-semibold text-xl text-charcoal mb-4">Your Listings</h2>
       <div className="space-y-4">
         {listings.map((listing) => (
-          <div key={listing.id} className="bg-lavender-100 border border-lavender-200 rounded-xl p-5">
+          <div key={listing.id} className="bg-white border border-slate-200 rounded-xl p-5">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-semibold text-lg text-charcoal">{listing.name}</h3>
@@ -131,16 +131,16 @@ export default function OrganizerDashboardPage() {
               </div>
               <div className="flex items-center gap-3">
                 {listing.verified ? (
-                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-mint-600 bg-mint-100 border border-mint-300 rounded-full px-3 py-1">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-hotpink-600 bg-skyblue-100 border border-hotpink-200 rounded-full px-3 py-1">
                     <CheckCircle className="w-3.5 h-3.5" /> Verified
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 bg-lavender-100 border border-lavender-200 rounded-full px-3 py-1">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 bg-white border border-slate-200 rounded-full px-3 py-1">
                     <XCircle className="w-3.5 h-3.5" /> Unverified
                   </span>
                 )}
                 {listing.promoted && (
-                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-gold-600 bg-gold-100 border border-gold-200 rounded-full px-3 py-1">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-skyblue-600 bg-skyblue-100 border border-skyblue-200 rounded-full px-3 py-1">
                     <Star className="w-3.5 h-3.5" /> Featured
                   </span>
                 )}
@@ -149,7 +149,7 @@ export default function OrganizerDashboardPage() {
                 </button>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-lavender-100">
+            <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-white">
               <div>
                 <p className="text-sm text-slate-500">Views (30d)</p>
                 <p className="text-lg font-semibold text-charcoal">{listing.views}</p>
@@ -160,7 +160,7 @@ export default function OrganizerDashboardPage() {
               </div>
               <div>
                 <p className="text-sm text-slate-500">Status</p>
-                <p className="text-lg font-semibold text-mint-500 capitalize">{listing.status}</p>
+                <p className="text-lg font-semibold text-hotpink-500 capitalize">{listing.status}</p>
               </div>
             </div>
             <div className="mt-4 flex gap-3">
@@ -180,13 +180,13 @@ export default function OrganizerDashboardPage() {
           { user: "Carol S.", rating: 5, comment: "Love the venue and the vibe. Will definitely come back!", date: "1 week ago" },
           { user: "Barbara T.", rating: 4, comment: "Fun group but gets a little crowded. Arrive early for a seat!", date: "2 weeks ago" },
         ].map((review, i) => (
-          <div key={i} className="bg-lavender-100 border border-lavender-200 rounded-lg p-4">
+          <div key={i} className="bg-white border border-slate-200 rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <span className="font-medium text-charcoal text-sm">{review.user}</span>
                 <div className="flex">
                   {Array.from({ length: review.rating }).map((_, j) => (
-                    <span key={j} className="text-gold-500 text-sm">&#9733;</span>
+                    <span key={j} className="text-skyblue-500 text-sm">&#9733;</span>
                   ))}
                 </div>
               </div>

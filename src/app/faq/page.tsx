@@ -57,7 +57,7 @@ export default function FAQPage() {
             </h2>
             <div className="space-y-3">
               {category.questions.map((faq) => (
-                <details key={faq.q} className="bg-lavender-100 border border-lavender-200 rounded-xl group">
+                <details key={faq.q} className="bg-white border border-slate-200 rounded-xl group">
                   <summary className="px-5 py-4 cursor-pointer font-medium text-charcoal hover:text-hotpink-500 transition-colors list-none flex items-center justify-between">
                     {faq.q}
                     <span className="text-slate-400 group-open:rotate-180 transition-transform">&#9662;</span>

@@ -53,11 +53,11 @@ export default function Header() {
                 </button>
 
                 {userMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-56 bg-lavender-100 rounded-lg shadow-lg border border-lavender-300 py-2 z-50">
+                  <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-lg shadow-lg border border-slate-200 py-2 z-50">
                     <Link
                       href="/account"
                       onClick={() => setUserMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-2 text-sm text-charcoal hover:bg-softpink-200"
+                      className="flex items-center gap-3 px-4 py-2 text-sm text-charcoal hover:bg-hotpink-50"
                     >
                       <Settings className="w-4 h-4" />
                       Account Settings
@@ -66,7 +66,7 @@ export default function Header() {
                       <Link
                         href="/organizer"
                         onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-charcoal hover:bg-softpink-200"
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-charcoal hover:bg-hotpink-50"
                       >
                         <LayoutDashboard className="w-4 h-4" />
                         Organizer Dashboard
@@ -76,19 +76,19 @@ export default function Header() {
                       <Link
                         href="/admin"
                         onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-charcoal hover:bg-softpink-200"
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-charcoal hover:bg-hotpink-50"
                       >
                         <LayoutDashboard className="w-4 h-4" />
                         Admin Panel
                       </Link>
                     )}
-                    <hr className="my-2 border-lavender-300" />
+                    <hr className="my-2 border-slate-200" />
                     <button
                       onClick={() => {
                         signOut();
                         setUserMenuOpen(false);
                       }}
-                      className="flex items-center gap-3 px-4 py-2 text-sm text-hotpink-700 hover:bg-hotpink-50 w-full"
+                      className="flex items-center gap-3 px-4 py-2 text-sm text-hotpink-600 hover:bg-hotpink-50 w-full"
                     >
                       <LogOut className="w-4 h-4" />
                       Sign Out
@@ -103,7 +103,7 @@ export default function Header() {
                 </Link>
                 <Link
                   href="/signup"
-                  className="bg-white text-hotpink-500 px-4 py-2 rounded-lg text-sm font-bold hover:bg-skyblue-200 hover:text-hotpink-700 transition-all shadow-sm"
+                  className="bg-white text-hotpink-500 px-4 py-2 rounded-lg text-sm font-bold hover:bg-skyblue-100 hover:text-hotpink-700 transition-all shadow-sm"
                 >
                   Start Free Trial
                 </Link>
@@ -166,7 +166,7 @@ export default function Header() {
                     signOut();
                     setMobileMenuOpen(false);
                   }}
-                  className="block px-3 py-2 text-softpink-200 hover:bg-white/10 rounded-lg font-medium w-full text-left"
+                  className="block px-3 py-2 text-white/80 hover:bg-white/10 rounded-lg font-medium w-full text-left"
                 >
                   Sign Out
                 </button>

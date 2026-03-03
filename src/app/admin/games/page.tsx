@@ -107,7 +107,7 @@ export default function AdminGamesPage() {
           <button
             onClick={() => setView("csv")}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              view === "csv" ? "bg-hotpink-500 text-white" : "bg-lavender-100 border border-lavender-200 text-slate-700 hover:bg-skyblue-100"
+              view === "csv" ? "bg-hotpink-500 text-white" : "bg-white border border-slate-200 text-slate-700 hover:bg-skyblue-100"
             }`}
           >
             <Upload className="w-4 h-4" /> CSV Upload
@@ -125,7 +125,7 @@ export default function AdminGamesPage() {
 
       {/* CSV Upload View */}
       {view === "csv" && (
-        <div className="bg-lavender-100 border border-lavender-200 rounded-xl p-6 mb-8">
+        <div className="bg-white border border-slate-200 rounded-xl p-6 mb-8">
           <h2 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
             <FileSpreadsheet className="w-5 h-5 text-hotpink-500" />
             CSV Bulk Upload
@@ -154,7 +154,7 @@ export default function AdminGamesPage() {
           {/* Upload Area */}
           <div
             onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed border-lavender-300 rounded-xl p-8 text-center cursor-pointer hover:border-hotpink-400 transition-colors"
+            className="border-2 border-dashed border-skyblue-300 rounded-xl p-8 text-center cursor-pointer hover:border-hotpink-400 transition-colors"
           >
             <Upload className="w-10 h-10 text-slate-400 mx-auto mb-3" />
             <p className="text-sm text-slate-600 font-medium">Click to upload or drag and drop</p>
@@ -194,7 +194,7 @@ export default function AdminGamesPage() {
                 </div>
               )}
 
-              <div className="overflow-x-auto border border-lavender-200 rounded-lg">
+              <div className="overflow-x-auto border border-slate-200 rounded-lg">
                 <table className="w-full text-sm">
                   <thead className="bg-skyblue-50">
                     <tr>
@@ -237,70 +237,70 @@ export default function AdminGamesPage() {
 
       {/* Quick Add Form */}
       {view === "add" && (
-        <div className="bg-lavender-100 border border-lavender-200 rounded-xl p-6 mb-8">
+        <div className="bg-white border border-slate-200 rounded-xl p-6 mb-8">
           <h2 className="font-semibold text-lg text-charcoal mb-4">Quick Add Game</h2>
           <div className="grid sm:grid-cols-2 gap-4 mb-4">
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Name *</label>
-              <input type="text" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm" />
+              <input type="text" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Organizer *</label>
-              <input type="text" value={form.organizerName} onChange={(e) => setForm({...form, organizerName: e.target.value})} className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm" />
+              <input type="text" value={form.organizerName} onChange={(e) => setForm({...form, organizerName: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">City *</label>
-              <input type="text" value={form.city} onChange={(e) => setForm({...form, city: e.target.value})} className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm" />
+              <input type="text" value={form.city} onChange={(e) => setForm({...form, city: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">State *</label>
-              <input type="text" value={form.state} onChange={(e) => setForm({...form, state: e.target.value})} className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm" />
+              <input type="text" value={form.state} onChange={(e) => setForm({...form, state: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Venue Name</label>
-              <input type="text" value={form.venueName} onChange={(e) => setForm({...form, venueName: e.target.value})} className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm" />
+              <input type="text" value={form.venueName} onChange={(e) => setForm({...form, venueName: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Address</label>
-              <input type="text" value={form.address} onChange={(e) => setForm({...form, address: e.target.value})} className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm" />
+              <input type="text" value={form.address} onChange={(e) => setForm({...form, address: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Type</label>
-              <select value={form.type} onChange={(e) => setForm({...form, type: e.target.value as GameType})} className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm">
+              <select value={form.type} onChange={(e) => setForm({...form, type: e.target.value as GameType})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
                 {Object.entries(GAME_TYPE_LABELS).map(([v, l]) => <option key={v} value={v}>{l}</option>)}
               </select>
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Game Style</label>
-              <select value={form.gameStyle} onChange={(e) => setForm({...form, gameStyle: e.target.value as GameStyle})} className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm">
+              <select value={form.gameStyle} onChange={(e) => setForm({...form, gameStyle: e.target.value as GameStyle})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
                 {Object.entries(GAME_STYLE_LABELS).map(([v, l]) => <option key={v} value={v}>{l}</option>)}
               </select>
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Day</label>
-              <select value={form.dayOfWeek} onChange={(e) => setForm({...form, dayOfWeek: e.target.value})} className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm">
+              <select value={form.dayOfWeek} onChange={(e) => setForm({...form, dayOfWeek: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
                 {DAYS_OF_WEEK.map((d) => <option key={d} value={d}>{d.charAt(0).toUpperCase() + d.slice(1)}</option>)}
               </select>
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Cost</label>
-              <input type="text" value={form.cost} onChange={(e) => setForm({...form, cost: e.target.value})} className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm" placeholder="e.g., $15 or Free" />
+              <input type="text" value={form.cost} onChange={(e) => setForm({...form, cost: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" placeholder="e.g., $15 or Free" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Contact Email</label>
-              <input type="email" value={form.contactEmail} onChange={(e) => setForm({...form, contactEmail: e.target.value})} className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm" />
+              <input type="email" value={form.contactEmail} onChange={(e) => setForm({...form, contactEmail: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Time</label>
               <div className="flex gap-2">
-                <input type="time" value={form.startTime} onChange={(e) => setForm({...form, startTime: e.target.value})} className="flex-1 border border-lavender-200 rounded-lg px-3 py-2 text-sm" />
-                <input type="time" value={form.endTime} onChange={(e) => setForm({...form, endTime: e.target.value})} className="flex-1 border border-lavender-200 rounded-lg px-3 py-2 text-sm" />
+                <input type="time" value={form.startTime} onChange={(e) => setForm({...form, startTime: e.target.value})} className="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm" />
+                <input type="time" value={form.endTime} onChange={(e) => setForm({...form, endTime: e.target.value})} className="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm" />
               </div>
             </div>
           </div>
           <div className="mb-4">
             <label className="block text-xs font-medium text-slate-600 mb-1">Description</label>
-            <textarea rows={2} value={form.description} onChange={(e) => setForm({...form, description: e.target.value})} className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm" />
+            <textarea rows={2} value={form.description} onChange={(e) => setForm({...form, description: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
           </div>
           <div className="flex gap-3">
             <button className="bg-hotpink-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors">
@@ -324,13 +324,13 @@ export default function AdminGamesPage() {
                 placeholder="Search games..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-lavender-200 rounded-lg text-sm"
+                className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-lg text-sm"
               />
             </div>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="border border-lavender-200 rounded-lg px-3 py-2 text-sm"
+              className="border border-slate-200 rounded-lg px-3 py-2 text-sm"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -339,9 +339,9 @@ export default function AdminGamesPage() {
             </select>
           </div>
 
-          <div className="bg-lavender-100 border border-lavender-200 rounded-xl overflow-hidden">
+          <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-skyblue-50 border-b border-lavender-200">
+              <thead className="bg-skyblue-50 border-b border-slate-200">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Game</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Location</th>
@@ -366,9 +366,9 @@ export default function AdminGamesPage() {
                       </td>
                       <td className="px-4 py-3">
                         <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                          game.status === "active" ? "bg-mint-200 text-mint-600" :
-                          game.status === "pending" ? "bg-gold-100 text-gold-600" :
-                          "bg-lavender-100 text-slate-500"
+                          game.status === "active" ? "bg-hotpink-200 text-hotpink-600" :
+                          game.status === "pending" ? "bg-skyblue-100 text-skyblue-600" :
+                          "bg-white text-slate-500"
                         }`}>
                           {game.status}
                         </span>
@@ -386,8 +386,8 @@ export default function AdminGamesPage() {
                           <button className="p-1.5 hover:bg-skyblue-100 rounded" title="Edit">
                             <Edit className="w-4 h-4 text-slate-500" />
                           </button>
-                          <button className="p-1.5 hover:bg-mint-100 rounded" title="Verify">
-                            <CheckCircle className="w-4 h-4 text-mint-500" />
+                          <button className="p-1.5 hover:bg-skyblue-100 rounded" title="Verify">
+                            <CheckCircle className="w-4 h-4 text-hotpink-500" />
                           </button>
                           <button className="p-1.5 hover:bg-red-50 rounded" title="Delete">
                             <Trash2 className="w-4 h-4 text-red-400" />

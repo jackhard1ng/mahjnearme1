@@ -56,13 +56,13 @@ export default function MapPlaceholder({ games, selectedGameId, onPinClick }: Ma
       </div>
 
       {/* API Key Notice */}
-      <div className="absolute bottom-3 left-3 right-3 bg-mint-200/90 backdrop-blur-sm rounded-lg px-3 py-2 text-xs text-charcoal">
+      <div className="absolute bottom-3 left-3 right-3 bg-skyblue-100/90 backdrop-blur-sm rounded-lg px-3 py-2 text-xs text-charcoal">
         <p className="font-medium text-charcoal mb-0.5">Interactive Map</p>
         <p>Add your Google Maps API key to enable the full interactive map with real locations.</p>
       </div>
 
       {/* Legend */}
-      <div className="absolute top-3 right-3 bg-lavender-100/90 backdrop-blur-sm rounded-lg px-3 py-2 space-y-1">
+      <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 space-y-1">
         {[
           { type: "open_play", label: "Open Play" },
           { type: "lesson", label: "Lessons" },

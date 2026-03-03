@@ -67,7 +67,7 @@ export default async function StatePage({ params }: Props) {
           <Link
             key={`${c.city}-${c.state}`}
             href={`/cities/${state}/${slugify(c.city)}`}
-            className="flex items-center justify-between bg-lavender-100 border border-lavender-200 rounded-xl p-5 hover:border-hotpink-300 hover:shadow-sm transition-all"
+            className="flex items-center justify-between bg-white border border-slate-200 rounded-xl p-5 hover:border-hotpink-300 hover:shadow-sm transition-all"
           >
             <div>
               <h3 className="font-semibold text-charcoal">{c.city}</h3>
@@ -87,14 +87,14 @@ export default async function StatePage({ params }: Props) {
           <Link
             key={game.id}
             href={`/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`}
-            className="flex items-center justify-between bg-lavender-100 border border-lavender-200 rounded-lg p-4 hover:border-hotpink-300 transition-all"
+            className="flex items-center justify-between bg-white border border-slate-200 rounded-lg p-4 hover:border-hotpink-300 transition-all"
           >
             <div className="flex items-center gap-3">
               <div className={`w-3 h-3 rounded-full ${
-                game.type === "open_play" ? "bg-mint-400" :
+                game.type === "open_play" ? "bg-hotpink-400" :
                 game.type === "lesson" ? "bg-skyblue-400" :
-                game.type === "league" ? "bg-gold-500" :
-                "bg-lavender-400"
+                game.type === "league" ? "bg-hotpink-300" :
+                "bg-skyblue-400"
               }`} />
               <div>
                 <p className="font-medium text-charcoal">{game.name}</p>
@@ -107,7 +107,7 @@ export default async function StatePage({ params }: Props) {
       </div>
 
       {/* CTA */}
-      <div className="bg-gradient-to-br from-softpink-100 to-lavender-100 rounded-xl border border-mint-300 p-8 text-center">
+      <div className="bg-gradient-to-br from-hotpink-50 to-skyblue-50 rounded-xl border border-hotpink-200 p-8 text-center">
         <h2 className="font-semibold text-xl text-charcoal mb-2">
           Don&apos;t see your city?
         </h2>
