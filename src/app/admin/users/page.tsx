@@ -36,7 +36,7 @@ export default function AdminUsersPage() {
           { label: "Trial Users", value: mockUsers.filter((u) => u.type === "trial").length, icon: Shield },
           { label: "Organizers", value: mockUsers.filter((u) => u.type === "organizer").length, icon: Users },
         ].map((s) => (
-          <div key={s.label} className="bg-lavender-100 border border-lavender-200 rounded-xl p-4">
+          <div key={s.label} className="bg-white border border-slate-200 rounded-xl p-4">
             <s.icon className="w-5 h-5 text-hotpink-500 mb-2" />
             <p className="text-2xl font-bold text-charcoal">{s.value}</p>
             <p className="text-sm text-slate-500">{s.label}</p>
@@ -48,9 +48,9 @@ export default function AdminUsersPage() {
       <div className="flex gap-3 mb-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input type="text" placeholder="Search users..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-10 pr-4 py-2.5 border border-lavender-200 rounded-lg text-sm" />
+          <input type="text" placeholder="Search users..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-lg text-sm" />
         </div>
-        <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="border border-lavender-200 rounded-lg px-3 py-2 text-sm">
+        <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="border border-slate-200 rounded-lg px-3 py-2 text-sm">
           <option value="all">All Types</option>
           <option value="subscriber">Subscribers</option>
           <option value="trial">Trial</option>
@@ -60,9 +60,9 @@ export default function AdminUsersPage() {
       </div>
 
       {/* User Table */}
-      <div className="bg-lavender-100 border border-lavender-200 rounded-xl overflow-hidden">
+      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-skyblue-50 border-b border-lavender-200">
+          <thead className="bg-skyblue-50 border-b border-slate-200">
             <tr>
               <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">User</th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
@@ -81,8 +81,8 @@ export default function AdminUsersPage() {
                 </td>
                 <td className="px-4 py-3">
                   <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                    user.type === "subscriber" ? "bg-mint-200 text-hotpink-600" :
-                    user.type === "organizer" ? "bg-lavender-200 text-lavender-600" :
+                    user.type === "subscriber" ? "bg-hotpink-200 text-hotpink-600" :
+                    user.type === "organizer" ? "bg-slate-200 text-skyblue-600" :
                     user.type === "trial" ? "bg-skyblue-200 text-skyblue-600" :
                     "bg-skyblue-100 text-slate-600"
                   }`}>
@@ -93,7 +93,7 @@ export default function AdminUsersPage() {
                 <td className="px-4 py-3 text-slate-600">{user.joined}</td>
                 <td className="px-4 py-3">
                   <span className={`text-xs font-medium ${
-                    user.status === "active" ? "text-mint-500" :
+                    user.status === "active" ? "text-hotpink-500" :
                     user.status === "trialing" ? "text-skyblue-500" :
                     "text-slate-400"
                   }`}>

@@ -48,7 +48,7 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search by city, state, or zip code..."
-          className={`w-full bg-lavender-100 border border-lavender-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-hotpink-400 focus:border-transparent transition-all placeholder:text-slate-400 ${
+          className={`w-full bg-white border border-skyblue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-hotpink-400 focus:border-hotpink-400 transition-all placeholder:text-slate-400 ${
             isLarge
               ? "pl-12 pr-4 py-4 text-lg shadow-lg"
               : "pl-10 pr-4 py-3 text-sm"
@@ -59,7 +59,7 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
         type="button"
         onClick={handleUseLocation}
         disabled={locating}
-        className={`flex items-center gap-2 bg-skyblue-200 border border-skyblue-300 rounded-xl hover:bg-skyblue-300 hover:text-hotpink-600 transition-all text-charcoal ${
+        className={`flex items-center gap-2 bg-skyblue-100 border border-skyblue-300 rounded-xl hover:bg-skyblue-200 hover:text-hotpink-600 transition-all text-charcoal ${
           isLarge ? "px-5 py-4 shadow-lg" : "px-4 py-3"
         }`}
         title="Use my location"

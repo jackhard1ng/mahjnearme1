@@ -80,15 +80,15 @@ export default async function CityPage({ params }: Props) {
           <div key={game.id} className="mahj-tile p-5">
             <div className="flex items-center gap-2 mb-2">
               <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                game.type === "open_play" ? "bg-mint-200 text-mint-600" :
+                game.type === "open_play" ? "bg-hotpink-100 text-hotpink-600" :
                 game.type === "lesson" ? "bg-skyblue-200 text-skyblue-600" :
-                game.type === "league" ? "bg-gold-100 text-gold-600" :
-                "bg-lavender-200 text-lavender-600"
+                game.type === "league" ? "bg-hotpink-100 text-hotpink-600" :
+                "bg-skyblue-100 text-skyblue-600"
               }`}>
                 {getGameTypeLabel(game.type)}
               </span>
               {game.dropInFriendly && (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-mint-200 text-mint-600">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-hotpink-100 text-hotpink-600">
                   Drop-in Friendly
                 </span>
               )}
@@ -125,7 +125,7 @@ export default async function CityPage({ params }: Props) {
       </div>
 
       {/* Signup CTA */}
-      <div className="bg-gradient-to-br from-softpink-100 to-lavender-100 rounded-xl border border-mint-300 p-8 text-center mb-10">
+      <div className="bg-gradient-to-br from-hotpink-50 to-skyblue-50 rounded-xl border border-hotpink-200 p-8 text-center mb-10">
         <h2 className="font-semibold text-xl text-charcoal mb-2">
           Want full details on every game?
         </h2>
@@ -146,14 +146,14 @@ export default async function CityPage({ params }: Props) {
           Frequently Asked Questions
         </h2>
         <div className="space-y-4">
-          <div className="bg-lavender-100 border border-lavender-200 rounded-xl p-5">
+          <div className="bg-white border border-slate-200 rounded-xl p-5">
             <h3 className="font-semibold text-charcoal mb-2">Where can I play mahjong in {cityName}?</h3>
             <p className="text-sm text-slate-600">
               There are {games.length} mahjong {games.length === 1 ? "group" : "groups"} in {cityName}, {stateName}, including open play sessions, lessons, and leagues.
               Sign up for free to see full details including exact locations and schedules.
             </p>
           </div>
-          <div className="bg-lavender-100 border border-lavender-200 rounded-xl p-5">
+          <div className="bg-white border border-slate-200 rounded-xl p-5">
             <h3 className="font-semibold text-charcoal mb-2">Are there beginner-friendly mahjong groups in {cityName}?</h3>
             <p className="text-sm text-slate-600">
               {games.filter((g) => g.skillLevels.includes("beginner")).length > 0
@@ -161,7 +161,7 @@ export default async function CityPage({ params }: Props) {
                 : `We're still growing our listings in ${cityName}. Check back soon or request games for your area!`}
             </p>
           </div>
-          <div className="bg-lavender-100 border border-lavender-200 rounded-xl p-5">
+          <div className="bg-white border border-slate-200 rounded-xl p-5">
             <h3 className="font-semibold text-charcoal mb-2">Can I drop in to a mahjong game in {cityName} without an RSVP?</h3>
             <p className="text-sm text-slate-600">
               {games.filter((g) => g.dropInFriendly).length > 0
@@ -183,7 +183,7 @@ export default async function CityPage({ params }: Props) {
               <Link
                 key={`${c.city}-${c.state}`}
                 href={`/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`}
-                className="inline-flex items-center gap-2 bg-lavender-100 border border-lavender-200 rounded-lg px-4 py-2 hover:border-hotpink-300 transition-all text-sm"
+                className="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-4 py-2 hover:border-hotpink-300 transition-all text-sm"
               >
                 <MapPin className="w-4 h-4 text-hotpink-500" />
                 {c.city}, {c.state}

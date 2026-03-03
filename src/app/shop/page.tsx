@@ -25,7 +25,7 @@ export default function ShopPage() {
 
       {/* Featured Products */}
       <h2 className="font-semibold text-xl text-charcoal mb-4 flex items-center gap-2">
-        <Star className="w-5 h-5 text-gold-500" /> Featured Picks
+        <Star className="w-5 h-5 text-hotpink-500" /> Featured Picks
       </h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
         {featured.map((product) => (
@@ -57,7 +57,7 @@ export default function ShopPage() {
       <h2 className="font-semibold text-xl text-charcoal mb-4">All Products</h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
         {mockProducts.map((product) => (
-          <div key={product.id} className="bg-lavender-100 border border-lavender-200 rounded-xl p-5 hover:shadow-md transition-all flex gap-4">
+          <div key={product.id} className="bg-white border border-slate-200 rounded-xl p-5 hover:shadow-md transition-all flex gap-4">
             <div className="w-20 h-20 bg-skyblue-100 rounded-lg flex items-center justify-center shrink-0">
               <ShoppingBag className="w-8 h-8 text-slate-300" />
             </div>

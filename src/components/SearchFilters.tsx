@@ -46,7 +46,7 @@ export default function SearchFiltersBar({ filters, onFiltersChange }: SearchFil
   };
 
   return (
-    <div className="mahj-tile">
+    <div className="card-white">
       <button
         onClick={() => setExpanded(!expanded)}
         className="w-full flex items-center justify-between px-4 py-3"
@@ -64,7 +64,7 @@ export default function SearchFiltersBar({ filters, onFiltersChange }: SearchFil
       </button>
 
       {expanded && (
-        <div className="px-4 pb-4 space-y-4 border-t border-lavender-200 pt-4">
+        <div className="px-4 pb-4 space-y-4 border-t border-slate-200 pt-4">
           {/* Day of Week */}
           <div>
             <label className="text-xs font-semibold text-charcoal uppercase tracking-wider mb-2 block">Day of Week</label>
@@ -76,7 +76,7 @@ export default function SearchFiltersBar({ filters, onFiltersChange }: SearchFil
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                     filters.daysOfWeek.includes(day)
                       ? "bg-hotpink-500 text-white"
-                      : "bg-skyblue-100 text-charcoal hover:bg-skyblue-200"
+                      : "bg-skyblue-50 text-charcoal hover:bg-skyblue-100"
                   }`}
                 >
                   {day.charAt(0).toUpperCase() + day.slice(1, 3)}
@@ -92,7 +92,7 @@ export default function SearchFiltersBar({ filters, onFiltersChange }: SearchFil
               <select
                 value={filters.type}
                 onChange={(e) => updateFilter("type", e.target.value as SearchFilters["type"])}
-                className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm bg-lavender-100"
+                className="w-full border border-skyblue-300 rounded-lg px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-hotpink-400 focus:border-hotpink-400"
               >
                 <option value="all">All Types</option>
                 {Object.entries(GAME_TYPE_LABELS).map(([val, label]) => (
@@ -106,7 +106,7 @@ export default function SearchFiltersBar({ filters, onFiltersChange }: SearchFil
               <select
                 value={filters.gameStyle}
                 onChange={(e) => updateFilter("gameStyle", e.target.value as SearchFilters["gameStyle"])}
-                className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm bg-lavender-100"
+                className="w-full border border-skyblue-300 rounded-lg px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-hotpink-400 focus:border-hotpink-400"
               >
                 <option value="all">All Styles</option>
                 {Object.entries(GAME_STYLE_LABELS).map(([val, label]) => (
@@ -120,7 +120,7 @@ export default function SearchFiltersBar({ filters, onFiltersChange }: SearchFil
               <select
                 value={filters.skillLevel}
                 onChange={(e) => updateFilter("skillLevel", e.target.value as SearchFilters["skillLevel"])}
-                className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm bg-lavender-100"
+                className="w-full border border-skyblue-300 rounded-lg px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-hotpink-400 focus:border-hotpink-400"
               >
                 <option value="all">All Levels</option>
                 {Object.entries(SKILL_LEVEL_LABELS).map(([val, label]) => (
@@ -134,7 +134,7 @@ export default function SearchFiltersBar({ filters, onFiltersChange }: SearchFil
               <select
                 value={filters.dropInFriendly === null ? "all" : filters.dropInFriendly ? "yes" : "no"}
                 onChange={(e) => updateFilter("dropInFriendly", e.target.value === "all" ? null : e.target.value === "yes")}
-                className="w-full border border-lavender-200 rounded-lg px-3 py-2 text-sm bg-lavender-100"
+                className="w-full border border-skyblue-300 rounded-lg px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-hotpink-400 focus:border-hotpink-400"
               >
                 <option value="all">All</option>
                 <option value="yes">Drop-in Friendly</option>
@@ -150,14 +150,14 @@ export default function SearchFiltersBar({ filters, onFiltersChange }: SearchFil
                 type="date"
                 value={filters.dateFrom || ""}
                 onChange={(e) => updateFilter("dateFrom", e.target.value || null)}
-                className="border border-lavender-200 rounded-lg px-3 py-2 text-sm bg-lavender-100"
+                className="border border-skyblue-300 rounded-lg px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-hotpink-400 focus:border-hotpink-400"
                 placeholder="From"
               />
               <input
                 type="date"
                 value={filters.dateTo || ""}
                 onChange={(e) => updateFilter("dateTo", e.target.value || null)}
-                className="border border-lavender-200 rounded-lg px-3 py-2 text-sm bg-lavender-100"
+                className="border border-skyblue-300 rounded-lg px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-hotpink-400 focus:border-hotpink-400"
                 placeholder="To"
               />
             </div>

@@ -74,7 +74,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-softpink-100/50 via-lavender-100 to-lavender-100">
+    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-hotpink-50/50 to-skyblue-50">
       <div className="w-full max-w-md">
         {/* Branding */}
         <div className="text-center mb-8">
@@ -95,7 +95,7 @@ export default function LoginPage() {
         </div>
 
         {/* Card */}
-        <div className="bg-lavender-100 rounded-2xl border border-lavender-200 shadow-sm p-6 sm:p-8">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
           {/* Error Message */}
           {error && (
             <div className="flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 mb-6 text-sm">
@@ -108,7 +108,7 @@ export default function LoginPage() {
           <button
             onClick={handleGoogleLogin}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 bg-lavender-100 border border-lavender-300 rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-skyblue-100 hover:border-slate-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-3 bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-skyblue-100 hover:border-slate-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -154,7 +154,7 @@ export default function LoginPage() {
                   placeholder="you@example.com"
                   required
                   autoComplete="email"
-                  className="w-full pl-11 pr-4 py-3 border border-lavender-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
+                  className="w-full pl-11 pr-4 py-3 border border-skyblue-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
                 />
               </div>
             </div>
@@ -181,7 +181,7 @@ export default function LoginPage() {
                   placeholder="Enter your password"
                   required
                   autoComplete="current-password"
-                  className="w-full pl-11 pr-12 py-3 border border-lavender-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
+                  className="w-full pl-11 pr-12 py-3 border border-skyblue-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
                 />
                 <button
                   type="button"

@@ -31,7 +31,6 @@ export default function HomePage() {
         <div className="absolute bottom-20 right-[25%] text-4xl opacity-20 animate-float select-none" style={{ animationDelay: "0.5s" }} aria-hidden="true">🀄</div>
 
         <div className="max-w-5xl mx-auto px-4 pt-16 pb-12 sm:pt-24 sm:pb-16 text-center relative">
-          {/* Mahjong tile accent above title */}
           <div className="flex justify-center gap-2 mb-6">
             <span className="text-3xl opacity-70 animate-float" style={{ animationDelay: "0s" }}>🀇</span>
             <span className="text-3xl opacity-70 animate-float" style={{ animationDelay: "0.3s" }}>🀄</span>
@@ -45,12 +44,10 @@ export default function HomePage() {
             The only directory of pickup mahjong games, open play sessions, lessons, and events across the United States
           </p>
 
-          {/* Search Bar */}
           <div className="max-w-3xl mx-auto mb-6">
             <SearchBar size="large" />
           </div>
 
-          {/* Live Counter */}
           <p className="text-sm text-white/70">
             <span className="font-semibold text-white">{stats.gameCount} games</span> across{" "}
             <span className="font-semibold text-white">{stats.cityCount} cities</span> and counting
@@ -58,8 +55,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* City Marquee - Mint section */}
-      <section className="py-6 border-y border-mint-300 overflow-hidden bg-mint-200">
+      {/* City Marquee - soft blue section */}
+      <section className="py-6 border-y border-skyblue-200 overflow-hidden bg-skyblue-50">
         <div className="relative">
           <div className="animate-scroll-left whitespace-nowrap flex">
             {[...cities, ...cities].map((city, i) => (
@@ -76,7 +73,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* How It Works - Pink section */}
+      {/* How It Works - soft pink section */}
       <section className="py-16 sm:py-20 section-pink">
         <div className="max-w-7xl mx-auto px-4">
           <div className="mahj-divider mb-12">
@@ -107,10 +104,10 @@ export default function HomePage() {
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-mint-400 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">
+              <div className="w-16 h-16 bg-hotpink-400 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">
                 <Sparkles className="w-7 h-7 text-white" />
               </div>
-              <div className="text-xs font-bold text-mint-500 uppercase tracking-wider mb-2">Step 3</div>
+              <div className="text-xs font-bold text-hotpink-500 uppercase tracking-wider mb-2">Step 3</div>
               <h3 className="font-semibold text-lg mb-2 text-charcoal">Show up and play!</h3>
               <p className="text-sm text-slate-600">
                 Get the venue, schedule, contact info, and directions — then go enjoy a game
@@ -120,26 +117,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Value Props - Blue section */}
+      {/* Value Props - soft blue section, white cards */}
       <section className="py-16 sm:py-20 section-blue">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid sm:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="mahj-tile-mint p-6">
+            <div className="card-white p-6">
               <Globe className="w-8 h-8 text-hotpink-500 mb-4" />
               <h3 className="font-semibold text-lg mb-2 text-charcoal">Games everywhere</h3>
               <p className="text-sm text-slate-600">
                 Traveling and want to play? Search any city in the US and find games near your hotel, Airbnb, or destination.
               </p>
             </div>
-            <div className="mahj-tile-pink p-6">
-              <ShieldCheck className="w-8 h-8 text-mint-500 mb-4" />
+            <div className="card-white p-6">
+              <ShieldCheck className="w-8 h-8 text-skyblue-500 mb-4" />
               <h3 className="font-semibold text-lg mb-2 text-charcoal">Verified listings</h3>
               <p className="text-sm text-slate-600">
                 Every listing is verified — no outdated info, no dead links, no guessing if a game still meets.
               </p>
             </div>
-            <div className="mahj-tile-blue p-6">
-              <Bell className="w-8 h-8 text-lavender-500 mb-4" />
+            <div className="card-white p-6">
+              <Bell className="w-8 h-8 text-hotpink-500 mb-4" />
               <h3 className="font-semibold text-lg mb-2 text-charcoal">Never miss a game</h3>
               <p className="text-sm text-slate-600">
                 Get alerts when new groups are posted near you. Save your favorite cities and games for quick access.
@@ -149,10 +146,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Founder Story - Mint section */}
-      <section className="py-16 sm:py-20 section-mint">
+      {/* Founder Story - soft pink section */}
+      <section className="py-16 sm:py-20 section-pink">
         <div className="max-w-3xl mx-auto px-4">
-          <div className="mahj-tile-pink p-8 sm:p-10">
+          <div className="card-white p-8 sm:p-10">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-16 h-16 bg-hotpink-500 rounded-full flex items-center justify-center shrink-0 shadow-lg">
                 <span className="text-2xl font-bold text-white">J</span>
@@ -171,8 +168,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials - Lavender section */}
-      <section className="py-16 sm:py-20 section-lavender">
+      {/* Testimonials - soft blue section */}
+      <section className="py-16 sm:py-20 section-blue">
         <div className="max-w-7xl mx-auto px-4">
           <div className="mahj-divider mb-6">
             <span className="text-2xl">🀙</span>
@@ -185,33 +182,30 @@ export default function HomePage() {
               { name: "Linda M.", city: "Tulsa, OK", text: "I was traveling to Denver and found 3 games within walking distance of my hotel. This is a game-changer for traveling mahj players!", rating: 5 },
               { name: "Carol S.", city: "Nashville, TN", text: "Finally! A single place to find all the mahjong groups in my area. No more scrolling through endless Facebook posts.", rating: 5 },
               { name: "Barbara T.", city: "Miami, FL", text: "As a snowbird, I play in Miami in winter and Boston in summer. MahjNearMe makes it easy to find games in both cities.", rating: 5 },
-            ].map((testimonial, i) => {
-              const cardClass = i === 0 ? "mahj-tile-mint" : i === 1 ? "mahj-tile-pink" : "mahj-tile-blue";
-              return (
-                <div key={i} className={`${cardClass} p-6`}>
-                  <div className="flex items-center gap-1 mb-3">
-                    {Array.from({ length: testimonial.rating }).map((_, j) => (
-                      <Star key={j} className="w-4 h-4 fill-gold-300 text-gold-300" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-slate-600 mb-4">&ldquo;{testimonial.text}&rdquo;</p>
-                  <div className="text-sm">
-                    <p className="font-semibold text-charcoal">{testimonial.name}</p>
-                    <p className="text-slate-500">{testimonial.city}</p>
-                  </div>
+            ].map((testimonial, i) => (
+              <div key={i} className="card-white p-6">
+                <div className="flex items-center gap-1 mb-3">
+                  {Array.from({ length: testimonial.rating }).map((_, j) => (
+                    <Star key={j} className="w-4 h-4 fill-gold-300 text-gold-300" />
+                  ))}
                 </div>
-              );
-            })}
+                <p className="text-sm text-slate-600 mb-4">&ldquo;{testimonial.text}&rdquo;</p>
+                <div className="text-sm">
+                  <p className="font-semibold text-charcoal">{testimonial.name}</p>
+                  <p className="text-slate-500">{testimonial.city}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section - Pink section */}
+      {/* CTA Section - soft pink section */}
       <section className="py-16 sm:py-24 section-pink">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Organizer CTA */}
-            <div className="mahj-tile-blue p-8 text-center">
+            <div className="card-white p-8 text-center">
               <div className="text-3xl mb-3">🀄</div>
               <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">
                 Are you a mahjong organizer?
@@ -228,7 +222,7 @@ export default function HomePage() {
             </div>
 
             {/* Player CTA */}
-            <div className="mahj-tile-mint p-8 text-center">
+            <div className="card-white p-8 text-center">
               <div className="text-3xl mb-3">🀇</div>
               <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">
                 Ready to find your next game?
@@ -249,7 +243,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Shop Teaser */}
           <div className="text-center mt-10">
             <Link href="/shop" className="text-hotpink-500 hover:text-hotpink-700 font-medium transition-colors inline-flex items-center gap-2">
               New to Mahj? Check out our gear picks <ArrowRight className="w-4 h-4" />

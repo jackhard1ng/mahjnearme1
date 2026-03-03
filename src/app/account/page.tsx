@@ -52,23 +52,23 @@ export default function AccountPage() {
 
       <div className="space-y-6">
         {/* Profile Section */}
-        <div className="bg-lavender-100 border border-lavender-200 rounded-xl p-6">
+        <div className="bg-white border border-slate-200 rounded-xl p-6">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-mint-200 rounded-full flex items-center justify-center">
+            <div className="w-16 h-16 bg-hotpink-100 rounded-full flex items-center justify-center">
               <User className="w-8 h-8 text-hotpink-600" />
             </div>
             <div>
               <h2 className="font-semibold text-xl text-charcoal">{userProfile.displayName || "Player"}</h2>
               <p className="text-sm text-slate-500">{userProfile.email}</p>
               <div className="flex items-center gap-2 mt-1">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-mint-200 text-mint-600">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-hotpink-100 text-hotpink-600">
                   {userProfile.accountType === "trial" ? "Free Trial" :
                    userProfile.accountType === "subscriber" ? "Subscriber" :
                    userProfile.accountType === "admin" ? "Admin" :
                    userProfile.accountType}
                 </span>
                 {hasAccess && userProfile.accountType === "subscriber" && (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gold-100 text-gold-600">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-skyblue-100 text-skyblue-600">
                     <Crown className="w-3 h-3" /> Verified Player
                   </span>
                 )}
@@ -101,17 +101,17 @@ export default function AccountPage() {
         </div>
 
         {/* Subscription Section */}
-        <div className="bg-lavender-100 border border-lavender-200 rounded-xl p-6">
+        <div className="bg-white border border-slate-200 rounded-xl p-6">
           <h3 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
             <CreditCard className="w-5 h-5 text-hotpink-500" />
             Subscription
           </h3>
 
           {userProfile.accountType === "trial" && (
-            <div className="bg-softpink-100 border border-mint-300 rounded-lg p-4 mb-4">
+            <div className="bg-softpink-100 border border-hotpink-200 rounded-lg p-4 mb-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-mint-600">Free Trial</p>
+                  <p className="font-semibold text-hotpink-600">Free Trial</p>
                   <p className="text-sm text-hotpink-500">
                     {trialDaysLeft > 0 ? `${trialDaysLeft} days remaining` : "Trial expired"}
                   </p>
@@ -128,13 +128,13 @@ export default function AccountPage() {
 
           {userProfile.accountType === "subscriber" && (
             <div className="space-y-3">
-              <div className="flex justify-between items-center py-2 border-b border-lavender-100">
+              <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-sm text-slate-600">Plan</span>
                 <span className="text-sm font-medium text-charcoal capitalize">{userProfile.plan || "Monthly"}</span>
               </div>
-              <div className="flex justify-between items-center py-2 border-b border-lavender-100">
+              <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-sm text-slate-600">Status</span>
-                <span className="text-sm font-medium text-mint-500">Active</span>
+                <span className="text-sm font-medium text-hotpink-500">Active</span>
               </div>
               <div className="flex justify-between items-center py-2">
                 <span className="text-sm text-slate-600">Next billing date</span>
@@ -152,7 +152,7 @@ export default function AccountPage() {
         </div>
 
         {/* Saved Cities */}
-        <div className="bg-lavender-100 border border-lavender-200 rounded-xl p-6">
+        <div className="bg-white border border-slate-200 rounded-xl p-6">
           <h3 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
             <MapPin className="w-5 h-5 text-hotpink-500" />
             Saved Cities
@@ -174,7 +174,7 @@ export default function AccountPage() {
               value={savedCity}
               onChange={(e) => setSavedCity(e.target.value)}
               placeholder="Add a city..."
-              className="border border-lavender-200 rounded-lg px-3 py-2 text-sm flex-1"
+              className="border border-slate-200 rounded-lg px-3 py-2 text-sm flex-1"
             />
             <button className="bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors flex items-center gap-1">
               <Plus className="w-4 h-4" /> Add
@@ -183,7 +183,7 @@ export default function AccountPage() {
         </div>
 
         {/* Favorite Games */}
-        <div className="bg-lavender-100 border border-lavender-200 rounded-xl p-6">
+        <div className="bg-white border border-slate-200 rounded-xl p-6">
           <h3 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
             <Heart className="w-5 h-5 text-hotpink-500" />
             Favorite Games
@@ -205,7 +205,7 @@ export default function AccountPage() {
         </div>
 
         {/* Notification Preferences */}
-        <div className="bg-lavender-100 border border-lavender-200 rounded-xl p-6">
+        <div className="bg-white border border-slate-200 rounded-xl p-6">
           <h3 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
             <Bell className="w-5 h-5 text-hotpink-500" />
             Notifications
@@ -225,7 +225,7 @@ export default function AccountPage() {
                   }`}
                 >
                   <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-lavender-100 transition-transform ${
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
                       pref.enabled ? "translate-x-6" : "translate-x-1"
                     }`}
                   />

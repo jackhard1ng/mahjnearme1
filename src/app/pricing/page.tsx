@@ -69,7 +69,7 @@ export default function PricingPage() {
           </div>
           <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-4xl sm:text-5xl lg:text-6xl text-charcoal mb-4 tracking-tight">
             Simple, Transparent{" "}
-            <span className="bg-gradient-to-r from-hotpink-500 to-gold-500 bg-clip-text text-transparent">Pricing</span>
+            <span className="bg-gradient-to-r from-hotpink-500 to-skyblue-500 bg-clip-text text-transparent">Pricing</span>
           </h1>
           <p className="text-lg sm:text-xl text-slate-500 mb-2 max-w-2xl mx-auto">
             Full access to every mahjong game, map, and feature.
@@ -125,7 +125,7 @@ export default function PricingPage() {
                 <span className="bg-hotpink-500 text-white text-xs font-bold px-3 py-1 rounded-full">
                   Most Popular
                 </span>
-                <span className="bg-gold-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                <span className="bg-skyblue-500 text-white text-xs font-bold px-3 py-1 rounded-full">
                   Save 33%
                 </span>
               </div>
@@ -167,7 +167,7 @@ export default function PricingPage() {
           </div>
 
           {/* Trial Note */}
-          <div className="text-center mt-8 bg-softpink-100 border border-mint-300 rounded-xl px-6 py-4 max-w-lg mx-auto">
+          <div className="text-center mt-8 bg-softpink-100 border border-hotpink-200 rounded-xl px-6 py-4 max-w-lg mx-auto">
             <div className="flex items-center justify-center gap-2 mb-2">
               <ShieldCheck className="w-5 h-5 text-hotpink-500" />
               <span className="font-semibold text-charcoal">14-Day Free Trial</span>
@@ -191,7 +191,7 @@ export default function PricingPage() {
           <div className="grid sm:grid-cols-3 gap-6">
             {/* Free Tier */}
             <div className="mahj-tile p-6 text-center">
-              <div className="w-12 h-12 bg-skyblue-100 rounded-xl flex items-center justify-center mx-auto mb-4 border border-lavender-200">
+              <div className="w-12 h-12 bg-skyblue-50 rounded-xl flex items-center justify-center mx-auto mb-4 border border-skyblue-200">
                 <X className="w-6 h-6 text-slate-400" />
               </div>
               <h3 className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-1">
@@ -222,8 +222,8 @@ export default function PricingPage() {
             </div>
 
             {/* Trial Tier */}
-            <div className="mahj-tile p-6 text-center !border-hotpink-300">
-              <div className="w-12 h-12 bg-mint-200 rounded-xl flex items-center justify-center mx-auto mb-4 border border-mint-300">
+            <div className="mahj-tile p-6 text-center !border-hotpink-400">
+              <div className="w-12 h-12 bg-skyblue-100 rounded-xl flex items-center justify-center mx-auto mb-4 border border-skyblue-200">
                 <Star className="w-6 h-6 text-hotpink-500" />
               </div>
               <h3 className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-1">
@@ -255,7 +255,7 @@ export default function PricingPage() {
             </div>
 
             {/* Subscriber Tier */}
-            <div className="mahj-tile p-6 text-center !border-hotpink-500 !border-2 bg-gradient-to-br from-softpink-100 via-lavender-100 to-softpink-200">
+            <div className="mahj-tile p-6 text-center !border-hotpink-500 !border-2 bg-gradient-to-br from-hotpink-50 via-skyblue-50 to-hotpink-50">
               <div className="w-12 h-12 bg-hotpink-500 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Star className="w-6 h-6 text-white" />
               </div>
@@ -328,7 +328,7 @@ export default function PricingPage() {
       {/* Organizer Note */}
       <section className="py-12 sm:py-16 section-gold">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <div className="mahj-tile-pink p-8">
+          <div className="card-white p-8">
             <div className="text-3xl mb-3">🀄</div>
             <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">
               Are you a mahjong organizer?

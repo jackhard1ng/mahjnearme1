@@ -80,8 +80,8 @@ function SearchContent() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      {/* Search Bar - Mint background area */}
-      <div className="mb-4 bg-mint-200 rounded-xl p-4 -mx-4 sm:mx-0">
+      {/* Search Bar */}
+      <div className="mb-4 bg-skyblue-50 rounded-xl p-4 -mx-4 sm:mx-0">
         <SearchBar defaultValue={query} />
       </div>
 
@@ -120,7 +120,7 @@ function SearchContent() {
         {/* Game Cards List */}
         <div className="order-2 lg:order-2 space-y-4">
           {filteredGames.length === 0 ? (
-            <div className="mahj-tile-pink text-center py-16 px-6">
+            <div className="card-white text-center py-16 px-6">
               <SlidersHorizontal className="w-12 h-12 text-hotpink-300 mx-auto mb-4" />
               <h3 className="font-semibold text-lg text-charcoal mb-2">No games found</h3>
               <p className="text-slate-500 text-sm mb-4">
@@ -173,7 +173,7 @@ function SearchContent() {
 
               {/* Signup CTA */}
               {!user && filteredGames.length > 1 && (
-                <div className="mahj-tile-pink p-8 text-center">
+                <div className="card-white p-8 text-center">
                   <ShieldCheck className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
                   <h3 className="font-semibold text-xl text-charcoal mb-2">
                     Unlock all {filteredGames.length} games
