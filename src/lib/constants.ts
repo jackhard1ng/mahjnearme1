@@ -26,11 +26,11 @@ export const GAME_TYPE_LABELS: Record<string, string> = {
 };
 
 export const GAME_TYPE_COLORS: Record<string, string> = {
-  open_play: "bg-teal-500",
-  lesson: "bg-coral-500",
-  league: "bg-yellow-500",
-  event: "bg-purple-500",
-  private: "bg-gray-500",
+  open_play: "bg-hotpink-500",
+  lesson: "bg-skyblue-400",
+  league: "bg-gold-500",
+  event: "bg-lavender-400",
+  private: "bg-slate-400",
 };
 
 export const GAME_STYLE_LABELS: Record<string, string> = {
@@ -47,9 +47,9 @@ export const SKILL_LEVEL_LABELS: Record<string, string> = {
 };
 
 export const SKILL_LEVEL_COLORS: Record<string, string> = {
-  beginner: "bg-green-100 text-green-800",
-  intermediate: "bg-blue-100 text-blue-800",
-  advanced: "bg-yellow-100 text-yellow-800",
+  beginner: "bg-skyblue-200 text-mint-600",
+  intermediate: "bg-skyblue-200 text-hotpink-600",
+  advanced: "bg-skyblue-200 text-charcoal",
 };
 
 export const DAYS_OF_WEEK = [

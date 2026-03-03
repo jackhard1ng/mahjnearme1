@@ -187,7 +187,7 @@ export default function SignupPage() {
   if (authLoading) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-teal-600 animate-spin" />
+        <Loader2 className="w-8 h-8 text-hotpink-500 animate-spin" />
       </div>
     );
   }
@@ -195,7 +195,7 @@ export default function SignupPage() {
   // Onboarding Flow
   if (isRegistered) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-teal-50/50 via-white to-white">
+      <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 mahj-hero-gradient">
         <div className="w-full max-w-lg">
           {/* Progress Indicator */}
           <div className="mb-8">
@@ -215,7 +215,7 @@ export default function SignupPage() {
                 <div
                   key={i}
                   className={`h-1.5 flex-1 rounded-full transition-colors ${
-                    i < onboardingStep ? "bg-teal-600" : "bg-slate-200"
+                    i < onboardingStep ? "bg-hotpink-500" : "bg-slate-200"
                   }`}
                 />
               ))}
@@ -223,11 +223,11 @@ export default function SignupPage() {
           </div>
 
           {/* Card */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+          <div className="mahj-tile p-6 sm:p-8">
             {/* Step 1: Skill Level */}
             {onboardingStep === 1 && (
               <div>
-                <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl sm:text-2xl text-slate-900 mb-2">
+                <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl sm:text-2xl text-charcoal mb-2">
                   What&apos;s your skill level?
                 </h2>
                 <p className="text-slate-500 text-sm mb-6">
@@ -243,24 +243,24 @@ export default function SignupPage() {
                         onClick={() => setSkillLevel(level.value)}
                         className={`w-full flex items-start gap-4 p-4 rounded-xl border-2 text-left transition-all ${
                           isSelected
-                            ? "border-teal-600 bg-teal-50 ring-1 ring-teal-600"
-                            : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                            ? "border-hotpink-500 bg-softpink-100 ring-1 ring-hotpink-500"
+                            : "border-lavender-200 hover:border-lavender-300 hover:bg-skyblue-100"
                         }`}
                       >
                         <div
                           className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
-                            isSelected ? "bg-teal-600 text-white" : "bg-slate-100 text-slate-500"
+                            isSelected ? "bg-hotpink-500 text-white" : "bg-skyblue-100 text-slate-500"
                           }`}
                         >
                           <Icon className="w-5 h-5" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <p className={`font-semibold ${isSelected ? "text-teal-900" : "text-slate-800"}`}>
+                            <p className={`font-semibold ${isSelected ? "text-hotpink-700" : "text-charcoal"}`}>
                               {level.label}
                             </p>
                             {isSelected && (
-                              <Check className="w-4 h-4 text-teal-600" />
+                              <Check className="w-4 h-4 text-hotpink-500" />
                             )}
                           </div>
                           <p className="text-sm text-slate-500 mt-0.5">{level.description}</p>
@@ -275,7 +275,7 @@ export default function SignupPage() {
             {/* Step 2: Game Style */}
             {onboardingStep === 2 && (
               <div>
-                <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl sm:text-2xl text-slate-900 mb-2">
+                <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl sm:text-2xl text-charcoal mb-2">
                   What style do you play?
                 </h2>
                 <p className="text-slate-500 text-sm mb-6">
@@ -290,17 +290,17 @@ export default function SignupPage() {
                         onClick={() => setGameStyle(style.value)}
                         className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 text-left transition-all ${
                           isSelected
-                            ? "border-teal-600 bg-teal-50 ring-1 ring-teal-600"
-                            : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                            ? "border-hotpink-500 bg-softpink-100 ring-1 ring-hotpink-500"
+                            : "border-lavender-200 hover:border-lavender-300 hover:bg-skyblue-100"
                         }`}
                       >
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <p className={`font-semibold ${isSelected ? "text-teal-900" : "text-slate-800"}`}>
+                            <p className={`font-semibold ${isSelected ? "text-hotpink-700" : "text-charcoal"}`}>
                               {style.label}
                             </p>
                             {isSelected && (
-                              <Check className="w-4 h-4 text-teal-600" />
+                              <Check className="w-4 h-4 text-hotpink-500" />
                             )}
                           </div>
                           <p className="text-sm text-slate-500 mt-0.5">{style.description}</p>
@@ -315,7 +315,7 @@ export default function SignupPage() {
             {/* Step 3: Home City */}
             {onboardingStep === 3 && (
               <div>
-                <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl sm:text-2xl text-slate-900 mb-2">
+                <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl sm:text-2xl text-charcoal mb-2">
                   Where are you based?
                 </h2>
                 <p className="text-slate-500 text-sm mb-6">
@@ -333,7 +333,7 @@ export default function SignupPage() {
                       value={homeCity}
                       onChange={(e) => setHomeCity(e.target.value)}
                       placeholder="e.g., Nashville, TN"
-                      className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-colors"
+                      className="w-full pl-11 pr-4 py-3 border border-lavender-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
                     />
                   </div>
                   <p className="text-xs text-slate-400 mt-2">
@@ -346,7 +346,7 @@ export default function SignupPage() {
             {/* Step 4: Travel Cities */}
             {onboardingStep === 4 && (
               <div>
-                <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl sm:text-2xl text-slate-900 mb-2">
+                <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl sm:text-2xl text-charcoal mb-2">
                   Any travel destinations?
                 </h2>
                 <p className="text-slate-500 text-sm mb-6">
@@ -364,7 +364,7 @@ export default function SignupPage() {
                       value={travelCities}
                       onChange={(e) => setTravelCities(e.target.value)}
                       placeholder="e.g., Miami, Denver, Phoenix"
-                      className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-colors"
+                      className="w-full pl-11 pr-4 py-3 border border-lavender-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
                     />
                   </div>
                   <p className="text-xs text-slate-400 mt-2">
@@ -379,7 +379,7 @@ export default function SignupPage() {
               {onboardingStep > 1 && (
                 <button
                   onClick={handleOnboardingBack}
-                  className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-800 transition-colors"
+                  className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-charcoal transition-colors"
                 >
                   <ChevronLeft className="w-4 h-4" />
                   Back
@@ -390,7 +390,7 @@ export default function SignupPage() {
                 <button
                   onClick={handleOnboardingNext}
                   disabled={!canProceed()}
-                  className="flex items-center gap-1.5 bg-teal-600 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-teal-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center gap-1.5 bg-hotpink-500 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-hotpink-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Continue
                   <ChevronRight className="w-4 h-4" />
@@ -398,7 +398,7 @@ export default function SignupPage() {
               ) : (
                 <button
                   onClick={handleOnboardingComplete}
-                  className="flex items-center gap-1.5 bg-teal-600 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-teal-700 transition-colors"
+                  className="flex items-center gap-1.5 bg-hotpink-500 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-hotpink-600 transition-colors"
                 >
                   Find Games
                   <ChevronRight className="w-4 h-4" />
@@ -413,28 +413,28 @@ export default function SignupPage() {
 
   // Registration Form
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-teal-50/50 via-white to-white">
+    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 mahj-hero-gradient">
       <div className="w-full max-w-md">
         {/* Branding */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 bg-teal-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">M</span>
+            <div className="w-10 h-10 bg-gradient-to-br from-hotpink-500 to-hotpink-600 rounded-xl flex items-center justify-center">
+              <span className="text-white text-lg">🀄</span>
             </div>
-            <span className="font-[family-name:var(--font-heading)] font-bold text-2xl text-slate-800">
-              MahjNearMe
+            <span className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal">
+              Mahj<span className="text-hotpink-500">Near</span>Me
             </span>
           </Link>
-          <h1 className="font-[family-name:var(--font-heading)] font-bold text-2xl sm:text-3xl text-slate-900 mb-2">
+          <h1 className="font-[family-name:var(--font-heading)] font-bold text-2xl sm:text-3xl text-charcoal mb-2">
             Start your free trial
           </h1>
           <p className="text-slate-500">
-            14 days free. No credit card required.
+            14 days free. Credit card required — cancel anytime.
           </p>
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+        <div className="mahj-tile p-6 sm:p-8">
           {/* Error Message */}
           {error && (
             <div className="flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 mb-6 text-sm">
@@ -447,7 +447,7 @@ export default function SignupPage() {
           <button
             onClick={handleGoogleSignup}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-3 bg-lavender-100 border border-lavender-300 rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-skyblue-100 hover:border-slate-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -493,7 +493,7 @@ export default function SignupPage() {
                   placeholder="Your name"
                   required
                   autoComplete="name"
-                  className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-colors"
+                  className="w-full pl-11 pr-4 py-3 border border-lavender-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
                 />
               </div>
             </div>
@@ -512,7 +512,7 @@ export default function SignupPage() {
                   placeholder="you@example.com"
                   required
                   autoComplete="email"
-                  className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-colors"
+                  className="w-full pl-11 pr-4 py-3 border border-lavender-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
                 />
               </div>
             </div>
@@ -532,7 +532,7 @@ export default function SignupPage() {
                   required
                   minLength={6}
                   autoComplete="new-password"
-                  className="w-full pl-11 pr-12 py-3 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-colors"
+                  className="w-full pl-11 pr-12 py-3 border border-lavender-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
                 />
                 <button
                   type="button"
@@ -548,7 +548,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading || !name || !email || !password}
-              className="w-full bg-teal-600 text-white py-3 rounded-xl font-semibold text-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-hotpink-500 text-white py-3 rounded-xl font-semibold text-sm hover:bg-hotpink-600 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -564,11 +564,11 @@ export default function SignupPage() {
           {/* Terms */}
           <p className="text-xs text-slate-400 text-center mt-4 leading-relaxed">
             By signing up, you agree to our{" "}
-            <Link href="/terms" className="text-teal-600 hover:text-teal-700 underline">
+            <Link href="/terms" className="text-hotpink-500 hover:text-hotpink-600 underline">
               Terms of Service
             </Link>{" "}
             and{" "}
-            <Link href="/privacy" className="text-teal-600 hover:text-teal-700 underline">
+            <Link href="/privacy" className="text-hotpink-500 hover:text-hotpink-600 underline">
               Privacy Policy
             </Link>
           </p>
@@ -577,7 +577,7 @@ export default function SignupPage() {
         {/* Login Link */}
         <p className="text-center text-sm text-slate-500 mt-6">
           Already have an account?{" "}
-          <Link href="/login" className="text-teal-600 hover:text-teal-700 font-semibold">
+          <Link href="/login" className="text-hotpink-500 hover:text-hotpink-600 font-semibold">
             Log in
           </Link>
         </p>

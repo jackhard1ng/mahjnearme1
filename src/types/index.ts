@@ -60,8 +60,10 @@ export interface Game {
 
   // Admin
   status: ListingStatus;
+  verified: boolean;
   claimedBy: string | null;
   source: ListingSource;
+  promoted: boolean;
   lastVerified: string;
   createdAt: string;
   updatedAt: string;
@@ -91,6 +93,7 @@ export interface UserProfile {
   favoriteGames: string[];
 
   // Organizer
+  isVerifiedOrganizer: boolean;
   organizerProfile: {
     groupName: string;
     claimedListings: string[];

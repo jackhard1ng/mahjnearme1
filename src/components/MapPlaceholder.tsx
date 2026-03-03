@@ -12,12 +12,12 @@ interface MapPlaceholderProps {
 
 export default function MapPlaceholder({ games, selectedGameId, onPinClick }: MapPlaceholderProps) {
   return (
-    <div className="bg-slate-100 rounded-xl border border-slate-200 h-full min-h-[300px] relative overflow-hidden">
+    <div className="bg-skyblue-100 rounded-xl border-2 border-softpink-300 h-full min-h-[300px] relative overflow-hidden">
       {/* Map background pattern */}
       <div className="absolute inset-0 opacity-10" style={{
         backgroundImage: `
-          linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)
+          linear-gradient(rgba(255,20,147,0.15) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,20,147,0.15) 1px, transparent 1px)
         `,
         backgroundSize: "40px 40px",
       }} />
@@ -37,7 +37,7 @@ export default function MapPlaceholder({ games, selectedGameId, onPinClick }: Ma
             >
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center shadow-md transition-transform ${
-                  isSelected ? "ring-2 ring-white ring-offset-2" : "hover:scale-110"
+                  isSelected ? "ring-2 ring-hotpink-400 ring-offset-2" : "hover:scale-110"
                 }`}
                 style={{ backgroundColor: color }}
               >
@@ -45,9 +45,9 @@ export default function MapPlaceholder({ games, selectedGameId, onPinClick }: Ma
               </div>
               {/* Tooltip */}
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-20">
-                <div className="bg-slate-800 text-white text-xs rounded-lg px-3 py-2 whitespace-nowrap shadow-lg">
+                <div className="bg-hotpink-700 text-white text-xs rounded-lg px-3 py-2 whitespace-nowrap shadow-lg">
                   <p className="font-semibold">{game.name}</p>
-                  <p className="text-slate-300">{getGameTypeLabel(game.type)}</p>
+                  <p className="text-softpink-200">{getGameTypeLabel(game.type)}</p>
                 </div>
               </div>
             </button>
@@ -56,13 +56,13 @@ export default function MapPlaceholder({ games, selectedGameId, onPinClick }: Ma
       </div>
 
       {/* API Key Notice */}
-      <div className="absolute bottom-3 left-3 right-3 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 text-xs text-slate-500">
-        <p className="font-medium text-slate-600 mb-0.5">Interactive Map</p>
+      <div className="absolute bottom-3 left-3 right-3 bg-mint-200/90 backdrop-blur-sm rounded-lg px-3 py-2 text-xs text-charcoal">
+        <p className="font-medium text-charcoal mb-0.5">Interactive Map</p>
         <p>Add your Google Maps API key to enable the full interactive map with real locations.</p>
       </div>
 
       {/* Legend */}
-      <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 space-y-1">
+      <div className="absolute top-3 right-3 bg-lavender-100/90 backdrop-blur-sm rounded-lg px-3 py-2 space-y-1">
         {[
           { type: "open_play", label: "Open Play" },
           { type: "lesson", label: "Lessons" },
@@ -71,7 +71,7 @@ export default function MapPlaceholder({ games, selectedGameId, onPinClick }: Ma
         ].map(({ type, label }) => (
           <div key={type} className="flex items-center gap-2 text-xs">
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: getMapPinColor(type) }} />
-            <span className="text-slate-600">{label}</span>
+            <span className="text-charcoal">{label}</span>
           </div>
         ))}
       </div>

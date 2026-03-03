@@ -61,10 +61,10 @@ export default function AddYourGroupPage() {
   if (submitted) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <CheckCircle className="w-8 h-8 text-green-600" />
+        <div className="w-16 h-16 bg-mint-200 rounded-full flex items-center justify-center mx-auto mb-6">
+          <CheckCircle className="w-8 h-8 text-mint-500" />
         </div>
-        <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-slate-900 mb-3">
+        <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-charcoal mb-3">
           Submission Received!
         </h1>
         <p className="text-slate-500 mb-6">
@@ -74,7 +74,7 @@ export default function AddYourGroupPage() {
         <p className="text-sm text-slate-400 mb-8">
           Want to manage your listing? Create an organizer account to claim it.
         </p>
-        <a href="/signup" className="inline-block bg-teal-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-teal-700 transition-colors">
+        <a href="/signup" className="inline-block bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors">
           Create Organizer Account
         </a>
       </div>
@@ -85,7 +85,7 @@ export default function AddYourGroupPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
-      <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-slate-900 mb-2">
+      <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-charcoal mb-2">
         List Your Mahjong Group
       </h1>
       <p className="text-slate-500 mb-8">
@@ -97,12 +97,12 @@ export default function AddYourGroupPage() {
         {Array.from({ length: totalSteps }).map((_, i) => (
           <div key={i} className="flex items-center gap-2 flex-1">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-              step > i + 1 ? "bg-teal-600 text-white" : step === i + 1 ? "bg-teal-600 text-white" : "bg-slate-200 text-slate-500"
+              step > i + 1 ? "bg-hotpink-500 text-white" : step === i + 1 ? "bg-hotpink-500 text-white" : "bg-slate-200 text-slate-500"
             }`}>
               {step > i + 1 ? <CheckCircle className="w-4 h-4" /> : i + 1}
             </div>
             {i < totalSteps - 1 && (
-              <div className={`flex-1 h-1 rounded ${step > i + 1 ? "bg-teal-600" : "bg-slate-200"}`} />
+              <div className={`flex-1 h-1 rounded ${step > i + 1 ? "bg-hotpink-500" : "bg-slate-200"}`} />
             )}
           </div>
         ))}
@@ -112,25 +112,25 @@ export default function AddYourGroupPage() {
         {/* Step 1: Basic Info */}
         {step === 1 && (
           <div className="space-y-5">
-            <h2 className="font-semibold text-xl text-slate-800 flex items-center gap-2">
-              <Info className="w-5 h-5 text-teal-600" /> Basic Information
+            <h2 className="font-semibold text-xl text-charcoal flex items-center gap-2">
+              <Info className="w-5 h-5 text-hotpink-500" /> Basic Information
             </h2>
 
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Group/Event Name *</label>
-                <input type="text" required value={form.name} onChange={(e) => updateField("name", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., Tuesday Night Mahj" />
+                <input type="text" required value={form.name} onChange={(e) => updateField("name", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., Tuesday Night Mahj" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Organizer Name *</label>
-                <input type="text" required value={form.organizerName} onChange={(e) => updateField("organizerName", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., Mahj918" />
+                <input type="text" required value={form.organizerName} onChange={(e) => updateField("organizerName", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., Mahj918" />
               </div>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Type *</label>
-                <select value={form.type} onChange={(e) => updateField("type", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm">
+                <select value={form.type} onChange={(e) => updateField("type", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm">
                   {Object.entries(GAME_TYPE_LABELS).map(([val, label]) => (
                     <option key={val} value={val}>{label}</option>
                   ))}
@@ -138,7 +138,7 @@ export default function AddYourGroupPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Game Style *</label>
-                <select value={form.gameStyle} onChange={(e) => updateField("gameStyle", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm">
+                <select value={form.gameStyle} onChange={(e) => updateField("gameStyle", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm">
                   {Object.entries(GAME_STYLE_LABELS).map(([val, label]) => (
                     <option key={val} value={val}>{label}</option>
                   ))}
@@ -155,7 +155,7 @@ export default function AddYourGroupPage() {
                     type="button"
                     onClick={() => toggleSkillLevel(val)}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      form.skillLevels.includes(val) ? "bg-teal-600 text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                      form.skillLevels.includes(val) ? "bg-hotpink-500 text-white" : "bg-skyblue-100 text-slate-600 hover:bg-skyblue-200"
                     }`}
                   >
                     {label}
@@ -166,11 +166,11 @@ export default function AddYourGroupPage() {
 
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="flex items-center gap-3">
-                <input type="checkbox" id="dropIn" checked={form.dropInFriendly} onChange={(e) => updateField("dropInFriendly", e.target.checked)} className="rounded border-slate-300" />
+                <input type="checkbox" id="dropIn" checked={form.dropInFriendly} onChange={(e) => updateField("dropInFriendly", e.target.checked)} className="rounded border-lavender-300" />
                 <label htmlFor="dropIn" className="text-sm text-slate-700">Drop-in friendly (no RSVP required)</label>
               </div>
               <div className="flex items-center gap-3">
-                <input type="checkbox" id="sets" checked={form.setsProvided} onChange={(e) => updateField("setsProvided", e.target.checked)} className="rounded border-slate-300" />
+                <input type="checkbox" id="sets" checked={form.setsProvided} onChange={(e) => updateField("setsProvided", e.target.checked)} className="rounded border-lavender-300" />
                 <label htmlFor="sets" className="text-sm text-slate-700">Mahjong sets provided</label>
               </div>
             </div>
@@ -180,47 +180,47 @@ export default function AddYourGroupPage() {
         {/* Step 2: Location & Schedule */}
         {step === 2 && (
           <div className="space-y-5">
-            <h2 className="font-semibold text-xl text-slate-800 flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-teal-600" /> Location & Schedule
+            <h2 className="font-semibold text-xl text-charcoal flex items-center gap-2">
+              <MapPin className="w-5 h-5 text-hotpink-500" /> Location & Schedule
             </h2>
 
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Venue Name *</label>
-                <input type="text" required value={form.venueName} onChange={(e) => updateField("venueName", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., McNellie's South City" />
+                <input type="text" required value={form.venueName} onChange={(e) => updateField("venueName", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., McNellie's South City" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">General Area</label>
-                <input type="text" value={form.generalArea} onChange={(e) => updateField("generalArea", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., South Tulsa" />
+                <input type="text" value={form.generalArea} onChange={(e) => updateField("generalArea", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., South Tulsa" />
               </div>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Full Address *</label>
-              <input type="text" required value={form.address} onChange={(e) => updateField("address", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., 7031 S Zurich Ave, Tulsa, OK 74136" />
+              <input type="text" required value={form.address} onChange={(e) => updateField("address", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., 7031 S Zurich Ave, Tulsa, OK 74136" />
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">City *</label>
-                <input type="text" required value={form.city} onChange={(e) => updateField("city", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" />
+                <input type="text" required value={form.city} onChange={(e) => updateField("city", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">State *</label>
-                <input type="text" required value={form.state} onChange={(e) => updateField("state", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., OK" />
+                <input type="text" required value={form.state} onChange={(e) => updateField("state", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., OK" />
               </div>
             </div>
 
-            <hr className="border-slate-100" />
+            <hr className="border-lavender-100" />
 
-            <h3 className="font-semibold text-lg text-slate-800 flex items-center gap-2">
-              <Clock className="w-5 h-5 text-teal-600" /> Schedule
+            <h3 className="font-semibold text-lg text-charcoal flex items-center gap-2">
+              <Clock className="w-5 h-5 text-hotpink-500" /> Schedule
             </h3>
 
             <div className="grid sm:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Day of Week *</label>
-                <select value={form.dayOfWeek} onChange={(e) => updateField("dayOfWeek", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm">
+                <select value={form.dayOfWeek} onChange={(e) => updateField("dayOfWeek", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm">
                   {DAYS_OF_WEEK.map((day) => (
                     <option key={day} value={day}>{day.charAt(0).toUpperCase() + day.slice(1)}</option>
                   ))}
@@ -228,17 +228,17 @@ export default function AddYourGroupPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Start Time *</label>
-                <input type="time" required value={form.startTime} onChange={(e) => updateField("startTime", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" />
+                <input type="time" required value={form.startTime} onChange={(e) => updateField("startTime", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">End Time *</label>
-                <input type="time" required value={form.endTime} onChange={(e) => updateField("endTime", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" />
+                <input type="time" required value={form.endTime} onChange={(e) => updateField("endTime", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" />
               </div>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Frequency *</label>
-              <select value={form.frequency} onChange={(e) => updateField("frequency", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm">
+              <select value={form.frequency} onChange={(e) => updateField("frequency", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm">
                 <option value="weekly">Weekly</option>
                 <option value="biweekly">Every other week</option>
                 <option value="monthly">Monthly</option>
@@ -248,11 +248,11 @@ export default function AddYourGroupPage() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Cost</label>
-                <input type="text" value={form.cost} onChange={(e) => updateField("cost", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., $15 or Free" />
+                <input type="text" value={form.cost} onChange={(e) => updateField("cost", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., $15 or Free" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Typical Group Size</label>
-                <input type="text" value={form.typicalGroupSize} onChange={(e) => updateField("typicalGroupSize", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., 3-5 tables" />
+                <input type="text" value={form.typicalGroupSize} onChange={(e) => updateField("typicalGroupSize", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., 3-5 tables" />
               </div>
             </div>
           </div>
@@ -261,66 +261,66 @@ export default function AddYourGroupPage() {
         {/* Step 3: Details & Contact */}
         {step === 3 && (
           <div className="space-y-5">
-            <h2 className="font-semibold text-xl text-slate-800 flex items-center gap-2">
-              <Users className="w-5 h-5 text-teal-600" /> Details & Contact
+            <h2 className="font-semibold text-xl text-charcoal flex items-center gap-2">
+              <Users className="w-5 h-5 text-hotpink-500" /> Details & Contact
             </h2>
 
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Description *</label>
-              <textarea required rows={3} value={form.description} onChange={(e) => updateField("description", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" placeholder="Tell potential players about your group..." />
+              <textarea required rows={3} value={form.description} onChange={(e) => updateField("description", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" placeholder="Tell potential players about your group..." />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">How to Join</label>
-              <input type="text" value={form.howToJoin} onChange={(e) => updateField("howToJoin", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., Just show up! or RSVP via email" />
+              <input type="text" value={form.howToJoin} onChange={(e) => updateField("howToJoin", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., Just show up! or RSVP via email" />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">What to Bring</label>
-              <input type="text" value={form.whatToBring} onChange={(e) => updateField("whatToBring", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., Bring your NMJL card" />
+              <input type="text" value={form.whatToBring} onChange={(e) => updateField("whatToBring", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., Bring your NMJL card" />
             </div>
 
-            <hr className="border-slate-100" />
+            <hr className="border-lavender-100" />
 
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Contact Name *</label>
-                <input type="text" required value={form.contactName} onChange={(e) => updateField("contactName", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" />
+                <input type="text" required value={form.contactName} onChange={(e) => updateField("contactName", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Contact Email *</label>
-                <input type="email" required value={form.contactEmail} onChange={(e) => updateField("contactEmail", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" />
+                <input type="email" required value={form.contactEmail} onChange={(e) => updateField("contactEmail", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" />
               </div>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Phone</label>
-                <input type="tel" value={form.contactPhone} onChange={(e) => updateField("contactPhone", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" />
+                <input type="tel" value={form.contactPhone} onChange={(e) => updateField("contactPhone", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Website</label>
-                <input type="url" value={form.website} onChange={(e) => updateField("website", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" placeholder="https://" />
+                <input type="url" value={form.website} onChange={(e) => updateField("website", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" placeholder="https://" />
               </div>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Instagram</label>
-                <input type="text" value={form.instagram} onChange={(e) => updateField("instagram", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" placeholder="@handle" />
+                <input type="text" value={form.instagram} onChange={(e) => updateField("instagram", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" placeholder="@handle" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Facebook Group URL</label>
-                <input type="url" value={form.facebookGroup} onChange={(e) => updateField("facebookGroup", e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm" />
+                <input type="url" value={form.facebookGroup} onChange={(e) => updateField("facebookGroup", e.target.value)} className="w-full border border-lavender-200 rounded-lg px-3 py-2.5 text-sm" />
               </div>
             </div>
           </div>
         )}
 
         {/* Navigation */}
-        <div className="flex items-center justify-between mt-8 pt-6 border-t border-slate-100">
+        <div className="flex items-center justify-between mt-8 pt-6 border-t border-lavender-100">
           {step > 1 ? (
-            <button type="button" onClick={() => setStep(step - 1)} className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-800">
+            <button type="button" onClick={() => setStep(step - 1)} className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-charcoal">
               <ArrowLeft className="w-4 h-4" /> Back
             </button>
           ) : (
@@ -328,11 +328,11 @@ export default function AddYourGroupPage() {
           )}
 
           {step < totalSteps ? (
-            <button type="button" onClick={() => setStep(step + 1)} className="flex items-center gap-2 bg-teal-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-teal-700 transition-colors">
+            <button type="button" onClick={() => setStep(step + 1)} className="flex items-center gap-2 bg-hotpink-500 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors">
               Continue <ArrowRight className="w-4 h-4" />
             </button>
           ) : (
-            <button type="submit" className="flex items-center gap-2 bg-teal-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-teal-700 transition-colors">
+            <button type="submit" className="flex items-center gap-2 bg-hotpink-500 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors">
               <Send className="w-4 h-4" /> Submit for Review
             </button>
           )}

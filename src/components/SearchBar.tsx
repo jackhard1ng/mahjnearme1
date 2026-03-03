@@ -42,13 +42,13 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
   return (
     <form onSubmit={handleSubmit} className={`flex items-center gap-2 ${className}`}>
       <div className={`relative flex-1 ${isLarge ? "text-lg" : "text-sm"}`}>
-        <Search className={`absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 ${isLarge ? "w-5 h-5" : "w-4 h-4"}`} />
+        <Search className={`absolute left-4 top-1/2 -translate-y-1/2 text-hotpink-400 ${isLarge ? "w-5 h-5" : "w-4 h-4"}`} />
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search by city, state, or zip code..."
-          className={`w-full bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ${
+          className={`w-full bg-lavender-100 border border-lavender-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-hotpink-400 focus:border-transparent transition-all placeholder:text-slate-400 ${
             isLarge
               ? "pl-12 pr-4 py-4 text-lg shadow-lg"
               : "pl-10 pr-4 py-3 text-sm"
@@ -59,7 +59,7 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
         type="button"
         onClick={handleUseLocation}
         disabled={locating}
-        className={`flex items-center gap-2 bg-white border border-slate-200 rounded-xl hover:border-teal-300 hover:text-teal-600 transition-all text-slate-600 ${
+        className={`flex items-center gap-2 bg-skyblue-200 border border-skyblue-300 rounded-xl hover:bg-skyblue-300 hover:text-hotpink-600 transition-all text-charcoal ${
           isLarge ? "px-5 py-4 shadow-lg" : "px-4 py-3"
         }`}
         title="Use my location"
@@ -75,8 +75,8 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
       </button>
       <button
         type="submit"
-        className={`bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors ${
-          isLarge ? "px-8 py-4 text-lg shadow-lg" : "px-6 py-3 text-sm"
+        className={`bg-hotpink-500 text-white rounded-xl font-semibold hover:bg-hotpink-600 transition-colors shadow-lg ${
+          isLarge ? "px-8 py-4 text-lg" : "px-6 py-3 text-sm"
         }`}
       >
         Search

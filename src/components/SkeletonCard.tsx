@@ -1,6 +1,7 @@
 export default function SkeletonCard() {
   return (
-    <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+    <div className="mahj-tile overflow-hidden">
+      <div className="h-1.5 bg-gradient-to-r from-hotpink-300 via-skyblue-300 to-mint-300 animate-shimmer" />
       <div className="p-4 space-y-3">
         <div className="flex gap-2">
           <div className="w-20 h-5 rounded-full animate-shimmer" />
@@ -14,7 +15,7 @@ export default function SkeletonCard() {
           <div className="w-1/4 h-4 rounded animate-shimmer" />
         </div>
       </div>
-      <div className="px-4 py-3 border-t border-slate-100">
+      <div className="px-4 py-3 border-t border-lavender-200">
         <div className="w-32 h-4 rounded animate-shimmer" />
       </div>
     </div>

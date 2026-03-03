@@ -53,7 +53,7 @@ const posts = [
 export default function BlogPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
-      <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl text-slate-900 mb-3">
+      <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl text-charcoal mb-3">
         The MahjNearMe Blog
       </h1>
       <p className="text-slate-500 mb-10">
@@ -64,12 +64,12 @@ export default function BlogPage() {
         {posts.map((post, i) => (
           <article
             key={post.slug}
-            className={`bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-md transition-all ${
+            className={`mahj-tile overflow-hidden ${
               i === 0 ? "p-8" : "p-6"
             }`}
           >
             <div className="flex items-center gap-3 mb-3">
-              <span className="text-xs font-semibold text-teal-600 bg-teal-50 px-2.5 py-0.5 rounded-full">
+              <span className="text-xs font-semibold text-hotpink-500 bg-softpink-100 px-2.5 py-0.5 rounded-full">
                 {post.category}
               </span>
               <span className="text-xs text-slate-400 flex items-center gap-1">
@@ -77,7 +77,7 @@ export default function BlogPage() {
               </span>
               <span className="text-xs text-slate-400">{post.date}</span>
             </div>
-            <h2 className={`font-[family-name:var(--font-heading)] font-bold text-slate-900 mb-2 ${
+            <h2 className={`font-[family-name:var(--font-heading)] font-bold text-charcoal mb-2 ${
               i === 0 ? "text-2xl" : "text-lg"
             }`}>
               {post.title}
@@ -85,7 +85,7 @@ export default function BlogPage() {
             <p className={`text-slate-500 mb-4 ${i === 0 ? "" : "text-sm"}`}>
               {post.excerpt}
             </p>
-            <span className="inline-flex items-center gap-1 text-sm font-semibold text-teal-600 hover:text-teal-700 cursor-pointer">
+            <span className="inline-flex items-center gap-1 text-sm font-semibold text-hotpink-500 hover:text-hotpink-600 cursor-pointer">
               Read More <ArrowRight className="w-4 h-4" />
             </span>
           </article>
