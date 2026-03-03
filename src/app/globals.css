@@ -53,6 +53,23 @@
   /* Tile cream for mahjong tile cards */
   --color-tile-cream: #FFF8F0;
 
+  /* 4 Distinct Game Type Colors — only used for type badges + map pins */
+  --color-openplay: #FF1493;
+  --color-openplay-light: #FFE0EE;
+  --color-openplay-border: #FFC0D9;
+
+  --color-league: #8B5CF6;
+  --color-league-light: #EDE9FE;
+  --color-league-border: #C4B5FD;
+
+  --color-lesson: #0EA5E9;
+  --color-lesson-light: #E0F2FE;
+  --color-lesson-border: #7DD3FC;
+
+  --color-event: #F59E0B;
+  --color-event-light: #FEF3C7;
+  --color-event-border: #FCD34D;
+
   /* Gold - only for stars */
   --color-gold-300: #FFD054;
 
@@ -88,33 +105,39 @@ html {
 }
 
 /* ===== MAHJONG TILE CARD ===== */
-/* Signature visual: looks like a real mahjong tile sitting on a table */
+/* Looks like a real mahjong tile: thick, raised, cream with visible depth */
 .mahj-tile {
-  background: #FFF8F0;
-  border: 1px solid #E8DDD0;
-  border-radius: 16px;
+  background: linear-gradient(180deg, #FFFCF5 0%, #FFF5E8 100%);
+  border: 2px solid #D4C9B8;
+  border-bottom: 4px solid #B8A998;
+  border-radius: 14px;
   position: relative;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.06),
-    0 6px 12px rgba(0, 0, 0, 0.04),
-    0 12px 24px rgba(0, 0, 0, 0.03),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+    /* outer depth — tile sitting on table */
+    0 4px 0 #C4B8A5,
+    0 6px 0 #B0A48F,
+    0 8px 16px rgba(0, 0, 0, 0.15),
+    0 12px 32px rgba(0, 0, 0, 0.08),
+    /* inner highlight — glossy top edge */
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.03);
 }
 .mahj-tile:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
   box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.08),
-    0 12px 24px rgba(0, 0, 0, 0.06),
-    0 20px 40px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+    0 6px 0 #C4B8A5,
+    0 8px 0 #B0A48F,
+    0 14px 24px rgba(0, 0, 0, 0.18),
+    0 20px 48px rgba(0, 0, 0, 0.1),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.03);
 }
 
-/* Engraved text effect for tile content */
+/* Engraved text effect — carved into tile surface */
 .tile-engraved {
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6), 0 -1px 0 rgba(0, 0, 0, 0.08);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 -1px 0 rgba(0, 0, 0, 0.12);
+  letter-spacing: 0.01em;
 }
 
 /* White card - clean, lets pink and blue pop */

@@ -25,11 +25,11 @@ export function getVerificationStatus(verified: boolean): {
 
 export function getGameTypeColor(type: string): string {
   switch (type) {
-    case "open_play": return "bg-hotpink-100 text-hotpink-600 border-hotpink-200";
-    case "lesson": return "bg-skyblue-100 text-skyblue-600 border-skyblue-300";
-    case "league": return "bg-hotpink-100 text-hotpink-600 border-hotpink-200";
-    case "event": return "bg-skyblue-100 text-skyblue-600 border-skyblue-300";
-    default: return "bg-hotpink-100 text-hotpink-600 border-hotpink-200";
+    case "open_play": return "bg-openplay-light text-[#C4107A] border-openplay-border";
+    case "lesson": return "bg-lesson-light text-[#0284C7] border-lesson-border";
+    case "league": return "bg-league-light text-[#7C3AED] border-league-border";
+    case "event": return "bg-event-light text-[#D97706] border-event-border";
+    default: return "bg-openplay-light text-[#C4107A] border-openplay-border";
   }
 }
 
@@ -47,9 +47,9 @@ export function getGameTypeLabel(type: string): string {
 export function getMapPinColor(type: string): string {
   switch (type) {
     case "open_play": return "#FF1493";
-    case "lesson": return "#87CEEB";
-    case "league": return "#FF69B4";
-    case "event": return "#5BB6D9";
+    case "lesson": return "#0EA5E9";
+    case "league": return "#8B5CF6";
+    case "event": return "#F59E0B";
     default: return "#94a3b8";
   }
 }

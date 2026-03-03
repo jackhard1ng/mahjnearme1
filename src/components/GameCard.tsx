@@ -109,7 +109,7 @@ export default function GameCard({
                   <Heart className={`w-5 h-5 ${isFavorited ? "fill-hotpink-500 text-hotpink-500" : "text-slate-300"}`} />
                 </button>
               )}
-              <span className="text-2xl opacity-15 select-none" aria-hidden="true">{tileSymbol}</span>
+              <span className="text-3xl opacity-20 select-none" aria-hidden="true" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>{tileSymbol}</span>
             </div>
           </div>
 
@@ -197,7 +197,7 @@ export default function GameCard({
         </div>
 
         {/* Bottom badges — skill level + drop-in, like tile footer */}
-        <div className="px-4 py-2.5 border-t border-[#E8DDD0] flex items-center justify-between bg-[#FFF5EB]">
+        <div className="px-4 py-2.5 border-t-2 border-[#D4C9B8] flex items-center justify-between bg-[#FFF0DD]">
           <div className="flex items-center gap-1.5 flex-wrap">
             {game.skillLevels.map((level) => (
               <span
