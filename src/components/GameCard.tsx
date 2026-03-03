@@ -197,14 +197,19 @@ export default function GameCard({
               <h3 className="tile-engraved font-bold text-charcoal text-lg hover:text-hotpink-500 transition-colors leading-tight mb-0.5">
                 {game.name}
               </h3>
-              <p className="text-xs text-slate-500 tile-engraved mb-3">{game.organizerName}</p>
+              {!isTeaser && (
+                <p className="text-xs text-slate-500 tile-engraved mb-3">{game.organizerName}</p>
+              )}
+              {isTeaser && <div className="mb-3" />}
 
               {/* Key details — engraved */}
               <div className="space-y-1.5 mb-3">
-                <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
-                  <Clock className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
-                  <span className="font-medium">{schedule}</span>
-                </div>
+                {!isTeaser && (
+                  <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
+                    <Clock className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
+                    <span className="font-medium">{schedule}</span>
+                  </div>
+                )}
                 <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
                   <MapPin className="w-3.5 h-3.5 text-skyblue-500 shrink-0" />
                   <span>{isTeaser ? game.generalArea : `${game.city}, ${game.state}`}</span>
@@ -215,7 +220,7 @@ export default function GameCard({
                     <span>{game.cost}</span>
                   </div>
                 )}
-                {game.typicalGroupSize && (
+                {!isTeaser && game.typicalGroupSize && (
                   <div className="flex items-center gap-2 text-sm text-slate-600 tile-engraved">
                     <Users className="w-3.5 h-3.5 text-skyblue-500 shrink-0" />
                     <span>{game.typicalGroupSize}</span>

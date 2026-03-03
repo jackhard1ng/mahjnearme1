@@ -104,16 +104,16 @@ export default async function StatePage({ params }: Props) {
       {/* CTA */}
       <div className="bg-gradient-to-br from-hotpink-50 to-skyblue-50 rounded-xl border border-hotpink-200 p-8 text-center">
         <h2 className="font-semibold text-xl text-charcoal mb-2">
-          Don&apos;t see your city?
+          Don&apos;t see your group?
         </h2>
         <p className="text-slate-500 mb-4 text-sm">
-          We&apos;re growing every week. Sign up and request games in your area!
+          We&apos;re adding new games every week. Let us know about your group and we&apos;ll list it for free.
         </p>
         <Link
-          href="/signup"
-          className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
+          href="/add-your-group"
+          className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
         >
-          Start Free Trial
+          Add a Group <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
     </div>
