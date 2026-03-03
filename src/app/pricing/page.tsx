@@ -38,7 +38,7 @@ const faqs = [
   {
     question: "What happens when my trial ends?",
     answer:
-      "When your 14-day trial ends, you'll automatically be subscribed to the plan you selected. If you cancel before the trial ends, your account reverts to the free tier. You can still search for games, but results will be blurred. Subscribe anytime to restore full access.",
+      "When your 14-day trial ends, your subscription automatically begins and you'll be charged the plan you selected. You keep full access to all game details, the travel planner, favorites, and more — no interruption. If you cancel before the trial ends, you won't be charged.",
   },
   {
     question: "How do payments work?",
@@ -189,16 +189,16 @@ export default function PricingPage() {
             Compare Access Levels
           </h2>
           <div className="grid sm:grid-cols-3 gap-6">
-            {/* Free Tier */}
+            {/* Visitor (no account) */}
             <div className="mahj-tile p-6 text-center">
               <div className="w-12 h-12 bg-skyblue-50 rounded-xl flex items-center justify-center mx-auto mb-4 border border-skyblue-200">
                 <X className="w-6 h-6 text-slate-400" />
               </div>
               <h3 className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-1">
-                Free
+                Visitor
               </h3>
               <p className="text-sm text-slate-500 mb-4">
-                Search + blurred results
+                Browse without an account
               </p>
               <div className="text-2xl font-bold text-charcoal mb-4">$0</div>
               <ul className="text-sm text-slate-500 space-y-2 text-left">
@@ -227,13 +227,13 @@ export default function PricingPage() {
                 <Star className="w-6 h-6 text-hotpink-500" />
               </div>
               <h3 className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-1">
-                Trial
+                Free Trial
               </h3>
               <p className="text-sm text-slate-500 mb-4">
-                14 days full access
+                14 days free, then subscribes
               </p>
               <div className="text-2xl font-bold text-charcoal mb-1">$0</div>
-              <p className="text-xs text-slate-400 mb-3">Credit card required</p>
+              <p className="text-xs text-slate-400 mb-3">Credit card required, cancel anytime</p>
               <ul className="text-sm text-slate-500 space-y-2 text-left">
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-hotpink-500 shrink-0" />

@@ -23,7 +23,7 @@ const faqs = [
       { q: "Is there a free trial?", a: "Yes! When you sign up, you get 14 days of full access. A credit card is required to start, but you won't be charged until the trial ends. You can see all game details, use the travel planner, save favorites, and more." },
       { q: "How much does a subscription cost?", a: "We offer two plans: $4.99/month or $39.99/year (that's just $3.33/month — a 33% savings). Both give you full access to all features." },
       { q: "Can I cancel anytime?", a: "Yes, absolutely. No contracts, no cancellation fees. You can cancel anytime from your account settings or the Stripe customer portal. Your access continues until the end of your billing period." },
-      { q: "What happens when my trial ends?", a: "If you don't subscribe, your account reverts to the free tier. You'll still be able to search and see that games exist, but the details will be blurred. You can subscribe at any time to regain full access." },
+      { q: "What happens when my trial ends?", a: "After your 14-day free trial, your subscription automatically begins and you'll be charged the plan you selected ($4.99/month or $39.99/year). You'll keep full access to all game details, the travel planner, favorites, and more — no interruption. You can cancel anytime from your account settings." },
       { q: "What can I see without an account?", a: "Without an account, you can search and see the map with pins showing where games exist. You'll see one teaser card with partial info and blurred cards for the rest. Sign up for a free trial to see everything!" },
     ],
   },
