@@ -54,7 +54,6 @@ export default function ContactPage() {
               <option value="general">General Question</option>
               <option value="listing">Submit a Game / Listing Issue</option>
               <option value="account">Account / Subscription Help</option>
-              <option value="organizer">Organizer Inquiry</option>
               <option value="partnership">Partnership / Press</option>
               <option value="bug">Report a Bug</option>
             </select>

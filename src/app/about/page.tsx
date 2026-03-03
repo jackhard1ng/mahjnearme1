@@ -79,7 +79,7 @@ export default function AboutPage() {
             {
               icon: Heart,
               title: "Community-Powered",
-              desc: "Organizers list and manage their own groups for free. Our community keeps the data fresh.",
+              desc: "Groups can get listed for free. Our team verifies every listing to keep the data fresh and accurate.",
             },
           ].map((item) => (
             <div key={item.title} className="mahj-tile p-5">

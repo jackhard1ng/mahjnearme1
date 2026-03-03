@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin", "/admin/*", "/api/*", "/account", "/organizer"],
+        disallow: ["/admin", "/admin/*", "/api/*", "/account"],
       },
     ],
     sitemap: "https://mahjnearme.com/sitemap.xml",

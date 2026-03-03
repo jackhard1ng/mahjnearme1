@@ -24,7 +24,6 @@ interface AuthContextType {
   signOut: () => Promise<void>;
   hasAccess: boolean;
   isAdmin: boolean;
-  isOrganizer: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -58,8 +57,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             homeGeopoint: null,
             savedCities: [],
             favoriteGames: [],
-            isVerifiedOrganizer: false,
-            organizerProfile: null,
             createdAt: new Date().toISOString(),
             lastLoginAt: new Date().toISOString(),
           });
@@ -106,7 +103,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       new Date(userProfile.trialEndsAt) > new Date());
 
   const isAdmin = userProfile?.accountType === "admin";
-  const isOrganizer = userProfile?.accountType === "organizer";
 
   return (
     <AuthContext.Provider
@@ -120,7 +116,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signOut,
         hasAccess,
         isAdmin,
-        isOrganizer,
       }}
     >
       {children}
