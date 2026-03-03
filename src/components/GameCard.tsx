@@ -151,18 +151,17 @@ export default function GameCard({
   const tileNumber = getTileNumber(game.id);
 
   return (
-    <div className={`mahj-tile overflow-hidden flex flex-col ${blurred ? "relative" : ""}`}>
+    <Link href={`/games/${gameSlug}`} className={`mahj-tile overflow-hidden flex flex-col ${blurred ? "relative" : ""} hover:shadow-xl transition-shadow cursor-pointer`}>
       {blurred && (
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-[14px]">
           <div className="text-center px-6">
             <ShieldCheck className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
             <p className="font-semibold text-charcoal mb-1">Sign up free to see full details</p>
-            <Link
-              href="/signup"
+            <span
               className="inline-block mt-2 bg-hotpink-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
             >
               Start Your 14-Day Free Trial
-            </Link>
+            </span>
           </div>
         </div>
       )}
@@ -182,7 +181,7 @@ export default function GameCard({
             </span>
             {onFavorite && (
               <button
-                onClick={() => onFavorite(game.id)}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); onFavorite(game.id); }}
                 className="p-1.5 rounded-lg hover:bg-hotpink-50 transition-colors -mr-1"
                 aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
               >
@@ -192,11 +191,9 @@ export default function GameCard({
           </div>
 
           {/* Group name — engraved into tile */}
-          <Link href={`/games/${gameSlug}`}>
-            <h3 className="tile-engraved font-bold text-charcoal text-lg hover:text-hotpink-500 transition-colors leading-tight mb-0.5">
-              {game.name}
-            </h3>
-          </Link>
+          <h3 className="tile-engraved font-bold text-charcoal text-lg hover:text-hotpink-500 transition-colors leading-tight mb-0.5">
+            {game.name}
+          </h3>
           <p className="text-xs text-slate-500 tile-engraved mb-3">{game.organizerName}</p>
 
           {/* Key details — engraved */}
@@ -247,34 +244,34 @@ export default function GameCard({
 
           {/* Contact Links */}
           {!isTeaser && !blurred && (
-            <div className="flex flex-wrap gap-1.5 mb-2">
+            <div className="flex flex-wrap gap-1.5 mb-2" onClick={(e) => e.stopPropagation()}>
               {game.contactEmail && (
-                <a href={`mailto:${game.contactEmail}`} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
+                <a href={`mailto:${game.contactEmail}`} onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
                   <Mail className="w-3 h-3" /> Email
                 </a>
               )}
               {game.contactPhone && (
-                <a href={`tel:${game.contactPhone}`} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
+                <a href={`tel:${game.contactPhone}`} onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
                   <Phone className="w-3 h-3" /> Call
                 </a>
               )}
               {game.website && (
-                <a href={game.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-skyblue-600 hover:text-skyblue-500 bg-skyblue-100 px-2 py-1 rounded-full transition-colors">
+                <a href={game.website} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-skyblue-600 hover:text-skyblue-500 bg-skyblue-100 px-2 py-1 rounded-full transition-colors">
                   <Globe className="w-3 h-3" /> Website
                 </a>
               )}
               {game.instagram && (
-                <a href={`https://instagram.com/${game.instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
+                <a href={`https://instagram.com/${game.instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
                   <Instagram className="w-3 h-3" /> {game.instagram}
                 </a>
               )}
               {game.facebookGroup && (
-                <a href={game.facebookGroup} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-skyblue-600 hover:text-skyblue-500 bg-skyblue-100 px-2 py-1 rounded-full transition-colors">
+                <a href={game.facebookGroup} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-skyblue-600 hover:text-skyblue-500 bg-skyblue-100 px-2 py-1 rounded-full transition-colors">
                   <Globe className="w-3 h-3" /> Facebook
                 </a>
               )}
               {game.registrationLink && (
-                <a href={game.registrationLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-100 px-2 py-1 rounded-full font-medium transition-colors">
+                <a href={game.registrationLink} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-100 px-2 py-1 rounded-full font-medium transition-colors">
                   <ExternalLink className="w-3 h-3" /> Register
                 </a>
               )}
@@ -309,6 +306,6 @@ export default function GameCard({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

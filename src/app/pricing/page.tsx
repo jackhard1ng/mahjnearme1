@@ -59,7 +59,7 @@ export default function PricingPage() {
       <section className="relative overflow-hidden">
         {/* Background photo */}
         <div className="absolute inset-0">
-          <img src="/images/tiles-closeup.jpg" alt="" className="w-full h-full object-cover" />
+          <img src="/images/c2d2c03301c201e23fd4816059b397c4.jpg" alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-br from-[#FF1493]/85 via-[#FF69B4]/75 to-[#87CEEB]/80" />
         </div>
 

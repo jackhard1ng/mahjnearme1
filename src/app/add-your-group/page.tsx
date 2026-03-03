@@ -74,7 +74,7 @@ export default function AddYourGroupPage() {
       {/* Part 1: List Your Group */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/tiles-overhead.jpg" alt="" className="w-full h-full object-cover opacity-[0.08]" loading="lazy" />
+          <img src="/images/8f52f44ed05054e40828936a96d15b75.jpg" alt="" className="w-full h-full object-cover opacity-[0.08]" loading="lazy" />
           <div className="absolute inset-0 bg-[#FFF0F5]/92" />
         </div>
 
