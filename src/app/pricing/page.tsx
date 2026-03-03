@@ -56,10 +56,12 @@ export default function PricingPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden mahj-hero-gradient">
-        {/* Floating decorations */}
-        <div className="absolute top-8 left-[8%] text-4xl opacity-10 animate-float select-none" aria-hidden="true">🀙</div>
-        <div className="absolute bottom-8 right-[12%] text-3xl opacity-10 animate-float select-none" style={{ animationDelay: "1.5s" }} aria-hidden="true">🀇</div>
+      <section className="relative overflow-hidden">
+        {/* Background photo */}
+        <div className="absolute inset-0">
+          <img src="/images/tiles-closeup.jpg" alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#FF1493]/85 via-[#FF69B4]/75 to-[#87CEEB]/80" />
+        </div>
 
         <div className="max-w-5xl mx-auto px-4 pt-16 pb-12 sm:pt-24 sm:pb-16 text-center relative">
           <div className="flex justify-center gap-2 mb-4">

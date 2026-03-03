@@ -9,11 +9,24 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
-      <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl text-charcoal mb-6">
-        About MahjNearMe
-      </h1>
+    <>
+      {/* Hero image section */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img src="/images/tiles-wooden-box.jpg" alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#FF1493]/85 via-[#FF69B4]/75 to-[#87CEEB]/80" />
+        </div>
+        <div className="max-w-3xl mx-auto px-4 pt-16 pb-12 sm:pt-20 sm:pb-16 text-center relative">
+          <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl lg:text-5xl text-white mb-4 tracking-tight drop-shadow-lg">
+            About MahjNearMe
+          </h1>
+          <p className="text-lg text-white/80 max-w-2xl mx-auto">
+            The story behind the only directory of pickup mahjong games in the United States.
+          </p>
+        </div>
+      </section>
 
+    <div className="max-w-3xl mx-auto px-4 py-12">
       <div className="prose prose-slate max-w-none">
         <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mb-10">
           <div className="flex items-center gap-4 mb-6">
@@ -87,5 +100,6 @@ export default function AboutPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
