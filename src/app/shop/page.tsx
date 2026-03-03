@@ -29,7 +29,7 @@ export default function ShopPage() {
       </h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
         {featured.map((product) => (
-          <div key={product.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-md transition-all group">
+          <div key={product.id} className="mahj-tile overflow-hidden group">
             <div className="aspect-square bg-slate-100 flex items-center justify-center">
               <ShoppingBag className="w-12 h-12 text-slate-300" />
             </div>

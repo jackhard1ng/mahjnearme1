@@ -64,7 +64,7 @@ export default function BlogPage() {
         {posts.map((post, i) => (
           <article
             key={post.slug}
-            className={`bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-md transition-all ${
+            className={`mahj-tile overflow-hidden ${
               i === 0 ? "p-8" : "p-6"
             }`}
           >

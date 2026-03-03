@@ -69,7 +69,7 @@ export default function AboutPage() {
               desc: "Organizers list and manage their own groups for free. Our community keeps the data fresh.",
             },
           ].map((item) => (
-            <div key={item.title} className="bg-white border border-slate-200 rounded-xl p-5">
+            <div key={item.title} className="mahj-tile p-5">
               <item.icon className="w-6 h-6 text-jade-600 mb-3" />
               <h3 className="font-semibold text-slate-800 mb-1">{item.title}</h3>
               <p className="text-sm text-slate-500">{item.desc}</p>

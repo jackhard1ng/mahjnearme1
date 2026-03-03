@@ -77,7 +77,7 @@ export default async function CityPage({ params }: Props) {
       {/* Game Cards (teaser/SEO content) */}
       <div className="grid md:grid-cols-2 gap-4 mb-10">
         {games.map((game) => (
-          <div key={game.id} className="bg-white border border-slate-200 rounded-xl p-5 hover:shadow-md transition-all">
+          <div key={game.id} className="mahj-tile p-5">
             <div className="flex items-center gap-2 mb-2">
               <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                 game.type === "open_play" ? "bg-jade-100 text-jade-800" :
