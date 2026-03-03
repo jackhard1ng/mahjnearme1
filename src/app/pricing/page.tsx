@@ -252,22 +252,22 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* List Your Group Note */}
+      {/* Add a Group Note */}
       <section className="py-12 sm:py-16 section-gold">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <div className="card-white p-8">
             <div className="text-3xl mb-3">🀄</div>
             <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">
-              Run a mahjong group?
+              Don&apos;t see your group?
             </h3>
             <p className="text-slate-500 mb-6">
-              Listing your group on MahjNearMe is completely free. Tell us about your group and we&apos;ll add it to the directory within 48 hours.
+              We&apos;re building the most complete mahjong directory in the country. If your group isn&apos;t listed, let us know and we&apos;ll add it for free.
             </p>
             <Link
               href="/add-your-group"
               className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
             >
-              List Your Group for Free <ArrowRight className="w-4 h-4" />
+              Add a Group <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
