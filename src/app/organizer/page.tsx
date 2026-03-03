@@ -13,6 +13,9 @@ import {
   Plus,
   BarChart3,
   MessageSquare,
+  ShieldCheck,
+  Star,
+  XCircle,
 } from "lucide-react";
 
 export default function OrganizerDashboardPage() {
@@ -33,6 +36,9 @@ export default function OrganizerDashboardPage() {
     );
   }
 
+  // Mock organizer verification status
+  const isVerifiedOrganizer = true;
+
   // Mock organizer data
   const listings = [
     {
@@ -42,8 +48,9 @@ export default function OrganizerDashboardPage() {
       type: "Open Play",
       views: 142,
       clicks: 38,
-      lastVerified: "2 days ago",
-      status: "active",
+      verified: true,
+      promoted: false,
+      status: "active" as const,
     },
   ];
 
@@ -56,13 +63,42 @@ export default function OrganizerDashboardPage() {
           </h1>
           <p className="text-slate-500 mt-1">Manage your mahjong group listings</p>
         </div>
-        <Link
-          href="/add-your-group"
-          className="flex items-center gap-2 bg-jade-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-jade-700 transition-colors"
-        >
-          <Plus className="w-4 h-4" /> Add New Listing
-        </Link>
+        {isVerifiedOrganizer ? (
+          <Link
+            href="/add-your-group"
+            className="flex items-center gap-2 bg-jade-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-jade-700 transition-colors"
+          >
+            <Plus className="w-4 h-4" /> Add New Listing
+          </Link>
+        ) : (
+          <span className="text-sm text-slate-500 bg-slate-100 px-4 py-2 rounded-lg">
+            Verification required to post
+          </span>
+        )}
       </div>
+
+      {/* Verification Status Banner */}
+      {isVerifiedOrganizer ? (
+        <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-8 flex items-center gap-3">
+          <ShieldCheck className="w-6 h-6 text-green-600 shrink-0" />
+          <div>
+            <p className="font-semibold text-green-800 text-sm">Verified Organizer</p>
+            <p className="text-green-700 text-xs mt-0.5">
+              You can post and edit listings freely. Listings you post from MahjNearMe are automatically featured and shown first in search results.
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="bg-gold-50 border border-gold-200 rounded-xl p-4 mb-8 flex items-center gap-3">
+          <XCircle className="w-6 h-6 text-gold-600 shrink-0" />
+          <div>
+            <p className="font-semibold text-gold-800 text-sm">Pending Verification</p>
+            <p className="text-gold-700 text-xs mt-0.5">
+              Your organizer account is awaiting admin verification. Once verified, you&apos;ll be able to post and manage listings directly.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Stats */}
       <div className="grid sm:grid-cols-4 gap-4 mb-8">
@@ -94,9 +130,20 @@ export default function OrganizerDashboardPage() {
                 <p className="text-sm text-slate-500">{listing.city} &middot; {listing.type}</p>
               </div>
               <div className="flex items-center gap-3">
-                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-green-700 bg-green-50 border border-green-200 rounded-full px-3 py-1">
-                  <CheckCircle className="w-3.5 h-3.5" /> Verified {listing.lastVerified}
-                </span>
+                {listing.verified ? (
+                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-green-700 bg-green-50 border border-green-200 rounded-full px-3 py-1">
+                    <CheckCircle className="w-3.5 h-3.5" /> Verified
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 bg-gray-50 border border-gray-200 rounded-full px-3 py-1">
+                    <XCircle className="w-3.5 h-3.5" /> Unverified
+                  </span>
+                )}
+                {listing.promoted && (
+                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-gold-600 bg-gold-50 border border-gold-200 rounded-full px-3 py-1">
+                    <Star className="w-3.5 h-3.5" /> Featured
+                  </span>
+                )}
                 <button className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg px-4 py-2 text-sm font-medium text-slate-700 transition-colors">
                   <Edit className="w-4 h-4" /> Edit
                 </button>
@@ -117,9 +164,6 @@ export default function OrganizerDashboardPage() {
               </div>
             </div>
             <div className="mt-4 flex gap-3">
-              <button className="text-sm text-jade-600 hover:text-jade-700 font-medium">
-                Re-verify Listing
-              </button>
               <button className="text-sm text-slate-500 hover:text-slate-700 font-medium">
                 View as Player
               </button>

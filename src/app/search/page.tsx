@@ -75,6 +75,13 @@ function SearchContent() {
       games = games.filter((g) => g.type === filters.type);
     }
 
+    // Sort: promoted (organizer-posted) listings first, then verified, then the rest
+    games.sort((a, b) => {
+      if (a.promoted !== b.promoted) return a.promoted ? -1 : 1;
+      if (a.verified !== b.verified) return a.verified ? -1 : 1;
+      return 0;
+    });
+
     return games;
   }, [query, filters]);
 

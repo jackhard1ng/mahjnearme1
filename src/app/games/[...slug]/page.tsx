@@ -217,7 +217,7 @@ export default function GameDetailPage() {
   const { user, hasAccess, loading } = useAuth();
 
   // Derived values
-  const verification = getVerificationStatus(game.lastVerified);
+  const verification = getVerificationStatus(game.verified);
   const typeColor = getGameTypeColor(game.type);
   const typeLabel = getGameTypeLabel(game.type);
   const schedule = formatSchedule(game);

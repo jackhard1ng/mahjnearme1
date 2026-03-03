@@ -47,7 +47,7 @@ export default function GameCard({
   onFavorite,
   isFavorited = false,
 }: GameCardProps) {
-  const verification = getVerificationStatus(game.lastVerified);
+  const verification = getVerificationStatus(game.verified);
   const typeColor = getGameTypeColor(game.type);
   const typeLabel = getGameTypeLabel(game.type);
   const schedule = formatSchedule(game);
@@ -89,7 +89,12 @@ export default function GameCard({
                     Drop-in Friendly
                   </span>
                 )}
-                {isGreatForUser && (
+                {game.promoted && (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gold-100 text-gold-600 border border-gold-200">
+                    Featured
+                  </span>
+                )}
+                {isGreatForUser && !game.promoted && (
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gold-100 text-gold-600 border border-gold-200">
                     Great for you!
                   </span>

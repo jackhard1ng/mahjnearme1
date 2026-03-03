@@ -353,7 +353,7 @@ export default function AdminGamesPage() {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {filteredGames.map((game) => {
-                  const verification = getVerificationStatus(game.lastVerified);
+                  const verification = getVerificationStatus(game.verified);
                   return (
                     <tr key={game.id} className="hover:bg-slate-50">
                       <td className="px-4 py-3">
