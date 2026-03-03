@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { mockGames, getStatesWithGames, getCitiesWithGames } from "@/lib/mock-data";
-import { slugify, getStateName, getGameTypeLabel } from "@/lib/utils";
+import { slugify, getStateName, getGameTypeLabel, getMapPinColor } from "@/lib/utils";
 import { MapPin, ChevronRight, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -90,12 +90,7 @@ export default async function StatePage({ params }: Props) {
             className="flex items-center justify-between bg-white border border-slate-200 rounded-lg p-4 hover:border-hotpink-300 transition-all"
           >
             <div className="flex items-center gap-3">
-              <div className={`w-3 h-3 rounded-full ${
-                game.type === "open_play" ? "bg-hotpink-400" :
-                game.type === "lesson" ? "bg-skyblue-400" :
-                game.type === "league" ? "bg-hotpink-300" :
-                "bg-skyblue-400"
-              }`} />
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: getMapPinColor(game.type) }} />
               <div>
                 <p className="font-medium text-charcoal">{game.name}</p>
                 <p className="text-sm text-slate-500">{game.city} &middot; {getGameTypeLabel(game.type)}</p>

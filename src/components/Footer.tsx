@@ -53,18 +53,13 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* For Organizers */}
+          {/* For Groups */}
           <div>
-            <h3 className="font-semibold text-white text-sm mb-4">For Organizers</h3>
+            <h3 className="font-semibold text-white text-sm mb-4">For Groups</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/add-your-group" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
                   List Your Group
-                </Link>
-              </li>
-              <li>
-                <Link href="/organizer" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
-                  Organizer Dashboard
                 </Link>
               </li>
               <li>

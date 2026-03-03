@@ -2,7 +2,7 @@ export type GameType = "open_play" | "lesson" | "league" | "event" | "private";
 export type GameStyle = "american" | "chinese" | "riichi" | "other";
 export type SkillLevel = "beginner" | "intermediate" | "advanced";
 export type Frequency = "weekly" | "biweekly" | "monthly" | "first_tuesday" | "first_wednesday" | "first_thursday" | "last_friday";
-export type AccountType = "free" | "trial" | "subscriber" | "organizer" | "admin";
+export type AccountType = "free" | "trial" | "subscriber" | "admin";
 export type SubscriptionStatus = "trialing" | "active" | "past_due" | "canceled" | "none";
 export type ListingStatus = "active" | "pending" | "claimed" | "inactive";
 export type ListingSource = "manual" | "csv_import" | "organizer_submitted";
@@ -91,13 +91,6 @@ export interface UserProfile {
   homeGeopoint: { lat: number; lng: number } | null;
   savedCities: string[];
   favoriteGames: string[];
-
-  // Organizer
-  isVerifiedOrganizer: boolean;
-  organizerProfile: {
-    groupName: string;
-    claimedListings: string[];
-  } | null;
 
   createdAt: string;
   lastLoginAt: string;

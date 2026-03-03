@@ -57,9 +57,9 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="font-semibold text-xl text-charcoal mb-3">7. Organizer Responsibilities</h2>
+          <h2 className="font-semibold text-xl text-charcoal mb-3">7. Listing Information</h2>
           <p className="text-sm text-slate-600 leading-relaxed">
-            Organizers who list games on MahjNearMe are responsible for the accuracy of their listing information. Organizers agree to keep their listings up to date and respond to verification requests in a timely manner.
+            All game listings on MahjNearMe are managed by our team. If you submit information about a game or group, you represent that the information is accurate. We reserve the right to edit or remove any listing at our discretion.
           </p>
         </section>
 

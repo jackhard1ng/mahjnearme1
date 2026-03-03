@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { mockGames } from "@/lib/mock-data";
 import {
@@ -25,12 +25,22 @@ import {
 export default function AdminDashboardPage() {
   const { user, isAdmin, loading } = useAuth();
   const router = useRouter();
+  const [games, setGames] = useState(mockGames);
+  const [toast, setToast] = useState<{ message: string; type: "success" | "info" } | null>(null);
 
   useEffect(() => {
     if (!loading && !user) {
       router.push("/login");
     }
   }, [user, loading, router, isAdmin]);
+
+  // Auto-dismiss toast after 3 seconds
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => setToast(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
 
   if (loading || !user) {
     return (
@@ -40,15 +50,15 @@ export default function AdminDashboardPage() {
     );
   }
 
-  const activeGames = mockGames.filter((g) => g.status === "active").length;
-  const pendingGames = mockGames.filter((g) => g.status === "pending").length;
-  const verifiedGames = mockGames.filter((g) => g.verified).length;
-  const unverifiedGames = mockGames.filter((g) => !g.verified).length;
-  const promotedGames = mockGames.filter((g) => g.promoted).length;
+  // Recalculate all stats from mutable games state
+  const activeGames = games.filter((g) => g.status === "active").length;
+  const pendingGames = games.filter((g) => g.status === "pending").length;
+  const verifiedGames = games.filter((g) => g.verified).length;
+  const unverifiedGames = games.filter((g) => !g.verified).length;
+  const promotedGames = games.filter((g) => g.promoted).length;
 
-  // Mock stats
   const stats = {
-    totalGames: mockGames.length,
+    totalGames: games.length,
     activeGames,
     pendingGames,
     totalUsers: 47,
@@ -60,11 +70,55 @@ export default function AdminDashboardPage() {
   };
 
   // Games split by verification status
-  const unverifiedList = mockGames.filter((g) => !g.verified);
-  const recentlyVerified = mockGames.filter((g) => g.verified).slice(0, 5);
+  const unverifiedList = games.filter((g) => !g.verified);
+  const recentlyVerified = games.filter((g) => g.verified).slice(0, 5);
+
+  const handleVerify = (gameId: string, gameName: string) => {
+    setGames((prev) =>
+      prev.map((g) =>
+        g.id === gameId
+          ? { ...g, verified: true, lastVerified: new Date().toISOString() }
+          : g
+      )
+    );
+    setToast({ message: `"${gameName}" has been verified.`, type: "success" });
+  };
+
+  const handleUnverify = (gameId: string, gameName: string) => {
+    setGames((prev) =>
+      prev.map((g) =>
+        g.id === gameId ? { ...g, verified: false } : g
+      )
+    );
+    setToast({ message: `"${gameName}" has been unverified.`, type: "info" });
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
+      {/* Toast Notification */}
+      {toast && (
+        <div
+          className={`fixed top-6 right-6 z-50 flex items-center gap-2 px-5 py-3 rounded-xl shadow-lg border text-sm font-medium transition-all animate-fade-in ${
+            toast.type === "success"
+              ? "bg-hotpink-50 border-hotpink-200 text-hotpink-700"
+              : "bg-skyblue-50 border-skyblue-200 text-skyblue-700"
+          }`}
+        >
+          {toast.type === "success" ? (
+            <CheckCircle className="w-4 h-4" />
+          ) : (
+            <AlertTriangle className="w-4 h-4" />
+          )}
+          {toast.message}
+          <button
+            onClick={() => setToast(null)}
+            className="ml-2 text-current opacity-50 hover:opacity-100"
+          >
+            <XCircle className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-charcoal">
@@ -160,7 +214,10 @@ export default function AdminDashboardPage() {
                     <p className="text-sm font-medium text-charcoal">{game.name}</p>
                     <p className="text-xs text-slate-500">{game.city}, {game.state}</p>
                   </div>
-                  <button className="flex items-center gap-1 bg-skyblue-100 hover:bg-hotpink-200 border border-hotpink-200 rounded-lg px-3 py-1.5 text-xs font-medium text-hotpink-600 transition-colors">
+                  <button
+                    onClick={() => handleVerify(game.id, game.name)}
+                    className="flex items-center gap-1 bg-skyblue-100 hover:bg-hotpink-200 border border-hotpink-200 rounded-lg px-3 py-1.5 text-xs font-medium text-hotpink-600 transition-colors"
+                  >
                     <CheckCircle className="w-3.5 h-3.5" /> Verify
                   </button>
                 </div>
@@ -238,7 +295,10 @@ export default function AdminDashboardPage() {
                     <span className="inline-flex items-center gap-1 text-xs text-hotpink-500">
                       <CheckCircle className="w-3.5 h-3.5" />
                     </span>
-                    <button className="flex items-center gap-1 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg px-2.5 py-1 text-xs font-medium text-red-600 transition-colors">
+                    <button
+                      onClick={() => handleUnverify(game.id, game.name)}
+                      className="flex items-center gap-1 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg px-2.5 py-1 text-xs font-medium text-red-600 transition-colors"
+                    >
                       <XCircle className="w-3.5 h-3.5" /> Unverify
                     </button>
                   </div>

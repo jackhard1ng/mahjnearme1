@@ -22,13 +22,13 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero Section - Hot Pink → Light Blue gradient */}
-      <section className="relative overflow-hidden mahj-hero-gradient">
-        {/* Floating tile decorations */}
-        <div className="absolute top-10 left-[10%] text-5xl opacity-20 animate-float select-none" aria-hidden="true">🀇</div>
-        <div className="absolute top-24 right-[15%] text-4xl opacity-20 animate-float select-none" style={{ animationDelay: "1s" }} aria-hidden="true">🀙</div>
-        <div className="absolute bottom-12 left-[20%] text-3xl opacity-20 animate-float select-none" style={{ animationDelay: "2s" }} aria-hidden="true">🀀</div>
-        <div className="absolute bottom-20 right-[25%] text-4xl opacity-20 animate-float select-none" style={{ animationDelay: "0.5s" }} aria-hidden="true">🀄</div>
+      {/* Hero Section - Photo background with gradient overlay */}
+      <section className="relative overflow-hidden">
+        {/* Background photo */}
+        <div className="absolute inset-0">
+          <img src="/images/hero-tiles.jpg" alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#FF1493]/85 via-[#FF69B4]/75 to-[#87CEEB]/80" />
+        </div>
 
         <div className="max-w-5xl mx-auto px-4 pt-16 pb-12 sm:pt-24 sm:pb-16 text-center relative">
           <div className="flex justify-center gap-2 mb-6">
@@ -74,8 +74,12 @@ export default function HomePage() {
       </section>
 
       {/* How It Works - soft pink section */}
-      <section className="py-16 sm:py-20 section-pink">
-        <div className="max-w-7xl mx-auto px-4">
+      <section className="py-16 sm:py-20 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img src="/images/tiles-overhead.jpg" alt="" className="w-full h-full object-cover opacity-[0.08]" loading="lazy" />
+          <div className="absolute inset-0 bg-[#FFF0F5]/92" />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 relative">
           <div className="mahj-divider mb-12">
             <span className="text-2xl">🀄</span>
           </div>
@@ -164,6 +168,9 @@ export default function HomePage() {
             <p className="font-semibold text-charcoal">
               — Jack, Founder of MahjNearMe
             </p>
+            <div className="mt-6 rounded-2xl overflow-hidden shadow-lg" style={{ boxShadow: '0 8px 24px rgba(255,20,147,0.15)' }}>
+              <img src="/images/tiles-game-night.jpg" alt="Mahjong game night" className="w-full h-48 object-cover" loading="lazy" />
+            </div>
           </div>
         </div>
       </section>
@@ -201,17 +208,21 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section - soft pink section */}
-      <section className="py-16 sm:py-24 section-pink">
-        <div className="max-w-7xl mx-auto px-4">
+      <section className="py-16 sm:py-24 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img src="/images/tiles-rack.jpg" alt="" className="w-full h-full object-cover opacity-[0.10]" loading="lazy" />
+          <div className="absolute inset-0 bg-[#FFF0F5]/90" />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 relative">
           <div className="grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* Organizer CTA */}
+            {/* List Your Group CTA */}
             <div className="card-white p-8 text-center">
               <div className="text-3xl mb-3">🀄</div>
               <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">
-                Are you a mahjong organizer?
+                Run a mahjong group?
               </h3>
               <p className="text-slate-600 mb-6">
-                List your group for free and reach players across the country.
+                Get your group listed for free and reach players across the country.
               </p>
               <Link
                 href="/add-your-group"

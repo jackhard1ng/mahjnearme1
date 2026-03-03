@@ -1,343 +1,354 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { GameType, GameStyle, SkillLevel, Frequency } from "@/types";
-import { GAME_TYPE_LABELS, GAME_STYLE_LABELS, SKILL_LEVEL_LABELS, DAYS_OF_WEEK } from "@/lib/constants";
-import { CheckCircle, Send, MapPin, Clock, Users, Info, ArrowLeft, ArrowRight } from "lucide-react";
+import { CheckCircle, Send, MapPin, ArrowRight, Globe, Calendar, Users, Smartphone, Star, MessageCircle } from "lucide-react";
 
 export default function AddYourGroupPage() {
-  const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     name: "",
-    organizerName: "",
-    type: "open_play" as GameType,
-    gameStyle: "american" as GameStyle,
+    groupName: "",
     city: "",
     state: "",
-    venueName: "",
-    address: "",
-    generalArea: "",
-    isRecurring: true,
-    dayOfWeek: "monday",
-    startTime: "18:00",
-    endTime: "20:00",
-    frequency: "weekly" as Frequency,
-    cost: "",
-    contactName: "",
-    contactEmail: "",
-    contactPhone: "",
-    website: "",
-    instagram: "",
-    facebookGroup: "",
+    email: "",
     description: "",
-    howToJoin: "",
-    whatToBring: "",
-    skillLevels: [] as SkillLevel[],
-    dropInFriendly: true,
-    setsProvided: true,
-    typicalGroupSize: "",
   });
 
-  const updateField = (field: string, value: unknown) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const toggleSkillLevel = (level: SkillLevel) => {
-    setForm((prev) => ({
-      ...prev,
-      skillLevels: prev.skillLevels.includes(level)
-        ? prev.skillLevels.filter((l) => l !== level)
-        : [...prev.skillLevels, level],
-    }));
-  };
-
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // In production, submit to Firestore pending queue
-    setSubmitted(true);
+    setSubmitting(true);
+    setError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, formType: "group-listing" }),
+      });
+      if (!res.ok) throw new Error();
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  if (submitted) {
-    return (
-      <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <div className="w-16 h-16 bg-skyblue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <CheckCircle className="w-8 h-8 text-hotpink-500" />
-        </div>
-        <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-charcoal mb-3">
-          Submission Received!
-        </h1>
-        <p className="text-slate-500 mb-6">
-          Thank you for listing your group on MahjNearMe. We&apos;ll review your submission and have it live within 24-48 hours.
-          You&apos;ll receive an email when your listing is approved.
-        </p>
-        <p className="text-sm text-slate-400 mb-8">
-          Want to manage your listing? Create an organizer account to claim it.
-        </p>
-        <a href="/signup" className="inline-block bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors">
-          Create Organizer Account
-        </a>
-      </div>
-    );
-  }
+  // Website inquiry form state
+  const [websiteSubmitted, setWebsiteSubmitted] = useState(false);
+  const [websiteSubmitting, setWebsiteSubmitting] = useState(false);
+  const [websiteError, setWebsiteError] = useState("");
+  const [websiteForm, setWebsiteForm] = useState({
+    name: "",
+    email: "",
+    description: "",
+  });
 
-  const totalSteps = 3;
+  const handleWebsiteSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setWebsiteSubmitting(true);
+    setWebsiteError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: websiteForm.name,
+          email: websiteForm.email,
+          description: websiteForm.description,
+          formType: "website-inquiry",
+        }),
+      });
+      if (!res.ok) throw new Error();
+      setWebsiteSubmitted(true);
+    } catch {
+      setWebsiteError("Something went wrong. Please try again.");
+    } finally {
+      setWebsiteSubmitting(false);
+    }
+  };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
-      <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-charcoal mb-2">
-        List Your Mahjong Group
-      </h1>
-      <p className="text-slate-500 mb-8">
-        Submit your group for free to reach mahjong players across the country. We&apos;ll review and publish within 24-48 hours.
-      </p>
+    <>
+      {/* Part 1: List Your Group */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img src="/images/tiles-overhead.jpg" alt="" className="w-full h-full object-cover opacity-[0.08]" loading="lazy" />
+          <div className="absolute inset-0 bg-[#FFF0F5]/92" />
+        </div>
 
-      {/* Progress */}
-      <div className="flex items-center gap-2 mb-8">
-        {Array.from({ length: totalSteps }).map((_, i) => (
-          <div key={i} className="flex items-center gap-2 flex-1">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-              step > i + 1 ? "bg-hotpink-500 text-white" : step === i + 1 ? "bg-hotpink-500 text-white" : "bg-slate-200 text-slate-500"
-            }`}>
-              {step > i + 1 ? <CheckCircle className="w-4 h-4" /> : i + 1}
+        <div className="max-w-3xl mx-auto px-4 py-16 sm:py-20 relative">
+          <div className="text-center mb-10">
+            <div className="flex justify-center gap-2 mb-4">
+              <span className="text-2xl opacity-60">🀇</span>
+              <span className="text-2xl opacity-60">🀄</span>
+              <span className="text-2xl opacity-60">🀙</span>
             </div>
-            {i < totalSteps - 1 && (
-              <div className={`flex-1 h-1 rounded ${step > i + 1 ? "bg-hotpink-500" : "bg-slate-200"}`} />
-            )}
+            <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-3xl sm:text-4xl text-charcoal mb-3">
+              Want your group listed on MahjNearMe?
+            </h1>
+            <p className="text-lg text-hotpink-500 font-semibold mb-2">It&apos;s free.</p>
+            <p className="text-slate-500 max-w-xl mx-auto">
+              Tell us about your mahjong group and we&apos;ll add it to our directory within 48 hours. Reach players across the country — at no cost to you.
+            </p>
           </div>
-        ))}
-      </div>
 
-      <form onSubmit={handleSubmit}>
-        {/* Step 1: Basic Info */}
-        {step === 1 && (
-          <div className="space-y-5">
-            <h2 className="font-semibold text-xl text-charcoal flex items-center gap-2">
-              <Info className="w-5 h-5 text-hotpink-500" /> Basic Information
-            </h2>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Group/Event Name *</label>
-                <input type="text" required value={form.name} onChange={(e) => updateField("name", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., Tuesday Night Mahj" />
+          {submitted ? (
+            <div className="mahj-tile p-10 text-center">
+              <div className="w-16 h-16 bg-hotpink-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle className="w-8 h-8 text-hotpink-500" />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Organizer Name *</label>
-                <input type="text" required value={form.organizerName} onChange={(e) => updateField("organizerName", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., Mahj918" />
-              </div>
+              <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">
+                Message sent!
+              </h2>
+              <p className="text-slate-500">
+                We&apos;ll add your group within 48 hours. You&apos;ll receive a confirmation email once your listing is live.
+              </p>
             </div>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Type *</label>
-                <select value={form.type} onChange={(e) => updateField("type", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm">
-                  {Object.entries(GAME_TYPE_LABELS).map(([val, label]) => (
-                    <option key={val} value={val}>{label}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Game Style *</label>
-                <select value={form.gameStyle} onChange={(e) => updateField("gameStyle", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm">
-                  {Object.entries(GAME_STYLE_LABELS).map(([val, label]) => (
-                    <option key={val} value={val}>{label}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Skill Levels (select all that apply) *</label>
-              <div className="flex gap-3">
-                {(Object.entries(SKILL_LEVEL_LABELS) as [SkillLevel, string][]).map(([val, label]) => (
-                  <button
-                    key={val}
-                    type="button"
-                    onClick={() => toggleSkillLevel(val)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      form.skillLevels.includes(val) ? "bg-hotpink-500 text-white" : "bg-skyblue-100 text-slate-600 hover:bg-skyblue-200"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="flex items-center gap-3">
-                <input type="checkbox" id="dropIn" checked={form.dropInFriendly} onChange={(e) => updateField("dropInFriendly", e.target.checked)} className="rounded border-skyblue-300" />
-                <label htmlFor="dropIn" className="text-sm text-slate-700">Drop-in friendly (no RSVP required)</label>
-              </div>
-              <div className="flex items-center gap-3">
-                <input type="checkbox" id="sets" checked={form.setsProvided} onChange={(e) => updateField("setsProvided", e.target.checked)} className="rounded border-skyblue-300" />
-                <label htmlFor="sets" className="text-sm text-slate-700">Mahjong sets provided</label>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Step 2: Location & Schedule */}
-        {step === 2 && (
-          <div className="space-y-5">
-            <h2 className="font-semibold text-xl text-charcoal flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-hotpink-500" /> Location & Schedule
-            </h2>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Venue Name *</label>
-                <input type="text" required value={form.venueName} onChange={(e) => updateField("venueName", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., McNellie's South City" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">General Area</label>
-                <input type="text" value={form.generalArea} onChange={(e) => updateField("generalArea", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., South Tulsa" />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Full Address *</label>
-              <input type="text" required value={form.address} onChange={(e) => updateField("address", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., 7031 S Zurich Ave, Tulsa, OK 74136" />
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">City *</label>
-                <input type="text" required value={form.city} onChange={(e) => updateField("city", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">State *</label>
-                <input type="text" required value={form.state} onChange={(e) => updateField("state", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., OK" />
-              </div>
-            </div>
-
-            <hr className="border-slate-100" />
-
-            <h3 className="font-semibold text-lg text-charcoal flex items-center gap-2">
-              <Clock className="w-5 h-5 text-hotpink-500" /> Schedule
-            </h3>
-
-            <div className="grid sm:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Day of Week *</label>
-                <select value={form.dayOfWeek} onChange={(e) => updateField("dayOfWeek", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm">
-                  {DAYS_OF_WEEK.map((day) => (
-                    <option key={day} value={day}>{day.charAt(0).toUpperCase() + day.slice(1)}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Start Time *</label>
-                <input type="time" required value={form.startTime} onChange={(e) => updateField("startTime", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">End Time *</label>
-                <input type="time" required value={form.endTime} onChange={(e) => updateField("endTime", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Frequency *</label>
-              <select value={form.frequency} onChange={(e) => updateField("frequency", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm">
-                <option value="weekly">Weekly</option>
-                <option value="biweekly">Every other week</option>
-                <option value="monthly">Monthly</option>
-              </select>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Cost</label>
-                <input type="text" value={form.cost} onChange={(e) => updateField("cost", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., $15 or Free" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Typical Group Size</label>
-                <input type="text" value={form.typicalGroupSize} onChange={(e) => updateField("typicalGroupSize", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., 3-5 tables" />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Step 3: Details & Contact */}
-        {step === 3 && (
-          <div className="space-y-5">
-            <h2 className="font-semibold text-xl text-charcoal flex items-center gap-2">
-              <Users className="w-5 h-5 text-hotpink-500" /> Details & Contact
-            </h2>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Description *</label>
-              <textarea required rows={3} value={form.description} onChange={(e) => updateField("description", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="Tell potential players about your group..." />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">How to Join</label>
-              <input type="text" value={form.howToJoin} onChange={(e) => updateField("howToJoin", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., Just show up! or RSVP via email" />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">What to Bring</label>
-              <input type="text" value={form.whatToBring} onChange={(e) => updateField("whatToBring", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., Bring your NMJL card" />
-            </div>
-
-            <hr className="border-slate-100" />
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Contact Name *</label>
-                <input type="text" required value={form.contactName} onChange={(e) => updateField("contactName", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Contact Email *</label>
-                <input type="email" required value={form.contactEmail} onChange={(e) => updateField("contactEmail", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" />
-              </div>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Phone</label>
-                <input type="tel" value={form.contactPhone} onChange={(e) => updateField("contactPhone", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Website</label>
-                <input type="url" value={form.website} onChange={(e) => updateField("website", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="https://" />
-              </div>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Instagram</label>
-                <input type="text" value={form.instagram} onChange={(e) => updateField("instagram", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="@handle" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Facebook Group URL</label>
-                <input type="url" value={form.facebookGroup} onChange={(e) => updateField("facebookGroup", e.target.value)} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Navigation */}
-        <div className="flex items-center justify-between mt-8 pt-6 border-t border-slate-100">
-          {step > 1 ? (
-            <button type="button" onClick={() => setStep(step - 1)} className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-charcoal">
-              <ArrowLeft className="w-4 h-4" /> Back
-            </button>
           ) : (
-            <div />
-          )}
+            <div className="mahj-tile p-8">
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Your Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm"
+                      placeholder="e.g., Susan K."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Group Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={form.groupName}
+                      onChange={(e) => setForm({ ...form, groupName: e.target.value })}
+                      className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm"
+                      placeholder="e.g., Tuesday Night Mahj"
+                    />
+                  </div>
+                </div>
 
-          {step < totalSteps ? (
-            <button type="button" onClick={() => setStep(step + 1)} className="flex items-center gap-2 bg-hotpink-500 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors">
-              Continue <ArrowRight className="w-4 h-4" />
-            </button>
-          ) : (
-            <button type="submit" className="flex items-center gap-2 bg-hotpink-500 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors">
-              <Send className="w-4 h-4" /> Submit for Review
-            </button>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">City *</label>
+                    <input
+                      type="text"
+                      required
+                      value={form.city}
+                      onChange={(e) => setForm({ ...form, city: e.target.value })}
+                      className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm"
+                      placeholder="e.g., Tulsa"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">State *</label>
+                    <input
+                      type="text"
+                      required
+                      value={form.state}
+                      onChange={(e) => setForm({ ...form, state: e.target.value })}
+                      className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm"
+                      placeholder="e.g., OK"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Your Email *</label>
+                  <input
+                    type="email"
+                    required
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm"
+                    placeholder="susan@example.com"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Tell us about your group *</label>
+                  <textarea
+                    required
+                    rows={4}
+                    value={form.description}
+                    onChange={(e) => setForm({ ...form, description: e.target.value })}
+                    className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm"
+                    placeholder="What style of mahjong? When and where do you meet? How can new players join?"
+                  />
+                </div>
+
+                {error && (
+                  <p className="text-sm text-red-600">{error}</p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="flex items-center gap-2 bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors disabled:opacity-50"
+                >
+                  <Send className="w-4 h-4" />
+                  {submitting ? "Sending..." : "Submit Your Group"}
+                </button>
+              </form>
+            </div>
           )}
         </div>
-      </form>
-    </div>
+      </section>
+
+      {/* Divider */}
+      <div className="mahj-divider py-8 bg-white">
+        <span className="text-2xl">🀄</span>
+      </div>
+
+      {/* Part 2: Mahj918 Case Study */}
+      <section className="py-16 sm:py-20 section-blue">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="font-[family-name:var(--font-heading)] font-extrabold text-3xl sm:text-4xl text-charcoal mb-3">
+              Want your own website like this?
+            </h2>
+            <p className="text-slate-500 max-w-xl mx-auto">
+              We built Mahj918 — a custom website for one of Tulsa&apos;s biggest mahjong communities. Here&apos;s what we created.
+            </p>
+          </div>
+
+          {/* Case Study Card */}
+          <div className="mahj-tile overflow-hidden">
+            {/* Screenshot / Hero */}
+            <div className="bg-gradient-to-br from-hotpink-500 via-hotpink-400 to-skyblue-400 p-8 sm:p-12">
+              <div className="bg-white rounded-xl shadow-2xl overflow-hidden max-w-2xl mx-auto">
+                <div className="bg-slate-100 px-4 py-2 flex items-center gap-2">
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-400" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                    <div className="w-3 h-3 rounded-full bg-green-400" />
+                  </div>
+                  <div className="flex-1 bg-white rounded px-3 py-1 text-xs text-slate-400 text-center">
+                    mahj918.com
+                  </div>
+                </div>
+                <div className="p-6 sm:p-8 text-center">
+                  <div className="flex justify-center gap-2 mb-3">
+                    <span className="text-xl">🀇</span>
+                    <span className="text-xl">🀄</span>
+                    <span className="text-xl">🀙</span>
+                  </div>
+                  <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-2">
+                    Mahj918
+                  </h3>
+                  <p className="text-slate-500 text-sm mb-4">
+                    Tulsa&apos;s home for American Mahjong
+                  </p>
+                  <div className="flex justify-center gap-3">
+                    <span className="bg-hotpink-100 text-hotpink-600 px-3 py-1 rounded-full text-xs font-medium">Open Play</span>
+                    <span className="bg-skyblue-100 text-skyblue-600 px-3 py-1 rounded-full text-xs font-medium">Lessons</span>
+                    <span className="bg-softpink-100 text-hotpink-500 px-3 py-1 rounded-full text-xs font-medium">Events</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="p-8 sm:p-10">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-hotpink-100 rounded-xl flex items-center justify-center">
+                  <Globe className="w-5 h-5 text-hotpink-500" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg text-charcoal">Mahj918</h3>
+                  <a href="https://mahj918.com" target="_blank" rel="noopener noreferrer" className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium">
+                    Visit mahj918.com <ArrowRight className="w-3 h-3 inline" />
+                  </a>
+                </div>
+              </div>
+
+              <p className="text-slate-600 mb-8 leading-relaxed">
+                Mahj918 needed a professional online presence for their growing mahjong community in Tulsa, Oklahoma. We designed and built a fully custom website that serves as their digital hub — handling everything from event schedules to new player onboarding.
+              </p>
+
+              {/* Features Grid */}
+              <div className="grid sm:grid-cols-2 gap-4 mb-8">
+                {[
+                  { icon: Calendar, title: "Event Calendar", desc: "Interactive schedule with upcoming games, lessons, and special events" },
+                  { icon: MapPin, title: "Venue & Directions", desc: "Maps, parking info, and everything players need to find the game" },
+                  { icon: Users, title: "New Player Onboarding", desc: "Welcome page with FAQs, what to bring, and how to get started" },
+                  { icon: Smartphone, title: "Mobile-First Design", desc: "Beautiful on every device — designed for players on the go" },
+                  { icon: Star, title: "Custom Branding", desc: "Unique design that reflects the personality of the group" },
+                  { icon: MessageCircle, title: "Contact & RSVP", desc: "Easy ways for players to reach out and sign up for events" },
+                ].map((feature) => (
+                  <div key={feature.title} className="flex items-start gap-3 bg-skyblue-50 rounded-xl p-4">
+                    <feature.icon className="w-5 h-5 text-hotpink-500 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-medium text-sm text-charcoal">{feature.title}</p>
+                      <p className="text-xs text-slate-500">{feature.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div className="bg-gradient-to-br from-softpink-100 to-skyblue-50 border border-hotpink-200 rounded-xl p-8 text-center">
+                <h3 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal mb-2">
+                  Interested? Let&apos;s talk.
+                </h3>
+                <p className="text-sm text-slate-500 mb-6">
+                  We build custom websites for mahjong groups and communities. Tell us about your group and we&apos;ll be in touch.
+                </p>
+
+                {websiteSubmitted ? (
+                  <div className="flex items-center justify-center gap-2 text-hotpink-600 font-medium">
+                    <CheckCircle className="w-5 h-5" />
+                    Message sent! We&apos;ll be in touch soon.
+                  </div>
+                ) : (
+                  <form onSubmit={handleWebsiteSubmit} className="max-w-md mx-auto space-y-3">
+                    <input
+                      type="text"
+                      required
+                      value={websiteForm.name}
+                      onChange={(e) => setWebsiteForm({ ...websiteForm, name: e.target.value })}
+                      className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm"
+                      placeholder="Your name"
+                    />
+                    <input
+                      type="email"
+                      required
+                      value={websiteForm.email}
+                      onChange={(e) => setWebsiteForm({ ...websiteForm, email: e.target.value })}
+                      className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm"
+                      placeholder="Your email"
+                    />
+                    <textarea
+                      rows={3}
+                      value={websiteForm.description}
+                      onChange={(e) => setWebsiteForm({ ...websiteForm, description: e.target.value })}
+                      className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm"
+                      placeholder="Tell us about your group (optional)"
+                    />
+                    {websiteError && (
+                      <p className="text-sm text-red-600">{websiteError}</p>
+                    )}
+                    <button
+                      type="submit"
+                      disabled={websiteSubmitting}
+                      className="flex items-center gap-2 mx-auto bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors disabled:opacity-50"
+                    >
+                      <Send className="w-4 h-4" />
+                      {websiteSubmitting ? "Sending..." : "Get in Touch"}
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

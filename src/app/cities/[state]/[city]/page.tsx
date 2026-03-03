@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { mockGames, getCitiesWithGames } from "@/lib/mock-data";
-import { slugify, getGameTypeLabel, getStateName } from "@/lib/utils";
+import { slugify, getGameTypeLabel, getGameTypeColor, getStateName } from "@/lib/utils";
 import { SKILL_LEVEL_LABELS } from "@/lib/constants";
 import { MapPin, Calendar, Users, ArrowRight, ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
@@ -79,12 +79,7 @@ export default async function CityPage({ params }: Props) {
         {games.map((game) => (
           <div key={game.id} className="mahj-tile p-5">
             <div className="flex items-center gap-2 mb-2">
-              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                game.type === "open_play" ? "bg-hotpink-100 text-hotpink-600" :
-                game.type === "lesson" ? "bg-skyblue-200 text-skyblue-600" :
-                game.type === "league" ? "bg-hotpink-100 text-hotpink-600" :
-                "bg-skyblue-100 text-skyblue-600"
-              }`}>
+              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${getGameTypeColor(game.type)}`}>
                 {getGameTypeLabel(game.type)}
               </span>
               {game.dropInFriendly && (

@@ -25,10 +25,10 @@ export const GAME_TYPE_LABELS: Record<string, string> = {
 };
 
 export const GAME_TYPE_COLORS: Record<string, string> = {
-  open_play: "bg-hotpink-500",
-  lesson: "bg-skyblue-400",
-  league: "bg-hotpink-400",
-  event: "bg-skyblue-500",
+  open_play: "bg-openplay",
+  lesson: "bg-lesson",
+  league: "bg-league",
+  event: "bg-event",
   private: "bg-slate-400",
 };
 

@@ -195,8 +195,13 @@ export default function SignupPage() {
   // Onboarding Flow
   if (isRegistered) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 mahj-hero-gradient">
-        <div className="w-full max-w-lg">
+      <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 relative overflow-hidden">
+        {/* Background photo */}
+        <div className="absolute inset-0">
+          <img src="/images/tiles-hands.jpg" alt="" className="w-full h-full object-cover opacity-[0.10]" />
+          <div className="absolute inset-0 bg-[#FFF0F5]/90" />
+        </div>
+        <div className="w-full max-w-lg relative">
           {/* Progress Indicator */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-3">
@@ -413,8 +418,13 @@ export default function SignupPage() {
 
   // Registration Form
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 mahj-hero-gradient">
-      <div className="w-full max-w-md">
+    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 relative overflow-hidden">
+      {/* Background photo */}
+      <div className="absolute inset-0">
+        <img src="/images/tiles-dice.jpg" alt="" className="w-full h-full object-cover opacity-[0.10]" />
+        <div className="absolute inset-0 bg-[#FFF0F5]/90" />
+      </div>
+      <div className="w-full max-w-md relative">
         {/* Branding */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">

@@ -38,7 +38,7 @@ const faqs = [
   {
     question: "What happens when my trial ends?",
     answer:
-      "When your 14-day trial ends, you'll automatically be subscribed to the plan you selected. If you cancel before the trial ends, your account reverts to the free tier. You can still search for games, but results will be blurred. Subscribe anytime to restore full access.",
+      "When your 14-day trial ends, your subscription automatically begins and you'll be charged the plan you selected. You keep full access to all game details, the travel planner, favorites, and more — no interruption. If you cancel before the trial ends, you won't be charged.",
   },
   {
     question: "How do payments work?",
@@ -56,10 +56,12 @@ export default function PricingPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden mahj-hero-gradient">
-        {/* Floating decorations */}
-        <div className="absolute top-8 left-[8%] text-4xl opacity-10 animate-float select-none" aria-hidden="true">🀙</div>
-        <div className="absolute bottom-8 right-[12%] text-3xl opacity-10 animate-float select-none" style={{ animationDelay: "1.5s" }} aria-hidden="true">🀇</div>
+      <section className="relative overflow-hidden">
+        {/* Background photo */}
+        <div className="absolute inset-0">
+          <img src="/images/tiles-closeup.jpg" alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#FF1493]/85 via-[#FF69B4]/75 to-[#87CEEB]/80" />
+        </div>
 
         <div className="max-w-5xl mx-auto px-4 pt-16 pb-12 sm:pt-24 sm:pb-16 text-center relative">
           <div className="flex justify-center gap-2 mb-4">
@@ -189,16 +191,16 @@ export default function PricingPage() {
             Compare Access Levels
           </h2>
           <div className="grid sm:grid-cols-3 gap-6">
-            {/* Free Tier */}
+            {/* Visitor (no account) */}
             <div className="mahj-tile p-6 text-center">
               <div className="w-12 h-12 bg-skyblue-50 rounded-xl flex items-center justify-center mx-auto mb-4 border border-skyblue-200">
                 <X className="w-6 h-6 text-slate-400" />
               </div>
               <h3 className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-1">
-                Free
+                Visitor
               </h3>
               <p className="text-sm text-slate-500 mb-4">
-                Search + blurred results
+                Browse without an account
               </p>
               <div className="text-2xl font-bold text-charcoal mb-4">$0</div>
               <ul className="text-sm text-slate-500 space-y-2 text-left">
@@ -227,13 +229,13 @@ export default function PricingPage() {
                 <Star className="w-6 h-6 text-hotpink-500" />
               </div>
               <h3 className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-1">
-                Trial
+                Free Trial
               </h3>
               <p className="text-sm text-slate-500 mb-4">
-                14 days full access
+                14 days free, then subscribes
               </p>
               <div className="text-2xl font-bold text-charcoal mb-1">$0</div>
-              <p className="text-xs text-slate-400 mb-3">Credit card required</p>
+              <p className="text-xs text-slate-400 mb-3">Credit card required, cancel anytime</p>
               <ul className="text-sm text-slate-500 space-y-2 text-left">
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-hotpink-500 shrink-0" />
@@ -325,17 +327,16 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Organizer Note */}
+      {/* List Your Group Note */}
       <section className="py-12 sm:py-16 section-gold">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <div className="card-white p-8">
             <div className="text-3xl mb-3">🀄</div>
             <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">
-              Are you a mahjong organizer?
+              Run a mahjong group?
             </h3>
             <p className="text-slate-500 mb-6">
-              Organizer accounts are always free. List your games, manage your
-              group, and reach players across the country — at no cost.
+              Listing your group on MahjNearMe is completely free. Tell us about your group and we&apos;ll add it to the directory within 48 hours.
             </p>
             <Link
               href="/add-your-group"
