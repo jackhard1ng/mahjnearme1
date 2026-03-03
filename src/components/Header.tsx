@@ -36,7 +36,7 @@ export default function Header() {
               Mahj Gear
             </Link>
             <Link href="/add-your-group" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
-              List Your Group
+              Add a Group
             </Link>
 
             {user ? (
@@ -95,7 +95,7 @@ export default function Header() {
                   href="/signup"
                   className="bg-white text-hotpink-500 px-4 py-2 rounded-lg text-sm font-bold hover:bg-skyblue-100 hover:text-hotpink-700 transition-all shadow-sm"
                 >
-                  Start Free Trial
+                  Sign Up Free
                 </Link>
               </div>
             )}
@@ -139,7 +139,7 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
             >
-              List Your Group
+              Add a Group
             </Link>
             <hr className="border-white/20" />
             {user ? (
@@ -175,7 +175,7 @@ export default function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                   className="block text-center py-2 bg-white text-hotpink-500 rounded-lg font-bold"
                 >
-                  Start Free Trial
+                  Sign Up Free
                 </Link>
               </div>
             )}

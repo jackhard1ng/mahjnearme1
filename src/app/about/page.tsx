@@ -13,7 +13,7 @@ export default function AboutPage() {
       {/* Hero image section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/tiles-wooden-box.jpg" alt="" className="w-full h-full object-cover" />
+          <img src="/images/c2d2c03301c201e23fd4816059b397c4.jpg" alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-br from-[#FF1493]/85 via-[#FF69B4]/75 to-[#87CEEB]/80" />
         </div>
         <div className="max-w-3xl mx-auto px-4 pt-16 pb-12 sm:pt-20 sm:pb-16 text-center relative">

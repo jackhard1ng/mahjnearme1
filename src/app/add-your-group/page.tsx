@@ -74,7 +74,7 @@ export default function AddYourGroupPage() {
       {/* Part 1: List Your Group */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/tiles-overhead.jpg" alt="" className="w-full h-full object-cover opacity-[0.08]" loading="lazy" />
+          <img src="/images/8f52f44ed05054e40828936a96d15b75.jpg" alt="" className="w-full h-full object-cover opacity-[0.08]" loading="lazy" />
           <div className="absolute inset-0 bg-[#FFF0F5]/92" />
         </div>
 
@@ -86,11 +86,11 @@ export default function AddYourGroupPage() {
               <span className="text-2xl opacity-60">🀙</span>
             </div>
             <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-3xl sm:text-4xl text-charcoal mb-3">
-              Want your group listed on MahjNearMe?
+              Don&apos;t see your group?
             </h1>
-            <p className="text-lg text-hotpink-500 font-semibold mb-2">It&apos;s free.</p>
+            <p className="text-lg text-hotpink-500 font-semibold mb-2">Let us know — we&apos;ll add it for free.</p>
             <p className="text-slate-500 max-w-xl mx-auto">
-              Tell us about your mahjong group and we&apos;ll add it to our directory within 48 hours. Reach players across the country — at no cost to you.
+              We&apos;re building the most complete directory of mahjong games in the country. If your group isn&apos;t listed yet, tell us about it and we&apos;ll have it up within 48 hours.
             </p>
           </div>
 

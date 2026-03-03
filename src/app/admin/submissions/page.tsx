@@ -109,9 +109,9 @@ export default function AdminSubmissionsPage() {
       )}
 
       <h1 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-2">
-        Organizer Submissions
+        Contact Inquiries
       </h1>
-      <p className="text-slate-500 mb-8">Review and approve new group submissions.</p>
+      <p className="text-slate-500 mb-8">Review group listing requests and website inquiries submitted via the contact form.</p>
 
       <div className="space-y-4">
         {submissions.map((sub) => (

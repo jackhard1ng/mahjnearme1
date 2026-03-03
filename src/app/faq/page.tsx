@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "FAQ — Frequently Asked Questions",
-  description: "Common questions about MahjNearMe — how to find games, subscription details, listing your group, and more.",
+  description: "Common questions about MahjNearMe — how to find games, subscription details, adding your group, and more.",
 };
 
 const faqs = [
@@ -20,18 +20,18 @@ const faqs = [
   {
     category: "Account & Subscription",
     questions: [
-      { q: "Is there a free trial?", a: "Yes! When you sign up, you get 14 days of full access. A credit card is required to start, but you won't be charged until the trial ends. You can see all game details, use the travel planner, save favorites, and more." },
+      { q: "What do I get with a free account?", a: "When you create an account, you can browse all cities, see game names, types, schedules, and general locations. To unlock full details like contact info, descriptions, the interactive map, and the travel planner, you'll need a subscription." },
+      { q: "Is there a free trial?", a: "Yes! When you subscribe, you get 14 days of full access before being charged. A credit card is required to start the trial, but you won't be billed until the trial ends. Cancel anytime during the trial and you pay nothing." },
       { q: "How much does a subscription cost?", a: "We offer two plans: $4.99/month or $39.99/year (that's just $3.33/month — a 33% savings). Both give you full access to all features." },
       { q: "Can I cancel anytime?", a: "Yes, absolutely. No contracts, no cancellation fees. You can cancel anytime from your account settings or the Stripe customer portal. Your access continues until the end of your billing period." },
-      { q: "What happens when my trial ends?", a: "After your 14-day free trial, your subscription automatically begins and you'll be charged the plan you selected ($4.99/month or $39.99/year). You'll keep full access to all game details, the travel planner, favorites, and more — no interruption. You can cancel anytime from your account settings." },
-      { q: "What can I see without an account?", a: "Without an account, you can search and see the map with pins showing where games exist. You'll see one teaser card with partial info and blurred cards for the rest. Sign up for a free trial to see everything!" },
+      { q: "What happens when my trial ends?", a: "After your 14-day free trial, your subscription automatically begins and you'll be charged the plan you selected ($4.99/month or $39.99/year). You keep full access — no interruption. If you cancel before the trial ends, your account reverts to the free tier." },
     ],
   },
   {
-    category: "Listing Your Group",
+    category: "Adding a Group",
     questions: [
-      { q: "How do I list my mahjong group?", a: "Go to the 'List Your Group' page and fill out the short contact form. Tell us about your group and we'll add it to the directory within 48 hours — completely free!" },
-      { q: "Is it free to list my group?", a: "Yes, listing your group on MahjNearMe is completely free. We want every mahjong game in the country to be listed here!" },
+      { q: "My group isn't listed — how do I add it?", a: "Go to the 'Add a Group' page and fill out the short contact form. Tell us about your group and we'll add it to the directory within 48 hours — completely free!" },
+      { q: "Does it cost anything to get listed?", a: "No, it's completely free. We're building the most complete mahjong directory in the country, and we want every group on here." },
       { q: "How do I update my listing?", a: "Just reach out to us through the contact form or email. We manage all listings and can update your info quickly." },
     ],
   },

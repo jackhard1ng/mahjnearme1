@@ -198,7 +198,7 @@ export default function SignupPage() {
       <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 relative overflow-hidden">
         {/* Background photo */}
         <div className="absolute inset-0">
-          <img src="/images/tiles-hands.jpg" alt="" className="w-full h-full object-cover opacity-[0.10]" />
+          <img src="/images/8f52f44ed05054e40828936a96d15b75.jpg" alt="" className="w-full h-full object-cover opacity-[0.10]" />
           <div className="absolute inset-0 bg-[#FFF0F5]/90" />
         </div>
         <div className="w-full max-w-lg relative">
@@ -421,7 +421,7 @@ export default function SignupPage() {
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 relative overflow-hidden">
       {/* Background photo */}
       <div className="absolute inset-0">
-        <img src="/images/tiles-dice.jpg" alt="" className="w-full h-full object-cover opacity-[0.10]" />
+        <img src="/images/40a8a8ed77d5469f174ff66a88f95aa5.jpg" alt="" className="w-full h-full object-cover opacity-[0.10]" />
         <div className="absolute inset-0 bg-[#FFF0F5]/90" />
       </div>
       <div className="w-full max-w-md relative">

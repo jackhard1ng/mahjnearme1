@@ -26,7 +26,7 @@ export default function HomePage() {
       <section className="relative overflow-hidden">
         {/* Background photo */}
         <div className="absolute inset-0">
-          <img src="/images/hero-tiles.jpg" alt="" className="w-full h-full object-cover" />
+          <img src="/images/c2d2c03301c201e23fd4816059b397c4.jpg" alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-br from-[#FF1493]/85 via-[#FF69B4]/75 to-[#87CEEB]/80" />
         </div>
 
@@ -76,7 +76,7 @@ export default function HomePage() {
       {/* How It Works - soft pink section */}
       <section className="py-16 sm:py-20 relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/tiles-overhead.jpg" alt="" className="w-full h-full object-cover opacity-[0.08]" loading="lazy" />
+          <img src="/images/40a8a8ed77d5469f174ff66a88f95aa5.jpg" alt="" className="w-full h-full object-cover opacity-[0.08]" loading="lazy" />
           <div className="absolute inset-0 bg-[#FFF0F5]/92" />
         </div>
         <div className="max-w-7xl mx-auto px-4 relative">
@@ -169,7 +169,7 @@ export default function HomePage() {
               — Jack, Founder of MahjNearMe
             </p>
             <div className="mt-6 rounded-2xl overflow-hidden shadow-lg" style={{ boxShadow: '0 8px 24px rgba(255,20,147,0.15)' }}>
-              <img src="/images/tiles-game-night.jpg" alt="Mahjong game night" className="w-full h-48 object-cover" loading="lazy" />
+              <img src="/images/40a8a8ed77d5469f174ff66a88f95aa5.jpg" alt="Mahjong game night" className="w-full h-48 object-cover" loading="lazy" />
             </div>
           </div>
         </div>
@@ -210,25 +210,25 @@ export default function HomePage() {
       {/* CTA Section - soft pink section */}
       <section className="py-16 sm:py-24 relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/tiles-rack.jpg" alt="" className="w-full h-full object-cover opacity-[0.10]" loading="lazy" />
+          <img src="/images/8f52f44ed05054e40828936a96d15b75.jpg" alt="" className="w-full h-full object-cover opacity-[0.10]" loading="lazy" />
           <div className="absolute inset-0 bg-[#FFF0F5]/90" />
         </div>
         <div className="max-w-7xl mx-auto px-4 relative">
           <div className="grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* List Your Group CTA */}
+            {/* Add a Group CTA */}
             <div className="card-white p-8 text-center">
               <div className="text-3xl mb-3">🀄</div>
               <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">
-                Run a mahjong group?
+                Don&apos;t see your group?
               </h3>
               <p className="text-slate-600 mb-6">
-                Get your group listed for free and reach players across the country.
+                Let us know and we&apos;ll add it to the directory for free.
               </p>
               <Link
                 href="/add-your-group"
                 className="inline-flex items-center gap-2 bg-skyblue-400 text-white px-6 py-3 rounded-xl font-semibold hover:bg-skyblue-500 transition-colors shadow-lg"
               >
-                List Your Group <ArrowRight className="w-4 h-4" />
+                Add a Group <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
