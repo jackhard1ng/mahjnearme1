@@ -75,8 +75,14 @@ export function getDayLabel(day: string): string {
 export function formatSchedule(game: { isRecurring: boolean; recurringSchedule: { dayOfWeek: string; startTime: string; endTime: string; frequency: string } | null; eventDate: string | null; eventStartTime: string | null; eventEndTime: string | null }): string {
   if (game.isRecurring && game.recurringSchedule) {
     const { dayOfWeek, startTime, endTime, frequency } = game.recurringSchedule;
-    const freqLabel = frequency === "weekly" ? "Every" : frequency === "biweekly" ? "Every other" : "";
-    return `${freqLabel} ${capitalize(dayOfWeek)}, ${formatTime(startTime)} - ${formatTime(endTime)}`;
+    const freqLabel = frequency === "weekly" ? "Every" : frequency === "biweekly" ? "Every other" : frequency === "monthly" ? "Monthly," : "";
+    const dayStr = dayOfWeek ? capitalize(dayOfWeek) : "";
+    const timeStr = startTime && endTime
+      ? `, ${formatTime(startTime)} - ${formatTime(endTime)}`
+      : startTime
+        ? `, ${formatTime(startTime)}`
+        : "";
+    return `${freqLabel} ${dayStr}${timeStr}`.trim();
   }
   if (game.eventDate) {
     const date = new Date(game.eventDate);

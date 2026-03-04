@@ -21,6 +21,7 @@ import {
   X,
 } from "lucide-react";
 import Papa from "papaparse";
+import { geocodeAddress } from "@/lib/geocode";
 
 type View = "list" | "add" | "csv";
 
@@ -112,66 +113,73 @@ export default function AdminGamesPage() {
     });
   };
 
-  const handleCsvImport = () => {
-    // Create actual Game objects from CSV data and add them to state
-    const newGames: Game[] = csvData.map((row, index) => {
-      const id = `csv-${Date.now()}-${index}`;
-      const skillLevels: SkillLevel[] = row.skillLevels
-        ? (row.skillLevels.split("|").filter((s) => ["beginner", "intermediate", "advanced"].includes(s.trim())) as SkillLevel[])
-        : ["beginner", "intermediate"];
+  const handleCsvImport = async () => {
+    showToast(`Importing ${csvData.length} games and geocoding addresses...`, "info");
 
-      return {
-        id,
-        name: row.name || "Untitled Game",
-        organizerName: row.contactName || "",
-        type: (row.type as GameType) || "open_play",
-        gameStyle: (row.gameStyle as GameStyle) || "american",
-        city: row.city || "",
-        state: row.state || "",
-        generalArea: row.generalArea || "",
-        venueName: row.venueName || "",
-        address: row.address || "",
-        geopoint: { lat: 0, lng: 0 },
-        isRecurring: row.isRecurring === "true" || row.isRecurring === "1" || !!row.dayOfWeek,
-        recurringSchedule: row.dayOfWeek
-          ? {
-              dayOfWeek: row.dayOfWeek,
-              startTime: row.startTime || "18:00",
-              endTime: row.endTime || "20:00",
-              frequency: (row.frequency as "weekly" | "biweekly" | "monthly") || "weekly",
-            }
-          : null,
-        eventDate: null,
-        eventStartTime: null,
-        eventEndTime: null,
-        cost: row.cost || "Free",
-        costAmount: null,
-        contactName: row.contactName || "",
-        contactEmail: row.contactEmail || "",
-        contactPhone: "",
-        website: row.website || "",
-        instagram: row.instagram || "",
-        facebookGroup: "",
-        registrationLink: "",
-        description: row.description || "",
-        howToJoin: row.howToJoin || "",
-        whatToBring: row.whatToBring || "",
-        skillLevels,
-        dropInFriendly: row.dropInFriendly !== "false" && row.dropInFriendly !== "0",
-        setsProvided: row.setsProvided !== "false" && row.setsProvided !== "0",
-        maxPlayers: row.typicalGroupSize ? null : null,
-        typicalGroupSize: row.typicalGroupSize || "",
-        imageUrl: "",
-        status: "pending",
-        verified: false,
-        claimedBy: null,
-        source: "csv_import",
-        promoted: false,
-        lastVerified: "",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-    });
+    // Create Game objects and geocode each address
+    const newGames: Game[] = await Promise.all(
+      csvData.map(async (row, index) => {
+        const id = `csv-${Date.now()}-${index}`;
+        const skillLevels: SkillLevel[] = row.skillLevels
+          ? (row.skillLevels.split("|").filter((s) => ["beginner", "intermediate", "advanced"].includes(s.trim())) as SkillLevel[])
+          : ["beginner", "intermediate"];
+
+        const addressToGeocode = row.address || `${row.venueName || ""}, ${row.city || ""}, ${row.state || ""}`;
+        const geopoint = await geocodeAddress(addressToGeocode);
+
+        return {
+          id,
+          name: row.name || "Untitled Game",
+          organizerName: row.contactName || "",
+          type: (row.type as GameType) || "open_play",
+          gameStyle: (row.gameStyle as GameStyle) || "american",
+          city: row.city || "",
+          state: row.state || "",
+          generalArea: row.generalArea || "",
+          venueName: row.venueName || "",
+          address: row.address || "",
+          geopoint,
+          isRecurring: row.isRecurring === "true" || row.isRecurring === "1" || !!row.dayOfWeek,
+          recurringSchedule: row.dayOfWeek
+            ? {
+                dayOfWeek: row.dayOfWeek,
+                startTime: row.startTime || "18:00",
+                endTime: row.endTime || "20:00",
+                frequency: (row.frequency as "weekly" | "biweekly" | "monthly") || "weekly",
+              }
+            : null,
+          eventDate: null,
+          eventStartTime: null,
+          eventEndTime: null,
+          cost: row.cost || "Free",
+          costAmount: null,
+          contactName: row.contactName || "",
+          contactEmail: row.contactEmail || "",
+          contactPhone: "",
+          website: row.website || "",
+          instagram: row.instagram || "",
+          facebookGroup: "",
+          registrationLink: "",
+          description: row.description || "",
+          howToJoin: row.howToJoin || "",
+          whatToBring: row.whatToBring || "",
+          skillLevels,
+          dropInFriendly: row.dropInFriendly !== "false" && row.dropInFriendly !== "0",
+          setsProvided: row.setsProvided !== "false" && row.setsProvided !== "0",
+          maxPlayers: row.typicalGroupSize ? null : null,
+          typicalGroupSize: row.typicalGroupSize || "",
+          imageUrl: "",
+          status: "pending",
+          verified: false,
+          claimedBy: null,
+          source: "csv_import",
+          promoted: false,
+          lastVerified: "",
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        } as Game;
+      })
+    );
 
     setGames((prev) => [...newGames, ...prev]);
     showToast(`Successfully imported ${newGames.length} games from CSV.`);
@@ -188,12 +196,16 @@ export default function AdminGamesPage() {
     setEditingGameId(null);
   };
 
-  const handleSaveGame = () => {
+  const handleSaveGame = async () => {
     // Validate required fields
     if (!form.name.trim() || !form.city.trim() || !form.state.trim()) {
       showToast("Name, City, and State are required.", "error");
       return;
     }
+
+    // Auto-geocode the address
+    const addressToGeocode = form.address || `${form.venueName}, ${form.city}, ${form.state}`;
+    const geopoint = await geocodeAddress(addressToGeocode);
 
     if (editingGameId) {
       // Update existing game
@@ -211,6 +223,7 @@ export default function AdminGamesPage() {
                 venueName: form.venueName,
                 address: form.address,
                 generalArea: form.generalArea,
+                geopoint,
                 cost: form.cost || "Free",
                 contactEmail: form.contactEmail,
                 description: form.description,
@@ -243,7 +256,7 @@ export default function AdminGamesPage() {
         generalArea: form.generalArea,
         venueName: form.venueName,
         address: form.address,
-        geopoint: { lat: 0, lng: 0 },
+        geopoint,
         isRecurring: true,
         recurringSchedule: {
           dayOfWeek: form.dayOfWeek,

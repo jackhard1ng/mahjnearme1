@@ -4,6 +4,7 @@ import { slugify, getGameTypeLabel, getGameTypeColor, getStateName } from "@/lib
 import { getCityTile } from "@/lib/city-tiles";
 import { SKILL_LEVEL_LABELS } from "@/lib/constants";
 import { MapPin, Users, ArrowRight, ChevronRight, ShieldCheck, Lock } from "lucide-react";
+import CityMap from "@/components/CityMap";
 import type { Metadata } from "next";
 
 const FREE_PREVIEW_COUNT = 2;
@@ -88,6 +89,9 @@ export default async function CityPage({ params }: Props) {
           </div>
         );
       })()}
+
+      {/* City Map */}
+      <CityMap games={games} />
 
       {/* Game Cards — show limited previews, blur the rest */}
       <div className="grid md:grid-cols-2 gap-4 mb-4">

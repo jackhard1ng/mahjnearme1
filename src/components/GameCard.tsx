@@ -18,11 +18,11 @@ import {
   ExternalLink,
   Heart,
   ShieldCheck,
-  Gamepad2,
   GraduationCap,
   Trophy,
   CalendarDays,
   CalendarPlus,
+  AlertCircle,
 } from "lucide-react";
 
 interface GameCardProps {
@@ -129,11 +129,11 @@ function TileSuitArt({ suit, number }: { suit: TileSuit; number: number }) {
 
 function getGameTypeIcon(type: string) {
   switch (type) {
-    case "open_play": return <Gamepad2 className="w-3.5 h-3.5" />;
+    case "open_play": return <Users className="w-3.5 h-3.5" />;
     case "lesson": return <GraduationCap className="w-3.5 h-3.5" />;
     case "league": return <Trophy className="w-3.5 h-3.5" />;
     case "event": return <CalendarDays className="w-3.5 h-3.5" />;
-    default: return <Gamepad2 className="w-3.5 h-3.5" />;
+    default: return <Users className="w-3.5 h-3.5" />;
   }
 }
 
@@ -316,6 +316,14 @@ export default function GameCard({
             </>
           )}
         </div>
+
+        {/* Availability disclaimer */}
+        {!blurred && !isTeaser && (
+          <div className="mx-4 mb-2 flex items-start gap-1.5 text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">
+            <AlertCircle className="w-3 h-3 mt-0.5 shrink-0" />
+            <span>Availability may change. Contact the organizer to confirm details and reserve your spot.</span>
+          </div>
+        )}
 
         {/* Tile footer — inner border like the recessed face of a real tile */}
         <div className="px-4 py-2.5 border-t-2 border-[#D4C9B8] flex items-center justify-between bg-[#FFF0DD]">

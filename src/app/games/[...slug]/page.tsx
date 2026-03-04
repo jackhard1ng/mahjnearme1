@@ -33,6 +33,7 @@ import {
   Navigation,
   Package,
   Info,
+  AlertCircle,
   BookOpen,
   Briefcase,
   Lock,
@@ -331,6 +332,15 @@ export default function GameDetailPage() {
                   </span>
                 </div>
               </div>
+            </div>
+
+            {/* Availability disclaimer */}
+            <div className="flex items-start gap-2 text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+              <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+              <span>
+                <strong>Please note:</strong> Availability may change and some events may fill up.
+                Contact the organizer directly to confirm details and reserve your spot before attending.
+              </span>
             </div>
 
             {/* ------------------------------------------------------------ */}

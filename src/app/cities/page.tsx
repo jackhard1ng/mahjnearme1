@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getCitiesWithGames, getStatesWithGames, mockGames } from "@/lib/mock-data";
 import { getStateName, slugify, getGameTypeLabel, getGameTypeColor } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
-import { MapPin, ArrowRight, Gamepad2, GraduationCap, Trophy, CalendarDays } from "lucide-react";
+import { MapPin, ArrowRight, Users, GraduationCap, Trophy, CalendarDays } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,11 +13,11 @@ export const metadata: Metadata = {
 
 function getGameTypeIcon(type: string) {
   switch (type) {
-    case "open_play": return <Gamepad2 className="w-4 h-4" />;
+    case "open_play": return <Users className="w-4 h-4" />;
     case "lesson": return <GraduationCap className="w-4 h-4" />;
     case "league": return <Trophy className="w-4 h-4" />;
     case "event": return <CalendarDays className="w-4 h-4" />;
-    default: return <Gamepad2 className="w-4 h-4" />;
+    default: return <Users className="w-4 h-4" />;
   }
 }
 
@@ -203,7 +203,7 @@ export default function CitiesIndexPage() {
             href="/add-your-group"
             className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
           >
-            Add a Group <ArrowRight className="w-4 h-4" />
+            List Your Group <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>
