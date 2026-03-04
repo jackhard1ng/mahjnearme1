@@ -93,6 +93,7 @@ export interface UserProfile {
   homeGeopoint: { lat: number; lng: number } | null;
   savedCities: string[];
   favoriteGames: string[];
+  savedEvents: string[];
 
   createdAt: string;
   lastLoginAt: string;
