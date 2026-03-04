@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { mockGames, getCitiesWithGames } from "@/lib/mock-data";
 import { slugify, getGameTypeLabel, getGameTypeColor, getStateName } from "@/lib/utils";
+import { getCityTile } from "@/lib/city-tiles";
 import { SKILL_LEVEL_LABELS } from "@/lib/constants";
 import { MapPin, Users, ArrowRight, ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
@@ -65,14 +66,26 @@ export default async function CityPage({ params }: Props) {
       </nav>
 
       {/* Hero */}
-      <div className="mb-8">
-        <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl text-charcoal mb-3">
-          Mahjong Games in {cityName}, {stateName}
-        </h1>
-        <p className="text-slate-500 text-lg">
-          {games.length} mahjong {games.length === 1 ? "game" : "games"} found in {cityName}. Drop-in friendly groups, all skill levels.
-        </p>
-      </div>
+      {(() => {
+        const cityTile = getCityTile(cityName);
+        return (
+          <div className="mb-8">
+            <div className="flex items-center gap-4">
+              {cityTile && (
+                <img src={cityTile} alt={`${cityName} mahjong tile`} className="h-20 sm:h-24 w-auto drop-shadow-lg" />
+              )}
+              <div>
+                <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl text-charcoal mb-3">
+                  Mahjong Games in {cityName}, {stateName}
+                </h1>
+                <p className="text-slate-500 text-lg">
+                  {games.length} mahjong {games.length === 1 ? "game" : "games"} found in {cityName}. Drop-in friendly groups, all skill levels.
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Game Cards (teaser/SEO content — limited details for non-subscribers) */}
       <div className="grid md:grid-cols-2 gap-4 mb-10">

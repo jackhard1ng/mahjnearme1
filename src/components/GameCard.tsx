@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Game } from "@/types";
 import { getGameTypeColor, getGameTypeLabel, getVerificationStatus, formatSchedule, slugify } from "@/lib/utils";
+import { getCityTile } from "@/lib/city-tiles";
 import { SKILL_LEVEL_LABELS } from "@/lib/constants";
 import {
   MapPin,
@@ -149,22 +150,32 @@ export default function GameCard({
   const isGreatForUser = userSkillLevel && game.skillLevels.includes(userSkillLevel as "beginner" | "intermediate" | "advanced");
   const suit = getTileSuit(game.id);
   const tileNumber = getTileNumber(game.id);
+  const cityTile = getCityTile(game.city);
 
   const cardContent = (
     <>
       <div className={`flex flex-col flex-1 ${blurred ? "content-blur select-none" : ""}`}>
-        {/* Tile face — suit art as watermark background */}
+        {/* Tile face — city tile or suit art as watermark background */}
         <div className="relative p-4 pb-3 flex-1">
-          {/* Suit watermark behind content */}
-          <div className="absolute top-2 right-2 w-20 h-20 opacity-60 pointer-events-none select-none">
-            <TileSuitArt suit={suit} number={tileNumber} />
+          {/* City tile or suit watermark behind content */}
+          <div className="absolute top-2 right-2 pointer-events-none select-none">
+            {cityTile ? (
+              <img src={cityTile} alt="" className="h-[34px] w-auto opacity-90" />
+            ) : (
+              <div className="w-20 h-20 opacity-60">
+                <TileSuitArt suit={suit} number={tileNumber} />
+              </div>
+            )}
           </div>
 
           {/* Suit label + favorite */}
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-              {suit === "dots" ? "Circles" : suit === "bam" ? "Bamboo" : "Characters"} &middot; {tileNumber}
-            </span>
+            {!cityTile && (
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                {suit === "dots" ? "Circles" : suit === "bam" ? "Bamboo" : "Characters"} &middot; {tileNumber}
+              </span>
+            )}
+            {cityTile && <span />}
             {onFavorite && !blurred && (
               <button
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); onFavorite(game.id); }}

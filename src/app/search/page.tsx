@@ -11,6 +11,7 @@ import { mockGames } from "@/lib/mock-data";
 import { useAuth } from "@/contexts/AuthContext";
 import { SearchFilters, Game } from "@/types";
 import { ShieldCheck, SlidersHorizontal } from "lucide-react";
+import { getCityTile } from "@/lib/city-tiles";
 import Link from "next/link";
 
 function SearchContent() {
@@ -92,20 +93,32 @@ function SearchContent() {
       </div>
 
       {/* Results Header */}
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="font-semibold text-lg text-charcoal">
-          {query ? (
-            <>
-              <span className="text-hotpink-500">{filteredGames.length}</span> mahjong game{filteredGames.length !== 1 ? "s" : ""}{" "}
-              {query && <>found for &ldquo;{query}&rdquo;</>}
-            </>
-          ) : (
-            <>
-              <span className="text-hotpink-500">{filteredGames.length}</span> mahjong games near you
-            </>
-          )}
-        </h1>
-      </div>
+      {(() => {
+        // Detect city for tile: if all results share a city, or query matches a city name
+        const cities = new Set(filteredGames.map((g) => g.city));
+        const matchedCity = cities.size === 1 ? [...cities][0] : null;
+        const cityTile = matchedCity ? getCityTile(matchedCity) : null;
+
+        return (
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="font-semibold text-lg text-charcoal flex items-center gap-2">
+              {cityTile && (
+                <img src={cityTile} alt={`${matchedCity} tile`} className="h-10 w-auto" />
+              )}
+              {query ? (
+                <>
+                  <span className="text-hotpink-500">{filteredGames.length}</span> mahjong game{filteredGames.length !== 1 ? "s" : ""}{" "}
+                  {query && <>found for &ldquo;{query}&rdquo;</>}
+                </>
+              ) : (
+                <>
+                  <span className="text-hotpink-500">{filteredGames.length}</span> mahjong games near you
+                </>
+              )}
+            </h1>
+          </div>
+        );
+      })()}
 
       {/* Map + List Split View */}
       <div className="grid lg:grid-cols-2 gap-6">

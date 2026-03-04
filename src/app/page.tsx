@@ -1,7 +1,8 @@
 import Link from "next/link";
 import SearchBar from "@/components/SearchBar";
-import { mockGames, getStatesWithGames } from "@/lib/mock-data";
-import { slugify } from "@/lib/utils";
+import { mockGames, getStatesWithGames, getCitiesWithGames } from "@/lib/mock-data";
+import { slugify, getStateName } from "@/lib/utils";
+import { getCityTile } from "@/lib/city-tiles";
 import { Search, MapPin, Sparkles, Globe, ShieldCheck, Bell, ArrowRight, Star, CreditCard } from "lucide-react";
 
 function getStats() {
@@ -13,6 +14,7 @@ function getStats() {
 
 const stats = getStats();
 const states = getStatesWithGames();
+const cities = getCitiesWithGames();
 
 export default function HomePage() {
 
@@ -52,21 +54,28 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* State Marquee - soft blue section */}
-      <section className="py-6 border-y border-skyblue-200 overflow-hidden bg-skyblue-50">
+      {/* City Marquee - soft blue section */}
+      <section className="py-4 border-y border-skyblue-200 overflow-hidden bg-skyblue-50">
         <div className="relative">
-          <div className="animate-scroll-left whitespace-nowrap flex">
-            {[...states, ...states].map((s, i) => (
-              <Link
-                key={i}
-                href={`/states/${slugify(s.stateName)}`}
-                className="inline-flex items-center px-6 text-charcoal hover:text-hotpink-500 transition-colors text-sm font-medium"
-              >
-                <span className="w-1.5 h-1.5 bg-hotpink-400 rounded-full mr-3" />
-                {s.stateName}
-                <span className="ml-2 text-xs text-hotpink-500 font-bold">{s.gameCount}</span>
-              </Link>
-            ))}
+          <div className="animate-scroll-left whitespace-nowrap flex items-center">
+            {[...cities, ...cities].map((c, i) => {
+              const tile = getCityTile(c.city);
+              return (
+                <Link
+                  key={i}
+                  href={`/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`}
+                  className="inline-flex items-center px-6 text-charcoal hover:text-hotpink-500 transition-colors text-sm font-medium shrink-0"
+                >
+                  {tile ? (
+                    <img src={tile} alt="" className="h-8 w-auto mr-2.5" />
+                  ) : (
+                    <span className="w-1.5 h-1.5 bg-hotpink-400 rounded-full mr-3" />
+                  )}
+                  {c.city}, {c.state}
+                  <span className="ml-2 text-xs text-hotpink-500 font-bold">{c.count}</span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
