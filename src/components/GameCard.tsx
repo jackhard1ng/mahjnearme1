@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Game } from "@/types";
 import { getGameTypeColor, getGameTypeLabel, getVerificationStatus, formatSchedule, slugify } from "@/lib/utils";
+import { getCityTile } from "@/lib/city-tiles";
 import { SKILL_LEVEL_LABELS } from "@/lib/constants";
 import {
   MapPin,
@@ -149,37 +150,33 @@ export default function GameCard({
   const isGreatForUser = userSkillLevel && game.skillLevels.includes(userSkillLevel as "beginner" | "intermediate" | "advanced");
   const suit = getTileSuit(game.id);
   const tileNumber = getTileNumber(game.id);
+  const cityTile = getCityTile(game.city);
 
-  return (
-    <Link href={`/games/${gameSlug}`} className={`mahj-tile overflow-hidden flex flex-col ${blurred ? "relative" : ""} hover:shadow-xl transition-shadow cursor-pointer`}>
-      {blurred && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-[14px]">
-          <div className="text-center px-6">
-            <ShieldCheck className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
-            <p className="font-semibold text-charcoal mb-1">Subscribe to see full details</p>
-            <span
-              className="inline-block mt-2 bg-hotpink-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
-            >
-              View Plans
-            </span>
-          </div>
-        </div>
-      )}
-
-      <div className={`flex flex-col flex-1 ${blurred ? "content-blur" : ""}`}>
-        {/* Tile face — suit art as watermark background */}
+  const cardContent = (
+    <>
+      <div className={`flex flex-col flex-1 ${blurred ? "content-blur select-none" : ""}`}>
+        {/* Tile face — city tile or suit art as watermark background */}
         <div className="relative p-4 pb-3 flex-1">
-          {/* Suit watermark behind content */}
-          <div className="absolute top-2 right-2 w-20 h-20 opacity-60 pointer-events-none select-none">
-            <TileSuitArt suit={suit} number={tileNumber} />
+          {/* City tile or suit watermark behind content */}
+          <div className="absolute top-2 right-2 pointer-events-none select-none">
+            {cityTile ? (
+              <img src={cityTile} alt="" className="h-[34px] w-auto opacity-90" />
+            ) : (
+              <div className="w-20 h-20 opacity-60">
+                <TileSuitArt suit={suit} number={tileNumber} />
+              </div>
+            )}
           </div>
 
           {/* Suit label + favorite */}
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-              {suit === "dots" ? "Circles" : suit === "bam" ? "Bamboo" : "Characters"} &middot; {tileNumber}
-            </span>
-            {onFavorite && (
+            {!cityTile && (
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                {suit === "dots" ? "Circles" : suit === "bam" ? "Bamboo" : "Characters"} &middot; {tileNumber}
+              </span>
+            )}
+            {cityTile && <span />}
+            {onFavorite && !blurred && (
               <button
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); onFavorite(game.id); }}
                 className="p-1.5 rounded-lg hover:bg-hotpink-50 transition-colors -mr-1"
@@ -190,122 +187,181 @@ export default function GameCard({
             )}
           </div>
 
-          {/* Group name — engraved into tile */}
-          <h3 className="tile-engraved font-bold text-charcoal text-lg hover:text-hotpink-500 transition-colors leading-tight mb-0.5">
-            {game.name}
-          </h3>
-          <p className="text-xs text-slate-500 tile-engraved mb-3">{game.organizerName}</p>
-
-          {/* Key details — engraved */}
-          <div className="space-y-1.5 mb-3">
-            <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
-              <Clock className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
-              <span className="font-medium">{schedule}</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
-              <MapPin className="w-3.5 h-3.5 text-skyblue-500 shrink-0" />
-              <span>{isTeaser ? game.generalArea : `${game.city}, ${game.state}`}</span>
-            </div>
-            {!isTeaser && (
-              <div className="flex items-center gap-2 text-sm text-slate-600 tile-engraved">
-                <DollarSign className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
-                <span>{game.cost}</span>
+          {blurred ? (
+            <>
+              {/* Blurred cards: show only game type + city — no identifying details */}
+              <div className="flex items-center gap-2 flex-wrap mb-3">
+                <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${typeColor}`}>
+                  {getGameTypeIcon(game.type)} {typeLabel}
+                </span>
               </div>
-            )}
-            {game.typicalGroupSize && (
-              <div className="flex items-center gap-2 text-sm text-slate-600 tile-engraved">
-                <Users className="w-3.5 h-3.5 text-skyblue-500 shrink-0" />
-                <span>{game.typicalGroupSize}</span>
+              <div className="h-5 bg-slate-200 rounded w-3/4 mb-2" />
+              <div className="h-3 bg-slate-100 rounded w-1/2 mb-3" />
+              <div className="space-y-1.5 mb-3">
+                <div className="h-4 bg-slate-100 rounded w-2/3" />
+                <div className="h-4 bg-slate-100 rounded w-1/2" />
               </div>
-            )}
-          </div>
+            </>
+          ) : (
+            <>
+              {/* Group name — engraved into tile */}
+              <h3 className="tile-engraved font-bold text-charcoal text-lg hover:text-hotpink-500 transition-colors leading-tight mb-0.5">
+                {game.name}
+              </h3>
+              {!isTeaser && (
+                <p className="text-xs text-slate-500 tile-engraved mb-3">{game.organizerName}</p>
+              )}
+              {isTeaser && <div className="mb-3" />}
 
-          {/* Game type badge */}
-          <div className="flex items-center gap-2 flex-wrap mb-3">
-            <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${typeColor}`}>
-              {getGameTypeIcon(game.type)} {typeLabel}
-            </span>
-            {game.promoted && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-hotpink-100 text-hotpink-600 border border-hotpink-200">
-                Featured
-              </span>
-            )}
-            {isGreatForUser && !game.promoted && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-skyblue-100 text-skyblue-600 border border-skyblue-200">
-                Great for you!
-              </span>
-            )}
-          </div>
+              {/* Key details — engraved */}
+              <div className="space-y-1.5 mb-3">
+                {!isTeaser && (
+                  <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
+                    <Clock className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
+                    <span className="font-medium">{schedule}</span>
+                  </div>
+                )}
+                <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
+                  <MapPin className="w-3.5 h-3.5 text-skyblue-500 shrink-0" />
+                  <span>{isTeaser ? game.generalArea : `${game.city}, ${game.state}`}</span>
+                </div>
+                {!isTeaser && (
+                  <div className="flex items-center gap-2 text-sm text-slate-600 tile-engraved">
+                    <DollarSign className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
+                    <span>{game.cost}</span>
+                  </div>
+                )}
+                {!isTeaser && game.typicalGroupSize && (
+                  <div className="flex items-center gap-2 text-sm text-slate-600 tile-engraved">
+                    <Users className="w-3.5 h-3.5 text-skyblue-500 shrink-0" />
+                    <span>{game.typicalGroupSize}</span>
+                  </div>
+                )}
+              </div>
 
-          {/* Description */}
-          {!isTeaser && (
-            <p className="text-sm text-slate-600 line-clamp-2 mb-3">{game.description}</p>
-          )}
+              {/* Game type badge */}
+              <div className="flex items-center gap-2 flex-wrap mb-3">
+                <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${typeColor}`}>
+                  {getGameTypeIcon(game.type)} {typeLabel}
+                </span>
+                {game.promoted && (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-hotpink-100 text-hotpink-600 border border-hotpink-200">
+                    Featured
+                  </span>
+                )}
+                {isGreatForUser && !game.promoted && (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-skyblue-100 text-skyblue-600 border border-skyblue-200">
+                    Great for you!
+                  </span>
+                )}
+              </div>
 
-          {/* Contact Links */}
-          {!isTeaser && !blurred && (
-            <div className="flex flex-wrap gap-1.5 mb-2" onClick={(e) => e.stopPropagation()}>
-              {game.contactEmail && (
-                <a href={`mailto:${game.contactEmail}`} onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
-                  <Mail className="w-3 h-3" /> Email
-                </a>
+              {/* Description */}
+              {!isTeaser && (
+                <p className="text-sm text-slate-600 line-clamp-2 mb-3">{game.description}</p>
               )}
-              {game.contactPhone && (
-                <a href={`tel:${game.contactPhone}`} onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
-                  <Phone className="w-3 h-3" /> Call
-                </a>
+
+              {/* Contact Links */}
+              {!isTeaser && (
+                <div className="flex flex-wrap gap-1.5 mb-2" onClick={(e) => e.stopPropagation()}>
+                  {game.contactEmail && (
+                    <a href={`mailto:${game.contactEmail}`} onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
+                      <Mail className="w-3 h-3" /> Email
+                    </a>
+                  )}
+                  {game.contactPhone && (
+                    <a href={`tel:${game.contactPhone}`} onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
+                      <Phone className="w-3 h-3" /> Call
+                    </a>
+                  )}
+                  {game.website && (
+                    <a href={game.website} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-skyblue-600 hover:text-skyblue-500 bg-skyblue-100 px-2 py-1 rounded-full transition-colors">
+                      <Globe className="w-3 h-3" /> Website
+                    </a>
+                  )}
+                  {game.instagram && (
+                    <a href={`https://instagram.com/${game.instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
+                      <Instagram className="w-3 h-3" /> {game.instagram}
+                    </a>
+                  )}
+                  {game.facebookGroup && (
+                    <a href={game.facebookGroup} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-skyblue-600 hover:text-skyblue-500 bg-skyblue-100 px-2 py-1 rounded-full transition-colors">
+                      <Globe className="w-3 h-3" /> Facebook
+                    </a>
+                  )}
+                  {game.registrationLink && (
+                    <a href={game.registrationLink} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-100 px-2 py-1 rounded-full font-medium transition-colors">
+                      <ExternalLink className="w-3 h-3" /> Register
+                    </a>
+                  )}
+                </div>
               )}
-              {game.website && (
-                <a href={game.website} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-skyblue-600 hover:text-skyblue-500 bg-skyblue-100 px-2 py-1 rounded-full transition-colors">
-                  <Globe className="w-3 h-3" /> Website
-                </a>
-              )}
-              {game.instagram && (
-                <a href={`https://instagram.com/${game.instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
-                  <Instagram className="w-3 h-3" /> {game.instagram}
-                </a>
-              )}
-              {game.facebookGroup && (
-                <a href={game.facebookGroup} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-skyblue-600 hover:text-skyblue-500 bg-skyblue-100 px-2 py-1 rounded-full transition-colors">
-                  <Globe className="w-3 h-3" /> Facebook
-                </a>
-              )}
-              {game.registrationLink && (
-                <a href={game.registrationLink} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-100 px-2 py-1 rounded-full font-medium transition-colors">
-                  <ExternalLink className="w-3 h-3" /> Register
-                </a>
-              )}
-            </div>
+            </>
           )}
         </div>
 
         {/* Tile footer — inner border like the recessed face of a real tile */}
         <div className="px-4 py-2.5 border-t-2 border-[#D4C9B8] flex items-center justify-between bg-[#FFF0DD]">
-          <div className="flex items-center gap-1.5 flex-wrap">
-            {game.skillLevels.map((level) => (
-              <span
-                key={level}
-                className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium ${
-                  level === "beginner" ? "bg-skyblue-100 text-skyblue-600" :
-                  level === "intermediate" ? "bg-hotpink-100 text-hotpink-600" :
-                  "bg-slate-100 text-charcoal"
-                }`}
-              >
-                {SKILL_LEVEL_LABELS[level]}
-              </span>
-            ))}
-            {game.dropInFriendly && (
-              <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-skyblue-100 text-skyblue-600">
-                Drop-in
-              </span>
-            )}
-          </div>
-          <div className="flex items-center gap-1">
-            <CheckCircle className={`w-3.5 h-3.5 ${game.verified ? "text-hotpink-500" : "text-slate-300"}`} />
-            <span className={`text-[11px] font-medium ${game.verified ? "text-hotpink-600" : "text-slate-400"}`}>{verification.label}</span>
-          </div>
+          {blurred ? (
+            <>
+              <div className="flex items-center gap-1.5">
+                <div className="h-4 bg-slate-200 rounded w-16" />
+                <div className="h-4 bg-slate-100 rounded w-12" />
+              </div>
+              <div className="h-4 bg-slate-100 rounded w-16" />
+            </>
+          ) : (
+            <>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {game.skillLevels.map((level) => (
+                  <span
+                    key={level}
+                    className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium ${
+                      level === "beginner" ? "bg-skyblue-100 text-skyblue-600" :
+                      level === "intermediate" ? "bg-hotpink-100 text-hotpink-600" :
+                      "bg-slate-100 text-charcoal"
+                    }`}
+                  >
+                    {SKILL_LEVEL_LABELS[level]}
+                  </span>
+                ))}
+                {game.dropInFriendly && (
+                  <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-skyblue-100 text-skyblue-600">
+                    Drop-in
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-1">
+                <CheckCircle className={`w-3.5 h-3.5 ${game.verified ? "text-hotpink-500" : "text-slate-300"}`} />
+                <span className={`text-[11px] font-medium ${game.verified ? "text-hotpink-600" : "text-slate-400"}`}>{verification.label}</span>
+              </div>
+            </>
+          )}
         </div>
       </div>
+    </>
+  );
+
+  if (blurred) {
+    return (
+      <div className="mahj-tile overflow-hidden flex flex-col relative cursor-pointer">
+        <Link href="/pricing" className="absolute inset-0 z-10 flex items-center justify-center bg-white/90 backdrop-blur-md rounded-[14px]">
+          <div className="text-center px-6">
+            <ShieldCheck className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
+            <p className="font-semibold text-charcoal mb-1">Subscribe to see full details</p>
+            <span className="inline-block mt-2 bg-hotpink-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors">
+              View Plans
+            </span>
+          </div>
+        </Link>
+        {cardContent}
+      </div>
+    );
+  }
+
+  return (
+    <Link href={`/games/${gameSlug}`} className="mahj-tile overflow-hidden flex flex-col hover:shadow-xl transition-shadow cursor-pointer">
+      {cardContent}
     </Link>
   );
 }

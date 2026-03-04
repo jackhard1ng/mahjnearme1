@@ -11,6 +11,7 @@ import { mockGames } from "@/lib/mock-data";
 import { useAuth } from "@/contexts/AuthContext";
 import { SearchFilters, Game } from "@/types";
 import { ShieldCheck, SlidersHorizontal } from "lucide-react";
+import { getCityTile } from "@/lib/city-tiles";
 import Link from "next/link";
 
 function SearchContent() {
@@ -40,6 +41,7 @@ function SearchContent() {
           g.city.toLowerCase().includes(q) ||
           g.state.toLowerCase().includes(q) ||
           g.name.toLowerCase().includes(q) ||
+          g.organizerName.toLowerCase().includes(q) ||
           g.generalArea.toLowerCase().includes(q)
       );
     }
@@ -91,20 +93,32 @@ function SearchContent() {
       </div>
 
       {/* Results Header */}
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="font-semibold text-lg text-charcoal">
-          {query ? (
-            <>
-              <span className="text-hotpink-500">{filteredGames.length}</span> mahjong game{filteredGames.length !== 1 ? "s" : ""}{" "}
-              {query && <>found for &ldquo;{query}&rdquo;</>}
-            </>
-          ) : (
-            <>
-              <span className="text-hotpink-500">{filteredGames.length}</span> mahjong games near you
-            </>
-          )}
-        </h1>
-      </div>
+      {(() => {
+        // Detect city for tile: if all results share a city, or query matches a city name
+        const cities = new Set(filteredGames.map((g) => g.city));
+        const matchedCity = cities.size === 1 ? [...cities][0] : null;
+        const cityTile = matchedCity ? getCityTile(matchedCity) : null;
+
+        return (
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="font-semibold text-lg text-charcoal flex items-center gap-2">
+              {cityTile && (
+                <img src={cityTile} alt={`${matchedCity} tile`} className="h-10 w-auto" />
+              )}
+              {query ? (
+                <>
+                  <span className="text-hotpink-500">{filteredGames.length}</span> mahjong game{filteredGames.length !== 1 ? "s" : ""}{" "}
+                  {query && <>found for &ldquo;{query}&rdquo;</>}
+                </>
+              ) : (
+                <>
+                  <span className="text-hotpink-500">{filteredGames.length}</span> mahjong games near you
+                </>
+              )}
+            </h1>
+          </div>
+        );
+      })()}
 
       {/* Map + List Split View */}
       <div className="grid lg:grid-cols-2 gap-6">
@@ -133,7 +147,8 @@ function SearchContent() {
           ) : (
             <>
               {filteredGames.map((game, index) => {
-                if (!user && index === 0) {
+                // Show first card as a preview for users without access
+                if (!hasAccess && index === 0) {
                   return (
                     <div key={game.id} className={`animate-fade-in-up stagger-${index + 1}`}>
                       <GameCard
@@ -146,7 +161,8 @@ function SearchContent() {
                   );
                 }
 
-                if (!user && index >= 1) {
+                // Blur all other cards for users without access
+                if (!hasAccess && index >= 1) {
                   return (
                     <div key={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)}`}>
                       <GameCard
@@ -163,7 +179,6 @@ function SearchContent() {
                   <div key={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)}`}>
                     <GameCard
                       game={game}
-                      blurred={!hasAccess}
                       userSkillLevel={userProfile?.skillLevel}
                       index={index}
                     />
@@ -171,23 +186,22 @@ function SearchContent() {
                 );
               })}
 
-              {/* Signup CTA */}
-              {!user && filteredGames.length > 1 && (
+              {/* Signup / Subscribe CTA */}
+              {!hasAccess && filteredGames.length > 1 && (
                 <div className="card-white p-8 text-center">
                   <ShieldCheck className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
                   <h3 className="font-semibold text-xl text-charcoal mb-2">
                     Unlock all {filteredGames.length} games
                   </h3>
                   <p className="text-slate-500 mb-4 text-sm">
-                    Start your 14-day free trial to see full details, contact info, and directions for every game.
+                    Subscribe to see full details, contact info, and directions for every game.
                   </p>
                   <Link
-                    href="/signup"
+                    href="/pricing"
                     className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-all shadow-lg"
                   >
-                    Start Free Trial
+                    View Plans
                   </Link>
-                  <p className="text-xs text-slate-400 mt-2">Credit card required &middot; Cancel anytime</p>
                 </div>
               )}
             </>

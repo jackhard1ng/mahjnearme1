@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useState, FormEvent, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -70,8 +70,22 @@ const GAME_STYLES = [
   },
 ] as const;
 
-export default function SignupPage() {
+export default function SignupPageWrapper() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-[80vh] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-hotpink-500 animate-spin" />
+      </div>
+    }>
+      <SignupPage />
+    </Suspense>
+  );
+}
+
+function SignupPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const planParam = searchParams.get("plan"); // "monthly" | "annual" | null
   const { signUp, signInWithGoogle, user, loading: authLoading } = useAuth();
 
   // Registration form state
@@ -159,14 +173,37 @@ export default function SignupPage() {
     }
   };
 
-  const handleOnboardingComplete = () => {
-    // In production, save preferences to Firestore here
-    // For now, just redirect to search
+  async function redirectAfterOnboarding() {
+    // If user came from pricing with a plan, trigger Stripe checkout
+    if (planParam && ["monthly", "annual"].includes(planParam) && user) {
+      try {
+        const res = await fetch("/api/create-checkout-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            plan: planParam,
+            firebaseUid: user.uid,
+            email: user.email,
+          }),
+        });
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+          return;
+        }
+      } catch {
+        // Fall through to search if checkout fails
+      }
+    }
     router.push("/search");
+  }
+
+  const handleOnboardingComplete = () => {
+    redirectAfterOnboarding();
   };
 
   const handleSkipOnboarding = () => {
-    router.push("/search");
+    redirectAfterOnboarding();
   };
 
   const canProceed = () => {

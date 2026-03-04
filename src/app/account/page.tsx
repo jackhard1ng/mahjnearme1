@@ -2,29 +2,61 @@
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import Link from "next/link";
+import { getCitiesWithGames } from "@/lib/mock-data";
+import { getStateName } from "@/lib/utils";
 import {
   User,
-  Mail,
   MapPin,
   Heart,
   CreditCard,
   Bell,
-  Settings,
   Crown,
-  Calendar,
-  Star,
-  LogOut,
   ChevronRight,
   Plus,
   X,
+  LogOut,
+  Pencil,
+  Check,
+  AlertTriangle,
+  ExternalLink,
+  Loader2,
 } from "lucide-react";
 
+const SKILL_OPTIONS = [
+  { value: "", label: "Not set" },
+  { value: "beginner", label: "Beginner" },
+  { value: "intermediate", label: "Intermediate" },
+  { value: "advanced", label: "Advanced" },
+];
+
+const STYLE_OPTIONS = [
+  { value: "", label: "Not set" },
+  { value: "american", label: "American" },
+  { value: "chinese", label: "Chinese / Hong Kong" },
+  { value: "riichi", label: "Japanese Riichi" },
+  { value: "other", label: "Other" },
+];
+
+const allCities = getCitiesWithGames().map((c) => `${c.city}, ${getStateName(c.state)}`);
+
 export default function AccountPage() {
-  const { user, userProfile, hasAccess, signOut, loading } = useAuth();
+  const { user, userProfile, hasAccess, signOut, loading, updateUserProfile } = useAuth();
   const router = useRouter();
   const [savedCity, setSavedCity] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [portalLoading, setPortalLoading] = useState(false);
+  const suggestionsRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Editable fields
+  const [editing, setEditing] = useState<string | null>(null);
+  const [editDisplayName, setEditDisplayName] = useState("");
+  const [editSkillLevel, setEditSkillLevel] = useState("");
+  const [editGameStyle, setEditGameStyle] = useState("");
+  const [editHomeCity, setEditHomeCity] = useState("");
 
   useEffect(() => {
     if (!loading && !user) {
@@ -43,6 +75,88 @@ export default function AccountPage() {
   const trialDaysLeft = userProfile.trialEndsAt
     ? Math.max(0, Math.ceil((new Date(userProfile.trialEndsAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
     : 0;
+
+  function startEdit(field: string) {
+    setEditing(field);
+    if (field === "displayName") setEditDisplayName(userProfile!.displayName || "");
+    if (field === "skillLevel") setEditSkillLevel(userProfile!.skillLevel || "");
+    if (field === "gameStylePreference") setEditGameStyle(userProfile!.gameStylePreference || "");
+    if (field === "homeCity") setEditHomeCity(userProfile!.homeCity || "");
+  }
+
+  function saveEdit(field: string) {
+    const updates: Record<string, string> = {};
+    if (field === "displayName") updates.displayName = editDisplayName;
+    if (field === "skillLevel") updates.skillLevel = editSkillLevel;
+    if (field === "gameStylePreference") updates.gameStylePreference = editGameStyle;
+    if (field === "homeCity") updates.homeCity = editHomeCity;
+    updateUserProfile(updates);
+    setEditing(null);
+  }
+
+  // Saved cities autocomplete
+  const citySuggestions = useMemo(() => {
+    if (!savedCity.trim()) return [];
+    const q = savedCity.toLowerCase();
+    const saved = new Set(userProfile?.savedCities || []);
+    return allCities
+      .filter((c) => c.toLowerCase().includes(q) && !saved.has(c))
+      .slice(0, 6);
+  }, [savedCity, userProfile?.savedCities]);
+
+  function addSavedCity(city: string) {
+    if (!userProfile || userProfile.savedCities.includes(city)) return;
+    updateUserProfile({ savedCities: [...userProfile.savedCities, city] });
+    setSavedCity("");
+    setShowSuggestions(false);
+    setHighlightedIndex(-1);
+  }
+
+  function removeSavedCity(city: string) {
+    if (!userProfile) return;
+    updateUserProfile({ savedCities: userProfile.savedCities.filter((c) => c !== city) });
+  }
+
+  function handleCityKeyDown(e: React.KeyboardEvent) {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => Math.min(prev + 1, citySuggestions.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => Math.max(prev - 1, 0));
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (highlightedIndex >= 0 && citySuggestions[highlightedIndex]) {
+        addSavedCity(citySuggestions[highlightedIndex]);
+      } else if (citySuggestions.length === 1) {
+        addSavedCity(citySuggestions[0]);
+      }
+    } else if (e.key === "Escape") {
+      setShowSuggestions(false);
+    }
+  }
+
+  async function handleManageSubscription() {
+    if (!userProfile?.stripeCustomerId) return;
+    setPortalLoading(true);
+    try {
+      const res = await fetch("/api/create-portal-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ stripeCustomerId: userProfile.stripeCustomerId }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Could not open subscription management. Please try again.");
+      }
+    } catch {
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setPortalLoading(false);
+    }
+  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
@@ -65,7 +179,7 @@ export default function AccountPage() {
                   {userProfile.accountType === "trial" ? "Free Trial" :
                    userProfile.accountType === "subscriber" ? "Subscriber" :
                    userProfile.accountType === "admin" ? "Admin" :
-                   userProfile.accountType}
+                   "Free"}
                 </span>
                 {hasAccess && userProfile.accountType === "subscriber" && (
                   <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-skyblue-100 text-skyblue-600">
@@ -77,28 +191,155 @@ export default function AccountPage() {
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
-            <div>
+            {/* Display Name */}
+            <div className="group">
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Display Name</label>
-              <p className="text-charcoal font-medium">{userProfile.displayName}</p>
+              {editing === "displayName" ? (
+                <div className="flex items-center gap-2 mt-1">
+                  <input
+                    type="text"
+                    value={editDisplayName}
+                    onChange={(e) => setEditDisplayName(e.target.value)}
+                    className="border border-hotpink-300 rounded-lg px-3 py-1.5 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-hotpink-200"
+                    autoFocus
+                  />
+                  <button onClick={() => saveEdit("displayName")} className="p-1.5 text-hotpink-500 hover:bg-hotpink-50 rounded-lg">
+                    <Check className="w-4 h-4" />
+                  </button>
+                  <button onClick={() => setEditing(null)} className="p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <p className="text-charcoal font-medium">{userProfile.displayName || "Not set"}</p>
+                  <button onClick={() => startEdit("displayName")} className="p-1 text-slate-400 hover:text-hotpink-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Pencil className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
             </div>
+
+            {/* Email (not editable) */}
             <div>
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Email</label>
               <p className="text-charcoal font-medium">{userProfile.email}</p>
             </div>
-            <div>
+
+            {/* Skill Level */}
+            <div className="group">
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Skill Level</label>
-              <p className="text-charcoal font-medium capitalize">{userProfile.skillLevel || "Not set"}</p>
+              {editing === "skillLevel" ? (
+                <div className="flex items-center gap-2 mt-1">
+                  <select
+                    value={editSkillLevel}
+                    onChange={(e) => setEditSkillLevel(e.target.value)}
+                    className="border border-hotpink-300 rounded-lg px-3 py-1.5 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-hotpink-200 bg-white"
+                    autoFocus
+                  >
+                    {SKILL_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                  </select>
+                  <button onClick={() => saveEdit("skillLevel")} className="p-1.5 text-hotpink-500 hover:bg-hotpink-50 rounded-lg">
+                    <Check className="w-4 h-4" />
+                  </button>
+                  <button onClick={() => setEditing(null)} className="p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <p className="text-charcoal font-medium capitalize">{userProfile.skillLevel || "Not set"}</p>
+                  <button onClick={() => startEdit("skillLevel")} className="p-1 text-slate-400 hover:text-hotpink-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Pencil className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
             </div>
-            <div>
+
+            {/* Game Style */}
+            <div className="group">
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Game Style Preference</label>
-              <p className="text-charcoal font-medium capitalize">{userProfile.gameStylePreference || "Not set"}</p>
+              {editing === "gameStylePreference" ? (
+                <div className="flex items-center gap-2 mt-1">
+                  <select
+                    value={editGameStyle}
+                    onChange={(e) => setEditGameStyle(e.target.value)}
+                    className="border border-hotpink-300 rounded-lg px-3 py-1.5 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-hotpink-200 bg-white"
+                    autoFocus
+                  >
+                    {STYLE_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                  </select>
+                  <button onClick={() => saveEdit("gameStylePreference")} className="p-1.5 text-hotpink-500 hover:bg-hotpink-50 rounded-lg">
+                    <Check className="w-4 h-4" />
+                  </button>
+                  <button onClick={() => setEditing(null)} className="p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <p className="text-charcoal font-medium capitalize">{userProfile.gameStylePreference || "Not set"}</p>
+                  <button onClick={() => startEdit("gameStylePreference")} className="p-1 text-slate-400 hover:text-hotpink-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Pencil className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
             </div>
-            <div>
+
+            {/* Home City */}
+            <div className="group">
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Home City</label>
-              <p className="text-charcoal font-medium">{userProfile.homeCity || "Not set"}</p>
+              {editing === "homeCity" ? (
+                <div className="flex items-center gap-2 mt-1">
+                  <input
+                    type="text"
+                    value={editHomeCity}
+                    onChange={(e) => setEditHomeCity(e.target.value)}
+                    className="border border-hotpink-300 rounded-lg px-3 py-1.5 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-hotpink-200"
+                    placeholder="e.g. Nashville, TN"
+                    autoFocus
+                  />
+                  <button onClick={() => saveEdit("homeCity")} className="p-1.5 text-hotpink-500 hover:bg-hotpink-50 rounded-lg">
+                    <Check className="w-4 h-4" />
+                  </button>
+                  <button onClick={() => setEditing(null)} className="p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <p className="text-charcoal font-medium">{userProfile.homeCity || "Not set"}</p>
+                  <button onClick={() => startEdit("homeCity")} className="p-1 text-slate-400 hover:text-hotpink-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Pencil className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
+
+        {/* Past Due Banner */}
+        {userProfile.subscriptionStatus === "past_due" && (
+          <div className="bg-amber-50 border border-amber-300 rounded-xl p-4 flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="font-semibold text-amber-800">Payment Failed</p>
+              <p className="text-sm text-amber-700">
+                Please update your payment method to keep your access.
+              </p>
+            </div>
+            <button
+              onClick={() => handleManageSubscription()}
+              className="bg-amber-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-amber-600 transition-colors whitespace-nowrap"
+            >
+              Update Payment
+            </button>
+          </div>
+        )}
 
         {/* Subscription Section */}
         <div className="bg-white border border-slate-200 rounded-xl p-6">
@@ -107,21 +348,65 @@ export default function AccountPage() {
             Subscription
           </h3>
 
-          {userProfile.accountType === "trial" && (
-            <div className="bg-softpink-100 border border-hotpink-200 rounded-lg p-4 mb-4">
+          {userProfile.accountType === "free" && userProfile.subscriptionStatus !== "canceled" && (
+            <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-hotpink-600">Free Trial</p>
-                  <p className="text-sm text-hotpink-500">
-                    {trialDaysLeft > 0 ? `${trialDaysLeft} days remaining` : "Trial expired"}
+                  <p className="font-semibold text-slate-700">Free Account</p>
+                  <p className="text-sm text-slate-500">
+                    Upgrade to see full game details, maps, and more.
                   </p>
                 </div>
                 <Link
                   href="/pricing"
                   className="bg-hotpink-500 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
                 >
-                  Subscribe Now
+                  View Plans
                 </Link>
+              </div>
+            </div>
+          )}
+
+          {userProfile.accountType === "free" && userProfile.subscriptionStatus === "canceled" && (
+            <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-slate-700">Subscription Canceled</p>
+                  <p className="text-sm text-slate-500">
+                    Your subscription has been canceled. Resubscribe to regain full access.
+                  </p>
+                </div>
+                <Link
+                  href="/pricing"
+                  className="bg-hotpink-500 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
+                >
+                  Resubscribe
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {userProfile.accountType === "trial" && (
+            <div className="bg-softpink-100 border border-hotpink-200 rounded-lg p-4 mb-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-hotpink-600">Free Trial Active</p>
+                  <p className="text-sm text-hotpink-500">
+                    {trialDaysLeft > 0
+                      ? `${trialDaysLeft} days remaining — ends ${new Date(userProfile.trialEndsAt!).toLocaleDateString("en-US", { month: "long", day: "numeric" })}`
+                      : "Trial expired"}
+                  </p>
+                </div>
+                {userProfile.stripeCustomerId && (
+                  <button
+                    onClick={() => handleManageSubscription()}
+                    disabled={portalLoading}
+                    className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium flex items-center gap-1"
+                  >
+                    {portalLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ExternalLink className="w-3.5 h-3.5" />}
+                    Manage
+                  </button>
+                )}
               </div>
             </div>
           )}
@@ -134,18 +419,28 @@ export default function AccountPage() {
               </div>
               <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-sm text-slate-600">Status</span>
-                <span className="text-sm font-medium text-hotpink-500">Active</span>
+                <span className={`text-sm font-medium ${userProfile.subscriptionStatus === "past_due" ? "text-amber-500" : "text-green-500"}`}>
+                  {userProfile.subscriptionStatus === "past_due" ? "Past Due" : "Active"}
+                </span>
               </div>
-              <div className="flex justify-between items-center py-2">
+              <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-sm text-slate-600">Next billing date</span>
                 <span className="text-sm font-medium text-charcoal">
                   {userProfile.subscriptionEndsAt
-                    ? new Date(userProfile.subscriptionEndsAt).toLocaleDateString()
+                    ? new Date(userProfile.subscriptionEndsAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
                     : "—"}
                 </span>
               </div>
-              <button className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium mt-2">
-                Manage Subscription (Stripe Portal)
+              <button
+                onClick={() => handleManageSubscription()}
+                disabled={portalLoading}
+                className="flex items-center gap-2 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium mt-2 disabled:opacity-60"
+              >
+                {portalLoading ? (
+                  <><Loader2 className="w-4 h-4 animate-spin" /> Opening portal...</>
+                ) : (
+                  <><ExternalLink className="w-4 h-4" /> Manage Subscription</>
+                )}
               </button>
             </div>
           )}
@@ -164,21 +459,75 @@ export default function AccountPage() {
             {userProfile.savedCities.map((city) => (
               <span key={city} className="inline-flex items-center gap-1.5 bg-skyblue-100 rounded-lg px-3 py-1.5 text-sm text-slate-700">
                 {city}
-                <button className="text-slate-400 hover:text-red-500"><X className="w-3.5 h-3.5" /></button>
+                <button onClick={() => removeSavedCity(city)} className="text-slate-400 hover:text-red-500">
+                  <X className="w-3.5 h-3.5" />
+                </button>
               </span>
             ))}
           </div>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={savedCity}
-              onChange={(e) => setSavedCity(e.target.value)}
-              placeholder="Add a city..."
-              className="border border-slate-200 rounded-lg px-3 py-2 text-sm flex-1"
-            />
-            <button className="bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors flex items-center gap-1">
-              <Plus className="w-4 h-4" /> Add
-            </button>
+          <div className="relative">
+            <div className="flex gap-2">
+              <input
+                ref={inputRef}
+                type="text"
+                value={savedCity}
+                onChange={(e) => {
+                  setSavedCity(e.target.value);
+                  setShowSuggestions(true);
+                  setHighlightedIndex(-1);
+                }}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => {
+                  // Delay so click on suggestion registers
+                  setTimeout(() => setShowSuggestions(false), 150);
+                }}
+                onKeyDown={handleCityKeyDown}
+                placeholder="Search for a city..."
+                className="border border-slate-200 rounded-lg px-3 py-2 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-hotpink-200 focus:border-hotpink-300"
+              />
+              <button
+                onClick={() => {
+                  if (citySuggestions.length === 1) {
+                    addSavedCity(citySuggestions[0]);
+                  } else if (highlightedIndex >= 0 && citySuggestions[highlightedIndex]) {
+                    addSavedCity(citySuggestions[highlightedIndex]);
+                  }
+                }}
+                disabled={citySuggestions.length === 0}
+                className="bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Plus className="w-4 h-4" /> Add
+              </button>
+            </div>
+            {showSuggestions && citySuggestions.length > 0 && (
+              <div
+                ref={suggestionsRef}
+                className="absolute left-0 right-16 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg z-20 overflow-hidden"
+              >
+                {citySuggestions.map((city, i) => (
+                  <button
+                    key={city}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      addSavedCity(city);
+                    }}
+                    className={`w-full text-left px-3 py-2.5 text-sm flex items-center gap-2 transition-colors ${
+                      i === highlightedIndex
+                        ? "bg-hotpink-50 text-hotpink-600"
+                        : "text-slate-700 hover:bg-slate-50"
+                    }`}
+                  >
+                    <MapPin className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
+                    {city}
+                  </button>
+                ))}
+              </div>
+            )}
+            {showSuggestions && savedCity.trim() && citySuggestions.length === 0 && (
+              <div className="absolute left-0 right-16 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg z-20 p-3">
+                <p className="text-sm text-slate-500">No matching cities found</p>
+              </div>
+            )}
           </div>
         </div>
 

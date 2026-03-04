@@ -1,24 +1,22 @@
 import Link from "next/link";
 import SearchBar from "@/components/SearchBar";
-import { mockGames } from "@/lib/mock-data";
-import { FEATURED_CITIES } from "@/lib/constants";
+import { mockGames, getStatesWithGames, getCitiesWithGames } from "@/lib/mock-data";
+import { slugify, getStateName } from "@/lib/utils";
+import { getCityTile } from "@/lib/city-tiles";
 import { Search, MapPin, Sparkles, Globe, ShieldCheck, Bell, ArrowRight, Star, CreditCard } from "lucide-react";
 
 function getStats() {
   const activeGames = mockGames.filter((g) => g.status === "active");
   const cities = new Set(activeGames.map((g) => g.city));
-  return { gameCount: activeGames.length, cityCount: cities.size };
+  const states = new Set(activeGames.map((g) => g.state));
+  return { gameCount: activeGames.length, cityCount: cities.size, stateCount: states.size };
 }
 
 const stats = getStats();
+const states = getStatesWithGames();
+const cities = getCitiesWithGames();
 
 export default function HomePage() {
-  const cities = [
-    "New York", "Nashville", "Dallas", "Tulsa", "Denver", "Miami",
-    "Phoenix", "Chicago", "Los Angeles", "Seattle", "Atlanta", "Boston",
-    "San Francisco", "Portland", "Austin", "San Diego", "Philadelphia",
-    "Houston", "Minneapolis", "Tampa",
-  ];
 
   return (
     <>
@@ -50,25 +48,34 @@ export default function HomePage() {
 
           <p className="text-sm text-white/70">
             <span className="font-semibold text-white">{stats.gameCount} games</span> across{" "}
-            <span className="font-semibold text-white">{stats.cityCount} cities</span> and counting
+            <span className="font-semibold text-white">{stats.cityCount} cities</span> in{" "}
+            <span className="font-semibold text-white">{stats.stateCount} states</span> and counting
           </p>
         </div>
       </section>
 
       {/* City Marquee - soft blue section */}
-      <section className="py-6 border-y border-skyblue-200 overflow-hidden bg-skyblue-50">
+      <section className="py-4 border-y border-skyblue-200 overflow-hidden bg-skyblue-50">
         <div className="relative">
-          <div className="animate-scroll-left whitespace-nowrap flex">
-            {[...cities, ...cities].map((city, i) => (
-              <Link
-                key={i}
-                href={`/search?q=${encodeURIComponent(city)}`}
-                className="inline-flex items-center px-6 text-charcoal hover:text-hotpink-500 transition-colors text-sm font-medium"
-              >
-                <span className="w-1.5 h-1.5 bg-hotpink-400 rounded-full mr-3" />
-                {city}
-              </Link>
-            ))}
+          <div className="animate-scroll-left whitespace-nowrap flex items-center">
+            {[...cities, ...cities].map((c, i) => {
+              const tile = getCityTile(c.city);
+              return (
+                <Link
+                  key={i}
+                  href={`/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`}
+                  className="inline-flex items-center px-6 text-charcoal hover:text-hotpink-500 transition-colors text-sm font-medium shrink-0"
+                >
+                  {tile ? (
+                    <img src={tile} alt="" className="h-8 w-auto mr-2.5" />
+                  ) : (
+                    <span className="w-1.5 h-1.5 bg-hotpink-400 rounded-full mr-3" />
+                  )}
+                  {c.city}, {c.state}
+                  <span className="ml-2 text-xs text-hotpink-500 font-bold">{c.count}</span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
