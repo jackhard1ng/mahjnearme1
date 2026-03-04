@@ -5,7 +5,16 @@ import { useSearchParams } from "next/navigation";
 import SearchBar from "@/components/SearchBar";
 import SearchFiltersBar from "@/components/SearchFilters";
 import GameCard from "@/components/GameCard";
-import MapPlaceholder from "@/components/MapPlaceholder";
+import dynamic from "next/dynamic";
+
+const LeafletMap = dynamic(() => import("@/components/LeafletMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="bg-skyblue-100 rounded-xl border-2 border-softpink-300 h-full min-h-[300px] flex items-center justify-center">
+      <p className="text-slate-400 text-sm">Loading map...</p>
+    </div>
+  ),
+});
 import SkeletonCard from "@/components/SkeletonCard";
 import { mockGames } from "@/lib/mock-data";
 import { useAuth } from "@/contexts/AuthContext";
@@ -154,7 +163,7 @@ function SearchContent() {
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Map */}
         <div className="order-1 lg:order-1 lg:sticky lg:top-20 lg:h-[calc(100vh-6rem)]">
-          <MapPlaceholder
+          <LeafletMap
             games={filteredGames}
             selectedGameId={selectedGameId}
             onPinClick={setSelectedGameId}
