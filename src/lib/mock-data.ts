@@ -7720,7 +7720,7 @@ export const mockGames: Game[] = [
     generalArea: "Franklin / Williamson County",
     venueName: "Private homes (rotating)",
     address: "Franklin, TN area",
-    geopoint: { lat: -43.0880189, lng: 147.0110052 },
+    geopoint: { lat: 35.9251, lng: -86.8689 },
     isRecurring: true,
     recurringSchedule: {
       dayOfWeek: "wednesday",
@@ -12480,7 +12480,7 @@ export const mockGames: Game[] = [
     generalArea: "Evanston / North Side",
     venueName: "Private home or cafe in SE Evanston",
     address: "Southeast Evanston (address to members)",
-    geopoint: { lat: 44.7146687, lng: -93.4210536 },
+    geopoint: { lat: 42.0451, lng: -87.6877 },
     isRecurring: true,
     recurringSchedule: {
       dayOfWeek: "monday",
