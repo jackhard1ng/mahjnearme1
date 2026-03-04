@@ -89,40 +89,59 @@ export default async function CityPage({ params }: Props) {
 
       {/* Game Cards (teaser/SEO content — limited details for non-subscribers) */}
       <div className="grid md:grid-cols-2 gap-4 mb-10">
-        {games.map((game) => (
-          <div key={game.id} className="mahj-tile p-5">
-            <div className="flex items-center gap-2 mb-2">
-              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${getGameTypeColor(game.type)}`}>
-                {getGameTypeLabel(game.type)}
-              </span>
-              {game.dropInFriendly && (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-hotpink-100 text-hotpink-600">
-                  Drop-in Friendly
+        {games.map((game) => {
+          const tile = getCityTile(game.city);
+          return (
+            <div key={game.id} className="mahj-tile p-5 relative overflow-hidden">
+              {/* Decorative blue tile in top-right corner */}
+              <div className="absolute top-3 right-3 pointer-events-none select-none">
+                {tile ? (
+                  <img src={tile} alt="" className="h-10 w-auto opacity-80 drop-shadow-sm" />
+                ) : (
+                  <svg width="36" height="36" viewBox="0 0 36 36" className="opacity-40">
+                    <rect x="2" y="2" width="32" height="32" rx="4" fill="#87CEEB" stroke="#5BB8E8" strokeWidth="1.5" />
+                    <circle cx="11" cy="11" r="3" fill="white" opacity="0.8" />
+                    <circle cx="25" cy="11" r="3" fill="white" opacity="0.8" />
+                    <circle cx="18" cy="18" r="3" fill="white" opacity="0.8" />
+                    <circle cx="11" cy="25" r="3" fill="white" opacity="0.8" />
+                    <circle cx="25" cy="25" r="3" fill="white" opacity="0.8" />
+                  </svg>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2 mb-2">
+                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${getGameTypeColor(game.type)}`}>
+                  {getGameTypeLabel(game.type)}
                 </span>
-              )}
-            </div>
-
-            <h3 className="font-semibold text-lg text-charcoal mb-1">{game.name}</h3>
-
-            <div className="space-y-1.5 mb-3">
-              <div className="flex items-center gap-2 text-sm text-slate-600">
-                <MapPin className="w-4 h-4 text-slate-400" />
-                <span>{game.generalArea}</span>
+                {game.dropInFriendly && (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-hotpink-100 text-hotpink-600">
+                    Drop-in Friendly
+                  </span>
+                )}
               </div>
-              <div className="flex items-center gap-2 text-sm text-slate-600">
-                <Users className="w-4 h-4 text-slate-400" />
-                <span>{game.skillLevels.map((s) => SKILL_LEVEL_LABELS[s]).join(", ")}</span>
-              </div>
-            </div>
 
-            <Link
-              href={`/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`}
-              className="inline-flex items-center gap-1 text-sm font-semibold text-hotpink-500 hover:text-hotpink-600"
-            >
-              View Full Details <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        ))}
+              <h3 className="font-semibold text-lg text-charcoal mb-1 pr-12">{game.name}</h3>
+
+              <div className="space-y-1.5 mb-3">
+                <div className="flex items-center gap-2 text-sm text-slate-600">
+                  <MapPin className="w-4 h-4 text-slate-400" />
+                  <span>{game.generalArea}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-slate-600">
+                  <Users className="w-4 h-4 text-slate-400" />
+                  <span>{game.skillLevels.map((s) => SKILL_LEVEL_LABELS[s]).join(", ")}</span>
+                </div>
+              </div>
+
+              <Link
+                href={`/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`}
+                className="inline-flex items-center gap-1 text-sm font-semibold text-hotpink-500 hover:text-hotpink-600"
+              >
+                View Full Details <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          );
+        })}
       </div>
 
       {/* Subscribe CTA */}
