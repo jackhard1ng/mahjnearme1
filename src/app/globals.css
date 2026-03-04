@@ -250,6 +250,16 @@ html {
   animation: scroll-left 30s linear infinite;
 }
 
+/* Rotating tile animation for marquee */
+@keyframes tile-rotate {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
+.animate-tile-rotate {
+  animation: tile-rotate 4s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
 /* Shimmer loading effect */
 @keyframes shimmer {
   0% { background-position: -200% 0; }

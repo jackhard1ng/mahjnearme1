@@ -54,8 +54,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* City Marquee - soft blue section */}
-      <section className="py-4 border-y border-skyblue-200 overflow-hidden bg-skyblue-50">
+      {/* City Marquee - soft blue section with rotating tiles */}
+      <section className="py-5 border-y border-skyblue-200 overflow-hidden bg-skyblue-50">
         <div className="relative">
           <div className="animate-scroll-left whitespace-nowrap flex items-center">
             {[...cities, ...cities].map((c, i) => {
@@ -64,12 +64,19 @@ export default function HomePage() {
                 <Link
                   key={i}
                   href={`/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`}
-                  className="inline-flex items-center px-6 text-charcoal hover:text-hotpink-500 transition-colors text-sm font-medium shrink-0"
+                  className="inline-flex items-center px-6 text-charcoal hover:text-hotpink-500 transition-colors text-sm font-medium shrink-0 group"
                 >
                   {tile ? (
-                    <img src={tile} alt="" className="h-8 w-auto mr-2.5" />
+                    <span className="inline-block mr-3" style={{ perspective: "200px" }}>
+                      <img
+                        src={tile}
+                        alt={`${c.city} tile`}
+                        className="h-10 w-auto animate-tile-rotate drop-shadow-md group-hover:pause"
+                        style={{ animationDelay: `${(i % 9) * 0.45}s` }}
+                      />
+                    </span>
                   ) : (
-                    <span className="w-1.5 h-1.5 bg-hotpink-400 rounded-full mr-3" />
+                    <span className="w-2 h-2 bg-hotpink-400 rounded-full mr-3" />
                   )}
                   {c.city}, {c.state}
                   <span className="ml-2 text-xs text-hotpink-500 font-bold">{c.count}</span>
