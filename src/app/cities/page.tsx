@@ -48,8 +48,7 @@ export default function CitiesIndexPage() {
           <img
             src="/images/40a8a8ed77d5469f174ff66a88f95aa5.jpg"
             alt=""
-            className="absolute top-1/2 left-1/2 object-cover"
-            style={{ transform: "translate(-50%, -50%) rotate(90deg)", minWidth: "200%", minHeight: "200%" }}
+            className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-[#FF1493]/85 via-[#FF69B4]/75 to-[#87CEEB]/80" />
         </div>

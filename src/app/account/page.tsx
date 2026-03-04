@@ -53,6 +53,7 @@ export default function AccountPage() {
 
   // Editable fields
   const [editing, setEditing] = useState<string | null>(null);
+  const [editingAll, setEditingAll] = useState(false);
   const [editDisplayName, setEditDisplayName] = useState("");
   const [editSkillLevel, setEditSkillLevel] = useState("");
   const [editGameStyle, setEditGameStyle] = useState("");
@@ -76,6 +77,30 @@ export default function AccountPage() {
     ? Math.max(0, Math.ceil((new Date(userProfile.trialEndsAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
     : 0;
 
+  function startEditAll() {
+    setEditingAll(true);
+    setEditDisplayName(userProfile!.displayName || "");
+    setEditSkillLevel(userProfile!.skillLevel || "");
+    setEditGameStyle(userProfile!.gameStylePreference || "");
+    setEditHomeCity(userProfile!.homeCity || "");
+  }
+
+  function saveAll() {
+    updateUserProfile({
+      displayName: editDisplayName,
+      skillLevel: (editSkillLevel || null) as "beginner" | "intermediate" | "advanced" | null,
+      gameStylePreference: (editGameStyle || null) as "american" | "chinese" | "riichi" | "other" | "any" | null,
+      homeCity: editHomeCity,
+    });
+    setEditingAll(false);
+    setEditing(null);
+  }
+
+  function cancelEditAll() {
+    setEditingAll(false);
+    setEditing(null);
+  }
+
   function startEdit(field: string) {
     setEditing(field);
     if (field === "displayName") setEditDisplayName(userProfile!.displayName || "");
@@ -93,6 +118,8 @@ export default function AccountPage() {
     updateUserProfile(updates);
     setEditing(null);
   }
+
+  const isFieldEditing = (field: string) => editingAll || editing === field;
 
   // Saved cities autocomplete
   const citySuggestions = useMemo(() => {
@@ -167,56 +194,80 @@ export default function AccountPage() {
       <div className="space-y-6">
         {/* Profile Section */}
         <div className="bg-white border border-slate-200 rounded-xl p-6">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-hotpink-100 rounded-full flex items-center justify-center">
-              <User className="w-8 h-8 text-hotpink-600" />
-            </div>
-            <div>
-              <h2 className="font-semibold text-xl text-charcoal">{userProfile.displayName || "Player"}</h2>
-              <p className="text-sm text-slate-500">{userProfile.email}</p>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-hotpink-100 text-hotpink-600">
-                  {userProfile.accountType === "trial" ? "Free Trial" :
-                   userProfile.accountType === "subscriber" ? "Subscriber" :
-                   userProfile.accountType === "admin" ? "Admin" :
-                   "Free"}
-                </span>
-                {hasAccess && userProfile.accountType === "subscriber" && (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-skyblue-100 text-skyblue-600">
-                    <Crown className="w-3 h-3" /> Verified Player
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-hotpink-100 rounded-full flex items-center justify-center">
+                <User className="w-8 h-8 text-hotpink-600" />
+              </div>
+              <div>
+                <h2 className="font-semibold text-xl text-charcoal">{userProfile.displayName || "Player"}</h2>
+                <p className="text-sm text-slate-500">{userProfile.email}</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-hotpink-100 text-hotpink-600">
+                    {userProfile.accountType === "trial" ? "Free Trial" :
+                     userProfile.accountType === "subscriber" ? "Subscriber" :
+                     userProfile.accountType === "admin" ? "Admin" :
+                     "Free"}
                   </span>
-                )}
+                  {hasAccess && userProfile.accountType === "subscriber" && (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-skyblue-100 text-skyblue-600">
+                      <Crown className="w-3 h-3" /> Verified Player
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
+            {!editingAll ? (
+              <button
+                onClick={startEditAll}
+                className="flex items-center gap-1.5 bg-hotpink-50 text-hotpink-500 border border-hotpink-200 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-100 transition-colors"
+              >
+                <Pencil className="w-3.5 h-3.5" /> Edit Profile
+              </button>
+            ) : (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={saveAll}
+                  className="flex items-center gap-1.5 bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
+                >
+                  <Check className="w-3.5 h-3.5" /> Save All
+                </button>
+                <button
+                  onClick={cancelEditAll}
+                  className="flex items-center gap-1.5 bg-slate-100 text-slate-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-200 transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
             {/* Display Name */}
-            <div className="group">
+            <div>
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Display Name</label>
-              {editing === "displayName" ? (
+              {isFieldEditing("displayName") ? (
                 <div className="flex items-center gap-2 mt-1">
                   <input
                     type="text"
                     value={editDisplayName}
                     onChange={(e) => setEditDisplayName(e.target.value)}
                     className="border border-hotpink-300 rounded-lg px-3 py-1.5 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-hotpink-200"
-                    autoFocus
+                    autoFocus={!editingAll}
                   />
-                  <button onClick={() => saveEdit("displayName")} className="p-1.5 text-hotpink-500 hover:bg-hotpink-50 rounded-lg">
-                    <Check className="w-4 h-4" />
-                  </button>
-                  <button onClick={() => setEditing(null)} className="p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg">
-                    <X className="w-4 h-4" />
-                  </button>
+                  {!editingAll && (
+                    <>
+                      <button onClick={() => saveEdit("displayName")} className="p-1.5 text-hotpink-500 hover:bg-hotpink-50 rounded-lg">
+                        <Check className="w-4 h-4" />
+                      </button>
+                      <button onClick={() => setEditing(null)} className="p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </>
+                  )}
                 </div>
               ) : (
-                <div className="flex items-center gap-2">
-                  <p className="text-charcoal font-medium">{userProfile.displayName || "Not set"}</p>
-                  <button onClick={() => startEdit("displayName")} className="p-1 text-slate-400 hover:text-hotpink-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Pencil className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                <p className="text-charcoal font-medium">{userProfile.displayName || "Not set"}</p>
               )}
             </div>
 
@@ -227,73 +278,69 @@ export default function AccountPage() {
             </div>
 
             {/* Skill Level */}
-            <div className="group">
+            <div>
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Skill Level</label>
-              {editing === "skillLevel" ? (
+              {isFieldEditing("skillLevel") ? (
                 <div className="flex items-center gap-2 mt-1">
                   <select
                     value={editSkillLevel}
                     onChange={(e) => setEditSkillLevel(e.target.value)}
                     className="border border-hotpink-300 rounded-lg px-3 py-1.5 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-hotpink-200 bg-white"
-                    autoFocus
                   >
                     {SKILL_OPTIONS.map((opt) => (
                       <option key={opt.value} value={opt.value}>{opt.label}</option>
                     ))}
                   </select>
-                  <button onClick={() => saveEdit("skillLevel")} className="p-1.5 text-hotpink-500 hover:bg-hotpink-50 rounded-lg">
-                    <Check className="w-4 h-4" />
-                  </button>
-                  <button onClick={() => setEditing(null)} className="p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg">
-                    <X className="w-4 h-4" />
-                  </button>
+                  {!editingAll && (
+                    <>
+                      <button onClick={() => saveEdit("skillLevel")} className="p-1.5 text-hotpink-500 hover:bg-hotpink-50 rounded-lg">
+                        <Check className="w-4 h-4" />
+                      </button>
+                      <button onClick={() => setEditing(null)} className="p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </>
+                  )}
                 </div>
               ) : (
-                <div className="flex items-center gap-2">
-                  <p className="text-charcoal font-medium capitalize">{userProfile.skillLevel || "Not set"}</p>
-                  <button onClick={() => startEdit("skillLevel")} className="p-1 text-slate-400 hover:text-hotpink-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Pencil className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                <p className="text-charcoal font-medium capitalize">{userProfile.skillLevel || "Not set"}</p>
               )}
             </div>
 
             {/* Game Style */}
-            <div className="group">
+            <div>
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Game Style Preference</label>
-              {editing === "gameStylePreference" ? (
+              {isFieldEditing("gameStylePreference") ? (
                 <div className="flex items-center gap-2 mt-1">
                   <select
                     value={editGameStyle}
                     onChange={(e) => setEditGameStyle(e.target.value)}
                     className="border border-hotpink-300 rounded-lg px-3 py-1.5 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-hotpink-200 bg-white"
-                    autoFocus
                   >
                     {STYLE_OPTIONS.map((opt) => (
                       <option key={opt.value} value={opt.value}>{opt.label}</option>
                     ))}
                   </select>
-                  <button onClick={() => saveEdit("gameStylePreference")} className="p-1.5 text-hotpink-500 hover:bg-hotpink-50 rounded-lg">
-                    <Check className="w-4 h-4" />
-                  </button>
-                  <button onClick={() => setEditing(null)} className="p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg">
-                    <X className="w-4 h-4" />
-                  </button>
+                  {!editingAll && (
+                    <>
+                      <button onClick={() => saveEdit("gameStylePreference")} className="p-1.5 text-hotpink-500 hover:bg-hotpink-50 rounded-lg">
+                        <Check className="w-4 h-4" />
+                      </button>
+                      <button onClick={() => setEditing(null)} className="p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </>
+                  )}
                 </div>
               ) : (
-                <div className="flex items-center gap-2">
-                  <p className="text-charcoal font-medium capitalize">{userProfile.gameStylePreference || "Not set"}</p>
-                  <button onClick={() => startEdit("gameStylePreference")} className="p-1 text-slate-400 hover:text-hotpink-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Pencil className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                <p className="text-charcoal font-medium capitalize">{userProfile.gameStylePreference || "Not set"}</p>
               )}
             </div>
 
             {/* Home City */}
-            <div className="group">
+            <div>
               <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Home City</label>
-              {editing === "homeCity" ? (
+              {isFieldEditing("homeCity") ? (
                 <div className="flex items-center gap-2 mt-1">
                   <input
                     type="text"
@@ -301,22 +348,20 @@ export default function AccountPage() {
                     onChange={(e) => setEditHomeCity(e.target.value)}
                     className="border border-hotpink-300 rounded-lg px-3 py-1.5 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-hotpink-200"
                     placeholder="e.g. Nashville, TN"
-                    autoFocus
                   />
-                  <button onClick={() => saveEdit("homeCity")} className="p-1.5 text-hotpink-500 hover:bg-hotpink-50 rounded-lg">
-                    <Check className="w-4 h-4" />
-                  </button>
-                  <button onClick={() => setEditing(null)} className="p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg">
-                    <X className="w-4 h-4" />
-                  </button>
+                  {!editingAll && (
+                    <>
+                      <button onClick={() => saveEdit("homeCity")} className="p-1.5 text-hotpink-500 hover:bg-hotpink-50 rounded-lg">
+                        <Check className="w-4 h-4" />
+                      </button>
+                      <button onClick={() => setEditing(null)} className="p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </>
+                  )}
                 </div>
               ) : (
-                <div className="flex items-center gap-2">
-                  <p className="text-charcoal font-medium">{userProfile.homeCity || "Not set"}</p>
-                  <button onClick={() => startEdit("homeCity")} className="p-1 text-slate-400 hover:text-hotpink-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Pencil className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                <p className="text-charcoal font-medium">{userProfile.homeCity || "Not set"}</p>
               )}
             </div>
           </div>
