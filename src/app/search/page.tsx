@@ -167,6 +167,8 @@ function SearchContent() {
             games={filteredGames}
             selectedGameId={selectedGameId}
             onPinClick={setSelectedGameId}
+            hasAccess={hasAccess}
+            previewCount={1}
           />
         </div>
 

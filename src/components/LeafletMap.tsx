@@ -11,6 +11,8 @@ interface LeafletMapProps {
   games: Game[];
   selectedGameId?: string | null;
   onPinClick?: (gameId: string) => void;
+  hasAccess?: boolean;
+  previewCount?: number;
 }
 
 // US center as default view
@@ -53,7 +55,7 @@ function createPinIcon(color: string, isSelected: boolean): L.DivIcon | null {
   });
 }
 
-export default function LeafletMap({ games, selectedGameId, onPinClick }: LeafletMapProps) {
+export default function LeafletMap({ games, selectedGameId, onPinClick, hasAccess = true, previewCount = 1 }: LeafletMapProps) {
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.LayerGroup | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -114,7 +116,7 @@ export default function LeafletMap({ games, selectedGameId, onPinClick }: Leafle
 
     const bounds = L.latLngBounds([]);
 
-    geoGames.forEach((game) => {
+    geoGames.forEach((game, index) => {
       const isSelected = selectedGameId === game.id;
       const color = getMapPinColor(game.type);
       const icon = createPinIcon(color, isSelected);
@@ -123,16 +125,23 @@ export default function LeafletMap({ games, selectedGameId, onPinClick }: Leafle
       const marker = L.marker([game.geopoint.lat, game.geopoint.lng], { icon })
         .on("click", () => onPinClick?.(game.id));
 
-      // Popup
+      // Popup — gate details for non-subscribers
       const typeLabel = getGameTypeLabel(game.type);
-      marker.bindPopup(
-        `<div style="font-family: system-ui, sans-serif; min-width: 180px;">
-          <strong style="font-size: 14px; color: #1a1a2e;">${game.name}</strong><br/>
-          <span style="color: #64748b; font-size: 12px;">${typeLabel}</span><br/>
-          <span style="color: #64748b; font-size: 12px;">${game.venueName || game.address}</span>
-        </div>`,
-        { closeButton: false, className: "mahj-popup" }
-      );
+      const canSeePopup = hasAccess || index < previewCount;
+
+      const popupContent = canSeePopup
+        ? `<div style="font-family: system-ui, sans-serif; min-width: 180px;">
+            <strong style="font-size: 14px; color: #1a1a2e;">${game.name}</strong><br/>
+            <span style="color: #64748b; font-size: 12px;">${typeLabel}</span><br/>
+            <span style="color: #64748b; font-size: 12px;">${game.venueName || game.address}</span>
+          </div>`
+        : `<div style="font-family: system-ui, sans-serif; min-width: 180px;">
+            <strong style="font-size: 14px; color: #1a1a2e;">${typeLabel}</strong><br/>
+            <span style="color: #64748b; font-size: 12px;">${game.city}, ${game.state}</span><br/>
+            <a href="/pricing" style="color: #FF1493; font-size: 12px; font-weight: 600; text-decoration: none;">Subscribe to see details →</a>
+          </div>`;
+
+      marker.bindPopup(popupContent, { closeButton: false, className: "mahj-popup" });
 
       if (isSelected) {
         marker.openPopup();

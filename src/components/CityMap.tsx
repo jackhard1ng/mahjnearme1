@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { Game } from "@/types";
+import { useAuth } from "@/contexts/AuthContext";
 
 const LeafletMap = dynamic(() => import("@/components/LeafletMap"), {
   ssr: false,
@@ -17,9 +18,11 @@ interface CityMapProps {
 }
 
 export default function CityMap({ games }: CityMapProps) {
+  const { hasAccess } = useAuth();
+
   return (
     <div className="h-[350px] mb-8">
-      <LeafletMap games={games} />
+      <LeafletMap games={games} hasAccess={hasAccess} previewCount={2} />
     </div>
   );
 }
