@@ -22,7 +22,7 @@ function SearchContent() {
 
   const [filters, setFilters] = useState<SearchFilters>({
     daysOfWeek: [],
-    gameStyle: "all",
+    gameStyle: "american",
     dropInFriendly: null,
     skillLevel: "all",
     type: "all",

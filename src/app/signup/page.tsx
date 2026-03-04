@@ -100,7 +100,7 @@ function SignupPage() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [onboardingStep, setOnboardingStep] = useState<OnboardingStep>(1);
   const [skillLevel, setSkillLevel] = useState<string | null>(null);
-  const [gameStyle, setGameStyle] = useState<string | null>(null);
+  const [gameStyle, setGameStyle] = useState<string | null>("american");
   const [homeCity, setHomeCity] = useState("");
   const [travelCities, setTravelCities] = useState("");
 

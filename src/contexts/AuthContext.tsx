@@ -57,7 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             photoURL: firebaseUser.photoURL || null,
             avatarColor: null,
             skillLevel: null,
-            gameStylePreference: null,
+            gameStylePreference: "american",
             homeCity: "",
             homeGeopoint: null,
             savedCities: [],

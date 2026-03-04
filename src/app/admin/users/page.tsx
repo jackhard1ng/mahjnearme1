@@ -13,6 +13,8 @@ interface UserRecord {
   accountType: string;
   subscriptionStatus: string;
   plan: string | null;
+  trialEndsAt: string | null;
+  subscriptionEndsAt: string | null;
   createdAt: string;
   lastLoginAt: string;
   homeCity: string;
@@ -47,6 +49,8 @@ export default function AdminUsersPage() {
             accountType: data.accountType || "free",
             subscriptionStatus: data.subscriptionStatus || "none",
             plan: data.plan || null,
+            trialEndsAt: data.trialEndsAt || null,
+            subscriptionEndsAt: data.subscriptionEndsAt || null,
             createdAt: data.createdAt || "",
             lastLoginAt: data.lastLoginAt || "",
             homeCity: data.homeCity || "",
@@ -137,6 +141,7 @@ export default function AdminUsersPage() {
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Plan</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Joined</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Trial Ends</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
                   <th className="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
                 </tr>
@@ -146,9 +151,12 @@ export default function AdminUsersPage() {
                   const isExpanded = expandedUserId === user.id;
                   const joinDate = user.createdAt ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—";
                   const lastLogin = user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—";
+                  const trialEnd = user.trialEndsAt ? new Date(user.trialEndsAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—";
+                  const isTrialExpired = user.trialEndsAt ? new Date(user.trialEndsAt) < new Date() : false;
+                  const isTrialing = user.subscriptionStatus === "trialing" || user.accountType === "trial";
                   return (
                     <tr key={user.id} className="hover:bg-skyblue-100">
-                      <td className="px-4 py-3" colSpan={isExpanded ? 6 : undefined}>
+                      <td className="px-4 py-3" colSpan={isExpanded ? 7 : undefined}>
                         {isExpanded ? (
                           <div className="space-y-4">
                             <div className="flex items-start justify-between">
@@ -196,6 +204,17 @@ export default function AdminUsersPage() {
                                   <p className="text-charcoal mt-1">{joinDate}</p>
                                 </div>
                               </div>
+                              {isTrialing && (
+                                <div className="flex items-start gap-2">
+                                  <Shield className="w-4 h-4 text-skyblue-400 mt-0.5 shrink-0" />
+                                  <div>
+                                    <span className="text-xs font-medium text-slate-400 uppercase block">Trial Ends</span>
+                                    <p className={`mt-1 ${isTrialExpired ? "text-red-500 font-medium" : "text-charcoal"}`}>
+                                      {trialEnd}{isTrialExpired ? " (expired)" : ""}
+                                    </p>
+                                  </div>
+                                </div>
+                              )}
                               <div className="flex items-start gap-2">
                                 <Calendar className="w-4 h-4 text-skyblue-400 mt-0.5 shrink-0" />
                                 <div>
@@ -255,6 +274,15 @@ export default function AdminUsersPage() {
                           </td>
                           <td className="px-4 py-3 text-slate-600">{user.plan || "—"}</td>
                           <td className="px-4 py-3 text-slate-600">{joinDate}</td>
+                          <td className="px-4 py-3">
+                            {isTrialing ? (
+                              <span className={`text-xs font-medium ${isTrialExpired ? "text-red-500" : "text-skyblue-600"}`}>
+                                {trialEnd}{isTrialExpired ? " (expired)" : ""}
+                              </span>
+                            ) : (
+                              <span className="text-xs text-slate-400">—</span>
+                            )}
+                          </td>
                           <td className="px-4 py-3">
                             <span className={`text-xs font-medium ${
                               user.subscriptionStatus === "active" ? "text-hotpink-500" :
