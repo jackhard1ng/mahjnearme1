@@ -2,8 +2,10 @@
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import Link from "next/link";
+import { getCitiesWithGames } from "@/lib/mock-data";
+import { getStateName } from "@/lib/utils";
 import {
   User,
   MapPin,
@@ -34,10 +36,16 @@ const STYLE_OPTIONS = [
   { value: "other", label: "Other" },
 ];
 
+const allCities = getCitiesWithGames().map((c) => `${c.city}, ${getStateName(c.state)}`);
+
 export default function AccountPage() {
   const { user, userProfile, hasAccess, signOut, loading, updateUserProfile } = useAuth();
   const router = useRouter();
   const [savedCity, setSavedCity] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const suggestionsRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Editable fields
   const [editing, setEditing] = useState<string | null>(null);
@@ -80,6 +88,48 @@ export default function AccountPage() {
     if (field === "homeCity") updates.homeCity = editHomeCity;
     updateUserProfile(updates);
     setEditing(null);
+  }
+
+  // Saved cities autocomplete
+  const citySuggestions = useMemo(() => {
+    if (!savedCity.trim()) return [];
+    const q = savedCity.toLowerCase();
+    const saved = new Set(userProfile?.savedCities || []);
+    return allCities
+      .filter((c) => c.toLowerCase().includes(q) && !saved.has(c))
+      .slice(0, 6);
+  }, [savedCity, userProfile?.savedCities]);
+
+  function addSavedCity(city: string) {
+    if (!userProfile || userProfile.savedCities.includes(city)) return;
+    updateUserProfile({ savedCities: [...userProfile.savedCities, city] });
+    setSavedCity("");
+    setShowSuggestions(false);
+    setHighlightedIndex(-1);
+  }
+
+  function removeSavedCity(city: string) {
+    if (!userProfile) return;
+    updateUserProfile({ savedCities: userProfile.savedCities.filter((c) => c !== city) });
+  }
+
+  function handleCityKeyDown(e: React.KeyboardEvent) {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => Math.min(prev + 1, citySuggestions.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => Math.max(prev - 1, 0));
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (highlightedIndex >= 0 && citySuggestions[highlightedIndex]) {
+        addSavedCity(citySuggestions[highlightedIndex]);
+      } else if (citySuggestions.length === 1) {
+        addSavedCity(citySuggestions[0]);
+      }
+    } else if (e.key === "Escape") {
+      setShowSuggestions(false);
+    }
   }
 
   return (
@@ -329,21 +379,75 @@ export default function AccountPage() {
             {userProfile.savedCities.map((city) => (
               <span key={city} className="inline-flex items-center gap-1.5 bg-skyblue-100 rounded-lg px-3 py-1.5 text-sm text-slate-700">
                 {city}
-                <button className="text-slate-400 hover:text-red-500"><X className="w-3.5 h-3.5" /></button>
+                <button onClick={() => removeSavedCity(city)} className="text-slate-400 hover:text-red-500">
+                  <X className="w-3.5 h-3.5" />
+                </button>
               </span>
             ))}
           </div>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={savedCity}
-              onChange={(e) => setSavedCity(e.target.value)}
-              placeholder="Add a city..."
-              className="border border-slate-200 rounded-lg px-3 py-2 text-sm flex-1"
-            />
-            <button className="bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors flex items-center gap-1">
-              <Plus className="w-4 h-4" /> Add
-            </button>
+          <div className="relative">
+            <div className="flex gap-2">
+              <input
+                ref={inputRef}
+                type="text"
+                value={savedCity}
+                onChange={(e) => {
+                  setSavedCity(e.target.value);
+                  setShowSuggestions(true);
+                  setHighlightedIndex(-1);
+                }}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => {
+                  // Delay so click on suggestion registers
+                  setTimeout(() => setShowSuggestions(false), 150);
+                }}
+                onKeyDown={handleCityKeyDown}
+                placeholder="Search for a city..."
+                className="border border-slate-200 rounded-lg px-3 py-2 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-hotpink-200 focus:border-hotpink-300"
+              />
+              <button
+                onClick={() => {
+                  if (citySuggestions.length === 1) {
+                    addSavedCity(citySuggestions[0]);
+                  } else if (highlightedIndex >= 0 && citySuggestions[highlightedIndex]) {
+                    addSavedCity(citySuggestions[highlightedIndex]);
+                  }
+                }}
+                disabled={citySuggestions.length === 0}
+                className="bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Plus className="w-4 h-4" /> Add
+              </button>
+            </div>
+            {showSuggestions && citySuggestions.length > 0 && (
+              <div
+                ref={suggestionsRef}
+                className="absolute left-0 right-16 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg z-20 overflow-hidden"
+              >
+                {citySuggestions.map((city, i) => (
+                  <button
+                    key={city}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      addSavedCity(city);
+                    }}
+                    className={`w-full text-left px-3 py-2.5 text-sm flex items-center gap-2 transition-colors ${
+                      i === highlightedIndex
+                        ? "bg-hotpink-50 text-hotpink-600"
+                        : "text-slate-700 hover:bg-slate-50"
+                    }`}
+                  >
+                    <MapPin className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
+                    {city}
+                  </button>
+                ))}
+              </div>
+            )}
+            {showSuggestions && savedCity.trim() && citySuggestions.length === 0 && (
+              <div className="absolute left-0 right-16 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg z-20 p-3">
+                <p className="text-sm text-slate-500">No matching cities found</p>
+              </div>
+            )}
           </div>
         </div>
 
