@@ -1,10 +1,9 @@
 "use client";
 
-import { useAuth } from "@/contexts/AuthContext";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { mockGames } from "@/lib/mock-data";
+import { getAnalytics, DailyStats } from "@/lib/analytics";
 import {
   Users,
   GamepadIcon,
@@ -14,26 +13,23 @@ import {
   FileSpreadsheet,
   UserPlus,
   Star,
+  BarChart3,
+  TrendingUp,
+  Eye,
 } from "lucide-react";
 
 export default function AdminDashboardPage() {
-  const { user, isAdmin, loading } = useAuth();
-  const router = useRouter();
   const [games] = useState(mockGames);
+  const [analytics, setAnalytics] = useState<{
+    totalViews: number;
+    todayViews: number;
+    dailyStats: DailyStats[];
+    topPages: { path: string; views: number }[];
+  } | null>(null);
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.push("/login");
-    }
-  }, [user, loading, router, isAdmin]);
-
-  if (loading || !user) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 py-10">
-        <div className="animate-shimmer h-96 rounded-xl" />
-      </div>
-    );
-  }
+    getAnalytics(30).then(setAnalytics);
+  }, []);
 
   // Real stats from actual game data
   const activeGames = games.filter((g) => g.status === "active").length;
@@ -71,7 +67,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
         <div className="bg-white border border-slate-200 rounded-xl p-5">
           <div className="flex items-center justify-between mb-2">
             <GamepadIcon className="w-5 h-5 text-hotpink-500" />
@@ -107,10 +103,24 @@ export default function AdminDashboardPage() {
 
         <div className="bg-white border border-slate-200 rounded-xl p-5">
           <div className="flex items-center justify-between mb-2">
-            <Users className="w-5 h-5 text-skyblue-500" />
+            <Eye className="w-5 h-5 text-hotpink-500" />
+            <span className="text-xs font-medium text-hotpink-500 bg-softpink-100 px-2 py-0.5 rounded-full">
+              today
+            </span>
           </div>
-          <p className="text-2xl font-bold text-charcoal">{gameStyles.size}</p>
-          <p className="text-sm text-slate-500">Game Styles</p>
+          <p className="text-2xl font-bold text-charcoal">{analytics?.todayViews ?? "—"}</p>
+          <p className="text-sm text-slate-500">Views Today</p>
+        </div>
+
+        <div className="bg-white border border-slate-200 rounded-xl p-5">
+          <div className="flex items-center justify-between mb-2">
+            <TrendingUp className="w-5 h-5 text-skyblue-500" />
+            <span className="text-xs font-medium text-skyblue-600 bg-skyblue-100 px-2 py-0.5 rounded-full">
+              30 days
+            </span>
+          </div>
+          <p className="text-2xl font-bold text-charcoal">{analytics?.totalViews ?? "—"}</p>
+          <p className="text-sm text-slate-500">Total Page Views</p>
         </div>
       </div>
 
@@ -188,12 +198,34 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
+          {/* Top Pages */}
+          {analytics && analytics.topPages.length > 0 && (
+            <div className="bg-white border border-slate-200 rounded-xl">
+              <div className="px-5 py-4 border-b border-white">
+                <h2 className="font-semibold text-charcoal flex items-center gap-2">
+                  <BarChart3 className="w-5 h-5 text-hotpink-500" />
+                  Top Pages (30 days)
+                </h2>
+              </div>
+              <div className="divide-y divide-slate-50">
+                {analytics.topPages.map((page) => (
+                  <div key={page.path} className="px-5 py-3 flex items-center justify-between">
+                    <span className="text-sm font-medium text-charcoal font-mono">{page.path}</span>
+                    <span className="text-xs font-semibold text-skyblue-600 bg-skyblue-50 px-2.5 py-0.5 rounded-full">
+                      {page.views} view{page.views !== 1 ? "s" : ""}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Coverage Breakdown */}
           <div className="bg-white border border-slate-200 rounded-xl">
             <div className="px-5 py-4 border-b border-white">
               <h2 className="font-semibold text-charcoal">Coverage by City</h2>
             </div>
-            <div className="divide-y divide-slate-50">
+            <div className="divide-y divide-slate-50 max-h-[400px] overflow-y-auto">
               {[...cities].map((city) => {
                 const count = games.filter((g) => `${g.city}, ${g.state}` === city).length;
                 return (

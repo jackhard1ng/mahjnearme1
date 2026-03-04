@@ -175,6 +175,13 @@ export default function LeafletMap({ games, selectedGameId, onPinClick }: Leafle
         </div>
       )}
 
+      {/* Address disclaimer */}
+      <div className="absolute bottom-3 left-3 right-3 z-[1000]">
+        <p className="bg-white/90 backdrop-blur-sm text-xs text-slate-500 rounded-lg px-3 py-2 text-center">
+          Map pins are approximate. Always confirm the exact location with the host before attending.
+        </p>
+      </div>
+
       {/* Legend */}
       <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 space-y-1 z-[1000]">
         {[

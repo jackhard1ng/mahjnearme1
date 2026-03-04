@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Mahj Gear — Mahjong Sets, Cards & Accessories",
-  description: "Shop curated mahjong sets, NMJL cards, accessories, and gifts. Everything you need for game night, hand-picked by MahjNearMe.",
+  description: "Shop curated mahjong sets, NMJL cards, accessories, and gifts. Everything you need for game night, hand-picked by my mom and her friends.",
 };
 
 export default function ShopPage() {
@@ -19,7 +19,7 @@ export default function ShopPage() {
           Mahj Gear & Essentials
         </h1>
         <p className="text-slate-500 max-w-2xl mx-auto">
-          Everything you need for game night — from beginner sets to premium accessories. Hand-picked by the MahjNearMe team.
+          Everything you need for game night — from beginner sets to premium accessories. Hand-picked by my mom and her friends.
         </p>
       </div>
 

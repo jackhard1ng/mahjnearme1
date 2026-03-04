@@ -4,7 +4,7 @@ import { Heart, MapPin, ShieldCheck, Users } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About MahjNearMe",
-  description: "The story behind MahjNearMe — how a trip to Tulsa inspired the only directory of pickup mahjong games in the United States.",
+  description: "The story behind MahjNearMe — how searching for mahjong games while traveling inspired the only directory of pickup mahjong games in the United States.",
 };
 
 export default function AboutPage() {
@@ -40,9 +40,11 @@ export default function AboutPage() {
           </div>
           <div className="text-slate-600 space-y-4">
             <p>
-              My mom plays mahjong everywhere we go. On a trip to Tulsa, she spent hours searching
-              Facebook groups, Googling different spellings of &ldquo;mahjongg,&rdquo; and DMing strangers on
-              Instagram &mdash; just to find a game.
+              We live in Tulsa, and my mom plays mahjong all the time. There have been multiple times
+              we&apos;ve been on trips and she&apos;s wanted to find a mahjong game &mdash; but it&apos;s
+              incredibly hard. She&apos;d spend hours searching Facebook groups, Googling different
+              spellings of &ldquo;mahjongg,&rdquo; and DMing strangers on Instagram &mdash; just to
+              find a game.
             </p>
             <p>
               We thought, there has to be a better way. So we built one.

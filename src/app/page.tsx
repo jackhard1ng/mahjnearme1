@@ -229,7 +229,7 @@ export default function HomePage() {
         </div>
         <div className="max-w-7xl mx-auto px-4 relative">
           <div className="grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* Add a Group CTA */}
+            {/* List Your Group CTA */}
             <div className="card-white p-8 text-center">
               <div className="text-3xl mb-3">🀄</div>
               <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">
@@ -242,7 +242,7 @@ export default function HomePage() {
                 href="/add-your-group"
                 className="inline-flex items-center gap-2 bg-skyblue-400 text-white px-6 py-3 rounded-xl font-semibold hover:bg-skyblue-500 transition-colors shadow-lg"
               >
-                Add a Group <ArrowRight className="w-4 h-4" />
+                List Your Group <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 

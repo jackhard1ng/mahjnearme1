@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, Users, Crown, Shield, Eye, X, Mail, Calendar, CreditCard } from "lucide-react";
+import { Search, Users, Crown, Shield, Eye, X, Mail, Calendar, CreditCard, Gift } from "lucide-react";
 import { getFirebaseDb } from "@/lib/firebase";
 import { isFirebaseConfigured } from "@/lib/firebase";
-import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, limit, doc, setDoc } from "firebase/firestore";
 
 interface UserRecord {
   id: string;
@@ -28,6 +28,59 @@ export default function AdminUsersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
   const [expandedUserId, setExpandedUserId] = useState<string | null>(null);
+  const [giftingUserId, setGiftingUserId] = useState<string | null>(null);
+  const [giftPlan, setGiftPlan] = useState("monthly");
+  const [giftDuration, setGiftDuration] = useState("1");
+  const [giftSaving, setGiftSaving] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+
+  async function handleGiftPlan(userId: string) {
+    if (!isFirebaseConfigured) return;
+    setGiftSaving(true);
+    try {
+      const db = getFirebaseDb();
+      const months = giftPlan === "yearly" ? 12 * parseInt(giftDuration) : parseInt(giftDuration);
+      const endDate = new Date();
+      endDate.setMonth(endDate.getMonth() + months);
+
+      await setDoc(
+        doc(db, "users", userId),
+        {
+          accountType: "subscriber",
+          subscriptionStatus: "active",
+          plan: giftPlan === "yearly" ? "yearly" : "monthly",
+          subscriptionEndsAt: endDate.toISOString(),
+          giftedByAdmin: true,
+          giftedAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+        { merge: true }
+      );
+
+      // Update local state
+      setUsers((prev) =>
+        prev.map((u) =>
+          u.id === userId
+            ? {
+                ...u,
+                accountType: "subscriber",
+                subscriptionStatus: "active",
+                plan: giftPlan === "yearly" ? "yearly" : "monthly",
+                subscriptionEndsAt: endDate.toISOString(),
+              }
+            : u
+        )
+      );
+
+      setGiftingUserId(null);
+      setToast("Plan gifted successfully!");
+      setTimeout(() => setToast(null), 3000);
+    } catch {
+      setToast("Failed to gift plan. Try again.");
+      setTimeout(() => setToast(null), 3000);
+    }
+    setGiftSaving(false);
+  }
 
   useEffect(() => {
     async function fetchUsers() {
@@ -131,6 +184,55 @@ export default function AdminUsersPage() {
               <option value="admin">Admins</option>
             </select>
           </div>
+
+          {/* Gift Plan Modal */}
+          {giftingUserId && (
+            <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+              <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl">
+                <h3 className="font-semibold text-lg text-charcoal mb-1 flex items-center gap-2">
+                  <Gift className="w-5 h-5 text-hotpink-500" /> Gift Free Plan
+                </h3>
+                <p className="text-sm text-slate-500 mb-4">
+                  Give {users.find((u) => u.id === giftingUserId)?.displayName || "this user"} a free subscription.
+                </p>
+                <div className="space-y-3 mb-6">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Plan Type</label>
+                    <select value={giftPlan} onChange={(e) => setGiftPlan(e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+                      <option value="monthly">Monthly</option>
+                      <option value="yearly">Yearly</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
+                      Duration ({giftPlan === "yearly" ? "years" : "months"})
+                    </label>
+                    <select value={giftDuration} onChange={(e) => setGiftDuration(e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+                      <option value="1">1 {giftPlan === "yearly" ? "year" : "month"}</option>
+                      <option value="3">3 {giftPlan === "yearly" ? "years" : "months"}</option>
+                      <option value="6">6 {giftPlan === "yearly" ? "years" : "months"}</option>
+                      <option value="12">{giftPlan === "yearly" ? "12 years" : "12 months (1 year)"}</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <button onClick={() => setGiftingUserId(null)} className="flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm font-medium text-slate-600 hover:bg-slate-50">
+                    Cancel
+                  </button>
+                  <button onClick={() => handleGiftPlan(giftingUserId)} disabled={giftSaving} className="flex-1 px-4 py-2 rounded-lg bg-hotpink-500 text-white text-sm font-semibold hover:bg-hotpink-600 disabled:opacity-50">
+                    {giftSaving ? "Saving..." : "Gift Plan"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Toast */}
+          {toast && (
+            <div className="fixed bottom-6 right-6 bg-charcoal text-white px-5 py-3 rounded-xl shadow-lg text-sm font-medium z-50">
+              {toast}
+            </div>
+          )}
 
           {/* User Table */}
           <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
@@ -245,9 +347,15 @@ export default function AdminUsersPage() {
                               }`}>
                                 Status: {user.subscriptionStatus}
                               </span>
+                              <button
+                                onClick={() => { setGiftingUserId(user.id); setGiftPlan("monthly"); setGiftDuration("1"); }}
+                                className="ml-auto flex items-center gap-1 bg-hotpink-100 hover:bg-hotpink-200 rounded-lg px-3 py-1.5 text-xs font-medium text-hotpink-700 transition-colors"
+                              >
+                                <Gift className="w-3.5 h-3.5" /> Gift Free Plan
+                              </button>
                               <a
                                 href={`mailto:${user.email}`}
-                                className="ml-auto flex items-center gap-1 bg-skyblue-100 hover:bg-skyblue-200 rounded-lg px-3 py-1.5 text-xs font-medium text-skyblue-700 transition-colors"
+                                className="flex items-center gap-1 bg-skyblue-100 hover:bg-skyblue-200 rounded-lg px-3 py-1.5 text-xs font-medium text-skyblue-700 transition-colors"
                               >
                                 <Mail className="w-3.5 h-3.5" /> Send Email
                               </a>

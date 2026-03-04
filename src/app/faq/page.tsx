@@ -28,9 +28,9 @@ const faqs = [
     ],
   },
   {
-    category: "Adding a Group",
+    category: "Listing a Group",
     questions: [
-      { q: "My group isn't listed — how do I add it?", a: "Go to the 'Add a Group' page and fill out the short contact form. Tell us about your group and we'll add it to the directory within 48 hours — completely free!" },
+      { q: "My group isn't listed — how do I add it?", a: "Go to the 'List Your Group' page and fill out the short form. Tell us about your group and we'll add it to the directory within 48 hours — completely free!" },
       { q: "Does it cost anything to get listed?", a: "No, it's completely free. We're building the most complete mahjong directory in the country, and we want every group on here." },
       { q: "How do I update my listing?", a: "Just reach out to us through the contact form or email. We manage all listings and can update your info quickly." },
     ],
