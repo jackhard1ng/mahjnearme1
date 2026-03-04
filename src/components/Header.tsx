@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Menu, X, User, LogOut, Settings, LayoutDashboard, ChevronDown, Plus } from "lucide-react";
+import { Menu, X, User, LogOut, Settings, LayoutDashboard, ChevronDown, Plus, CalendarDays } from "lucide-react";
 
 export default function Header() {
   const { user, userProfile, signOut, isAdmin } = useAuth();
@@ -54,6 +54,14 @@ export default function Header() {
 
                 {userMenuOpen && (
                   <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-lg shadow-lg border border-slate-200 py-2 z-50">
+                    <Link
+                      href="/calendar"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-3 px-4 py-2 text-sm text-charcoal hover:bg-hotpink-50"
+                    >
+                      <CalendarDays className="w-4 h-4" />
+                      My Calendar
+                    </Link>
                     <Link
                       href="/account"
                       onClick={() => setUserMenuOpen(false)}
@@ -144,6 +152,13 @@ export default function Header() {
             <hr className="border-white/20" />
             {user ? (
               <>
+                <Link
+                  href="/calendar"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
+                >
+                  My Calendar
+                </Link>
                 <Link
                   href="/account"
                   onClick={() => setMobileMenuOpen(false)}

@@ -17,7 +17,7 @@ import Link from "next/link";
 function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
-  const { user, hasAccess, userProfile } = useAuth();
+  const { user, hasAccess, userProfile, updateUserProfile } = useAuth();
   const prefsApplied = useRef(false);
 
   const [filters, setFilters] = useState<SearchFilters>({
@@ -50,6 +50,16 @@ function SearchContent() {
   }, [userProfile]);
 
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
+
+  function toggleCalendarEvent(gameId: string) {
+    if (!userProfile || !user) return;
+    const saved = userProfile.savedEvents || [];
+    if (saved.includes(gameId)) {
+      updateUserProfile({ savedEvents: saved.filter((id) => id !== gameId) });
+    } else {
+      updateUserProfile({ savedEvents: [...saved, gameId] });
+    }
+  }
 
   const filteredGames = useMemo(() => {
     let games = mockGames.filter((g) => g.status === "active");
@@ -200,6 +210,8 @@ function SearchContent() {
                     <GameCard
                       game={game}
                       userSkillLevel={userProfile?.skillLevel}
+                      onCalendarToggle={user ? toggleCalendarEvent : undefined}
+                      isOnCalendar={(userProfile?.savedEvents || []).includes(game.id)}
                       index={index}
                     />
                   </div>

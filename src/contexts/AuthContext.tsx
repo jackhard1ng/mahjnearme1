@@ -62,6 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             homeGeopoint: null,
             savedCities: [],
             favoriteGames: [],
+            savedEvents: [],
             createdAt: new Date().toISOString(),
             lastLoginAt: new Date().toISOString(),
           };
