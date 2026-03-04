@@ -58,7 +58,7 @@ export default function HomePage() {
       <section className="py-5 border-y border-skyblue-200 overflow-hidden bg-skyblue-50">
         <div className="relative">
           <div className="animate-scroll-left whitespace-nowrap flex items-center">
-            {[...cities, ...cities].map((c, i) => {
+            {[...cities, ...cities, ...cities].map((c, i) => {
               const tile = getCityTile(c.city);
               return (
                 <Link

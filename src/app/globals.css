@@ -241,17 +241,17 @@ html {
 .stagger-4 { animation-delay: 0.2s; }
 .stagger-5 { animation-delay: 0.25s; }
 
-/* City marquee animation */
+/* City marquee animation — translate by 1/3 so the triple-duplicated list loops seamlessly */
 @keyframes scroll-left {
   from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  to { transform: translateX(-33.3333%); }
 }
 .animate-scroll-left {
-  animation: scroll-left 15s linear infinite;
+  animation: scroll-left 20s linear infinite;
 }
 @media (min-width: 640px) {
   .animate-scroll-left {
-    animation: scroll-left 30s linear infinite;
+    animation: scroll-left 40s linear infinite;
   }
 }
 
