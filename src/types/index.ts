@@ -83,6 +83,8 @@ export interface UserProfile {
   plan: "monthly" | "annual" | null;
 
   // Player Profile
+  photoURL: string | null;
+  avatarColor: string | null;
   skillLevel: SkillLevel | null;
   gameStylePreference: GameStyle | "any" | null;
 

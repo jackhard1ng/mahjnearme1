@@ -24,6 +24,22 @@ import {
   Loader2,
 } from "lucide-react";
 
+const AVATAR_COLORS = [
+  { value: "hotpink", bg: "bg-hotpink-500", ring: "ring-hotpink-300" },
+  { value: "skyblue", bg: "bg-skyblue-400", ring: "ring-skyblue-300" },
+  { value: "purple", bg: "bg-purple-500", ring: "ring-purple-300" },
+  { value: "emerald", bg: "bg-emerald-500", ring: "ring-emerald-300" },
+  { value: "amber", bg: "bg-amber-500", ring: "ring-amber-300" },
+  { value: "rose", bg: "bg-rose-500", ring: "ring-rose-300" },
+  { value: "indigo", bg: "bg-indigo-500", ring: "ring-indigo-300" },
+  { value: "teal", bg: "bg-teal-500", ring: "ring-teal-300" },
+];
+
+function getAvatarBg(color: string | null | undefined): string {
+  const found = AVATAR_COLORS.find((c) => c.value === color);
+  return found ? found.bg : "bg-hotpink-100";
+}
+
 const SKILL_OPTIONS = [
   { value: "", label: "Not set" },
   { value: "beginner", label: "Beginner" },
@@ -54,6 +70,7 @@ export default function AccountPage() {
   // Editable fields
   const [editing, setEditing] = useState<string | null>(null);
   const [editingAll, setEditingAll] = useState(false);
+  const [editingAvatar, setEditingAvatar] = useState(false);
   const [editDisplayName, setEditDisplayName] = useState("");
   const [editSkillLevel, setEditSkillLevel] = useState("");
   const [editGameStyle, setEditGameStyle] = useState("");
@@ -196,9 +213,24 @@ export default function AccountPage() {
         <div className="bg-white border border-slate-200 rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-hotpink-100 rounded-full flex items-center justify-center">
-                <User className="w-8 h-8 text-hotpink-600" />
-              </div>
+              <button
+                onClick={() => setEditingAvatar(!editingAvatar)}
+                className="relative w-16 h-16 rounded-full flex items-center justify-center shrink-0 group"
+                title="Change avatar"
+              >
+                {userProfile.photoURL ? (
+                  <img src={userProfile.photoURL} alt="" className="w-16 h-16 rounded-full object-cover" />
+                ) : (
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center ${userProfile.avatarColor ? getAvatarBg(userProfile.avatarColor) : "bg-hotpink-100"}`}>
+                    <span className={`text-2xl font-bold ${userProfile.avatarColor ? "text-white" : "text-hotpink-600"}`}>
+                      {(userProfile.displayName || userProfile.email || "?")[0].toUpperCase()}
+                    </span>
+                  </div>
+                )}
+                <div className="absolute inset-0 rounded-full bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                  <Pencil className="w-4 h-4 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+              </button>
               <div>
                 <h2 className="font-semibold text-xl text-charcoal">{userProfile.displayName || "Player"}</h2>
                 <p className="text-sm text-slate-500">{userProfile.email}</p>
@@ -241,6 +273,37 @@ export default function AccountPage() {
               </div>
             )}
           </div>
+
+          {/* Avatar Color Picker */}
+          {editingAvatar && (
+            <div className="mb-4 p-4 bg-slate-50 border border-slate-200 rounded-lg">
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Choose Avatar Color</p>
+              <div className="flex flex-wrap gap-2">
+                {AVATAR_COLORS.map((color) => (
+                  <button
+                    key={color.value}
+                    onClick={() => {
+                      updateUserProfile({ avatarColor: color.value, photoURL: null });
+                      setEditingAvatar(false);
+                    }}
+                    className={`w-10 h-10 rounded-full ${color.bg} flex items-center justify-center hover:scale-110 transition-transform ${
+                      userProfile.avatarColor === color.value ? `ring-2 ${color.ring} ring-offset-2` : ""
+                    }`}
+                  >
+                    <span className="text-white font-bold text-sm">
+                      {(userProfile.displayName || userProfile.email || "?")[0].toUpperCase()}
+                    </span>
+                  </button>
+                ))}
+              </div>
+              <button
+                onClick={() => setEditingAvatar(false)}
+                className="text-xs text-slate-400 hover:text-slate-600 mt-3"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
 
           <div className="grid sm:grid-cols-2 gap-4">
             {/* Display Name */}

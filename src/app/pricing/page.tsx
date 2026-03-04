@@ -8,14 +8,15 @@ import { useAuth } from "@/contexts/AuthContext";
 
 const freeFeatures = [
   { text: "Browse cities & states", included: true },
-  { text: "See game names & locations", included: true },
-  { text: "View game types & schedules", included: true },
+  { text: "See game types (open play, lessons, etc.)", included: true },
+  { text: "Preview one game per search", included: true },
+  { text: "Game names, locations & schedules", included: false },
   { text: "Full game details (contact, description, etc.)", included: false },
   { text: "Interactive map with directions", included: false },
   { text: "Travel Planner (search by date range)", included: false },
   { text: "Save favorite games & cities", included: false },
   { text: "Alerts for new games in your cities", included: false },
-  { text: "Leave reviews & ratings", included: false },
+  { text: "Add games to your calendar", included: false },
 ];
 
 const subscriberFeatures = [
@@ -27,6 +28,7 @@ const subscriberFeatures = [
   { text: "Travel Planner (search by date range)", included: true },
   { text: "Save favorite games & cities", included: true },
   { text: "Alerts for new games in your cities", included: true },
+  { text: "Add games to your calendar", included: true },
   { text: "Leave reviews & ratings", included: true },
 ];
 
@@ -34,7 +36,7 @@ const faqs = [
   {
     question: "What do I get with a free account?",
     answer:
-      "With a free account you can browse all cities, see game names, types, schedules, and general locations. To see full details like contact info, descriptions, directions, and the interactive map, you'll need a subscription.",
+      "With a free account you can browse all cities and see game types. You'll get a preview of one game per search. To see game names, locations, schedules, contact info, and the interactive map, you'll need a subscription.",
   },
   {
     question: "Is there a free trial?",
