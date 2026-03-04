@@ -4,7 +4,7 @@ import { Heart, MapPin, ShieldCheck, Users } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About MahjNearMe",
-  description: "The story behind MahjNearMe — how a trip to Nashville inspired the only directory of pickup mahjong games in the United States.",
+  description: "The story behind MahjNearMe — how a trip to Tulsa inspired the only directory of pickup mahjong games in the United States.",
 };
 
 export default function AboutPage() {
@@ -40,7 +40,7 @@ export default function AboutPage() {
           </div>
           <div className="text-slate-600 space-y-4">
             <p>
-              My mom plays mahjong everywhere we go. On a trip to Nashville, she spent hours searching
+              My mom plays mahjong everywhere we go. On a trip to Tulsa, she spent hours searching
               Facebook groups, Googling different spellings of &ldquo;mahjongg,&rdquo; and DMing strangers on
               Instagram &mdash; just to find a game.
             </p>

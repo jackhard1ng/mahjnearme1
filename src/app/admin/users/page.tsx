@@ -4,12 +4,12 @@ import { useState } from "react";
 import { Search, Users, Crown, Shield, Eye, ChevronDown, X, Mail, Calendar, CreditCard } from "lucide-react";
 
 const mockUsers = [
-  { id: "1", name: "Jane D.", email: "jane@example.com", type: "subscriber", plan: "annual", joined: "Jan 15, 2026", status: "active", lastLogin: "Mar 2, 2026", gamesAttended: 12, favoriteStyle: "American", city: "Nashville, TN" },
-  { id: "2", name: "Carol S.", email: "carol@example.com", type: "subscriber", plan: "monthly", joined: "Jan 20, 2026", status: "active", lastLogin: "Mar 1, 2026", gamesAttended: 8, favoriteStyle: "American", city: "Dallas, TX" },
-  { id: "3", name: "Mike R.", email: "mike@example.com", type: "organizer", plan: null, joined: "Feb 1, 2026", status: "active", lastLogin: "Feb 28, 2026", gamesAttended: 24, favoriteStyle: "Riichi", city: "Chicago, IL" },
-  { id: "4", name: "Barbara T.", email: "barb@example.com", type: "trial", plan: null, joined: "Feb 25, 2026", status: "trialing", lastLogin: "Mar 2, 2026", gamesAttended: 2, favoriteStyle: "American", city: "Miami, FL" },
-  { id: "5", name: "Linda M.", email: "linda@example.com", type: "trial", plan: null, joined: "Feb 28, 2026", status: "trialing", lastLogin: "Mar 1, 2026", gamesAttended: 1, favoriteStyle: "Chinese", city: "New York, NY" },
-  { id: "6", name: "Patricia W.", email: "patricia@example.com", type: "free", plan: null, joined: "Mar 1, 2026", status: "expired", lastLogin: "Mar 1, 2026", gamesAttended: 0, favoriteStyle: "American", city: "Denver, CO" },
+  { id: "1", name: "Jane D.", email: "jane@example.com", type: "subscriber", plan: "annual", joined: "Jan 15, 2026", status: "active", lastLogin: "Mar 2, 2026", gamesAttended: 12, favoriteStyle: "American", city: "Tulsa, OK" },
+  { id: "2", name: "Carol S.", email: "carol@example.com", type: "subscriber", plan: "monthly", joined: "Jan 20, 2026", status: "active", lastLogin: "Mar 1, 2026", gamesAttended: 8, favoriteStyle: "American", city: "Oklahoma City, OK" },
+  { id: "3", name: "Mike R.", email: "mike@example.com", type: "organizer", plan: null, joined: "Feb 1, 2026", status: "active", lastLogin: "Feb 28, 2026", gamesAttended: 24, favoriteStyle: "Riichi", city: "Tulsa, OK" },
+  { id: "4", name: "Barbara T.", email: "barb@example.com", type: "trial", plan: null, joined: "Feb 25, 2026", status: "trialing", lastLogin: "Mar 2, 2026", gamesAttended: 2, favoriteStyle: "American", city: "Edmond, OK" },
+  { id: "5", name: "Linda M.", email: "linda@example.com", type: "trial", plan: null, joined: "Feb 28, 2026", status: "trialing", lastLogin: "Mar 1, 2026", gamesAttended: 1, favoriteStyle: "American", city: "Norman, OK" },
+  { id: "6", name: "Patricia W.", email: "patricia@example.com", type: "free", plan: null, joined: "Mar 1, 2026", status: "expired", lastLogin: "Mar 1, 2026", gamesAttended: 0, favoriteStyle: "American", city: "Broken Arrow, OK" },
 ];
 
 export default function AdminUsersPage() {
