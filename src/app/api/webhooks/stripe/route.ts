@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { stripe, getPlanFromPriceId } from "@/lib/stripe";
+import { getStripe, getPlanFromPriceId } from "@/lib/stripe";
 import { getAdminDb } from "@/lib/firebase-admin";
 import Stripe from "stripe";
 
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(
+    event = getStripe().webhooks.constructEvent(
       body,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
         }
 
         // Get subscription details to determine plan
-        const subscription = await stripe.subscriptions.retrieve(
+        const subscription = await getStripe().subscriptions.retrieve(
           session.subscription as string
         );
         const priceId = subscription.items.data[0]?.price.id;
