@@ -28,25 +28,25 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-br from-[#FF1493]/85 via-[#FF69B4]/75 to-[#87CEEB]/80" />
         </div>
 
-        <div className="max-w-5xl mx-auto px-4 pt-16 pb-12 sm:pt-24 sm:pb-16 text-center relative">
-          <div className="flex justify-center gap-2 mb-6">
+        <div className="max-w-5xl mx-auto px-4 pt-8 pb-6 sm:pt-24 sm:pb-16 text-center relative">
+          <div className="hidden sm:flex justify-center gap-2 mb-6">
             <span className="text-3xl opacity-70 animate-float" style={{ animationDelay: "0s" }}>🀇</span>
             <span className="text-3xl opacity-70 animate-float" style={{ animationDelay: "0.3s" }}>🀄</span>
             <span className="text-3xl opacity-70 animate-float" style={{ animationDelay: "0.6s" }}>🀙</span>
           </div>
-          <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-4xl sm:text-5xl lg:text-6xl text-white mb-4 tracking-tight drop-shadow-lg">
+          <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-3xl sm:text-5xl lg:text-6xl text-white mb-2 sm:mb-4 tracking-tight drop-shadow-lg">
             Find Mahjong Games<br />
             <span className="text-skyblue-200">Anywhere You Go</span>
           </h1>
-          <p className="text-lg sm:text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-xl text-white/80 mb-4 sm:mb-8 max-w-2xl mx-auto">
             The only directory of pickup mahjong games, open play sessions, lessons, and events across the United States
           </p>
 
-          <div className="max-w-3xl mx-auto mb-6">
+          <div className="max-w-3xl mx-auto mb-3 sm:mb-6">
             <SearchBar size="large" />
           </div>
 
-          <p className="text-sm text-white/70">
+          <p className="text-xs sm:text-sm text-white/70">
             <span className="font-semibold text-white">{stats.gameCount} games</span> across{" "}
             <span className="font-semibold text-white">{stats.cityCount} cities</span> in{" "}
             <span className="font-semibold text-white">{stats.stateCount} states</span> and counting
