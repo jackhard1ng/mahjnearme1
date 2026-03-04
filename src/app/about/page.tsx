@@ -35,15 +35,13 @@ export default function AboutPage() {
           </div>
           <div className="text-slate-600 space-y-4">
             <p>
-              We live in Tulsa, and my mom plays mahjong all the time at home &mdash; she never has
-              trouble finding a game here. But every time we travel, it&apos;s a completely different
-              story. She&apos;ll spend hours searching Facebook groups, Googling different spellings
-              of &ldquo;mahjongg,&rdquo; and DMing strangers on Instagram &mdash; just trying to
-              find a game wherever we are.
+              My mom plays mahjong all the time at home in Tulsa &mdash; she never has trouble
+              finding a game. But every time we travel, it&apos;s impossible. She&apos;ll spend
+              hours searching Facebook groups, Googling every spelling of &ldquo;mahjongg,&rdquo;
+              and DMing strangers on Instagram just trying to find one game wherever we are.
             </p>
             <p>
               It&apos;s happened so many times that we finally said, there has to be a better way.
-              So we built one.
             </p>
             <p>
               MahjNearMe is the first and only comprehensive directory of pickup mahjong games,
@@ -52,11 +50,11 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* Family photo */}
+          {/* Photo */}
           <div className="mt-8 rounded-xl overflow-hidden">
             <img
               src="/images/heidijackhaleyswedding.jfif"
-              alt="Jack and family"
+              alt="Jack and his mom"
               className="w-full h-auto object-cover rounded-xl"
             />
           </div>

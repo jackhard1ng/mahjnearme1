@@ -392,6 +392,55 @@ export default function AddYourGroupPage() {
         </div>
       </section>
 
+      {/* Part 2: Verified Organizers */}
+      <section className="bg-skyblue-50 border-t border-skyblue-200">
+        <div className="max-w-3xl mx-auto px-4 py-16 sm:py-20">
+          <div className="text-center mb-8">
+            <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl sm:text-3xl text-charcoal mb-3">
+              Run events regularly? Get verified.
+            </h2>
+            <p className="text-slate-500 max-w-xl mx-auto">
+              Verified organizers can post and update their own events anytime &mdash; no waiting for us to do it.
+            </p>
+          </div>
+
+          <div className="mahj-tile p-8">
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 bg-hotpink-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="text-hotpink-600 font-bold text-sm">1</span>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-charcoal">Submit your group above</h3>
+                  <p className="text-sm text-slate-500">Fill out the form and we&apos;ll add your listing within 48 hours.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 bg-hotpink-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="text-hotpink-600 font-bold text-sm">2</span>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-charcoal">Request verification</h3>
+                  <p className="text-sm text-slate-500">Once your listing is live, claim it from the listing page and we&apos;ll verify you as the organizer.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 bg-hotpink-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="text-hotpink-600 font-bold text-sm">3</span>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-charcoal">Post your own events</h3>
+                  <p className="text-sm text-slate-500">Once verified, you can add new events, update schedules, and keep your listing current &mdash; all on your own.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p className="text-center text-xs text-slate-400 mt-6">
+            Questions? Email us at <a href="mailto:hello@mahjnearme.com" className="text-hotpink-500 hover:underline">hello@mahjnearme.com</a>
+          </p>
+        </div>
+      </section>
     </>
   );
 }
