@@ -8,8 +8,7 @@ import { mockGames } from "@/lib/mock-data";
 import {
   Users,
   GamepadIcon,
-  DollarSign,
-  TrendingUp,
+  MapPin,
   Upload,
   Plus,
   FileSpreadsheet,
@@ -36,18 +35,12 @@ export default function AdminDashboardPage() {
     );
   }
 
-  // Recalculate all stats from mutable games state
+  // Real stats from actual game data
   const activeGames = games.filter((g) => g.status === "active").length;
   const promotedGames = games.filter((g) => g.promoted).length;
-
-  const stats = {
-    totalGames: games.length,
-    activeGames,
-    totalUsers: 47,
-    trialUsers: 22,
-    subscribers: 15,
-    monthlyRevenue: "$74.85",
-  };
+  const cities = new Set(games.map((g) => `${g.city}, ${g.state}`));
+  const states = new Set(games.map((g) => g.state));
+  const gameStyles = new Set(games.map((g) => g.gameStyle));
 
   // Recent games for the overview
   const recentGames = games.slice(0, 5);
@@ -83,31 +76,22 @@ export default function AdminDashboardPage() {
           <div className="flex items-center justify-between mb-2">
             <GamepadIcon className="w-5 h-5 text-hotpink-500" />
             <span className="text-xs font-medium text-hotpink-500 bg-skyblue-100 px-2 py-0.5 rounded-full">
-              {stats.activeGames} active
+              {activeGames} active
             </span>
           </div>
-          <p className="text-2xl font-bold text-charcoal">{stats.totalGames}</p>
-          <p className="text-sm text-slate-500">Total Games</p>
+          <p className="text-2xl font-bold text-charcoal">{games.length}</p>
+          <p className="text-sm text-slate-500">Total Listings</p>
         </div>
 
         <div className="bg-white border border-slate-200 rounded-xl p-5">
           <div className="flex items-center justify-between mb-2">
-            <Users className="w-5 h-5 text-skyblue-500" />
-            <span className="text-xs font-medium text-hotpink-500 bg-softpink-100 px-2 py-0.5 rounded-full">
-              {stats.subscribers} paid
+            <MapPin className="w-5 h-5 text-skyblue-500" />
+            <span className="text-xs font-medium text-skyblue-600 bg-skyblue-100 px-2 py-0.5 rounded-full">
+              {states.size} state{states.size !== 1 ? "s" : ""}
             </span>
           </div>
-          <p className="text-2xl font-bold text-charcoal">{stats.totalUsers}</p>
-          <p className="text-sm text-slate-500">Total Users</p>
-        </div>
-
-        <div className="bg-white border border-slate-200 rounded-xl p-5">
-          <div className="flex items-center justify-between mb-2">
-            <DollarSign className="w-5 h-5 text-hotpink-500" />
-            <TrendingUp className="w-4 h-4 text-hotpink-500" />
-          </div>
-          <p className="text-2xl font-bold text-charcoal">{stats.monthlyRevenue}</p>
-          <p className="text-sm text-slate-500">Monthly Revenue</p>
+          <p className="text-2xl font-bold text-charcoal">{cities.size}</p>
+          <p className="text-sm text-slate-500">Cities Covered</p>
         </div>
 
         <div className="bg-white border border-slate-200 rounded-xl p-5">
@@ -117,8 +101,16 @@ export default function AdminDashboardPage() {
               {promotedGames} featured
             </span>
           </div>
-          <p className="text-2xl font-bold text-charcoal">{stats.activeGames}</p>
+          <p className="text-2xl font-bold text-charcoal">{activeGames}</p>
           <p className="text-sm text-slate-500">Active Listings</p>
+        </div>
+
+        <div className="bg-white border border-slate-200 rounded-xl p-5">
+          <div className="flex items-center justify-between mb-2">
+            <Users className="w-5 h-5 text-skyblue-500" />
+          </div>
+          <p className="text-2xl font-bold text-charcoal">{gameStyles.size}</p>
+          <p className="text-sm text-slate-500">Game Styles</p>
         </div>
       </div>
 
@@ -158,7 +150,7 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Quick Actions + Recent Signups */}
+        {/* Quick Actions + Coverage Breakdown */}
         <div className="space-y-4">
           <div className="bg-white border border-slate-200 rounded-xl">
             <div className="px-5 py-4 border-b border-white">
@@ -196,35 +188,26 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          {/* Recent Signups */}
+          {/* Coverage Breakdown */}
           <div className="bg-white border border-slate-200 rounded-xl">
             <div className="px-5 py-4 border-b border-white">
-              <h2 className="font-semibold text-charcoal">Recent Signups</h2>
+              <h2 className="font-semibold text-charcoal">Coverage by City</h2>
             </div>
             <div className="divide-y divide-slate-50">
-              {[
-                { name: "Jane D.", type: "trial", time: "2 hours ago" },
-                { name: "Carol S.", type: "subscriber", time: "5 hours ago" },
-                { name: "Barbara T.", type: "trial", time: "2 days ago" },
-              ].map((signup, i) => (
-                <div key={i} className="px-5 py-3 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-skyblue-100 rounded-full flex items-center justify-center">
-                      <Users className="w-4 h-4 text-slate-500" />
+              {[...cities].map((city) => {
+                const count = games.filter((g) => `${g.city}, ${g.state}` === city).length;
+                return (
+                  <div key={city} className="px-5 py-3 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <MapPin className="w-4 h-4 text-hotpink-400" />
+                      <span className="text-sm font-medium text-charcoal">{city}</span>
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-charcoal">{signup.name}</p>
-                      <p className="text-xs text-slate-500">{signup.time}</p>
-                    </div>
+                    <span className="text-xs font-semibold text-hotpink-600 bg-hotpink-50 px-2.5 py-0.5 rounded-full">
+                      {count} game{count !== 1 ? "s" : ""}
+                    </span>
                   </div>
-                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                    signup.type === "subscriber" ? "bg-softpink-100 text-hotpink-600" :
-                    "bg-skyblue-100 text-slate-600"
-                  }`}>
-                    {signup.type}
-                  </span>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
