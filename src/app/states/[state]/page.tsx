@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { mockGames, getStatesWithGames, getCitiesWithGames } from "@/lib/mock-data";
-import { slugify, getStateName, getGameTypeLabel, getMapPinColor } from "@/lib/utils";
+import { slugify, getStateName, getGameTypeLabel, getMapPinColor, isEventExpired } from "@/lib/utils";
 import { ChevronRight, ArrowRight, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -37,7 +37,7 @@ export default async function StatePage({ params }: Props) {
   )?.[0];
 
   const games = mockGames.filter(
-    (g) => (stateAbbr ? g.state === stateAbbr : slugify(getStateName(g.state)) === state) && g.status === "active"
+    (g) => (stateAbbr ? g.state === stateAbbr : slugify(getStateName(g.state)) === state) && g.status === "active" && !isEventExpired(g)
   );
 
   const cities = getCitiesWithGames().filter(

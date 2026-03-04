@@ -85,12 +85,30 @@ export function formatSchedule(game: { isRecurring: boolean; recurringSchedule: 
     return `${freqLabel} ${dayStr}${timeStr}`.trim();
   }
   if (game.eventDate) {
-    const date = new Date(game.eventDate);
+    // Parse as local date (not UTC) to avoid timezone offset showing wrong day
+    const [year, month, day] = game.eventDate.split("-").map(Number);
+    const date = new Date(year, month - 1, day);
     const dateStr = date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
     const timeStr = game.eventStartTime && game.eventEndTime
       ? `, ${formatTime(game.eventStartTime)} - ${formatTime(game.eventEndTime)}`
-      : "";
+      : game.eventStartTime
+        ? `, ${formatTime(game.eventStartTime)}`
+        : "";
     return dateStr + timeStr;
   }
   return "Schedule TBD";
+}
+
+/**
+ * Returns true if a one-time event's date is in the past.
+ * Recurring events never expire via this check.
+ */
+export function isEventExpired(game: { isRecurring: boolean; eventDate: string | null }): boolean {
+  if (game.isRecurring) return false;
+  if (!game.eventDate) return false;
+  const [year, month, day] = game.eventDate.split("-").map(Number);
+  const eventDay = new Date(year, month - 1, day);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return eventDay < today;
 }

@@ -19,6 +19,7 @@ import SkeletonCard from "@/components/SkeletonCard";
 import { mockGames } from "@/lib/mock-data";
 import { useAuth } from "@/contexts/AuthContext";
 import { SearchFilters, Game } from "@/types";
+import { isEventExpired } from "@/lib/utils";
 import { ShieldCheck, SlidersHorizontal } from "lucide-react";
 import { getCityTile } from "@/lib/city-tiles";
 import Link from "next/link";
@@ -60,6 +61,15 @@ function SearchContent() {
 
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
 
+  // Scroll to the selected game card when a map pin is clicked
+  useEffect(() => {
+    if (!selectedGameId) return;
+    const el = document.querySelector(`[data-game-id="${selectedGameId}"]`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [selectedGameId]);
+
   function toggleCalendarEvent(gameId: string) {
     if (!userProfile || !user) return;
     const saved = userProfile.savedEvents || [];
@@ -71,7 +81,7 @@ function SearchContent() {
   }
 
   const filteredGames = useMemo(() => {
-    let games = mockGames.filter((g) => g.status === "active");
+    let games = mockGames.filter((g) => g.status === "active" && !isEventExpired(g));
 
     if (query) {
       const q = query.toLowerCase();
@@ -167,6 +177,8 @@ function SearchContent() {
             games={filteredGames}
             selectedGameId={selectedGameId}
             onPinClick={setSelectedGameId}
+            hasAccess={hasAccess}
+            previewCount={1}
           />
         </div>
 
@@ -186,10 +198,13 @@ function SearchContent() {
           ) : (
             <>
               {filteredGames.map((game, index) => {
+                const isSelected = selectedGameId === game.id;
+                const selectedClass = isSelected ? "ring-2 ring-hotpink-500 rounded-2xl" : "";
+
                 // Show first card as a preview for users without access
                 if (!hasAccess && index === 0) {
                   return (
-                    <div key={game.id} className={`animate-fade-in-up stagger-${index + 1}`}>
+                    <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${index + 1} ${selectedClass}`}>
                       <GameCard
                         game={game}
                         isTeaser={true}
@@ -203,7 +218,7 @@ function SearchContent() {
                 // Blur all other cards for users without access
                 if (!hasAccess && index >= 1) {
                   return (
-                    <div key={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)}`}>
+                    <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)} ${selectedClass}`}>
                       <GameCard
                         game={game}
                         blurred={true}
@@ -215,7 +230,7 @@ function SearchContent() {
                 }
 
                 return (
-                  <div key={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)}`}>
+                  <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)} ${selectedClass}`}>
                     <GameCard
                       game={game}
                       userSkillLevel={userProfile?.skillLevel}

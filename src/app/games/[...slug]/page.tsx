@@ -38,6 +38,7 @@ import {
   Briefcase,
   Lock,
   ArrowLeft,
+  CalendarPlus,
 } from "lucide-react";
 
 // ---------------------------------------------------------------------------
@@ -204,13 +205,15 @@ export default function GameDetailPage() {
       ? rawSlug.split("/")
       : [];
 
-  const game = findGameBySlug(slugSegments);
+  const foundGame = findGameBySlug(slugSegments);
 
-  if (!game) {
+  if (!foundGame) {
     notFound();
   }
 
-  const { user, hasAccess, loading } = useAuth();
+  const game: Game = foundGame;
+
+  const { user, hasAccess, loading, userProfile, updateUserProfile } = useAuth();
 
   // Derived values
   const verification = getVerificationStatus(game.verified);
@@ -222,6 +225,17 @@ export default function GameDetailPage() {
   const citySlug = slugify(`${game.city}-${game.state}`);
   const canSeeDetails = user && hasAccess;
   const googleMapsUrl = buildGoogleMapsUrl(game.address);
+  const isOnCalendar = (userProfile?.savedEvents || []).includes(game.id);
+
+  function toggleCalendarEvent() {
+    if (!userProfile || !user) return;
+    const saved = userProfile.savedEvents || [];
+    if (saved.includes(game.id)) {
+      updateUserProfile({ savedEvents: saved.filter((id) => id !== game.id) });
+    } else {
+      updateUserProfile({ savedEvents: [...saved, game.id] });
+    }
+  }
   const gameStyleLabel = GAME_STYLE_LABELS[game.gameStyle] || game.gameStyle;
 
   // Set document title client-side
@@ -391,6 +405,19 @@ export default function GameDetailPage() {
                             ? "Meets once a month"
                             : `Frequency: ${game.recurringSchedule.frequency}`}
                     </p>
+                  )}
+                  {user && (
+                    <button
+                      onClick={toggleCalendarEvent}
+                      className={`inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg font-semibold text-sm transition-colors border ${
+                        isOnCalendar
+                          ? "text-hotpink-600 bg-hotpink-50 border-hotpink-200 hover:bg-hotpink-100"
+                          : "bg-skyblue-100 text-charcoal border-skyblue-200 hover:bg-skyblue-200"
+                      }`}
+                    >
+                      <CalendarPlus className="w-4 h-4" />
+                      {isOnCalendar ? "Saved to My Calendar" : "Save to My Calendar"}
+                    </button>
                   )}
                 </div>
 
