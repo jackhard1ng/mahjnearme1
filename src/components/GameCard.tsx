@@ -18,7 +18,6 @@ import {
   ExternalLink,
   Heart,
   ShieldCheck,
-  Gamepad2,
   GraduationCap,
   Trophy,
   CalendarDays,
@@ -130,11 +129,11 @@ function TileSuitArt({ suit, number }: { suit: TileSuit; number: number }) {
 
 function getGameTypeIcon(type: string) {
   switch (type) {
-    case "open_play": return <Gamepad2 className="w-3.5 h-3.5" />;
+    case "open_play": return <Users className="w-3.5 h-3.5" />;
     case "lesson": return <GraduationCap className="w-3.5 h-3.5" />;
     case "league": return <Trophy className="w-3.5 h-3.5" />;
     case "event": return <CalendarDays className="w-3.5 h-3.5" />;
-    default: return <Gamepad2 className="w-3.5 h-3.5" />;
+    default: return <Users className="w-3.5 h-3.5" />;
   }
 }
 
