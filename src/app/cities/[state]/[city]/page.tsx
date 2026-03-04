@@ -92,7 +92,11 @@ export default async function CityPage({ params }: Props) {
         {games.map((game) => {
           const tile = getCityTile(game.city);
           return (
-            <div key={game.id} className="mahj-tile p-5 relative overflow-hidden">
+            <Link
+              key={game.id}
+              href={`/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`}
+              className="mahj-tile p-5 relative overflow-hidden hover:shadow-xl transition-shadow cursor-pointer block"
+            >
               {/* Decorative blue tile in top-right corner */}
               <div className="absolute top-3 right-3 pointer-events-none select-none">
                 {tile ? (
@@ -133,13 +137,10 @@ export default async function CityPage({ params }: Props) {
                 </div>
               </div>
 
-              <Link
-                href={`/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`}
-                className="inline-flex items-center gap-1 text-sm font-semibold text-hotpink-500 hover:text-hotpink-600"
-              >
+              <span className="inline-flex items-center gap-1 text-sm font-semibold text-hotpink-500">
                 View Full Details <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+              </span>
+            </Link>
           );
         })}
       </div>
