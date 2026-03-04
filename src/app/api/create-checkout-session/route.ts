@@ -24,6 +24,7 @@ export async function POST(request: Request) {
       subscription_data: {
         trial_period_days: 14,
       },
+      allow_promotion_codes: true,
       success_url: `${baseUrl}/welcome?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/pricing`,
       metadata: {

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Check, X, ArrowRight, CreditCard, ShieldCheck, Loader2 } from "lucide-react";
+import { Check, X, ArrowRight, CreditCard, ShieldCheck, Loader2, Tag } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const freeFeatures = [
@@ -67,6 +67,7 @@ export default function PricingPage() {
   const { user, userProfile, hasAccess } = useAuth();
   const router = useRouter();
   const [checkoutLoading, setCheckoutLoading] = useState<"monthly" | "annual" | null>(null);
+  const [showPromo, setShowPromo] = useState(false);
 
   const accountType = userProfile?.accountType;
   const currentPlan = userProfile?.plan; // "monthly" | "annual" | null
@@ -384,6 +385,24 @@ export default function PricingPage() {
               <p className="text-slate-500 text-sm">
                 Credit card required to start your trial. You won&apos;t be charged until it ends. Cancel anytime — no risk, no commitment.
               </p>
+            </div>
+          )}
+
+          {/* Promo Code */}
+          {!isTrial && !isSubscriber && (
+            <div className="text-center mt-4">
+              <button
+                onClick={() => setShowPromo(!showPromo)}
+                className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-hotpink-500 transition-colors"
+              >
+                <Tag className="w-3.5 h-3.5" />
+                Have a promo code?
+              </button>
+              {showPromo && (
+                <p className="text-xs text-slate-400 mt-2 max-w-sm mx-auto">
+                  Enter your promo code on the Stripe checkout page after clicking &ldquo;Start 14-Day Free Trial&rdquo; above. The discount will be applied automatically.
+                </p>
+              )}
             </div>
           )}
         </div>
