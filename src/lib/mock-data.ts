@@ -14417,8 +14417,10 @@ export function getGamesByState(state: string): Game[] {
 }
 
 export function getCitiesWithGames(): { city: string; state: string; count: number }[] {
+  const { isEventExpired } = require("@/lib/utils");
   const map = new Map<string, { city: string; state: string; count: number }>();
   mockGames.forEach((g) => {
+    if (g.status !== "active" || isEventExpired(g)) return;
     const key = `${g.city.toLowerCase()}-${g.state.toLowerCase()}`;
     const existing = map.get(key);
     if (existing) {
@@ -14431,9 +14433,11 @@ export function getCitiesWithGames(): { city: string; state: string; count: numb
 }
 
 export function getStatesWithGames(): { state: string; stateName: string; count: number; gameCount: number; cityCount: number }[] {
+  const { isEventExpired } = require("@/lib/utils");
   const stateGames = new Map<string, number>();
   const stateCities = new Map<string, Set<string>>();
   mockGames.forEach((g) => {
+    if (g.status !== "active" || isEventExpired(g)) return;
     stateGames.set(g.state, (stateGames.get(g.state) || 0) + 1);
     if (!stateCities.has(g.state)) stateCities.set(g.state, new Set());
     stateCities.get(g.state)!.add(g.city.toLowerCase());

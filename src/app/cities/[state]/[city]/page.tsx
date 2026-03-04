@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { mockGames, getCitiesWithGames } from "@/lib/mock-data";
-import { slugify, getStateName } from "@/lib/utils";
+import { slugify, getStateName, isEventExpired } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
 import { MapPin, ChevronRight } from "lucide-react";
 import CityMap from "@/components/CityMap";
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const stateName = state.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 
   const games = mockGames.filter(
-    (g) => slugify(g.city) === city && slugify(getStateName(g.state)) === state && g.status === "active"
+    (g) => slugify(g.city) === city && slugify(getStateName(g.state)) === state && g.status === "active" && !isEventExpired(g)
   );
 
   return {
@@ -44,7 +44,7 @@ export default async function CityPage({ params }: Props) {
   const stateName = state.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 
   const games = mockGames.filter(
-    (g) => slugify(g.city) === city && slugify(getStateName(g.state)) === state && g.status === "active"
+    (g) => slugify(g.city) === city && slugify(getStateName(g.state)) === state && g.status === "active" && !isEventExpired(g)
   );
 
   // Find nearby cities (same state, different city)

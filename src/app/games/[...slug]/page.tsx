@@ -12,6 +12,7 @@ import {
   getGameTypeLabel,
   getVerificationStatus,
   getStateName,
+  buildGoogleCalendarUrl,
 } from "@/lib/utils";
 import { SKILL_LEVEL_COLORS, SKILL_LEVEL_LABELS } from "@/lib/constants";
 import { SITE_NAME, SITE_URL, GAME_STYLE_LABELS } from "@/lib/constants";
@@ -38,6 +39,7 @@ import {
   Briefcase,
   Lock,
   ArrowLeft,
+  CalendarPlus,
 } from "lucide-react";
 
 // ---------------------------------------------------------------------------
@@ -222,6 +224,7 @@ export default function GameDetailPage() {
   const citySlug = slugify(`${game.city}-${game.state}`);
   const canSeeDetails = user && hasAccess;
   const googleMapsUrl = buildGoogleMapsUrl(game.address);
+  const googleCalendarUrl = buildGoogleCalendarUrl(game);
   const gameStyleLabel = GAME_STYLE_LABELS[game.gameStyle] || game.gameStyle;
 
   // Set document title client-side
@@ -392,6 +395,15 @@ export default function GameDetailPage() {
                             : `Frequency: ${game.recurringSchedule.frequency}`}
                     </p>
                   )}
+                  <a
+                    href={googleCalendarUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 mt-4 bg-skyblue-100 text-charcoal px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-skyblue-200 transition-colors"
+                  >
+                    <CalendarPlus className="w-4 h-4" />
+                    Add to Google Calendar
+                  </a>
                 </div>
 
                 {/* Cost & Group Size */}

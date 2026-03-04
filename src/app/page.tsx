@@ -1,12 +1,12 @@
 import Link from "next/link";
 import SearchBar from "@/components/SearchBar";
 import { mockGames, getStatesWithGames, getCitiesWithGames } from "@/lib/mock-data";
-import { slugify, getStateName } from "@/lib/utils";
+import { slugify, getStateName, isEventExpired } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
 import { Search, MapPin, Sparkles, Globe, ShieldCheck, Bell, ArrowRight, Star, CreditCard } from "lucide-react";
 
 function getStats() {
-  const activeGames = mockGames.filter((g) => g.status === "active");
+  const activeGames = mockGames.filter((g) => g.status === "active" && !isEventExpired(g));
   const cities = new Set(activeGames.map((g) => g.city));
   const states = new Set(activeGames.map((g) => g.state));
   return { gameCount: activeGames.length, cityCount: cities.size, stateCount: states.size };

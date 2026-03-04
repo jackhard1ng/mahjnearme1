@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getCitiesWithGames, getStatesWithGames, mockGames } from "@/lib/mock-data";
-import { getStateName, slugify, getGameTypeLabel, getGameTypeColor } from "@/lib/utils";
+import { getStateName, slugify, getGameTypeLabel, getGameTypeColor, isEventExpired } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
 import { MapPin, ArrowRight, Users, GraduationCap, Trophy, CalendarDays } from "lucide-react";
 import type { Metadata } from "next";
@@ -24,7 +24,7 @@ function getGameTypeIcon(type: string) {
 export default function CitiesIndexPage() {
   const states = getStatesWithGames();
   const cities = getCitiesWithGames();
-  const activeGames = mockGames.filter((g) => g.status === "active");
+  const activeGames = mockGames.filter((g) => g.status === "active" && !isEventExpired(g));
 
   // Stats for the hero
   const totalGames = activeGames.length;

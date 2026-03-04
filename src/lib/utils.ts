@@ -98,3 +98,82 @@ export function formatSchedule(game: { isRecurring: boolean; recurringSchedule: 
   }
   return "Schedule TBD";
 }
+
+/**
+ * Returns true if a one-time event's date is in the past.
+ * Recurring events never expire via this check.
+ */
+export function isEventExpired(game: { isRecurring: boolean; eventDate: string | null }): boolean {
+  if (game.isRecurring) return false;
+  if (!game.eventDate) return false;
+  const [year, month, day] = game.eventDate.split("-").map(Number);
+  const eventDay = new Date(year, month - 1, day);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return eventDay < today;
+}
+
+/**
+ * Build a Google Calendar "Add Event" URL for a game.
+ */
+export function buildGoogleCalendarUrl(game: {
+  name: string;
+  isRecurring: boolean;
+  recurringSchedule: { dayOfWeek: string; startTime: string; endTime: string; frequency: string } | null;
+  eventDate: string | null;
+  eventStartTime: string | null;
+  eventEndTime: string | null;
+  venueName: string;
+  address: string;
+  description: string;
+}): string {
+  const base = "https://calendar.google.com/calendar/render?action=TEMPLATE";
+  const title = encodeURIComponent(game.name);
+  const location = encodeURIComponent(game.venueName ? `${game.venueName}, ${game.address}` : game.address);
+  const details = encodeURIComponent(game.description || "");
+
+  // For one-time events with a date
+  if (!game.isRecurring && game.eventDate) {
+    const dateClean = game.eventDate.replace(/-/g, "");
+    const startTime = game.eventStartTime ? game.eventStartTime.replace(":", "") + "00" : "";
+    const endTime = game.eventEndTime ? game.eventEndTime.replace(":", "") + "00" : "";
+
+    if (startTime && endTime) {
+      return `${base}&text=${title}&dates=${dateClean}T${startTime}/${dateClean}T${endTime}&location=${location}&details=${details}`;
+    }
+    // All-day event
+    const nextDay = new Date(Number(game.eventDate.slice(0, 4)), Number(game.eventDate.slice(5, 7)) - 1, Number(game.eventDate.slice(8, 10)) + 1);
+    const nextDayStr = nextDay.toISOString().slice(0, 10).replace(/-/g, "");
+    return `${base}&text=${title}&dates=${dateClean}/${nextDayStr}&location=${location}&details=${details}`;
+  }
+
+  // For recurring events — create next occurrence
+  if (game.isRecurring && game.recurringSchedule) {
+    const { dayOfWeek, startTime, endTime } = game.recurringSchedule;
+    const dayMap: Record<string, number> = { sunday: 0, monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6 };
+    const targetDay = dayMap[dayOfWeek.toLowerCase().split("|")[0].split(" ")[0]];
+    if (targetDay !== undefined) {
+      const now = new Date();
+      const currentDay = now.getDay();
+      let daysUntil = targetDay - currentDay;
+      if (daysUntil <= 0) daysUntil += 7;
+      const nextDate = new Date(now);
+      nextDate.setDate(now.getDate() + daysUntil);
+      const dateStr = nextDate.toISOString().slice(0, 10).replace(/-/g, "");
+
+      if (startTime && endTime && startTime.includes(":") && endTime.includes(":")) {
+        const st = startTime.replace(":", "") + "00";
+        const et = endTime.replace(":", "") + "00";
+        return `${base}&text=${title}&dates=${dateStr}T${st}/${dateStr}T${et}&location=${location}&details=${details}`;
+      }
+      // All-day
+      const nextDayDate = new Date(nextDate);
+      nextDayDate.setDate(nextDayDate.getDate() + 1);
+      const nextDayStr = nextDayDate.toISOString().slice(0, 10).replace(/-/g, "");
+      return `${base}&text=${title}&dates=${dateStr}/${nextDayStr}&location=${location}&details=${details}`;
+    }
+  }
+
+  // Fallback — just open with title and location
+  return `${base}&text=${title}&location=${location}&details=${details}`;
+}

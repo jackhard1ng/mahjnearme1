@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { mockGames } from "@/lib/mock-data";
+import { isEventExpired } from "@/lib/utils";
 import GameCard from "@/components/GameCard";
 import Link from "next/link";
 import { Plane, MapPin, Calendar, Lock, Search } from "lucide-react";
@@ -17,7 +18,7 @@ export default function TravelPlannerPage() {
   const results = useMemo(() => {
     if (!city || !searched) return [];
     let games = mockGames.filter(
-      (g) => g.status === "active" && g.city.toLowerCase().includes(city.toLowerCase())
+      (g) => g.status === "active" && !isEventExpired(g) && g.city.toLowerCase().includes(city.toLowerCase())
     );
 
     // Filter by days of the week in the date range

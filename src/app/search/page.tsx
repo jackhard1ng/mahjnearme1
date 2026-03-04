@@ -19,6 +19,7 @@ import SkeletonCard from "@/components/SkeletonCard";
 import { mockGames } from "@/lib/mock-data";
 import { useAuth } from "@/contexts/AuthContext";
 import { SearchFilters, Game } from "@/types";
+import { isEventExpired } from "@/lib/utils";
 import { ShieldCheck, SlidersHorizontal } from "lucide-react";
 import { getCityTile } from "@/lib/city-tiles";
 import Link from "next/link";
@@ -80,7 +81,7 @@ function SearchContent() {
   }
 
   const filteredGames = useMemo(() => {
-    let games = mockGames.filter((g) => g.status === "active");
+    let games = mockGames.filter((g) => g.status === "active" && !isEventExpired(g));
 
     if (query) {
       const q = query.toLowerCase();
