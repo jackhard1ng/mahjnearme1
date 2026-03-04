@@ -11,7 +11,8 @@ import {
   signInWithPopup,
   updateProfile,
 } from "firebase/auth";
-import { getFirebaseAuth } from "@/lib/firebase";
+import { getFirebaseAuth, getFirebaseDb } from "@/lib/firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { UserProfile, AccountType, SubscriptionStatus } from "@/types";
 
 interface AuthContextType {
@@ -42,7 +43,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
         setUser(firebaseUser);
         if (firebaseUser) {
-          setUserProfile({
+          // Default profile for new users
+          const defaultProfile: UserProfile = {
             id: firebaseUser.uid,
             email: firebaseUser.email || "",
             displayName: firebaseUser.displayName || "",
@@ -60,7 +62,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             favoriteGames: [],
             createdAt: new Date().toISOString(),
             lastLoginAt: new Date().toISOString(),
-          });
+          };
+
+          try {
+            const db = getFirebaseDb();
+            const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
+
+            if (userDoc.exists()) {
+              const data = userDoc.data();
+              setUserProfile({
+                ...defaultProfile,
+                ...data,
+                id: firebaseUser.uid,
+                email: firebaseUser.email || data.email || "",
+                displayName: firebaseUser.displayName || data.displayName || "",
+              } as UserProfile);
+            } else {
+              // First-time user — create their Firestore document
+              await setDoc(doc(db, "users", firebaseUser.uid), {
+                email: defaultProfile.email,
+                displayName: defaultProfile.displayName,
+                accountType: defaultProfile.accountType,
+                subscriptionStatus: defaultProfile.subscriptionStatus,
+                createdAt: defaultProfile.createdAt,
+                lastLoginAt: defaultProfile.lastLoginAt,
+              });
+              setUserProfile(defaultProfile);
+            }
+          } catch {
+            // Firestore unavailable — use defaults (works for demo/dev)
+            setUserProfile(defaultProfile);
+          }
         } else {
           setUserProfile(null);
         }
@@ -98,11 +130,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const updateUserProfile = (updates: Partial<UserProfile>) => {
     setUserProfile((prev) => prev ? { ...prev, ...updates } : prev);
+
+    // Persist to Firestore if user is signed in
+    if (user) {
+      try {
+        const db = getFirebaseDb();
+        setDoc(doc(db, "users", user.uid), { ...updates, updatedAt: new Date().toISOString() }, { merge: true });
+      } catch {
+        // Firestore unavailable — local-only update is fine
+      }
+    }
   };
 
   const hasAccess =
     userProfile?.accountType === "admin" ||
     userProfile?.accountType === "subscriber" ||
+    userProfile?.subscriptionStatus === "active" ||
+    userProfile?.subscriptionStatus === "past_due" ||
+    (userProfile?.subscriptionStatus === "trialing" &&
+      userProfile.trialEndsAt !== null &&
+      new Date(userProfile.trialEndsAt) > new Date()) ||
     (userProfile?.accountType === "trial" &&
       userProfile.trialEndsAt !== null &&
       new Date(userProfile.trialEndsAt) > new Date());

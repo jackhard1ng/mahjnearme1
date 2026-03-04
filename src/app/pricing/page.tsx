@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { Check, X, ArrowRight, CreditCard, ShieldCheck } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Check, X, ArrowRight, CreditCard, ShieldCheck, Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const freeFeatures = [
@@ -63,6 +65,8 @@ const faqs = [
 
 export default function PricingPage() {
   const { user, userProfile, hasAccess } = useAuth();
+  const router = useRouter();
+  const [checkoutLoading, setCheckoutLoading] = useState<"monthly" | "annual" | null>(null);
 
   const accountType = userProfile?.accountType;
   const currentPlan = userProfile?.plan; // "monthly" | "annual" | null
@@ -74,25 +78,66 @@ export default function PricingPage() {
     ? Math.max(0, Math.ceil((new Date(userProfile.trialEndsAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
     : 0;
 
+  const trialEndDate = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  async function handleCheckout(plan: "monthly" | "annual") {
+    if (!user) {
+      router.push(`/signup?plan=${plan}`);
+      return;
+    }
+
+    setCheckoutLoading(plan);
+    try {
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          plan,
+          firebaseUid: user.uid,
+          email: user.email,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("No checkout URL returned:", data);
+        alert("Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      console.error("Checkout error:", err);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setCheckoutLoading(null);
+    }
+  }
+
   // Determine CTA for each column
-  function getFreeCta() {
+  type CtaConfig = { label: string; href: string | null; action?: "monthly" | "annual" };
+
+  function getFreeCta(): CtaConfig {
     if (!user) return { label: "Sign Up Free", href: "/signup" };
     if (isFree) return { label: "Your Current Plan", href: null };
     return { label: "Free Plan", href: null };
   }
 
-  function getMonthlyCta() {
+  function getMonthlyCta(): CtaConfig {
     if (isSubscriber && currentPlan === "monthly") return { label: "Your Current Plan", href: null };
     if (isTrial) return { label: `Trial Active — ${trialDaysLeft} days left`, href: null };
     if (isSubscriber && currentPlan === "annual") return { label: "Switch to Monthly", href: "/account" };
-    return { label: "Start 14-Day Free Trial", href: "/signup?plan=monthly" };
+    return { label: "Start 14-Day Free Trial", href: null, action: "monthly" };
   }
 
-  function getAnnualCta() {
+  function getAnnualCta(): CtaConfig {
     if (isSubscriber && currentPlan === "annual") return { label: "Your Current Plan", href: null };
     if (isTrial) return { label: `Trial Active — ${trialDaysLeft} days left`, href: null };
     if (isSubscriber && currentPlan === "monthly") return { label: "Switch to Annual & Save", href: "/account" };
-    return { label: "Start 14-Day Free Trial", href: "/signup?plan=annual" };
+    return { label: "Start 14-Day Free Trial", href: null, action: "annual" };
   }
 
   const freeCta = getFreeCta();
@@ -223,7 +268,19 @@ export default function PricingPage() {
                   </li>
                 ))}
               </ul>
-              {monthlyCta.href ? (
+              {monthlyCta.action ? (
+                <button
+                  onClick={() => handleCheckout("monthly")}
+                  disabled={checkoutLoading !== null}
+                  className="w-full text-center bg-softpink-100 text-hotpink-500 border-2 border-hotpink-500 px-6 py-3 rounded-xl font-semibold hover:bg-softpink-200 transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
+                >
+                  {checkoutLoading === "monthly" ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" /> Redirecting to Stripe...</>
+                  ) : (
+                    monthlyCta.label
+                  )}
+                </button>
+              ) : monthlyCta.href ? (
                 <Link
                   href={monthlyCta.href}
                   className="block text-center bg-softpink-100 text-hotpink-500 border-2 border-hotpink-500 px-6 py-3 rounded-xl font-semibold hover:bg-softpink-200 transition-colors"
@@ -235,9 +292,9 @@ export default function PricingPage() {
                   {monthlyCta.label}
                 </div>
               )}
-              {monthlyCta.href && (
+              {monthlyCta.action && (
                 <p className="text-xs text-slate-400 text-center mt-3 flex items-center justify-center gap-1">
-                  <CreditCard className="w-3.5 h-3.5" /> Credit card required &middot; Cancel anytime
+                  <CreditCard className="w-3.5 h-3.5" /> You won&apos;t be charged until {trialEndDate}
                 </p>
               )}
             </div>
@@ -285,7 +342,19 @@ export default function PricingPage() {
                   </li>
                 ))}
               </ul>
-              {annualCta.href ? (
+              {annualCta.action ? (
+                <button
+                  onClick={() => handleCheckout("annual")}
+                  disabled={checkoutLoading !== null}
+                  className="w-full text-center bg-gradient-to-r from-hotpink-500 to-hotpink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-hotpink-600 hover:to-hotpink-700 transition-all shadow-sm disabled:opacity-60 flex items-center justify-center gap-2"
+                >
+                  {checkoutLoading === "annual" ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" /> Redirecting to Stripe...</>
+                  ) : (
+                    annualCta.label
+                  )}
+                </button>
+              ) : annualCta.href ? (
                 <Link
                   href={annualCta.href}
                   className="block text-center bg-gradient-to-r from-hotpink-500 to-hotpink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-hotpink-600 hover:to-hotpink-700 transition-all shadow-sm"
@@ -297,9 +366,9 @@ export default function PricingPage() {
                   {annualCta.label}
                 </div>
               )}
-              {annualCta.href && (
+              {annualCta.action && (
                 <p className="text-xs text-slate-400 text-center mt-3 flex items-center justify-center gap-1">
-                  <CreditCard className="w-3.5 h-3.5" /> Credit card required &middot; Cancel anytime
+                  <CreditCard className="w-3.5 h-3.5" /> You won&apos;t be charged until {trialEndDate}
                 </p>
               )}
             </div>

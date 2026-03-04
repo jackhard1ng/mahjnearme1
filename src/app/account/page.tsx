@@ -19,6 +19,9 @@ import {
   LogOut,
   Pencil,
   Check,
+  AlertTriangle,
+  ExternalLink,
+  Loader2,
 } from "lucide-react";
 
 const SKILL_OPTIONS = [
@@ -44,6 +47,7 @@ export default function AccountPage() {
   const [savedCity, setSavedCity] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [portalLoading, setPortalLoading] = useState(false);
   const suggestionsRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -129,6 +133,28 @@ export default function AccountPage() {
       }
     } else if (e.key === "Escape") {
       setShowSuggestions(false);
+    }
+  }
+
+  async function handleManageSubscription() {
+    if (!userProfile?.stripeCustomerId) return;
+    setPortalLoading(true);
+    try {
+      const res = await fetch("/api/create-portal-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ stripeCustomerId: userProfile.stripeCustomerId }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Could not open subscription management. Please try again.");
+      }
+    } catch {
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setPortalLoading(false);
     }
   }
 
@@ -296,6 +322,25 @@ export default function AccountPage() {
           </div>
         </div>
 
+        {/* Past Due Banner */}
+        {userProfile.subscriptionStatus === "past_due" && (
+          <div className="bg-amber-50 border border-amber-300 rounded-xl p-4 flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="font-semibold text-amber-800">Payment Failed</p>
+              <p className="text-sm text-amber-700">
+                Please update your payment method to keep your access.
+              </p>
+            </div>
+            <button
+              onClick={() => handleManageSubscription()}
+              className="bg-amber-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-amber-600 transition-colors whitespace-nowrap"
+            >
+              Update Payment
+            </button>
+          </div>
+        )}
+
         {/* Subscription Section */}
         <div className="bg-white border border-slate-200 rounded-xl p-6">
           <h3 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
@@ -303,7 +348,7 @@ export default function AccountPage() {
             Subscription
           </h3>
 
-          {userProfile.accountType === "free" && (
+          {userProfile.accountType === "free" && userProfile.subscriptionStatus !== "canceled" && (
             <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4">
               <div className="flex items-center justify-between">
                 <div>
@@ -322,21 +367,46 @@ export default function AccountPage() {
             </div>
           )}
 
-          {userProfile.accountType === "trial" && (
-            <div className="bg-softpink-100 border border-hotpink-200 rounded-lg p-4 mb-4">
+          {userProfile.accountType === "free" && userProfile.subscriptionStatus === "canceled" && (
+            <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-hotpink-600">Free Trial</p>
-                  <p className="text-sm text-hotpink-500">
-                    {trialDaysLeft > 0 ? `${trialDaysLeft} days remaining` : "Trial expired"}
+                  <p className="font-semibold text-slate-700">Subscription Canceled</p>
+                  <p className="text-sm text-slate-500">
+                    Your subscription has been canceled. Resubscribe to regain full access.
                   </p>
                 </div>
                 <Link
                   href="/pricing"
                   className="bg-hotpink-500 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
                 >
-                  Subscribe Now
+                  Resubscribe
                 </Link>
+              </div>
+            </div>
+          )}
+
+          {userProfile.accountType === "trial" && (
+            <div className="bg-softpink-100 border border-hotpink-200 rounded-lg p-4 mb-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-hotpink-600">Free Trial Active</p>
+                  <p className="text-sm text-hotpink-500">
+                    {trialDaysLeft > 0
+                      ? `${trialDaysLeft} days remaining — ends ${new Date(userProfile.trialEndsAt!).toLocaleDateString("en-US", { month: "long", day: "numeric" })}`
+                      : "Trial expired"}
+                  </p>
+                </div>
+                {userProfile.stripeCustomerId && (
+                  <button
+                    onClick={() => handleManageSubscription()}
+                    disabled={portalLoading}
+                    className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium flex items-center gap-1"
+                  >
+                    {portalLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ExternalLink className="w-3.5 h-3.5" />}
+                    Manage
+                  </button>
+                )}
               </div>
             </div>
           )}
@@ -349,18 +419,28 @@ export default function AccountPage() {
               </div>
               <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-sm text-slate-600">Status</span>
-                <span className="text-sm font-medium text-hotpink-500">Active</span>
+                <span className={`text-sm font-medium ${userProfile.subscriptionStatus === "past_due" ? "text-amber-500" : "text-green-500"}`}>
+                  {userProfile.subscriptionStatus === "past_due" ? "Past Due" : "Active"}
+                </span>
               </div>
-              <div className="flex justify-between items-center py-2">
+              <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-sm text-slate-600">Next billing date</span>
                 <span className="text-sm font-medium text-charcoal">
                   {userProfile.subscriptionEndsAt
-                    ? new Date(userProfile.subscriptionEndsAt).toLocaleDateString()
+                    ? new Date(userProfile.subscriptionEndsAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
                     : "—"}
                 </span>
               </div>
-              <button className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium mt-2">
-                Manage Subscription (Stripe Portal)
+              <button
+                onClick={() => handleManageSubscription()}
+                disabled={portalLoading}
+                className="flex items-center gap-2 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium mt-2 disabled:opacity-60"
+              >
+                {portalLoading ? (
+                  <><Loader2 className="w-4 h-4 animate-spin" /> Opening portal...</>
+                ) : (
+                  <><ExternalLink className="w-4 h-4" /> Manage Subscription</>
+                )}
               </button>
             </div>
           )}
