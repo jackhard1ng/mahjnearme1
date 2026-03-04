@@ -68,11 +68,11 @@ function SearchContent() {
       const q = query.toLowerCase();
       games = games.filter(
         (g) =>
-          g.city.toLowerCase().includes(q) ||
-          g.state.toLowerCase().includes(q) ||
-          g.name.toLowerCase().includes(q) ||
-          g.organizerName.toLowerCase().includes(q) ||
-          g.generalArea.toLowerCase().includes(q)
+          (g.city || "").toLowerCase().includes(q) ||
+          (g.state || "").toLowerCase().includes(q) ||
+          (g.name || "").toLowerCase().includes(q) ||
+          (g.organizerName || "").toLowerCase().includes(q) ||
+          (g.generalArea || "").toLowerCase().includes(q)
       );
     }
 

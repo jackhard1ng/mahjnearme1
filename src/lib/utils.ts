@@ -1,11 +1,14 @@
 export function formatTime(time24: string): string {
+  if (!time24 || !time24.includes(":")) return time24 || "";
   const [hours, minutes] = time24.split(":").map(Number);
+  if (isNaN(hours) || isNaN(minutes)) return time24;
   const period = hours >= 12 ? "PM" : "AM";
   const displayHours = hours % 12 || 12;
   return `${displayHours}:${minutes.toString().padStart(2, "0")} ${period}`;
 }
 
 export function slugify(text: string): string {
+  if (!text) return "";
   return text
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
@@ -55,10 +58,12 @@ export function getMapPinColor(type: string): string {
 }
 
 export function capitalize(str: string): string {
+  if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 export function getStateName(abbr: string): string {
+  if (!abbr) return "";
   const { US_STATES } = require("@/lib/constants");
   return US_STATES[abbr.toUpperCase()] || abbr;
 }

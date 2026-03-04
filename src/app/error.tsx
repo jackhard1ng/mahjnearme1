@@ -20,9 +20,14 @@ export default function Error({
           <span className="text-3xl">🀄</span>
         </div>
         <h2 className="text-xl font-bold text-charcoal mb-2">Something went wrong</h2>
-        <p className="text-slate-500 text-sm mb-6">
+        <p className="text-slate-500 text-sm mb-4">
           We hit a snag loading this page. Please try again.
         </p>
+        {error?.message && (
+          <p className="text-xs text-slate-400 bg-slate-50 rounded-lg px-4 py-2 mb-4 font-mono break-all">
+            {error.message}
+          </p>
+        )}
         <div className="flex gap-3 justify-center">
           <button
             onClick={reset}
