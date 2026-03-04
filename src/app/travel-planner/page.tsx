@@ -79,7 +79,7 @@ export default function TravelPlannerPage() {
               type="text"
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              placeholder="e.g., Nashville"
+              placeholder="e.g., Tulsa"
               className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm"
             />
           </div>

@@ -410,7 +410,7 @@ export default function AccountPage() {
                     value={editHomeCity}
                     onChange={(e) => setEditHomeCity(e.target.value)}
                     className="border border-hotpink-300 rounded-lg px-3 py-1.5 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-hotpink-200"
-                    placeholder="e.g. Nashville, TN"
+                    placeholder="e.g. Tulsa, OK"
                   />
                   {!editingAll && (
                     <>

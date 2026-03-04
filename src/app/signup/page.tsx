@@ -374,12 +374,12 @@ function SignupPage() {
                       type="text"
                       value={homeCity}
                       onChange={(e) => setHomeCity(e.target.value)}
-                      placeholder="e.g., Nashville, TN"
+                      placeholder="e.g., Tulsa, OK"
                       className="w-full pl-11 pr-4 py-3 border border-skyblue-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
                     />
                   </div>
                   <p className="text-xs text-slate-400 mt-2">
-                    Enter your city and state (e.g., &quot;Denver, CO&quot;)
+                    Enter your city and state (e.g., &quot;Tulsa, OK&quot;)
                   </p>
                 </div>
               </div>
@@ -405,7 +405,7 @@ function SignupPage() {
                       type="text"
                       value={travelCities}
                       onChange={(e) => setTravelCities(e.target.value)}
-                      placeholder="e.g., Miami, Denver, Phoenix"
+                      placeholder="e.g., Tulsa, Oklahoma City, Edmond"
                       className="w-full pl-11 pr-4 py-3 border border-skyblue-300 rounded-xl text-sm text-charcoal placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-hotpink-500/20 focus:border-hotpink-500 transition-colors"
                     />
                   </div>

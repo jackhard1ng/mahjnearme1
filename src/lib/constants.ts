@@ -62,21 +62,8 @@ export const DAYS_OF_WEEK = [
 ];
 
 export const FEATURED_CITIES = [
-  "New York",
-  "Nashville",
-  "Dallas",
   "Tulsa",
-  "Denver",
-  "Miami",
-  "Phoenix",
-  "Chicago",
-  "Los Angeles",
-  "Seattle",
-  "San Francisco",
-  "Austin",
-  "Atlanta",
-  "Boston",
-  "Portland",
+  "Oklahoma City",
 ];
 
 export const US_STATES: Record<string, string> = {

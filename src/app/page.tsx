@@ -177,7 +177,7 @@ export default function HomePage() {
               </div>
             </div>
             <blockquote className="text-slate-600 leading-relaxed mb-4">
-              &ldquo;My mom plays mahjong everywhere we go. On a trip to Nashville, she spent hours searching Facebook groups, Googling different spellings of &lsquo;mahjongg,&rsquo; and DMing strangers on Instagram — just to find a game. We thought, there has to be a better way. So we built one.&rdquo;
+              &ldquo;My mom plays mahjong everywhere we go. On a trip to Tulsa, she spent hours searching Facebook groups, Googling different spellings of &lsquo;mahjongg,&rsquo; and DMing strangers on Instagram — just to find a game. We thought, there has to be a better way. So we built one.&rdquo;
             </blockquote>
             <p className="font-semibold text-charcoal">
               — Jack, Founder of MahjNearMe
@@ -200,9 +200,9 @@ export default function HomePage() {
           </h2>
           <div className="grid sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[
-              { name: "Linda M.", city: "Tulsa, OK", text: "I was traveling to Denver and found 3 games within walking distance of my hotel. This is a game-changer for traveling mahj players!", rating: 5 },
-              { name: "Carol S.", city: "Nashville, TN", text: "Finally! A single place to find all the mahjong groups in my area. No more scrolling through endless Facebook posts.", rating: 5 },
-              { name: "Barbara T.", city: "Miami, FL", text: "As a snowbird, I play in Miami in winter and Boston in summer. MahjNearMe makes it easy to find games in both cities.", rating: 5 },
+              { name: "Linda M.", city: "Tulsa, OK", text: "I was looking for American Mahj games near me and found so many options I didn't even know existed. This is a game-changer!", rating: 5 },
+              { name: "Carol S.", city: "Oklahoma City, OK", text: "Finally! A single place to find all the mahjong groups in my area. No more scrolling through endless Facebook posts.", rating: 5 },
+              { name: "Barbara T.", city: "Edmond, OK", text: "I just moved to Oklahoma and had no idea there were this many mahjong groups. Found my new regular game in two minutes!", rating: 5 },
             ].map((testimonial, i) => (
               <div key={i} className="card-white p-6">
                 <div className="flex items-center gap-1 mb-3">
