@@ -4,7 +4,7 @@ import { Heart, MapPin, ShieldCheck, Users } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About MahjNearMe",
-  description: "The story behind MahjNearMe — how searching for mahjong games while traveling inspired the only directory of pickup mahjong games in the United States.",
+  description: "The story behind MahjNearMe — how struggling to find mahjong games while traveling inspired the only directory of pickup mahjong games in the United States.",
 };
 
 export default function AboutPage() {
@@ -29,31 +29,36 @@ export default function AboutPage() {
     <div className="max-w-3xl mx-auto px-4 py-12">
       <div className="prose prose-slate max-w-none">
         <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mb-10">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-hotpink-100 rounded-full flex items-center justify-center shrink-0">
-              <span className="text-2xl font-bold text-hotpink-600">J</span>
-            </div>
-            <div>
-              <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal mb-0">The Story</h2>
-              <p className="text-sm text-hotpink-500">From Jack, Founder of MahjNearMe</p>
-            </div>
+          <div className="mb-6">
+            <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal mb-1">The Story</h2>
+            <p className="text-sm text-hotpink-500">From Jack, Founder of MahjNearMe</p>
           </div>
           <div className="text-slate-600 space-y-4">
             <p>
-              We live in Tulsa, and my mom plays mahjong all the time. There have been multiple times
-              we&apos;ve been on trips and she&apos;s wanted to find a mahjong game &mdash; but it&apos;s
-              incredibly hard. She&apos;d spend hours searching Facebook groups, Googling different
-              spellings of &ldquo;mahjongg,&rdquo; and DMing strangers on Instagram &mdash; just to
-              find a game.
+              We live in Tulsa, and my mom plays mahjong all the time at home &mdash; she never has
+              trouble finding a game here. But every time we travel, it&apos;s a completely different
+              story. She&apos;ll spend hours searching Facebook groups, Googling different spellings
+              of &ldquo;mahjongg,&rdquo; and DMing strangers on Instagram &mdash; just trying to
+              find a game wherever we are.
             </p>
             <p>
-              We thought, there has to be a better way. So we built one.
+              It&apos;s happened so many times that we finally said, there has to be a better way.
+              So we built one.
             </p>
             <p>
               MahjNearMe is the first and only comprehensive directory of pickup mahjong games,
               open play sessions, lessons, and events across the United States. Whether you&apos;re
               at home or traveling, you can find a game in minutes instead of hours.
             </p>
+          </div>
+
+          {/* Family photo */}
+          <div className="mt-8 rounded-xl overflow-hidden">
+            <img
+              src="/images/heidijackhaleyswedding.jfif"
+              alt="Jack and family"
+              className="w-full h-auto object-cover rounded-xl"
+            />
           </div>
         </div>
 
