@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getCitiesWithGames, getStatesWithGames, mockGames } from "@/lib/mock-data";
 import { getStateName, slugify, getGameTypeLabel, getGameTypeColor } from "@/lib/utils";
+import { getCityTile } from "@/lib/city-tiles";
 import { MapPin, ArrowRight, Gamepad2, GraduationCap, Trophy, CalendarDays } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -44,7 +45,12 @@ export default function CitiesIndexPage() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/8f52f44ed05054e40828936a96d15b75.jpg" alt="" className="w-full h-full object-cover" />
+          <img
+            src="/images/40a8a8ed77d5469f174ff66a88f95aa5.jpg"
+            alt=""
+            className="w-full h-full object-cover"
+            style={{ transform: "rotate(90deg) scale(1.5)" }}
+          />
           <div className="absolute inset-0 bg-gradient-to-br from-[#FF1493]/85 via-[#FF69B4]/75 to-[#87CEEB]/80" />
         </div>
         <div className="max-w-5xl mx-auto px-4 pt-14 pb-10 sm:pt-20 sm:pb-14 text-center relative">
@@ -85,32 +91,45 @@ export default function CitiesIndexPage() {
                   (g) => g.city === c.city && g.state === c.state
                 );
                 const typeSet = new Set(cityGames.map((g) => g.type));
+                const tile = getCityTile(c.city);
                 return (
                   <Link
                     key={`${c.city}-${c.state}`}
                     href={`/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`}
-                    className="mahj-tile p-5 hover:shadow-xl transition-shadow group"
+                    className="mahj-tile p-5 hover:shadow-xl transition-shadow group relative overflow-hidden"
                   >
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-10 h-10 bg-hotpink-500 rounded-xl flex items-center justify-center shadow-md">
-                        <MapPin className="w-5 h-5 text-white" />
+                    {/* Background tile watermark */}
+                    {tile && (
+                      <div className="absolute -right-2 -top-2 opacity-10 pointer-events-none">
+                        <img src={tile} alt="" className="h-28 w-auto" />
                       </div>
-                      <div>
-                        <h3 className="font-bold text-charcoal group-hover:text-hotpink-500 transition-colors">
-                          {c.city}
-                        </h3>
-                        <p className="text-xs text-slate-500">{getStateName(c.state)}</p>
+                    )}
+                    <div className="relative">
+                      <div className="flex items-center gap-3 mb-3">
+                        {tile ? (
+                          <img src={tile} alt={`${c.city} tile`} className="h-12 w-auto drop-shadow-md" />
+                        ) : (
+                          <div className="w-10 h-10 bg-hotpink-500 rounded-xl flex items-center justify-center shadow-md">
+                            <MapPin className="w-5 h-5 text-white" />
+                          </div>
+                        )}
+                        <div>
+                          <h3 className="font-bold text-charcoal group-hover:text-hotpink-500 transition-colors">
+                            {c.city}
+                          </h3>
+                          <p className="text-xs text-slate-500">{getStateName(c.state)}</p>
+                        </div>
                       </div>
-                    </div>
-                    <p className="text-2xl font-extrabold text-hotpink-500 mb-1">
-                      {c.count} <span className="text-sm font-medium text-slate-500">{c.count === 1 ? "game" : "games"}</span>
-                    </p>
-                    <div className="flex flex-wrap gap-1 mt-2">
-                      {Array.from(typeSet).map((type) => (
-                        <span key={type} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getGameTypeColor(type)}`}>
-                          {getGameTypeLabel(type)}
-                        </span>
-                      ))}
+                      <p className="text-2xl font-extrabold text-hotpink-500 mb-1">
+                        {c.count} <span className="text-sm font-medium text-slate-500">{c.count === 1 ? "game" : "games"}</span>
+                      </p>
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {Array.from(typeSet).map((type) => (
+                          <span key={type} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getGameTypeColor(type)}`}>
+                            {getGameTypeLabel(type)}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </Link>
                 );
@@ -149,19 +168,26 @@ export default function CitiesIndexPage() {
             All Cities
           </h2>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-            {cities.map((c) => (
-              <Link
-                key={`${c.city}-${c.state}`}
-                href={`/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`}
-                className="flex items-center justify-between bg-white border border-slate-200 rounded-lg px-4 py-3 hover:border-hotpink-300 transition-all text-sm group"
-              >
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-3.5 h-3.5 text-hotpink-400" />
-                  <span className="font-medium text-slate-700 group-hover:text-hotpink-500 transition-colors">{c.city}, {c.state}</span>
-                </div>
-                <span className="bg-hotpink-50 text-hotpink-600 font-bold px-2 py-0.5 rounded-full text-xs">{c.count}</span>
-              </Link>
-            ))}
+            {cities.map((c) => {
+              const tile = getCityTile(c.city);
+              return (
+                <Link
+                  key={`${c.city}-${c.state}`}
+                  href={`/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`}
+                  className="flex items-center justify-between bg-white border border-slate-200 rounded-lg px-4 py-3 hover:border-hotpink-300 transition-all text-sm group"
+                >
+                  <div className="flex items-center gap-2">
+                    {tile ? (
+                      <img src={tile} alt="" className="h-6 w-auto" />
+                    ) : (
+                      <MapPin className="w-3.5 h-3.5 text-hotpink-400" />
+                    )}
+                    <span className="font-medium text-slate-700 group-hover:text-hotpink-500 transition-colors">{c.city}, {c.state}</span>
+                  </div>
+                  <span className="bg-hotpink-50 text-hotpink-600 font-bold px-2 py-0.5 rounded-full text-xs">{c.count}</span>
+                </Link>
+              );
+            })}
           </div>
         </div>
 

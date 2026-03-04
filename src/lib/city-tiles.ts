@@ -10,6 +10,9 @@ export const CITY_TILES: Record<string, string> = {
   "Palm Beach": "/tiless/PalmBeach-Tile.png",
   "Orlando": "/tiless/Orlando-Tile.png",
   "Kansas City": "/tiless/KC-Tile.png",
+  "Chicago": "/tiless/Chicago-Tile.png",
+  "New York": "/tiless/NY-Tile.png",
+  "Denver": "/tiless/Denver-Tile.png",
 };
 
 /**
