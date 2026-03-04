@@ -3,8 +3,10 @@ import { mockGames, getCitiesWithGames } from "@/lib/mock-data";
 import { slugify, getGameTypeLabel, getGameTypeColor, getStateName } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
 import { SKILL_LEVEL_LABELS } from "@/lib/constants";
-import { MapPin, Users, ArrowRight, ChevronRight } from "lucide-react";
+import { MapPin, Users, ArrowRight, ChevronRight, ShieldCheck, Lock } from "lucide-react";
 import type { Metadata } from "next";
+
+const FREE_PREVIEW_COUNT = 2;
 
 interface Props {
   params: Promise<{ state: string; city: string }>;
@@ -87,9 +89,9 @@ export default async function CityPage({ params }: Props) {
         );
       })()}
 
-      {/* Game Cards (teaser/SEO content — limited details for non-subscribers) */}
-      <div className="grid md:grid-cols-2 gap-4 mb-10">
-        {games.map((game) => {
+      {/* Game Cards — show limited previews, blur the rest */}
+      <div className="grid md:grid-cols-2 gap-4 mb-4">
+        {games.slice(0, FREE_PREVIEW_COUNT).map((game) => {
           const tile = getCityTile(game.city);
           return (
             <Link
@@ -97,7 +99,6 @@ export default async function CityPage({ params }: Props) {
               href={`/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`}
               className="mahj-tile p-5 relative overflow-hidden hover:shadow-xl transition-shadow cursor-pointer block"
             >
-              {/* Decorative blue tile in top-right corner */}
               <div className="absolute top-3 right-3 pointer-events-none select-none">
                 {tile ? (
                   <img src={tile} alt="" className="h-10 w-auto opacity-80 drop-shadow-sm" />
@@ -145,21 +146,55 @@ export default async function CityPage({ params }: Props) {
         })}
       </div>
 
-      {/* Subscribe CTA */}
-      <div className="bg-gradient-to-br from-hotpink-50 to-skyblue-50 rounded-xl border border-hotpink-200 p-8 text-center mb-10">
-        <h2 className="font-semibold text-xl text-charcoal mb-2">
-          Want full details on every game?
-        </h2>
-        <p className="text-slate-500 mb-4 text-sm">
-          Subscribe to get exact addresses, contact info, schedules, and directions.
-        </p>
-        <Link
-          href="/pricing"
-          className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
-        >
-          View Plans
-        </Link>
-      </div>
+      {/* Blurred locked cards + Subscribe CTA */}
+      {games.length > FREE_PREVIEW_COUNT && (
+        <div className="relative mb-10">
+          {/* Blurred preview of remaining games */}
+          <div className="grid md:grid-cols-2 gap-4 select-none pointer-events-none" aria-hidden="true">
+            {games.slice(FREE_PREVIEW_COUNT, FREE_PREVIEW_COUNT + 4).map((game) => (
+              <div key={game.id} className="mahj-tile p-5 relative overflow-hidden blur-[6px] opacity-60">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${getGameTypeColor(game.type)}`}>
+                    {getGameTypeLabel(game.type)}
+                  </span>
+                </div>
+                <div className="h-5 bg-slate-200 rounded w-3/4 mb-2" />
+                <div className="space-y-1.5 mb-3">
+                  <div className="h-4 bg-slate-100 rounded w-2/3" />
+                  <div className="h-4 bg-slate-100 rounded w-1/2" />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Overlay CTA */}
+          <div className="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-sm rounded-xl">
+            <div className="text-center px-6 max-w-md">
+              <ShieldCheck className="w-12 h-12 text-hotpink-500 mx-auto mb-3" />
+              <h3 className="font-semibold text-xl text-charcoal mb-2">
+                {games.length - FREE_PREVIEW_COUNT} more game{games.length - FREE_PREVIEW_COUNT !== 1 ? "s" : ""} in {cityName}
+              </h3>
+              <p className="text-slate-500 text-sm mb-4">
+                Subscribe to unlock all games with full details, contact info, schedules, and directions.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link
+                  href="/pricing"
+                  className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
+                >
+                  View Plans
+                </Link>
+                <Link
+                  href="/signup"
+                  className="inline-block bg-skyblue-100 text-charcoal px-8 py-3 rounded-xl font-semibold hover:bg-skyblue-200 transition-colors"
+                >
+                  Sign Up Free
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* City FAQ (for SEO) */}
       <div className="mb-10">
