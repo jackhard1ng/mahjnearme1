@@ -22,6 +22,7 @@ import {
   GraduationCap,
   Trophy,
   CalendarDays,
+  CalendarPlus,
 } from "lucide-react";
 
 interface GameCardProps {
@@ -122,6 +123,44 @@ function TileSuitArt({ suit, number }: { suit: TileSuit; number: number }) {
       <text x="50" y="78" textAnchor="middle" fontSize="20" fill="#8B0000" opacity="0.15" fontWeight="bold">萬</text>
     </svg>
   );
+}
+
+function buildCalendarUrl(game: Game): string {
+  const title = encodeURIComponent(game.name);
+  const location = encodeURIComponent(`${game.venueName ? game.venueName + ", " : ""}${game.address || game.generalArea}, ${game.city}, ${game.state}`);
+  const details = encodeURIComponent(
+    `${game.description}\n\nOrganizer: ${game.organizerName}${game.contactEmail ? "\nEmail: " + game.contactEmail : ""}${game.website ? "\nWebsite: " + game.website : ""}`
+  );
+
+  if (game.isRecurring && game.recurringSchedule) {
+    // For recurring games, create an event for the next occurrence
+    const dayMap: Record<string, number> = {
+      sunday: 0, monday: 1, tuesday: 2, wednesday: 3,
+      thursday: 4, friday: 5, saturday: 6,
+    };
+    const targetDay = dayMap[game.recurringSchedule.dayOfWeek.toLowerCase()] ?? 0;
+    const now = new Date();
+    const today = now.getDay();
+    const daysUntil = (targetDay - today + 7) % 7 || 7;
+    const nextDate = new Date(now);
+    nextDate.setDate(now.getDate() + daysUntil);
+
+    const dateStr = nextDate.toISOString().slice(0, 10).replace(/-/g, "");
+    const startTime = game.recurringSchedule.startTime.replace(":", "") + "00";
+    const endTime = game.recurringSchedule.endTime.replace(":", "") + "00";
+
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dateStr}T${startTime}/${dateStr}T${endTime}&location=${location}&details=${details}`;
+  }
+
+  if (game.eventDate) {
+    const dateStr = game.eventDate.replace(/-/g, "");
+    const startTime = game.eventStartTime ? game.eventStartTime.replace(":", "") + "00" : "120000";
+    const endTime = game.eventEndTime ? game.eventEndTime.replace(":", "") + "00" : "140000";
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dateStr}T${startTime}/${dateStr}T${endTime}&location=${location}&details=${details}`;
+  }
+
+  // Fallback: no date, just open with title + details
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&location=${location}&details=${details}`;
 }
 
 function getGameTypeIcon(type: string) {
@@ -294,6 +333,15 @@ export default function GameCard({
                       <ExternalLink className="w-3 h-3" /> Register
                     </a>
                   )}
+                  <a
+                    href={buildCalendarUrl(game)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-1 text-xs text-skyblue-600 hover:text-skyblue-700 bg-skyblue-50 px-2 py-1 rounded-full font-medium transition-colors border border-skyblue-200"
+                  >
+                    <CalendarPlus className="w-3 h-3" /> Add to Calendar
+                  </a>
                 </div>
               )}
             </>

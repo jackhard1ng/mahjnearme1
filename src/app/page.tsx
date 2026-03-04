@@ -67,12 +67,12 @@ export default function HomePage() {
                   className="inline-flex items-center px-6 text-charcoal hover:text-hotpink-500 transition-colors text-sm font-medium shrink-0 group"
                 >
                   {tile ? (
-                    <span className="inline-block mr-3" style={{ perspective: "200px" }}>
+                    <span className="inline-flex items-center justify-center w-10 h-10 mr-3 shrink-0" style={{ perspective: "200px" }}>
                       <img
                         src={tile}
                         alt={`${c.city} tile`}
-                        className="h-10 w-auto animate-tile-rotate drop-shadow-md group-hover:pause"
-                        style={{ animationDelay: `${(i % 9) * 0.45}s` }}
+                        className="max-h-10 max-w-10 w-auto h-auto animate-tile-rotate drop-shadow-md group-hover:pause object-contain"
+                        style={{ animationDelay: `${(i % 12) * 0.35}s` }}
                       />
                     </span>
                   ) : (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
+import { useState, useMemo, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import SearchBar from "@/components/SearchBar";
 import SearchFiltersBar from "@/components/SearchFilters";
@@ -18,6 +18,7 @@ function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const { user, hasAccess, userProfile } = useAuth();
+  const prefsApplied = useRef(false);
 
   const [filters, setFilters] = useState<SearchFilters>({
     daysOfWeek: [],
@@ -28,6 +29,25 @@ function SearchContent() {
     dateFrom: null,
     dateTo: null,
   });
+
+  // Auto-set filters from user profile preferences (once on load)
+  useEffect(() => {
+    if (prefsApplied.current || !userProfile) return;
+    const newFilters = { ...filters };
+    let changed = false;
+    if (userProfile.gameStylePreference && userProfile.gameStylePreference !== "any") {
+      newFilters.gameStyle = userProfile.gameStylePreference;
+      changed = true;
+    }
+    if (userProfile.skillLevel) {
+      newFilters.skillLevel = userProfile.skillLevel;
+      changed = true;
+    }
+    if (changed) {
+      setFilters(newFilters);
+    }
+    prefsApplied.current = true;
+  }, [userProfile]);
 
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
 

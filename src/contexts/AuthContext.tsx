@@ -54,6 +54,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             trialEndsAt: null,
             subscriptionEndsAt: null,
             plan: null,
+            photoURL: firebaseUser.photoURL || null,
+            avatarColor: null,
             skillLevel: null,
             gameStylePreference: null,
             homeCity: "",
