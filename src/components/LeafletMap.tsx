@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Game } from "@/types";
-import { getMapPinColor, getGameTypeLabel } from "@/lib/utils";
+import { getMapPinColor, getGameTypeLabel, slugify } from "@/lib/utils";
 
 // We import Leaflet types only — actual library loaded dynamically
 import type L from "leaflet";
@@ -123,17 +123,22 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
       if (!icon) return;
 
       const marker = L.marker([game.geopoint.lat, game.geopoint.lng], { icon })
-        .on("click", () => onPinClick?.(game.id));
+        .on("click", () => {
+          marker.openPopup();
+          onPinClick?.(game.id);
+        });
 
       // Popup — gate details for non-subscribers
       const typeLabel = getGameTypeLabel(game.type);
       const canSeePopup = hasAccess || index < previewCount;
 
+      const gameUrl = `/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`;
       const popupContent = canSeePopup
         ? `<div style="font-family: system-ui, sans-serif; min-width: 180px;">
             <strong style="font-size: 14px; color: #1a1a2e;">${game.name}</strong><br/>
             <span style="color: #64748b; font-size: 12px;">${typeLabel}</span><br/>
-            <span style="color: #64748b; font-size: 12px;">${game.venueName || game.address}</span>
+            <span style="color: #64748b; font-size: 12px;">${game.venueName || game.address}</span><br/>
+            <a href="${gameUrl}" style="color: #FF1493; font-size: 12px; font-weight: 600; text-decoration: none; margin-top: 4px; display: inline-block;">View Details →</a>
           </div>`
         : `<div style="font-family: system-ui, sans-serif; min-width: 180px;">
             <strong style="font-size: 14px; color: #1a1a2e;">${typeLabel}</strong><br/>
@@ -156,14 +161,9 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
     }
   }, [geoGames.length, selectedGameId, ready, hasGeoGames]);
 
-  // Pan to selected game
-  useEffect(() => {
-    if (!ready || !mapRef.current || !selectedGameId) return;
-    const game = geoGames.find((g) => g.id === selectedGameId);
-    if (game) {
-      mapRef.current.setView([game.geopoint.lat, game.geopoint.lng], 13, { animate: true });
-    }
-  }, [selectedGameId, ready]);
+  // When a game is selected externally (not via pin click), pan to it
+  // But don't force re-center on pin click — popup opens immediately
+
 
   return (
     <div className="rounded-xl border-2 border-softpink-300 h-full min-h-[300px] relative overflow-hidden bg-skyblue-50">

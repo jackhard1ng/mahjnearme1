@@ -60,6 +60,15 @@ function SearchContent() {
 
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
 
+  // Scroll to the selected game card when a map pin is clicked
+  useEffect(() => {
+    if (!selectedGameId) return;
+    const el = document.querySelector(`[data-game-id="${selectedGameId}"]`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [selectedGameId]);
+
   function toggleCalendarEvent(gameId: string) {
     if (!userProfile || !user) return;
     const saved = userProfile.savedEvents || [];
@@ -188,10 +197,13 @@ function SearchContent() {
           ) : (
             <>
               {filteredGames.map((game, index) => {
+                const isSelected = selectedGameId === game.id;
+                const selectedClass = isSelected ? "ring-2 ring-hotpink-500 rounded-2xl" : "";
+
                 // Show first card as a preview for users without access
                 if (!hasAccess && index === 0) {
                   return (
-                    <div key={game.id} className={`animate-fade-in-up stagger-${index + 1}`}>
+                    <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${index + 1} ${selectedClass}`}>
                       <GameCard
                         game={game}
                         isTeaser={true}
@@ -205,7 +217,7 @@ function SearchContent() {
                 // Blur all other cards for users without access
                 if (!hasAccess && index >= 1) {
                   return (
-                    <div key={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)}`}>
+                    <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)} ${selectedClass}`}>
                       <GameCard
                         game={game}
                         blurred={true}
@@ -217,7 +229,7 @@ function SearchContent() {
                 }
 
                 return (
-                  <div key={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)}`}>
+                  <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)} ${selectedClass}`}>
                     <GameCard
                       game={game}
                       userSkillLevel={userProfile?.skillLevel}
