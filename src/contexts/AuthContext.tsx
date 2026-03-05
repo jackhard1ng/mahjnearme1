@@ -13,7 +13,7 @@ import {
 } from "firebase/auth";
 import { getFirebaseAuth, getFirebaseDb } from "@/lib/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { UserProfile, AccountType, SubscriptionStatus } from "@/types";
+import { UserProfile, AccountType, SubscriptionStatus, ContributorStatus } from "@/types";
 
 interface AuthContextType {
   user: User | null;
@@ -26,6 +26,7 @@ interface AuthContextType {
   updateUserProfile: (updates: Partial<UserProfile>) => void;
   hasAccess: boolean;
   isAdmin: boolean;
+  isContributor: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -54,8 +55,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             trialEndsAt: null,
             subscriptionEndsAt: null,
             plan: null,
+            isContributor: false,
+            contributorCity: null,
+            contributorAppliedAt: null,
+            contributorStatus: null,
             photoURL: firebaseUser.photoURL || null,
             avatarColor: null,
+            bio: null,
             skillLevel: null,
             gameStylePreference: "american",
             homeCity: "",
@@ -148,6 +154,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const hasAccess =
     userProfile?.accountType === "admin" ||
     userProfile?.accountType === "subscriber" ||
+    userProfile?.accountType === "contributor" ||
     userProfile?.subscriptionStatus === "active" ||
     userProfile?.subscriptionStatus === "past_due" ||
     (userProfile?.subscriptionStatus === "trialing" &&
@@ -158,6 +165,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       new Date(userProfile.trialEndsAt) > new Date());
 
   const isAdmin = userProfile?.accountType === "admin";
+  const isContributor = userProfile?.isContributor === true || userProfile?.accountType === "contributor";
 
   return (
     <AuthContext.Provider
@@ -172,6 +180,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         updateUserProfile,
         hasAccess,
         isAdmin,
+        isContributor,
       }}
     >
       {children}

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Check, X, ArrowRight, CreditCard, ShieldCheck, Loader2, Tag } from "lucide-react";
+import { Check, X, ArrowRight, CreditCard, ShieldCheck, Loader2, Tag, Heart } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const freeFeatures = [
@@ -409,6 +409,33 @@ export default function PricingPage() {
           )}
         </div>
       </section>
+
+      {/* Contributor Option */}
+      {!isTrial && !isSubscriber && (
+        <section className="pb-0 sm:pb-0 section-warm">
+          <div className="max-w-5xl mx-auto px-4">
+            <div className="bg-skyblue-50 border border-skyblue-200 rounded-xl p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6">
+              <div className="w-14 h-14 bg-skyblue-100 rounded-full flex items-center justify-center shrink-0">
+                <Heart className="w-7 h-7 text-skyblue-500" />
+              </div>
+              <div className="flex-1 text-center sm:text-left">
+                <h3 className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-1">
+                  Apply as a Community Contributor
+                </h3>
+                <p className="text-sm text-slate-500">
+                  Get free full access in exchange for keeping your city&apos;s listings current. ~30 min/month, no technical skills needed.
+                </p>
+              </div>
+              <Link
+                href="/contribute"
+                className="inline-flex items-center gap-2 bg-skyblue-400 text-white px-6 py-3 rounded-xl font-semibold hover:bg-skyblue-500 transition-colors whitespace-nowrap shrink-0"
+              >
+                Learn More <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* FAQ Section */}
       <section className="py-12 sm:py-16 section-mint">

@@ -2,7 +2,7 @@ export type GameType = "open_play" | "lesson" | "league" | "event" | "private";
 export type GameStyle = "american" | "chinese" | "riichi" | "other";
 export type SkillLevel = "beginner" | "intermediate" | "advanced";
 export type Frequency = "weekly" | "biweekly" | "monthly" | "first_tuesday" | "first_wednesday" | "first_thursday" | "last_friday";
-export type AccountType = "free" | "trial" | "subscriber" | "admin";
+export type AccountType = "free" | "trial" | "subscriber" | "contributor" | "admin";
 export type SubscriptionStatus = "trialing" | "active" | "past_due" | "canceled" | "none";
 export type ListingStatus = "active" | "pending" | "claimed" | "inactive";
 export type ListingSource = "manual" | "csv_import" | "organizer_submitted";
@@ -82,9 +82,16 @@ export interface UserProfile {
   subscriptionEndsAt: string | null;
   plan: "monthly" | "annual" | null;
 
+  // Contributor
+  isContributor: boolean;
+  contributorCity: string | null;
+  contributorAppliedAt: string | null;
+  contributorStatus: ContributorStatus | null;
+
   // Player Profile
   photoURL: string | null;
   avatarColor: string | null;
+  bio: string | null;
   skillLevel: SkillLevel | null;
   gameStylePreference: GameStyle | "any" | null;
 
@@ -119,6 +126,54 @@ export interface Product {
   price: string;
   description: string;
   featured: boolean;
+}
+
+export type ContributorStatus = "pending" | "approved" | "rejected";
+
+export interface ContributorApplication {
+  id: string;
+  userId: string;
+  name: string;
+  email: string;
+  city: string;
+  connections: string[];
+  story: string;
+  status: ContributorStatus;
+  appliedAt: string;
+  reviewedAt: string | null;
+}
+
+export interface ForumPost {
+  id: string;
+  citySlug: string | null;
+  authorId: string;
+  authorName: string;
+  authorPhotoURL: string | null;
+  authorIsContributor: boolean;
+  title: string;
+  body: string;
+  linkedGameId: string | null;
+  upvotes: number;
+  upvotedBy: string[];
+  flagCount: number;
+  flaggedBy: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ForumReply {
+  id: string;
+  postId: string;
+  authorId: string;
+  authorName: string;
+  authorPhotoURL: string | null;
+  authorIsContributor: boolean;
+  body: string;
+  upvotes: number;
+  upvotedBy: string[];
+  flagCount: number;
+  flaggedBy: string[];
+  createdAt: string;
 }
 
 export interface SearchFilters {

@@ -22,6 +22,9 @@ import {
   AlertTriangle,
   ExternalLink,
   Loader2,
+  Shield,
+  Camera,
+  MessageSquare,
 } from "lucide-react";
 
 const AVATAR_COLORS = [
@@ -58,7 +61,7 @@ const STYLE_OPTIONS = [
 const allCities = getCitiesWithGames().map((c) => `${c.city}, ${getStateName(c.state)}`);
 
 export default function AccountPage() {
-  const { user, userProfile, hasAccess, signOut, loading, updateUserProfile } = useAuth();
+  const { user, userProfile, hasAccess, signOut, loading, updateUserProfile, isContributor } = useAuth();
   const router = useRouter();
   const [savedCity, setSavedCity] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -75,6 +78,8 @@ export default function AccountPage() {
   const [editSkillLevel, setEditSkillLevel] = useState("");
   const [editGameStyle, setEditGameStyle] = useState("");
   const [editHomeCity, setEditHomeCity] = useState("");
+  const [photoUploading, setPhotoUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -116,6 +121,25 @@ export default function AccountPage() {
   function cancelEditAll() {
     setEditingAll(false);
     setEditing(null);
+  }
+
+  function handlePhotoSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Convert to base64 data URL for storage (in production, use Firebase Storage or similar)
+    setPhotoUploading(true);
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      updateUserProfile({ photoURL: dataUrl, avatarColor: null });
+      setPhotoUploading(false);
+      setEditingAvatar(false);
+    };
+    reader.onerror = () => {
+      setPhotoUploading(false);
+    };
+    reader.readAsDataURL(file);
   }
 
   function startEdit(field: string) {
@@ -238,10 +262,16 @@ export default function AccountPage() {
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-hotpink-100 text-hotpink-600">
                     {userProfile.accountType === "trial" ? "Free Trial" :
                      userProfile.accountType === "subscriber" ? "Subscriber" :
+                     userProfile.accountType === "contributor" ? "Contributor" :
                      userProfile.accountType === "admin" ? "Admin" :
                      "Free"}
                   </span>
-                  {hasAccess && userProfile.accountType === "subscriber" && (
+                  {isContributor && (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-skyblue-100 text-skyblue-600">
+                      <Shield className="w-3 h-3" /> Community Contributor
+                    </span>
+                  )}
+                  {hasAccess && userProfile.accountType === "subscriber" && !isContributor && (
                     <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-skyblue-100 text-skyblue-600">
                       <Crown className="w-3 h-3" /> Verified Player
                     </span>
@@ -274,10 +304,31 @@ export default function AccountPage() {
             )}
           </div>
 
-          {/* Avatar Color Picker */}
+          {/* Avatar Color Picker + Photo Upload */}
           {editingAvatar && (
             <div className="mb-4 p-4 bg-slate-50 border border-slate-200 rounded-lg">
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Choose Avatar Color</p>
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Upload a Photo</p>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoSelect}
+                  className="hidden"
+                />
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={photoUploading}
+                  className="flex items-center gap-2 bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors disabled:opacity-50"
+                >
+                  {photoUploading ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" /> Uploading...</>
+                  ) : (
+                    <><Camera className="w-4 h-4" /> Choose Photo</>
+                  )}
+                </button>
+              </div>
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Or Choose Avatar Color</p>
               <div className="flex flex-wrap gap-2">
                 {AVATAR_COLORS.map((color) => (
                   <button
@@ -429,6 +480,40 @@ export default function AccountPage() {
             </div>
           </div>
         </div>
+
+        {/* Contributor Application Banner */}
+        {userProfile.contributorStatus === "pending" && (
+          <div className="bg-skyblue-50 border border-skyblue-200 rounded-xl p-4 flex items-start gap-3">
+            <Shield className="w-5 h-5 text-skyblue-500 shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="font-semibold text-skyblue-700">Your contributor application is under review</p>
+              <p className="text-sm text-skyblue-600">
+                Enjoy full access while you wait. We&apos;ll review your application soon.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Contributor Badge */}
+        {isContributor && (
+          <div className="bg-skyblue-50 border border-skyblue-200 rounded-xl p-4 flex items-center justify-between">
+            <div className="flex items-start gap-3">
+              <Shield className="w-5 h-5 text-skyblue-500 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-semibold text-skyblue-700">Community Contributor</p>
+                <p className="text-sm text-skyblue-600">
+                  You&apos;re helping keep {userProfile.contributorCity || "your city"}&apos;s listings accurate.
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/community"
+              className="flex items-center gap-1.5 text-sm text-skyblue-600 font-medium hover:text-skyblue-700"
+            >
+              <MessageSquare className="w-4 h-4" /> Forum
+            </Link>
+          </div>
+        )}
 
         {/* Past Due Banner */}
         {userProfile.subscriptionStatus === "past_due" && (
