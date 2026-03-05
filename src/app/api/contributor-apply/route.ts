@@ -131,19 +131,12 @@ export async function POST(request: NextRequest) {
       reviewedAt: null,
     });
 
-    // Grant 14-day trial and mark as applied
-    // This is a one-time trial — users cannot get another trial by re-applying
-    const trialEndsAt = new Date(
-      Date.now() + 14 * 24 * 60 * 60 * 1000
-    ).toISOString();
-
+    // Mark as applied — no trial granted. User stays on free tier until approved.
     await db
       .collection("users")
       .doc(userId)
       .set(
         {
-          accountType: "trial",
-          trialEndsAt,
           contributorAppliedAt: now,
           contributorStatus: "pending",
           contributorCity: city,
@@ -159,10 +152,9 @@ export async function POST(request: NextRequest) {
     console.log(`Metro Region: ${metroName || "Unknown"} (${metroRegion || "none"})`);
     console.log(`Connections: ${connections.join(", ")}`);
     console.log(`Story: ${story}`);
-    console.log(`Trial granted until: ${trialEndsAt}`);
     console.log(`===================================`);
 
-    return NextResponse.json({ success: true, trialEndsAt, metroRegion, metroName });
+    return NextResponse.json({ success: true, metroRegion, metroName });
   } catch (err) {
     console.error("Contributor application error:", err);
     return NextResponse.json(
@@ -173,8 +165,8 @@ export async function POST(request: NextRequest) {
 }
 
 // PATCH: Approve or reject a contributor application (admin action)
-// When approved: set accountType to "contributor" (full paid plan, permanently free)
-// When rejected: leave trial as-is (expires naturally, no re-trial possible)
+// When approved: set accountType to "contributor" (full paid access, permanently free)
+// When rejected: user stays on free tier (cannot re-apply)
 export async function PATCH(request: NextRequest) {
   try {
     const db = getAdminDb();
@@ -238,8 +230,7 @@ export async function PATCH(request: NextRequest) {
         { merge: true }
       );
     } else {
-      // Rejected: keep existing trial (it will expire naturally)
-      // They cannot re-apply, so no repeat trial abuse
+      // Rejected: user stays on free tier
       await db.collection("users").doc(appData.userId).set(
         {
           contributorStatus: "rejected",

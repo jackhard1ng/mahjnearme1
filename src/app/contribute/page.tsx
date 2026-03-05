@@ -202,11 +202,11 @@ export default function ContributePage() {
               </div>
               <div>
                 <h3 className="font-semibold text-charcoal text-lg">
-                  Get instant access
+                  We review your application
                 </h3>
                 <p className="text-slate-500">
-                  You&apos;ll get a 14-day free trial immediately while we
-                  review your application. No credit card needed.
+                  We&apos;ll review your application within 72 hours.
+                  If approved, you&apos;ll receive full access and your referral code.
                 </p>
               </div>
             </div>
@@ -291,16 +291,14 @@ export default function ContributePage() {
                   : "Application Under Review"}
               </h3>
               <p className="text-slate-500 mb-4">
-                {isPendingReview
-                  ? "Your contributor application is being reviewed. Enjoy full access while you wait!"
-                  : submitted
-                    ? "You've been granted a 14-day free trial while we review your application. No credit card needed!"
-                    : "We've already received your application. We'll be in touch soon."}
+                {isPendingReview || submitted
+                  ? "We'll review your application within 72 hours. If approved, you'll receive full access and your referral code by email."
+                  : "We've already received your application. We'll be in touch soon."}
               </p>
               {(isPendingReview || submitted) && (
                 <div className="bg-skyblue-50 border border-skyblue-200 rounded-lg p-4 text-sm text-skyblue-600">
-                  Your contributor application is under review. Enjoy full
-                  access while you wait.
+                  Your contributor application is under review. You can
+                  continue using the free tier while you wait.
                 </div>
               )}
             </div>
@@ -433,8 +431,8 @@ export default function ContributePage() {
                 </button>
 
                 <p className="text-xs text-slate-400 text-center">
-                  You&apos;ll get instant 14-day full access while we review
-                  your application.
+                  We&apos;ll review your application within 72 hours. If
+                  approved, you&apos;ll receive full access and your referral code.
                 </p>
               </form>
             </div>

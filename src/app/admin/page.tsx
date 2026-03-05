@@ -76,6 +76,9 @@ export default function AdminDashboardPage() {
   const [referralData, setReferralData] = useState<ReferralData | null>(null);
   const [giveawayData, setGiveawayData] = useState<GiveawayData | null>(null);
   const [drawing, setDrawing] = useState(false);
+  const [sendingAnnouncement, setSendingAnnouncement] = useState(false);
+  const [announcePrizeName, setAnnouncePrizeName] = useState("");
+  const [announcePrizeValue, setAnnouncePrizeValue] = useState("");
   const [reactivating, setReactivating] = useState<string | null>(null);
 
   useEffect(() => {
@@ -136,6 +139,34 @@ export default function AdminDashboardPage() {
       alert("Something went wrong");
     } finally {
       setDrawing(false);
+    }
+  }
+
+  async function handleSendAnnouncement() {
+    if (!announcePrizeName || !announcePrizeValue) {
+      alert("Please enter both prize name and value.");
+      return;
+    }
+    if (!confirm(`Send giveaway announcement to all active contributors?\n\nPrize: ${announcePrizeValue} ${announcePrizeName}`)) return;
+    setSendingAnnouncement(true);
+    try {
+      const res = await fetch("/api/giveaway/announce", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prizeName: announcePrizeName, prizeValue: announcePrizeValue }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert(`Announcement sent to ${data.sent} contributor(s): ${data.recipients.join(", ")}`);
+        setAnnouncePrizeName("");
+        setAnnouncePrizeValue("");
+      } else {
+        alert(data.error || "Failed to send announcements");
+      }
+    } catch {
+      alert("Something went wrong");
+    } finally {
+      setSendingAnnouncement(false);
     }
   }
 
@@ -589,6 +620,50 @@ export default function AdminDashboardPage() {
                 </button>
                 <p className="text-xs text-slate-400 mt-2">
                   This action cannot be undone or modified after the fact. The draw is logged with a timestamp.
+                </p>
+              </div>
+
+              {/* Send Contributor Announcement */}
+              <div className="bg-white border border-slate-200 rounded-xl p-6">
+                <h3 className="font-semibold text-charcoal mb-2">Send Contributor Announcement</h3>
+                <p className="text-sm text-slate-500 mb-4">
+                  Notify all active contributors about this month&apos;s giveaway with a ready-to-post caption and their referral code.
+                </p>
+                <div className="grid sm:grid-cols-2 gap-3 mb-4">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1">Prize Name</label>
+                    <input
+                      type="text"
+                      value={announcePrizeName}
+                      onChange={(e) => setAnnouncePrizeName(e.target.value)}
+                      placeholder="e.g. American Mah Jongg Set"
+                      className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1">Prize Value</label>
+                    <input
+                      type="text"
+                      value={announcePrizeValue}
+                      onChange={(e) => setAnnouncePrizeValue(e.target.value)}
+                      placeholder="e.g. $350"
+                      className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
+                    />
+                  </div>
+                </div>
+                <button
+                  onClick={handleSendAnnouncement}
+                  disabled={sendingAnnouncement || !announcePrizeName || !announcePrizeValue}
+                  className="flex items-center gap-2 bg-skyblue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-skyblue-600 transition-colors disabled:opacity-50"
+                >
+                  {sendingAnnouncement ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" /> Sending...</>
+                  ) : (
+                    <><Users className="w-4 h-4" /> Send Contributor Announcement</>
+                  )}
+                </button>
+                <p className="text-xs text-slate-400 mt-2">
+                  Each contributor receives a personalized email with their referral code pre-filled in the caption.
                 </p>
               </div>
 

@@ -5,6 +5,7 @@ import { Game } from "@/types";
 import { getGameTypeColor, getGameTypeLabel, getVerificationStatus, formatSchedule, slugify } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
 import { SKILL_LEVEL_LABELS } from "@/lib/constants";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   MapPin,
   Clock,
@@ -23,6 +24,7 @@ import {
   CalendarDays,
   CalendarPlus,
   AlertCircle,
+  Lock,
 } from "lucide-react";
 
 interface GameCardProps {
@@ -147,6 +149,7 @@ export default function GameCard({
   onCalendarToggle,
   isOnCalendar = false,
 }: GameCardProps) {
+  const { hasAccess } = useAuth();
   const verification = getVerificationStatus(game.verified);
   const typeColor = getGameTypeColor(game.type);
   const typeLabel = getGameTypeLabel(game.type);
@@ -156,6 +159,7 @@ export default function GameCard({
   const suit = getTileSuit(game.id);
   const tileNumber = getTileNumber(game.id);
   const cityTile = getCityTile(game.city);
+  const canSeeContactInfo = hasAccess;
 
   const cardContent = (
     <>
@@ -267,7 +271,7 @@ export default function GameCard({
               )}
 
               {/* Contact Links */}
-              {!isTeaser && (
+              {!isTeaser && canSeeContactInfo && (
                 <div className="flex flex-wrap gap-1.5 mb-2" onClick={(e) => e.stopPropagation()}>
                   {game.contactEmail && (
                     <a href={`mailto:${game.contactEmail}`} onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
@@ -313,6 +317,18 @@ export default function GameCard({
                   )}
                 </div>
               )}
+
+              {/* Contact info paywall — inline, non-disruptive */}
+              {!isTeaser && !canSeeContactInfo && !blurred && (
+                <Link
+                  href="/pricing"
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 mb-2 hover:border-hotpink-300 hover:text-hotpink-600 transition-colors"
+                >
+                  <Lock className="w-3 h-3 shrink-0" />
+                  <span>Get the details — <span className="font-medium text-hotpink-500">upgrade to join this game</span></span>
+                </Link>
+              )}
             </>
           )}
         </div>
@@ -356,10 +372,17 @@ export default function GameCard({
                   </span>
                 )}
               </div>
-              <div className="flex items-center gap-1">
-                <CheckCircle className={`w-3.5 h-3.5 ${game.verified ? "text-hotpink-500" : "text-slate-300"}`} />
-                <span className={`text-[11px] font-medium ${game.verified ? "text-hotpink-600" : "text-slate-400"}`}>{verification.label}</span>
-              </div>
+              {canSeeContactInfo ? (
+                <div className="flex items-center gap-1">
+                  <CheckCircle className={`w-3.5 h-3.5 ${game.verified ? "text-hotpink-500" : "text-slate-300"}`} />
+                  <span className={`text-[11px] font-medium ${game.verified ? "text-hotpink-600" : "text-slate-400"}`}>{verification.label}</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1 text-slate-300">
+                  <Lock className="w-3 h-3" />
+                  <span className="text-[11px]">Verified?</span>
+                </div>
+              )}
             </>
           )}
         </div>
