@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getCitiesWithGames, getStatesWithGames, mockGames } from "@/lib/mock-data";
 import { getStateName, slugify, getGameTypeLabel, getGameTypeColor, isEventExpired } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
+import { getMetrosWithGames, getMetroCitiesSubtitle } from "@/lib/metro-regions";
 import { MapPin, ArrowRight, Users, GraduationCap, Trophy, CalendarDays } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -160,6 +161,46 @@ export default function CitiesIndexPage() {
             ))}
           </div>
         </div>
+
+        {/* Browse by Metro Region */}
+        {(() => {
+          const metros = getMetrosWithGames(cities);
+          return metros.length > 0 ? (
+            <div className="mb-12">
+              <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-6">
+                Browse by Metro Region
+              </h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {metros.slice(0, 12).map((m) => {
+                  // Link to the first (largest) city in this metro
+                  const primaryCity = m.activeCities[0];
+                  const cityData = cities.find((c) => c.city === primaryCity);
+                  const stateSlug = cityData ? slugify(getStateName(cityData.state)) : slugify(getStateName(m.metro.state));
+                  const citySlug = slugify(primaryCity);
+                  return (
+                    <Link
+                      key={m.metro.abbreviation}
+                      href={`/cities/${stateSlug}/${citySlug}`}
+                      className="bg-white border border-slate-200 rounded-xl p-5 hover:border-hotpink-300 hover:shadow-sm transition-all group"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-bold text-charcoal group-hover:text-hotpink-500 transition-colors">
+                          {m.metro.metro}
+                        </h3>
+                        <span className="bg-hotpink-50 text-hotpink-600 font-bold px-2.5 py-0.5 rounded-full text-xs">
+                          {m.totalGames} {m.totalGames === 1 ? "game" : "games"}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-500 line-clamp-1">
+                        {getMetroCitiesSubtitle(m.metro)}
+                      </p>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ) : null;
+        })()}
 
         {/* All Cities */}
         <div className="mb-12">

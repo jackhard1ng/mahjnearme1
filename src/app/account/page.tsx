@@ -502,7 +502,7 @@ export default function AccountPage() {
               <div>
                 <p className="font-semibold text-skyblue-700">Community Contributor</p>
                 <p className="text-sm text-skyblue-600">
-                  You&apos;re helping keep {userProfile.contributorCity || "your city"}&apos;s listings accurate.
+                  You&apos;re helping keep the {userProfile.contributorMetro || userProfile.contributorCity || "your area"} listings accurate.
                 </p>
               </div>
             </div>

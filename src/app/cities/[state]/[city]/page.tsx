@@ -2,7 +2,8 @@ import Link from "next/link";
 import { mockGames, getCitiesWithGames } from "@/lib/mock-data";
 import { slugify, getStateName, isEventExpired } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
-import { MapPin, ChevronRight, MessageSquare } from "lucide-react";
+import { findMetroForCity, getMetroCitiesSubtitle } from "@/lib/metro-regions";
+import { MapPin, ChevronRight, MessageSquare, Info } from "lucide-react";
 import CityMap from "@/components/CityMap";
 import CityGamesList from "@/components/CityGamesList";
 import CityContributor from "@/components/CityContributor";
@@ -44,15 +45,48 @@ export default async function CityPage({ params }: Props) {
   const cityName = city.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
   const stateName = state.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 
-  const games = mockGames.filter(
+  // Resolve metro region
+  const metro = findMetroForCity(cityName);
+
+  // Get games for this city — if part of a metro, also include games from other metro cities
+  const cityGames = mockGames.filter(
     (g) => slugify(g.city) === city && slugify(getStateName(g.state)) === state && g.status === "active" && !isEventExpired(g)
   );
 
-  // Find nearby cities (same state, different city)
+  // If metro exists, also get games from other cities in the metro
+  const metroCitySlugs = metro
+    ? metro.cities.map((c) => slugify(c))
+    : [];
+  const metroGames = metro
+    ? mockGames.filter(
+        (g) =>
+          metroCitySlugs.includes(slugify(g.city)) &&
+          slugify(g.city) !== city &&
+          g.status === "active" &&
+          !isEventExpired(g)
+      )
+    : [];
+
+  // Show city-specific games first, then other metro games
+  const games = [...cityGames, ...metroGames];
+
+  // Find nearby cities (same state, different city, not in same metro)
   const allCities = getCitiesWithGames();
   const nearbyCities = allCities.filter(
-    (c) => slugify(c.city) !== city && slugify(getStateName(c.state)) === state
+    (c) =>
+      slugify(c.city) !== city &&
+      slugify(getStateName(c.state)) === state &&
+      (!metro || !metro.cities.some((mc) => slugify(mc) === slugify(c.city)))
   );
+
+  // Cities within the same metro (for display)
+  const metroCities = metro
+    ? allCities.filter(
+        (c) =>
+          slugify(c.city) !== city &&
+          metro.cities.some((mc) => slugify(mc) === slugify(c.city))
+      )
+    : [];
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -71,7 +105,7 @@ export default async function CityPage({ params }: Props) {
       {(() => {
         const cityTile = getCityTile(cityName);
         return (
-          <div className="mb-8">
+          <div className="mb-4">
             <div className="flex items-center gap-4">
               {cityTile && (
                 <img src={cityTile} alt={`${cityName} mahjong tile`} className="h-20 sm:h-24 w-auto drop-shadow-lg" />
@@ -81,13 +115,25 @@ export default async function CityPage({ params }: Props) {
                   Mahjong Games in {cityName}, {stateName}
                 </h1>
                 <p className="text-slate-500 text-lg">
-                  {games.length} mahjong {games.length === 1 ? "game" : "games"} found in {cityName}. Drop-in friendly groups, all skill levels.
+                  {games.length} mahjong {games.length === 1 ? "game" : "games"} found{metro ? ` in the ${metro.metro} area` : ` in ${cityName}`}. Drop-in friendly groups, all skill levels.
                 </p>
               </div>
             </div>
           </div>
         );
       })()}
+
+      {/* Metro Context Note */}
+      {metro && metro.cities[0] !== cityName && (
+        <div className="flex items-start gap-3 mb-6 bg-skyblue-50 border border-skyblue-200 rounded-lg px-4 py-3">
+          <Info className="w-4 h-4 text-skyblue-500 shrink-0 mt-0.5" />
+          <p className="text-sm text-skyblue-700">
+            {cityName} is part of the <strong>{metro.metro}</strong> area.
+            Showing all {games.length} games within the region including{" "}
+            {getMetroCitiesSubtitle(metro)}.
+          </p>
+        </div>
+      )}
 
       {/* Contributor Attribution */}
       <CityContributor cityName={cityName} />
@@ -149,7 +195,29 @@ export default async function CityPage({ params }: Props) {
         </Link>
       </div>
 
-      {/* Nearby Cities */}
+      {/* Metro Region Cities */}
+      {metroCities.length > 0 && (
+        <div className="mb-8">
+          <h2 className="font-semibold text-xl text-charcoal mb-4">
+            More in the {metro!.metro} Area
+          </h2>
+          <div className="flex flex-wrap gap-3">
+            {metroCities.map((c) => (
+              <Link
+                key={`${c.city}-${c.state}`}
+                href={`/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`}
+                className="inline-flex items-center gap-2 bg-skyblue-50 border border-skyblue-200 rounded-lg px-4 py-2 hover:border-hotpink-300 transition-all text-sm"
+              >
+                <MapPin className="w-4 h-4 text-skyblue-500" />
+                {c.city}, {c.state}
+                <span className="text-skyblue-500 font-semibold">{c.count}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Nearby Cities (outside metro) */}
       {nearbyCities.length > 0 && (
         <div>
           <h2 className="font-semibold text-xl text-charcoal mb-4">

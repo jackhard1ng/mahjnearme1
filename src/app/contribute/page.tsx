@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useMemo, FormEvent } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
+import { findMetroForCity } from "@/lib/metro-regions";
 import {
   CheckCircle,
   Send,
@@ -13,6 +14,7 @@ import {
   Heart,
   ArrowRight,
   Loader2,
+  Info,
 } from "lucide-react";
 
 const CONNECTION_OPTIONS = [
@@ -38,6 +40,13 @@ export default function ContributePage() {
   const hasAlreadyApplied = userProfile?.contributorAppliedAt !== null && userProfile?.contributorAppliedAt !== undefined;
   const isPendingReview = userProfile?.contributorStatus === "pending";
   const isApproved = isContributor;
+
+  const resolvedMetro = useMemo(() => {
+    if (!form.city) return null;
+    // Try to find metro from the city name (strip state suffix if present)
+    const cityPart = form.city.split(",")[0].trim();
+    return findMetroForCity(cityPart);
+  }, [form.city]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -91,7 +100,7 @@ export default function ContributePage() {
             <span className="text-skyblue-200">Contributor</span>
           </h1>
           <p className="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto">
-            Help keep your city&apos;s mahjong listings accurate and get free
+            Help keep your metro area&apos;s mahjong listings accurate and get free
             full access to MahjNearMe in return.
           </p>
         </div>
@@ -105,7 +114,7 @@ export default function ContributePage() {
           </h2>
           <p className="text-center text-slate-500 mb-10 max-w-2xl mx-auto">
             Contributors are real mahjong players &mdash; not staff &mdash; who
-            know the local scene and help keep their city&apos;s listings
+            know the local scene and help keep their metro region&apos;s listings
             up-to-date. Think of it as being the go-to person for mahjong info
             in your area.
           </p>
@@ -120,7 +129,7 @@ export default function ContributePage() {
               </h3>
               <p className="text-sm text-slate-500">
                 You play at multiple venues and know the mahjong scene in your
-                city.
+                metro area.
               </p>
             </div>
 
@@ -132,8 +141,8 @@ export default function ContributePage() {
                 Verified Listings
               </h3>
               <p className="text-sm text-slate-500">
-                Your name appears on your city&apos;s page as the person who
-                keeps listings accurate.
+                Your name appears on every city page in your metro as the
+                person who keeps listings accurate.
               </p>
             </div>
 
@@ -210,9 +219,9 @@ export default function ContributePage() {
                   Start contributing
                 </h3>
                 <p className="text-slate-500">
-                  Once approved, you get permanent free access. Your name
-                  appears on your city&apos;s page and you become a moderator in
-                  the community forum.
+                  Once approved, you&apos;re on the full paid plan for free &mdash; permanently.
+                  Your name appears on every city page in your metro and you
+                  become a moderator in your metro&apos;s community forum.
                 </p>
               </div>
             </div>
@@ -260,9 +269,9 @@ export default function ContributePage() {
                 You&apos;re a Contributor!
               </h3>
               <p className="text-slate-500 mb-6">
-                Thank you for helping keep{" "}
-                {userProfile?.contributorCity || "your city"}&apos;s listings
-                accurate. You have permanent free access.
+                Thank you for helping keep the{" "}
+                {userProfile?.contributorMetro || userProfile?.contributorCity || "your metro"} area&apos;s listings
+                accurate. You have permanent free full access.
               </p>
               <Link
                 href="/community"
@@ -345,11 +354,18 @@ export default function ContributePage() {
                     className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm"
                     placeholder="e.g., Tulsa, OK"
                   />
+                  {resolvedMetro && (
+                    <div className="flex items-center gap-2 mt-2 text-xs text-skyblue-600 bg-skyblue-50 rounded-lg px-3 py-2">
+                      <Info className="w-3.5 h-3.5 shrink-0" />
+                      You&apos;ll be contributing for the <strong>{resolvedMetro.metro}</strong> metro region
+                      ({resolvedMetro.cities.slice(0, 4).join(", ")}{resolvedMetro.cities.length > 4 ? ", and more" : ""})
+                    </div>
+                  )}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">
-                    How are you connected to mahjong in your city? *
+                    How are you connected to mahjong in your area? *
                   </label>
                   <div className="space-y-2">
                     {CONNECTION_OPTIONS.map(({ value, label }) => (
@@ -377,7 +393,7 @@ export default function ContributePage() {
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">
                     Tell us about your mahjong life in{" "}
-                    {form.city || "your city"} *
+                    {resolvedMetro ? `the ${resolvedMetro.metro} area` : form.city || "your area"} *
                   </label>
                   <p className="text-xs text-slate-400 mb-2">
                     Where do you play? How did you find your games? What&apos;s

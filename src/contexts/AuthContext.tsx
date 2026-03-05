@@ -57,6 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             plan: null,
             isContributor: false,
             contributorCity: null,
+            contributorMetro: null,
             contributorAppliedAt: null,
             contributorStatus: null,
             photoURL: firebaseUser.photoURL || null,

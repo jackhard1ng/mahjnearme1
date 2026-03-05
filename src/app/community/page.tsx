@@ -4,7 +4,7 @@ import { useState, useEffect, FormEvent } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { getCitiesWithGames } from "@/lib/mock-data";
-import { slugify, getStateName } from "@/lib/utils";
+import { getMetrosWithGames, getMetroCitiesSubtitle, findMetroByAbbreviation } from "@/lib/metro-regions";
 import {
   MessageSquare,
   MapPin,
@@ -23,11 +23,12 @@ import {
 import type { ForumPost } from "@/types";
 
 const allCities = getCitiesWithGames();
+const metrosWithGames = getMetrosWithGames(allCities);
 
 export default function CommunityPage() {
   const { user, userProfile, isContributor } = useAuth();
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
-  const [citySearch, setCitySearch] = useState("");
+  const [selectedMetro, setSelectedMetro] = useState<string | null>(null);
+  const [metroSearch, setMetroSearch] = useState("");
   const [posts, setPosts] = useState<ForumPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [showNewPost, setShowNewPost] = useState(false);
@@ -35,24 +36,31 @@ export default function CommunityPage() {
   const [newPostBody, setNewPostBody] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  const filteredCities = citySearch
-    ? allCities.filter(
-        (c) =>
-          c.city.toLowerCase().includes(citySearch.toLowerCase()) ||
-          getStateName(c.state).toLowerCase().includes(citySearch.toLowerCase())
+  const filteredMetros = metroSearch
+    ? metrosWithGames.filter(
+        (m) =>
+          m.metro.metro.toLowerCase().includes(metroSearch.toLowerCase()) ||
+          m.metro.state.toLowerCase().includes(metroSearch.toLowerCase()) ||
+          m.metro.cities.some((c) =>
+            c.toLowerCase().includes(metroSearch.toLowerCase())
+          )
       )
-    : allCities;
+    : metrosWithGames;
+
+  const selectedMetroData = selectedMetro
+    ? findMetroByAbbreviation(selectedMetro)
+    : null;
 
   useEffect(() => {
     loadPosts();
-  }, [selectedCity]);
+  }, [selectedMetro]);
 
   async function loadPosts() {
     setLoading(true);
     try {
-      const citySlug = selectedCity || "";
+      const metro = selectedMetro || "";
       const res = await fetch(
-        `/api/forum?city=${encodeURIComponent(citySlug)}`
+        `/api/forum?metro=${encodeURIComponent(metro)}`
       );
       if (res.ok) {
         const data = await res.json();
@@ -77,7 +85,7 @@ export default function CommunityPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          citySlug: selectedCity || null,
+          metroSlug: selectedMetro || null,
           authorId: user.uid,
           authorName: userProfile?.displayName || "Anonymous",
           authorPhotoURL: userProfile?.photoURL || null,
@@ -161,57 +169,58 @@ export default function CommunityPage() {
 
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-[280px_1fr] gap-8">
-          {/* Sidebar: City Boards */}
+          {/* Sidebar: Metro Boards */}
           <aside>
             <div className="bg-white border border-slate-200 rounded-xl p-4 sticky top-20">
               <h2 className="font-semibold text-charcoal mb-3 flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-hotpink-500" />
-                City Boards
+                Metro Boards
               </h2>
 
               <div className="relative mb-3">
                 <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  value={citySearch}
-                  onChange={(e) => setCitySearch(e.target.value)}
-                  placeholder="Search cities..."
+                  value={metroSearch}
+                  onChange={(e) => setMetroSearch(e.target.value)}
+                  placeholder="Search metros or cities..."
                   className="w-full pl-9 pr-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-hotpink-200"
                 />
               </div>
 
               <div className="space-y-0.5 max-h-96 overflow-y-auto">
                 <button
-                  onClick={() => setSelectedCity(null)}
+                  onClick={() => setSelectedMetro(null)}
                   className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                    selectedCity === null
+                    selectedMetro === null
                       ? "bg-hotpink-50 text-hotpink-600 font-medium"
                       : "text-slate-600 hover:bg-slate-50"
                   }`}
                 >
                   General Discussion
                 </button>
-                {filteredCities.map((c) => {
-                  const slug = `${slugify(c.city)}-${c.state.toLowerCase()}`;
-                  return (
-                    <button
-                      key={slug}
-                      onClick={() => setSelectedCity(slug)}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors flex items-center justify-between ${
-                        selectedCity === slug
-                          ? "bg-hotpink-50 text-hotpink-600 font-medium"
-                          : "text-slate-600 hover:bg-slate-50"
-                      }`}
-                    >
-                      <span>
-                        {c.city}, {c.state}
-                      </span>
+                {filteredMetros.map((m) => (
+                  <button
+                    key={m.metro.abbreviation}
+                    onClick={() => setSelectedMetro(m.metro.abbreviation)}
+                    className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors ${
+                      selectedMetro === m.metro.abbreviation
+                        ? "bg-hotpink-50 text-hotpink-600 font-medium"
+                        : "text-slate-600 hover:bg-slate-50"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span>{m.metro.metro}</span>
                       <span className="text-xs text-slate-400">
-                        {c.count}
+                        {m.totalGames}
                       </span>
-                    </button>
-                  );
-                })}
+                    </div>
+                    <p className="text-xs text-slate-400 mt-0.5 line-clamp-1">
+                      {m.activeCities.slice(0, 3).join(", ")}
+                      {m.activeCities.length > 3 && " ..."}
+                    </p>
+                  </button>
+                ))}
               </div>
             </div>
           </aside>
@@ -219,24 +228,22 @@ export default function CommunityPage() {
           {/* Main Content */}
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal">
-                {selectedCity
-                  ? (() => {
-                      const parts = selectedCity.split("-");
-                      const stateAbbr = parts.pop()!;
-                      const cityName = parts
-                        .map(
-                          (w) => w.charAt(0).toUpperCase() + w.slice(1)
-                        )
-                        .join(" ");
-                      return `${cityName}, ${stateAbbr.toUpperCase()}`;
-                    })()
-                  : "General Discussion"}
-              </h2>
+              <div>
+                <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal">
+                  {selectedMetroData
+                    ? selectedMetroData.metro
+                    : "General Discussion"}
+                </h2>
+                {selectedMetroData && (
+                  <p className="text-sm text-slate-500 mt-1">
+                    {getMetroCitiesSubtitle(selectedMetroData)}
+                  </p>
+                )}
+              </div>
               {user ? (
                 <button
                   onClick={() => setShowNewPost(!showNewPost)}
-                  className="flex items-center gap-2 bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
+                  className="flex items-center gap-2 bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors shrink-0"
                 >
                   {showNewPost ? (
                     <>
@@ -251,7 +258,7 @@ export default function CommunityPage() {
               ) : (
                 <Link
                   href="/login"
-                  className="flex items-center gap-2 bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
+                  className="flex items-center gap-2 bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors shrink-0"
                 >
                   Log in to post
                 </Link>
@@ -322,7 +329,7 @@ export default function CommunityPage() {
                 </h3>
                 <p className="text-slate-500 text-sm mb-4">
                   Be the first to start a conversation
-                  {selectedCity ? " about this city" : ""}!
+                  {selectedMetroData ? ` about the ${selectedMetroData.metro} area` : ""}!
                 </p>
                 {!user && (
                   <Link
@@ -439,11 +446,11 @@ export default function CommunityPage() {
         <div className="mt-12 bg-skyblue-50 border border-skyblue-200 rounded-xl p-6 text-center">
           <Users className="w-8 h-8 text-skyblue-500 mx-auto mb-3" />
           <h3 className="font-semibold text-charcoal mb-2">
-            Want to help moderate your city&apos;s forum?
+            Want to help moderate your metro&apos;s forum?
           </h3>
           <p className="text-sm text-slate-500 mb-4">
             Community contributors are automatically moderators for their
-            city&apos;s board.
+            metro region&apos;s board.
           </p>
           <Link
             href="/contribute"

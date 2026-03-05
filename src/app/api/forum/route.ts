@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 
-// GET: List posts (by city or all) or get single post with replies
+// GET: List posts (by metro or general) or get single post with replies
 export async function GET(request: NextRequest) {
   try {
     const db = getAdminDb();
     const { searchParams } = new URL(request.url);
     const postId = searchParams.get("postId");
-    const city = searchParams.get("city");
+    const metro = searchParams.get("metro");
 
     if (postId) {
       // Get single post with replies
@@ -33,22 +33,19 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // List posts for a city (or general)
-    let query = db
-      .collection("forumPosts")
-      .orderBy("createdAt", "desc")
-      .limit(50);
+    // List posts for a metro region (or general discussion)
+    let query;
 
-    if (city) {
+    if (metro) {
       query = db
         .collection("forumPosts")
-        .where("citySlug", "==", city)
+        .where("metroSlug", "==", metro)
         .orderBy("createdAt", "desc")
         .limit(50);
     } else {
       query = db
         .collection("forumPosts")
-        .where("citySlug", "==", null)
+        .where("metroSlug", "==", null)
         .orderBy("createdAt", "desc")
         .limit(50);
     }
@@ -69,7 +66,7 @@ export async function POST(request: NextRequest) {
     const db = getAdminDb();
     const body = await request.json();
     const {
-      citySlug,
+      metroSlug,
       authorId,
       authorName,
       authorPhotoURL,
@@ -88,7 +85,7 @@ export async function POST(request: NextRequest) {
 
     const now = new Date().toISOString();
     const postData = {
-      citySlug: citySlug || null,
+      metroSlug: metroSlug || null,
       authorId,
       authorName: authorName || "Anonymous",
       authorPhotoURL: authorPhotoURL || null,

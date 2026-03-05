@@ -3,22 +3,27 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Shield, Heart } from "lucide-react";
+import { findMetroForCity } from "@/lib/metro-regions";
 
 interface ContributorInfo {
   name: string;
   photoURL: string | null;
+  metroName: string | null;
 }
 
 export default function CityContributor({ cityName }: { cityName: string }) {
   const [contributor, setContributor] = useState<ContributorInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const metro = findMetroForCity(cityName);
+
   useEffect(() => {
     async function fetchContributor() {
       try {
-        const res = await fetch(
-          `/api/contributor-apply?city=${encodeURIComponent(cityName)}`
-        );
+        const params = metro
+          ? `metro=${encodeURIComponent(metro.abbreviation)}`
+          : `city=${encodeURIComponent(cityName)}`;
+        const res = await fetch(`/api/contributor-apply?${params}`);
         if (res.ok) {
           const data = await res.json();
           if (data.contributor) {
@@ -32,9 +37,11 @@ export default function CityContributor({ cityName }: { cityName: string }) {
       }
     }
     fetchContributor();
-  }, [cityName]);
+  }, [cityName, metro]);
 
   if (loading) return null;
+
+  const metroLabel = metro ? metro.metro : null;
 
   if (contributor) {
     return (
@@ -51,7 +58,7 @@ export default function CityContributor({ cityName }: { cityName: string }) {
           </div>
         )}
         <p className="text-sm text-skyblue-700">
-          Listings verified by{" "}
+          {metroLabel ? `${metroLabel} — ` : ""}Listings verified by{" "}
           <span className="font-semibold">{contributor.name}</span>
         </p>
       </div>
@@ -62,7 +69,7 @@ export default function CityContributor({ cityName }: { cityName: string }) {
     <div className="flex items-center gap-2 mb-6">
       <Heart className="w-4 h-4 text-slate-400" />
       <p className="text-sm text-slate-500">
-        Want to help keep {cityName} current?{" "}
+        Want to help keep {metroLabel || cityName} current?{" "}
         <Link
           href="/contribute"
           className="text-hotpink-500 font-medium hover:text-hotpink-600"

@@ -28,6 +28,7 @@ export interface Game {
   venueName: string;
   address: string;
   geopoint: { lat: number; lng: number };
+  metroRegion: string | null;
 
   // Schedule
   isRecurring: boolean;
@@ -85,6 +86,7 @@ export interface UserProfile {
   // Contributor
   isContributor: boolean;
   contributorCity: string | null;
+  contributorMetro: string | null;
   contributorAppliedAt: string | null;
   contributorStatus: ContributorStatus | null;
 
@@ -136,6 +138,7 @@ export interface ContributorApplication {
   name: string;
   email: string;
   city: string;
+  metroRegion: string | null;
   connections: string[];
   story: string;
   status: ContributorStatus;
@@ -145,7 +148,7 @@ export interface ContributorApplication {
 
 export interface ForumPost {
   id: string;
-  citySlug: string | null;
+  metroSlug: string | null;
   authorId: string;
   authorName: string;
   authorPhotoURL: string | null;
