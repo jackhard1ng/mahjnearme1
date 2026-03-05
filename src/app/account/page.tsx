@@ -6,6 +6,9 @@ import { useEffect, useState, useRef, useMemo } from "react";
 import Link from "next/link";
 import { getCitiesWithGames } from "@/lib/mock-data";
 import { getStateName } from "@/lib/utils";
+import METRO_REGIONS, { findMetroByAbbreviation } from "@/lib/metro-regions";
+import { HOME_METRO_CHANGE_COOLDOWN_DAYS } from "@/lib/constants";
+import ReferralDashboard from "@/components/ReferralDashboard";
 import {
   User,
   MapPin,
@@ -25,6 +28,7 @@ import {
   Shield,
   Camera,
   MessageSquare,
+  Star,
 } from "lucide-react";
 
 const AVATAR_COLORS = [
@@ -127,7 +131,8 @@ export default function AccountPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Convert to base64 data URL for storage (in production, use Firebase Storage or similar)
+    // TODO: Move to CDN before production (e.g., Firebase Storage, Cloudflare R2, or S3)
+    // Convert to base64 data URL for storage
     setPhotoUploading(true);
     const reader = new FileReader();
     reader.onload = () => {
@@ -271,7 +276,12 @@ export default function AccountPage() {
                       <Shield className="w-3 h-3" /> Community Contributor
                     </span>
                   )}
-                  {hasAccess && userProfile.accountType === "subscriber" && !isContributor && (
+                  {userProfile.isGrandfathered && (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-700">
+                      <Star className="w-3 h-3" /> Founding Member
+                    </span>
+                  )}
+                  {hasAccess && userProfile.accountType === "subscriber" && !isContributor && !userProfile.isGrandfathered && (
                     <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-skyblue-100 text-skyblue-600">
                       <Crown className="w-3 h-3" /> Verified Player
                     </span>
@@ -478,6 +488,53 @@ export default function AccountPage() {
                 <p className="text-charcoal font-medium">{userProfile.homeCity || "Not set"}</p>
               )}
             </div>
+
+            {/* Home Metro */}
+            <div>
+              <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Home Metro (Free Tier Access)</label>
+              {(() => {
+                const currentMetro = userProfile.homeMetro ? findMetroByAbbreviation(userProfile.homeMetro) : null;
+                const canChange = !userProfile.homeMetroSelectedAt ||
+                  (Date.now() - new Date(userProfile.homeMetroSelectedAt).getTime()) > HOME_METRO_CHANGE_COOLDOWN_DAYS * 24 * 60 * 60 * 1000;
+                const daysUntilChange = userProfile.homeMetroSelectedAt
+                  ? Math.max(0, Math.ceil((HOME_METRO_CHANGE_COOLDOWN_DAYS * 24 * 60 * 60 * 1000 - (Date.now() - new Date(userProfile.homeMetroSelectedAt).getTime())) / (1000 * 60 * 60 * 24)))
+                  : 0;
+
+                if (currentMetro && !canChange) {
+                  return (
+                    <div>
+                      <p className="text-charcoal font-medium">{currentMetro.metro}, {currentMetro.state}</p>
+                      <p className="text-xs text-slate-400 mt-0.5">Can change in {daysUntilChange} days</p>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div>
+                    {currentMetro && <p className="text-charcoal font-medium mb-1">{currentMetro.metro}, {currentMetro.state}</p>}
+                    <select
+                      value={userProfile.homeMetro || ""}
+                      onChange={(e) => {
+                        if (e.target.value) {
+                          updateUserProfile({
+                            homeMetro: e.target.value,
+                            homeMetroSelectedAt: new Date().toISOString(),
+                          });
+                        }
+                      }}
+                      className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm w-full focus:outline-none focus:ring-2 focus:ring-hotpink-200 bg-white"
+                    >
+                      <option value="">Select your home metro...</option>
+                      {METRO_REGIONS.map((m) => (
+                        <option key={m.abbreviation} value={m.abbreviation}>
+                          {m.metro}, {m.state}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                );
+              })()}
+            </div>
           </div>
         </div>
 
@@ -514,6 +571,9 @@ export default function AccountPage() {
             </Link>
           </div>
         )}
+
+        {/* Referral Dashboard (Contributors only) */}
+        <ReferralDashboard />
 
         {/* Past Due Banner */}
         {userProfile.subscriptionStatus === "past_due" && (

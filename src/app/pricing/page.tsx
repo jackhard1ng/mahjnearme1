@@ -1,42 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Check, X, ArrowRight, CreditCard, ShieldCheck, Loader2, Tag, Heart } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { GIVEAWAY_COPY, MONTHLY_PRICE, ANNUAL_PRICE } from "@/lib/constants";
+import { formatCurrency } from "@/lib/currency";
 
 const freeFeatures = [
-  { text: "Browse cities & states", included: true },
+  { text: "Full access to one metro of your choice", included: true },
+  { text: "Browse all cities & states", included: true },
   { text: "See game types (open play, lessons, etc.)", included: true },
-  { text: "Preview one game per search", included: true },
-  { text: "Game names, locations & schedules", included: false },
-  { text: "Full game details (contact, description, etc.)", included: false },
-  { text: "Interactive map with directions", included: false },
-  { text: "Travel Planner (search by date range)", included: false },
-  { text: "Save favorite games & cities", included: false },
-  { text: "Alerts for new games in your cities", included: false },
-  { text: "Add games to your calendar", included: false },
+  { text: "Read forum posts in your home metro", included: true },
+  { text: "Full game details in other metros", included: false },
+  { text: "Post & reply in forums", included: false },
+  { text: "Event alerts & new listing notifications", included: false },
+  { text: "Monthly mahjong set giveaway entry", included: false },
+  { text: "Contributor program eligibility", included: false },
 ];
 
 const subscriberFeatures = [
-  { text: "Browse cities & states", included: true },
-  { text: "See game names & locations", included: true },
-  { text: "View game types & schedules", included: true },
-  { text: "Full game details (contact, description, etc.)", included: true },
+  { text: "All 70+ metros — full access everywhere", included: true },
+  { text: "Full game details, contact info & schedules", included: true },
   { text: "Interactive map with directions", included: true },
-  { text: "Travel Planner (search by date range)", included: true },
+  { text: "Post & reply in all forum boards", included: true },
+  { text: "Event alerts & new listing notifications", included: true },
   { text: "Save favorite games & cities", included: true },
-  { text: "Alerts for new games in your cities", included: true },
   { text: "Add games to your calendar", included: true },
-  { text: "Leave reviews & ratings", included: true },
+  { text: "Automatic monthly giveaway entry", included: true },
+  { text: "Contributor program eligibility", included: true },
 ];
 
 const faqs = [
   {
     question: "What do I get with a free account?",
     answer:
-      "With a free account you can browse all cities and see game types. You'll get a preview of one game per search. To see game names, locations, schedules, contact info, and the interactive map, you'll need a subscription.",
+      "With a free account you get full access to one metro area of your choice — all listings, all details. You can browse other metros and see that games exist, but details are locked. You can also read forum posts in your home metro. Upgrade to unlock all 70+ metros, forum posting, giveaway entries, and more.",
   },
   {
     question: "Is there a free trial?",
@@ -68,8 +68,36 @@ const faqs = [
 export default function PricingPage() {
   const { user, userProfile, hasAccess } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [checkoutLoading, setCheckoutLoading] = useState<"monthly" | "annual" | null>(null);
   const [showPromo, setShowPromo] = useState(false);
+  const [referralCode, setReferralCode] = useState("");
+  const [referralValid, setReferralValid] = useState<boolean | null>(null);
+  const [referralName, setReferralName] = useState("");
+
+  // Check for referral code in URL
+  useEffect(() => {
+    const ref = searchParams.get("ref");
+    if (ref) {
+      setReferralCode(ref);
+      validateReferral(ref);
+    }
+  }, [searchParams]);
+
+  async function validateReferral(code: string) {
+    try {
+      const res = await fetch("/api/referrals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      });
+      const data = await res.json();
+      setReferralValid(data.valid);
+      if (data.valid) setReferralName(data.contributorName);
+    } catch {
+      setReferralValid(false);
+    }
+  }
 
   const accountType = userProfile?.accountType;
   const currentPlan = userProfile?.plan; // "monthly" | "annual" | null
@@ -102,6 +130,7 @@ export default function PricingPage() {
           plan,
           firebaseUid: user.uid,
           email: user.email,
+          ...(referralValid && referralCode ? { referralCode } : {}),
         }),
       });
 
@@ -259,7 +288,7 @@ export default function PricingPage() {
               </div>
               <div className="mb-6">
                 <span className="font-[family-name:var(--font-heading)] font-extrabold text-5xl text-charcoal">
-                  $4.99
+                  {formatCurrency(MONTHLY_PRICE)}
                 </span>
                 <span className="text-slate-500 ml-1">/month</span>
               </div>
@@ -330,11 +359,11 @@ export default function PricingPage() {
               </div>
               <div className="mb-6">
                 <span className="font-[family-name:var(--font-heading)] font-extrabold text-5xl text-charcoal">
-                  $39.99
+                  {formatCurrency(ANNUAL_PRICE)}
                 </span>
                 <span className="text-slate-500 ml-1">/year</span>
                 <p className="text-sm text-hotpink-500 font-medium mt-1">
-                  That&apos;s just $3.33/month
+                  That&apos;s just {formatCurrency(ANNUAL_PRICE / 12)}/month
                 </p>
               </div>
               <ul className="space-y-3 mb-8 flex-1">
@@ -390,20 +419,46 @@ export default function PricingPage() {
             </div>
           )}
 
-          {/* Promo Code */}
+          {/* Referral / Promo Code */}
           {!isTrial && !isSubscriber && (
             <div className="text-center mt-4">
+              {referralValid && (
+                <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 max-w-sm mx-auto mb-3">
+                  <p className="text-sm text-green-700 font-medium">
+                    15% off applied! Referred by {referralName}
+                  </p>
+                </div>
+              )}
               <button
                 onClick={() => setShowPromo(!showPromo)}
                 className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-hotpink-500 transition-colors"
               >
                 <Tag className="w-3.5 h-3.5" />
-                Have a promo code?
+                Have a referral or promo code?
               </button>
               {showPromo && (
-                <p className="text-xs text-slate-400 mt-2 max-w-sm mx-auto">
-                  Enter your promo code on the Stripe checkout page after clicking &ldquo;Start 14-Day Free Trial&rdquo; above. The discount will be applied automatically.
-                </p>
+                <div className="mt-3 max-w-sm mx-auto">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={referralCode}
+                      onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
+                      placeholder="e.g. SARAH-TULSA"
+                      className="border border-slate-200 rounded-lg px-3 py-2 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-hotpink-200"
+                    />
+                    <button
+                      onClick={() => validateReferral(referralCode)}
+                      className="bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                  {referralValid === false && referralCode && (
+                    <p className="text-xs text-red-500 mt-1">
+                      Code not found. You can also enter promo codes at Stripe checkout.
+                    </p>
+                  )}
+                </div>
               )}
             </div>
           )}
@@ -436,6 +491,24 @@ export default function PricingPage() {
           </div>
         </section>
       )}
+
+      {/* Giveaway Banner */}
+      <section className="py-8 sm:py-10 section-warm">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="bg-gradient-to-r from-hotpink-50 to-skyblue-50 border border-hotpink-200 rounded-xl p-6 sm:p-8 text-center">
+            <div className="text-3xl mb-3">🀄</div>
+            <p className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-2">
+              {GIVEAWAY_COPY}
+            </p>
+            <p className="text-sm text-slate-500">
+              All paid subscribers are automatically entered. Annual members get 2x entries.{" "}
+              <Link href="/giveaway" className="text-hotpink-500 hover:text-hotpink-600 font-medium">
+                Learn more
+              </Link>
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* FAQ Section */}
       <section className="py-12 sm:py-16 section-mint">

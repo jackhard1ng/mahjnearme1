@@ -142,7 +142,7 @@ export default async function CityPage({ params }: Props) {
       <CityMap games={games} />
 
       {/* Game Cards — auth-aware: subscribers see all, free users see preview + paywall */}
-      <CityGamesList games={games} cityName={cityName} />
+      <CityGamesList games={games} cityName={cityName} metroAbbreviation={metro?.abbreviation || null} />
 
       {/* City FAQ (for SEO) */}
       <div className="mb-10">

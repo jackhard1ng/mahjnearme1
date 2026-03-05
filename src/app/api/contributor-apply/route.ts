@@ -208,12 +208,29 @@ export async function PATCH(request: NextRequest) {
 
     // Update user profile
     if (action === "approve") {
+      // Generate referral code from name and metro
+      const nameSlug = (appData.name || "contributor")
+        .toUpperCase()
+        .replace(/[^A-Z]/g, "")
+        .slice(0, 10);
+      const metroSlug = (appData.metroName || appData.city || "local")
+        .toUpperCase()
+        .replace(/[^A-Z]/g, "")
+        .slice(0, 10);
+      const referralCode = `${nameSlug}-${metroSlug}`;
+      const baseUrl = process.env.NEXT_PUBLIC_URL || "https://mahjnearme.com";
+      const referralLink = `${baseUrl}/pricing?ref=${encodeURIComponent(referralCode)}`;
+
       // Approved: full paid plan for free, permanently
       await db.collection("users").doc(appData.userId).set(
         {
           accountType: "contributor",
           isContributor: true,
           contributorStatus: "approved",
+          referralCode,
+          referralLink,
+          lastActivityDate: now,
+          verificationsThisMonth: 0,
           // Clear trial — they're now on permanent contributor access
           trialEndsAt: null,
           updatedAt: now,

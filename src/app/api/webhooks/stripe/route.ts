@@ -51,6 +51,14 @@ export async function POST(request: Request) {
           ? new Date(subscription.trial_end * 1000).toISOString()
           : null;
 
+        // Capture the price amount for grandfathering
+        const priceAmount = subscription.items.data[0]?.price.unit_amount
+          ? subscription.items.data[0].price.unit_amount / 100
+          : null;
+
+        // Check for referral code in session metadata
+        const referredByCode = session.metadata?.referralCode || null;
+
         await db.collection("users").doc(firebaseUid).set(
           {
             accountType: trialEnd ? "trial" : "subscriber",
@@ -59,10 +67,39 @@ export async function POST(request: Request) {
             stripeSubscriptionId: session.subscription as string,
             trialEndsAt: trialEnd,
             plan,
+            subscribedPrice: priceAmount,
+            subscribedDate: new Date().toISOString(),
+            isGrandfathered: false,
+            referredByCode,
             updatedAt: new Date().toISOString(),
           },
           { merge: true }
         );
+
+        // If referred, create a referral record
+        if (referredByCode) {
+          const contributorSnapshot = await db.collection("users")
+            .where("referralCode", "==", referredByCode)
+            .limit(1)
+            .get();
+
+          if (!contributorSnapshot.empty) {
+            const vestingDate = new Date();
+            vestingDate.setDate(vestingDate.getDate() + 60);
+
+            await db.collection("referrals").add({
+              referralCode: referredByCode,
+              contributorId: contributorSnapshot.docs[0].id,
+              subscriberId: firebaseUid,
+              subscriberSignupDate: new Date().toISOString(),
+              plan,
+              status: "active",
+              vestingDate: vestingDate.toISOString(),
+              isVested: false,
+              createdAt: new Date().toISOString(),
+            });
+          }
+        }
 
         console.log(`Checkout completed for user ${firebaseUid}, plan: ${plan}`);
         break;

@@ -19,6 +19,7 @@ import {
   Search,
   Users,
   ArrowRight,
+  Lock,
 } from "lucide-react";
 import type { ForumPost } from "@/types";
 
@@ -26,11 +27,14 @@ const allCities = getCitiesWithGames();
 const metrosWithGames = getMetrosWithGames(allCities);
 
 export default function CommunityPage() {
-  const { user, userProfile, isContributor } = useAuth();
+  const { user, userProfile, isContributor, hasAccess, hasMetroAccess } = useAuth();
   const [selectedMetro, setSelectedMetro] = useState<string | null>(null);
   const [metroSearch, setMetroSearch] = useState("");
   const [posts, setPosts] = useState<ForumPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
+  const [page, setPage] = useState(0);
+  const POSTS_PER_PAGE = 20;
   const [showNewPost, setShowNewPost] = useState(false);
   const [newPostTitle, setNewPostTitle] = useState("");
   const [newPostBody, setNewPostBody] = useState("");
@@ -52,27 +56,43 @@ export default function CommunityPage() {
     : null;
 
   useEffect(() => {
-    loadPosts();
+    setPage(0);
+    loadPosts(true);
   }, [selectedMetro]);
 
-  async function loadPosts() {
+  async function loadPosts(reset = false) {
     setLoading(true);
     try {
       const metro = selectedMetro || "";
+      const offset = reset ? 0 : page * POSTS_PER_PAGE;
       const res = await fetch(
-        `/api/forum?metro=${encodeURIComponent(metro)}`
+        `/api/forum?metro=${encodeURIComponent(metro)}&limit=${POSTS_PER_PAGE + 1}&offset=${offset}`
       );
       if (res.ok) {
         const data = await res.json();
-        setPosts(data.posts || []);
+        const allPosts = data.posts || [];
+        const hasMorePosts = allPosts.length > POSTS_PER_PAGE;
+        const displayPosts = hasMorePosts ? allPosts.slice(0, POSTS_PER_PAGE) : allPosts;
+
+        if (reset) {
+          setPosts(displayPosts);
+        } else {
+          setPosts((prev) => [...prev, ...displayPosts]);
+        }
+        setHasMore(hasMorePosts);
       } else {
-        setPosts([]);
+        if (reset) setPosts([]);
       }
     } catch {
-      setPosts([]);
+      if (reset) setPosts([]);
     } finally {
       setLoading(false);
     }
+  }
+
+  function loadMorePosts() {
+    setPage((p) => p + 1);
+    loadPosts(false);
   }
 
   async function handleNewPost(e: FormEvent) {
@@ -240,7 +260,7 @@ export default function CommunityPage() {
                   </p>
                 )}
               </div>
-              {user ? (
+              {user && hasAccess ? (
                 <button
                   onClick={() => setShowNewPost(!showNewPost)}
                   className="flex items-center gap-2 bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors shrink-0"
@@ -255,6 +275,13 @@ export default function CommunityPage() {
                     </>
                   )}
                 </button>
+              ) : user ? (
+                <Link
+                  href="/pricing"
+                  className="flex items-center gap-2 bg-slate-100 text-slate-500 border border-slate-200 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-200 transition-colors shrink-0"
+                >
+                  <Lock className="w-4 h-4" /> Upgrade to post
+                </Link>
               ) : (
                 <Link
                   href="/login"
@@ -342,9 +369,9 @@ export default function CommunityPage() {
               </div>
             ) : (
               <div className="space-y-4">
-                {posts.map((post) => (
+                {posts.map((post, idx) => (
                   <div
-                    key={post.id}
+                    key={`${post.id}-${idx}`}
                     className="bg-white border border-slate-200 rounded-xl p-5 hover:border-hotpink-200 transition-colors"
                   >
                     <div className="flex items-start gap-3">
@@ -437,6 +464,23 @@ export default function CommunityPage() {
                     </div>
                   </div>
                 ))}
+
+                {/* Load More */}
+                {hasMore && (
+                  <div className="text-center pt-4">
+                    <button
+                      onClick={loadMorePosts}
+                      disabled={loading}
+                      className="inline-flex items-center gap-2 bg-white border border-slate-200 px-6 py-2.5 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors disabled:opacity-50"
+                    >
+                      {loading ? (
+                        <><Loader2 className="w-4 h-4 animate-spin" /> Loading...</>
+                      ) : (
+                        "Load More Posts"
+                      )}
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>

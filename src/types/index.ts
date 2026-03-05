@@ -82,6 +82,14 @@ export interface UserProfile {
   trialEndsAt: string | null;
   subscriptionEndsAt: string | null;
   plan: "monthly" | "annual" | null;
+  subscribedPrice: number | null;
+  subscribedDate: string | null;
+  isGrandfathered: boolean;
+
+  // Referral
+  referralCode: string | null;
+  referralLink: string | null;
+  referredByCode: string | null;
 
   // Contributor
   isContributor: boolean;
@@ -89,6 +97,8 @@ export interface UserProfile {
   contributorMetro: string | null;
   contributorAppliedAt: string | null;
   contributorStatus: ContributorStatus | null;
+  lastActivityDate: string | null;
+  verificationsThisMonth: number;
 
   // Player Profile
   photoURL: string | null;
@@ -99,6 +109,8 @@ export interface UserProfile {
 
   // Preferences
   homeCity: string;
+  homeMetro: string | null;
+  homeMetroSelectedAt: string | null;
   homeGeopoint: { lat: number; lng: number } | null;
   savedCities: string[];
   favoriteGames: string[];
@@ -177,6 +189,53 @@ export interface ForumReply {
   flagCount: number;
   flaggedBy: string[];
   createdAt: string;
+}
+
+export interface ReferralRecord {
+  id: string;
+  referralCode: string;
+  contributorId: string;
+  subscriberId: string;
+  subscriberSignupDate: string;
+  plan: "monthly" | "annual";
+  status: "active" | "canceled" | "paused";
+  vestingDate: string;
+  isVested: boolean;
+  createdAt: string;
+}
+
+export interface CommissionPayout {
+  id: string;
+  contributorId: string;
+  amount: number;
+  referralCount: number;
+  period: string;
+  paidAt: string | null;
+  status: "pending" | "paid";
+  createdAt: string;
+}
+
+export interface GiveawayEntry {
+  id: string;
+  userId: string;
+  userName: string;
+  userEmail: string;
+  plan: "monthly" | "annual" | "free_entry";
+  entries: number;
+  month: string;
+  createdAt: string;
+}
+
+export interface GiveawayDraw {
+  id: string;
+  month: string;
+  winnerId: string;
+  winnerName: string;
+  winnerCity: string;
+  winnerPhotoURL: string | null;
+  drawnAt: string;
+  notified: boolean;
+  displayPermission: boolean;
 }
 
 export interface SearchFilters {

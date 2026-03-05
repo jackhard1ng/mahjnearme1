@@ -8,6 +8,8 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const postId = searchParams.get("postId");
     const metro = searchParams.get("metro");
+    const limit = Math.min(parseInt(searchParams.get("limit") || "50"), 100);
+    const offset = parseInt(searchParams.get("offset") || "0");
 
     if (postId) {
       // Get single post with replies
@@ -41,13 +43,15 @@ export async function GET(request: NextRequest) {
         .collection("forumPosts")
         .where("metroSlug", "==", metro)
         .orderBy("createdAt", "desc")
-        .limit(50);
+        .limit(limit)
+        .offset(offset);
     } else {
       query = db
         .collection("forumPosts")
         .where("metroSlug", "==", null)
         .orderBy("createdAt", "desc")
-        .limit(50);
+        .limit(limit)
+        .offset(offset);
     }
 
     const snap = await query.get();
@@ -102,6 +106,17 @@ export async function POST(request: NextRequest) {
     };
 
     const ref = await db.collection("forumPosts").add(postData);
+
+    // Track contributor activity when posting in their metro
+    if (authorIsContributor && metroSlug) {
+      const userDoc = await db.collection("users").doc(authorId).get();
+      if (userDoc.exists && userDoc.data()?.contributorMetro === metroSlug) {
+        await db.collection("users").doc(authorId).set(
+          { lastActivityDate: now, updatedAt: now },
+          { merge: true }
+        );
+      }
+    }
 
     return NextResponse.json({ id: ref.id, ...postData });
   } catch (err) {
