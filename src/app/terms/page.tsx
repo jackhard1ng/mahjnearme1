@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { formatCurrency } from "@/lib/currency";
+import { MONTHLY_PRICE, ANNUAL_PRICE } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -38,7 +40,7 @@ export default function TermsPage() {
         <section>
           <h2 className="font-semibold text-xl text-charcoal mb-3">4. Subscriptions & Payments</h2>
           <p className="text-sm text-slate-600 leading-relaxed">
-            Free trial accounts have full access for 14 days. Paid subscriptions are billed monthly ($4.99) or annually ($39.99) through Stripe. You may cancel at any time; access continues through the end of your billing period. Refunds are handled on a case-by-case basis — contact us within 7 days of a charge.
+            Free trial accounts have full access for 14 days. Paid subscriptions are billed monthly ({formatCurrency(MONTHLY_PRICE)}) or annually ({formatCurrency(ANNUAL_PRICE)}) through Stripe. You may cancel at any time; access continues through the end of your billing period. Refunds are handled on a case-by-case basis — contact us within 7 days of a charge.
           </p>
         </section>
 

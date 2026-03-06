@@ -13,7 +13,7 @@ import {
 } from "firebase/auth";
 import { getFirebaseAuth, getFirebaseDb } from "@/lib/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { UserProfile, AccountType, SubscriptionStatus } from "@/types";
+import { UserProfile, AccountType, SubscriptionStatus, ContributorStatus } from "@/types";
 
 interface AuthContextType {
   user: User | null;
@@ -26,6 +26,9 @@ interface AuthContextType {
   updateUserProfile: (updates: Partial<UserProfile>) => void;
   hasAccess: boolean;
   isAdmin: boolean;
+  isContributor: boolean;
+  hasMetroAccess: (metroAbbreviation: string | null) => boolean;
+  needsMetroSelection: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -54,8 +57,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             trialEndsAt: null,
             subscriptionEndsAt: null,
             plan: null,
+            isContributor: false,
+            contributorCity: null,
+            contributorMetro: null,
+            contributorAppliedAt: null,
+            contributorStatus: null,
+            lastActivityDate: null,
+            verificationsThisMonth: 0,
+            subscribedPrice: null,
+            subscribedDate: null,
+            isGrandfathered: false,
+            referralCode: null,
+            referralLink: null,
+            referredByCode: null,
+            homeMetro: null,
+            homeMetroSelectedAt: null,
             photoURL: firebaseUser.photoURL || null,
             avatarColor: null,
+            bio: null,
             skillLevel: null,
             gameStylePreference: "american",
             homeCity: "",
@@ -148,6 +167,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const hasAccess =
     userProfile?.accountType === "admin" ||
     userProfile?.accountType === "subscriber" ||
+    userProfile?.accountType === "contributor" ||
     userProfile?.subscriptionStatus === "active" ||
     userProfile?.subscriptionStatus === "past_due" ||
     (userProfile?.subscriptionStatus === "trialing" &&
@@ -158,6 +178,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       new Date(userProfile.trialEndsAt) > new Date());
 
   const isAdmin = userProfile?.accountType === "admin";
+  const isContributor = userProfile?.isContributor === true || userProfile?.accountType === "contributor";
+
+  const isPaidUser =
+    userProfile?.accountType === "admin" ||
+    userProfile?.accountType === "subscriber" ||
+    userProfile?.accountType === "contributor" ||
+    userProfile?.subscriptionStatus === "active";
+
+  const hasMetroAccess = (metroAbbreviation: string | null): boolean => {
+    if (!user || !userProfile) return false;
+    if (isPaidUser) return true;
+    if (hasAccess) return true; // trial users get full access
+    if (!metroAbbreviation) return true; // general content
+    return userProfile.homeMetro === metroAbbreviation;
+  };
+
+  const needsMetroSelection =
+    !!user &&
+    !!userProfile &&
+    userProfile.accountType === "free" &&
+    !userProfile.homeMetro &&
+    !isPaidUser;
 
   return (
     <AuthContext.Provider
@@ -172,6 +214,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         updateUserProfile,
         hasAccess,
         isAdmin,
+        isContributor,
+        hasMetroAccess,
+        needsMetroSelection,
       }}
     >
       {children}

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Menu, X, User, LogOut, Settings, LayoutDashboard, ChevronDown, Plus, CalendarDays } from "lucide-react";
+import { Menu, X, User, LogOut, Settings, LayoutDashboard, ChevronDown, CalendarDays, Heart, MessageSquare } from "lucide-react";
 
 export default function Header() {
   const { user, userProfile, signOut, isAdmin } = useAuth();
@@ -35,8 +35,11 @@ export default function Header() {
             <Link href="/shop" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               Mahj Gear
             </Link>
-            <Link href="/add-your-group" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
-              List Your Group
+            <Link href="/contribute" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
+              Contribute
+            </Link>
+            <Link href="/community" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
+              Community
             </Link>
 
             {user ? (
@@ -143,11 +146,18 @@ export default function Header() {
               Mahj Gear
             </Link>
             <Link
-              href="/add-your-group"
+              href="/contribute"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
             >
-              List Your Group
+              Contribute
+            </Link>
+            <Link
+              href="/community"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
+            >
+              Community
             </Link>
             <hr className="border-white/20" />
             {user ? (

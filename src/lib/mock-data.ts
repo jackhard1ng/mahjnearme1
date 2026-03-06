@@ -1,10 +1,12 @@
 import { Game } from "@/types";
+import { findMetroForCity } from "@/lib/metro-regions";
 
 /**
  * Real game listings from MahjNearMe National Listings v16.
  * 308 verified events across 10 states.
+ * Metro region is auto-populated from the city name.
  */
-export const mockGames: Game[] = [
+const _rawGames: Omit<Game, "metroRegion">[] = [
   {
     id: "ok-1",
     name: "Mahj918 – Open Play @ McNellie's South City",
@@ -14403,6 +14405,12 @@ export const mockGames: Game[] = [
     updatedAt: "2026-03-04T00:00:00Z",
   },
 ];
+
+// Auto-populate metroRegion on each game from the city name
+export const mockGames: Game[] = _rawGames.map((g) => ({
+  ...g,
+  metroRegion: findMetroForCity(g.city)?.abbreviation || null,
+}));
 
 // ─── Helper utilities ───
 

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { MapPin, Users, ArrowRight, ShieldCheck } from "lucide-react";
+import { MapPin, Users, ArrowRight, ShieldCheck, Lock } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Game } from "@/types";
 import { slugify, getGameTypeLabel, getGameTypeColor } from "@/lib/utils";
@@ -13,6 +13,7 @@ const FREE_PREVIEW_COUNT = 2;
 interface CityGamesListProps {
   games: Game[];
   cityName: string;
+  metroAbbreviation?: string | null;
 }
 
 function GameTileCard({ game }: { game: Game }) {
@@ -69,11 +70,13 @@ function GameTileCard({ game }: { game: Game }) {
   );
 }
 
-export default function CityGamesList({ games, cityName }: CityGamesListProps) {
-  const { hasAccess } = useAuth();
+export default function CityGamesList({ games, cityName, metroAbbreviation }: CityGamesListProps) {
+  const { hasAccess, hasMetroAccess, user } = useAuth();
 
-  // Subscribers/admins see all games
-  if (hasAccess) {
+  const canViewMetro = hasMetroAccess(metroAbbreviation || null);
+
+  // Paid users, trial users, and free users viewing their home metro see all
+  if (hasAccess || canViewMetro) {
     return (
       <div className="grid md:grid-cols-2 gap-4 mb-10">
         {games.map((game) => (
@@ -83,7 +86,9 @@ export default function CityGamesList({ games, cityName }: CityGamesListProps) {
     );
   }
 
-  // Free users see preview + blurred paywall
+  // Free users viewing non-home metro: show listings exist but blur details
+  const isLoggedInFree = !!user;
+
   return (
     <>
       <div className="grid md:grid-cols-2 gap-4 mb-4">
@@ -113,27 +118,48 @@ export default function CityGamesList({ games, cityName }: CityGamesListProps) {
 
           <div className="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-sm rounded-xl">
             <div className="text-center px-6 max-w-md">
-              <ShieldCheck className="w-12 h-12 text-hotpink-500 mx-auto mb-3" />
-              <h3 className="font-semibold text-xl text-charcoal mb-2">
-                {games.length - FREE_PREVIEW_COUNT} more game{games.length - FREE_PREVIEW_COUNT !== 1 ? "s" : ""} in {cityName}
-              </h3>
-              <p className="text-slate-500 text-sm mb-4">
-                Subscribe to unlock all games with full details, contact info, schedules, and directions.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Link
-                  href="/pricing"
-                  className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
-                >
-                  View Plans
-                </Link>
-                <Link
-                  href="/signup"
-                  className="inline-block bg-skyblue-100 text-charcoal px-8 py-3 rounded-xl font-semibold hover:bg-skyblue-200 transition-colors"
-                >
-                  Sign Up Free
-                </Link>
-              </div>
+              {isLoggedInFree ? (
+                <>
+                  <Lock className="w-12 h-12 text-hotpink-500 mx-auto mb-3" />
+                  <h3 className="font-semibold text-xl text-charcoal mb-2">
+                    Traveling? Upgrade to see games in every city.
+                  </h3>
+                  <p className="text-slate-500 text-sm mb-4">
+                    Your free account includes full access to your home metro.
+                    Upgrade to unlock all {games.length} games in {cityName} and 70+ other metros.
+                  </p>
+                  <Link
+                    href="/pricing"
+                    className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
+                  >
+                    View Plans
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <ShieldCheck className="w-12 h-12 text-hotpink-500 mx-auto mb-3" />
+                  <h3 className="font-semibold text-xl text-charcoal mb-2">
+                    {games.length - FREE_PREVIEW_COUNT} more game{games.length - FREE_PREVIEW_COUNT !== 1 ? "s" : ""} in {cityName}
+                  </h3>
+                  <p className="text-slate-500 text-sm mb-4">
+                    Subscribe to unlock all games with full details, contact info, schedules, and directions.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <Link
+                      href="/pricing"
+                      className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
+                    >
+                      View Plans
+                    </Link>
+                    <Link
+                      href="/signup"
+                      className="inline-block bg-skyblue-100 text-charcoal px-8 py-3 rounded-xl font-semibold hover:bg-skyblue-200 transition-colors"
+                    >
+                      Sign Up Free
+                    </Link>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

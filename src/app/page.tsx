@@ -221,6 +221,27 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Giveaway Banner */}
+      <section className="py-10 section-warm">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="bg-gradient-to-r from-hotpink-50 to-skyblue-50 border border-hotpink-200 rounded-xl p-6 sm:p-8 text-center">
+            <div className="text-3xl mb-3">🎁</div>
+            <p className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-2">
+              One lucky member wins a premium mahjong set every month — worth more than 5 years of membership.
+            </p>
+            <p className="text-sm text-slate-500 mb-4">
+              Paid subscribers are automatically entered. Annual members get 2x entries.
+            </p>
+            <Link
+              href="/giveaway"
+              className="inline-flex items-center gap-2 text-hotpink-500 font-semibold text-sm hover:text-hotpink-600"
+            >
+              Learn more about the giveaway <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section - soft pink section */}
       <section className="py-16 sm:py-24 relative overflow-hidden">
         <div className="absolute inset-0">

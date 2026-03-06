@@ -257,6 +257,7 @@ export default function AdminGamesPage() {
         venueName: form.venueName,
         address: form.address,
         geopoint,
+        metroRegion: null,
         isRecurring: true,
         recurringSchedule: {
           dayOfWeek: form.dayOfWeek,

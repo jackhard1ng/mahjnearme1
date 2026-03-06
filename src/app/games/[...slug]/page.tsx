@@ -163,32 +163,6 @@ function SidebarCta() {
 }
 
 // ---------------------------------------------------------------------------
-// Blurred Overlay
-// ---------------------------------------------------------------------------
-
-function BlurredOverlay() {
-  return (
-    <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/90 backdrop-blur-md rounded-xl">
-      <div className="text-center px-8">
-        <Lock className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
-        <p className="font-semibold text-charcoal text-lg mb-1">
-          Subscribe to see full details
-        </p>
-        <p className="text-sm text-slate-500 mb-4">
-          Contact info, exact address, directions, and more
-        </p>
-        <Link
-          href="/pricing"
-          className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
-        >
-          View Plans
-        </Link>
-      </div>
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
 // Main Page Component
 // ---------------------------------------------------------------------------
 
@@ -334,17 +308,24 @@ export default function GameDetailPage() {
                   </span>
                 </p>
 
-                {/* Verification badge */}
-                <div
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border ${verification.bgColor}`}
-                >
-                  <CheckCircle className={`w-4 h-4 ${verification.color}`} />
-                  <span
-                    className={`text-sm font-medium ${verification.color}`}
+                {/* Verification badge — paid only */}
+                {canSeeDetails ? (
+                  <div
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border ${verification.bgColor}`}
                   >
-                    {verification.label}
-                  </span>
-                </div>
+                    <CheckCircle className={`w-4 h-4 ${verification.color}`} />
+                    <span
+                      className={`text-sm font-medium ${verification.color}`}
+                    >
+                      {verification.label}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-400">
+                    <Lock className="w-4 h-4" />
+                    <span className="text-sm font-medium">Verification status — upgrade to see</span>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -358,25 +339,24 @@ export default function GameDetailPage() {
             </div>
 
             {/* ------------------------------------------------------------ */}
-            {/* Gated Content: Details below are blurred for non-auth users   */}
+            {/* Listing Details — visible to all users                       */}
             {/* ------------------------------------------------------------ */}
-            <div className="relative">
-              {!canSeeDetails && !loading && <BlurredOverlay />}
 
-              <div className={!canSeeDetails && !loading ? "content-blur" : ""}>
-                {/* Location & Directions */}
-                <div className="mahj-tile p-6 mb-6">
-                  <h2 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
-                    <MapPin className="w-5 h-5 text-hotpink-500" />
-                    Location
-                  </h2>
-                  <p className="font-medium text-charcoal">
-                    {game.venueName}
-                  </p>
+            {/* Location — venue name & area visible; exact address gated */}
+            <div className="mahj-tile p-6">
+              <h2 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-hotpink-500" />
+                Location
+              </h2>
+              <p className="font-medium text-charcoal">
+                {game.venueName}
+              </p>
+              <p className="text-sm text-slate-500 mt-0.5">
+                {game.generalArea} area
+              </p>
+              {canSeeDetails ? (
+                <>
                   <p className="text-slate-600 mt-1">{game.address}</p>
-                  <p className="text-sm text-slate-500 mt-0.5">
-                    {game.generalArea} area
-                  </p>
                   <a
                     href={googleMapsUrl}
                     target="_blank"
@@ -386,203 +366,240 @@ export default function GameDetailPage() {
                     <Navigation className="w-4 h-4" />
                     Get Directions
                   </a>
+                </>
+              ) : !loading ? (
+                <div className="mt-3 flex items-center gap-2 text-sm text-slate-400 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+                  <Lock className="w-3.5 h-3.5 shrink-0" />
+                  <span>Exact address &amp; directions — <Link href="/pricing" className="font-medium text-hotpink-500 hover:text-hotpink-600">upgrade to see</Link></span>
                 </div>
+              ) : null}
+            </div>
 
-                {/* Schedule */}
-                <div className="mahj-tile p-6 mb-6">
-                  <h2 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
-                    <Clock className="w-5 h-5 text-hotpink-500" />
-                    Schedule
-                  </h2>
-                  <p className="text-slate-700 font-medium">{schedule}</p>
-                  {game.isRecurring && game.recurringSchedule && (
-                    <p className="text-sm text-slate-500 mt-1">
-                      {game.recurringSchedule.frequency === "weekly"
-                        ? "Meets every week"
-                        : game.recurringSchedule.frequency === "biweekly"
-                          ? "Meets every other week"
-                          : game.recurringSchedule.frequency === "monthly"
-                            ? "Meets once a month"
-                            : `Frequency: ${game.recurringSchedule.frequency}`}
-                    </p>
-                  )}
-                  {user && (
-                    <button
-                      onClick={toggleCalendarEvent}
-                      className={`inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg font-semibold text-sm transition-colors border ${
-                        isOnCalendar
-                          ? "text-hotpink-600 bg-hotpink-50 border-hotpink-200 hover:bg-hotpink-100"
-                          : "bg-skyblue-100 text-charcoal border-skyblue-200 hover:bg-skyblue-200"
-                      }`}
-                    >
-                      <CalendarPlus className="w-4 h-4" />
-                      {isOnCalendar ? "Saved to My Calendar" : "Save to My Calendar"}
-                    </button>
-                  )}
-                </div>
+            {/* Schedule */}
+            <div className="mahj-tile p-6">
+              <h2 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-hotpink-500" />
+                Schedule
+              </h2>
+              <p className="text-slate-700 font-medium">{schedule}</p>
+              {game.isRecurring && game.recurringSchedule && (
+                <p className="text-sm text-slate-500 mt-1">
+                  {game.recurringSchedule.frequency === "weekly"
+                    ? "Meets every week"
+                    : game.recurringSchedule.frequency === "biweekly"
+                      ? "Meets every other week"
+                      : game.recurringSchedule.frequency === "monthly"
+                        ? "Meets once a month"
+                        : `Frequency: ${game.recurringSchedule.frequency}`}
+                </p>
+              )}
+              {user && (
+                <button
+                  onClick={toggleCalendarEvent}
+                  className={`inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg font-semibold text-sm transition-colors border ${
+                    isOnCalendar
+                      ? "text-hotpink-600 bg-hotpink-50 border-hotpink-200 hover:bg-hotpink-100"
+                      : "bg-skyblue-100 text-charcoal border-skyblue-200 hover:bg-skyblue-200"
+                  }`}
+                >
+                  <CalendarPlus className="w-4 h-4" />
+                  {isOnCalendar ? "Saved to My Calendar" : "Save to My Calendar"}
+                </button>
+              )}
+            </div>
 
-                {/* Cost & Group Size */}
-                <div className="grid sm:grid-cols-2 gap-6 mb-6">
-                  <div className="mahj-tile p-6">
-                    <h2 className="font-semibold text-lg text-charcoal mb-3 flex items-center gap-2">
-                      <DollarSign className="w-5 h-5 text-hotpink-500" />
-                      Cost
-                    </h2>
-                    <p className="text-2xl font-bold text-charcoal">
-                      {game.cost}
-                    </p>
-                  </div>
-                  <div className="mahj-tile p-6">
-                    <h2 className="font-semibold text-lg text-charcoal mb-3 flex items-center gap-2">
-                      <Users className="w-5 h-5 text-hotpink-500" />
-                      Group Size
-                    </h2>
-                    <p className="text-2xl font-bold text-charcoal">
-                      {game.typicalGroupSize || "Varies"}
-                    </p>
-                    {game.maxPlayers && (
-                      <p className="text-sm text-slate-500 mt-1">
-                        Max {game.maxPlayers} players
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Description */}
-                <div className="mahj-tile p-6 mb-6">
-                  <h2 className="font-semibold text-lg text-charcoal mb-3 flex items-center gap-2">
-                    <Info className="w-5 h-5 text-hotpink-500" />
-                    About This Game
-                  </h2>
-                  <p className="text-slate-600 leading-relaxed whitespace-pre-line">
-                    {game.description}
-                  </p>
-                </div>
-
-                {/* How to Join */}
-                {game.howToJoin && (
-                  <div className="mahj-tile p-6 mb-6">
-                    <h2 className="font-semibold text-lg text-charcoal mb-3 flex items-center gap-2">
-                      <BookOpen className="w-5 h-5 text-hotpink-500" />
-                      How to Join
-                    </h2>
-                    <p className="text-slate-600 leading-relaxed">
-                      {game.howToJoin}
-                    </p>
-                    {game.registrationLink && (
-                      <a
-                        href={game.registrationLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 mt-4 text-hotpink-500 hover:text-hotpink-600 font-medium text-sm transition-colors"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        Register Online
-                      </a>
-                    )}
-                  </div>
-                )}
-
-                {/* What to Bring */}
-                {game.whatToBring && (
-                  <div className="mahj-tile p-6 mb-6">
-                    <h2 className="font-semibold text-lg text-charcoal mb-3 flex items-center gap-2">
-                      <Briefcase className="w-5 h-5 text-hotpink-500" />
-                      What to Bring
-                    </h2>
-                    <p className="text-slate-600 leading-relaxed">
-                      {game.whatToBring}
-                    </p>
-                  </div>
-                )}
-
-                {/* Contact Info */}
-                <div className="mahj-tile p-6 mb-6">
-                  <h2 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
-                    <Mail className="w-5 h-5 text-hotpink-500" />
-                    Contact Information
-                  </h2>
-                  <div className="space-y-3">
-                    {game.contactName && (
-                      <p className="text-slate-700">
-                        <span className="font-medium">Contact:</span>{" "}
-                        {game.contactName}
-                      </p>
-                    )}
-                    {game.contactEmail && (
-                      <a
-                        href={`mailto:${game.contactEmail}`}
-                        className="flex items-center gap-2 text-hotpink-500 hover:text-hotpink-600 transition-colors"
-                      >
-                        <Mail className="w-4 h-4" />
-                        {game.contactEmail}
-                      </a>
-                    )}
-                    {game.contactPhone && (
-                      <a
-                        href={`tel:${game.contactPhone}`}
-                        className="flex items-center gap-2 text-hotpink-500 hover:text-hotpink-600 transition-colors"
-                      >
-                        <Phone className="w-4 h-4" />
-                        {game.contactPhone}
-                      </a>
-                    )}
-                    {game.website && (
-                      <a
-                        href={game.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-hotpink-500 hover:text-hotpink-600 transition-colors"
-                      >
-                        <Globe className="w-4 h-4" />
-                        {game.website}
-                      </a>
-                    )}
-                    {game.instagram && (
-                      <a
-                        href={`https://instagram.com/${game.instagram.replace("@", "")}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-hotpink-500 hover:text-hotpink-600 transition-colors"
-                      >
-                        <Instagram className="w-4 h-4" />
-                        {game.instagram}
-                      </a>
-                    )}
-                    {game.facebookGroup && (
-                      <a
-                        href={game.facebookGroup}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-hotpink-500 hover:text-hotpink-600 transition-colors"
-                      >
-                        <Facebook className="w-4 h-4" />
-                        Facebook Group
-                      </a>
-                    )}
-                  </div>
-                </div>
-
-                {/* Sets Provided */}
-                <div className="mahj-tile p-6">
-                  <h2 className="font-semibold text-lg text-charcoal mb-3 flex items-center gap-2">
-                    <Package className="w-5 h-5 text-hotpink-500" />
-                    Equipment
-                  </h2>
-                  {game.setsProvided ? (
-                    <div className="flex items-center gap-2 text-hotpink-600">
-                      <CheckCircle className="w-5 h-5" />
-                      <span className="font-medium">
-                        Mahjong sets are provided
-                      </span>
-                    </div>
-                  ) : (
-                    <p className="text-slate-600">
-                      Bring your own mahjong set
-                    </p>
-                  )}
-                </div>
+            {/* Cost & Group Size */}
+            <div className="grid sm:grid-cols-2 gap-6">
+              <div className="mahj-tile p-6">
+                <h2 className="font-semibold text-lg text-charcoal mb-3 flex items-center gap-2">
+                  <DollarSign className="w-5 h-5 text-hotpink-500" />
+                  Cost
+                </h2>
+                <p className="text-2xl font-bold text-charcoal">
+                  {game.cost}
+                </p>
               </div>
+              <div className="mahj-tile p-6">
+                <h2 className="font-semibold text-lg text-charcoal mb-3 flex items-center gap-2">
+                  <Users className="w-5 h-5 text-hotpink-500" />
+                  Group Size
+                </h2>
+                <p className="text-2xl font-bold text-charcoal">
+                  {game.typicalGroupSize || "Varies"}
+                </p>
+                {game.maxPlayers && (
+                  <p className="text-sm text-slate-500 mt-1">
+                    Max {game.maxPlayers} players
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="mahj-tile p-6">
+              <h2 className="font-semibold text-lg text-charcoal mb-3 flex items-center gap-2">
+                <Info className="w-5 h-5 text-hotpink-500" />
+                About This Game
+              </h2>
+              <p className="text-slate-600 leading-relaxed whitespace-pre-line">
+                {game.description}
+              </p>
+            </div>
+
+            {/* How to Join */}
+            {game.howToJoin && (
+              <div className="mahj-tile p-6">
+                <h2 className="font-semibold text-lg text-charcoal mb-3 flex items-center gap-2">
+                  <BookOpen className="w-5 h-5 text-hotpink-500" />
+                  How to Join
+                </h2>
+                <p className="text-slate-600 leading-relaxed">
+                  {game.howToJoin}
+                </p>
+                {game.registrationLink && canSeeDetails && (
+                  <a
+                    href={game.registrationLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 mt-4 text-hotpink-500 hover:text-hotpink-600 font-medium text-sm transition-colors"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    Register Online
+                  </a>
+                )}
+                {game.registrationLink && !canSeeDetails && !loading && (
+                  <div className="mt-3 flex items-center gap-2 text-sm text-slate-400 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+                    <Lock className="w-3.5 h-3.5 shrink-0" />
+                    <span>Registration link — <Link href="/pricing" className="font-medium text-hotpink-500 hover:text-hotpink-600">upgrade to access</Link></span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* What to Bring */}
+            {game.whatToBring && (
+              <div className="mahj-tile p-6">
+                <h2 className="font-semibold text-lg text-charcoal mb-3 flex items-center gap-2">
+                  <Briefcase className="w-5 h-5 text-hotpink-500" />
+                  What to Bring
+                </h2>
+                <p className="text-slate-600 leading-relaxed">
+                  {game.whatToBring}
+                </p>
+              </div>
+            )}
+
+            {/* ------------------------------------------------------------ */}
+            {/* Contact Info — paywalled with inline blur                     */}
+            {/* ------------------------------------------------------------ */}
+            <div className="mahj-tile p-6">
+              <h2 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
+                <Mail className="w-5 h-5 text-hotpink-500" />
+                Contact Information
+              </h2>
+              {canSeeDetails ? (
+                <div className="space-y-3">
+                  {game.contactName && (
+                    <p className="text-slate-700">
+                      <span className="font-medium">Contact:</span>{" "}
+                      {game.contactName}
+                    </p>
+                  )}
+                  {game.contactEmail && (
+                    <a
+                      href={`mailto:${game.contactEmail}`}
+                      className="flex items-center gap-2 text-hotpink-500 hover:text-hotpink-600 transition-colors"
+                    >
+                      <Mail className="w-4 h-4" />
+                      {game.contactEmail}
+                    </a>
+                  )}
+                  {game.contactPhone && (
+                    <a
+                      href={`tel:${game.contactPhone}`}
+                      className="flex items-center gap-2 text-hotpink-500 hover:text-hotpink-600 transition-colors"
+                    >
+                      <Phone className="w-4 h-4" />
+                      {game.contactPhone}
+                    </a>
+                  )}
+                  {game.website && (
+                    <a
+                      href={game.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-hotpink-500 hover:text-hotpink-600 transition-colors"
+                    >
+                      <Globe className="w-4 h-4" />
+                      {game.website}
+                    </a>
+                  )}
+                  {game.instagram && (
+                    <a
+                      href={`https://instagram.com/${game.instagram.replace("@", "")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-hotpink-500 hover:text-hotpink-600 transition-colors"
+                    >
+                      <Instagram className="w-4 h-4" />
+                      {game.instagram}
+                    </a>
+                  )}
+                  {game.facebookGroup && (
+                    <a
+                      href={game.facebookGroup}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-hotpink-500 hover:text-hotpink-600 transition-colors"
+                    >
+                      <Facebook className="w-4 h-4" />
+                      Facebook Group
+                    </a>
+                  )}
+                </div>
+              ) : !loading ? (
+                <div className="relative">
+                  {/* Blurred placeholder rows */}
+                  <div className="space-y-3 select-none pointer-events-none blur-[6px] opacity-50" aria-hidden="true">
+                    <div className="flex items-center gap-2"><Mail className="w-4 h-4 text-slate-300" /><div className="h-4 bg-slate-200 rounded w-48" /></div>
+                    <div className="flex items-center gap-2"><Phone className="w-4 h-4 text-slate-300" /><div className="h-4 bg-slate-200 rounded w-36" /></div>
+                    <div className="flex items-center gap-2"><Globe className="w-4 h-4 text-slate-300" /><div className="h-4 bg-slate-200 rounded w-52" /></div>
+                    <div className="flex items-center gap-2"><Instagram className="w-4 h-4 text-slate-300" /><div className="h-4 bg-slate-200 rounded w-32" /></div>
+                  </div>
+                  {/* Inline upgrade prompt */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Link
+                      href="/pricing"
+                      className="flex items-center gap-2 bg-white/95 border border-hotpink-200 rounded-xl px-5 py-3 shadow-sm hover:shadow-md hover:border-hotpink-400 transition-all"
+                    >
+                      <Lock className="w-4 h-4 text-hotpink-500" />
+                      <span className="text-sm font-medium text-charcoal">
+                        Get the details — <span className="text-hotpink-500">upgrade to join this game</span>
+                      </span>
+                    </Link>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+
+            {/* Sets Provided */}
+            <div className="mahj-tile p-6">
+              <h2 className="font-semibold text-lg text-charcoal mb-3 flex items-center gap-2">
+                <Package className="w-5 h-5 text-hotpink-500" />
+                Equipment
+              </h2>
+              {game.setsProvided ? (
+                <div className="flex items-center gap-2 text-hotpink-600">
+                  <CheckCircle className="w-5 h-5" />
+                  <span className="font-medium">
+                    Mahjong sets are provided
+                  </span>
+                </div>
+              ) : (
+                <p className="text-slate-600">
+                  Bring your own mahjong set
+                </p>
+              )}
             </div>
           </div>
 
@@ -607,44 +624,47 @@ export default function GameDetailPage() {
                     </p>
                   </div>
                 </div>
-                {canSeeDetails ? (
-                  <>
-                    <div className="flex items-start gap-3">
-                      <Clock className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
-                      <p className="text-sm text-slate-700">{schedule}</p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <DollarSign className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
-                      <p className="text-sm text-slate-700">{game.cost}</p>
-                    </div>
-                    {game.typicalGroupSize && (
-                      <div className="flex items-start gap-3">
-                        <Users className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
-                        <p className="text-sm text-slate-700">
-                          {game.typicalGroupSize}
-                        </p>
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <p className="text-xs text-slate-400 italic">Subscribe to see schedule, cost, and more</p>
+                <div className="flex items-start gap-3">
+                  <Clock className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
+                  <p className="text-sm text-slate-700">{schedule}</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <DollarSign className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
+                  <p className="text-sm text-slate-700">{game.cost}</p>
+                </div>
+                {game.typicalGroupSize && (
+                  <div className="flex items-start gap-3">
+                    <Users className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
+                    <p className="text-sm text-slate-700">
+                      {game.typicalGroupSize}
+                    </p>
+                  </div>
                 )}
               </div>
             </div>
 
-            {/* Verification Card (always visible) */}
-            <div
-              className={`rounded-xl border p-4 ${verification.bgColor}`}
-            >
-              <div className="flex items-center gap-2">
-                <CheckCircle className={`w-5 h-5 ${verification.color}`} />
-                <span
-                  className={`text-sm font-medium ${verification.color}`}
-                >
-                  {verification.label}
-                </span>
+            {/* Verification Card — paid only */}
+            {canSeeDetails ? (
+              <div
+                className={`rounded-xl border p-4 ${verification.bgColor}`}
+              >
+                <div className="flex items-center gap-2">
+                  <CheckCircle className={`w-5 h-5 ${verification.color}`} />
+                  <span
+                    className={`text-sm font-medium ${verification.color}`}
+                  >
+                    {verification.label}
+                  </span>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="rounded-xl border border-slate-200 p-4 bg-slate-50">
+                <div className="flex items-center gap-2 text-slate-400">
+                  <Lock className="w-4 h-4" />
+                  <span className="text-sm font-medium">Verification status — <Link href="/pricing" className="text-hotpink-500 hover:text-hotpink-600">upgrade</Link></span>
+                </div>
+              </div>
+            )}
 
             {/* Signup/Upgrade CTA */}
             <SidebarCta />

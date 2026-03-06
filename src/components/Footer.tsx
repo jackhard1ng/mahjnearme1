@@ -53,10 +53,20 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* For Groups */}
+          {/* Community */}
           <div>
-            <h3 className="font-semibold text-white text-sm mb-4">For Groups</h3>
+            <h3 className="font-semibold text-white text-sm mb-4">Community</h3>
             <ul className="space-y-2">
+              <li>
+                <Link href="/contribute" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
+                  Become a Contributor
+                </Link>
+              </li>
+              <li>
+                <Link href="/community" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
+                  Forum
+                </Link>
+              </li>
               <li>
                 <Link href="/add-your-group" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
                   List Your Group
