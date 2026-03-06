@@ -65,7 +65,7 @@ interface GiveawayData {
 
 export default function AdminDashboardPage() {
   const [games] = useState(mockGames);
-  const [activeTab, setActiveTab] = useState<"overview" | "subscribers" | "contributors" | "referrals" | "giveaways">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "subscribers" | "contributors" | "referrals" | "giveaways" | "organizers">("overview");
   const [analytics, setAnalytics] = useState<{
     totalViews: number;
     todayViews: number;
@@ -218,6 +218,7 @@ export default function AdminDashboardPage() {
     { id: "contributors" as const, label: "Contributors" },
     { id: "referrals" as const, label: "Referrals" },
     { id: "giveaways" as const, label: "Giveaways" },
+    { id: "organizers" as const, label: "Organizers" },
   ];
 
   return (
@@ -753,6 +754,100 @@ export default function AdminDashboardPage() {
               )}
             </>
           )}
+        </div>
+      )}
+      {activeTab === "organizers" && <AdminOrganizersPanel />}
+    </div>
+  );
+}
+
+function AdminOrganizersPanel() {
+  const [organizers, setOrganizers] = useState<{ id: string; organizerName: string; venueName: string; city: string; metroRegion: string; contactEmail: string; lastUpdated: string }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("/api/organizers?all=true");
+        if (res.ok) {
+          const data = await res.json();
+          setOrganizers(data.organizers || []);
+        }
+      } catch {
+        // silent
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  const filtered = search
+    ? organizers.filter(
+        (o) =>
+          o.organizerName.toLowerCase().includes(search.toLowerCase()) ||
+          o.venueName?.toLowerCase().includes(search.toLowerCase()) ||
+          o.metroRegion?.toLowerCase().includes(search.toLowerCase())
+      )
+    : organizers;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-bold text-charcoal">Organizer Directory</h2>
+        <div className="relative w-64">
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search organizers..."
+            className="w-full pl-3 pr-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-hotpink-200"
+          />
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
+        </div>
+      ) : (
+        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-slate-50 text-slate-600">
+                <tr>
+                  <th className="text-left px-4 py-2.5 font-medium">Organizer</th>
+                  <th className="text-left px-4 py-2.5 font-medium">Venue</th>
+                  <th className="text-left px-4 py-2.5 font-medium">City</th>
+                  <th className="text-left px-4 py-2.5 font-medium">Metro</th>
+                  <th className="text-left px-4 py-2.5 font-medium">Contact</th>
+                  <th className="text-left px-4 py-2.5 font-medium">Updated</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {filtered.map((org) => (
+                  <tr key={org.id} className="hover:bg-slate-50">
+                    <td className="px-4 py-2.5 font-medium text-charcoal">{org.organizerName}</td>
+                    <td className="px-4 py-2.5 text-slate-500">{org.venueName || "-"}</td>
+                    <td className="px-4 py-2.5 text-slate-500">{org.city || "-"}</td>
+                    <td className="px-4 py-2.5 text-slate-500">{org.metroRegion || "-"}</td>
+                    <td className="px-4 py-2.5 text-slate-500 text-xs">{org.contactEmail || "-"}</td>
+                    <td className="px-4 py-2.5 text-xs text-slate-400">
+                      {new Date(org.lastUpdated).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {filtered.length === 0 && (
+            <p className="text-center text-slate-500 text-sm py-8">
+              {organizers.length === 0 ? "No organizers in the directory yet." : "No organizers match your search."}
+            </p>
+          )}
+          <div className="px-4 py-3 border-t border-slate-100 bg-slate-50 text-xs text-slate-500">
+            {organizers.length} total organizers across all metros
+          </div>
         </div>
       )}
     </div>

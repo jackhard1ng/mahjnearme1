@@ -6,7 +6,7 @@ import { findMetroForCity } from "@/lib/metro-regions";
  * 308 verified events across 10 states.
  * Metro region is auto-populated from the city name.
  */
-const _rawGames: Omit<Game, "metroRegion">[] = [
+const _rawGames: Omit<Game, "metroRegion" | "organizerId" | "goingCount" | "beenHereCount" | "headsUpCount">[] = [
   {
     id: "ok-1",
     name: "Mahj918 – Open Play @ McNellie's South City",
@@ -14409,6 +14409,10 @@ const _rawGames: Omit<Game, "metroRegion">[] = [
 // Auto-populate metroRegion on each game from the city name
 export const mockGames: Game[] = _rawGames.map((g) => ({
   ...g,
+  organizerId: (g as Record<string, unknown>).organizerId as string | null ?? null,
+  goingCount: (g as Record<string, unknown>).goingCount as number ?? 0,
+  beenHereCount: (g as Record<string, unknown>).beenHereCount as number ?? 0,
+  headsUpCount: (g as Record<string, unknown>).headsUpCount as number ?? 0,
   metroRegion: findMetroForCity(g.city)?.abbreviation || null,
 }));
 
