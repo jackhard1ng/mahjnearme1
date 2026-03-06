@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Check, X, ArrowRight, CreditCard, ShieldCheck, Loader2, Tag, Heart } from "lucide-react";
@@ -66,6 +66,14 @@ const faqs = [
 ];
 
 export default function PricingPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen" />}>
+      <PricingContent />
+    </Suspense>
+  );
+}
+
+function PricingContent() {
   const { user, userProfile, hasAccess } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
