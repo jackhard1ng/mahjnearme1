@@ -40,7 +40,7 @@ export default function TermsPage() {
         <section>
           <h2 className="font-semibold text-xl text-charcoal mb-3">4. Subscriptions & Payments</h2>
           <p className="text-sm text-slate-600 leading-relaxed">
-            Free trial accounts have full access for 14 days. Paid subscriptions are billed monthly ({formatCurrency(MONTHLY_PRICE)}) or annually ({formatCurrency(ANNUAL_PRICE)}) through Stripe. You may cancel at any time; access continues through the end of your billing period. Refunds are handled on a case-by-case basis. Contact us within 7 days of a charge.
+            Free accounts have access to one metro area. Paid subscriptions are billed monthly ({formatCurrency(MONTHLY_PRICE)}) or annually ({formatCurrency(ANNUAL_PRICE)}) through Stripe and unlock full access to all metros and features. You may cancel at any time; access continues through the end of your billing period. Refunds are handled on a case-by-case basis. Contact us within 7 days of a charge.
           </p>
         </section>
 

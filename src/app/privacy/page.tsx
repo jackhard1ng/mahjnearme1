@@ -24,7 +24,7 @@ export default function PrivacyPolicyPage() {
         <section>
           <h2 className="font-semibold text-xl text-charcoal mb-3">2. How We Use Your Information</h2>
           <p className="text-sm text-slate-600 leading-relaxed">
-            We use your information to: provide personalized search results, manage your subscription, send transactional emails (welcome, trial reminders, weekly digests), and improve our service. We do not sell your personal information to third parties.
+            We use your information to: provide personalized search results, manage your subscription, send transactional emails (welcome, subscription updates, weekly digests), and improve our service. We do not sell your personal information to third parties.
           </p>
         </section>
 

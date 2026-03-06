@@ -257,6 +257,18 @@ function EarningsTab({ userId }: { userId: string }) {
           </div>
         )}
       </div>
+
+      {/* Commission Structure */}
+      <div className="bg-skyblue-50 border border-skyblue-200 rounded-xl p-4 mt-6">
+        <h4 className="text-sm font-semibold text-charcoal mb-2">How commissions work</h4>
+        <ul className="text-xs text-slate-600 space-y-1.5">
+          <li>You earn <strong>${MONTHLY_REFERRAL_COMMISSION.toFixed(2)}/month</strong> for each active monthly referral</li>
+          <li>You earn <strong>${ANNUAL_REFERRAL_COMMISSION.toFixed(2)} one-time</strong> for each annual referral</li>
+          <li>New subscribers using your code get <strong>15% off</strong></li>
+          <li>Commissions vest after <strong>60 days</strong> (to account for cancellations)</li>
+          <li>Payouts are processed on the <strong>1st of each month</strong></li>
+        </ul>
+      </div>
     </div>
   );
 }

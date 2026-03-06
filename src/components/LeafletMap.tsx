@@ -13,18 +13,21 @@ interface LeafletMapProps {
   onPinClick?: (gameId: string) => void;
   hasAccess?: boolean;
   previewCount?: number;
+  userHomeMetro?: string | null;
 }
 
 // US center as default view
 const US_CENTER: [number, number] = [39.8283, -98.5795];
 const DEFAULT_ZOOM = 4;
 
-function createPinIcon(color: string, isSelected: boolean): L.DivIcon | null {
+function createPinIcon(color: string, isSelected: boolean, isLocked: boolean): L.DivIcon | null {
   if (typeof window === "undefined") return null;
   const L = require("leaflet") as typeof import("leaflet");
 
-  const size = isSelected ? 32 : 24;
+  const size = isSelected ? 32 : isLocked ? 20 : 24;
   const border = isSelected ? "3px solid #fff" : "2px solid #fff";
+  const opacity = isLocked ? 0.5 : 1;
+  const pinColor = isLocked ? "#9CA3AF" : color; // gray-400 for locked
   const shadow = isSelected
     ? "0 0 0 3px rgba(255,20,147,0.5), 0 2px 8px rgba(0,0,0,0.3)"
     : "0 2px 6px rgba(0,0,0,0.3)";
@@ -34,10 +37,11 @@ function createPinIcon(color: string, isSelected: boolean): L.DivIcon | null {
     html: `<div style="
       width: ${size}px;
       height: ${size}px;
-      background: ${color};
+      background: ${pinColor};
       border: ${border};
       border-radius: 50%;
       box-shadow: ${shadow};
+      opacity: ${opacity};
       display: flex;
       align-items: center;
       justify-content: center;
@@ -55,7 +59,7 @@ function createPinIcon(color: string, isSelected: boolean): L.DivIcon | null {
   });
 }
 
-export default function LeafletMap({ games, selectedGameId, onPinClick, hasAccess = true, previewCount = 1 }: LeafletMapProps) {
+export default function LeafletMap({ games, selectedGameId, onPinClick, hasAccess = true, previewCount = 1, userHomeMetro }: LeafletMapProps) {
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.LayerGroup | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -119,32 +123,50 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
     geoGames.forEach((game, index) => {
       const isSelected = selectedGameId === game.id;
       const color = getMapPinColor(game.type);
-      const icon = createPinIcon(color, isSelected);
+
+      // Determine if this pin is in the user's home metro (for free users)
+      const isHomeMetroPin = !userHomeMetro || isGameInMetro(game, userHomeMetro);
+      const isLocked = !hasAccess && !isHomeMetroPin && index >= previewCount;
+
+      const icon = createPinIcon(color, isSelected, isLocked);
       if (!icon) return;
 
       const marker = L.marker([game.geopoint.lat, game.geopoint.lng], { icon })
         .on("click", () => {
           marker.openPopup();
-          onPinClick?.(game.id);
+          if (!isLocked) {
+            onPinClick?.(game.id);
+          }
         });
 
-      // Popup: gate details for non-subscribers
+      // Popup content differs based on access
       const typeLabel = getGameTypeLabel(game.type);
-      const canSeePopup = hasAccess || index < previewCount;
+      const canSeeDetails = hasAccess || (isHomeMetroPin && index < previewCount) || index === 0;
 
       const gameUrl = `/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`;
-      const popupContent = canSeePopup
-        ? `<div style="font-family: system-ui, sans-serif; min-width: 180px;">
+
+      let popupContent: string;
+
+      if (canSeeDetails) {
+        popupContent = `<div style="font-family: system-ui, sans-serif; min-width: 180px;">
             <strong style="font-size: 14px; color: #1a1a2e;">${game.name}</strong><br/>
             <span style="color: #64748b; font-size: 12px;">${typeLabel}</span><br/>
             <span style="color: #64748b; font-size: 12px;">${game.venueName || game.address}</span><br/>
-            <a href="${gameUrl}" style="color: #FF1493; font-size: 12px; font-weight: 600; text-decoration: none; margin-top: 4px; display: inline-block;">View Details →</a>
-          </div>`
-        : `<div style="font-family: system-ui, sans-serif; min-width: 180px;">
+            <a href="${gameUrl}" style="color: #FF1493; font-size: 12px; font-weight: 600; text-decoration: none; margin-top: 4px; display: inline-block;">View Details &rarr;</a>
+          </div>`;
+      } else if (isLocked) {
+        popupContent = `<div style="font-family: system-ui, sans-serif; min-width: 180px;">
+            <strong style="font-size: 14px; color: #1a1a2e;">Upgrade to see games in ${game.city}</strong><br/>
+            <span style="color: #64748b; font-size: 12px;">${typeLabel} in ${game.city}, ${game.state}</span><br/>
+            <a href="/pricing" style="color: #FF1493; font-size: 12px; font-weight: 600; text-decoration: none; margin-top: 4px; display: inline-block;">View Plans &rarr;</a>
+          </div>`;
+      } else {
+        popupContent = `<div style="font-family: system-ui, sans-serif; min-width: 180px;">
             <strong style="font-size: 14px; color: #1a1a2e;">${typeLabel}</strong><br/>
             <span style="color: #64748b; font-size: 12px;">${game.city}, ${game.state}</span><br/>
-            <a href="/pricing" style="color: #FF1493; font-size: 12px; font-weight: 600; text-decoration: none;">Subscribe to see details →</a>
+            <a href="/pricing" style="color: #FF1493; font-size: 12px; font-weight: 600; text-decoration: none;">Subscribe to see details &rarr;</a>
           </div>`;
+      }
 
       marker.bindPopup(popupContent, { closeButton: false, className: "mahj-popup" });
 
@@ -159,11 +181,7 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
     if (bounds.isValid()) {
       mapRef.current.fitBounds(bounds, { padding: [40, 40], maxZoom: 12 });
     }
-  }, [geoGames.length, selectedGameId, ready, hasGeoGames]);
-
-  // When a game is selected externally (not via pin click), pan to it
-  // But don't force re-center on pin click. Popup opens immediately.
-
+  }, [geoGames.length, selectedGameId, ready, hasGeoGames, hasAccess, userHomeMetro]);
 
   return (
     <div className="rounded-xl border-2 border-softpink-300 h-full min-h-[300px] relative overflow-hidden bg-skyblue-50">
@@ -204,7 +222,21 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
             <span className="text-charcoal">{label}</span>
           </div>
         ))}
+        {!hasAccess && (
+          <div className="flex items-center gap-2 text-xs border-t border-slate-200 pt-1 mt-1">
+            <div className="w-3 h-3 rounded-full bg-gray-400 opacity-50" />
+            <span className="text-slate-400">Locked</span>
+          </div>
+        )}
       </div>
     </div>
   );
+}
+
+// Helper: check if a game is in a given metro (by abbreviation)
+function isGameInMetro(game: Game, metroAbbreviation: string): boolean {
+  // Import metro regions to check
+  const { findMetroForCity } = require("@/lib/metro-regions");
+  const metro = findMetroForCity(game.city);
+  return metro?.abbreviation === metroAbbreviation;
 }

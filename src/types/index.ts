@@ -287,6 +287,7 @@ export interface ForumPost {
   title: string;
   body: string;
   isSticky: boolean;
+  isGeneralDiscussion?: boolean;
   linkedGameId: string | null;
   upvotes: number;
   upvotedBy: string[];

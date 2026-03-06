@@ -223,8 +223,7 @@ export async function PATCH(request: NextRequest) {
           referralLink,
           lastActivityDate: now,
           verificationsThisMonth: 0,
-          // Clear trial. They're now on permanent contributor access
-          trialEndsAt: null,
+          // Permanent contributor access (complimentary full access)
           updatedAt: now,
         },
         { merge: true }

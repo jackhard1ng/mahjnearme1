@@ -99,9 +99,7 @@ export default function AccountPage() {
     );
   }
 
-  const trialDaysLeft = userProfile.trialEndsAt
-    ? Math.max(0, Math.ceil((new Date(userProfile.trialEndsAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
-    : 0;
+  const trialDaysLeft = 0; // Legacy trial support removed
 
   function startEditAll() {
     setEditingAll(true);
@@ -265,8 +263,7 @@ export default function AccountPage() {
                 <p className="text-sm text-slate-500">{userProfile.email}</p>
                 <div className="flex items-center gap-2 mt-1">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-hotpink-100 text-hotpink-600">
-                    {userProfile.accountType === "trial" ? "Free Trial" :
-                     userProfile.accountType === "subscriber" ? "Subscriber" :
+                    {userProfile.accountType === "subscriber" ? "Subscriber" :
                      userProfile.accountType === "contributor" ? "Contributor" :
                      userProfile.accountType === "admin" ? "Admin" :
                      "Free"}
@@ -639,29 +636,8 @@ export default function AccountPage() {
             </div>
           )}
 
-          {userProfile.accountType === "trial" && (
-            <div className="bg-softpink-100 border border-hotpink-200 rounded-lg p-4 mb-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-semibold text-hotpink-600">Free Trial Active</p>
-                  <p className="text-sm text-hotpink-500">
-                    {trialDaysLeft > 0
-                      ? `${trialDaysLeft} days remaining, ends ${new Date(userProfile.trialEndsAt!).toLocaleDateString("en-US", { month: "long", day: "numeric" })}`
-                      : "Trial expired"}
-                  </p>
-                </div>
-                {userProfile.stripeCustomerId && (
-                  <button
-                    onClick={() => handleManageSubscription()}
-                    disabled={portalLoading}
-                    className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium flex items-center gap-1"
-                  >
-                    {portalLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ExternalLink className="w-3.5 h-3.5" />}
-                    Manage
-                  </button>
-                )}
-              </div>
-            </div>
+          {false && ( // Legacy trial UI removed
+            <div className="hidden"></div>
           )}
 
           {userProfile.accountType === "subscriber" && (
@@ -816,7 +792,7 @@ export default function AccountPage() {
             {[
               { label: "New games in saved cities", enabled: true },
               { label: "Weekly digest email", enabled: true },
-              { label: "Trial expiration reminders", enabled: true },
+              { label: "Subscription reminders", enabled: true },
               { label: "Product recommendations", enabled: false },
             ].map((pref) => (
               <div key={pref.label} className="flex items-center justify-between py-2">
