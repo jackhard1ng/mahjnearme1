@@ -170,12 +170,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     userProfile?.accountType === "contributor" ||
     userProfile?.subscriptionStatus === "active" ||
     userProfile?.subscriptionStatus === "past_due" ||
-    (userProfile?.subscriptionStatus === "trialing" &&
-      userProfile.trialEndsAt !== null &&
-      new Date(userProfile.trialEndsAt) > new Date()) ||
-    (userProfile?.accountType === "trial" &&
-      userProfile.trialEndsAt !== null &&
-      new Date(userProfile.trialEndsAt) > new Date());
+    // Legacy: treat any trialing status as active (trial feature removed)
+    userProfile?.subscriptionStatus === "trialing" ||
+    userProfile?.accountType === "trial";
 
   const isAdmin = userProfile?.accountType === "admin";
   const isContributor = userProfile?.isContributor === true || userProfile?.accountType === "contributor";
