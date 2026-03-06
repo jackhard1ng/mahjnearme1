@@ -75,7 +75,7 @@ export default function CityGamesList({ games, cityName, metroAbbreviation }: Ci
 
   const canViewMetro = hasMetroAccess(metroAbbreviation || null);
 
-  // Paid users, trial users, and free users viewing their home metro see all
+  // Paid users and free users viewing their home metro see all
   if (hasAccess || canViewMetro) {
     return (
       <div className="grid md:grid-cols-2 gap-4 mb-10">

@@ -47,10 +47,6 @@ export async function POST(request: Request) {
         const priceId = subscription.items.data[0]?.price.id;
         const plan = getPlanFromPriceId(priceId) || "monthly";
 
-        const trialEnd = subscription.trial_end
-          ? new Date(subscription.trial_end * 1000).toISOString()
-          : null;
-
         // Capture the price amount for grandfathering
         const priceAmount = subscription.items.data[0]?.price.unit_amount
           ? subscription.items.data[0].price.unit_amount / 100
@@ -61,11 +57,10 @@ export async function POST(request: Request) {
 
         await db.collection("users").doc(firebaseUid).set(
           {
-            accountType: trialEnd ? "trial" : "subscriber",
-            subscriptionStatus: subscription.status === "trialing" ? "trialing" : "active",
+            accountType: "subscriber",
+            subscriptionStatus: "active",
             stripeCustomerId: session.customer as string,
             stripeSubscriptionId: session.subscription as string,
-            trialEndsAt: trialEnd,
             plan,
             subscribedPrice: priceAmount,
             subscribedDate: new Date().toISOString(),
@@ -125,18 +120,14 @@ export async function POST(request: Request) {
         const priceId = subscription.items.data[0]?.price.id;
         const plan = getPlanFromPriceId(priceId);
 
-        const isTrialing = subscription.status === "trialing";
-        const isActive = subscription.status === "active";
+        const isActive = subscription.status === "active" || subscription.status === "trialing";
 
         await userDoc.ref.update({
-          accountType: isTrialing ? "trial" : isActive ? "subscriber" : "free",
-          subscriptionStatus: subscription.status,
+          accountType: isActive ? "subscriber" : "free",
+          subscriptionStatus: isActive ? "active" : subscription.status,
           plan: plan || userDoc.data().plan,
           subscriptionEndsAt: subscription.items.data[0]?.current_period_end
             ? new Date(subscription.items.data[0].current_period_end * 1000).toISOString()
-            : null,
-          trialEndsAt: subscription.trial_end
-            ? new Date(subscription.trial_end * 1000).toISOString()
             : null,
           updatedAt: new Date().toISOString(),
         });

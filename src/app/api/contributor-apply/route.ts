@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
 
     const db = getAdminDb();
 
-    // Check if user has already applied (prevent repeat trial abuse)
+    // Check if user has already applied (prevent duplicate applications)
     const userDoc = await db.collection("users").doc(userId).get();
     if (userDoc.exists) {
       const userData = userDoc.data();
