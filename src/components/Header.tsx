@@ -35,11 +35,14 @@ export default function Header() {
             <Link href="/shop" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               Mahj Gear
             </Link>
-            <Link href="/contribute" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
-              Contribute
-            </Link>
             <Link href="/community" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               Community
+            </Link>
+            <Link href="/giveaways" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
+              Giveaways
+            </Link>
+            <Link href="/pricing" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
+              Pricing
             </Link>
 
             {user ? (
@@ -146,18 +149,25 @@ export default function Header() {
               Mahj Gear
             </Link>
             <Link
-              href="/contribute"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
-            >
-              Contribute
-            </Link>
-            <Link
               href="/community"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
             >
               Community
+            </Link>
+            <Link
+              href="/giveaways"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
+            >
+              Giveaways
+            </Link>
+            <Link
+              href="/pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
+            >
+              Pricing
             </Link>
             <hr className="border-white/20" />
             {user ? (

@@ -131,7 +131,7 @@ export async function POST(request: NextRequest) {
       reviewedAt: null,
     });
 
-    // Mark as applied — no trial granted. User stays on free tier until approved.
+    // Mark as applied. No trial granted. User stays on free tier until approved.
     await db
       .collection("users")
       .doc(userId)
@@ -223,7 +223,7 @@ export async function PATCH(request: NextRequest) {
           referralLink,
           lastActivityDate: now,
           verificationsThisMonth: 0,
-          // Clear trial — they're now on permanent contributor access
+          // Clear trial. They're now on permanent contributor access
           trialEndsAt: null,
           updatedAt: now,
         },

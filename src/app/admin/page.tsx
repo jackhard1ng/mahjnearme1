@@ -292,12 +292,12 @@ export default function AdminDashboardPage() {
             </div>
             <div className="bg-white border border-slate-200 rounded-xl p-5">
               <Eye className="w-5 h-5 text-hotpink-500 mb-2" />
-              <p className="text-2xl font-bold text-charcoal">{analytics?.todayViews ?? "—"}</p>
+              <p className="text-2xl font-bold text-charcoal">{analytics?.todayViews ?? "-"}</p>
               <p className="text-sm text-slate-500">Views Today</p>
             </div>
             <div className="bg-white border border-slate-200 rounded-xl p-5">
               <TrendingUp className="w-5 h-5 text-skyblue-500 mb-2" />
-              <p className="text-2xl font-bold text-charcoal">{analytics?.totalViews ?? "—"}</p>
+              <p className="text-2xl font-bold text-charcoal">{analytics?.totalViews ?? "-"}</p>
               <p className="text-sm text-slate-500">Views (30d)</p>
             </div>
           </div>
@@ -396,12 +396,12 @@ export default function AdminDashboardPage() {
               </div>
               <div className="bg-slate-50 rounded-lg p-4 text-center">
                 <p className="text-sm text-slate-500 mb-1">Monthly MRR</p>
-                <p className="text-xl font-bold text-hotpink-600">—</p>
+                <p className="text-xl font-bold text-hotpink-600">-</p>
                 <p className="text-xs text-slate-400">Loaded from Stripe</p>
               </div>
               <div className="bg-slate-50 rounded-lg p-4 text-center">
                 <p className="text-sm text-slate-500 mb-1">ARR</p>
-                <p className="text-xl font-bold text-hotpink-600">—</p>
+                <p className="text-xl font-bold text-hotpink-600">-</p>
                 <p className="text-xs text-slate-400">Loaded from Stripe</p>
               </div>
             </div>
@@ -459,7 +459,7 @@ export default function AdminDashboardPage() {
                           <p className="font-medium text-charcoal">{c.name}</p>
                           <p className="text-xs text-slate-400">{c.email}</p>
                         </td>
-                        <td className="px-4 py-3 text-slate-600">{c.metro || "—"}</td>
+                        <td className="px-4 py-3 text-slate-600">{c.metro || "-"}</td>
                         <td className="px-4 py-3 text-center">{c.verificationsThisMonth}</td>
                         <td className="px-4 py-3 text-center text-slate-500">
                           {c.lastActivityDate
@@ -548,7 +548,7 @@ export default function AdminDashboardPage() {
                       {referralData.contributors.map((c) => (
                         <tr key={c.id} className={!c.activeReferrals && c.totalReferrals === 0 ? "bg-amber-50/50" : ""}>
                           <td className="px-4 py-3 font-medium text-charcoal">{c.name}</td>
-                          <td className="px-4 py-3 font-mono text-xs text-slate-600">{c.referralCode || "—"}</td>
+                          <td className="px-4 py-3 font-mono text-xs text-slate-600">{c.referralCode || "-"}</td>
                           <td className="px-4 py-3 text-center">{c.activeReferrals}</td>
                           <td className="px-4 py-3 text-center">{c.totalReferrals}</td>
                           <td className="px-4 py-3 text-right font-medium">{formatCurrency(c.commissionOwed)}</td>
@@ -603,6 +603,61 @@ export default function AdminDashboardPage() {
                   <p className="text-2xl font-bold text-hotpink-600">{giveawayData.totalEntries}</p>
                   <p className="text-xs text-slate-400">Annual = 2x entries</p>
                 </div>
+              </div>
+
+              {/* Open New Monthly Giveaway */}
+              <div className="bg-white border border-slate-200 rounded-xl p-6">
+                <h3 className="font-semibold text-charcoal mb-3">Open Monthly Giveaway</h3>
+                <p className="text-sm text-slate-500 mb-4">
+                  Set the prize details for this month&apos;s giveaway. These show on the public giveaways page.
+                </p>
+                <div className="grid sm:grid-cols-2 gap-3 mb-4">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1">Prize Name</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. American Mah Jongg Set"
+                      className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1">Prize Value</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. $350"
+                      className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1">Prize Photo URL</label>
+                    <input
+                      type="text"
+                      placeholder="https://..."
+                      className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1">Number of Winners</label>
+                    <input
+                      type="number"
+                      min={1}
+                      defaultValue={1}
+                      className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1">Draw Date</label>
+                    <input
+                      type="date"
+                      className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
+                    />
+                  </div>
+                </div>
+                <button
+                  className="flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
+                >
+                  <Gift className="w-4 h-4" /> Save Giveaway Details
+                </button>
               </div>
 
               <div className="bg-white border border-slate-200 rounded-xl p-6">
@@ -679,11 +734,17 @@ export default function AdminDashboardPage() {
                           <p className="text-sm font-medium text-charcoal">{w.winnerName}</p>
                           <p className="text-xs text-slate-500">{w.winnerCity}</p>
                         </div>
-                        <div className="text-right">
-                          <p className="text-xs text-slate-500">{w.month}</p>
-                          <p className="text-xs text-slate-400">
-                            {new Date(w.drawnAt).toLocaleString()}
-                          </p>
+                        <div className="flex items-center gap-4">
+                          <label className="flex items-center gap-1.5 text-xs text-slate-500 cursor-pointer">
+                            <input type="checkbox" defaultChecked={(w as Record<string, unknown>).displayPermission as boolean} className="rounded text-hotpink-500" />
+                            Public display consent
+                          </label>
+                          <div className="text-right">
+                            <p className="text-xs text-slate-500">{w.month}</p>
+                            <p className="text-xs text-slate-400">
+                              {new Date(w.drawnAt).toLocaleString()}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     ))}

@@ -476,7 +476,7 @@ function SignupPage() {
             Start your free trial
           </h1>
           <p className="text-slate-500">
-            14 days free. Credit card required — cancel anytime.
+            14 days free. Credit card required. Cancel anytime.
           </p>
         </div>
 

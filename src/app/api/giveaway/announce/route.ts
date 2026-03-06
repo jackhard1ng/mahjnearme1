@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
               : MONTHLY_REFERRAL_COMMISSION;
         }
       } catch {
-        // Referral data unavailable — use zeros
+        // Referral data unavailable, use zeros
       }
 
       const contributorName = data.displayName || data.email || "Contributor";
@@ -149,7 +149,7 @@ function buildCaption({
   referralCode: string;
   baseUrl: string;
 }) {
-  return `The MahjNearMe giveaway is live this month — they're giving away a ${prizeValue} ${prizeName} to one lucky member. Every paid subscriber is automatically entered. Use code ${referralCode} for 15% off your first month and you're in. ${baseUrl}/pricing?ref=${encodeURIComponent(referralCode)}`;
+  return `The MahjNearMe giveaway is live this month! They're giving away a ${prizeValue} ${prizeName} to one lucky member. Every paid subscriber is automatically entered. Use code ${referralCode} for 15% off your first month and you're in. ${baseUrl}/pricing?ref=${encodeURIComponent(referralCode)}`;
 }
 
 function buildEmailTemplate({
@@ -205,9 +205,9 @@ function buildEmailTemplate({
   <p style="margin: 0;">${formatCurrency(ANNUAL_REFERRAL_COMMISSION)} one-time for every annual subscriber you refer</p>
 </div>
 
-<p style="font-size: 15px; line-height: 1.6;">Share your code this month — every new subscriber from your post earns you commission every month they stay active.</p>
+<p style="font-size: 15px; line-height: 1.6;">Share your code this month. Every new subscriber from your post earns you commission every month they stay active.</p>
 
-<p style="color: #888; font-size: 12px; margin-top: 32px;">— The MahjNearMe Team</p>
+<p style="color: #888; font-size: 12px; margin-top: 32px;">- The MahjNearMe Team</p>
 
 </body>
 </html>`.trim();

@@ -82,7 +82,7 @@ export default async function StatePage({ params }: Props) {
         ))}
       </div>
 
-      {/* All Games in State — limited preview */}
+      {/* All Games in State (limited preview) */}
       <h2 className="font-semibold text-xl text-charcoal mb-4">All Games in {stateName}</h2>
       <div className="space-y-3 mb-4">
         {games.slice(0, FREE_PREVIEW_COUNT).map((game) => (

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "MahjNearMe privacy policy — how we collect, use, and protect your personal information.",
+  description: "MahjNearMe privacy policy. How we collect, use, and protect your personal information.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
         <section>
           <h2 className="font-semibold text-xl text-charcoal mb-3">1. Information We Collect</h2>
           <p className="text-sm text-slate-600 leading-relaxed">
-            When you create an account, we collect your name, email address, and optional profile information (skill level, home city, game style preferences). We use Firebase Authentication to securely manage your login credentials. If you subscribe, payment processing is handled entirely by Stripe — we never store your credit card information directly.
+            When you create an account, we collect your name, email address, and optional profile information (skill level, home city, game style preferences). We use Firebase Authentication to securely manage your login credentials. If you subscribe, payment processing is handled entirely by Stripe. We never store your credit card information directly.
           </p>
         </section>
 

@@ -19,7 +19,7 @@ const MESSAGES: Record<PromptType, { title: string; subtitle: string }> = {
   },
   giveaway: {
     title: "Paid members are automatically entered every month.",
-    subtitle: "One lucky member wins a premium mahjong set every month — worth more than 5 years of membership.",
+    subtitle: "One lucky member wins a premium mahjong set every month. That's worth more than 5 years of membership.",
   },
   general: {
     title: "Unlock full access to MahjNearMe.",

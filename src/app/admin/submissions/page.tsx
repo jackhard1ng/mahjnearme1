@@ -200,19 +200,19 @@ export default function AdminSubmissionsPage() {
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
                     <div>
                       <span className="text-xs font-medium text-slate-400 uppercase">Venue</span>
-                      <p className="text-charcoal">{sub.venue || "—"}</p>
+                      <p className="text-charcoal">{sub.venue || "-"}</p>
                     </div>
                     <div>
                       <span className="text-xs font-medium text-slate-400 uppercase">Schedule</span>
-                      <p className="text-charcoal">{sub.day && sub.time ? `${sub.day}, ${sub.time}` : "—"}</p>
+                      <p className="text-charcoal">{sub.day && sub.time ? `${sub.day}, ${sub.time}` : "-"}</p>
                     </div>
                     <div>
                       <span className="text-xs font-medium text-slate-400 uppercase">Cost</span>
-                      <p className="text-charcoal">{sub.cost || "—"}</p>
+                      <p className="text-charcoal">{sub.cost || "-"}</p>
                     </div>
                     <div>
                       <span className="text-xs font-medium text-slate-400 uppercase">Organizer Email</span>
-                      <p className="text-charcoal">{sub.email || "—"}</p>
+                      <p className="text-charcoal">{sub.email || "-"}</p>
                     </div>
                     <div>
                       <span className="text-xs font-medium text-slate-400 uppercase">Type</span>

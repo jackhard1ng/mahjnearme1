@@ -8,7 +8,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "MahjNearMe — Find Mahjong Games Anywhere You Go",
+    default: "MahjNearMe | Find Mahjong Games Anywhere You Go",
     template: "%s | MahjNearMe",
   },
   description:
@@ -29,13 +29,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "MahjNearMe",
-    title: "MahjNearMe — Find Mahjong Games Anywhere You Go",
+    title: "MahjNearMe | Find Mahjong Games Anywhere You Go",
     description:
       "The only directory of pickup mahjong games, open play, and events across the US. Search by city or use GPS to find games near you.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "MahjNearMe — Find Mahjong Games Anywhere You Go",
+    title: "MahjNearMe | Find Mahjong Games Anywhere You Go",
     description:
       "The only directory of pickup mahjong games, open play, and events across the US.",
   },

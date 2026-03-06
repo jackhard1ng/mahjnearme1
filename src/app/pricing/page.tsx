@@ -21,7 +21,7 @@ const freeFeatures = [
 ];
 
 const subscriberFeatures = [
-  { text: "All 70+ metros — full access everywhere", included: true },
+  { text: "All 70+ metros with full access everywhere", included: true },
   { text: "Full game details, contact info & schedules", included: true },
   { text: "Interactive map with directions", included: true },
   { text: "Post & reply in all forum boards", included: true },
@@ -36,7 +36,7 @@ const faqs = [
   {
     question: "What do I get with a free account?",
     answer:
-      "With a free account you get full access to one metro area of your choice — all listings, all details. You can browse other metros and see that games exist, but details are locked. You can also read forum posts in your home metro. Upgrade to unlock all 70+ metros, forum posting, giveaway entries, and more.",
+      "With a free account you get full access to one metro area of your choice. All listings, all details. You can browse other metros and see that games exist, but details are locked. You can also read forum posts in your home metro. Upgrade to unlock all 70+ metros, forum posting, giveaway entries, and more.",
   },
   {
     question: "Is there a free trial?",
@@ -46,12 +46,12 @@ const faqs = [
   {
     question: "Can I cancel anytime?",
     answer:
-      "Absolutely. There are no contracts or commitments. You can cancel your subscription anytime from your account settings — including during your free trial.",
+      "Absolutely. There are no contracts or commitments. You can cancel your subscription anytime from your account settings, including during your free trial.",
   },
   {
     question: "What happens when my trial ends?",
     answer:
-      "When your 14-day trial ends, your subscription automatically begins and you'll be charged the plan you selected. You keep full access — no interruption. If you cancel before the trial ends, your account reverts to the free tier.",
+      "When your 14-day trial ends, your subscription automatically begins and you'll be charged the plan you selected. You keep full access with no interruption. If you cancel before the trial ends, your account reverts to the free tier.",
   },
   {
     question: "How do payments work?",
@@ -168,14 +168,14 @@ function PricingContent() {
 
   function getMonthlyCta(): CtaConfig {
     if (isSubscriber && currentPlan === "monthly") return { label: "Your Current Plan", href: null };
-    if (isTrial) return { label: `Trial Active — ${trialDaysLeft} days left`, href: null };
+    if (isTrial) return { label: `Trial Active: ${trialDaysLeft} days left`, href: null };
     if (isSubscriber && currentPlan === "annual") return { label: "Switch to Monthly", href: "/account" };
     return { label: "Start 14-Day Free Trial", href: null, action: "monthly" };
   }
 
   function getAnnualCta(): CtaConfig {
     if (isSubscriber && currentPlan === "annual") return { label: "Your Current Plan", href: null };
-    if (isTrial) return { label: `Trial Active — ${trialDaysLeft} days left`, href: null };
+    if (isTrial) return { label: `Trial Active: ${trialDaysLeft} days left`, href: null };
     if (isSubscriber && currentPlan === "monthly") return { label: "Switch to Annual & Save", href: "/account" };
     return { label: "Start 14-Day Free Trial", href: null, action: "annual" };
   }
@@ -362,7 +362,7 @@ function PricingContent() {
                   Annual
                 </h3>
                 <p className="text-sm text-slate-500">
-                  Best value — billed yearly
+                  Best value, billed yearly
                 </p>
               </div>
               <div className="mb-6">
@@ -422,7 +422,7 @@ function PricingContent() {
                 <span className="font-semibold text-charcoal">14-Day Free Trial on Paid Plans</span>
               </div>
               <p className="text-slate-500 text-sm">
-                Credit card required to start your trial. You won&apos;t be charged until it ends. Cancel anytime — no risk, no commitment.
+                Credit card required to start your trial. You won&apos;t be charged until it ends. Cancel anytime. No risk, no commitment.
               </p>
             </div>
           )}

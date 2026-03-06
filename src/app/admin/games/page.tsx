@@ -508,11 +508,11 @@ export default function AdminGamesPage() {
                   <tbody className="divide-y divide-slate-100">
                     {csvData.slice(0, 10).map((row, i) => (
                       <tr key={i} className="hover:bg-skyblue-100">
-                        <td className="px-3 py-2">{row.name || "—"}</td>
-                        <td className="px-3 py-2">{row.city || "—"}</td>
-                        <td className="px-3 py-2">{row.state || "—"}</td>
-                        <td className="px-3 py-2">{row.type || "—"}</td>
-                        <td className="px-3 py-2">{row.dayOfWeek || "—"}</td>
+                        <td className="px-3 py-2">{row.name || "-"}</td>
+                        <td className="px-3 py-2">{row.city || "-"}</td>
+                        <td className="px-3 py-2">{row.state || "-"}</td>
+                        <td className="px-3 py-2">{row.type || "-"}</td>
+                        <td className="px-3 py-2">{row.dayOfWeek || "-"}</td>
                       </tr>
                     ))}
                   </tbody>

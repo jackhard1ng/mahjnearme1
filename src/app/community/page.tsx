@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, useMemo, FormEvent } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { getCitiesWithGames } from "@/lib/mock-data";
-import { getMetrosWithGames, getMetroCitiesSubtitle, findMetroByAbbreviation } from "@/lib/metro-regions";
+import { getMetrosWithGames, getMetroCitiesSubtitle, findMetroByAbbreviation, findMetroForCity } from "@/lib/metro-regions";
 import {
   MessageSquare,
   MapPin,
@@ -20,6 +20,9 @@ import {
   Users,
   ArrowRight,
   Lock,
+  CheckCircle,
+  Clock,
+  Info,
 } from "lucide-react";
 import type { ForumPost } from "@/types";
 
@@ -486,24 +489,226 @@ export default function CommunityPage() {
           </div>
         </div>
 
-        {/* Contributor CTA */}
-        <div className="mt-12 bg-skyblue-50 border border-skyblue-200 rounded-xl p-6 text-center">
-          <Users className="w-8 h-8 text-skyblue-500 mx-auto mb-3" />
-          <h3 className="font-semibold text-charcoal mb-2">
-            Want to help moderate your metro&apos;s forum?
-          </h3>
-          <p className="text-sm text-slate-500 mb-4">
-            Community contributors are automatically moderators for their
-            metro region&apos;s board.
-          </p>
-          <Link
-            href="/contribute"
-            className="inline-flex items-center gap-2 bg-skyblue-400 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-skyblue-500 transition-colors"
-          >
-            Become a Contributor <ChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
+        {/* Contributor Application (low-key section) */}
+        <ContributorApplySection />
       </div>
     </>
+  );
+}
+
+const CONNECTION_OPTIONS = [
+  { value: "regular_player", label: "I'm a regular player" },
+  { value: "multiple_venues", label: "I play at multiple venues" },
+  { value: "active_in_groups", label: "I'm active in local mahjong groups" },
+  { value: "help_new_players", label: "I help new players find games" },
+];
+
+function ContributorApplySection() {
+  const { user, userProfile, isContributor } = useAuth();
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [expanded, setExpanded] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    city: "",
+    connections: [] as string[],
+    story: "",
+  });
+
+  const hasAlreadyApplied = userProfile?.contributorAppliedAt !== null && userProfile?.contributorAppliedAt !== undefined;
+  const isPendingReview = userProfile?.contributorStatus === "pending";
+  const isApproved = isContributor;
+
+  const resolvedMetro = useMemo(() => {
+    if (!form.city) return null;
+    const cityPart = form.city.split(",")[0].trim();
+    return findMetroForCity(cityPart);
+  }, [form.city]);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!user) return;
+
+    setSubmitting(true);
+    setError("");
+    try {
+      const res = await fetch("/api/contributor-apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          userId: user.uid,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Something went wrong. Please try again.");
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  // Approved contributors see a simple acknowledgment
+  if (isApproved) {
+    return (
+      <div className="mt-10 border-t border-slate-200 pt-8">
+        <div className="flex items-center gap-3 text-sm text-slate-500">
+          <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />
+          <span>You&apos;re an active contributor. Thank you for keeping your metro&apos;s listings accurate.</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Pending review
+  if (hasAlreadyApplied || submitted) {
+    return (
+      <div className="mt-10 border-t border-slate-200 pt-8">
+        <div className="flex items-center gap-3 text-sm text-slate-500">
+          <Clock className="w-4 h-4 text-skyblue-500 shrink-0" />
+          <span>
+            {isPendingReview || submitted
+              ? "Your contributor application is under review. We'll be in touch within 72 hours."
+              : "We've already received your application. We'll be in touch soon."}
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-10 border-t border-slate-200 pt-8">
+      <div className="max-w-xl">
+        <h3 className="text-sm font-medium text-slate-600 mb-1">Help keep your city accurate</h3>
+        <p className="text-xs text-slate-400 mb-3">
+          If you&apos;re active in your local mahjong scene and want to maintain listings for your area, apply below.
+        </p>
+
+        {!user ? (
+          <p className="text-xs text-slate-400">
+            <Link href="/login" className="text-hotpink-500 hover:text-hotpink-600">Log in</Link> or{" "}
+            <Link href="/signup" className="text-hotpink-500 hover:text-hotpink-600">sign up</Link> to apply.
+          </p>
+        ) : !expanded ? (
+          <button
+            onClick={() => setExpanded(true)}
+            className="text-xs text-skyblue-500 hover:text-skyblue-600 font-medium"
+          >
+            Apply to contribute
+          </button>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4 bg-slate-50 border border-slate-200 rounded-lg p-4">
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-skyblue-200"
+                  placeholder="Your name"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">Email *</label>
+                <input
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-skyblue-200"
+                  placeholder="you@example.com"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-slate-600 mb-1">City *</label>
+              <input
+                type="text"
+                required
+                value={form.city}
+                onChange={(e) => setForm({ ...form, city: e.target.value })}
+                className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-skyblue-200"
+                placeholder="e.g., Tulsa, OK"
+              />
+              {resolvedMetro && (
+                <div className="flex items-center gap-2 mt-1.5 text-xs text-skyblue-600 bg-skyblue-50 rounded-lg px-3 py-1.5">
+                  <Info className="w-3 h-3 shrink-0" />
+                  You&apos;ll be contributing for the <strong>{resolvedMetro.metro}</strong> metro region
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-slate-600 mb-1.5">How are you connected to mahjong in your area? *</label>
+              <div className="space-y-1.5">
+                {CONNECTION_OPTIONS.map(({ value, label }) => (
+                  <label key={value} className="flex items-center gap-2 text-sm cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={form.connections.includes(value)}
+                      onChange={(e) => {
+                        const connections = e.target.checked
+                          ? [...form.connections, value]
+                          : form.connections.filter((c) => c !== value);
+                        setForm({ ...form, connections });
+                      }}
+                      className="rounded border-slate-300 text-hotpink-500 focus:ring-hotpink-400"
+                    />
+                    {label}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-slate-600 mb-1">
+                Tell us about your mahjong life in {resolvedMetro ? `the ${resolvedMetro.metro} area` : form.city || "your area"} *
+              </label>
+              <textarea
+                required
+                rows={3}
+                value={form.story}
+                onChange={(e) => setForm({ ...form, story: e.target.value })}
+                className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-skyblue-200"
+                placeholder="Where do you play? How did you find your games?"
+              />
+            </div>
+
+            {error && <p className="text-xs text-red-600">{error}</p>}
+
+            <div className="flex items-center gap-3">
+              <button
+                type="submit"
+                disabled={submitting || form.connections.length === 0}
+                className="flex items-center gap-2 bg-skyblue-400 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-skyblue-500 transition-colors disabled:opacity-50"
+              >
+                {submitting ? (
+                  <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Submitting...</>
+                ) : (
+                  <><Send className="w-3.5 h-3.5" /> Submit Application</>
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => setExpanded(false)}
+                className="text-xs text-slate-400 hover:text-slate-600"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
   );
 }

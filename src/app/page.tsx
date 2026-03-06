@@ -108,7 +108,7 @@ export default function HomePage() {
               <div className="text-xs font-bold text-hotpink-500 uppercase tracking-wider mb-2">Step 1</div>
               <h3 className="font-semibold text-lg mb-2 text-charcoal">Search your city</h3>
               <p className="text-sm text-slate-600">
-                Type any city, zip code, or travel destination — or just tap &ldquo;Use My Location&rdquo;
+                Type any city, zip code, or travel destination, or just tap &ldquo;Use My Location&rdquo;
               </p>
             </div>
             <div className="text-center">
@@ -118,7 +118,7 @@ export default function HomePage() {
               <div className="text-xs font-bold text-skyblue-500 uppercase tracking-wider mb-2">Step 2</div>
               <h3 className="font-semibold text-lg mb-2 text-charcoal">Browse games nearby</h3>
               <p className="text-sm text-slate-600">
-                See open play, lessons, leagues, and events on an interactive map — with all the details you need
+                See open play, lessons, leagues, and events on an interactive map with all the details you need
               </p>
             </div>
             <div className="text-center">
@@ -128,7 +128,7 @@ export default function HomePage() {
               <div className="text-xs font-bold text-hotpink-500 uppercase tracking-wider mb-2">Step 3</div>
               <h3 className="font-semibold text-lg mb-2 text-charcoal">Show up and play!</h3>
               <p className="text-sm text-slate-600">
-                Get the venue, schedule, contact info, and directions — then go enjoy a game
+                Get the venue, schedule, contact info, and directions. Then go enjoy a game!
               </p>
             </div>
           </div>
@@ -150,7 +150,7 @@ export default function HomePage() {
               <ShieldCheck className="w-8 h-8 text-skyblue-500 mb-4" />
               <h3 className="font-semibold text-lg mb-2 text-charcoal">Verified listings</h3>
               <p className="text-sm text-slate-600">
-                Every listing is verified — no outdated info, no dead links, no guessing if a game still meets.
+                Every listing is verified. No outdated info, no dead links, no guessing if a game still meets.
               </p>
             </div>
             <div className="card-white p-6">
@@ -177,13 +177,13 @@ export default function HomePage() {
               </div>
             </div>
             <blockquote className="text-slate-600 leading-relaxed mb-4">
-              &ldquo;My mom plays mahjong everywhere we go. On a trip to Tulsa, she spent hours searching Facebook groups, Googling different spellings of &lsquo;mahjongg,&rsquo; and DMing strangers on Instagram — just to find a game. We thought, there has to be a better way. So we built one.&rdquo;
+              &ldquo;My mom plays mahjong all the time back home in Tulsa. But whenever we&apos;re out of town, there&apos;s just no easy place to look. She&apos;ll spend hours searching Facebook groups, Googling different spellings of &lsquo;mahjongg,&rsquo; and DMing strangers on Instagram just to find one game. We thought, there has to be a better way. So we built one.&rdquo;
             </blockquote>
             <p className="font-semibold text-charcoal">
-              — Jack, Founder of MahjNearMe
+              - Jack, Founder of MahjNearMe
             </p>
             <div className="mt-6 rounded-2xl overflow-hidden shadow-lg" style={{ boxShadow: '0 8px 24px rgba(255,20,147,0.15)' }}>
-              <img src="/images/40a8a8ed77d5469f174ff66a88f95aa5.jpg" alt="Mahjong game night" className="w-full h-48 object-cover" loading="lazy" />
+              <img src="/images/heidijackhaleyswedding.jfif" alt="Jack with his family" className="w-full h-48 object-cover" loading="lazy" />
             </div>
           </div>
         </div>
@@ -227,13 +227,13 @@ export default function HomePage() {
           <div className="bg-gradient-to-r from-hotpink-50 to-skyblue-50 border border-hotpink-200 rounded-xl p-6 sm:p-8 text-center">
             <div className="text-3xl mb-3">🎁</div>
             <p className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-2">
-              One lucky member wins a premium mahjong set every month — worth more than 5 years of membership.
+              One lucky member wins a premium mahjong set every month. That's worth more than 5 years of membership.
             </p>
             <p className="text-sm text-slate-500 mb-4">
               Paid subscribers are automatically entered. Annual members get 2x entries.
             </p>
             <Link
-              href="/giveaway"
+              href="/giveaways"
               className="inline-flex items-center gap-2 text-hotpink-500 font-semibold text-sm hover:text-hotpink-600"
             >
               Learn more about the giveaway <ArrowRight className="w-4 h-4" />
@@ -274,7 +274,7 @@ export default function HomePage() {
                 Ready to find your next game?
               </h3>
               <p className="text-slate-600 mb-3">
-                Full access for 14 days. Credit card required — cancel anytime.
+                Full access for 14 days. Credit card required. Cancel anytime.
               </p>
               <div className="flex items-center justify-center gap-1 text-xs text-slate-500 mb-4">
                 <CreditCard className="w-3.5 h-3.5" />

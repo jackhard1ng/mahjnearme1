@@ -169,7 +169,7 @@ function SidebarCta() {
 export default function GameDetailPage() {
   const params = useParams();
 
-  // params.slug will be an array because of the catch-all [...slug] — but
+  // params.slug will be an array because of the catch-all [...slug], but
   // since the route is /games/[slug] with a single segment name, Next.js
   // actually delivers it as a string. We handle both cases.
   const rawSlug = params?.slug;
@@ -214,7 +214,7 @@ export default function GameDetailPage() {
 
   // Set document title client-side
   if (typeof document !== "undefined") {
-    document.title = `${game.name} — ${cityState} | ${SITE_NAME}`;
+    document.title = `${game.name} | ${cityState} | ${SITE_NAME}`;
   }
 
   return (
@@ -308,7 +308,7 @@ export default function GameDetailPage() {
                   </span>
                 </p>
 
-                {/* Verification badge — paid only */}
+                {/* Verification badge (paid only) */}
                 {canSeeDetails ? (
                   <div
                     className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border ${verification.bgColor}`}
@@ -323,7 +323,7 @@ export default function GameDetailPage() {
                 ) : (
                   <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-400">
                     <Lock className="w-4 h-4" />
-                    <span className="text-sm font-medium">Verification status — upgrade to see</span>
+                    <span className="text-sm font-medium">Verification status: upgrade to see</span>
                   </div>
                 )}
               </div>
@@ -339,10 +339,10 @@ export default function GameDetailPage() {
             </div>
 
             {/* ------------------------------------------------------------ */}
-            {/* Listing Details — visible to all users                       */}
+            {/* Listing Details: visible to all users                        */}
             {/* ------------------------------------------------------------ */}
 
-            {/* Location — venue name & area visible; exact address gated */}
+            {/* Location: venue name & area visible, exact address gated */}
             <div className="mahj-tile p-6">
               <h2 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-hotpink-500" />
@@ -370,7 +370,7 @@ export default function GameDetailPage() {
               ) : !loading ? (
                 <div className="mt-3 flex items-center gap-2 text-sm text-slate-400 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
                   <Lock className="w-3.5 h-3.5 shrink-0" />
-                  <span>Exact address &amp; directions — <Link href="/pricing" className="font-medium text-hotpink-500 hover:text-hotpink-600">upgrade to see</Link></span>
+                  <span>Exact address &amp; directions: <Link href="/pricing" className="font-medium text-hotpink-500 hover:text-hotpink-600">upgrade to see</Link></span>
                 </div>
               ) : null}
             </div>
@@ -470,7 +470,7 @@ export default function GameDetailPage() {
                 {game.registrationLink && !canSeeDetails && !loading && (
                   <div className="mt-3 flex items-center gap-2 text-sm text-slate-400 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
                     <Lock className="w-3.5 h-3.5 shrink-0" />
-                    <span>Registration link — <Link href="/pricing" className="font-medium text-hotpink-500 hover:text-hotpink-600">upgrade to access</Link></span>
+                    <span>Registration link: <Link href="/pricing" className="font-medium text-hotpink-500 hover:text-hotpink-600">upgrade to access</Link></span>
                   </div>
                 )}
               </div>
@@ -490,7 +490,7 @@ export default function GameDetailPage() {
             )}
 
             {/* ------------------------------------------------------------ */}
-            {/* Contact Info — paywalled with inline blur                     */}
+            {/* Contact Info: paywalled with inline blur                      */}
             {/* ------------------------------------------------------------ */}
             <div className="mahj-tile p-6">
               <h2 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
@@ -574,7 +574,7 @@ export default function GameDetailPage() {
                     >
                       <Lock className="w-4 h-4 text-hotpink-500" />
                       <span className="text-sm font-medium text-charcoal">
-                        Get the details — <span className="text-hotpink-500">upgrade to join this game</span>
+                        Get the details. <span className="text-hotpink-500">Upgrade to join this game</span>
                       </span>
                     </Link>
                   </div>
@@ -643,7 +643,7 @@ export default function GameDetailPage() {
               </div>
             </div>
 
-            {/* Verification Card — paid only */}
+            {/* Verification Card (paid only) */}
             {canSeeDetails ? (
               <div
                 className={`rounded-xl border p-4 ${verification.bgColor}`}
@@ -661,7 +661,7 @@ export default function GameDetailPage() {
               <div className="rounded-xl border border-slate-200 p-4 bg-slate-50">
                 <div className="flex items-center gap-2 text-slate-400">
                   <Lock className="w-4 h-4" />
-                  <span className="text-sm font-medium">Verification status — <Link href="/pricing" className="text-hotpink-500 hover:text-hotpink-600">upgrade</Link></span>
+                  <span className="text-sm font-medium">Verification status: <Link href="/pricing" className="text-hotpink-500 hover:text-hotpink-600">upgrade</Link></span>
                 </div>
               </div>
             )}

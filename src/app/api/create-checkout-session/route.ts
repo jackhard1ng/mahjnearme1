@@ -33,7 +33,7 @@ export async function POST(request: Request) {
           validatedReferralCode = referralCode.toUpperCase();
         }
       } catch {
-        // Referral validation failed — proceed without it
+        // Referral validation failed, proceed without it
       }
     }
 

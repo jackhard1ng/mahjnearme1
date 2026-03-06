@@ -58,7 +58,7 @@ export default function CityContributor({ cityName }: { cityName: string }) {
           </div>
         )}
         <p className="text-sm text-skyblue-700">
-          {metroLabel ? `${metroLabel} — ` : ""}Listings verified by{" "}
+          {metroLabel ? `${metroLabel}: ` : ""}Listings verified by{" "}
           <span className="font-semibold">{contributor.name}</span>
         </p>
       </div>

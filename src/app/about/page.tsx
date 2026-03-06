@@ -4,7 +4,7 @@ import { Heart, MapPin, ShieldCheck, Users } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About MahjNearMe",
-  description: "The story behind MahjNearMe — how struggling to find mahjong games while traveling inspired the only directory of pickup mahjong games in the United States.",
+  description: "The story behind MahjNearMe. How struggling to find mahjong games while traveling inspired the only directory of pickup mahjong games in the United States.",
 };
 
 export default function AboutPage() {
@@ -35,13 +35,14 @@ export default function AboutPage() {
           </div>
           <div className="text-slate-600 space-y-4">
             <p>
-              My mom plays mahjong all the time at home in Tulsa &mdash; she never has trouble
-              finding a game. But every time we travel, it&apos;s impossible. She&apos;ll spend
-              hours searching Facebook groups, Googling every spelling of &ldquo;mahjongg,&rdquo;
+              My mom plays mahjong all the time back home in Tulsa. She never has trouble
+              finding a game there. But whenever we&apos;re out of town, it&apos;s a completely
+              different story. There&apos;s just no easy place to look. She&apos;ll spend hours
+              searching Facebook groups, Googling every spelling of &ldquo;mahjongg,&rdquo;
               and DMing strangers on Instagram just trying to find one game wherever we are.
             </p>
             <p>
-              It&apos;s happened so many times that we finally said, there has to be a better way.
+              It happened so many times that we finally said, there has to be a better way.
             </p>
             <p>
               MahjNearMe is the first and only comprehensive directory of pickup mahjong games,
@@ -54,7 +55,7 @@ export default function AboutPage() {
           <div className="mt-8 rounded-xl overflow-hidden">
             <img
               src="/images/heidijackhaleyswedding.jfif"
-              alt="Jack and his mom"
+              alt="Jack with his family"
               className="w-full h-auto object-cover rounded-xl"
             />
           </div>
@@ -79,7 +80,7 @@ export default function AboutPage() {
             {
               icon: Users,
               title: "All Styles Welcome",
-              desc: "American, Chinese, Riichi — we list games for every style and every skill level.",
+              desc: "American, Chinese, Riichi: we list games for every style and every skill level.",
             },
             {
               icon: Heart,

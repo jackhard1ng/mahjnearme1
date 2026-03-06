@@ -28,7 +28,7 @@ export async function trackPageView(path: string) {
       { merge: true }
     );
   } catch {
-    // Silently fail — analytics should never break the app
+    // Silently fail. Analytics should never break the app.
   }
 }
 
