@@ -5,8 +5,6 @@ export const SITE_DESCRIPTION =
 
 export const MONTHLY_PRICE = 5.99;
 export const ANNUAL_PRICE = 47.99;
-export const TRIAL_DAYS = 14;
-
 // Referral discount: 15% off
 export const REFERRAL_DISCOUNT_PERCENT = 15;
 export const REFERRAL_MONTHLY_PRICE = 5.09;

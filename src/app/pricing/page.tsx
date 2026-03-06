@@ -3,7 +3,7 @@
 import { Suspense, useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Check, X, ArrowRight, CreditCard, ShieldCheck, Loader2, Tag, Heart } from "lucide-react";
+import { Check, X, ArrowRight, CreditCard, ShieldCheck, Loader2, Tag, Heart, Gift } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { GIVEAWAY_COPY, MONTHLY_PRICE, ANNUAL_PRICE } from "@/lib/constants";
 import { formatCurrency } from "@/lib/currency";
@@ -39,19 +39,14 @@ const faqs = [
       "With a free account you get full access to one metro area of your choice. All listings, all details. You can browse other metros and see that games exist, but details are locked. You can also read forum posts in your home metro. Upgrade to unlock all 70+ metros, forum posting, giveaway entries, and more.",
   },
   {
-    question: "Is there a free trial?",
+    question: "Is the free plan really free forever?",
     answer:
-      "Yes! Every new subscriber gets a 14-day free trial with full access to all features. A credit card is required to start your trial, but you won't be charged until the trial ends. Cancel anytime during the trial and you'll never be billed.",
+      "Yes. The free plan is permanent, not a trial. You get full access to one metro area forever. Upgrade whenever you want to unlock all metros and features.",
   },
   {
     question: "Can I cancel anytime?",
     answer:
-      "Absolutely. There are no contracts or commitments. You can cancel your subscription anytime from your account settings, including during your free trial.",
-  },
-  {
-    question: "What happens when my trial ends?",
-    answer:
-      "When your 14-day trial ends, your subscription automatically begins and you'll be charged the plan you selected. You keep full access with no interruption. If you cancel before the trial ends, your account reverts to the free tier.",
+      "Absolutely. There are no contracts or commitments. You can cancel your subscription anytime from your account settings. Your access continues through the end of your billing period, then reverts to the free tier.",
   },
   {
     question: "How do payments work?",
@@ -109,19 +104,8 @@ function PricingContent() {
 
   const accountType = userProfile?.accountType;
   const currentPlan = userProfile?.plan; // "monthly" | "annual" | null
-  const isTrial = accountType === "trial";
   const isSubscriber = accountType === "subscriber";
   const isFree = !user || accountType === "free";
-
-  const trialDaysLeft = userProfile?.trialEndsAt
-    ? Math.max(0, Math.ceil((new Date(userProfile.trialEndsAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
-    : 0;
-
-  const trialEndDate = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
 
   async function handleCheckout(plan: "monthly" | "annual") {
     if (!user) {
@@ -168,16 +152,14 @@ function PricingContent() {
 
   function getMonthlyCta(): CtaConfig {
     if (isSubscriber && currentPlan === "monthly") return { label: "Your Current Plan", href: null };
-    if (isTrial) return { label: `Trial Active: ${trialDaysLeft} days left`, href: null };
     if (isSubscriber && currentPlan === "annual") return { label: "Switch to Monthly", href: "/account" };
-    return { label: "Start 14-Day Free Trial", href: null, action: "monthly" };
+    return { label: "Subscribe Monthly", href: null, action: "monthly" };
   }
 
   function getAnnualCta(): CtaConfig {
     if (isSubscriber && currentPlan === "annual") return { label: "Your Current Plan", href: null };
-    if (isTrial) return { label: `Trial Active: ${trialDaysLeft} days left`, href: null };
     if (isSubscriber && currentPlan === "monthly") return { label: "Switch to Annual & Save", href: "/account" };
-    return { label: "Start 14-Day Free Trial", href: null, action: "annual" };
+    return { label: "Subscribe Annually", href: null, action: "annual" };
   }
 
   const freeCta = getFreeCta();
@@ -206,11 +188,9 @@ function PricingContent() {
           <p className="text-lg sm:text-xl text-white/80 mb-2 max-w-2xl mx-auto">
             {isFree
               ? "Create a free account to get started. Upgrade to unlock full game details, maps, and more."
-              : isTrial
-                ? `You're on a free trial with ${trialDaysLeft} days remaining. Enjoy full access!`
-                : isSubscriber
-                  ? "You're a subscriber with full access to all features."
-                  : "Create a free account to get started. Upgrade to unlock full game details, maps, and more."}
+              : isSubscriber
+                ? "You're a subscriber with full access to all features."
+                : "Create a free account to get started. Upgrade to unlock full game details, maps, and more."}
           </p>
         </div>
       </section>
@@ -233,7 +213,7 @@ function PricingContent() {
                   Free
                 </h3>
                 <p className="text-sm text-slate-500">
-                  What you get when you sign up
+                  Free forever, no credit card needed
                 </p>
               </div>
               <div className="mb-6">
@@ -271,7 +251,7 @@ function PricingContent() {
             </div>
 
             {/* Monthly Plan */}
-            <div className={`mahj-tile p-8 flex flex-col ${isSubscriber && currentPlan === "monthly" ? "border-2 !border-hotpink-500 relative" : ""} ${isTrial ? "border-2 !border-hotpink-400 relative" : ""}`}>
+            <div className={`mahj-tile p-8 flex flex-col ${isSubscriber && currentPlan === "monthly" ? "border-2 !border-hotpink-500 relative" : ""}`}>
               {(isSubscriber && currentPlan === "monthly") && (
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
                   <span className="bg-hotpink-500 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">
@@ -279,14 +259,7 @@ function PricingContent() {
                   </span>
                 </div>
               )}
-              {isTrial && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                  <span className="bg-hotpink-400 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">
-                    Trial Active
-                  </span>
-                </div>
-              )}
-              <div className={`mb-6 ${(isSubscriber && currentPlan === "monthly") || isTrial ? "mt-2" : ""}`}>
+              <div className={`mb-6 ${(isSubscriber && currentPlan === "monthly") ? "mt-2" : ""}`}>
                 <h3 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal mb-1">
                   Monthly
                 </h3>
@@ -328,14 +301,9 @@ function PricingContent() {
                   {monthlyCta.label}
                 </Link>
               ) : (
-                <div className={`block text-center px-6 py-3 rounded-xl font-semibold ${isTrial ? "bg-hotpink-50 text-hotpink-500 border-2 border-hotpink-200" : "bg-slate-100 text-slate-500 border-2 border-slate-200"}`}>
+                <div className="block text-center bg-slate-100 text-slate-500 border-2 border-slate-200 px-6 py-3 rounded-xl font-semibold">
                   {monthlyCta.label}
                 </div>
-              )}
-              {monthlyCta.action && (
-                <p className="text-xs text-slate-400 text-center mt-3 flex items-center justify-center gap-1">
-                  <CreditCard className="w-3.5 h-3.5" /> You won&apos;t be charged until {trialEndDate}
-                </p>
               )}
             </div>
 
@@ -402,34 +370,16 @@ function PricingContent() {
                   {annualCta.label}
                 </Link>
               ) : (
-                <div className={`block text-center px-6 py-3 rounded-xl font-semibold ${isTrial ? "bg-hotpink-50 text-hotpink-500 border-2 border-hotpink-200" : "bg-slate-100 text-slate-500 border-2 border-slate-200"}`}>
+                <div className="block text-center bg-slate-100 text-slate-500 border-2 border-slate-200 px-6 py-3 rounded-xl font-semibold">
                   {annualCta.label}
                 </div>
-              )}
-              {annualCta.action && (
-                <p className="text-xs text-slate-400 text-center mt-3 flex items-center justify-center gap-1">
-                  <CreditCard className="w-3.5 h-3.5" /> You won&apos;t be charged until {trialEndDate}
-                </p>
               )}
             </div>
           </div>
 
-          {/* Trial Note */}
-          {!isTrial && !isSubscriber && (
-            <div className="text-center mt-8 bg-softpink-100 border border-hotpink-200 rounded-xl px-6 py-4 max-w-lg mx-auto">
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <ShieldCheck className="w-5 h-5 text-hotpink-500" />
-                <span className="font-semibold text-charcoal">14-Day Free Trial on Paid Plans</span>
-              </div>
-              <p className="text-slate-500 text-sm">
-                Credit card required to start your trial. You won&apos;t be charged until it ends. Cancel anytime. No risk, no commitment.
-              </p>
-            </div>
-          )}
-
           {/* Referral / Promo Code */}
-          {!isTrial && !isSubscriber && (
-            <div className="text-center mt-4">
+          {!isSubscriber && (
+            <div className="text-center mt-6">
               {referralValid && (
                 <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 max-w-sm mx-auto mb-3">
                   <p className="text-sm text-green-700 font-medium">
@@ -473,8 +423,40 @@ function PricingContent() {
         </div>
       </section>
 
+      {/* Giveaway Callout */}
+      <section className="py-8 sm:py-10 section-warm">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="bg-gradient-to-r from-hotpink-50 to-skyblue-50 border-2 border-hotpink-200 rounded-2xl p-6 sm:p-8">
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+              <div className="w-16 h-16 bg-hotpink-100 rounded-2xl flex items-center justify-center shrink-0">
+                <Gift className="w-8 h-8 text-hotpink-500" />
+              </div>
+              <div className="flex-1 text-center sm:text-left">
+                <h3 className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-2">
+                  Monthly Mahjong Giveaway
+                </h3>
+                <p className="text-slate-600 text-sm mb-1">
+                  Every paid member is automatically entered in our monthly giveaway. Prizes every month -- and when we hit subscriber milestones, we go big.
+                </p>
+                <p className="text-slate-500 text-xs">
+                  No opt-in required. Annual members get 2x entries.{" "}
+                  <Link href="/giveaways" className="text-hotpink-500 hover:text-hotpink-600 font-medium">
+                    Learn more
+                  </Link>
+                </p>
+              </div>
+            </div>
+            {!hasAccess && (
+              <p className="text-center text-xs text-slate-400 mt-4 pt-4 border-t border-hotpink-100">
+                Free accounts are not entered in giveaways. Upgrade to be included.
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* Contributor Option */}
-      {!isTrial && !isSubscriber && (
+      {!isSubscriber && (
         <section className="pb-0 sm:pb-0 section-warm">
           <div className="max-w-5xl mx-auto px-4">
             <div className="bg-skyblue-50 border border-skyblue-200 rounded-xl p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6">
@@ -487,6 +469,7 @@ function PricingContent() {
                 </h3>
                 <p className="text-sm text-slate-500">
                   Get free full access in exchange for keeping your city&apos;s listings current. ~30 min/month, no technical skills needed.
+                  Approved contributors also earn referral commissions on every subscriber they bring in.
                 </p>
               </div>
               <Link
@@ -499,24 +482,6 @@ function PricingContent() {
           </div>
         </section>
       )}
-
-      {/* Giveaway Banner */}
-      <section className="py-8 sm:py-10 section-warm">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="bg-gradient-to-r from-hotpink-50 to-skyblue-50 border border-hotpink-200 rounded-xl p-6 sm:p-8 text-center">
-            <div className="text-3xl mb-3">🀄</div>
-            <p className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-2">
-              {GIVEAWAY_COPY}
-            </p>
-            <p className="text-sm text-slate-500">
-              All paid subscribers are automatically entered. Annual members get 2x entries.{" "}
-              <Link href="/giveaway" className="text-hotpink-500 hover:text-hotpink-600 font-medium">
-                Learn more
-              </Link>
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* FAQ Section */}
       <section className="py-12 sm:py-16 section-mint">

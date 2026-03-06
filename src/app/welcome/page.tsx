@@ -10,23 +10,15 @@ export default function WelcomePage() {
   const [verified, setVerified] = useState(false);
 
   useEffect(() => {
-    // After successful Stripe checkout, update local profile to reflect trial
+    // After successful Stripe checkout, update local profile to reflect active subscription
     if (user) {
-      const trialEnd = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString();
       updateUserProfile({
-        accountType: "trial",
-        subscriptionStatus: "trialing",
-        trialEndsAt: trialEnd,
+        accountType: "subscriber",
+        subscriptionStatus: "active",
       });
       setVerified(true);
     }
   }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const trialEndDate = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
 
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-16">
@@ -41,10 +33,10 @@ export default function WelcomePage() {
           </h1>
 
           <p className="text-slate-600 mb-2">
-            Your 14-day free trial is now active.
+            Your subscription is now active. You have full access to all features.
           </p>
           <p className="text-sm text-slate-500 mb-8">
-            You won&apos;t be charged until <strong>{trialEndDate}</strong>. Cancel anytime from your account settings.
+            You can manage your subscription anytime from your account settings.
           </p>
 
           <div className="space-y-4 mb-8 text-left">
@@ -60,7 +52,7 @@ export default function WelcomePage() {
               <MapPin className="w-5 h-5 text-skyblue-500 shrink-0 mt-0.5" />
               <div>
                 <p className="font-medium text-charcoal text-sm">Explore Cities</p>
-                <p className="text-xs text-slate-500">Browse games across different cities and states</p>
+                <p className="text-xs text-slate-500">Browse games across all 70+ metros with full details</p>
               </div>
             </div>
             <div className="flex items-start gap-3 bg-softpink-50 rounded-lg p-3">

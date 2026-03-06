@@ -182,8 +182,8 @@ export default function HomePage() {
             <p className="font-semibold text-charcoal">
               - Jack, Founder of MahjNearMe
             </p>
-            <div className="mt-6 rounded-2xl overflow-hidden shadow-lg" style={{ boxShadow: '0 8px 24px rgba(255,20,147,0.15)' }}>
-              <img src="/images/heidijackhaleyswedding.jfif" alt="Jack with his family" className="w-full h-48 object-cover" loading="lazy" />
+            <div className="mt-6 rounded-2xl overflow-hidden shadow-lg flex justify-center" style={{ boxShadow: '0 8px 24px rgba(255,20,147,0.15)' }}>
+              <img src="/images/heidijackhaleyswedding.jfif" alt="Jack with his family" className="max-w-xs w-full h-auto object-contain rounded-2xl" loading="lazy" />
             </div>
           </div>
         </div>
@@ -274,7 +274,7 @@ export default function HomePage() {
                 Ready to find your next game?
               </h3>
               <p className="text-slate-600 mb-3">
-                Full access for 14 days. Credit card required. Cancel anytime.
+                Unlock all 70+ metros, full game details, and monthly giveaway entry.
               </p>
               <div className="flex items-center justify-center gap-1 text-xs text-slate-500 mb-4">
                 <CreditCard className="w-3.5 h-3.5" />
@@ -284,7 +284,7 @@ export default function HomePage() {
                 href="/signup"
                 className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors shadow-lg"
               >
-                Start Free Trial <ArrowRight className="w-4 h-4" />
+                Get Started Free <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </div>

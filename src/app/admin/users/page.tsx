@@ -129,7 +129,7 @@ export default function AdminUsersPage() {
   });
 
   const subscribers = users.filter((u) => u.accountType === "subscriber").length;
-  const trialUsers = users.filter((u) => u.subscriptionStatus === "trialing" || u.accountType === "trial").length;
+  const contributors = users.filter((u) => u.accountType === "contributor").length;
 
   if (loading) {
     return (
@@ -150,7 +150,7 @@ export default function AdminUsersPage() {
         {[
           { label: "Total Users", value: users.length, icon: Users },
           { label: "Subscribers", value: subscribers, icon: Crown },
-          { label: "Trial Users", value: trialUsers, icon: Shield },
+          { label: "Contributors", value: contributors, icon: Shield },
         ].map((s) => (
           <div key={s.label} className="bg-white border border-slate-200 rounded-xl p-4">
             <s.icon className="w-5 h-5 text-hotpink-500 mb-2" />
@@ -179,7 +179,7 @@ export default function AdminUsersPage() {
             <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="border border-slate-200 rounded-lg px-3 py-2 text-sm">
               <option value="all">All Types</option>
               <option value="subscriber">Subscribers</option>
-              <option value="trial">Trial</option>
+              <option value="contributor">Contributors</option>
               <option value="free">Free</option>
               <option value="admin">Admins</option>
             </select>
@@ -243,7 +243,7 @@ export default function AdminUsersPage() {
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Type</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Plan</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Joined</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Trial Ends</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Sub Ends</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">Status</th>
                   <th className="px-4 py-3 text-right text-xs font-semibold text-slate-600">Actions</th>
                 </tr>
@@ -253,9 +253,7 @@ export default function AdminUsersPage() {
                   const isExpanded = expandedUserId === user.id;
                   const joinDate = user.createdAt ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-";
                   const lastLogin = user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-";
-                  const trialEnd = user.trialEndsAt ? new Date(user.trialEndsAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-";
-                  const isTrialExpired = user.trialEndsAt ? new Date(user.trialEndsAt) < new Date() : false;
-                  const isTrialing = user.subscriptionStatus === "trialing" || user.accountType === "trial";
+                  const subEnd = user.subscriptionEndsAt ? new Date(user.subscriptionEndsAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-";
                   return (
                     <tr key={user.id} className="hover:bg-skyblue-100">
                       <td className="px-4 py-3" colSpan={isExpanded ? 7 : undefined}>
@@ -285,7 +283,7 @@ export default function AdminUsersPage() {
                                   <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium mt-1 ${
                                     user.accountType === "subscriber" ? "bg-hotpink-200 text-hotpink-600" :
                                     user.accountType === "admin" ? "bg-slate-200 text-slate-700" :
-                                    user.accountType === "trial" ? "bg-skyblue-200 text-skyblue-600" :
+                                    user.accountType === "contributor" ? "bg-skyblue-200 text-skyblue-600" :
                                     "bg-skyblue-100 text-slate-600"
                                   }`}>
                                     {user.accountType}
@@ -306,17 +304,6 @@ export default function AdminUsersPage() {
                                   <p className="text-charcoal mt-1">{joinDate}</p>
                                 </div>
                               </div>
-                              {isTrialing && (
-                                <div className="flex items-start gap-2">
-                                  <Shield className="w-4 h-4 text-skyblue-400 mt-0.5 shrink-0" />
-                                  <div>
-                                    <span className="text-xs font-medium text-slate-400 uppercase block">Trial Ends</span>
-                                    <p className={`mt-1 ${isTrialExpired ? "text-red-500 font-medium" : "text-charcoal"}`}>
-                                      {trialEnd}{isTrialExpired ? " (expired)" : ""}
-                                    </p>
-                                  </div>
-                                </div>
-                              )}
                               <div className="flex items-start gap-2">
                                 <Calendar className="w-4 h-4 text-skyblue-400 mt-0.5 shrink-0" />
                                 <div>
@@ -374,7 +361,7 @@ export default function AdminUsersPage() {
                             <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
                               user.accountType === "subscriber" ? "bg-hotpink-200 text-hotpink-600" :
                               user.accountType === "admin" ? "bg-slate-200 text-slate-700" :
-                              user.accountType === "trial" ? "bg-skyblue-200 text-skyblue-600" :
+                              user.accountType === "contributor" ? "bg-skyblue-200 text-skyblue-600" :
                               "bg-skyblue-100 text-slate-600"
                             }`}>
                               {user.accountType}
@@ -383,13 +370,7 @@ export default function AdminUsersPage() {
                           <td className="px-4 py-3 text-slate-600">{user.plan || "-"}</td>
                           <td className="px-4 py-3 text-slate-600">{joinDate}</td>
                           <td className="px-4 py-3">
-                            {isTrialing ? (
-                              <span className={`text-xs font-medium ${isTrialExpired ? "text-red-500" : "text-skyblue-600"}`}>
-                                {trialEnd}{isTrialExpired ? " (expired)" : ""}
-                              </span>
-                            ) : (
-                              <span className="text-xs text-slate-400">-</span>
-                            )}
+                            <span className="text-xs text-slate-500">{subEnd}</span>
                           </td>
                           <td className="px-4 py-3">
                             <span className={`text-xs font-medium ${

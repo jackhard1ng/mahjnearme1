@@ -179,6 +179,7 @@ function SearchContent() {
             onPinClick={setSelectedGameId}
             hasAccess={hasAccess}
             previewCount={1}
+            userHomeMetro={userProfile?.homeMetro || null}
           />
         </div>
 

@@ -22,11 +22,10 @@ const faqs = [
   {
     category: "Account & Subscription",
     questions: [
-      { q: "What do I get with a free account?", a: "When you create an account, you can browse all cities, see game names, types, schedules, and general locations. To unlock full details like contact info, descriptions, the interactive map, and the travel planner, you'll need a subscription." },
-      { q: "Is there a free trial?", a: "Yes! When you subscribe, you get 14 days of full access before being charged. A credit card is required to start the trial, but you won't be billed until the trial ends. Cancel anytime during the trial and you pay nothing." },
+      { q: "What do I get with a free account?", a: "With a free account you get full access to one metro area of your choice. All listings, all details. You can browse other metros and see that games exist, but details are locked. You can also read forum posts in your home metro. Upgrade to unlock all 70+ metros, forum posting, giveaway entries, and more." },
+      { q: "Is the free plan really free forever?", a: "Yes. The free plan is permanent, not a trial. You get full access to one metro area forever at no cost. No credit card required. Upgrade whenever you want to unlock all metros and premium features." },
       { q: "How much does a subscription cost?", a: `We offer two plans: ${formatCurrency(MONTHLY_PRICE)}/month or ${formatCurrency(ANNUAL_PRICE)}/year (that's just ${formatCurrency(ANNUAL_PRICE / 12)}/month, a ${Math.round((1 - ANNUAL_PRICE / 12 / MONTHLY_PRICE) * 100)}% savings). Both give you full access to all features.` },
       { q: "Can I cancel anytime?", a: "Yes, absolutely. No contracts, no cancellation fees. You can cancel anytime from your account settings or the Stripe customer portal. Your access continues until the end of your billing period." },
-      { q: "What happens when my trial ends?", a: `After your 14-day free trial, your subscription automatically begins and you'll be charged the plan you selected (${formatCurrency(MONTHLY_PRICE)}/month or ${formatCurrency(ANNUAL_PRICE)}/year). You keep full access with no interruption. If you cancel before the trial ends, your account reverts to the free tier.` },
     ],
   },
   {

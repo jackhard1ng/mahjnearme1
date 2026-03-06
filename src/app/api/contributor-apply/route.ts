@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
 
     const db = getAdminDb();
 
-    // Check if user has already applied (prevent repeat trial abuse)
+    // Check if user has already applied (prevent duplicate applications)
     const userDoc = await db.collection("users").doc(userId).get();
     if (userDoc.exists) {
       const userData = userDoc.data();
@@ -223,8 +223,7 @@ export async function PATCH(request: NextRequest) {
           referralLink,
           lastActivityDate: now,
           verificationsThisMonth: 0,
-          // Clear trial. They're now on permanent contributor access
-          trialEndsAt: null,
+          // Permanent contributor access (complimentary full access)
           updatedAt: now,
         },
         { merge: true }

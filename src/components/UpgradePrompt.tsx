@@ -85,7 +85,7 @@ export default function UpgradePrompt({
           View Plans
         </Link>
         <p className="text-xs text-slate-400 mt-3">
-          Starting at {formatCurrency(MONTHLY_PRICE)}/month with a 14-day free trial
+          Starting at {formatCurrency(MONTHLY_PRICE)}/month. Cancel anytime.
         </p>
       </div>
     </div>

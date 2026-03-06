@@ -473,10 +473,10 @@ function SignupPage() {
             </span>
           </Link>
           <h1 className="font-[family-name:var(--font-heading)] font-bold text-2xl sm:text-3xl text-charcoal mb-2">
-            Start your free trial
+            Create your account
           </h1>
           <p className="text-slate-500">
-            14 days free. Credit card required. Cancel anytime.
+            Get started free. Upgrade anytime to unlock all features.
           </p>
         </div>
 

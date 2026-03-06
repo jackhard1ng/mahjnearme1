@@ -416,8 +416,8 @@ export default function CommunityPage() {
               </div>
             ) : (
               <div className="space-y-4">
-                {/* Auto-generated welcome post for metro boards */}
-                {selectedMetroData && posts.length === 0 && (
+                {/* Auto-generated welcome post for metro boards (show if no pinned general discussion from API) */}
+                {selectedMetroData && !posts.some((p) => p.isSticky && p.isGeneralDiscussion) && (
                   <div className="bg-skyblue-50 border border-skyblue-200 rounded-xl p-5">
                     <div className="flex items-start gap-3">
                       <div className="w-10 h-10 rounded-full bg-skyblue-200 flex items-center justify-center shrink-0">

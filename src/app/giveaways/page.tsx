@@ -5,7 +5,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
-import { Gift, Trophy, Mail, ArrowRight, Check, Loader2, Users, Target } from "lucide-react";
+import { Gift, Trophy, ArrowRight, Check, Loader2, Users, Target } from "lucide-react";
 
 interface Winner {
   id: string;
@@ -34,23 +34,40 @@ interface GiveawayInfo {
 }
 
 const MILESTONES = [
-  { members: 1000, prize: "Premium American Mahjong Set ($250 value)", description: "A beautiful set delivered to one lucky winner every month." },
-  { members: 5000, prize: "$500 Mahjong Prize Pack", description: "Set, accessories, card holder, and custom tiles. Two winners per month." },
-  { members: 10000, prize: "$1,000+ Grand Prize Package", description: "Top-of-the-line set, travel case, custom tiles, plus a $500 gift card. Five winners per month." },
+  {
+    members: 1000,
+    prize: "3 Premium Mahjong Sets",
+    description: "Three winners each receive a premium American mahjong set. Our first milestone giveaway.",
+  },
+  {
+    members: 5000,
+    prize: "10 Premium Mahjong Sets (~$4,000 total)",
+    description: "Ten premium sets (approximately $400 each) given away. The biggest mahjong giveaway online.",
+  },
+  {
+    members: 10000,
+    prize: "10 Sets + 20 Mahjong Mats + Experiential Prize",
+    description: "Premium sets, mahjong mats, plus something experiential like a tournament entry or travel prize.",
+  },
+  {
+    members: 25000,
+    prize: "Major Giveaway with Sponsor Involvement",
+    description: "A landmark giveaway with sponsor partnerships, travel prizes, or equivalent. Details TBA.",
+  },
 ];
+
+// First draw: April 30, 2026
+const FIRST_DRAW_DATE = "April 30, 2026";
 
 export default function GiveawaysPage() {
   const { user, hasAccess, userProfile } = useAuth();
   const [data, setData] = useState<GiveawayInfo | null>(null);
   const [loading, setLoading] = useState(true);
-  const [freeEmail, setFreeEmail] = useState("");
-  const [freeName, setFreeName] = useState("");
-  const [freeSubmitting, setFreeSubmitting] = useState(false);
-  const [freeSuccess, setFreeSuccess] = useState(false);
-  const [freeError, setFreeError] = useState("");
+  const [subscriberCount, setSubscriberCount] = useState(0);
 
   useEffect(() => {
     fetchGiveaway();
+    fetchSubscriberCount();
   }, []);
 
   async function fetchGiveaway() {
@@ -67,33 +84,15 @@ export default function GiveawaysPage() {
     }
   }
 
-  async function handleFreeEntry(e: React.FormEvent) {
-    e.preventDefault();
-    if (!freeEmail.trim()) return;
-
-    setFreeSubmitting(true);
-    setFreeError("");
+  async function fetchSubscriberCount() {
     try {
-      const res = await fetch("/api/giveaway", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "free_entry",
-          email: freeEmail,
-          name: freeName,
-        }),
-      });
-
+      const res = await fetch("/api/subscriber-count");
       if (res.ok) {
-        setFreeSuccess(true);
-      } else {
         const json = await res.json();
-        setFreeError(json.error || "Something went wrong");
+        setSubscriberCount(json.count);
       }
     } catch {
-      setFreeError("Something went wrong. Please try again.");
-    } finally {
-      setFreeSubmitting(false);
+      // silent - stays at 0
     }
   }
 
@@ -105,7 +104,9 @@ export default function GiveawaysPage() {
 
   function getDrawDate(): string {
     if (data?.drawDate) return data.drawDate;
+    // First draw is April 30, 2026
     const now = new Date();
+    if (now < new Date("2026-04-30")) return FIRST_DRAW_DATE;
     const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
     return lastDay.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
   }
@@ -141,8 +142,9 @@ export default function GiveawaysPage() {
 
   const entryInfo = getUserEntryInfo();
 
-  // Fake subscriber count for milestone progress (replace with real data later)
-  const currentSubscriberCount = 127;
+  // Next milestone
+  const nextMilestone = MILESTONES.find((m) => subscriberCount < m.members) || MILESTONES[MILESTONES.length - 1];
+  const membersToNext = Math.max(0, nextMilestone.members - subscriberCount);
 
   return (
     <>
@@ -155,11 +157,11 @@ export default function GiveawaysPage() {
         <div className="max-w-5xl mx-auto px-4 pt-16 pb-12 sm:pt-20 sm:pb-14 text-center relative">
           <Gift className="w-12 h-12 text-skyblue-200 mx-auto mb-4" />
           <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-4xl sm:text-5xl text-white mb-3 tracking-tight drop-shadow-lg">
-            Monthly Mahjong Set{" "}
+            Monthly Mahjong{" "}
             <span className="text-skyblue-200">Giveaway</span>
           </h1>
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
-            Every month, one lucky member wins a premium mahjong set. Paid subscribers are automatically entered.
+            Every month, paid members win mahjong prizes. Sets, mats, tile racks, carrying cases, and more. The prize changes month to month.
           </p>
         </div>
       </section>
@@ -175,10 +177,10 @@ export default function GiveawaysPage() {
               </div>
               <div>
                 <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal">
-                  {data?.prizeName || "Premium American Mahjong Set"}
+                  {data?.prizeName || "Monthly Prize"}
                 </h2>
                 <p className="text-sm text-slate-500">
-                  {data?.prizeValue || "$250+"} value
+                  Prize to be announced by founder before each draw
                 </p>
               </div>
             </div>
@@ -189,12 +191,12 @@ export default function GiveawaysPage() {
                 <p className="text-lg font-bold text-charcoal">{data?.numberOfWinners || 1}</p>
               </div>
               <div className="bg-slate-50 rounded-lg p-3 text-center">
-                <p className="text-xs text-slate-500 mb-1">Draw date</p>
+                <p className="text-xs text-slate-500 mb-1">Next draw date</p>
                 <p className="text-lg font-bold text-charcoal">{getDrawDate()}</p>
               </div>
               <div className="bg-slate-50 rounded-lg p-3 text-center">
-                <p className="text-xs text-slate-500 mb-1">Members entered</p>
-                <p className="text-lg font-bold text-charcoal">{data?.entryCount || "-"}</p>
+                <p className="text-xs text-slate-500 mb-1">Paying members entered</p>
+                <p className="text-lg font-bold text-charcoal">{subscriberCount > 0 ? subscriberCount : "-"}</p>
               </div>
             </div>
 
@@ -259,10 +261,13 @@ export default function GiveawaysPage() {
               </div>
               <h3 className="font-semibold text-charcoal mb-2">Win!</h3>
               <p className="text-sm text-slate-500">
-                Winner drawn at the end of the month. Premium mahjong set delivered to your door.
+                Winner drawn on the last day of each month. Prize delivered to your door.
               </p>
             </div>
           </div>
+          <p className="text-center text-xs text-slate-400 mt-4">
+            Prizes are not always mahjong sets. Some months it may be mats, tile racks, carrying cases, or other mahjong accessories. Variety is intentional.
+          </p>
         </div>
 
         {/* Past Winners */}
@@ -278,7 +283,7 @@ export default function GiveawaysPage() {
             <div className="mahj-tile p-8 text-center">
               <Trophy className="w-10 h-10 text-slate-300 mx-auto mb-3" />
               <p className="text-slate-500">
-                No winners yet. The first drawing is coming soon!
+                No winners yet. The first drawing is {FIRST_DRAW_DATE}!
               </p>
             </div>
           ) : (
@@ -302,11 +307,11 @@ export default function GiveawaysPage() {
                   </div>
                   {winner.winnerSetPhoto && winner.displayPermission && (
                     <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0">
-                      <img src={winner.winnerSetPhoto} alt="Winner's set" className="w-full h-full object-cover" />
+                      <img src={winner.winnerSetPhoto} alt="Winner's prize" className="w-full h-full object-cover" />
                     </div>
                   )}
                   <span className="text-xs font-medium text-hotpink-500 bg-hotpink-50 px-3 py-1 rounded-full shrink-0">
-                    {winner.prizeName || "Mahjong Set"}
+                    {winner.prizeName || "Mahjong Prize"}
                   </span>
                 </div>
               ))}
@@ -328,24 +333,26 @@ export default function GiveawaysPage() {
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-charcoal">
                 <Users className="w-4 h-4 inline mr-1 text-hotpink-500" />
-                {currentSubscriberCount} members
+                {subscriberCount} paying members
               </span>
-              <span className="text-sm text-slate-400">Next: {MILESTONES[0].members.toLocaleString()}</span>
+              <span className="text-sm text-slate-400">Next: {nextMilestone.members.toLocaleString()}</span>
             </div>
             <div className="w-full bg-slate-100 rounded-full h-3">
               <div
                 className="bg-gradient-to-r from-hotpink-500 to-skyblue-400 h-3 rounded-full transition-all"
-                style={{ width: `${Math.min((currentSubscriberCount / MILESTONES[0].members) * 100, 100)}%` }}
+                style={{ width: `${Math.min((subscriberCount / nextMilestone.members) * 100, 100)}%` }}
               />
             </div>
             <p className="text-xs text-slate-400 mt-1">
-              {MILESTONES[0].members - currentSubscriberCount} more members until the first milestone!
+              {membersToNext > 0
+                ? `${membersToNext.toLocaleString()} more members until the next milestone!`
+                : "Milestone reached!"}
             </p>
           </div>
 
           <div className="space-y-4">
-            {MILESTONES.map((milestone, i) => {
-              const reached = currentSubscriberCount >= milestone.members;
+            {MILESTONES.map((milestone) => {
+              const reached = subscriberCount >= milestone.members;
               return (
                 <div
                   key={milestone.members}
@@ -376,60 +383,20 @@ export default function GiveawaysPage() {
           </div>
         </div>
 
-        {/* Free Entry (No Purchase Necessary) */}
-        <div className="mahj-tile p-6 sm:p-8 mb-10">
-          <div className="flex items-center gap-3 mb-4">
-            <Mail className="w-6 h-6 text-skyblue-500" />
-            <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal">
-              Free Entry Method
-            </h2>
-          </div>
-          <p className="text-sm text-slate-500 mb-4">
-            No purchase necessary. Enter once per month via email for a chance to win.
-            See <Link href="/sweepstakes-rules" className="text-hotpink-500 hover:text-hotpink-600 underline">official rules</Link> for details.
+        {/* Fine print: No Purchase Necessary + Sweepstakes Rules */}
+        <div className="text-center text-sm text-slate-400 space-y-1">
+          <p>
+            No purchase necessary.{" "}
+            <Link href="/sweepstakes-rules" className="hover:text-hotpink-500 underline">
+              See official rules
+            </Link>{" "}
+            for alternative method of entry.
           </p>
-
-          {freeSuccess ? (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-              <Check className="w-6 h-6 text-green-500 mx-auto mb-2" />
-              <p className="text-green-700 font-medium">Entry submitted! Good luck!</p>
-            </div>
-          ) : (
-            <form onSubmit={handleFreeEntry} className="flex flex-col sm:flex-row gap-3">
-              <input
-                type="text"
-                value={freeName}
-                onChange={(e) => setFreeName(e.target.value)}
-                placeholder="Your name"
-                className="border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-200 sm:w-40"
-              />
-              <input
-                type="email"
-                value={freeEmail}
-                onChange={(e) => setFreeEmail(e.target.value)}
-                placeholder="Your email"
-                className="border border-slate-200 rounded-lg px-3 py-2.5 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-hotpink-200"
-                required
-              />
-              <button
-                type="submit"
-                disabled={freeSubmitting}
-                className="bg-skyblue-400 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-skyblue-500 transition-colors disabled:opacity-50"
-              >
-                {freeSubmitting ? "Submitting..." : "Enter Drawing"}
-              </button>
-            </form>
-          )}
-          {freeError && (
-            <p className="text-sm text-red-500 mt-2">{freeError}</p>
-          )}
-        </div>
-
-        {/* Sweepstakes Rules Link */}
-        <div className="text-center text-sm text-slate-400">
-          <Link href="/sweepstakes-rules" className="hover:text-hotpink-500 underline">
-            Official Sweepstakes Rules
-          </Link>
+          <p>
+            <Link href="/sweepstakes-rules" className="hover:text-hotpink-500 underline">
+              Official Sweepstakes Rules
+            </Link>
+          </p>
         </div>
       </div>
     </>
