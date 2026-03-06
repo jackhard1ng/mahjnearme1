@@ -84,7 +84,7 @@ export default function AddYourGroupPage() {
             <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-3xl sm:text-4xl text-charcoal mb-3">
               Don&apos;t see your group?
             </h1>
-            <p className="text-lg text-hotpink-500 font-semibold mb-2">Let us know — we&apos;ll add it for free.</p>
+            <p className="text-lg text-hotpink-500 font-semibold mb-2">Let us know and we&apos;ll add it for free.</p>
             <p className="text-slate-500 max-w-xl mx-auto">
               We&apos;re building the most complete directory of mahjong games in the country. If your group isn&apos;t listed yet, tell us about it and we&apos;ll have it up within 48 hours.
             </p>
@@ -213,15 +213,15 @@ export default function AddYourGroupPage() {
                       <div>
                         <label className="block text-sm font-medium text-slate-700 mb-1">Drop-in friendly?</label>
                         <select value={form.dropInFriendly} onChange={(e) => setForm({ ...form, dropInFriendly: e.target.value })} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm bg-white">
-                          <option value="yes">Yes — newcomers can just show up</option>
-                          <option value="no">No — RSVP or registration required</option>
+                          <option value="yes">Yes, newcomers can just show up</option>
+                          <option value="no">No, RSVP or registration required</option>
                         </select>
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-slate-700 mb-1">Do you provide mahjong sets?</label>
                         <select value={form.setsProvided} onChange={(e) => setForm({ ...form, setsProvided: e.target.value })} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm bg-white">
                           <option value="yes">Yes</option>
-                          <option value="no">No — players bring their own</option>
+                          <option value="no">No, players bring their own</option>
                         </select>
                       </div>
                     </div>
@@ -251,7 +251,7 @@ export default function AddYourGroupPage() {
                       <input type="text" value={form.venueName} onChange={(e) => setForm({ ...form, venueName: e.target.value })} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., Community Center, Coffee Shop, Private Home" />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">Full Address <span className="text-slate-400">(optional — we can use city/state if private)</span></label>
+                      <label className="block text-sm font-medium text-slate-700 mb-1">Full Address <span className="text-slate-400">(optional, we can use city/state if private)</span></label>
                       <input type="text" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g., 123 Main St, Tulsa, OK 74103" />
                     </div>
                   </div>
@@ -268,8 +268,8 @@ export default function AddYourGroupPage() {
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-1">Is this a recurring event?</label>
                       <select value={form.isRecurring} onChange={(e) => setForm({ ...form, isRecurring: e.target.value })} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm bg-white">
-                        <option value="yes">Yes — happens regularly</option>
-                        <option value="no">No — one-time or occasional event</option>
+                        <option value="yes">Yes, happens regularly</option>
+                        <option value="no">No, one-time or occasional event</option>
                       </select>
                     </div>
                     {form.isRecurring === "yes" && (
@@ -400,7 +400,7 @@ export default function AddYourGroupPage() {
               Run events regularly? Get verified.
             </h2>
             <p className="text-slate-500 max-w-xl mx-auto">
-              Verified organizers can post and update their own events anytime &mdash; no waiting for us to do it.
+              Verified organizers can post and update their own events anytime, no waiting for us to do it.
             </p>
           </div>
 
@@ -430,7 +430,7 @@ export default function AddYourGroupPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-charcoal">Post your own events</h3>
-                  <p className="text-sm text-slate-500">Once verified, you can add new events, update schedules, and keep your listing current &mdash; all on your own.</p>
+                  <p className="text-sm text-slate-500">Once verified, you can add new events, update schedules, and keep your listing current on your own.</p>
                 </div>
               </div>
             </div>

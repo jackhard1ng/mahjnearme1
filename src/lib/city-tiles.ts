@@ -1,4 +1,4 @@
-// City tile image mapping — maps city names to custom tile PNGs
+// City tile image mapping: maps city names to custom tile PNGs
 // To add a new city: drop a PNG in /public/tiless/ and add it here
 export const CITY_TILES: Record<string, string> = {
   "Tulsa": "/tiless/Tulsa-Tile.png",

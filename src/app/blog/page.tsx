@@ -3,7 +3,7 @@ import { ArrowRight, Clock } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog — Mahjong Tips, Guides & News",
+  title: "Blog: Mahjong Tips, Guides & News",
   description: "Tips for finding games, beginner guides, city spotlights, and news from the mahjong community. The MahjNearMe blog.",
 };
 
@@ -19,7 +19,7 @@ const posts = [
   {
     slug: "beginners-guide-american-mahjong",
     title: "Beginner's Guide to American Mahjong",
-    excerpt: "New to mahj? Here's everything you need to know before your first game — from how to read the NMJL card to what to bring and what to expect.",
+    excerpt: "New to mahj? Here's everything you need to know before your first game, from how to read the NMJL card to what to bring and what to expect.",
     category: "Guide",
     readTime: "8 min",
     date: "February 25, 2026",
@@ -43,7 +43,7 @@ const posts = [
   {
     slug: "mahjong-etiquette-tips",
     title: "Mahjong Etiquette: Tips for Joining a New Group",
-    excerpt: "From table manners to communication tips, here's how to be a great guest at any mahjong group — especially if it's your first time playing with them.",
+    excerpt: "From table manners to communication tips, here's how to be a great guest at any mahjong group, especially if it's your first time playing with them.",
     category: "Tips",
     readTime: "4 min",
     date: "February 3, 2026",

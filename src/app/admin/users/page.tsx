@@ -251,9 +251,9 @@ export default function AdminUsersPage() {
               <tbody className="divide-y divide-slate-100">
                 {filtered.map((user) => {
                   const isExpanded = expandedUserId === user.id;
-                  const joinDate = user.createdAt ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—";
-                  const lastLogin = user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—";
-                  const trialEnd = user.trialEndsAt ? new Date(user.trialEndsAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—";
+                  const joinDate = user.createdAt ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-";
+                  const lastLogin = user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-";
+                  const trialEnd = user.trialEndsAt ? new Date(user.trialEndsAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-";
                   const isTrialExpired = user.trialEndsAt ? new Date(user.trialEndsAt) < new Date() : false;
                   const isTrialing = user.subscriptionStatus === "trialing" || user.accountType === "trial";
                   return (
@@ -380,7 +380,7 @@ export default function AdminUsersPage() {
                               {user.accountType}
                             </span>
                           </td>
-                          <td className="px-4 py-3 text-slate-600">{user.plan || "—"}</td>
+                          <td className="px-4 py-3 text-slate-600">{user.plan || "-"}</td>
                           <td className="px-4 py-3 text-slate-600">{joinDate}</td>
                           <td className="px-4 py-3">
                             {isTrialing ? (
@@ -388,7 +388,7 @@ export default function AdminUsersPage() {
                                 {trialEnd}{isTrialExpired ? " (expired)" : ""}
                               </span>
                             ) : (
-                              <span className="text-xs text-slate-400">—</span>
+                              <span className="text-xs text-slate-400">-</span>
                             )}
                           </td>
                           <td className="px-4 py-3">

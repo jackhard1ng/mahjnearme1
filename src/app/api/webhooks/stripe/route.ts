@@ -3,7 +3,7 @@ import { getStripe, getPlanFromPriceId } from "@/lib/stripe";
 import { getAdminDb } from "@/lib/firebase-admin";
 import Stripe from "stripe";
 
-// Disable body parsing — Stripe needs the raw body for signature verification
+// Disable body parsing. Stripe needs the raw body for signature verification
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
@@ -188,7 +188,7 @@ export async function POST(request: Request) {
       }
 
       default:
-        // Unhandled event type — that's fine
+        // Unhandled event type, that's fine
         break;
     }
   } catch (err) {

@@ -55,7 +55,12 @@ export async function GET(request: NextRequest) {
     }
 
     const snap = await query.get();
-    const posts = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    const allPosts = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+
+    // Sort sticky posts to top
+    const stickyPosts = allPosts.filter((p: Record<string, unknown>) => p.isSticky);
+    const regularPosts = allPosts.filter((p: Record<string, unknown>) => !p.isSticky);
+    const posts = [...stickyPosts, ...regularPosts];
 
     return NextResponse.json({ posts });
   } catch (err) {
@@ -78,24 +83,37 @@ export async function POST(request: NextRequest) {
       title,
       body: postBody,
       linkedGameId,
+      postType,
     } = body;
 
-    if (!authorId || !title || !postBody) {
+    const isQuickNote = postType === "quick_note";
+
+    if (!authorId || (!isQuickNote && !title) || !postBody) {
       return NextResponse.json(
-        { error: "Title and body are required." },
+        { error: isQuickNote ? "Body is required." : "Title and body are required." },
+        { status: 400 }
+      );
+    }
+
+    // Quick notes have a 280 character limit
+    if (isQuickNote && postBody.length > 280) {
+      return NextResponse.json(
+        { error: "Quick notes are limited to 280 characters." },
         { status: 400 }
       );
     }
 
     const now = new Date().toISOString();
     const postData = {
+      postType: isQuickNote ? "quick_note" : "full",
       metroSlug: metroSlug || null,
       authorId,
       authorName: authorName || "Anonymous",
       authorPhotoURL: authorPhotoURL || null,
       authorIsContributor: authorIsContributor || false,
-      title,
+      title: isQuickNote ? "" : title,
       body: postBody,
+      isSticky: false,
       linkedGameId: linkedGameId || null,
       upvotes: 0,
       upvotedBy: [],

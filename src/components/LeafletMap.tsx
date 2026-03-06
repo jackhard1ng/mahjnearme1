@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Game } from "@/types";
 import { getMapPinColor, getGameTypeLabel, slugify } from "@/lib/utils";
 
-// We import Leaflet types only — actual library loaded dynamically
+// We import Leaflet types only. Actual library loaded dynamically.
 import type L from "leaflet";
 
 interface LeafletMapProps {
@@ -128,7 +128,7 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
           onPinClick?.(game.id);
         });
 
-      // Popup — gate details for non-subscribers
+      // Popup: gate details for non-subscribers
       const typeLabel = getGameTypeLabel(game.type);
       const canSeePopup = hasAccess || index < previewCount;
 
@@ -162,7 +162,7 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
   }, [geoGames.length, selectedGameId, ready, hasGeoGames]);
 
   // When a game is selected externally (not via pin click), pan to it
-  // But don't force re-center on pin click — popup opens immediately
+  // But don't force re-center on pin click. Popup opens immediately.
 
 
   return (
@@ -179,7 +179,7 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
               <circle cx="12" cy="10" r="3" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             <p className="text-charcoal font-medium text-sm">Map pins will appear once locations are geocoded</p>
-            <p className="text-slate-500 text-xs mt-1">{games.length} games available — browse the list to explore</p>
+            <p className="text-slate-500 text-xs mt-1">{games.length} games available. Browse the list to explore.</p>
           </div>
         </div>
       )}

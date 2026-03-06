@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, useMemo, FormEvent } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { getCitiesWithGames } from "@/lib/mock-data";
-import { getMetrosWithGames, getMetroCitiesSubtitle, findMetroByAbbreviation } from "@/lib/metro-regions";
+import { getMetrosWithGames, getMetroCitiesSubtitle, findMetroByAbbreviation, findMetroForCity } from "@/lib/metro-regions";
 import {
   MessageSquare,
   MapPin,
@@ -20,8 +20,11 @@ import {
   Users,
   ArrowRight,
   Lock,
+  CheckCircle,
+  Clock,
+  Info,
 } from "lucide-react";
-import type { ForumPost } from "@/types";
+import type { ForumPost, ForumPostType } from "@/types";
 
 const allCities = getCitiesWithGames();
 const metrosWithGames = getMetrosWithGames(allCities);
@@ -36,6 +39,7 @@ export default function CommunityPage() {
   const [page, setPage] = useState(0);
   const POSTS_PER_PAGE = 20;
   const [showNewPost, setShowNewPost] = useState(false);
+  const [postType, setPostType] = useState<ForumPostType>("quick_note");
   const [newPostTitle, setNewPostTitle] = useState("");
   const [newPostBody, setNewPostBody] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -97,7 +101,8 @@ export default function CommunityPage() {
 
   async function handleNewPost(e: FormEvent) {
     e.preventDefault();
-    if (!user || !newPostTitle.trim() || !newPostBody.trim()) return;
+    const isQuickNote = postType === "quick_note";
+    if (!user || (!isQuickNote && !newPostTitle.trim()) || !newPostBody.trim()) return;
 
     setSubmitting(true);
     try {
@@ -105,12 +110,13 @@ export default function CommunityPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          postType,
           metroSlug: selectedMetro || null,
           authorId: user.uid,
           authorName: userProfile?.displayName || "Anonymous",
           authorPhotoURL: userProfile?.photoURL || null,
           authorIsContributor: isContributor,
-          title: newPostTitle,
+          title: isQuickNote ? "" : newPostTitle,
           body: newPostBody,
         }),
       });
@@ -118,7 +124,8 @@ export default function CommunityPage() {
         setNewPostTitle("");
         setNewPostBody("");
         setShowNewPost(false);
-        loadPosts();
+        setPostType("quick_note");
+        loadPosts(true);
       }
     } catch {
       // silent fail
@@ -295,26 +302,66 @@ export default function CommunityPage() {
             {/* New Post Form */}
             {showNewPost && user && (
               <div className="bg-white border border-hotpink-200 rounded-xl p-6 mb-6">
+                {/* Post type toggle */}
+                <div className="flex gap-1 bg-slate-100 rounded-lg p-0.5 mb-4">
+                  <button
+                    type="button"
+                    onClick={() => setPostType("quick_note")}
+                    className={`flex-1 py-1.5 px-3 rounded-md text-xs font-medium transition-colors ${
+                      postType === "quick_note"
+                        ? "bg-white text-charcoal shadow-sm"
+                        : "text-slate-500 hover:text-charcoal"
+                    }`}
+                  >
+                    Quick Note
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPostType("full")}
+                    className={`flex-1 py-1.5 px-3 rounded-md text-xs font-medium transition-colors ${
+                      postType === "full"
+                        ? "bg-white text-charcoal shadow-sm"
+                        : "text-slate-500 hover:text-charcoal"
+                    }`}
+                  >
+                    Full Post
+                  </button>
+                </div>
+
                 <form onSubmit={handleNewPost} className="space-y-4">
-                  <div>
-                    <input
-                      type="text"
-                      value={newPostTitle}
-                      onChange={(e) => setNewPostTitle(e.target.value)}
-                      placeholder='e.g., "Is this game still active?" or "New group just started in midtown"'
-                      className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-200"
-                      required
-                    />
-                  </div>
+                  {postType === "full" && (
+                    <div>
+                      <input
+                        type="text"
+                        value={newPostTitle}
+                        onChange={(e) => setNewPostTitle(e.target.value)}
+                        placeholder='e.g., "Is this game still active?" or "New group just started in midtown"'
+                        className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-200"
+                        required
+                      />
+                    </div>
+                  )}
                   <div>
                     <textarea
                       value={newPostBody}
-                      onChange={(e) => setNewPostBody(e.target.value)}
-                      rows={3}
-                      placeholder="Share details, ask questions, or start a discussion..."
+                      onChange={(e) => {
+                        if (postType === "quick_note" && e.target.value.length > 280) return;
+                        setNewPostBody(e.target.value);
+                      }}
+                      rows={postType === "quick_note" ? 2 : 3}
+                      placeholder={
+                        postType === "quick_note"
+                          ? "What's on your mind? (280 characters)"
+                          : "Share details, ask questions, or start a discussion..."
+                      }
                       className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-200"
                       required
                     />
+                    {postType === "quick_note" && (
+                      <p className="text-right text-xs text-slate-400 mt-1">
+                        {newPostBody.length}/280
+                      </p>
+                    )}
                   </div>
                   <div className="flex justify-end">
                     <button
@@ -329,7 +376,7 @@ export default function CommunityPage() {
                         </>
                       ) : (
                         <>
-                          <Send className="w-4 h-4" /> Post
+                          <Send className="w-4 h-4" /> {postType === "quick_note" ? "Post Note" : "Post"}
                         </>
                       )}
                     </button>
@@ -369,101 +416,144 @@ export default function CommunityPage() {
               </div>
             ) : (
               <div className="space-y-4">
-                {posts.map((post, idx) => (
-                  <div
-                    key={`${post.id}-${idx}`}
-                    className="bg-white border border-slate-200 rounded-xl p-5 hover:border-hotpink-200 transition-colors"
-                  >
+                {/* Auto-generated welcome post for metro boards */}
+                {selectedMetroData && posts.length === 0 && (
+                  <div className="bg-skyblue-50 border border-skyblue-200 rounded-xl p-5">
                     <div className="flex items-start gap-3">
-                      {/* Author Avatar */}
-                      <div className="shrink-0">
-                        {post.authorPhotoURL ? (
-                          <img
-                            src={post.authorPhotoURL}
-                            alt=""
-                            className="w-10 h-10 rounded-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-10 h-10 rounded-full bg-hotpink-100 flex items-center justify-center">
-                            <span className="text-hotpink-600 font-bold text-sm">
-                              {(post.authorName || "?")[0].toUpperCase()}
-                            </span>
-                          </div>
-                        )}
+                      <div className="w-10 h-10 rounded-full bg-skyblue-200 flex items-center justify-center shrink-0">
+                        <MapPin className="w-5 h-5 text-skyblue-600" />
                       </div>
-
-                      <div className="flex-1 min-w-0">
-                        {/* Author Info */}
+                      <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="font-medium text-charcoal text-sm">
-                            {post.authorName}
-                          </span>
-                          {post.authorIsContributor && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-skyblue-100 text-skyblue-600">
-                              <Shield className="w-3 h-3" /> Contributor
-                            </span>
-                          )}
-                          <span className="text-xs text-slate-400">
-                            {new Date(post.createdAt).toLocaleDateString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "numeric",
-                              }
-                            )}
+                          <span className="font-medium text-charcoal text-sm">MahjNearMe</span>
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-skyblue-200 text-skyblue-700">
+                            Pinned
                           </span>
                         </div>
-
-                        {/* Title */}
-                        <Link
-                          href={`/community/post/${post.id}`}
-                          className="block"
-                        >
-                          <h3 className="font-semibold text-charcoal hover:text-hotpink-500 transition-colors mb-1">
-                            {post.title}
-                          </h3>
-                        </Link>
-
-                        {/* Body Preview */}
-                        <p className="text-sm text-slate-500 line-clamp-2 mb-3">
-                          {post.body}
+                        <h3 className="font-semibold text-charcoal mb-1">
+                          Welcome to the {selectedMetroData.metro} board
+                        </h3>
+                        <p className="text-sm text-slate-600">
+                          This is the place to ask questions, find partners, share news about local games, and connect with other players in the area. New to the scene? Start here.
                         </p>
-
-                        {/* Actions */}
-                        <div className="flex items-center gap-4">
-                          <button
-                            onClick={() => handleUpvote(post.id)}
-                            className={`flex items-center gap-1.5 text-sm transition-colors ${
-                              post.upvotedBy?.includes(user?.uid || "")
-                                ? "text-hotpink-500"
-                                : "text-slate-400 hover:text-hotpink-500"
-                            }`}
-                          >
-                            <ThumbsUp className="w-4 h-4" />
-                            <span>{post.upvotes || 0}</span>
-                          </button>
-                          <Link
-                            href={`/community/post/${post.id}`}
-                            className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-skyblue-500 transition-colors"
-                          >
-                            <MessageSquare className="w-4 h-4" />
-                            Reply
-                          </Link>
-                          <button
-                            onClick={() => handleFlag(post.id)}
-                            className={`flex items-center gap-1.5 text-sm transition-colors ${
-                              post.flaggedBy?.includes(user?.uid || "")
-                                ? "text-amber-500"
-                                : "text-slate-400 hover:text-amber-500"
-                            }`}
-                          >
-                            <Flag className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
                       </div>
                     </div>
                   </div>
-                ))}
+                )}
+
+                {posts.map((post, idx) => {
+                  const isQuickNote = post.postType === "quick_note";
+                  const isSticky = post.isSticky;
+
+                  return (
+                    <div
+                      key={`${post.id}-${idx}`}
+                      className={`border rounded-xl hover:border-hotpink-200 transition-colors ${
+                        isSticky
+                          ? "bg-skyblue-50 border-skyblue-200 p-5"
+                          : isQuickNote
+                          ? "bg-white border-slate-200 p-4"
+                          : "bg-white border-slate-200 p-5"
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        {/* Author Avatar */}
+                        <div className="shrink-0">
+                          {post.authorPhotoURL ? (
+                            <img
+                              src={post.authorPhotoURL}
+                              alt=""
+                              className={`rounded-full object-cover ${isQuickNote ? "w-8 h-8" : "w-10 h-10"}`}
+                            />
+                          ) : (
+                            <div className={`rounded-full bg-hotpink-100 flex items-center justify-center ${isQuickNote ? "w-8 h-8" : "w-10 h-10"}`}>
+                              <span className={`text-hotpink-600 font-bold ${isQuickNote ? "text-xs" : "text-sm"}`}>
+                                {(post.authorName || "?")[0].toUpperCase()}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                          {/* Author Info */}
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-medium text-charcoal text-sm">
+                              {post.authorName}
+                            </span>
+                            {post.authorIsContributor && (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-skyblue-100 text-skyblue-600">
+                                <Shield className="w-3 h-3" /> Contributor
+                              </span>
+                            )}
+                            {isSticky && (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-skyblue-200 text-skyblue-700">
+                                Pinned
+                              </span>
+                            )}
+                            <span className="text-xs text-slate-400">
+                              {new Date(post.createdAt).toLocaleDateString(
+                                "en-US",
+                                {
+                                  month: "short",
+                                  day: "numeric",
+                                }
+                              )}
+                            </span>
+                          </div>
+
+                          {/* Title (full posts only) */}
+                          {!isQuickNote && post.title && (
+                            <Link
+                              href={`/community/post/${post.id}`}
+                              className="block"
+                            >
+                              <h3 className="font-semibold text-charcoal hover:text-hotpink-500 transition-colors mb-1">
+                                {post.title}
+                              </h3>
+                            </Link>
+                          )}
+
+                          {/* Body */}
+                          <p className={`text-slate-500 mb-3 ${isQuickNote ? "text-sm" : "text-sm line-clamp-2"}`}>
+                            {post.body}
+                          </p>
+
+                          {/* Actions */}
+                          <div className="flex items-center gap-4">
+                            <button
+                              onClick={() => handleUpvote(post.id)}
+                              className={`flex items-center gap-1.5 text-sm transition-colors ${
+                                post.upvotedBy?.includes(user?.uid || "")
+                                  ? "text-hotpink-500"
+                                  : "text-slate-400 hover:text-hotpink-500"
+                              }`}
+                            >
+                              <ThumbsUp className="w-4 h-4" />
+                              <span>{post.upvotes || 0}</span>
+                            </button>
+                            <Link
+                              href={`/community/post/${post.id}`}
+                              className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-skyblue-500 transition-colors"
+                            >
+                              <MessageSquare className="w-4 h-4" />
+                              Reply
+                            </Link>
+                            <button
+                              onClick={() => handleFlag(post.id)}
+                              className={`flex items-center gap-1.5 text-sm transition-colors ${
+                                post.flaggedBy?.includes(user?.uid || "")
+                                  ? "text-amber-500"
+                                  : "text-slate-400 hover:text-amber-500"
+                              }`}
+                            >
+                              <Flag className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
 
                 {/* Load More */}
                 {hasMore && (
@@ -486,24 +576,226 @@ export default function CommunityPage() {
           </div>
         </div>
 
-        {/* Contributor CTA */}
-        <div className="mt-12 bg-skyblue-50 border border-skyblue-200 rounded-xl p-6 text-center">
-          <Users className="w-8 h-8 text-skyblue-500 mx-auto mb-3" />
-          <h3 className="font-semibold text-charcoal mb-2">
-            Want to help moderate your metro&apos;s forum?
-          </h3>
-          <p className="text-sm text-slate-500 mb-4">
-            Community contributors are automatically moderators for their
-            metro region&apos;s board.
-          </p>
-          <Link
-            href="/contribute"
-            className="inline-flex items-center gap-2 bg-skyblue-400 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-skyblue-500 transition-colors"
-          >
-            Become a Contributor <ChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
+        {/* Contributor Application (low-key section) */}
+        <ContributorApplySection />
       </div>
     </>
+  );
+}
+
+const CONNECTION_OPTIONS = [
+  { value: "regular_player", label: "I'm a regular player" },
+  { value: "multiple_venues", label: "I play at multiple venues" },
+  { value: "active_in_groups", label: "I'm active in local mahjong groups" },
+  { value: "help_new_players", label: "I help new players find games" },
+];
+
+function ContributorApplySection() {
+  const { user, userProfile, isContributor } = useAuth();
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [expanded, setExpanded] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    city: "",
+    connections: [] as string[],
+    story: "",
+  });
+
+  const hasAlreadyApplied = userProfile?.contributorAppliedAt !== null && userProfile?.contributorAppliedAt !== undefined;
+  const isPendingReview = userProfile?.contributorStatus === "pending";
+  const isApproved = isContributor;
+
+  const resolvedMetro = useMemo(() => {
+    if (!form.city) return null;
+    const cityPart = form.city.split(",")[0].trim();
+    return findMetroForCity(cityPart);
+  }, [form.city]);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!user) return;
+
+    setSubmitting(true);
+    setError("");
+    try {
+      const res = await fetch("/api/contributor-apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          userId: user.uid,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Something went wrong. Please try again.");
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  // Approved contributors see a simple acknowledgment
+  if (isApproved) {
+    return (
+      <div className="mt-10 border-t border-slate-200 pt-8">
+        <div className="flex items-center gap-3 text-sm text-slate-500">
+          <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />
+          <span>You&apos;re an active contributor. Thank you for keeping your metro&apos;s listings accurate.</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Pending review
+  if (hasAlreadyApplied || submitted) {
+    return (
+      <div className="mt-10 border-t border-slate-200 pt-8">
+        <div className="flex items-center gap-3 text-sm text-slate-500">
+          <Clock className="w-4 h-4 text-skyblue-500 shrink-0" />
+          <span>
+            {isPendingReview || submitted
+              ? "Your contributor application is under review. We'll be in touch within 72 hours."
+              : "We've already received your application. We'll be in touch soon."}
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-10 border-t border-slate-200 pt-8">
+      <div className="max-w-xl">
+        <h3 className="text-sm font-medium text-slate-600 mb-1">Help keep your city accurate</h3>
+        <p className="text-xs text-slate-400 mb-3">
+          If you&apos;re active in your local mahjong scene and want to maintain listings for your area, apply below.
+        </p>
+
+        {!user ? (
+          <p className="text-xs text-slate-400">
+            <Link href="/login" className="text-hotpink-500 hover:text-hotpink-600">Log in</Link> or{" "}
+            <Link href="/signup" className="text-hotpink-500 hover:text-hotpink-600">sign up</Link> to apply.
+          </p>
+        ) : !expanded ? (
+          <button
+            onClick={() => setExpanded(true)}
+            className="text-xs text-skyblue-500 hover:text-skyblue-600 font-medium"
+          >
+            Apply to contribute
+          </button>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4 bg-slate-50 border border-slate-200 rounded-lg p-4">
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-skyblue-200"
+                  placeholder="Your name"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">Email *</label>
+                <input
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-skyblue-200"
+                  placeholder="you@example.com"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-slate-600 mb-1">City *</label>
+              <input
+                type="text"
+                required
+                value={form.city}
+                onChange={(e) => setForm({ ...form, city: e.target.value })}
+                className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-skyblue-200"
+                placeholder="e.g., Tulsa, OK"
+              />
+              {resolvedMetro && (
+                <div className="flex items-center gap-2 mt-1.5 text-xs text-skyblue-600 bg-skyblue-50 rounded-lg px-3 py-1.5">
+                  <Info className="w-3 h-3 shrink-0" />
+                  You&apos;ll be contributing for the <strong>{resolvedMetro.metro}</strong> metro region
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-slate-600 mb-1.5">How are you connected to mahjong in your area? *</label>
+              <div className="space-y-1.5">
+                {CONNECTION_OPTIONS.map(({ value, label }) => (
+                  <label key={value} className="flex items-center gap-2 text-sm cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={form.connections.includes(value)}
+                      onChange={(e) => {
+                        const connections = e.target.checked
+                          ? [...form.connections, value]
+                          : form.connections.filter((c) => c !== value);
+                        setForm({ ...form, connections });
+                      }}
+                      className="rounded border-slate-300 text-hotpink-500 focus:ring-hotpink-400"
+                    />
+                    {label}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-slate-600 mb-1">
+                Tell us about your mahjong life in {resolvedMetro ? `the ${resolvedMetro.metro} area` : form.city || "your area"} *
+              </label>
+              <textarea
+                required
+                rows={3}
+                value={form.story}
+                onChange={(e) => setForm({ ...form, story: e.target.value })}
+                className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-skyblue-200"
+                placeholder="Where do you play? How did you find your games?"
+              />
+            </div>
+
+            {error && <p className="text-xs text-red-600">{error}</p>}
+
+            <div className="flex items-center gap-3">
+              <button
+                type="submit"
+                disabled={submitting || form.connections.length === 0}
+                className="flex items-center gap-2 bg-skyblue-400 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-skyblue-500 transition-colors disabled:opacity-50"
+              >
+                {submitting ? (
+                  <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Submitting...</>
+                ) : (
+                  <><Send className="w-3.5 h-3.5" /> Submit Application</>
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => setExpanded(false)}
+                className="text-xs text-slate-400 hover:text-slate-600"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
   );
 }

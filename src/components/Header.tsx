@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Menu, X, User, LogOut, Settings, LayoutDashboard, ChevronDown, CalendarDays, Heart, MessageSquare } from "lucide-react";
+import { Menu, X, User, LogOut, Settings, LayoutDashboard, ChevronDown, CalendarDays, Heart, MessageSquare, Briefcase } from "lucide-react";
 
 export default function Header() {
-  const { user, userProfile, signOut, isAdmin } = useAuth();
+  const { user, userProfile, signOut, isAdmin, isContributor } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
@@ -35,11 +35,14 @@ export default function Header() {
             <Link href="/shop" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               Mahj Gear
             </Link>
-            <Link href="/contribute" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
-              Contribute
-            </Link>
             <Link href="/community" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               Community
+            </Link>
+            <Link href="/giveaways" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
+              Giveaways
+            </Link>
+            <Link href="/pricing" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
+              Pricing
             </Link>
 
             {user ? (
@@ -73,6 +76,16 @@ export default function Header() {
                       <Settings className="w-4 h-4" />
                       Account Settings
                     </Link>
+                    {isContributor && (
+                      <Link
+                        href="/contributor-panel"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-charcoal hover:bg-hotpink-50"
+                      >
+                        <Briefcase className="w-4 h-4" />
+                        Contributor Panel
+                      </Link>
+                    )}
                     {isAdmin && (
                       <Link
                         href="/admin"
@@ -146,18 +159,25 @@ export default function Header() {
               Mahj Gear
             </Link>
             <Link
-              href="/contribute"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
-            >
-              Contribute
-            </Link>
-            <Link
               href="/community"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
             >
               Community
+            </Link>
+            <Link
+              href="/giveaways"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
+            >
+              Giveaways
+            </Link>
+            <Link
+              href="/pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
+            >
+              Pricing
             </Link>
             <hr className="border-white/20" />
             {user ? (
@@ -176,6 +196,15 @@ export default function Header() {
                 >
                   Account Settings
                 </Link>
+                {isContributor && (
+                  <Link
+                    href="/contributor-panel"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
+                  >
+                    Contributor Panel
+                  </Link>
+                )}
                 <button
                   onClick={() => {
                     signOut();

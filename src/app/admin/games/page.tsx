@@ -249,6 +249,7 @@ export default function AdminGamesPage() {
         id: `new-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`,
         name: form.name,
         organizerName: form.organizerName,
+        organizerId: null,
         type: form.type,
         gameStyle: form.gameStyle,
         city: form.city,
@@ -286,6 +287,9 @@ export default function AdminGamesPage() {
         maxPlayers: null,
         typicalGroupSize: "",
         imageUrl: "",
+        goingCount: 0,
+        beenHereCount: 0,
+        headsUpCount: 0,
         status: "pending",
         verified: false,
         claimedBy: null,
@@ -508,11 +512,11 @@ export default function AdminGamesPage() {
                   <tbody className="divide-y divide-slate-100">
                     {csvData.slice(0, 10).map((row, i) => (
                       <tr key={i} className="hover:bg-skyblue-100">
-                        <td className="px-3 py-2">{row.name || "—"}</td>
-                        <td className="px-3 py-2">{row.city || "—"}</td>
-                        <td className="px-3 py-2">{row.state || "—"}</td>
-                        <td className="px-3 py-2">{row.type || "—"}</td>
-                        <td className="px-3 py-2">{row.dayOfWeek || "—"}</td>
+                        <td className="px-3 py-2">{row.name || "-"}</td>
+                        <td className="px-3 py-2">{row.city || "-"}</td>
+                        <td className="px-3 py-2">{row.state || "-"}</td>
+                        <td className="px-3 py-2">{row.type || "-"}</td>
+                        <td className="px-3 py-2">{row.dayOfWeek || "-"}</td>
                       </tr>
                     ))}
                   </tbody>

@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   );
 
   return {
-    title: `Mahjong Near Me in ${cityName}, ${stateName} — Find Games & Open Play`,
+    title: `Mahjong Near Me in ${cityName}, ${stateName} | Find Games & Open Play`,
     description: `Find ${games.length} mahjong games, open play sessions, and lessons in ${cityName}, ${stateName}. Drop-in friendly groups, all skill levels. Updated weekly.`,
     openGraph: {
       title: `Mahjong Near Me in ${cityName}, ${stateName}`,
@@ -48,7 +48,7 @@ export default async function CityPage({ params }: Props) {
   // Resolve metro region
   const metro = findMetroForCity(cityName);
 
-  // Get games for this city — if part of a metro, also include games from other metro cities
+  // Get games for this city. If part of a metro, also include games from other metro cities.
   const cityGames = mockGames.filter(
     (g) => slugify(g.city) === city && slugify(getStateName(g.state)) === state && g.status === "active" && !isEventExpired(g)
   );
@@ -141,7 +141,7 @@ export default async function CityPage({ params }: Props) {
       {/* City Map */}
       <CityMap games={games} />
 
-      {/* Game Cards — auth-aware: subscribers see all, free users see preview + paywall */}
+      {/* Game Cards: auth-aware, subscribers see all, free users see preview + paywall */}
       <CityGamesList games={games} cityName={cityName} metroAbbreviation={metro?.abbreviation || null} />
 
       {/* City FAQ (for SEO) */}
@@ -169,7 +169,7 @@ export default async function CityPage({ params }: Props) {
             <h3 className="font-semibold text-charcoal mb-2">Can I drop in to a mahjong game in {cityName} without an RSVP?</h3>
             <p className="text-sm text-slate-600">
               {games.filter((g) => g.dropInFriendly).length > 0
-                ? `Yes, ${games.filter((g) => g.dropInFriendly).length} ${games.filter((g) => g.dropInFriendly).length === 1 ? "group is" : "groups are"} drop-in friendly in ${cityName}. No RSVP required — just show up and play!`
+                ? `Yes, ${games.filter((g) => g.dropInFriendly).length} ${games.filter((g) => g.dropInFriendly).length === 1 ? "group is" : "groups are"} drop-in friendly in ${cityName}. No RSVP required, just show up and play!`
                 : `Some groups may require RSVP. Check individual listings for details.`}
             </p>
           </div>

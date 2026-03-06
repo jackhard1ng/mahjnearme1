@@ -58,7 +58,7 @@ export default function CitiesIndexPage() {
             Explore Mahjong Cities
           </h1>
           <p className="text-lg text-white/80 mb-8 max-w-xl mx-auto">
-            {totalGames} games across {totalCities} cities in {totalStates} states — and growing every week
+            {totalGames} games across {totalCities} cities in {totalStates} states, and growing every week
           </p>
 
           {/* Quick stats */}

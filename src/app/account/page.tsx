@@ -646,7 +646,7 @@ export default function AccountPage() {
                   <p className="font-semibold text-hotpink-600">Free Trial Active</p>
                   <p className="text-sm text-hotpink-500">
                     {trialDaysLeft > 0
-                      ? `${trialDaysLeft} days remaining — ends ${new Date(userProfile.trialEndsAt!).toLocaleDateString("en-US", { month: "long", day: "numeric" })}`
+                      ? `${trialDaysLeft} days remaining, ends ${new Date(userProfile.trialEndsAt!).toLocaleDateString("en-US", { month: "long", day: "numeric" })}`
                       : "Trial expired"}
                   </p>
                 </div>
@@ -681,7 +681,7 @@ export default function AccountPage() {
                 <span className="text-sm font-medium text-charcoal">
                   {userProfile.subscriptionEndsAt
                     ? new Date(userProfile.subscriptionEndsAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
-                    : "—"}
+                    : "-"}
                 </span>
               </div>
               <button

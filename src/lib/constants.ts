@@ -20,7 +20,7 @@ export const CONTRIBUTOR_INACTIVITY_NUDGE_DAYS = 45;
 export const CONTRIBUTOR_INACTIVITY_SUSPEND_DAYS = 60;
 export const HOME_METRO_CHANGE_COOLDOWN_DAYS = 90;
 
-export const GIVEAWAY_COPY = "One lucky member wins a premium mahjong set every month — worth more than 5 years of membership.";
+export const GIVEAWAY_COPY = "One lucky member wins a premium mahjong set every month. That's worth more than 5 years of membership.";
 
 export const COLORS = {
   primary: "#FF1493",

@@ -28,7 +28,7 @@ export async function geocodeAddress(
       };
     }
   } catch {
-    // Geocoding failed — non-critical
+    // Geocoding failed, non-critical
   }
 
   return { lat: 0, lng: 0 };

@@ -100,7 +100,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 displayName: firebaseUser.displayName || data.displayName || "",
               } as UserProfile);
             } else {
-              // First-time user — create their Firestore document
+              // First-time user, create their Firestore document
               await setDoc(doc(db, "users", firebaseUser.uid), {
                 email: defaultProfile.email,
                 displayName: defaultProfile.displayName,
@@ -112,7 +112,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               setUserProfile(defaultProfile);
             }
           } catch {
-            // Firestore unavailable — use defaults (works for demo/dev)
+            // Firestore unavailable, use defaults (works for demo/dev)
             setUserProfile(defaultProfile);
           }
         } else {
@@ -121,7 +121,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setLoading(false);
       });
     } catch {
-      // Firebase not configured — run in demo mode
+      // Firebase not configured, run in demo mode
       setLoading(false);
     }
 
@@ -159,7 +159,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const db = getFirebaseDb();
         setDoc(doc(db, "users", user.uid), { ...updates, updatedAt: new Date().toISOString() }, { merge: true });
       } catch {
-        // Firestore unavailable — local-only update is fine
+        // Firestore unavailable, local-only update is fine
       }
     }
   };

@@ -25,6 +25,9 @@ import {
   CalendarPlus,
   AlertCircle,
   Lock,
+  ThumbsUp,
+  Star,
+  Flag,
 } from "lucide-react";
 
 interface GameCardProps {
@@ -39,7 +42,7 @@ interface GameCardProps {
   index?: number;
 }
 
-// Three mahjong suits — each card gets one based on its ID hash
+// Three mahjong suits: each card gets one based on its ID hash
 type TileSuit = "dots" | "bam" | "crack";
 
 function getTileSuit(id: string): TileSuit {
@@ -64,7 +67,7 @@ function getTileNumber(id: string): number {
 // SVG suit art rendered as decorative background on the tile
 function TileSuitArt({ suit, number }: { suit: TileSuit; number: number }) {
   if (suit === "dots") {
-    // Circles pattern — arranged in a grid
+    // Circles pattern, arranged in a grid
     const positions: [number, number][] = [];
     const count = Math.min(number, 9);
     if (count <= 3) {
@@ -118,7 +121,7 @@ function TileSuitArt({ suit, number }: { suit: TileSuit; number: number }) {
     );
   }
 
-  // Crack (characters) — Chinese numeral style
+  // Crack (characters): Chinese numeral style
   const chars = ["一", "二", "三", "四", "五", "六", "七", "八", "九"];
   const char = chars[(number - 1) % 9];
   return (
@@ -164,7 +167,7 @@ export default function GameCard({
   const cardContent = (
     <>
       <div className={`flex flex-col flex-1 ${blurred ? "content-blur select-none" : ""}`}>
-        {/* Tile face — city tile or suit art as watermark background */}
+        {/* Tile face: city tile or suit art as watermark background */}
         <div className="relative p-4 pb-3 flex-1">
           {/* City tile or suit watermark behind content */}
           <div className="absolute top-2 right-2 pointer-events-none select-none">
@@ -198,7 +201,7 @@ export default function GameCard({
 
           {blurred ? (
             <>
-              {/* Blurred cards: show only game type + city — no identifying details */}
+              {/* Blurred cards: show only game type + city, no identifying details */}
               <div className="flex items-center gap-2 flex-wrap mb-3">
                 <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${typeColor}`}>
                   {getGameTypeIcon(game.type)} {typeLabel}
@@ -213,7 +216,7 @@ export default function GameCard({
             </>
           ) : (
             <>
-              {/* Group name — engraved into tile */}
+              {/* Group name, engraved into tile */}
               <h3 className="tile-engraved font-bold text-charcoal text-lg hover:text-hotpink-500 transition-colors leading-tight mb-0.5">
                 {game.name}
               </h3>
@@ -222,7 +225,7 @@ export default function GameCard({
               )}
               {isTeaser && <div className="mb-3" />}
 
-              {/* Key details — engraved */}
+              {/* Key details (engraved) */}
               <div className="space-y-1.5 mb-3">
                 {!isTeaser && (
                   <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
@@ -318,7 +321,7 @@ export default function GameCard({
                 </div>
               )}
 
-              {/* Contact info paywall — inline, non-disruptive */}
+              {/* Contact info paywall, inline and non-disruptive */}
               {!isTeaser && !canSeeContactInfo && !blurred && (
                 <Link
                   href="/pricing"
@@ -326,7 +329,7 @@ export default function GameCard({
                   className="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 mb-2 hover:border-hotpink-300 hover:text-hotpink-600 transition-colors"
                 >
                   <Lock className="w-3 h-3 shrink-0" />
-                  <span>Get the details — <span className="font-medium text-hotpink-500">upgrade to join this game</span></span>
+                  <span>Get the details. <span className="font-medium text-hotpink-500">Upgrade to join this game</span></span>
                 </Link>
               )}
             </>
@@ -341,7 +344,42 @@ export default function GameCard({
           </div>
         )}
 
-        {/* Tile footer — inner border like the recessed face of a real tile */}
+        {/* Quick Reactions */}
+        {!blurred && !isTeaser && (
+          <div className="mx-4 mb-2 flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+              className="flex items-center gap-1 text-[11px] text-slate-500 hover:text-green-600 transition-colors"
+              title="Going this week"
+            >
+              <ThumbsUp className="w-3 h-3" />
+              <span>{game.goingCount || 0}</span>
+            </button>
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+              className="flex items-center gap-1 text-[11px] text-slate-500 hover:text-amber-500 transition-colors"
+              title="I've been here"
+            >
+              <Star className="w-3 h-3" />
+              <span>{game.beenHereCount || 0}</span>
+            </button>
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+              className="flex items-center gap-1 text-[11px] text-slate-500 hover:text-red-500 transition-colors"
+              title="Heads up"
+            >
+              <Flag className="w-3 h-3" />
+              <span>{game.headsUpCount || 0}</span>
+            </button>
+            {(game.goingCount > 0) && (
+              <span className="text-[10px] text-slate-400 ml-auto">
+                {game.goingCount} going this week
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Tile footer: inner border like the recessed face of a real tile */}
         <div className="px-4 py-2.5 border-t-2 border-[#D4C9B8] flex items-center justify-between bg-[#FFF0DD]">
           {blurred ? (
             <>

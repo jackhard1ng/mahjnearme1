@@ -18,6 +18,7 @@ export interface Game {
   id: string;
   name: string;
   organizerName: string;
+  organizerId: string | null;
   type: GameType;
   gameStyle: GameStyle;
 
@@ -58,6 +59,11 @@ export interface Game {
   maxPlayers: number | null;
   typicalGroupSize: string;
   imageUrl: string;
+
+  // Reactions
+  goingCount: number;
+  beenHereCount: number;
+  headsUpCount: number;
 
   // Admin
   status: ListingStatus;
@@ -158,24 +164,6 @@ export interface ContributorApplication {
   reviewedAt: string | null;
 }
 
-export interface ForumPost {
-  id: string;
-  metroSlug: string | null;
-  authorId: string;
-  authorName: string;
-  authorPhotoURL: string | null;
-  authorIsContributor: boolean;
-  title: string;
-  body: string;
-  linkedGameId: string | null;
-  upvotes: number;
-  upvotedBy: string[];
-  flagCount: number;
-  flaggedBy: string[];
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface ForumReply {
   id: string;
   postId: string;
@@ -246,4 +234,64 @@ export interface SearchFilters {
   type: GameType | "all";
   dateFrom: string | null;
   dateTo: string | null;
+}
+
+// Organizer Directory
+export interface Organizer {
+  id: string;
+  organizerName: string;
+  venueName: string;
+  address: string;
+  city: string;
+  metroRegion: string;
+  gameStyle: GameStyle;
+  contactName: string;
+  contactEmail: string;
+  contactPhone: string;
+  website: string;
+  instagram: string;
+  facebookGroup: string;
+  skillLevels: SkillLevel[];
+  dropInFriendly: boolean;
+  setsProvided: boolean;
+  typicalGroupSize: string;
+  notes: string;
+  addedBy: string;
+  lastUpdated: string;
+  createdAt: string;
+}
+
+// Listing Reactions
+export type ReactionType = "going" | "been_here" | "heads_up";
+
+export interface ListingReaction {
+  id: string;
+  gameId: string;
+  userId: string;
+  reactionType: ReactionType;
+  note: string | null;
+  createdAt: string;
+}
+
+// Forum post types: "full" (title + body) or "quick_note" (body only, 280 char max)
+export type ForumPostType = "full" | "quick_note";
+
+export interface ForumPost {
+  id: string;
+  postType: ForumPostType;
+  metroSlug: string | null;
+  authorId: string;
+  authorName: string;
+  authorPhotoURL: string | null;
+  authorIsContributor: boolean;
+  title: string;
+  body: string;
+  isSticky: boolean;
+  linkedGameId: string | null;
+  upvotes: number;
+  upvotedBy: string[];
+  flagCount: number;
+  flaggedBy: string[];
+  createdAt: string;
+  updatedAt: string;
 }

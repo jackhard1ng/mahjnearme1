@@ -21,7 +21,7 @@ let db: Firestore | undefined;
 
 function getApp() {
   if (!isFirebaseConfigured) {
-    throw new Error("Firebase not configured — set NEXT_PUBLIC_FIREBASE_* env vars");
+    throw new Error("Firebase not configured. Set NEXT_PUBLIC_FIREBASE_* env vars");
   }
   if (!app) {
     app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
