@@ -30,7 +30,7 @@ const allCities = getCitiesWithGames();
 const metrosWithGames = getMetrosWithGames(allCities);
 
 export default function CommunityPage() {
-  const { user, userProfile, isContributor, hasAccess, hasMetroAccess } = useAuth();
+  const { user, userProfile, isContributor, hasAccess, isPaidUser, isFreeUser, isGuest, hasMetroAccess } = useAuth();
   const [selectedMetro, setSelectedMetro] = useState<string | null>(null);
   const [metroSearch, setMetroSearch] = useState("");
   const [posts, setPosts] = useState<ForumPost[]>([]);
@@ -195,6 +195,24 @@ export default function CommunityPage() {
       </section>
 
       <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Guest gate: no forum access at all */}
+        {isGuest && (
+          <div className="max-w-lg mx-auto text-center py-16">
+            <MessageSquare className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+            <h2 className="font-semibold text-xl text-charcoal mb-2">The forum is for members</h2>
+            <p className="text-slate-500 text-sm mb-6">
+              Create a free account to read posts in your home city. Upgrade to post and access all metro boards.
+            </p>
+            <Link
+              href="/signup"
+              className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-all"
+            >
+              Sign Up Free
+            </Link>
+          </div>
+        )}
+
+        {!isGuest && (<>
         <div className="grid lg:grid-cols-[280px_1fr] gap-8">
           {/* Sidebar: Metro Boards */}
           <aside>
@@ -267,7 +285,7 @@ export default function CommunityPage() {
                   </p>
                 )}
               </div>
-              {user && hasAccess ? (
+              {isPaidUser ? (
                 <button
                   onClick={() => setShowNewPost(!showNewPost)}
                   className="flex items-center gap-2 bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors shrink-0"
@@ -282,22 +300,32 @@ export default function CommunityPage() {
                     </>
                   )}
                 </button>
-              ) : user ? (
+              ) : (
                 <Link
                   href="/pricing"
                   className="flex items-center gap-2 bg-slate-100 text-slate-500 border border-slate-200 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-200 transition-colors shrink-0"
                 >
                   <Lock className="w-4 h-4" /> Upgrade to post
                 </Link>
-              ) : (
-                <Link
-                  href="/login"
-                  className="flex items-center gap-2 bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors shrink-0"
-                >
-                  Log in to post
-                </Link>
               )}
             </div>
+
+            {/* Free user metro restriction */}
+            {isFreeUser && selectedMetro && userProfile?.homeMetro && selectedMetro !== userProfile.homeMetro && (
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 mb-6 text-center">
+                <Lock className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+                <p className="font-medium text-charcoal mb-1">This board is for paid members</p>
+                <p className="text-sm text-slate-500 mb-4">
+                  Free accounts can read posts in their home metro only. Upgrade to access all boards.
+                </p>
+                <Link
+                  href="/pricing"
+                  className="inline-block bg-hotpink-500 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
+                >
+                  View Plans
+                </Link>
+              </div>
+            )}
 
             {/* New Post Form */}
             {showNewPost && user && (
@@ -578,6 +606,7 @@ export default function CommunityPage() {
 
         {/* Contributor Application (low-key section) */}
         <ContributorApplySection />
+        </>)}
       </div>
     </>
   );

@@ -8,6 +8,7 @@ import {
   slugify,
   formatSchedule,
   formatTime,
+  formatMonthYear,
   getGameTypeColor,
   getGameTypeLabel,
   getVerificationStatus,
@@ -137,26 +138,26 @@ function GameJsonLd({ game }: { game: Game }) {
 // ---------------------------------------------------------------------------
 
 function SidebarCta() {
-  const { user, hasAccess } = useAuth();
+  const { user, isPaidUser, isGuest } = useAuth();
 
-  if (user && hasAccess) return null;
+  if (isPaidUser) return null;
 
   return (
     <div className="card-white p-6 text-center">
       <ShieldCheck className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
       <h3 className="font-semibold text-lg text-charcoal mb-2">
-        {user ? "Subscribe to see full details" : "Sign up to unlock everything"}
+        {isGuest ? "Create a free account to see more" : "Subscribe to see full details"}
       </h3>
       <p className="text-slate-500 text-sm mb-4">
-        {user
-          ? "Upgrade to access contact info, exact addresses, directions, and more."
-          : "Create a free account, then subscribe to see contact info, exact addresses, directions, and more."}
+        {isGuest
+          ? "Sign up free to see times and venues in your home city."
+          : "Upgrade to access contact info, exact addresses, directions, and all listings nationwide."}
       </p>
       <Link
-        href="/pricing"
+        href={isGuest ? "/signup" : "/pricing"}
         className="inline-block w-full bg-gradient-to-r from-hotpink-500 to-hotpink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-hotpink-600 hover:to-hotpink-700 transition-all"
       >
-        View Plans
+        {isGuest ? "Sign Up Free" : "View Plans"}
       </Link>
     </div>
   );
@@ -187,7 +188,7 @@ export default function GameDetailPage() {
 
   const game: Game = foundGame;
 
-  const { user, hasAccess, loading, userProfile, updateUserProfile } = useAuth();
+  const { user, hasAccess, isPaidUser, isFreeUser, isGuest, loading, userProfile, updateUserProfile } = useAuth();
 
   // Derived values
   const verification = getVerificationStatus(game.verified);
@@ -197,7 +198,9 @@ export default function GameDetailPage() {
   const cityState = `${game.city}, ${game.state}`;
   const fullStateName = getStateName(game.state);
   const citySlug = slugify(`${game.city}-${game.state}`);
-  const canSeeDetails = user && hasAccess;
+  const canSeeDetails = isPaidUser;
+  const addedDate = formatMonthYear(game.createdAt);
+  const verifiedDate = formatMonthYear(game.lastVerified);
   const googleMapsUrl = buildGoogleMapsUrl(game.address);
   const isOnCalendar = (userProfile?.savedEvents || []).includes(game.id);
 
@@ -308,24 +311,27 @@ export default function GameDetailPage() {
                   </span>
                 </p>
 
-                {/* Verification badge (paid only) */}
-                {canSeeDetails ? (
-                  <div
-                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border ${verification.bgColor}`}
-                  >
-                    <CheckCircle className={`w-4 h-4 ${verification.color}`} />
-                    <span
-                      className={`text-sm font-medium ${verification.color}`}
-                    >
-                      {verification.label}
+                {/* Trust signals: Date Added + Last Verified */}
+                <div className="flex items-center gap-4 flex-wrap mt-1">
+                  {addedDate && (
+                    <span className="text-xs text-slate-400">
+                      Added {addedDate}
                     </span>
-                  </div>
-                ) : (
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-400">
-                    <Lock className="w-4 h-4" />
-                    <span className="text-sm font-medium">Verification status: upgrade to see</span>
-                  </div>
-                )}
+                  )}
+                  {canSeeDetails ? (
+                    verifiedDate && (
+                      <span className="inline-flex items-center gap-1.5 text-xs text-green-600 font-medium">
+                        <ShieldCheck className="w-4 h-4" />
+                        Verified {verifiedDate}
+                      </span>
+                    )
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 text-xs text-slate-400">
+                      <Lock className="w-3.5 h-3.5" />
+                      <span className="blur-[3px] select-none">Verified March 2026</span>
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -342,20 +348,40 @@ export default function GameDetailPage() {
             {/* Listing Details: visible to all users                        */}
             {/* ------------------------------------------------------------ */}
 
-            {/* Location: venue name & area visible, exact address gated */}
+            {/* Location: tiered access */}
             <div className="mahj-tile p-6">
               <h2 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-hotpink-500" />
                 Location
               </h2>
-              <p className="font-medium text-charcoal">
-                {game.venueName}
-              </p>
-              <p className="text-sm text-slate-500 mt-0.5">
-                {game.generalArea} area
-              </p>
-              {canSeeDetails ? (
+              {isGuest ? (
                 <>
+                  <p className="text-sm text-slate-500">
+                    {game.generalArea} area, {game.city}
+                  </p>
+                  <div className="mt-3 flex items-center gap-2 text-sm text-slate-400 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+                    <Lock className="w-3.5 h-3.5 shrink-0" />
+                    <span>Create a free account to see times and venues in your city</span>
+                  </div>
+                </>
+              ) : isFreeUser ? (
+                <>
+                  <p className="text-sm text-slate-500">
+                    {game.generalArea} area, {game.city}
+                  </p>
+                  <div className="mt-3 flex items-center gap-2 text-sm text-slate-400 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+                    <Lock className="w-3.5 h-3.5 shrink-0" />
+                    <span>Venue name, address &amp; directions: <Link href="/pricing" className="font-medium text-hotpink-500 hover:text-hotpink-600">upgrade to see</Link></span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className="font-medium text-charcoal">
+                    {game.venueName}
+                  </p>
+                  <p className="text-sm text-slate-500 mt-0.5">
+                    {game.generalArea} area
+                  </p>
                   <p className="text-slate-600 mt-1">{game.address}</p>
                   <a
                     href={googleMapsUrl}
@@ -367,12 +393,7 @@ export default function GameDetailPage() {
                     Get Directions
                   </a>
                 </>
-              ) : !loading ? (
-                <div className="mt-3 flex items-center gap-2 text-sm text-slate-400 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
-                  <Lock className="w-3.5 h-3.5 shrink-0" />
-                  <span>Exact address &amp; directions: <Link href="/pricing" className="font-medium text-hotpink-500 hover:text-hotpink-600">upgrade to see</Link></span>
-                </div>
-              ) : null}
+              )}
             </div>
 
             {/* Schedule */}
@@ -381,7 +402,30 @@ export default function GameDetailPage() {
                 <Clock className="w-5 h-5 text-hotpink-500" />
                 Schedule
               </h2>
-              <p className="text-slate-700 font-medium">{schedule}</p>
+              {isGuest ? (
+                <div className="flex items-center gap-2">
+                  <p className="text-slate-700 font-medium">
+                    {game.isRecurring && game.recurringSchedule
+                      ? game.recurringSchedule.dayOfWeek.charAt(0).toUpperCase() + game.recurringSchedule.dayOfWeek.slice(1) + "s"
+                      : game.eventDate
+                        ? new Date(game.eventDate).toLocaleDateString("en-US", { month: "long", day: "numeric" })
+                        : "Schedule TBD"
+                    }
+                  </p>
+                  <span className="blur-[4px] select-none text-slate-400">10:00 AM - 2:00 PM</span>
+                </div>
+              ) : isFreeUser ? (
+                <p className="text-slate-700 font-medium">
+                  {game.isRecurring && game.recurringSchedule
+                    ? game.recurringSchedule.dayOfWeek.charAt(0).toUpperCase() + game.recurringSchedule.dayOfWeek.slice(1) + "s"
+                    : game.eventDate
+                      ? new Date(game.eventDate).toLocaleDateString("en-US", { month: "long", day: "numeric" })
+                      : "Schedule TBD"
+                  }
+                </p>
+              ) : (
+                <p className="text-slate-700 font-medium">{schedule}</p>
+              )}
               {game.isRecurring && game.recurringSchedule && (
                 <p className="text-sm text-slate-500 mt-1">
                   {game.recurringSchedule.frequency === "weekly"
@@ -569,12 +613,15 @@ export default function GameDetailPage() {
                   {/* Inline upgrade prompt */}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Link
-                      href="/pricing"
+                      href={isGuest ? "/signup" : "/pricing"}
                       className="flex items-center gap-2 bg-white/95 border border-hotpink-200 rounded-xl px-5 py-3 shadow-sm hover:shadow-md hover:border-hotpink-400 transition-all"
                     >
                       <Lock className="w-4 h-4 text-hotpink-500" />
                       <span className="text-sm font-medium text-charcoal">
-                        Get the details. <span className="text-hotpink-500">Upgrade to join this game</span>
+                        {isGuest
+                          ? "Create a free account to see times and venues in your city"
+                          : <>Get the details. <span className="text-hotpink-500">Upgrade to join this game</span></>
+                        }
                       </span>
                     </Link>
                   </div>
@@ -643,28 +690,32 @@ export default function GameDetailPage() {
               </div>
             </div>
 
-            {/* Verification Card (paid only) */}
-            {canSeeDetails ? (
-              <div
-                className={`rounded-xl border p-4 ${verification.bgColor}`}
-              >
-                <div className="flex items-center gap-2">
-                  <CheckCircle className={`w-5 h-5 ${verification.color}`} />
-                  <span
-                    className={`text-sm font-medium ${verification.color}`}
-                  >
-                    {verification.label}
-                  </span>
-                </div>
+            {/* Trust Signals Card */}
+            <div className="rounded-xl border border-slate-200 p-4 bg-white">
+              <div className="space-y-2">
+                {addedDate && (
+                  <p className="text-xs text-slate-500">Added {addedDate}</p>
+                )}
+                {canSeeDetails ? (
+                  verifiedDate && (
+                    <div className="flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-green-500" />
+                      <span className="text-sm font-medium text-green-600">Verified {verifiedDate}</span>
+                    </div>
+                  )
+                ) : (
+                  <div className="flex items-center gap-1.5 text-slate-400">
+                    <Lock className="w-4 h-4" />
+                    <span className="text-sm font-medium">
+                      Verification date: <Link href={isGuest ? "/signup" : "/pricing"} className="text-hotpink-500 hover:text-hotpink-600">{isGuest ? "sign up" : "upgrade"}</Link>
+                    </span>
+                  </div>
+                )}
               </div>
-            ) : (
-              <div className="rounded-xl border border-slate-200 p-4 bg-slate-50">
-                <div className="flex items-center gap-2 text-slate-400">
-                  <Lock className="w-4 h-4" />
-                  <span className="text-sm font-medium">Verification status: <Link href="/pricing" className="text-hotpink-500 hover:text-hotpink-600">upgrade</Link></span>
-                </div>
-              </div>
-            )}
+              <p className="text-[11px] text-slate-400 mt-3 leading-relaxed">
+                This listing was researched and added by the MahjNearMe team. We verify listings on a regular cycle to make sure the information is current.
+              </p>
+            </div>
 
             {/* Signup/Upgrade CTA */}
             <SidebarCta />

@@ -25,6 +25,9 @@ interface AuthContextType {
   signOut: () => Promise<void>;
   updateUserProfile: (updates: Partial<UserProfile>) => void;
   hasAccess: boolean;
+  isPaidUser: boolean;
+  isFreeUser: boolean;
+  isGuest: boolean;
   isAdmin: boolean;
   isContributor: boolean;
   hasMetroAccess: (metroAbbreviation: string | null) => boolean;
@@ -183,6 +186,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     userProfile?.accountType === "contributor" ||
     userProfile?.subscriptionStatus === "active";
 
+  const isFreeUser = !!user && !!userProfile && !isPaidUser;
+  const isGuest = !user;
+
   const hasMetroAccess = (metroAbbreviation: string | null): boolean => {
     if (!user || !userProfile) return false;
     if (isPaidUser) return true;
@@ -210,6 +216,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signOut,
         updateUserProfile,
         hasAccess,
+        isPaidUser,
+        isFreeUser,
+        isGuest,
         isAdmin,
         isContributor,
         hasMetroAccess,

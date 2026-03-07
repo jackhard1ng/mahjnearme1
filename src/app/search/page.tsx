@@ -20,14 +20,14 @@ import { mockGames } from "@/lib/mock-data";
 import { useAuth } from "@/contexts/AuthContext";
 import { SearchFilters, Game } from "@/types";
 import { isEventExpired } from "@/lib/utils";
-import { ShieldCheck, SlidersHorizontal } from "lucide-react";
+import { ShieldCheck, SlidersHorizontal, Lock } from "lucide-react";
 import { getCityTile } from "@/lib/city-tiles";
 import Link from "next/link";
 
 function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
-  const { user, hasAccess, userProfile, updateUserProfile } = useAuth();
+  const { user, hasAccess, isPaidUser, isFreeUser, isGuest, userProfile, updateUserProfile } = useAuth();
   const prefsApplied = useRef(false);
 
   const [filters, setFilters] = useState<SearchFilters>({
@@ -198,66 +198,138 @@ function SearchContent() {
             </div>
           ) : (
             <>
-              {filteredGames.map((game, index) => {
-                const isSelected = selectedGameId === game.id;
-                const selectedClass = isSelected ? "ring-2 ring-hotpink-500 rounded-2xl" : "";
+              {(() => {
+                const FREE_USER_VISIBLE_LIMIT = 5;
+                const isInHomeMetro = isFreeUser && userProfile?.homeMetro && filteredGames.some(
+                  (g) => g.metroRegion === userProfile.homeMetro
+                );
+                const homeMetroGames = isFreeUser && userProfile?.homeMetro
+                  ? filteredGames.filter((g) => g.metroRegion === userProfile.homeMetro)
+                  : filteredGames;
+                const remainingCount = isFreeUser ? Math.max(0, homeMetroGames.length - FREE_USER_VISIBLE_LIMIT) : 0;
 
-                // Show first card as a preview for users without access
-                if (!hasAccess && index === 0) {
-                  return (
-                    <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${index + 1} ${selectedClass}`}>
-                      <GameCard
-                        game={game}
-                        isTeaser={true}
-                        userSkillLevel={userProfile?.skillLevel}
-                        index={index}
-                      />
-                    </div>
-                  );
-                }
+                return filteredGames.map((game, index) => {
+                  const isSelected = selectedGameId === game.id;
+                  const selectedClass = isSelected ? "ring-2 ring-hotpink-500 rounded-2xl" : "";
 
-                // Blur all other cards for users without access
-                if (!hasAccess && index >= 1) {
+                  // --- Guest (no account) ---
+                  if (isGuest) {
+                    // Show first card as teaser preview
+                    if (index === 0) {
+                      return (
+                        <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${index + 1} ${selectedClass}`}>
+                          <GameCard
+                            game={game}
+                            isTeaser={true}
+                            userSkillLevel={userProfile?.skillLevel}
+                            index={index}
+                          />
+                        </div>
+                      );
+                    }
+                    // Blur remaining cards
+                    return (
+                      <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)} ${selectedClass}`}>
+                        <GameCard
+                          game={game}
+                          blurred={true}
+                          userSkillLevel={userProfile?.skillLevel}
+                          index={index}
+                        />
+                      </div>
+                    );
+                  }
+
+                  // --- Free user ---
+                  if (isFreeUser) {
+                    const isHomeMetro = userProfile?.homeMetro && game.metroRegion === userProfile.homeMetro;
+
+                    // Out-of-metro listings: blur with upgrade prompt
+                    if (!isHomeMetro) {
+                      return (
+                        <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)} ${selectedClass}`}>
+                          <GameCard
+                            game={game}
+                            blurred={true}
+                            userSkillLevel={userProfile?.skillLevel}
+                            index={index}
+                          />
+                        </div>
+                      );
+                    }
+
+                    // Home metro: show up to 5 listings with limited info
+                    const homeMetroIndex = homeMetroGames.indexOf(game);
+                    if (homeMetroIndex >= FREE_USER_VISIBLE_LIMIT) {
+                      // Don't render cards beyond limit - show count CTA instead
+                      return null;
+                    }
+
+                    return (
+                      <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)} ${selectedClass}`}>
+                        <GameCard
+                          game={game}
+                          userSkillLevel={userProfile?.skillLevel}
+                          index={index}
+                        />
+                      </div>
+                    );
+                  }
+
+                  // --- Paid user ---
                   return (
                     <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)} ${selectedClass}`}>
                       <GameCard
                         game={game}
-                        blurred={true}
                         userSkillLevel={userProfile?.skillLevel}
+                        onCalendarToggle={user ? toggleCalendarEvent : undefined}
+                        isOnCalendar={(userProfile?.savedEvents || []).includes(game.id)}
                         index={index}
                       />
                     </div>
                   );
-                }
+                });
+              })()}
 
+              {/* Free user: show remaining count CTA */}
+              {isFreeUser && userProfile?.homeMetro && (() => {
+                const homeMetroGames = filteredGames.filter((g) => g.metroRegion === userProfile.homeMetro);
+                const remaining = Math.max(0, homeMetroGames.length - 5);
+                if (remaining <= 0) return null;
                 return (
-                  <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)} ${selectedClass}`}>
-                    <GameCard
-                      game={game}
-                      userSkillLevel={userProfile?.skillLevel}
-                      onCalendarToggle={user ? toggleCalendarEvent : undefined}
-                      isOnCalendar={(userProfile?.savedEvents || []).includes(game.id)}
-                      index={index}
-                    />
+                  <div className="card-white p-6 text-center border-2 border-dashed border-hotpink-200">
+                    <Lock className="w-8 h-8 text-hotpink-400 mx-auto mb-2" />
+                    <p className="font-semibold text-lg text-charcoal mb-1">
+                      There {remaining === 1 ? "is" : "are"} {remaining} more game{remaining !== 1 ? "s" : ""} in your city.
+                    </p>
+                    <p className="text-slate-500 text-sm mb-4">
+                      Upgrade to see all of them.
+                    </p>
+                    <Link
+                      href="/pricing"
+                      className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-all shadow-lg"
+                    >
+                      View Plans
+                    </Link>
                   </div>
                 );
-              })}
+              })()}
 
-              {/* Signup / Subscribe CTA */}
-              {!hasAccess && filteredGames.length > 1 && (
+              {/* Guest: Signup CTA */}
+              {isGuest && filteredGames.length > 1 && (
                 <div className="card-white p-8 text-center">
                   <ShieldCheck className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
                   <h3 className="font-semibold text-xl text-charcoal mb-2">
-                    Unlock all {filteredGames.length} games
+                    {filteredGames.length} games in this area
                   </h3>
                   <p className="text-slate-500 mb-4 text-sm">
-                    Subscribe to see full details, contact info, and directions for every game.
+                    Create a free account to see times and venues in your city.
                   </p>
                   <Link
-                    href="/pricing"
+                    href="/signup"
                     className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-all shadow-lg"
                   >
-                    View Plans
+                    Sign Up Free
                   </Link>
                 </div>
               )}

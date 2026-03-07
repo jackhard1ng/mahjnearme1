@@ -103,6 +103,16 @@ export function formatSchedule(game: { isRecurring: boolean; recurringSchedule: 
  * Returns true if a one-time event's date is in the past.
  * Recurring events never expire via this check.
  */
+/**
+ * Formats an ISO date string as "Month Year", e.g. "March 2026".
+ */
+export function formatMonthYear(dateStr: string | null | undefined): string {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return "";
+  return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+}
+
 export function isEventExpired(game: { isRecurring: boolean; eventDate: string | null }): boolean {
   if (game.isRecurring) return false;
   if (!game.eventDate) return false;

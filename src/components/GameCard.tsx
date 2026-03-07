@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Game } from "@/types";
-import { getGameTypeColor, getGameTypeLabel, getVerificationStatus, formatSchedule, slugify } from "@/lib/utils";
+import { getGameTypeColor, getGameTypeLabel, getVerificationStatus, formatSchedule, formatMonthYear, slugify } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
 import { SKILL_LEVEL_LABELS } from "@/lib/constants";
 import { useAuth } from "@/contexts/AuthContext";
@@ -28,6 +28,7 @@ import {
   ThumbsUp,
   Star,
   Flag,
+  Calendar,
 } from "lucide-react";
 
 interface GameCardProps {
@@ -152,7 +153,7 @@ export default function GameCard({
   onCalendarToggle,
   isOnCalendar = false,
 }: GameCardProps) {
-  const { hasAccess } = useAuth();
+  const { hasAccess, isPaidUser, isFreeUser, isGuest } = useAuth();
   const verification = getVerificationStatus(game.verified);
   const typeColor = getGameTypeColor(game.type);
   const typeLabel = getGameTypeLabel(game.type);
@@ -162,7 +163,9 @@ export default function GameCard({
   const suit = getTileSuit(game.id);
   const tileNumber = getTileNumber(game.id);
   const cityTile = getCityTile(game.city);
-  const canSeeContactInfo = hasAccess;
+  const canSeeContactInfo = isPaidUser;
+  const addedDate = formatMonthYear(game.createdAt);
+  const verifiedDate = formatMonthYear(game.lastVerified);
 
   const cardContent = (
     <>
@@ -230,20 +233,49 @@ export default function GameCard({
                 {!isTeaser && (
                   <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
                     <Clock className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
-                    <span className="font-medium">{schedule}</span>
+                    {isFreeUser ? (
+                      <span className="font-medium">
+                        {game.isRecurring && game.recurringSchedule
+                          ? game.recurringSchedule.dayOfWeek.charAt(0).toUpperCase() + game.recurringSchedule.dayOfWeek.slice(1) + "s"
+                          : game.eventDate
+                            ? new Date(game.eventDate).toLocaleDateString("en-US", { month: "long", day: "numeric" })
+                            : "Schedule TBD"
+                        }
+                      </span>
+                    ) : isGuest ? (
+                      <span className="flex items-center gap-1.5">
+                        <span className="font-medium">
+                          {game.isRecurring && game.recurringSchedule
+                            ? game.recurringSchedule.dayOfWeek.charAt(0).toUpperCase() + game.recurringSchedule.dayOfWeek.slice(1) + "s"
+                            : "Date available"
+                          }
+                        </span>
+                        <span className="blur-[4px] select-none text-slate-400">10:00 AM</span>
+                      </span>
+                    ) : (
+                      <span className="font-medium">{schedule}</span>
+                    )}
                   </div>
                 )}
                 <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
                   <MapPin className="w-3.5 h-3.5 text-skyblue-500 shrink-0" />
-                  <span>{isTeaser ? game.generalArea : `${game.city}, ${game.state}`}</span>
+                  {isTeaser ? (
+                    <span>{game.generalArea}</span>
+                  ) : isFreeUser ? (
+                    <span>{game.generalArea}, {game.city}</span>
+                  ) : isGuest ? (
+                    <span>{game.generalArea}, {game.city}</span>
+                  ) : (
+                    <span>{game.city}, {game.state}</span>
+                  )}
                 </div>
-                {!isTeaser && (
+                {!isTeaser && isPaidUser && (
                   <div className="flex items-center gap-2 text-sm text-slate-600 tile-engraved">
                     <DollarSign className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
                     <span>{game.cost}</span>
                   </div>
                 )}
-                {!isTeaser && game.typicalGroupSize && (
+                {!isTeaser && isPaidUser && game.typicalGroupSize && (
                   <div className="flex items-center gap-2 text-sm text-slate-600 tile-engraved">
                     <Users className="w-3.5 h-3.5 text-skyblue-500 shrink-0" />
                     <span>{game.typicalGroupSize}</span>
@@ -268,8 +300,8 @@ export default function GameCard({
                 )}
               </div>
 
-              {/* Description */}
-              {!isTeaser && (
+              {/* Description (paid users only) */}
+              {!isTeaser && isPaidUser && (
                 <p className="text-sm text-slate-600 line-clamp-2 mb-3">{game.description}</p>
               )}
 
@@ -324,12 +356,17 @@ export default function GameCard({
               {/* Contact info paywall, inline and non-disruptive */}
               {!isTeaser && !canSeeContactInfo && !blurred && (
                 <Link
-                  href="/pricing"
+                  href={isGuest ? "/signup" : "/pricing"}
                   onClick={(e) => e.stopPropagation()}
                   className="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 mb-2 hover:border-hotpink-300 hover:text-hotpink-600 transition-colors"
                 >
                   <Lock className="w-3 h-3 shrink-0" />
-                  <span>Get the details. <span className="font-medium text-hotpink-500">Upgrade to join this game</span></span>
+                  <span>
+                    {isGuest
+                      ? <>Create a free account to see times and venues in your city</>
+                      : <>Get the details. <span className="font-medium text-hotpink-500">Upgrade to join this game</span></>
+                    }
+                  </span>
                 </Link>
               )}
             </>
@@ -380,47 +417,60 @@ export default function GameCard({
         )}
 
         {/* Tile footer: inner border like the recessed face of a real tile */}
-        <div className="px-4 py-2.5 border-t-2 border-[#D4C9B8] flex items-center justify-between bg-[#FFF0DD]">
+        <div className="px-4 py-2.5 border-t-2 border-[#D4C9B8] bg-[#FFF0DD]">
           {blurred ? (
-            <>
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
                 <div className="h-4 bg-slate-200 rounded w-16" />
                 <div className="h-4 bg-slate-100 rounded w-12" />
               </div>
               <div className="h-4 bg-slate-100 rounded w-16" />
-            </>
+            </div>
           ) : (
             <>
-              <div className="flex items-center gap-1.5 flex-wrap">
-                {game.skillLevels.map((level) => (
-                  <span
-                    key={level}
-                    className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium ${
-                      level === "beginner" ? "bg-skyblue-100 text-skyblue-600" :
-                      level === "intermediate" ? "bg-hotpink-100 text-hotpink-600" :
-                      "bg-slate-100 text-charcoal"
-                    }`}
-                  >
-                    {SKILL_LEVEL_LABELS[level]}
+              <div className="flex items-center justify-between mb-1.5">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {game.skillLevels.map((level) => (
+                    <span
+                      key={level}
+                      className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium ${
+                        level === "beginner" ? "bg-skyblue-100 text-skyblue-600" :
+                        level === "intermediate" ? "bg-hotpink-100 text-hotpink-600" :
+                        "bg-slate-100 text-charcoal"
+                      }`}
+                    >
+                      {SKILL_LEVEL_LABELS[level]}
+                    </span>
+                  ))}
+                  {game.dropInFriendly && (
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-skyblue-100 text-skyblue-600">
+                      Drop-in
+                    </span>
+                  )}
+                </div>
+              </div>
+              {/* Trust signals: Date Added + Last Verified */}
+              <div className="flex items-center gap-3 text-[10px] text-slate-400">
+                {addedDate && (
+                  <span className="flex items-center gap-1">
+                    <Calendar className="w-3 h-3" />
+                    Added {addedDate}
                   </span>
-                ))}
-                {game.dropInFriendly && (
-                  <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-skyblue-100 text-skyblue-600">
-                    Drop-in
+                )}
+                {isPaidUser ? (
+                  verifiedDate && (
+                    <span className="flex items-center gap-1 text-green-600">
+                      <ShieldCheck className="w-3 h-3" />
+                      Verified {verifiedDate}
+                    </span>
+                  )
+                ) : (
+                  <span className="flex items-center gap-1">
+                    <Lock className="w-3 h-3" />
+                    <span className="blur-[3px] select-none">Verified</span>
                   </span>
                 )}
               </div>
-              {canSeeContactInfo ? (
-                <div className="flex items-center gap-1">
-                  <CheckCircle className={`w-3.5 h-3.5 ${game.verified ? "text-hotpink-500" : "text-slate-300"}`} />
-                  <span className={`text-[11px] font-medium ${game.verified ? "text-hotpink-600" : "text-slate-400"}`}>{verification.label}</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-1 text-slate-300">
-                  <Lock className="w-3 h-3" />
-                  <span className="text-[11px]">Verified?</span>
-                </div>
-              )}
             </>
           )}
         </div>
@@ -431,12 +481,16 @@ export default function GameCard({
   if (blurred) {
     return (
       <div className="mahj-tile overflow-hidden flex flex-col relative cursor-pointer">
-        <Link href="/pricing" className="absolute inset-0 z-10 flex items-center justify-center bg-white/90 backdrop-blur-md rounded-[14px]">
+        <Link href={isGuest ? "/signup" : "/pricing"} className="absolute inset-0 z-10 flex items-center justify-center bg-white/90 backdrop-blur-md rounded-[14px]">
           <div className="text-center px-6">
             <ShieldCheck className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
-            <p className="font-semibold text-charcoal mb-1">Subscribe to see full details</p>
+            <p className="font-semibold text-charcoal mb-1">
+              {isGuest
+                ? "Create a free account to see times and venues in your city"
+                : "Subscribe to see all listings and full details"}
+            </p>
             <span className="inline-block mt-2 bg-hotpink-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors">
-              View Plans
+              {isGuest ? "Sign Up Free" : "View Plans"}
             </span>
           </div>
         </Link>

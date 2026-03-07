@@ -36,17 +36,17 @@ interface GiveawayInfo {
 const MILESTONES = [
   {
     members: 1000,
-    prize: "3 Premium Mahjong Sets",
-    description: "Three winners each receive a premium American mahjong set. Our first milestone giveaway.",
+    prize: "Premium Mahjong Sets",
+    description: "Multiple winners each receive a premium American mahjong set. Our first milestone giveaway.",
   },
   {
     members: 5000,
-    prize: "10 Premium Mahjong Sets (~$4,000 total)",
-    description: "Ten premium sets (approximately $400 each) given away. The biggest mahjong giveaway online.",
+    prize: "Premium Mahjong Sets for Many Winners",
+    description: "Premium sets given away to multiple winners. One of the biggest mahjong giveaways online.",
   },
   {
     members: 10000,
-    prize: "10 Sets + 20 Mahjong Mats + Experiential Prize",
+    prize: "Sets, Mats, and More",
     description: "Premium sets, mahjong mats, plus something experiential like a tournament entry or travel prize.",
   },
   {
@@ -60,7 +60,7 @@ const MILESTONES = [
 const FIRST_DRAW_DATE = "April 30, 2026";
 
 export default function GiveawaysPage() {
-  const { user, hasAccess, userProfile } = useAuth();
+  const { user, hasAccess, isPaidUser, isFreeUser, isGuest, userProfile } = useAuth();
   const [data, setData] = useState<GiveawayInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [subscriberCount, setSubscriberCount] = useState(0);
@@ -168,7 +168,27 @@ export default function GiveawaysPage() {
 
       <div className="max-w-4xl mx-auto px-4 py-10">
 
-        {/* Current Giveaway */}
+        {/* Guest/Free user gate */}
+        {!isPaidUser && (
+          <div className="mahj-tile p-8 text-center mb-10">
+            <Gift className="w-12 h-12 text-hotpink-400 mx-auto mb-3" />
+            <h2 className="font-semibold text-xl text-charcoal mb-2">
+              Monthly giveaways for paid members
+            </h2>
+            <p className="text-slate-500 text-sm mb-6 max-w-md mx-auto">
+              Every month, paid subscribers are automatically entered to win premium mahjong sets and accessories. Upgrade to see prize details, entry counts, and past winners.
+            </p>
+            <Link
+              href={isGuest ? "/signup" : "/pricing"}
+              className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
+            >
+              {isGuest ? "Sign Up Free" : "View Plans"} <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        )}
+
+        {/* Current Giveaway (paid only) */}
+        {isPaidUser && (
         <div className="mb-12">
           <div className="mahj-tile p-6 sm:p-8">
             <div className="flex items-center gap-3 mb-4">
@@ -201,37 +221,21 @@ export default function GiveawaysPage() {
             </div>
 
             {/* User status */}
-            {hasAccess ? (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-1">
-                  <Check className="w-5 h-5 text-green-500" />
-                  <p className="font-semibold text-green-700">You&apos;re entered!</p>
-                </div>
-                <p className="text-sm text-green-600">
-                  You have {entryInfo.entries} {entryInfo.entries === 1 ? "entry" : "entries"} this month.{" "}
-                  {entryInfo.explanation && <span className="text-green-500">{entryInfo.explanation}</span>}
-                </p>
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-1">
+                <Check className="w-5 h-5 text-green-500" />
+                <p className="font-semibold text-green-700">You&apos;re entered!</p>
               </div>
-            ) : (
-              <div className="bg-hotpink-50 border border-hotpink-200 rounded-lg p-4">
-                <p className="font-semibold text-charcoal mb-1">
-                  Paid members are automatically entered every month.
-                </p>
-                <p className="text-sm text-slate-500 mb-3">
-                  Upgrade to be included in this month&apos;s drawing.
-                </p>
-                <Link
-                  href="/pricing"
-                  className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
-                >
-                  View Plans <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            )}
+              <p className="text-sm text-green-600">
+                You have {entryInfo.entries} {entryInfo.entries === 1 ? "entry" : "entries"} this month.{" "}
+                {entryInfo.explanation && <span className="text-green-500">{entryInfo.explanation}</span>}
+              </p>
+            </div>
           </div>
         </div>
+        )}
 
-        {/* How Entries Work */}
+        {/* How Entries Work (visible to all for marketing) */}
         <div className="mb-12">
           <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-6 text-center">
             How It Works
@@ -270,7 +274,8 @@ export default function GiveawaysPage() {
           </p>
         </div>
 
-        {/* Past Winners */}
+        {/* Past Winners (paid only) */}
+        {isPaidUser && (
         <div className="mb-12">
           <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-6 text-center">
             Past Winners
@@ -318,6 +323,8 @@ export default function GiveawaysPage() {
             </div>
           )}
         </div>
+
+        )}
 
         {/* Milestone Giveaways */}
         <div className="mb-12">
