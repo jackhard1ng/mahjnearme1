@@ -17,15 +17,14 @@ export default function Header() {
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <div className="h-12 w-[200px] relative overflow-hidden rounded-md">
-              <Image
-                src="/images/Mahjnearme Logo.png"
-                alt="MahjNearMe"
-                fill
-                className="object-cover object-center scale-[1.8]"
-                priority
-              />
-            </div>
+            <Image
+              src="/images/mahjnearme-header-logo.png"
+              alt="MahjNearMe"
+              width={812}
+              height={280}
+              className="h-11 w-auto rounded-md"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}

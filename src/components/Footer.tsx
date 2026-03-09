@@ -12,14 +12,13 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center mb-4">
-              <div className="h-10 w-[120px] relative overflow-hidden rounded-md">
-                <Image
-                  src="/images/Mahjnearme Logo.png"
-                  alt="MahjNearMe"
-                  fill
-                  className="object-cover object-center scale-[2.2]"
-                />
-              </div>
+              <Image
+                src="/images/mahjnearme-header-logo.png"
+                alt="MahjNearMe"
+                width={812}
+                height={280}
+                className="h-10 w-auto rounded-md"
+              />
             </div>
             <p className="text-sm text-slate-400 mb-4">
               Find mahjong games anywhere you go. The only directory of pickup games, open play, and events across the US.
