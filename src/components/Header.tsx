@@ -20,9 +20,9 @@ export default function Header() {
             <Image
               src="/images/mahjnearme-header-logo.png"
               alt="MahjNearMe"
-              width={812}
-              height={280}
-              className="h-11 w-auto rounded-md"
+              width={796}
+              height={155}
+              className="h-14 w-auto"
               priority
             />
           </Link>

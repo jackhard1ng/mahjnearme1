@@ -15,9 +15,9 @@ export default function Footer() {
               <Image
                 src="/images/mahjnearme-header-logo.png"
                 alt="MahjNearMe"
-                width={812}
-                height={280}
-                className="h-10 w-auto rounded-md"
+                width={796}
+                height={155}
+                className="h-12 w-auto"
               />
             </div>
             <p className="text-sm text-slate-400 mb-4">
