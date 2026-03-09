@@ -17,12 +17,12 @@ export default function Header() {
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <div className="h-10 w-[120px] relative overflow-hidden rounded-md">
+            <div className="h-12 w-[200px] relative overflow-hidden rounded-md">
               <Image
                 src="/images/Mahjnearme Logo.png"
                 alt="MahjNearMe"
                 fill
-                className="object-cover object-center scale-[2.2]"
+                className="object-cover object-center scale-[1.8]"
                 priority
               />
             </div>
