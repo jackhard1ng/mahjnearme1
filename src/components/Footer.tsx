@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -10,13 +11,15 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 bg-hotpink-500/20 rounded-lg flex items-center justify-center">
-                <span className="text-white text-lg">🀄</span>
+            <div className="flex items-center mb-4">
+              <div className="h-10 w-[120px] relative overflow-hidden rounded-md">
+                <Image
+                  src="/images/Mahjnearme Logo.png"
+                  alt="MahjNearMe"
+                  fill
+                  className="object-cover object-center scale-[2.2]"
+                />
               </div>
-              <span className="font-bold text-lg text-white">
-                Mahj<span className="text-skyblue-400">Near</span>Me
-              </span>
             </div>
             <p className="text-sm text-slate-400 mb-4">
               Find mahjong games anywhere you go. The only directory of pickup games, open play, and events across the US.
