@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Menu, X, User, LogOut, Settings, LayoutDashboard, ChevronDown, CalendarDays, Heart, MessageSquare, Briefcase } from "lucide-react";
@@ -15,13 +16,16 @@ export default function Header() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-white/20 rounded-lg flex items-center justify-center border border-white/30">
-              <span className="text-white font-bold text-lg" aria-hidden="true">🀄</span>
+          <Link href="/" className="flex items-center">
+            <div className="h-10 w-[120px] relative overflow-hidden rounded-md">
+              <Image
+                src="/images/Mahjnearme Logo.png"
+                alt="MahjNearMe"
+                fill
+                className="object-cover object-center scale-[2.2]"
+                priority
+              />
             </div>
-            <span className="font-[family-name:var(--font-heading)] font-bold text-xl text-white">
-              Mahj<span className="text-skyblue-200">Near</span>Me
-            </span>
           </Link>
 
           {/* Desktop Navigation */}
