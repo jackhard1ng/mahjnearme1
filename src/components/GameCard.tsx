@@ -40,6 +40,7 @@ interface GameCardProps {
   onCalendarToggle?: (gameId: string) => void;
   isOnCalendar?: boolean;
   index?: number;
+  distanceText?: string | null;
 }
 
 // Three mahjong suits: each card gets one based on its ID hash
@@ -151,6 +152,7 @@ export default function GameCard({
   isFavorited = false,
   onCalendarToggle,
   isOnCalendar = false,
+  distanceText = null,
 }: GameCardProps) {
   const { hasAccess } = useAuth();
   const verification = getVerificationStatus(game.verified);
@@ -235,7 +237,12 @@ export default function GameCard({
                 )}
                 <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
                   <MapPin className="w-3.5 h-3.5 text-skyblue-500 shrink-0" />
-                  <span>{isTeaser ? game.generalArea : `${game.city}, ${game.state}`}</span>
+                  <span>
+                    {isTeaser ? game.generalArea : `${game.city}, ${game.state}`}
+                    {distanceText && (
+                      <span className="text-hotpink-500 font-medium ml-2">&middot; {distanceText}</span>
+                    )}
+                  </span>
                 </div>
                 {!isTeaser && (
                   <div className="flex items-center gap-2 text-sm text-slate-600 tile-engraved">
