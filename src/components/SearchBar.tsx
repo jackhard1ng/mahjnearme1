@@ -3,7 +3,6 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Search, MapPin, Loader2, AlertCircle } from "lucide-react";
-import { findMetroForCity } from "@/lib/metro-regions";
 
 interface SearchBarProps {
   size?: "large" | "default";
@@ -20,6 +19,7 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
+      // Pass the text query — the search page will geocode it for proximity search
       router.push(`/search?q=${encodeURIComponent(query.trim())}`);
     }
   };
@@ -38,32 +38,33 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
         const { latitude, longitude } = position.coords;
 
         try {
-          // Reverse geocode using OpenStreetMap Nominatim
+          // Reverse geocode to get a display name
           const res = await fetch(
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`,
             { headers: { "User-Agent": "MahjNearMe/1.0" } }
           );
 
-          if (!res.ok) {
-            router.push(`/search?lat=${latitude}&lng=${longitude}`);
-            setLocating(false);
-            return;
+          let displayCity = "";
+          if (res.ok) {
+            const data = await res.json();
+            const address = data.address || {};
+            displayCity = address.city || address.town || address.village || address.county || "";
           }
 
-          const data = await res.json();
-          const address = data.address || {};
-          const city = address.city || address.town || address.village || address.county || "";
-
-          if (city) {
-            // Try to match against known metro regions
-            findMetroForCity(city); // Check if metro exists (result used for routing)
-            setQuery(city);
-            router.push(`/search?q=${encodeURIComponent(city)}`);
+          // Always pass lat/lng for proximity search; include city name for display
+          const params = new URLSearchParams();
+          params.set("lat", latitude.toFixed(6));
+          params.set("lng", longitude.toFixed(6));
+          if (displayCity) {
+            params.set("q", displayCity);
+            setQuery(displayCity);
           } else {
-            router.push(`/search?lat=${latitude}&lng=${longitude}`);
+            params.set("q", "My Location");
+            setQuery("My Location");
           }
+          router.push(`/search?${params.toString()}`);
         } catch {
-          router.push(`/search?lat=${latitude}&lng=${longitude}`);
+          router.push(`/search?lat=${latitude.toFixed(6)}&lng=${longitude.toFixed(6)}&q=My+Location`);
         }
 
         setLocating(false);
@@ -103,7 +104,7 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
             type="text"
             value={query}
             onChange={(e) => { setQuery(e.target.value); setLocationError(""); }}
-            placeholder="Search by city, state, or zip code..."
+            placeholder="Search by city, zip code, or address..."
             className={`w-full bg-white border border-skyblue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-hotpink-400 focus:border-hotpink-400 transition-all placeholder:text-slate-400 ${
               isLarge
                 ? "pl-12 pr-4 py-4 text-lg shadow-lg"
@@ -126,7 +127,7 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
             <MapPin className={isLarge ? "w-5 h-5" : "w-4 h-4"} />
           )}
           <span className="hidden sm:inline text-sm font-medium">
-            {locating ? "Locating..." : "Use My Location"}
+            {locating ? "Locating..." : "Near Me"}
           </span>
         </button>
         <button

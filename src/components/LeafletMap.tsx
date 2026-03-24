@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Game } from "@/types";
 import { getMapPinColor, getGameTypeLabel, slugify } from "@/lib/utils";
+import { haversineDistance, formatDistance } from "@/lib/distance";
 
 // We import Leaflet types only. Actual library loaded dynamically.
 import type L from "leaflet";
@@ -14,6 +15,7 @@ interface LeafletMapProps {
   hasAccess?: boolean;
   previewCount?: number;
   userHomeMetro?: string | null;
+  searchCenter?: { lat: number; lng: number } | null;
 }
 
 // US center as default view
@@ -59,7 +61,7 @@ function createPinIcon(color: string, isSelected: boolean, isLocked: boolean): L
   });
 }
 
-export default function LeafletMap({ games, selectedGameId, onPinClick, hasAccess = true, previewCount = 1, userHomeMetro }: LeafletMapProps) {
+export default function LeafletMap({ games, selectedGameId, onPinClick, hasAccess = true, previewCount = 1, userHomeMetro, searchCenter = null }: LeafletMapProps) {
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.LayerGroup | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -147,11 +149,17 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
 
       let popupContent: string;
 
+      // Distance line for popup
+      const distLine = searchCenter && game.geopoint.lat !== 0
+        ? `<span style="color: #FF1493; font-size: 11px; font-weight: 600;">${formatDistance(haversineDistance(searchCenter.lat, searchCenter.lng, game.geopoint.lat, game.geopoint.lng))}</span><br/>`
+        : "";
+
       if (canSeeDetails) {
         popupContent = `<div style="font-family: system-ui, sans-serif; min-width: 180px;">
             <strong style="font-size: 14px; color: #1a1a2e;">${game.name}</strong><br/>
             <span style="color: #64748b; font-size: 12px;">${typeLabel}</span><br/>
             <span style="color: #64748b; font-size: 12px;">${game.venueName || game.address}</span><br/>
+            ${distLine}
             <a href="${gameUrl}" style="color: #FF1493; font-size: 12px; font-weight: 600; text-decoration: none; margin-top: 4px; display: inline-block;">View Details &rarr;</a>
           </div>`;
       } else if (isLocked) {
@@ -164,6 +172,7 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
         popupContent = `<div style="font-family: system-ui, sans-serif; min-width: 180px;">
             <strong style="font-size: 14px; color: #1a1a2e;">${typeLabel}</strong><br/>
             <span style="color: #64748b; font-size: 12px;">${game.city}, ${game.state}</span><br/>
+            ${distLine}
             <a href="/pricing" style="color: #FF1493; font-size: 12px; font-weight: 600; text-decoration: none;">Subscribe to see details &rarr;</a>
           </div>`;
       }
@@ -178,10 +187,30 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
       bounds.extend([game.geopoint.lat, game.geopoint.lng]);
     });
 
+    // Add a "You are here" marker at the search center
+    if (searchCenter && searchCenter.lat !== 0 && searchCenter.lng !== 0) {
+      const searchIcon = L.divIcon({
+        className: "search-center-pin",
+        html: `<div style="
+          width: 18px; height: 18px;
+          background: #3B82F6;
+          border: 3px solid #fff;
+          border-radius: 50%;
+          box-shadow: 0 0 0 3px rgba(59,130,246,0.4), 0 2px 6px rgba(0,0,0,0.3);
+        "></div>`,
+        iconSize: [18, 18],
+        iconAnchor: [9, 9],
+      });
+      L.marker([searchCenter.lat, searchCenter.lng], { icon: searchIcon, interactive: false })
+        .bindPopup('<div style="font-family: system-ui; font-size: 13px; font-weight: 600; color: #3B82F6;">Your search location</div>', { closeButton: false })
+        .addTo(markers);
+      bounds.extend([searchCenter.lat, searchCenter.lng]);
+    }
+
     if (bounds.isValid()) {
       mapRef.current.fitBounds(bounds, { padding: [40, 40], maxZoom: 12 });
     }
-  }, [geoGames.length, selectedGameId, ready, hasGeoGames, hasAccess, userHomeMetro]);
+  }, [geoGames.length, selectedGameId, ready, hasGeoGames, hasAccess, userHomeMetro, searchCenter]);
 
   return (
     <div className="rounded-xl border-2 border-softpink-300 h-full min-h-[300px] relative overflow-hidden bg-skyblue-50">
