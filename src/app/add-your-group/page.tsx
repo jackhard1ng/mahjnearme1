@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useRef, FormEvent } from "react";
 import { CheckCircle, Send, MapPin, Globe, Calendar, Users, Star, MessageCircle } from "lucide-react";
 
 export default function AddYourGroupPage() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [honeypot, setHoneypot] = useState("");
+  const loadTime = useRef(Date.now());
   const [form, setForm] = useState({
     // Contact info
     name: "",
@@ -47,18 +49,32 @@ export default function AddYourGroupPage() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setSubmitting(true);
     setError("");
+
+    if (form.description.trim().length < 10) {
+      setError("Description must be at least 10 characters.");
+      return;
+    }
+
+    setSubmitting(true);
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, formType: "group-listing" }),
+        body: JSON.stringify({
+          ...form,
+          formType: "group-listing",
+          _hp_email: honeypot,
+          _ts: loadTime.current,
+        }),
       });
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Something went wrong.");
+      }
       setSubmitted(true);
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -125,6 +141,20 @@ export default function AddYourGroupPage() {
                     <input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="(555) 123-4567" />
                   </div>
                 </fieldset>
+
+                {/* Honeypot — invisible to real users, bots auto-fill it */}
+                <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", top: "-9999px", opacity: 0, height: 0, overflow: "hidden" }}>
+                  <label htmlFor="hp_email_group">Leave this empty</label>
+                  <input
+                    type="email"
+                    id="hp_email_group"
+                    name="email_confirm"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                  />
+                </div>
 
                 <hr className="border-skyblue-200" />
 
@@ -353,7 +383,7 @@ export default function AddYourGroupPage() {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-1">Describe your group / event *</label>
-                      <textarea required rows={3} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="What makes your group special? What can new players expect?" />
+                      <textarea required rows={3} minLength={10} value={form.description} onChange={(e) => { setForm({ ...form, description: e.target.value }); setError(""); }} className="w-full border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm" placeholder="What makes your group special? What can new players expect?" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-1">How do new players join?</label>
