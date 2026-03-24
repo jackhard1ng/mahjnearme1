@@ -1,28 +1,42 @@
 import Link from "next/link";
 import SearchBar from "@/components/SearchBar";
-import { mockGames, getStatesWithGames, getCitiesWithGames } from "@/lib/mock-data";
-import { slugify, getStateName, isEventExpired } from "@/lib/utils";
-import { getCityTile } from "@/lib/city-tiles";
+import { mockGames } from "@/lib/mock-data";
+import { isEventExpired } from "@/lib/utils";
+import { FEATURED_TILES } from "@/lib/featured-tiles";
 import { Search, MapPin, Sparkles, Globe, ShieldCheck, Bell, ArrowRight, Star, CreditCard } from "lucide-react";
 
 function getStats() {
   const activeGames = mockGames.filter((g) => g.status === "active" && !isEventExpired(g));
-  const cities = new Set(activeGames.map((g) => g.city));
   const states = new Set(activeGames.map((g) => g.state));
-  return { gameCount: activeGames.length, cityCount: cities.size, stateCount: states.size };
+  return { gameCount: activeGames.length, stateCount: states.size };
+}
+
+/** Count games per city from the live data. */
+function getCityCounts(): Record<string, number> {
+  const counts: Record<string, number> = {};
+  for (const g of mockGames) {
+    if (g.status !== "active" || isEventExpired(g)) continue;
+    const key = `${g.city}|${g.state}`;
+    counts[key] = (counts[key] || 0) + 1;
+  }
+  return counts;
 }
 
 const stats = getStats();
-const states = getStatesWithGames();
-const cities = getCitiesWithGames();
+const cityCounts = getCityCounts();
+
+/** Build the marquee tile data with live counts. */
+const tilesWithCounts = FEATURED_TILES.map((t) => {
+  const key = `${t.city}|${t.state}`;
+  return { ...t, count: cityCounts[key] || 0 };
+}).filter((t) => t.count > 0); // Only show tiles that have games
 
 export default function HomePage() {
 
   return (
     <>
-      {/* Hero Section - Photo background with gradient overlay */}
+      {/* Hero Section */}
       <section className="relative overflow-hidden">
-        {/* Background photo */}
         <div className="absolute inset-0">
           <img src="/images/c2d2c03301c201e23fd4816059b397c4.jpg" alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-br from-[#FF1493]/85 via-[#FF69B4]/75 to-[#87CEEB]/80" />
@@ -42,52 +56,48 @@ export default function HomePage() {
             The only directory of pickup mahjong games, open play sessions, lessons, and events across the United States
           </p>
 
-          <div className="max-w-3xl mx-auto mb-3 sm:mb-6">
+          <div className="max-w-3xl mx-auto mb-4 sm:mb-6">
             <SearchBar size="large" />
           </div>
 
           <p className="text-xs sm:text-sm text-white/70">
             <span className="font-semibold text-white">{stats.gameCount} games</span> across{" "}
-            <span className="font-semibold text-white">{stats.cityCount} cities</span> in{" "}
             <span className="font-semibold text-white">{stats.stateCount} states</span> and counting
           </p>
         </div>
       </section>
 
-      {/* City Marquee - soft blue section with rotating tiles */}
+      {/* City Marquee — scrolling tiles with live counts, clickable for proximity search */}
       <section className="py-5 border-y border-skyblue-200 overflow-hidden bg-skyblue-50">
         <div className="relative">
           <div className="animate-scroll-left whitespace-nowrap flex items-center">
-            {[...cities, ...cities, ...cities].map((c, i) => {
-              const tile = getCityTile(c.city);
-              return (
-                <Link
-                  key={i}
-                  href={`/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`}
-                  className="inline-flex items-center px-6 text-charcoal hover:text-hotpink-500 transition-colors text-sm font-medium shrink-0 group"
-                >
-                  {tile ? (
-                    <span className="inline-flex items-center justify-center w-10 h-10 mr-3 shrink-0" style={{ perspective: "200px" }}>
-                      <img
-                        src={tile}
-                        alt={`${c.city} tile`}
-                        className="max-h-10 max-w-10 w-auto h-auto animate-tile-rotate drop-shadow-md group-hover:pause object-contain"
-                        style={{ animationDelay: `${(i % 12) * 0.35}s` }}
-                      />
-                    </span>
-                  ) : (
-                    <span className="w-2 h-2 bg-hotpink-400 rounded-full mr-3" />
-                  )}
-                  {c.city}, {c.state}
-                  <span className="ml-2 text-xs text-hotpink-500 font-bold">{c.count}</span>
-                </Link>
-              );
-            })}
+            {[...tilesWithCounts, ...tilesWithCounts, ...tilesWithCounts].map((t, i) => (
+              <Link
+                key={i}
+                href={`/search?q=${encodeURIComponent(t.searchQuery)}`}
+                className="inline-flex items-center px-6 text-charcoal hover:text-hotpink-500 transition-colors text-sm font-medium shrink-0 group"
+              >
+                {t.tile ? (
+                  <span className="inline-flex items-center justify-center w-10 h-10 mr-3 shrink-0" style={{ perspective: "200px" }}>
+                    <img
+                      src={t.tile}
+                      alt={`${t.city} tile`}
+                      className="max-h-10 max-w-10 w-auto h-auto animate-tile-rotate drop-shadow-md group-hover:pause object-contain"
+                      style={{ animationDelay: `${(i % 12) * 0.35}s` }}
+                    />
+                  </span>
+                ) : (
+                  <span className="w-2 h-2 bg-hotpink-400 rounded-full mr-3" />
+                )}
+                {t.city}, {t.state}
+                <span className="ml-2 text-xs text-hotpink-500 font-bold">{t.count}</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* How It Works - soft pink section */}
+      {/* How It Works */}
       <section className="py-16 sm:py-20 relative overflow-hidden">
         <div className="absolute inset-0">
           <img src="/images/40a8a8ed77d5469f174ff66a88f95aa5.jpg" alt="" className="w-full h-full object-cover opacity-[0.08]" loading="lazy" />
@@ -108,7 +118,7 @@ export default function HomePage() {
               <div className="text-xs font-bold text-hotpink-500 uppercase tracking-wider mb-2">Step 1</div>
               <h3 className="font-semibold text-lg mb-2 text-charcoal">Search your city</h3>
               <p className="text-sm text-slate-600">
-                Type any city, zip code, or travel destination, or just tap &ldquo;Use My Location&rdquo;
+                Type any city, zip code, or travel destination, or just tap &ldquo;Use my location&rdquo;
               </p>
             </div>
             <div className="text-center">
@@ -135,7 +145,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Value Props - soft blue section, white cards */}
+      {/* Value Props */}
       <section className="py-16 sm:py-20 section-blue">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid sm:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -164,7 +174,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Founder Story - soft pink section */}
+      {/* Founder Story */}
       <section className="py-16 sm:py-20 section-pink">
         <div className="max-w-3xl mx-auto px-4">
           <div className="card-white p-8 sm:p-10">
@@ -189,7 +199,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials - soft blue section */}
+      {/* Testimonials */}
       <section className="py-16 sm:py-20 section-blue">
         <div className="max-w-7xl mx-auto px-4">
           <div className="mahj-divider mb-6">
@@ -242,7 +252,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section - soft pink section */}
+      {/* CTA Section */}
       <section className="py-16 sm:py-24 relative overflow-hidden">
         <div className="absolute inset-0">
           <img src="/images/8f52f44ed05054e40828936a96d15b75.jpg" alt="" className="w-full h-full object-cover opacity-[0.10]" loading="lazy" />
@@ -250,7 +260,6 @@ export default function HomePage() {
         </div>
         <div className="max-w-7xl mx-auto px-4 relative">
           <div className="grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* List Your Group CTA */}
             <div className="card-white p-8 text-center">
               <div className="text-3xl mb-3">🀄</div>
               <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">
@@ -267,7 +276,6 @@ export default function HomePage() {
               </Link>
             </div>
 
-            {/* Player CTA */}
             <div className="card-white p-8 text-center">
               <div className="text-3xl mb-3">🀇</div>
               <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">

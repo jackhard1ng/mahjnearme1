@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { Search, MapPin, Loader2, AlertCircle } from "lucide-react";
+import { Search, Loader2, AlertCircle, Navigation } from "lucide-react";
 
 interface SearchBarProps {
   size?: "large" | "default";
@@ -18,10 +18,16 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (query.trim()) {
-      // Pass the text query — the search page will geocode it for proximity search
-      router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+    const trimmed = query.trim();
+    if (!trimmed) return;
+
+    // Support "near me" as a geolocation trigger
+    if (trimmed.toLowerCase() === "near me") {
+      handleUseLocation();
+      return;
     }
+
+    router.push(`/search?q=${encodeURIComponent(trimmed)}`);
   };
 
   const handleUseLocation = () => {
@@ -38,7 +44,6 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
         const { latitude, longitude } = position.coords;
 
         try {
-          // Reverse geocode to get a display name
           const res = await fetch(
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`,
             { headers: { "User-Agent": "MahjNearMe/1.0" } }
@@ -51,7 +56,6 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
             displayCity = address.city || address.town || address.village || address.county || "";
           }
 
-          // Always pass lat/lng for proximity search; include city name for display
           const params = new URLSearchParams();
           params.set("lat", latitude.toFixed(6));
           params.set("lng", longitude.toFixed(6));
@@ -104,7 +108,7 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
             type="text"
             value={query}
             onChange={(e) => { setQuery(e.target.value); setLocationError(""); }}
-            placeholder="Search by city, zip code, or address..."
+            placeholder="Search by city, zip, or address"
             className={`w-full bg-white border border-skyblue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-hotpink-400 focus:border-hotpink-400 transition-all placeholder:text-slate-400 ${
               isLarge
                 ? "pl-12 pr-4 py-4 text-lg shadow-lg"
@@ -112,24 +116,6 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
             }`}
           />
         </div>
-        <button
-          type="button"
-          onClick={handleUseLocation}
-          disabled={locating}
-          className={`flex items-center gap-2 bg-skyblue-100 border border-skyblue-300 rounded-xl hover:bg-skyblue-200 hover:text-hotpink-600 transition-all text-charcoal ${
-            isLarge ? "px-5 py-4 shadow-lg" : "px-4 py-3"
-          }`}
-          title="Use my location"
-        >
-          {locating ? (
-            <Loader2 className={`animate-spin ${isLarge ? "w-5 h-5" : "w-4 h-4"}`} />
-          ) : (
-            <MapPin className={isLarge ? "w-5 h-5" : "w-4 h-4"} />
-          )}
-          <span className="hidden sm:inline text-sm font-medium">
-            {locating ? "Locating..." : "Near Me"}
-          </span>
-        </button>
         <button
           type="submit"
           className={`bg-hotpink-500 text-white rounded-xl font-semibold hover:bg-hotpink-600 transition-colors shadow-lg ${
@@ -139,8 +125,30 @@ export default function SearchBar({ size = "default", defaultValue = "", classNa
           Search
         </button>
       </form>
+
+      {/* Use my location link below the search bar */}
+      <div className="flex items-center justify-center mt-2 gap-4">
+        <button
+          type="button"
+          onClick={handleUseLocation}
+          disabled={locating}
+          className={`inline-flex items-center gap-1.5 text-xs sm:text-sm transition-colors font-medium disabled:opacity-50 ${
+            isLarge
+              ? "text-white/70 hover:text-white"
+              : "text-slate-500 hover:text-hotpink-500"
+          }`}
+        >
+          {locating ? (
+            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+          ) : (
+            <Navigation className="w-3.5 h-3.5" />
+          )}
+          {locating ? "Locating..." : "Use my location"}
+        </button>
+      </div>
+
       {locationError && (
-        <div className="flex items-center gap-2 mt-2 text-sm text-red-500">
+        <div className={`flex items-center gap-2 mt-2 text-sm ${isLarge ? "text-red-300" : "text-red-500"}`}>
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{locationError}</span>
         </div>

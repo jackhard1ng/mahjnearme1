@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Menu, X, User, LogOut, Settings, LayoutDashboard, ChevronDown, CalendarDays, Heart, MessageSquare, Briefcase } from "lucide-react";
@@ -16,15 +15,25 @@ export default function Header() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <Image
-              src="/images/mahjnearme-header-logo.png"
-              alt="MahjNearMe"
-              width={812}
-              height={280}
-              className="h-11 w-auto rounded-md"
-              priority
-            />
+          <Link href="/" className="flex items-center gap-0.5">
+            {"MahjNearMe".split("").map((char, i) => (
+              <span
+                key={i}
+                className="inline-flex items-center justify-center h-9 rounded-[5px] text-[18px] font-extrabold leading-none shadow-sm"
+                style={{
+                  fontFamily: "var(--font-heading), 'Fredoka', sans-serif",
+                  color: "#3E8B3E",
+                  textShadow: "0 1px 0 rgba(0,0,0,0.08)",
+                  background: "linear-gradient(to bottom, #FFFFF0, #F0EFE0)",
+                  borderBottom: "3px solid #87CEEB",
+                  padding: char.toLowerCase() === "m" || char.toLowerCase() === "n" ? "0 5px" : "0 3.5px",
+                  minWidth: char.toLowerCase() === "i" || char.toLowerCase() === "j" ? "16px" : undefined,
+                  textAlign: "center" as const,
+                }}
+              >
+                {char}
+              </span>
+            ))}
           </Link>
 
           {/* Desktop Navigation */}
