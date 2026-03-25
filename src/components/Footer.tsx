@@ -79,9 +79,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/community" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
-                  Forum
-                </Link>
+                <a href="https://instagram.com/mahjnearme" target="_blank" rel="noopener noreferrer" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
+                  Instagram
+                </a>
               </li>
             </ul>
           </div>

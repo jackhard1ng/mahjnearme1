@@ -28,16 +28,26 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
+    url: "https://mahjnearme.com",
     siteName: "MahjNearMe",
     title: "MahjNearMe | Find Mahjong Games Anywhere You Go",
     description:
       "The only directory of pickup mahjong games, open play, and events across the US. Search by city or use GPS to find games near you.",
+    images: [
+      {
+        url: "https://mahjnearme.com/images/og-image.svg",
+        width: 1200,
+        height: 630,
+        alt: "MahjNearMe — Find Mahjong Games Anywhere You Go",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "MahjNearMe | Find Mahjong Games Anywhere You Go",
     description:
       "The only directory of pickup mahjong games, open play, and events across the US.",
+    images: ["https://mahjnearme.com/images/og-image.svg"],
   },
   robots: {
     index: true,

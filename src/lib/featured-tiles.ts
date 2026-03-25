@@ -24,7 +24,7 @@ export const FEATURED_TILES: FeaturedTile[] = [
   { city: "New York", state: "NY", searchQuery: "New York, NY", tile: "/tiless/NY-Tile.png" },
   { city: "Orlando", state: "FL", searchQuery: "Orlando, FL", tile: "/tiless/Orlando-Tile.png" },
   { city: "West Palm Beach", state: "FL", searchQuery: "West Palm Beach, FL", tile: "/tiless/PalmBeach-Tile.png" },
-  { city: "Phoenix", state: "AZ", searchQuery: "Phoenix, AZ", tile: "/tiless/Pheonix-Tile.png" },
+  { city: "Phoenix", state: "AZ", searchQuery: "Phoenix, AZ", tile: "/tiless/Phoenix-Tile.png" },
   { city: "Scottsdale", state: "AZ", searchQuery: "Scottsdale, AZ", tile: "/tiless/Scottsdale-Tile.png" },
   { city: "Kansas City", state: "MO", searchQuery: "Kansas City, MO", tile: "/tiless/KC-Tile.png" },
   { city: "Oklahoma City", state: "OK", searchQuery: "Oklahoma City, OK", tile: null },

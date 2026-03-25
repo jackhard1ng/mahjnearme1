@@ -5,7 +5,7 @@ export const CITY_TILES: Record<string, string> = {
   "Dallas": "/tiless/Dallas-Tile.png",
   "Miami": "/tiless/Miami-Tile.png",
   "Nashville": "/tiless/Nashville-Tile.png",
-  "Phoenix": "/tiless/Pheonix-Tile.png",
+  "Phoenix": "/tiless/Phoenix-Tile.png",
   "Scottsdale": "/tiless/Scottsdale-Tile.png",
   "Palm Beach": "/tiless/PalmBeach-Tile.png",
   "Orlando": "/tiless/Orlando-Tile.png",
