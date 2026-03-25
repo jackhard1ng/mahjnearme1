@@ -42,7 +42,7 @@ export default function Header() {
               Find Games
             </Link>
             <Link href="/cities" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
-              Cities
+              Browse
             </Link>
             <Link href="/shop" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               Mahj Gear
@@ -155,7 +155,7 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
             >
-              Cities
+              Browse
             </Link>
             <Link
               href="/shop"
