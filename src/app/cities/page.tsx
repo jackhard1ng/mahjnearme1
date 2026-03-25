@@ -2,14 +2,13 @@ import Link from "next/link";
 import { getCitiesWithGames, getStatesWithGames, mockGames } from "@/lib/mock-data";
 import { getStateName, slugify, getGameTypeLabel, getGameTypeColor, isEventExpired } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
-import { getMetrosWithGames, getMetroCitiesSubtitle } from "@/lib/metro-regions";
-import { MapPin, ArrowRight, Users, GraduationCap, Trophy, CalendarDays } from "lucide-react";
+import { MapPin, ArrowRight, Users, GraduationCap, Trophy, CalendarDays, Search } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Browse Mahjong Games by City",
+  title: "Browse Mahjong Games by State & City",
   description:
-    "Find mahjong games, open play sessions, and events in cities across the United States. Browse by state and city to find games near you.",
+    "Browse mahjong games, open play sessions, and events across all 50 states. Find games by state or city.",
 };
 
 function getGameTypeIcon(type: string) {
@@ -27,10 +26,8 @@ export default function CitiesIndexPage() {
   const cities = getCitiesWithGames();
   const activeGames = mockGames.filter((g) => g.status === "active" && !isEventExpired(g));
 
-  // Stats for the hero
   const totalGames = activeGames.length;
   const totalCities = cities.length;
-  const totalStates = states.length;
 
   // Game type breakdown
   const typeCounts = activeGames.reduce((acc, g) => {
@@ -38,8 +35,8 @@ export default function CitiesIndexPage() {
     return acc;
   }, {} as Record<string, number>);
 
-  // Featured cities (top 4 by game count)
-  const featuredCities = [...cities].sort((a, b) => b.count - a.count).slice(0, 4);
+  // Top 6 cities by game count
+  const featuredCities = [...cities].sort((a, b) => b.count - a.count).slice(0, 6);
 
   return (
     <>
@@ -55,10 +52,10 @@ export default function CitiesIndexPage() {
         </div>
         <div className="max-w-5xl mx-auto px-4 pt-14 pb-10 sm:pt-20 sm:pb-14 text-center relative">
           <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-4xl sm:text-5xl text-white mb-3 tracking-tight drop-shadow-lg">
-            Explore Mahjong Cities
+            Browse Mahjong Games
           </h1>
           <p className="text-lg text-white/80 mb-8 max-w-xl mx-auto">
-            {Math.floor(totalGames / 100) * 100}+ games across {totalCities} cities in 50 states, and growing every week
+            {Math.floor(totalGames / 100) * 100}+ games across {totalCities} cities in 50 states
           </p>
 
           {/* Quick stats */}
@@ -76,67 +73,64 @@ export default function CitiesIndexPage() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-10">
-        {/* Featured Cities */}
-        {featuredCities.length > 0 && (
-          <div className="mb-12">
-            <div className="mahj-divider mb-8">
-              <span className="text-xl">🀄</span>
-            </div>
-            <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-6 text-center">
-              Popular Cities
-            </h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {featuredCities.map((c) => {
-                const cityGames = activeGames.filter(
-                  (g) => g.city === c.city && g.state === c.state
-                );
-                const typeSet = new Set(cityGames.map((g) => g.type));
-                const tile = getCityTile(c.city);
-                return (
-                  <Link
-                    key={`${c.city}-${c.state}`}
-                    href={`/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`}
-                    className="mahj-tile p-5 hover:shadow-xl transition-shadow group relative overflow-hidden"
-                  >
-                    {/* Background tile watermark */}
-                    {tile && (
-                      <div className="absolute -right-2 -top-2 opacity-10 pointer-events-none">
-                        <img src={tile} alt="" className="h-28 w-auto" />
-                      </div>
-                    )}
-                    <div className="relative">
-                      <div className="flex items-center gap-3 mb-3">
-                        {tile ? (
-                          <img src={tile} alt={`${c.city} tile`} className="h-12 w-auto drop-shadow-md" />
-                        ) : (
-                          <div className="w-10 h-10 bg-hotpink-500 rounded-xl flex items-center justify-center shadow-md">
-                            <MapPin className="w-5 h-5 text-white" />
-                          </div>
-                        )}
-                        <div>
-                          <h3 className="font-bold text-charcoal group-hover:text-hotpink-500 transition-colors">
-                            {c.city}
-                          </h3>
-                          <p className="text-xs text-slate-500">{getStateName(c.state)}</p>
+        {/* Popular Cities */}
+        <div className="mb-12">
+          <div className="mahj-divider mb-8">
+            <span className="text-xl">🀄</span>
+          </div>
+          <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-6 text-center">
+            Popular Cities
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {featuredCities.map((c) => {
+              const cityGames = activeGames.filter(
+                (g) => g.city === c.city && g.state === c.state
+              );
+              const typeSet = new Set(cityGames.map((g) => g.type));
+              const tile = getCityTile(c.city);
+              return (
+                <Link
+                  key={`${c.city}-${c.state}`}
+                  href={`/search?q=${encodeURIComponent(c.city + ", " + c.state)}`}
+                  className="mahj-tile p-5 hover:shadow-xl transition-shadow group relative overflow-hidden"
+                >
+                  {tile && (
+                    <div className="absolute -right-2 -top-2 opacity-10 pointer-events-none">
+                      <img src={tile} alt="" className="h-28 w-auto" />
+                    </div>
+                  )}
+                  <div className="relative">
+                    <div className="flex items-center gap-3 mb-3">
+                      {tile ? (
+                        <img src={tile} alt={`${c.city} tile`} className="h-12 w-auto drop-shadow-md" />
+                      ) : (
+                        <div className="w-10 h-10 bg-hotpink-500 rounded-xl flex items-center justify-center shadow-md">
+                          <MapPin className="w-5 h-5 text-white" />
                         </div>
-                      </div>
-                      <p className="text-2xl font-extrabold text-hotpink-500 mb-1">
-                        {c.count} <span className="text-sm font-medium text-slate-500">{c.count === 1 ? "game" : "games"}</span>
-                      </p>
-                      <div className="flex flex-wrap gap-1 mt-2">
-                        {Array.from(typeSet).map((type) => (
-                          <span key={type} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getGameTypeColor(type)}`}>
-                            {getGameTypeLabel(type)}
-                          </span>
-                        ))}
+                      )}
+                      <div>
+                        <h3 className="font-bold text-charcoal group-hover:text-hotpink-500 transition-colors">
+                          {c.city}
+                        </h3>
+                        <p className="text-xs text-slate-500">{getStateName(c.state)}</p>
                       </div>
                     </div>
-                  </Link>
-                );
-              })}
-            </div>
+                    <p className="text-2xl font-extrabold text-hotpink-500 mb-1">
+                      {c.count} <span className="text-sm font-medium text-slate-500">{c.count === 1 ? "game" : "games"}</span>
+                    </p>
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {Array.from(typeSet).map((type) => (
+                        <span key={type} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getGameTypeColor(type)}`}>
+                          {getGameTypeLabel(type)}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
-        )}
+        </div>
 
         {/* Browse by State */}
         <div className="mb-12">
@@ -162,50 +156,10 @@ export default function CitiesIndexPage() {
           </div>
         </div>
 
-        {/* Browse by Metro Region */}
-        {(() => {
-          const metros = getMetrosWithGames(cities);
-          return metros.length > 0 ? (
-            <div className="mb-12">
-              <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-6">
-                Browse by Metro Region
-              </h2>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {metros.slice(0, 12).map((m) => {
-                  // Link to the first (largest) city in this metro
-                  const primaryCity = m.activeCities[0];
-                  const cityData = cities.find((c) => c.city === primaryCity);
-                  const stateSlug = cityData ? slugify(getStateName(cityData.state)) : slugify(getStateName(m.metro.state));
-                  const citySlug = slugify(primaryCity);
-                  return (
-                    <Link
-                      key={m.metro.abbreviation}
-                      href={`/cities/${stateSlug}/${citySlug}`}
-                      className="bg-white border border-slate-200 rounded-xl p-5 hover:border-hotpink-300 hover:shadow-sm transition-all group"
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-bold text-charcoal group-hover:text-hotpink-500 transition-colors">
-                          {m.metro.metro}
-                        </h3>
-                        <span className="bg-hotpink-50 text-hotpink-600 font-bold px-2.5 py-0.5 rounded-full text-xs">
-                          {m.totalGames} {m.totalGames === 1 ? "game" : "games"}
-                        </span>
-                      </div>
-                      <p className="text-xs text-slate-500 line-clamp-1">
-                        {getMetroCitiesSubtitle(m.metro)}
-                      </p>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          ) : null;
-        })()}
-
         {/* All Cities */}
         <div className="mb-12">
           <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-6">
-            All Cities
+            All {totalCities} Cities
           </h2>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {cities.map((c) => {
@@ -213,7 +167,7 @@ export default function CitiesIndexPage() {
               return (
                 <Link
                   key={`${c.city}-${c.state}`}
-                  href={`/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`}
+                  href={`/search?q=${encodeURIComponent(c.city + ", " + c.state)}`}
                   className="flex items-center justify-between bg-white border border-slate-200 rounded-lg px-4 py-3 hover:border-hotpink-300 transition-all text-sm group"
                 >
                   <div className="flex items-center gap-2">
