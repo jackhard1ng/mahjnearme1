@@ -82,6 +82,7 @@ function SearchContent() {
   }, [userProfile]);
 
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState(20);
 
   // Scroll to the selected game card when a map pin is clicked
   useEffect(() => {
@@ -141,6 +142,7 @@ function SearchContent() {
   // Trigger geocoding when search params change
   useEffect(() => {
     geocodeQuery(query, latParam, lngParam);
+    setVisibleCount(20);
   }, [query, latParam, lngParam, geocodeQuery]);
 
   // All active, non-expired games
@@ -352,7 +354,7 @@ function SearchContent() {
             </div>
           ) : (
             <>
-              {filteredGames.map((game, index) => {
+              {filteredGames.slice(0, visibleCount).map((game, index) => {
                 const isSelected = selectedGameId === game.id;
                 const selectedClass = isSelected ? "ring-2 ring-hotpink-500 rounded-2xl" : "";
                 const distText = game.distance !== null ? formatDistance(game.distance) : null;
@@ -409,6 +411,16 @@ function SearchContent() {
                   </div>
                 );
               })}
+
+              {/* Load More */}
+              {visibleCount < filteredGames.length && (
+                <button
+                  onClick={() => setVisibleCount((prev) => prev + 20)}
+                  className="w-full py-3 text-sm font-semibold text-hotpink-500 bg-white border-2 border-hotpink-200 rounded-xl hover:bg-hotpink-50 transition-colors"
+                >
+                  Load more ({filteredGames.length - visibleCount} remaining)
+                </button>
+              )}
 
               {/* Signup / Subscribe CTA */}
               {!hasAccess && filteredGames.length > 1 && (
