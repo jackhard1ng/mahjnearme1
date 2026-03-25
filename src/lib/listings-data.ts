@@ -8,6 +8,7 @@
 
 import { Game, GameType, GameStyle, SkillLevel, Frequency } from "@/types";
 import { findMetroForCity } from "@/lib/metro-regions";
+import { US_STATES } from "@/lib/constants";
 
 // --- Raw JSON shape ---
 
@@ -161,6 +162,28 @@ function str(val: unknown): string {
   return String(val).trim();
 }
 
+/** Reverse lookup: full state name → abbreviation. */
+const STATE_NAME_TO_ABBR: Record<string, string> = {};
+for (const [abbr, name] of Object.entries(US_STATES)) {
+  STATE_NAME_TO_ABBR[name.toLowerCase()] = abbr;
+}
+
+/**
+ * Normalize state to a 2-letter abbreviation.
+ * "Texas" → "TX", "TX" → "TX", "california" → "CA"
+ */
+function normalizeState(raw: string): string {
+  const trimmed = raw.trim();
+  // Already a 2-letter abbreviation?
+  const upper = trimmed.toUpperCase();
+  if (upper.length === 2 && US_STATES[upper]) return upper;
+  // Full name?
+  const abbr = STATE_NAME_TO_ABBR[trimmed.toLowerCase()];
+  if (abbr) return abbr;
+  // Unknown — return uppercase as-is
+  return upper;
+}
+
 // --- Convert a raw listing to a Game ---
 
 function rawToGame(raw: RawListing): Game {
@@ -168,6 +191,7 @@ function rawToGame(raw: RawListing): Game {
   const isRecurring = raw.isRecurring === true || (raw.isRecurring === null && !!dayOfWeek);
   const startTime = normalizeTime(raw.startTime);
   const endTime = normalizeTime(raw.endTime);
+  const stateAbbr = normalizeState(str(raw.state));
 
   const metro = findMetroForCity(raw.city);
 
@@ -179,11 +203,14 @@ function rawToGame(raw: RawListing): Game {
     type: normalizeGameType(raw.type),
     gameStyle: normalizeGameStyle(raw.gameStyle),
     city: str(raw.city),
-    state: str(raw.state),
+    state: stateAbbr,
     generalArea: str(raw.generalArea),
     venueName: str(raw.venueName),
     address: str(raw.address),
-    geopoint: { lat: 0, lng: 0 }, // No geocoding in data yet
+    geopoint: {
+      lat: (raw as Record<string, unknown>).latitude ? Number((raw as Record<string, unknown>).latitude) : 0,
+      lng: (raw as Record<string, unknown>).longitude ? Number((raw as Record<string, unknown>).longitude) : 0,
+    },
     metroRegion: metro?.abbreviation || null,
     isRecurring,
     recurringSchedule: isRecurring

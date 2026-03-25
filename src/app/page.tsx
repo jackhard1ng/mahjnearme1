@@ -3,7 +3,7 @@ import SearchBar from "@/components/SearchBar";
 import { mockGames } from "@/lib/mock-data";
 import { isEventExpired } from "@/lib/utils";
 import { FEATURED_TILES } from "@/lib/featured-tiles";
-import { Search, MapPin, Sparkles, Globe, ShieldCheck, Bell, ArrowRight, Star, CreditCard } from "lucide-react";
+import { Search, MapPin, Sparkles, Globe, ShieldCheck, Bell, ArrowRight, CreditCard } from "lucide-react";
 
 function getStats() {
   const activeGames = mockGames.filter((g) => g.status === "active" && !isEventExpired(g));
@@ -61,8 +61,8 @@ export default function HomePage() {
           </div>
 
           <p className="text-xs sm:text-sm text-white/70">
-            <span className="font-semibold text-white">{stats.gameCount} games</span> across{" "}
-            <span className="font-semibold text-white">{stats.stateCount} states</span> and counting
+            <span className="font-semibold text-white">{Math.floor(stats.gameCount / 100) * 100}+ games</span> across{" "}
+            <span className="font-semibold text-white">50 states</span> and counting
           </p>
         </div>
       </section>
@@ -199,38 +199,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-16 sm:py-20 section-blue">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="mahj-divider mb-6">
-            <span className="text-2xl">🀙</span>
-          </div>
-          <h2 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-center text-charcoal mb-12">
-            What Players Are Saying
-          </h2>
-          <div className="grid sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {[
-              { name: "Linda M.", city: "Tulsa, OK", text: "I was looking for American Mahj games near me and found so many options I didn't even know existed. This is a game-changer!", rating: 5 },
-              { name: "Carol S.", city: "Oklahoma City, OK", text: "Finally! A single place to find all the mahjong groups in my area. No more scrolling through endless Facebook posts.", rating: 5 },
-              { name: "Barbara T.", city: "Edmond, OK", text: "I just moved to Oklahoma and had no idea there were this many mahjong groups. Found my new regular game in two minutes!", rating: 5 },
-            ].map((testimonial, i) => (
-              <div key={i} className="card-white p-6">
-                <div className="flex items-center gap-1 mb-3">
-                  {Array.from({ length: testimonial.rating }).map((_, j) => (
-                    <Star key={j} className="w-4 h-4 fill-gold-300 text-gold-300" />
-                  ))}
-                </div>
-                <p className="text-sm text-slate-600 mb-4">&ldquo;{testimonial.text}&rdquo;</p>
-                <div className="text-sm">
-                  <p className="font-semibold text-charcoal">{testimonial.name}</p>
-                  <p className="text-slate-500">{testimonial.city}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Giveaway Banner */}
       <section className="py-10 section-warm">
         <div className="max-w-3xl mx-auto px-4">
@@ -282,7 +250,7 @@ export default function HomePage() {
                 Ready to find your next game?
               </h3>
               <p className="text-slate-600 mb-3">
-                Unlock all 70+ metros, full game details, and monthly giveaway entry.
+                Unlock all {Math.floor(stats.gameCount / 100) * 100}+ games across every state, full details, and monthly giveaway entry.
               </p>
               <div className="flex items-center justify-center gap-1 text-xs text-slate-500 mb-4">
                 <CreditCard className="w-3.5 h-3.5" />
