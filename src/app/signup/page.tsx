@@ -123,6 +123,12 @@ function SignupPage() {
 
     try {
       await signUp(email, password, name);
+      // Send welcome email (fire-and-forget)
+      fetch("/api/welcome-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, name }),
+      }).catch(() => {});
       setIsRegistered(true);
     } catch (err: unknown) {
       if (err instanceof Error) {
