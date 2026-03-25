@@ -12,18 +12,17 @@ const faqs = [
   {
     category: "Finding Games",
     questions: [
-      { q: "How do I find mahjong games near me?", a: "Simply type your city, state, or zip code into the search bar on the homepage. You can also tap 'Use My Location' for GPS-based results. Results show on an interactive map with detailed game cards." },
-      { q: "Can I search for games in a city I'm traveling to?", a: "Absolutely! MahjNearMe is built for travelers. Search any city in the US to find games. Subscribers can use the Travel Planner to search by date range so you can see what's happening during your trip." },
+      { q: "How do I find mahjong games near me?", a: "Simply type your city, zip code, or address into the search bar on the homepage. You can also tap 'Use my location' for GPS-based results. Results are sorted by distance with an interactive map showing game pins." },
+      { q: "Can I search for games in a city I'm traveling to?", a: "Absolutely! MahjNearMe is built for travelers. Search any city in the US to find games near your destination." },
       { q: "What types of mahjong games are listed?", a: "We list American Mahjong, Chinese/Hong Kong Mahjong, and Japanese Riichi Mahjong. You can filter by game style. We also list open play sessions, lessons, leagues, tournaments, and special events." },
-      { q: "How do I know if a listing is still active?", a: "Every listing has a verification badge showing when it was last confirmed. Green means verified this week, yellow means this month, and gray means it hasn't been verified recently. We verify listings weekly." },
+      { q: "How do I know if a listing is still active?", a: "Every listing shows a 'last verified' date. Our team manually researches and verifies listings on an ongoing basis — we don't scrape or auto-generate." },
       { q: "What does 'Drop-in Friendly' mean?", a: "Drop-in friendly means you can show up without an RSVP or registration. Just walk in and join a game! This is especially useful for travelers. You can filter results to only show drop-in friendly games." },
     ],
   },
   {
     category: "Account & Subscription",
     questions: [
-      { q: "What do I get with a free account?", a: "With a free account you get full access to one metro area of your choice. All listings, all details. You can browse other metros and see that games exist, but details are locked. You can also read forum posts in your home metro. Upgrade to unlock all 70+ metros, forum posting, giveaway entries, and more." },
-      { q: "Is the free plan really free forever?", a: "Yes. The free plan is permanent, not a trial. You get full access to one metro area forever at no cost. No credit card required. Upgrade whenever you want to unlock all metros and premium features." },
+      { q: "What do I get with a free account?", a: "With a free account you can search all 2,000+ listings and see the top result with full details. Subscribe to unlock full details on every listing — contact info, directions, schedules, and more." },
       { q: "How much does a subscription cost?", a: `We offer two plans: ${formatCurrency(MONTHLY_PRICE)}/month or ${formatCurrency(ANNUAL_PRICE)}/year (that's just ${formatCurrency(ANNUAL_PRICE / 12)}/month, a ${Math.round((1 - ANNUAL_PRICE / 12 / MONTHLY_PRICE) * 100)}% savings). Both give you full access to all features.` },
       { q: "Can I cancel anytime?", a: "Yes, absolutely. No contracts, no cancellation fees. You can cancel anytime from your account settings or the Stripe customer portal. Your access continues until the end of your billing period." },
     ],
