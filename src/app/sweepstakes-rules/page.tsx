@@ -49,7 +49,7 @@ export default function SweepstakesRulesPage() {
           </p>
           <p className="text-sm text-slate-600">
             <strong>Free Entry (no purchase necessary):</strong> To enter without a subscription,
-            visit mahjnearme.com/giveaway and submit your email address once per month during
+            visit mahjnearme.com/giveaways and submit your email address once per month during
             the entry period. Free entries receive one (1) entry per month.
             No purchase or payment of any kind is necessary to enter or win.
           </p>

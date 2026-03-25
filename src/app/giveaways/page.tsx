@@ -180,7 +180,7 @@ export default function GiveawaysPage() {
                   {data?.prizeName || "Monthly Prize"}
                 </h2>
                 <p className="text-sm text-slate-500">
-                  Prize to be announced by founder before each draw
+                  A premium mahjong accessory — revealed at the start of each month
                 </p>
               </div>
             </div>
@@ -321,8 +321,8 @@ export default function GiveawaysPage() {
           )}
         </div>
 
-        {/* Milestone Giveaways */}
-        <div className="mb-12">
+        {/* Milestone Giveaways — hidden until there are subscribers */}
+        {subscriberCount > 0 && <div className="mb-12">
           <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3 text-center">
             Community Milestones
           </h2>
@@ -383,7 +383,7 @@ export default function GiveawaysPage() {
               );
             })}
           </div>
-        </div>
+        </div>}
 
         {/* Fine print: No Purchase Necessary + Sweepstakes Rules */}
         <div className="text-center text-sm text-slate-400 space-y-1">

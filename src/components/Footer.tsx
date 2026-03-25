@@ -57,6 +57,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/giveaways" className="text-sm text-slate-400 hover:text-hotpink-400 transition-colors">
+                  Giveaways
+                </Link>
+              </li>
+              <li>
                 <Link href="/pricing" className="text-sm text-slate-400 hover:text-hotpink-400 transition-colors">
                   Pricing
                 </Link>
@@ -71,11 +76,6 @@ export default function Footer() {
               <li>
                 <Link href="/add-your-group" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
                   List Your Group
-                </Link>
-              </li>
-              <li>
-                <Link href="/giveaways" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
-                  Giveaways
                 </Link>
               </li>
               <li>
