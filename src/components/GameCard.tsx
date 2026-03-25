@@ -41,6 +41,9 @@ interface GameCardProps {
   isOnCalendar?: boolean;
   index?: number;
   distanceText?: string | null;
+  timingLabel?: string | null;
+  timingBadge?: string | null;
+  timingBadgeColor?: string;
 }
 
 // Three mahjong suits: each card gets one based on its ID hash
@@ -153,6 +156,9 @@ export default function GameCard({
   onCalendarToggle,
   isOnCalendar = false,
   distanceText = null,
+  timingLabel = null,
+  timingBadge = null,
+  timingBadgeColor = "",
 }: GameCardProps) {
   const { hasAccess } = useAuth();
   const verification = getVerificationStatus(game.verified);
@@ -203,17 +209,32 @@ export default function GameCard({
 
           {blurred ? (
             <>
-              {/* Blurred cards: show only game type + city, no identifying details */}
-              <div className="flex items-center gap-2 flex-wrap mb-3">
+              {/* Blurred cards: show name, distance, timing — details locked */}
+              <div className="flex items-center gap-2 flex-wrap mb-2">
                 <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${typeColor}`}>
                   {getGameTypeIcon(game.type)} {typeLabel}
                 </span>
+                {timingBadge && (
+                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold ${timingBadgeColor}`}>
+                    {timingBadge === "Happening Now" && <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />}
+                    {timingBadge}
+                  </span>
+                )}
               </div>
-              <div className="h-5 bg-slate-200 rounded w-3/4 mb-2" />
-              <div className="h-3 bg-slate-100 rounded w-1/2 mb-3" />
-              <div className="space-y-1.5 mb-3">
-                <div className="h-4 bg-slate-100 rounded w-2/3" />
-                <div className="h-4 bg-slate-100 rounded w-1/2" />
+              <h3 className="tile-engraved font-bold text-charcoal text-lg leading-tight mb-1">{game.name}</h3>
+              <div className="space-y-1 mb-3 text-sm text-slate-500">
+                {distanceText && (
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-3.5 h-3.5 text-skyblue-500 shrink-0" />
+                    <span>{distanceText}</span>
+                  </div>
+                )}
+                {timingLabel && (
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
+                    <span>{timingLabel}</span>
+                  </div>
+                )}
               </div>
             </>
           ) : (
@@ -227,12 +248,22 @@ export default function GameCard({
               )}
               {isTeaser && <div className="mb-3" />}
 
+              {/* Urgency badge */}
+              {timingBadge && (
+                <div className="mb-2">
+                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold ${timingBadgeColor}`}>
+                    {timingBadge === "Happening Now" && <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />}
+                    {timingBadge}
+                  </span>
+                </div>
+              )}
+
               {/* Key details (engraved) */}
               <div className="space-y-1.5 mb-3">
                 {!isTeaser && (
                   <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
                     <Clock className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
-                    <span className="font-medium">{schedule}</span>
+                    <span className="font-medium">{timingLabel || schedule}</span>
                   </div>
                 )}
                 <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">

@@ -22,6 +22,7 @@ import { SearchFilters, Game } from "@/types";
 import { isEventExpired } from "@/lib/utils";
 import { haversineDistance, formatDistance } from "@/lib/distance";
 import { geocodeSearchQuery } from "@/lib/geocode";
+import { getEventTiming, computePriorityScore, EventTiming } from "@/lib/event-timing";
 import { ShieldCheck, SlidersHorizontal, MapPin, Navigation } from "lucide-react";
 import { getCityTile } from "@/lib/city-tiles";
 import Link from "next/link";
@@ -29,9 +30,11 @@ import Link from "next/link";
 const DEFAULT_RADIUS_MILES = 50;
 const EXPANDED_RADIUS_MILES = 150;
 
-/** A game with a computed distance from the search center. */
-interface GameWithDistance extends Game {
-  distance: number | null; // null = no proximity search active
+/** A game enriched with distance and timing data for search results. */
+interface RankedGame extends Game {
+  distance: number | null;
+  timing: EventTiming;
+  priorityScore: number;
 }
 
 function SearchContent() {
@@ -101,7 +104,6 @@ function SearchContent() {
 
   // Geocode the search query into lat/lng
   const geocodeQuery = useCallback(async (q: string, lat?: string | null, lng?: string | null) => {
-    // If lat/lng are provided directly (from "Use My Location"), use them
     if (lat && lng) {
       const parsedLat = parseFloat(lat);
       const parsedLng = parseFloat(lng);
@@ -113,7 +115,6 @@ function SearchContent() {
       }
     }
 
-    // Skip if same query was already geocoded
     if (q === lastGeocodedQuery.current) return;
     lastGeocodedQuery.current = q;
 
@@ -132,7 +133,6 @@ function SearchContent() {
       setGeocodedLabel(q);
       setSearchRadius(DEFAULT_RADIUS_MILES);
     } else {
-      // Geocoding failed — fall back to text-based search
       setSearchCenter(null);
       setGeocodedLabel("");
     }
@@ -148,32 +148,27 @@ function SearchContent() {
     return mockGames.filter((g) => g.status === "active" && !isEventExpired(g));
   }, []);
 
-  // Calculate distances and apply filters
-  const filteredGames: GameWithDistance[] = useMemo(() => {
-    let games: GameWithDistance[] = activeGames.map((g) => {
+  // Calculate distances, timing, and apply filters + ranking
+  const filteredGames: RankedGame[] = useMemo(() => {
+    const now = new Date();
+
+    let games: RankedGame[] = activeGames.map((g) => {
       let distance: number | null = null;
       if (searchCenter && g.geopoint.lat !== 0 && g.geopoint.lng !== 0) {
         distance = haversineDistance(
-          searchCenter.lat,
-          searchCenter.lng,
-          g.geopoint.lat,
-          g.geopoint.lng
+          searchCenter.lat, searchCenter.lng,
+          g.geopoint.lat, g.geopoint.lng
         );
       }
-      return { ...g, distance };
+      const timing = getEventTiming(g, now);
+      const priorityScore = computePriorityScore(timing, distance);
+      return { ...g, distance, timing, priorityScore };
     });
 
-    // Proximity filter: when we have a search center, filter by radius
+    // Proximity filter
     if (searchCenter) {
-      games = games.filter((g) => {
-        if (g.distance === null) {
-          // No coordinates — include but they'll sort to end
-          return true;
-        }
-        return g.distance <= searchRadius;
-      });
+      games = games.filter((g) => g.distance === null || g.distance <= searchRadius);
     } else if (query) {
-      // Fallback: text-based search if geocoding failed
       const q = query.toLowerCase();
       games = games.filter(
         (g) =>
@@ -194,63 +189,46 @@ function SearchContent() {
           filters.daysOfWeek.includes(g.recurringSchedule.dayOfWeek)
       );
     }
-
     if (filters.gameStyle !== "all") {
       games = games.filter((g) => g.gameStyle === filters.gameStyle);
     }
-
     if (filters.dropInFriendly !== null) {
       games = games.filter((g) => g.dropInFriendly === filters.dropInFriendly);
     }
-
     if (filters.skillLevel !== "all") {
       games = games.filter((g) => g.skillLevels.includes(filters.skillLevel as "beginner" | "intermediate" | "advanced"));
     }
-
     if (filters.type !== "all") {
       games = games.filter((g) => g.type === filters.type);
     }
 
-    // Sort: if proximity search is active, sort by distance (nearest first)
-    // Promoted and verified items get a mild boost but distance is primary
-    if (searchCenter) {
-      games.sort((a, b) => {
-        // Promoted games float to top of nearby results
-        if (a.promoted !== b.promoted) return a.promoted ? -1 : 1;
-        // Then sort by distance
-        const distA = a.distance ?? 99999;
-        const distB = b.distance ?? 99999;
-        return distA - distB;
-      });
-    } else {
-      // No proximity — original sort (promoted → verified)
-      games.sort((a, b) => {
-        if (a.promoted !== b.promoted) return a.promoted ? -1 : 1;
-        if (a.verified !== b.verified) return a.verified ? -1 : 1;
-        return 0;
-      });
-    }
+    // Sort by combined priority score (promoted items get a bonus)
+    games.sort((a, b) => {
+      if (a.promoted !== b.promoted) return a.promoted ? -1 : 1;
+      return a.priorityScore - b.priorityScore;
+    });
 
     return games;
   }, [activeGames, searchCenter, searchRadius, query, filters]);
 
+  // Count games happening this week (for the subscribe CTA)
+  const gamesThisWeek = useMemo(() => {
+    return filteredGames.filter((g) => g.timing.tier <= 4).length;
+  }, [filteredGames]);
+
   // Find the closest game (for the "no results" message)
   const closestGame = useMemo(() => {
     if (!searchCenter || filteredGames.length > 0) return null;
-    // Search across ALL active games (ignoring radius)
-    let closest: GameWithDistance | null = null;
+    let closest: RankedGame | null = null;
     let minDist = Infinity;
+    const now = new Date();
     for (const g of activeGames) {
       if (g.geopoint.lat === 0 && g.geopoint.lng === 0) continue;
-      const dist = haversineDistance(
-        searchCenter.lat,
-        searchCenter.lng,
-        g.geopoint.lat,
-        g.geopoint.lng
-      );
+      const dist = haversineDistance(searchCenter.lat, searchCenter.lng, g.geopoint.lat, g.geopoint.lng);
       if (dist < minDist) {
         minDist = dist;
-        closest = { ...g, distance: dist };
+        const timing = getEventTiming(g, now);
+        closest = { ...g, distance: dist, timing, priorityScore: computePriorityScore(timing, dist) };
       }
     }
     return closest;
@@ -348,7 +326,6 @@ function SearchContent() {
                 No games found{geocodedLabel ? ` near ${geocodedLabel}` : ""}
               </h3>
 
-              {/* Show closest game suggestion */}
               {closestGame ? (
                 <div className="mb-4">
                   <p className="text-slate-500 text-sm mb-3">
@@ -390,6 +367,9 @@ function SearchContent() {
                         userSkillLevel={userProfile?.skillLevel}
                         index={index}
                         distanceText={distText}
+                        timingLabel={game.timing.label}
+                        timingBadge={game.timing.badge}
+                        timingBadgeColor={game.timing.badgeColor}
                       />
                     </div>
                   );
@@ -405,6 +385,9 @@ function SearchContent() {
                         userSkillLevel={userProfile?.skillLevel}
                         index={index}
                         distanceText={distText}
+                        timingLabel={game.timing.label}
+                        timingBadge={game.timing.badge}
+                        timingBadgeColor={game.timing.badgeColor}
                       />
                     </div>
                   );
@@ -419,6 +402,9 @@ function SearchContent() {
                       isOnCalendar={(userProfile?.savedEvents || []).includes(game.id)}
                       index={index}
                       distanceText={distText}
+                      timingLabel={game.timing.label}
+                      timingBadge={game.timing.badge}
+                      timingBadgeColor={game.timing.badgeColor}
                     />
                   </div>
                 );
@@ -432,7 +418,10 @@ function SearchContent() {
                     Unlock all {filteredGames.length} games
                   </h3>
                   <p className="text-slate-500 mb-4 text-sm">
-                    Subscribe to see full details, contact info, and directions for every game.
+                    {gamesThisWeek > 0
+                      ? `${gamesThisWeek} game${gamesThisWeek !== 1 ? "s" : ""} happening this week near you. Subscribe to see full details, contact info, and directions.`
+                      : "Subscribe to see full details, contact info, and directions for every game."
+                    }
                   </p>
                   <Link
                     href="/pricing"
