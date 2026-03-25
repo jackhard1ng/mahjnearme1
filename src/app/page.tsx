@@ -62,7 +62,7 @@ export default function HomePage() {
 
           <p className="text-xs sm:text-sm text-white/70">
             <span className="font-semibold text-white">{Math.floor(stats.gameCount / 100) * 100}+ games</span> across{" "}
-            <span className="font-semibold text-white">50 states</span> and counting
+            <span className="font-semibold text-white">all 50 states</span> — and growing every week
           </p>
         </div>
       </section>
@@ -165,9 +165,9 @@ export default function HomePage() {
             </div>
             <div className="card-white p-6">
               <Bell className="w-8 h-8 text-hotpink-500 mb-4" />
-              <h3 className="font-semibold text-lg mb-2 text-charcoal">Never miss a game</h3>
+              <h3 className="font-semibold text-lg mb-2 text-charcoal">Updated weekly</h3>
               <p className="text-sm text-slate-600">
-                Get alerts when new groups are posted near you. Save your favorite cities and games for quick access.
+                New games and events added every week so your search results stay fresh. Every listing researched by our team.
               </p>
             </div>
           </div>

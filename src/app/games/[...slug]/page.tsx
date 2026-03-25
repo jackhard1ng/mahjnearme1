@@ -393,7 +393,7 @@ export default function GameDetailPage() {
                         : `Frequency: ${game.recurringSchedule.frequency}`}
                 </p>
               )}
-              {user && (
+              {user && schedule !== "Schedule TBD" && (
                 <button
                   onClick={toggleCalendarEvent}
                   className={`inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg font-semibold text-sm transition-colors border ${
