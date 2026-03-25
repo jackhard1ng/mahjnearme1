@@ -50,6 +50,8 @@ interface RawListing {
   notes: string | null;
   dataSource: string | null;
   stateFile: string | null;
+  latitude: number | null;
+  longitude: number | null;
 }
 
 interface ListingsJSON {
@@ -208,8 +210,8 @@ function rawToGame(raw: RawListing): Game {
     venueName: str(raw.venueName),
     address: str(raw.address),
     geopoint: {
-      lat: (raw as Record<string, unknown>).latitude ? Number((raw as Record<string, unknown>).latitude) : 0,
-      lng: (raw as Record<string, unknown>).longitude ? Number((raw as Record<string, unknown>).longitude) : 0,
+      lat: raw.latitude ? Number(raw.latitude) : 0,
+      lng: raw.longitude ? Number(raw.longitude) : 0,
     },
     metroRegion: metro?.abbreviation || null,
     isRecurring,
