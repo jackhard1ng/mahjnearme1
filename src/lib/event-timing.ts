@@ -34,11 +34,17 @@ export function getEventTiming(game: Game, now: Date = new Date()): EventTiming 
     return getRecurringTiming(game, now);
   }
 
+  // Non-recurring with a valid event date
   if (game.eventDate) {
     return getOneTimeTiming(game, now);
   }
 
-  // No schedule data at all — can't calculate timing
+  // Non-recurring but has a dayOfWeek (data inconsistency) — treat as recurring
+  if (game.recurringSchedule && game.recurringSchedule.dayOfWeek) {
+    return getRecurringTiming(game, now);
+  }
+
+  // No schedule data at all
   return {
     nextDate: null,
     tier: 7,
@@ -117,13 +123,13 @@ function getRecurringTiming(game: Game, now: Date): EventTiming {
     }
 
     if (now.getTime() >= startMs && now.getTime() < endMs) {
-      const endLabel = hasEndTime ? formatTime(sched.endTime) : formatTime(
-        `${Math.floor((startMs + DEFAULT_DURATION_HOURS * 3600000) / 3600000 % 24)}:${String(new Date(endMs).getMinutes()).padStart(2, "0")}`
-      );
+      const endTimeLabel = hasEndTime
+        ? formatTime(sched.endTime)
+        : "~" + formatEndFromStartTime(sched.startTime, DEFAULT_DURATION_HOURS);
       return {
         nextDate: soonest,
         tier: 1,
-        label: `Happening Now — until ${hasEndTime ? formatTime(sched.endTime) : "~" + formatEndTime(soonest, DEFAULT_DURATION_HOURS)}`,
+        label: `Happening Now — until ${endTimeLabel}`,
         badge: "Happening Now",
         badgeColor: "bg-hotpink-500 text-white",
         timeScore: 0,
@@ -199,7 +205,7 @@ function getOneTimeTiming(game: Game, now: Date): EventTiming {
       return {
         nextDate: eventDate,
         tier: 1,
-        label: `Happening Now — until ${hasEndTime ? formatTime(game.eventEndTime!) : "~" + formatEndTime(eventDate, DEFAULT_DURATION_HOURS)}`,
+        label: `Happening Now — until ${hasEndTime ? formatTime(game.eventEndTime!) : "~" + formatEndFromStartTime(game.eventStartTime!, DEFAULT_DURATION_HOURS)}`,
         badge: "Happening Now",
         badgeColor: "bg-hotpink-500 text-white",
         timeScore: 0,
@@ -326,10 +332,17 @@ function getTimeOfDayFraction(time: string | null): number {
   return (h * 60 + m) / (24 * 60);
 }
 
-function formatEndTime(start: Date, hoursLater: number): string {
-  const end = new Date(start.getTime() + hoursLater * 3600000);
-  const h = end.getHours();
-  const m = end.getMinutes();
+/**
+ * Calculate an end time from a 24h start time string + hours offset.
+ * Purely arithmetic — no Date objects, no timezone issues.
+ * "18:00" + 2 hours → "8:00 PM"
+ */
+function formatEndFromStartTime(startTime24: string, hoursLater: number): string {
+  const [sh, sm] = startTime24.split(":").map(Number);
+  if (isNaN(sh) || isNaN(sm)) return "";
+  const totalMinutes = (sh * 60 + sm) + (hoursLater * 60);
+  const h = Math.floor(totalMinutes / 60) % 24;
+  const m = totalMinutes % 60;
   const period = h >= 12 ? "PM" : "AM";
   const display = h % 12 || 12;
   return `${display}:${String(m).padStart(2, "0")} ${period}`;
