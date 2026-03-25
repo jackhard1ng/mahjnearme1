@@ -65,6 +65,7 @@ function createPinIcon(color: string, isSelected: boolean, isLocked: boolean): L
 export default function LeafletMap({ games, selectedGameId, onPinClick, hasAccess = true, previewCount = 1, userHomeMetro, searchCenter = null }: LeafletMapProps) {
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.LayerGroup | null>(null);
+  const markerMapRef = useRef<Map<string, L.Marker>>(new Map());
   const containerRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
 
@@ -107,36 +108,34 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
       map.remove();
       mapRef.current = null;
       markersRef.current = null;
+      markerMapRef.current.clear();
       setReady(false);
     };
   }, []);
 
-  // Update markers when games or selection changes
+  // Build markers when games/data changes (NOT on selection change)
   useEffect(() => {
     if (!ready || !mapRef.current || !markersRef.current) return;
 
     const L = require("leaflet") as typeof import("leaflet");
     const markers = markersRef.current;
     markers.clearLayers();
+    markerMapRef.current.clear();
 
     if (!hasGeoGames) return;
 
     const bounds = L.latLngBounds([]);
-
     const now = new Date();
 
     geoGames.forEach((game, index) => {
-      const isSelected = selectedGameId === game.id;
-      // Use urgency color for today/happening-now events, else default type color
       const timing = getEventTiming(game, now);
       const urgencyColor = getUrgencyPinColor(timing.tier);
       const color = urgencyColor || getMapPinColor(game.type);
 
-      // Determine if this pin is in the user's home metro (for free users)
       const isHomeMetroPin = !userHomeMetro || isGameInMetro(game, userHomeMetro);
       const isLocked = !hasAccess && !isHomeMetroPin && index >= previewCount;
 
-      const icon = createPinIcon(color, isSelected, isLocked);
+      const icon = createPinIcon(color, false, isLocked);
       if (!icon) return;
 
       const marker = L.marker([game.geopoint.lat, game.geopoint.lng], { icon })
@@ -147,15 +146,11 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
           }
         });
 
-      // Popup content differs based on access
+      // Popup content
       const typeLabel = getGameTypeLabel(game.type);
       const canSeeDetails = hasAccess || (isHomeMetroPin && index < previewCount) || index === 0;
-
       const gameUrl = `/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`;
 
-      let popupContent: string;
-
-      // Distance and timing lines for popup
       const distLine = searchCenter && game.geopoint.lat !== 0
         ? `<span style="color: #FF1493; font-size: 11px; font-weight: 600;">${formatDistance(haversineDistance(searchCenter.lat, searchCenter.lng, game.geopoint.lat, game.geopoint.lng))}</span><br/>`
         : "";
@@ -163,6 +158,7 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
         ? `<span style="color: #D97706; font-size: 11px; font-weight: 600;">${timing.badge ? timing.badge + " — " : ""}${timing.label}</span><br/>`
         : "";
 
+      let popupContent: string;
       if (canSeeDetails) {
         popupContent = `<div style="font-family: system-ui, sans-serif; min-width: 180px;">
             <strong style="font-size: 14px; color: #1a1a2e;">${game.name}</strong><br/>
@@ -187,16 +183,12 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
       }
 
       marker.bindPopup(popupContent, { closeButton: false, className: "mahj-popup" });
-
-      if (isSelected) {
-        marker.openPopup();
-      }
-
       marker.addTo(markers);
+      markerMapRef.current.set(game.id, marker);
       bounds.extend([game.geopoint.lat, game.geopoint.lng]);
     });
 
-    // Add a "You are here" marker at the search center
+    // Search center marker
     if (searchCenter && searchCenter.lat !== 0 && searchCenter.lng !== 0) {
       const searchIcon = L.divIcon({
         className: "search-center-pin",
@@ -219,7 +211,18 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
     if (bounds.isValid()) {
       mapRef.current.fitBounds(bounds, { padding: [40, 40], maxZoom: 12 });
     }
-  }, [geoGames.length, selectedGameId, ready, hasGeoGames, hasAccess, userHomeMetro, searchCenter]);
+    // Intentionally exclude selectedGameId — selection handled in separate effect
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [geoGames.length, ready, hasGeoGames, hasAccess, userHomeMetro, searchCenter]);
+
+  // Handle selection changes cheaply — just open the popup, no marker rebuild
+  useEffect(() => {
+    if (!ready || !selectedGameId) return;
+    const marker = markerMapRef.current.get(selectedGameId);
+    if (marker) {
+      marker.openPopup();
+    }
+  }, [selectedGameId, ready]);
 
   return (
     <div className="rounded-xl border-2 border-softpink-300 h-full min-h-[300px] relative overflow-hidden bg-skyblue-50">

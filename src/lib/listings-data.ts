@@ -152,12 +152,22 @@ function normalizeSkillLevels(raw: string | null): SkillLevel[] {
 function normalizeTime(raw: string | null): string {
   if (!raw) return "";
   const trimmed = raw.trim();
-  // Already in HH:MM format
+  // Already in 24h HH:MM format
   if (/^\d{1,2}:\d{2}$/.test(trimmed)) return trimmed.padStart(5, "0");
   // Any string containing "unknown", "varies", "contact", "TBD", etc.
   const lower = trimmed.toLowerCase();
   if (lower.includes("unknown") || lower.includes("varies") || lower.includes("contact") || lower.includes("tbd") || lower.includes("tba")) return "";
-  // If it still looks like a time (digits and colon), keep it
+  // 12-hour format: "6:15 PM", "1:00 AM", "12:30 PM"
+  const ampmMatch = trimmed.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (ampmMatch) {
+    let hours = parseInt(ampmMatch[1]);
+    const minutes = ampmMatch[2];
+    const period = ampmMatch[3].toUpperCase();
+    if (period === "PM" && hours !== 12) hours += 12;
+    if (period === "AM" && hours === 12) hours = 0;
+    return `${String(hours).padStart(2, "0")}:${minutes}`;
+  }
+  // If it still looks like a time (digits and colon), extract it
   if (/^\d{1,2}:\d{2}/.test(trimmed)) return trimmed.slice(0, 5).padStart(5, "0");
   return "";
 }
@@ -165,6 +175,11 @@ function normalizeTime(raw: string | null): string {
 function str(val: unknown): string {
   if (val === null || val === undefined) return "";
   return String(val).trim();
+}
+
+/** Check if a string is a valid YYYY-MM-DD date. */
+function isValidDate(s: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}$/.test(s);
 }
 
 /** Reverse lookup: full state name → abbreviation. */
@@ -226,7 +241,7 @@ function rawToGame(raw: RawListing): Game {
           frequency: normalizeFrequency(raw.frequency),
         }
       : null,
-    eventDate: raw.eventDate || null,
+    eventDate: raw.eventDate && isValidDate(raw.eventDate) ? raw.eventDate : null,
     eventStartTime: !isRecurring ? startTime || null : null,
     eventEndTime: !isRecurring ? endTime || null : null,
     cost: str(raw.cost) || "Contact for price",
@@ -255,7 +270,7 @@ function rawToGame(raw: RawListing): Game {
     claimedBy: null,
     source: "csv_import",
     promoted: false,
-    lastVerified: str(raw.lastVerified) || "2026-03-24",
+    lastVerified: isValidDate(str(raw.lastVerified)) ? str(raw.lastVerified) : "2026-03-24",
     createdAt: "2026-01-01T00:00:00Z",
     updatedAt: "2026-03-24T00:00:00Z",
   };
