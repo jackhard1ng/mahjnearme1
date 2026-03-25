@@ -194,10 +194,12 @@ export default function GiveawaysPage() {
                 <p className="text-xs text-slate-500 mb-1">Next draw date</p>
                 <p className="text-lg font-bold text-charcoal">{getDrawDate()}</p>
               </div>
-              <div className="bg-slate-50 rounded-lg p-3 text-center">
-                <p className="text-xs text-slate-500 mb-1">Paying members entered</p>
-                <p className="text-lg font-bold text-charcoal">{subscriberCount > 0 ? subscriberCount : "-"}</p>
-              </div>
+              {subscriberCount > 0 && (
+                <div className="bg-slate-50 rounded-lg p-3 text-center">
+                  <p className="text-xs text-slate-500 mb-1">Members entered</p>
+                  <p className="text-lg font-bold text-charcoal">{subscriberCount}</p>
+                </div>
+              )}
             </div>
 
             {/* User status */}
