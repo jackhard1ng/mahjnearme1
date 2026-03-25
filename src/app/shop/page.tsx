@@ -39,14 +39,18 @@ export default function ShopPage() {
               <p className="text-sm text-slate-500 mb-3 line-clamp-2">{product.description}</p>
               <div className="flex items-center justify-between">
                 <span className="font-bold text-lg text-charcoal">{product.price}</span>
-                <a
-                  href={product.affiliateLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
-                >
-                  Shop <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+                {product.affiliateLink ? (
+                  <a
+                    href={product.affiliateLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
+                  >
+                    Shop <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                ) : (
+                  <span className="text-xs text-slate-400 font-medium">Coming soon</span>
+                )}
               </div>
             </div>
           </div>
@@ -67,14 +71,18 @@ export default function ShopPage() {
               <p className="text-xs text-slate-500 line-clamp-2 mb-2">{product.description}</p>
               <div className="flex items-center justify-between">
                 <span className="font-bold text-charcoal">{product.price}</span>
-                <a
-                  href={product.affiliateLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-hotpink-500 hover:text-hotpink-600 font-semibold inline-flex items-center gap-1"
-                >
-                  Shop Now <ExternalLink className="w-3 h-3" />
-                </a>
+                {product.affiliateLink ? (
+                  <a
+                    href={product.affiliateLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-hotpink-500 hover:text-hotpink-600 font-semibold inline-flex items-center gap-1"
+                  >
+                    Shop Now <ExternalLink className="w-3 h-3" />
+                  </a>
+                ) : (
+                  <span className="text-xs text-slate-400">Coming soon</span>
+                )}
               </div>
             </div>
           </div>

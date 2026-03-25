@@ -448,17 +448,14 @@ export default function GameCard({
                   </span>
                 )}
               </div>
-              {canSeeContactInfo ? (
-                <div className="flex items-center gap-1">
-                  <CheckCircle className={`w-3.5 h-3.5 ${game.verified ? "text-hotpink-500" : "text-slate-300"}`} />
-                  <span className={`text-[11px] font-medium ${game.verified ? "text-hotpink-600" : "text-slate-400"}`}>{verification.label}</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-1 text-slate-300">
-                  <Lock className="w-3 h-3" />
-                  <span className="text-[11px]">Verified?</span>
-                </div>
-              )}
+              <div className="flex items-center gap-1">
+                <CheckCircle className={`w-3.5 h-3.5 ${game.verified ? "text-hotpink-500" : "text-slate-300"}`} />
+                <span className={`text-[11px] font-medium ${game.verified ? "text-hotpink-600" : "text-slate-400"}`}>
+                  {game.lastVerified
+                    ? `Verified ${new Date(game.lastVerified + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`
+                    : verification.label}
+                </span>
+              </div>
             </>
           )}
         </div>

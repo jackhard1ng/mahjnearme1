@@ -1,11 +1,26 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Heart, MapPin, ShieldCheck, Users } from "lucide-react";
+import { Heart, MapPin, ShieldCheck, Users, BarChart3, Globe, CheckCircle, RefreshCw } from "lucide-react";
+import { mockGames } from "@/lib/mock-data";
+import { isEventExpired } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "About MahjNearMe",
   description: "The story behind MahjNearMe. How struggling to find mahjong games while traveling inspired the only directory of pickup mahjong games in the United States.",
 };
+
+function getAboutStats() {
+  const active = mockGames.filter((g) => g.status === "active" && !isEventExpired(g));
+  const cities = new Set(active.map((g) => g.city));
+  const states = new Set(active.map((g) => g.state));
+  return {
+    games: Math.floor(active.length / 100) * 100,
+    cities: cities.size,
+    states: states.size,
+  };
+}
+
+const stats = getAboutStats();
 
 export default function AboutPage() {
   return (
@@ -59,6 +74,38 @@ export default function AboutPage() {
               className="max-w-sm w-full h-auto object-contain rounded-xl"
             />
           </div>
+        </div>
+
+        {/* By the Numbers */}
+        <div className="bg-gradient-to-br from-hotpink-50 to-skyblue-50 rounded-2xl p-8 border border-hotpink-200 mb-10">
+          <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-6 text-center">
+            By the Numbers
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+            <div>
+              <BarChart3 className="w-6 h-6 text-hotpink-500 mx-auto mb-2" />
+              <p className="text-2xl font-extrabold text-charcoal">{stats.games}+</p>
+              <p className="text-sm text-slate-500">Listings researched</p>
+            </div>
+            <div>
+              <Globe className="w-6 h-6 text-skyblue-500 mx-auto mb-2" />
+              <p className="text-2xl font-extrabold text-charcoal">50</p>
+              <p className="text-sm text-slate-500">States covered</p>
+            </div>
+            <div>
+              <MapPin className="w-6 h-6 text-hotpink-500 mx-auto mb-2" />
+              <p className="text-2xl font-extrabold text-charcoal">{stats.cities}+</p>
+              <p className="text-sm text-slate-500">Cities</p>
+            </div>
+            <div>
+              <RefreshCw className="w-6 h-6 text-skyblue-500 mx-auto mb-2" />
+              <p className="text-2xl font-extrabold text-charcoal">Weekly</p>
+              <p className="text-sm text-slate-500">Updates</p>
+            </div>
+          </div>
+          <p className="text-center text-sm text-slate-500 mt-5 max-w-md mx-auto">
+            Every listing manually researched by our team — not scraped by a bot.
+          </p>
         </div>
 
         <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-6">

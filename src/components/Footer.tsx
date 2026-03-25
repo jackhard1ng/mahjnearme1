@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -11,15 +10,25 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center mb-4">
-              <Image
-                src="/images/mahjnearme-header-logo.png"
-                alt="MahjNearMe"
-                width={812}
-                height={280}
-                className="h-10 w-auto rounded-md"
-              />
-            </div>
+            <Link href="/" className="inline-flex items-center gap-0.5 mb-4">
+              {"MahjNearMe".split("").map((char, i) => (
+                <span
+                  key={i}
+                  className="inline-flex items-center justify-center h-7 rounded-[4px] text-[13px] font-extrabold leading-none shadow-sm"
+                  style={{
+                    fontFamily: "var(--font-heading), 'Fredoka', sans-serif",
+                    color: "#3E8B3E",
+                    background: "linear-gradient(to bottom, #FFFFF0, #F0EFE0)",
+                    borderBottom: "2px solid #87CEEB",
+                    padding: char.toLowerCase() === "m" || char.toLowerCase() === "n" ? "0 4px" : "0 2.5px",
+                    minWidth: char.toLowerCase() === "i" || char.toLowerCase() === "j" ? "12px" : undefined,
+                    textAlign: "center" as const,
+                  }}
+                >
+                  {char}
+                </span>
+              ))}
+            </Link>
             <p className="text-sm text-slate-400 mb-4">
               Find mahjong games anywhere you go. The only directory of pickup games, open play, and events across the US.
             </p>
@@ -48,8 +57,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-sm text-slate-400 hover:text-hotpink-400 transition-colors">
-                  Blog
+                <Link href="/pricing" className="text-sm text-slate-400 hover:text-hotpink-400 transition-colors">
+                  Pricing
                 </Link>
               </li>
             </ul>
@@ -60,8 +69,8 @@ export default function Footer() {
             <h3 className="font-semibold text-white text-sm mb-4">Community</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/community" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
-                  Forum
+                <Link href="/add-your-group" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
+                  List Your Group
                 </Link>
               </li>
               <li>
@@ -70,13 +79,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/add-your-group" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
-                  List Your Group
-                </Link>
-              </li>
-              <li>
-                <Link href="/pricing" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
-                  Pricing
+                <Link href="/community" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
+                  Forum
                 </Link>
               </li>
             </ul>
