@@ -31,10 +31,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   );
 
   return {
-    title: `Mahjong Near Me in ${cityName}, ${stateName} | Find Games & Open Play`,
-    description: `Find ${games.length} mahjong games, open play sessions, and lessons in ${cityName}, ${stateName}. Drop-in friendly groups, all skill levels. Updated weekly.`,
+    title: `Mahjong Games in ${cityName}, ${stateName} | MahjNearMe`,
+    description: `Find ${games.length} mahjong games, open play sessions, lessons, and events in ${cityName}, ${stateName}. Drop-in friendly groups for all skill levels. Browse schedules, venues, and contact info. Updated weekly.`,
+    keywords: [
+      `mahjong ${cityName}`,
+      `mahjong near me ${cityName}`,
+      `mah jongg ${cityName}`,
+      `mahjongg ${cityName} ${stateName}`,
+      `mahjong games ${cityName}`,
+      `mahjong open play ${cityName}`,
+    ],
     openGraph: {
-      title: `Mahjong Near Me in ${cityName}, ${stateName}`,
+      title: `Mahjong Games in ${cityName}, ${stateName}`,
       description: `Find ${games.length} mahjong games and open play in ${cityName}. All skill levels welcome.`,
     },
   };

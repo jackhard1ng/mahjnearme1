@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin", "/admin/*", "/api/*", "/account"],
       },
     ],
-    sitemap: "https://mahjnearme.com/sitemap.xml",
+    sitemap: "https://www.mahjnearme.com/sitemap.xml",
   };
 }

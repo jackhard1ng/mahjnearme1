@@ -21,9 +21,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { state } = await params;
   const stateName = state.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 
+  const stateGames = mockGames.filter(
+    (g) => slugify(getStateName(g.state)) === state && g.status === "active"
+  );
+  const stateCities = new Set(stateGames.map((g) => g.city));
+
   return {
-    title: `Mahjong Games in ${stateName}`,
-    description: `Find mahjong games, open play sessions, and events in ${stateName}. Browse cities with active mahjong groups.`,
+    title: `Mahjong Games in ${stateName} | ${stateGames.length} Games in ${stateCities.size} Cities`,
+    description: `Find ${stateGames.length} mahjong games across ${stateCities.size} cities in ${stateName}. Open play, lessons, leagues, and events. All skill levels welcome. Updated weekly.`,
+    keywords: [
+      `mahjong ${stateName}`,
+      `mahjong near me ${stateName}`,
+      `mah jongg ${stateName}`,
+      `mahjong games ${stateName}`,
+    ],
   };
 }
 
