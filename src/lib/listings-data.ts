@@ -154,9 +154,12 @@ function normalizeTime(raw: string | null): string {
   const trimmed = raw.trim();
   // Already in HH:MM format
   if (/^\d{1,2}:\d{2}$/.test(trimmed)) return trimmed.padStart(5, "0");
-  // "Unknown" or other non-time strings
-  if (trimmed.toLowerCase() === "unknown" || trimmed.toLowerCase() === "varies") return "";
-  return trimmed;
+  // Any string containing "unknown", "varies", "contact", "TBD", etc.
+  const lower = trimmed.toLowerCase();
+  if (lower.includes("unknown") || lower.includes("varies") || lower.includes("contact") || lower.includes("tbd") || lower.includes("tba")) return "";
+  // If it still looks like a time (digits and colon), keep it
+  if (/^\d{1,2}:\d{2}/.test(trimmed)) return trimmed.slice(0, 5).padStart(5, "0");
+  return "";
 }
 
 function str(val: unknown): string {

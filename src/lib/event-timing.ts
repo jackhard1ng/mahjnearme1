@@ -58,7 +58,21 @@ function getRecurringTiming(game: Game, now: Date): EventTiming {
   const hasEndTime = !!sched.endTime;
 
   // Handle pipe-separated multiple days (e.g. "tuesday|thursday")
-  const days = dayOfWeek.split("|").map((d) => d.trim());
+  const days = dayOfWeek.split("|").map((d) => d.trim()).filter((d) => d.length > 0);
+
+  // No valid day info at all — show generic recurring label
+  if (days.length === 0) {
+    const timeStr = hasTime ? ` at ${formatTime(sched.startTime)}` : "";
+    return {
+      nextDate: null,
+      tier: 7,
+      label: `Recurring${timeStr}`,
+      badge: null,
+      badgeColor: "",
+      timeScore: 80,
+    };
+  }
+
   let soonest: Date | null = null;
   let soonestDay = "";
 
@@ -71,12 +85,12 @@ function getRecurringTiming(game: Game, now: Date): EventTiming {
   }
 
   if (!soonest) {
-    // Fallback: can't compute next date
+    // Fallback: valid day names but can't compute next date
     const dayLabel = days.map((d) => capitalize(d)).join(" & ");
     return {
       nextDate: null,
       tier: 5,
-      label: hasTime ? `Every ${dayLabel} at ${formatTime(sched.startTime)}` : `Every ${dayLabel}`,
+      label: hasTime ? `${dayLabel} at ${formatTime(sched.startTime)}` : `Every ${dayLabel}`,
       badge: null,
       badgeColor: "",
       timeScore: 50,
