@@ -12,27 +12,35 @@ const faqs = [
   {
     category: "Finding Games",
     questions: [
-      { q: "How do I find mahjong games near me?", a: "Simply type your city, zip code, or address into the search bar on the homepage. You can also tap 'Use my location' for GPS-based results. Results are sorted by distance with an interactive map showing game pins." },
-      { q: "Can I search for games in a city I'm traveling to?", a: "Absolutely! MahjNearMe is built for travelers. Search any city in the US to find games near your destination." },
-      { q: "What types of mahjong games are listed?", a: "We list American Mahjong, Chinese/Hong Kong Mahjong, and Japanese Riichi Mahjong. You can filter by game style. We also list open play sessions, lessons, leagues, tournaments, and special events." },
-      { q: "How do I know if a listing is still active?", a: "Every listing shows a 'last verified' date. Our team manually researches and verifies listings on an ongoing basis — we don't scrape or auto-generate." },
-      { q: "What does 'Drop-in Friendly' mean?", a: "Drop-in friendly means you can show up without an RSVP or registration. Just walk in and join a game! This is especially useful for travelers. You can filter results to only show drop-in friendly games." },
+      { q: "How do I find mahjong games near me?", a: "Type your city, zip code, or address into the search bar on the homepage. You can also tap 'Use my location' for GPS-based results. Results are sorted by distance with an interactive map showing all nearby games." },
+      { q: "Can I search for games in a city I'm traveling to?", a: "Yes! Search any city in the US to see what games are happening near your destination." },
+      { q: "What types of mahjong games are listed?", a: "We list American Mahjong (NMJL), Chinese/Hong Kong Mahjong, and Japanese Riichi Mahjong. You can filter by game style, day of week, skill level, and whether games are drop-in friendly." },
+      { q: "How do I know if a listing is current?", a: "Every listing shows a 'Verified' date — the last time our team confirmed the details. We update the directory weekly with new games and events." },
+      { q: "What does 'Drop-in Friendly' mean?", a: "Drop-in friendly means you can show up without an RSVP or registration. Just walk in and join a game!" },
     ],
   },
   {
-    category: "Account & Subscription",
+    category: "Free vs. Paid",
     questions: [
-      { q: "What do I get with a free account?", a: "With a free account you can search all 2,000+ listings and see the top result with full details. Subscribe to unlock full details on every listing — contact info, directions, schedules, and more." },
-      { q: "How much does a subscription cost?", a: `We offer two plans: ${formatCurrency(MONTHLY_PRICE)}/month or ${formatCurrency(ANNUAL_PRICE)}/year (that's just ${formatCurrency(ANNUAL_PRICE / 12)}/month, a ${Math.round((1 - ANNUAL_PRICE / 12 / MONTHLY_PRICE) * 100)}% savings). Both give you full access to all features.` },
-      { q: "Can I cancel anytime?", a: "Yes, absolutely. No contracts, no cancellation fees. You can cancel anytime from your account settings or the Stripe customer portal. Your access continues until the end of your billing period." },
+      { q: "What can I see for free?", a: "Everyone can search the full directory, see the map with all game pins, and view complete details for the top result in each search. To unlock details on all other listings — names, venues, contact info, schedules — you need a subscription." },
+      { q: "Why can't I see the names of other listings?", a: "Locked listings show the game type, day, distance, and skill level — enough to know a game exists near you. Names and venue details are hidden so the directory can't be bypassed. Subscribing unlocks everything." },
+      { q: "How much does a subscription cost?", a: `We offer two plans: ${formatCurrency(MONTHLY_PRICE)}/month or ${formatCurrency(ANNUAL_PRICE)}/year (that's just ${formatCurrency(ANNUAL_PRICE / 12)}/month — a ${Math.round((1 - ANNUAL_PRICE / 12 / MONTHLY_PRICE) * 100)}% savings). Both unlock every listing in all 50 states.` },
+      { q: "Can I cancel anytime?", a: "Yes. No contracts, no cancellation fees. Cancel from your account settings anytime. Your access continues until the end of your billing period." },
     ],
   },
   {
     category: "Listing a Group",
     questions: [
-      { q: "My group isn't listed. How do I add it?", a: "Go to the 'List Your Group' page and fill out the short form. Tell us about your group and we'll add it to the directory within 48 hours, completely free!" },
-      { q: "Does it cost anything to get listed?", a: "No, it's completely free. We're building the most complete mahjong directory in the country, and we want every group on here." },
-      { q: "How do I update my listing?", a: "Just reach out to us through the contact form or email. We manage all listings and can update your info quickly." },
+      { q: "My group isn't listed. How do I add it?", a: "Go to the 'List Your Group' page and fill out the form. We'll add your group to the directory within 48 hours — completely free." },
+      { q: "Does it cost anything to get listed?", a: "No. Listing your group is always free. We want every mahjong game in the country on here." },
+      { q: "How do I update my listing?", a: "Email us at hello@mahjnearme.com or use the contact form. We'll update your info quickly." },
+    ],
+  },
+  {
+    category: "Monthly Giveaway",
+    questions: [
+      { q: "How does the monthly giveaway work?", a: "Every month we give away a mahjong accessory — sets, mats, tile racks, and more. Paid subscribers are automatically entered. Annual subscribers get 2x entries. You can also enter for free by submitting your email on the giveaway page." },
+      { q: "Do I need to buy something to enter?", a: "No purchase necessary. You can enter for free each month via the giveaway page. Paid subscribers are entered automatically with bonus entries." },
     ],
   },
 ];

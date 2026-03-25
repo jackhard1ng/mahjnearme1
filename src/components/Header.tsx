@@ -44,8 +44,8 @@ export default function Header() {
             <Link href="/cities" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               Browse
             </Link>
-            <Link href="/shop" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
-              Mahj Gear
+            <Link href="/giveaways" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
+              Giveaways
             </Link>
             <Link href="/pricing" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               Pricing
@@ -158,11 +158,11 @@ export default function Header() {
               Browse
             </Link>
             <Link
-              href="/shop"
+              href="/giveaways"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
             >
-              Mahj Gear
+              Giveaways
             </Link>
             <Link
               href="/pricing"

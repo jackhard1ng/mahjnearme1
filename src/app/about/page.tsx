@@ -116,8 +116,8 @@ export default function AboutPage() {
           {[
             {
               icon: ShieldCheck,
-              title: "Verified Weekly",
-              desc: "Every listing is verified regularly. No outdated info, no dead links, no guessing if a game still meets.",
+              title: "Verified & Updated",
+              desc: "We verify listings regularly and update the directory weekly with new games and events. No scraping, no bots.",
             },
             {
               icon: MapPin,

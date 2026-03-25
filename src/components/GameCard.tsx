@@ -28,6 +28,7 @@ import {
   ThumbsUp,
   Star,
   Flag,
+  ArrowRight,
 } from "lucide-react";
 
 interface GameCardProps {
@@ -209,8 +210,8 @@ export default function GameCard({
 
           {blurred ? (
             <>
-              {/* Blurred cards: show name, distance, timing — details locked */}
-              <div className="flex items-center gap-2 flex-wrap mb-2">
+              {/* Locked cards: type + day + distance + skill only. NO name, venue, or identifying info. */}
+              <div className="flex items-center gap-2 flex-wrap mb-3">
                 <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${typeColor}`}>
                   {getGameTypeIcon(game.type)} {typeLabel}
                 </span>
@@ -220,22 +221,48 @@ export default function GameCard({
                     {timingBadge}
                   </span>
                 )}
+                {game.dropInFriendly && (
+                  <span className="px-2 py-0.5 rounded-full text-[11px] font-medium bg-skyblue-100 text-skyblue-600 border border-skyblue-200">
+                    Drop-in Friendly
+                  </span>
+                )}
               </div>
-              <h3 className="tile-engraved font-bold text-charcoal text-lg leading-tight mb-1">{game.name}</h3>
-              <div className="space-y-1 mb-3 text-sm text-slate-500">
+
+              <div className="space-y-1.5 mb-3 text-sm">
+                {game.recurringSchedule?.dayOfWeek && (
+                  <div className="flex items-center gap-2 text-charcoal">
+                    <Clock className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
+                    <span className="font-medium">
+                      {game.recurringSchedule.dayOfWeek.split("|").map(d => d.trim().charAt(0).toUpperCase() + d.trim().slice(1)).join(" & ")}s
+                    </span>
+                  </div>
+                )}
                 {distanceText && (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 text-slate-500">
                     <MapPin className="w-3.5 h-3.5 text-skyblue-500 shrink-0" />
                     <span>{distanceText}</span>
                   </div>
                 )}
-                {timingLabel && (
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
-                    <span>{timingLabel}</span>
-                  </div>
-                )}
               </div>
+
+              {game.skillLevels.length > 0 && (
+                <div className="flex flex-wrap gap-1 mb-3">
+                  {game.skillLevels.map((level) => (
+                    <span key={level} className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-100 text-slate-500 border border-slate-200">
+                      {level.charAt(0).toUpperCase() + level.slice(1)}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <Link
+                href="/pricing"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-hotpink-500 hover:text-hotpink-600 transition-colors"
+              >
+                <Lock className="w-3.5 h-3.5" />
+                Subscribe to see full details
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </>
           ) : (
             <>
@@ -420,13 +447,7 @@ export default function GameCard({
         {/* Tile footer: inner border like the recessed face of a real tile */}
         <div className="px-4 py-2.5 border-t-2 border-[#D4C9B8] flex items-center justify-between bg-[#FFF0DD]">
           {blurred ? (
-            <>
-              <div className="flex items-center gap-1.5">
-                <div className="h-4 bg-slate-200 rounded w-16" />
-                <div className="h-4 bg-slate-100 rounded w-12" />
-              </div>
-              <div className="h-4 bg-slate-100 rounded w-16" />
-            </>
+            <span className="text-[11px] text-slate-400">Subscribe to unlock</span>
           ) : (
             <>
               <div className="flex items-center gap-1.5 flex-wrap">
