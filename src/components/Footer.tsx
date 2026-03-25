@@ -52,13 +52,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/shop" className="text-sm text-slate-400 hover:text-hotpink-400 transition-colors">
-                  Mahj Gear
+                <Link href="/giveaways" className="text-sm text-slate-400 hover:text-hotpink-400 transition-colors">
+                  Giveaways
                 </Link>
               </li>
               <li>
-                <Link href="/giveaways" className="text-sm text-slate-400 hover:text-hotpink-400 transition-colors">
-                  Giveaways
+                <Link href="/shop" className="text-sm text-slate-400 hover:text-hotpink-400 transition-colors">
+                  Mahj Gear
                 </Link>
               </li>
               <li>

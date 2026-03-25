@@ -82,6 +82,7 @@ export default function HomePage() {
                     <img
                       src={t.tile}
                       alt={`${t.city} tile`}
+                      loading="lazy"
                       className="max-h-10 max-w-10 w-auto h-auto animate-tile-rotate drop-shadow-md group-hover:pause object-contain"
                       style={{ animationDelay: `${(i % 12) * 0.35}s` }}
                     />
@@ -160,7 +161,7 @@ export default function HomePage() {
               <ShieldCheck className="w-8 h-8 text-skyblue-500 mb-4" />
               <h3 className="font-semibold text-lg mb-2 text-charcoal">Verified listings</h3>
               <p className="text-sm text-slate-600">
-                Every listing is verified. No outdated info, no dead links, no guessing if a game still meets.
+                Every listing is researched and regularly updated. No guessing if a game still meets.
               </p>
             </div>
             <div className="card-white p-6">
