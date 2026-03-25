@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getStripe, getPlanFromPriceId } from "@/lib/stripe";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { sendWelcomeEmail } from "@/lib/email";
 import Stripe from "stripe";
 
 // Disable body parsing. Stripe needs the raw body for signature verification
@@ -70,6 +71,17 @@ export async function POST(request: Request) {
           },
           { merge: true }
         );
+
+        // Send welcome email to new subscriber
+        const customerEmail = session.customer_email || session.customer_details?.email;
+        if (customerEmail) {
+          await sendWelcomeEmail({
+            to: customerEmail,
+            name: session.customer_details?.name || "",
+            isSubscriber: true,
+            plan,
+          });
+        }
 
         // If referred, create a referral record
         if (referredByCode) {

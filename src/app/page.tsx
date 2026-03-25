@@ -4,6 +4,7 @@ import { mockGames } from "@/lib/mock-data";
 import { isEventExpired } from "@/lib/utils";
 import { FEATURED_TILES } from "@/lib/featured-tiles";
 import { Search, MapPin, Sparkles, Globe, ShieldCheck, Bell, ArrowRight, CreditCard } from "lucide-react";
+import GamesToday from "@/components/GamesToday";
 
 function getStats() {
   const activeGames = mockGames.filter((g) => g.status === "active" && !isEventExpired(g));
@@ -97,6 +98,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Games Near You (geolocation-dependent, client component) */}
+      <GamesToday />
 
       {/* How It Works */}
       <section className="py-16 sm:py-20 relative overflow-hidden">

@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { mockGames, getCitiesWithGames, getStatesWithGames } from "@/lib/mock-data";
 import { slugify, getStateName } from "@/lib/utils";
+import { getAllPosts } from "@/lib/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.mahjnearme.com";
@@ -52,5 +53,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     }));
 
-  return [...staticPages, ...statePages, ...cityPages, ...gamePages];
+  // Blog posts
+  const blogPages = getAllPosts().map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.date + "T00:00:00"),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...statePages, ...cityPages, ...gamePages, ...blogPages];
 }

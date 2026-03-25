@@ -385,16 +385,15 @@ export default function GiveawaysPage() {
           </div>
         </div>}
 
-        {/* Fine print: No Purchase Necessary + Sweepstakes Rules */}
+        {/* Free Entry (no purchase necessary) */}
+        {!hasAccess && (
+          <FreeEntryForm />
+        )}
+
+        {/* Fine print */}
         <div className="text-center text-sm text-slate-400 space-y-1">
           <p>
             No purchase necessary.{" "}
-            <Link href="/sweepstakes-rules" className="hover:text-hotpink-500 underline">
-              See official rules
-            </Link>{" "}
-            for alternative method of entry.
-          </p>
-          <p>
             <Link href="/sweepstakes-rules" className="hover:text-hotpink-500 underline">
               Official Sweepstakes Rules
             </Link>
@@ -402,5 +401,90 @@ export default function GiveawaysPage() {
         </div>
       </div>
     </>
+  );
+}
+
+function FreeEntryForm() {
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error" | "already">("idle");
+
+  async function handleFreeEntry(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email) return;
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/giveaway", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "free_entry", email, name }),
+      });
+      if (res.status === 409) {
+        setStatus("already");
+      } else if (res.ok) {
+        setStatus("success");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  if (status === "success") {
+    return (
+      <div className="mahj-tile p-6 text-center mb-8">
+        <Check className="w-8 h-8 text-green-500 mx-auto mb-2" />
+        <p className="font-semibold text-charcoal">You&apos;re entered!</p>
+        <p className="text-sm text-slate-500">Good luck this month. We&apos;ll email the winner on draw day.</p>
+      </div>
+    );
+  }
+
+  if (status === "already") {
+    return (
+      <div className="mahj-tile p-6 text-center mb-8">
+        <Check className="w-8 h-8 text-skyblue-500 mx-auto mb-2" />
+        <p className="font-semibold text-charcoal">You&apos;re already entered this month</p>
+        <p className="text-sm text-slate-500">One free entry per month. Check back next month!</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mahj-tile p-6 mb-8">
+      <h3 className="font-semibold text-charcoal mb-1 text-center">Free Entry (No Purchase Necessary)</h3>
+      <p className="text-sm text-slate-500 text-center mb-4">Enter your email for one free entry this month.</p>
+      <form onSubmit={handleFreeEntry} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Name (optional)"
+          className="border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm sm:w-36"
+        />
+        <input
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="your@email.com"
+          className="border border-skyblue-300 rounded-lg px-3 py-2.5 text-sm flex-1"
+        />
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          className="bg-hotpink-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors disabled:opacity-50"
+        >
+          {status === "loading" ? "Entering..." : "Enter Free"}
+        </button>
+      </form>
+      {status === "error" && (
+        <p className="text-xs text-red-500 text-center mt-2">Something went wrong. Please try again.</p>
+      )}
+      <p className="text-xs text-slate-400 text-center mt-3">
+        One entry per email per month. Paid subscribers are entered automatically with bonus entries.
+      </p>
+    </div>
   );
 }
