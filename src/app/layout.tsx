@@ -25,10 +25,14 @@ export const metadata: Metadata = {
     "mahjong lessons",
     "mahjong events",
   ],
+  metadataBase: new URL("https://www.mahjnearme.com"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://mahjnearme.com",
+    url: "https://www.mahjnearme.com",
     siteName: "MahjNearMe",
     title: "MahjNearMe | Find Mahjong Games Anywhere You Go",
     description:
