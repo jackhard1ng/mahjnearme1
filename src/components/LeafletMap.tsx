@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Game } from "@/types";
 import { getMapPinColor, getGameTypeLabel, slugify } from "@/lib/utils";
 import { haversineDistance, formatDistance } from "@/lib/distance";
+import { getEventTiming, getUrgencyPinColor } from "@/lib/event-timing";
 
 // We import Leaflet types only. Actual library loaded dynamically.
 import type L from "leaflet";
@@ -122,9 +123,14 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
 
     const bounds = L.latLngBounds([]);
 
+    const now = new Date();
+
     geoGames.forEach((game, index) => {
       const isSelected = selectedGameId === game.id;
-      const color = getMapPinColor(game.type);
+      // Use urgency color for today/happening-now events, else default type color
+      const timing = getEventTiming(game, now);
+      const urgencyColor = getUrgencyPinColor(timing.tier);
+      const color = urgencyColor || getMapPinColor(game.type);
 
       // Determine if this pin is in the user's home metro (for free users)
       const isHomeMetroPin = !userHomeMetro || isGameInMetro(game, userHomeMetro);
@@ -149,9 +155,12 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
 
       let popupContent: string;
 
-      // Distance line for popup
+      // Distance and timing lines for popup
       const distLine = searchCenter && game.geopoint.lat !== 0
         ? `<span style="color: #FF1493; font-size: 11px; font-weight: 600;">${formatDistance(haversineDistance(searchCenter.lat, searchCenter.lng, game.geopoint.lat, game.geopoint.lng))}</span><br/>`
+        : "";
+      const timingLine = timing.label && timing.label !== "Schedule TBD"
+        ? `<span style="color: #D97706; font-size: 11px; font-weight: 600;">${timing.badge ? timing.badge + " — " : ""}${timing.label}</span><br/>`
         : "";
 
       if (canSeeDetails) {
@@ -159,7 +168,7 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
             <strong style="font-size: 14px; color: #1a1a2e;">${game.name}</strong><br/>
             <span style="color: #64748b; font-size: 12px;">${typeLabel}</span><br/>
             <span style="color: #64748b; font-size: 12px;">${game.venueName || game.address}</span><br/>
-            ${distLine}
+            ${timingLine}${distLine}
             <a href="${gameUrl}" style="color: #FF1493; font-size: 12px; font-weight: 600; text-decoration: none; margin-top: 4px; display: inline-block;">View Details &rarr;</a>
           </div>`;
       } else if (isLocked) {
@@ -251,6 +260,14 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
             <span className="text-charcoal">{label}</span>
           </div>
         ))}
+        <div className="flex items-center gap-2 text-xs border-t border-slate-200 pt-1 mt-1">
+          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#EF4444" }} />
+          <span className="text-charcoal">Today / Now</span>
+        </div>
+        <div className="flex items-center gap-2 text-xs">
+          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#F59E0B" }} />
+          <span className="text-charcoal">Tomorrow</span>
+        </div>
         {!hasAccess && (
           <div className="flex items-center gap-2 text-xs border-t border-slate-200 pt-1 mt-1">
             <div className="w-3 h-3 rounded-full bg-gray-400 opacity-50" />
