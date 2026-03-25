@@ -1,14 +1,14 @@
 export const SITE_NAME = "MahjNearMe";
-export const SITE_URL = "https://mahjnearme.com";
+export const SITE_URL = "https://www.mahjnearme.com";
 export const SITE_DESCRIPTION =
   "Find mahjong games, open play sessions, lessons, and events anywhere in the United States. The only directory of pickup mahjong games across the US.";
 
-export const MONTHLY_PRICE = 5.99;
-export const ANNUAL_PRICE = 47.99;
+export const MONTHLY_PRICE = 4.99;
+export const ANNUAL_PRICE = 39.99;
 // Referral discount: 15% off
 export const REFERRAL_DISCOUNT_PERCENT = 15;
-export const REFERRAL_MONTHLY_PRICE = 5.09;
-export const REFERRAL_ANNUAL_PRICE = 40.79;
+export const REFERRAL_MONTHLY_PRICE = 4.24;
+export const REFERRAL_ANNUAL_PRICE = 33.99;
 
 // Referral commissions
 export const MONTHLY_REFERRAL_COMMISSION = 1.50;

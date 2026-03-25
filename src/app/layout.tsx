@@ -3,7 +3,6 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageViewTracker from "@/components/PageViewTracker";
-import MetroSelectionModal from "@/components/MetroSelectionModal";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -81,7 +80,6 @@ export default function RootLayout({
         <AuthProvider>
           <PageViewTracker />
           <Header />
-          <MetroSelectionModal />
           <main className="min-h-screen">{children}</main>
           <Footer />
         </AuthProvider>
