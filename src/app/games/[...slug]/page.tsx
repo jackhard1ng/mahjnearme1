@@ -293,12 +293,17 @@ export default function GameDetailPage() {
                 </h1>
 
                 {/* Organizer */}
-                <p className="text-slate-500 mb-3">
-                  Organized by{" "}
-                  <span className="font-medium text-slate-700">
-                    {game.organizerName}
-                  </span>
-                </p>
+                {game.organizerName && (
+                  <p className="text-slate-500 mb-3">
+                    Organized by{" "}
+                    <Link
+                      href={`/search?q=${encodeURIComponent(game.organizerName)}`}
+                      className="font-medium text-slate-700 hover:text-hotpink-500 transition-colors"
+                    >
+                      {game.organizerName}
+                    </Link>
+                  </p>
+                )}
 
                 {/* Game Style */}
                 <p className="text-sm text-slate-500 mb-4">
@@ -695,6 +700,56 @@ export default function GameDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* More from this organizer */}
+      {(() => {
+        if (!game.organizerName) return null;
+        const otherGames = mockGames.filter(
+          (g) =>
+            g.id !== game.id &&
+            g.status === "active" &&
+            g.organizerName === game.organizerName
+        );
+        if (otherGames.length === 0) return null;
+        return (
+          <div className="max-w-5xl mx-auto px-4 pb-12">
+            <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal mb-4">
+              More from {game.organizerName}
+            </h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {otherGames.slice(0, 6).map((g) => (
+                <Link
+                  key={g.id}
+                  href={`/games/${getGameSlug(g)}`}
+                  className="bg-white border border-slate-200 rounded-xl p-4 hover:border-hotpink-300 hover:shadow-sm transition-all group"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold border ${getGameTypeColor(g.type)}`}>
+                      {getGameTypeLabel(g.type)}
+                    </span>
+                    {g.dropInFriendly && (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-skyblue-100 text-skyblue-600">
+                        Drop-in
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="font-semibold text-sm text-charcoal group-hover:text-hotpink-500 transition-colors mb-1 line-clamp-2">
+                    {g.name}
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    {g.city}, {getStateName(g.state)}
+                    {g.recurringSchedule?.dayOfWeek && (
+                      <span className="ml-2">
+                        &middot; {g.recurringSchedule.dayOfWeek.split("|").map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(", ")}s
+                      </span>
+                    )}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
     </>
   );
 }
