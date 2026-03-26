@@ -116,7 +116,7 @@ export default function AboutPage() {
           {[
             {
               icon: ShieldCheck,
-              title: "Verified & Updated",
+              title: "Researched & Updated",
               desc: "We verify listings regularly and update the directory weekly with new games and events. No scraping, no bots.",
             },
             {

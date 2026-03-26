@@ -473,7 +473,7 @@ export default function GameCard({
                 <CheckCircle className={`w-3.5 h-3.5 ${game.verified ? "text-hotpink-500" : "text-slate-300"}`} />
                 <span className={`text-[11px] font-medium ${game.verified ? "text-hotpink-600" : "text-slate-400"}`}>
                   {game.lastVerified && /^\d{4}-\d{2}-\d{2}$/.test(game.lastVerified)
-                    ? `Verified ${new Date(game.lastVerified + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`
+                    ? `Updated ${new Date(game.lastVerified + "T00:00:00").toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
                     : verification.label}
                 </span>
               </div>

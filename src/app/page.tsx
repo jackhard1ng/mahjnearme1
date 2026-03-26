@@ -3,7 +3,7 @@ import SearchBar from "@/components/SearchBar";
 import { mockGames } from "@/lib/mock-data";
 import { isEventExpired } from "@/lib/utils";
 import { FEATURED_TILES } from "@/lib/featured-tiles";
-import { Search, MapPin, Sparkles, Globe, ShieldCheck, Bell, ArrowRight, CreditCard } from "lucide-react";
+import { Search, MapPin, Sparkles, ArrowRight } from "lucide-react";
 import GamesToday from "@/components/GamesToday";
 
 function getStats() {
@@ -30,7 +30,7 @@ const cityCounts = getCityCounts();
 const tilesWithCounts = FEATURED_TILES.map((t) => {
   const key = `${t.city}|${t.state}`;
   return { ...t, count: cityCounts[key] || 0 };
-}).filter((t) => t.count > 0); // Only show tiles that have games
+}).filter((t) => t.count > 0);
 
 export default function HomePage() {
 
@@ -43,12 +43,7 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-br from-[#FF1493]/85 via-[#FF69B4]/75 to-[#87CEEB]/80" />
         </div>
 
-        <div className="max-w-5xl mx-auto px-4 pt-8 pb-6 sm:pt-24 sm:pb-16 text-center relative">
-          <div className="hidden sm:flex justify-center gap-2 mb-6">
-            <span className="text-3xl opacity-70 animate-float" style={{ animationDelay: "0s" }}>🀇</span>
-            <span className="text-3xl opacity-70 animate-float" style={{ animationDelay: "0.3s" }}>🀄</span>
-            <span className="text-3xl opacity-70 animate-float" style={{ animationDelay: "0.6s" }}>🀙</span>
-          </div>
+        <div className="max-w-5xl mx-auto px-4 pt-10 pb-6 sm:pt-24 sm:pb-16 text-center relative">
           <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-3xl sm:text-5xl lg:text-6xl text-white mb-2 sm:mb-4 tracking-tight drop-shadow-lg">
             Find Mahjong Games<br />
             <span className="text-skyblue-200">Anywhere You Go</span>
@@ -63,12 +58,12 @@ export default function HomePage() {
 
           <p className="text-xs sm:text-sm text-white/70">
             <span className="font-semibold text-white">{Math.floor(stats.gameCount / 100) * 100}+ games</span> across{" "}
-            <span className="font-semibold text-white">all 50 states</span> — and growing every week
+            <span className="font-semibold text-white">all 50 states</span>
           </p>
         </div>
       </section>
 
-      {/* City Marquee — scrolling tiles with live counts, clickable for proximity search */}
+      {/* City Marquee */}
       <section className="py-5 border-y border-skyblue-200 overflow-hidden bg-skyblue-50">
         <div className="relative">
           <div className="animate-scroll-left whitespace-nowrap flex items-center">
@@ -99,7 +94,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Games Near You (geolocation-dependent, client component) */}
+      {/* Games Near You */}
       <GamesToday />
 
       {/* How It Works */}
@@ -120,60 +115,50 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-hotpink-500 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">
                 <Search className="w-7 h-7 text-white" />
               </div>
-              <div className="text-xs font-bold text-hotpink-500 uppercase tracking-wider mb-2">Step 1</div>
               <h3 className="font-semibold text-lg mb-2 text-charcoal">Search your city</h3>
               <p className="text-sm text-slate-600">
-                Type any city, zip code, or travel destination, or just tap &ldquo;Use my location&rdquo;
+                Type any city, zip code, or travel destination
               </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-skyblue-400 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">
                 <MapPin className="w-7 h-7 text-white" />
               </div>
-              <div className="text-xs font-bold text-skyblue-500 uppercase tracking-wider mb-2">Step 2</div>
               <h3 className="font-semibold text-lg mb-2 text-charcoal">Browse games nearby</h3>
               <p className="text-sm text-slate-600">
-                See open play, lessons, leagues, and events on an interactive map with all the details you need
+                See open play, lessons, leagues, and events on an interactive map
               </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-hotpink-400 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">
                 <Sparkles className="w-7 h-7 text-white" />
               </div>
-              <div className="text-xs font-bold text-hotpink-500 uppercase tracking-wider mb-2">Step 3</div>
-              <h3 className="font-semibold text-lg mb-2 text-charcoal">Show up and play!</h3>
+              <h3 className="font-semibold text-lg mb-2 text-charcoal">Show up and play</h3>
               <p className="text-sm text-slate-600">
-                Get the venue, schedule, contact info, and directions. Then go enjoy a game!
+                Get the details you need and go play
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Value Props */}
-      <section className="py-16 sm:py-20 section-blue">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid sm:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="card-white p-6">
-              <Globe className="w-8 h-8 text-hotpink-500 mb-4" />
-              <h3 className="font-semibold text-lg mb-2 text-charcoal">Games everywhere</h3>
-              <p className="text-sm text-slate-600">
-                Traveling and want to play? Search any city in the US and find games near your hotel, Airbnb, or destination.
-              </p>
+      {/* Trust Bar */}
+      <section className="py-10 sm:py-12 section-blue">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12 text-center sm:text-left">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🌎</span>
+              <span className="text-sm font-medium text-charcoal">Games in every state</span>
             </div>
-            <div className="card-white p-6">
-              <ShieldCheck className="w-8 h-8 text-skyblue-500 mb-4" />
-              <h3 className="font-semibold text-lg mb-2 text-charcoal">Verified listings</h3>
-              <p className="text-sm text-slate-600">
-                Every listing is researched and regularly updated. No guessing if a game still meets.
-              </p>
+            <div className="hidden sm:block w-px h-8 bg-slate-200" />
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">✓</span>
+              <span className="text-sm font-medium text-charcoal">Researched &amp; curated</span>
             </div>
-            <div className="card-white p-6">
-              <Bell className="w-8 h-8 text-hotpink-500 mb-4" />
-              <h3 className="font-semibold text-lg mb-2 text-charcoal">Updated weekly</h3>
-              <p className="text-sm text-slate-600">
-                New games and events added every week so your search results stay fresh. Every listing researched by our team.
-              </p>
+            <div className="hidden sm:block w-px h-8 bg-slate-200" />
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🔄</span>
+              <span className="text-sm font-medium text-charcoal">New games added from Instagram, meetups, and community centers weekly</span>
             </div>
           </div>
         </div>
@@ -254,13 +239,9 @@ export default function HomePage() {
               <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">
                 Ready to find your next game?
               </h3>
-              <p className="text-slate-600 mb-3">
-                Unlock all {Math.floor(stats.gameCount / 100) * 100}+ games across every state, full details, and monthly giveaway entry.
+              <p className="text-slate-600 mb-6">
+                See all {Math.floor(stats.gameCount / 100) * 100}+ games with full details, plus enter our monthly set giveaway.
               </p>
-              <div className="flex items-center justify-center gap-1 text-xs text-slate-500 mb-4">
-                <CreditCard className="w-3.5 h-3.5" />
-                <span>Secure payment via Stripe</span>
-              </div>
               <Link
                 href="/signup"
                 className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors shadow-lg"
@@ -268,12 +249,6 @@ export default function HomePage() {
                 Get Started Free <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-          </div>
-
-          <div className="text-center mt-10">
-            <Link href="/shop" className="text-hotpink-500 hover:text-hotpink-700 font-medium transition-colors inline-flex items-center gap-2">
-              New to Mahj? Check out our gear picks <ArrowRight className="w-4 h-4" />
-            </Link>
           </div>
         </div>
       </section>

@@ -32,9 +32,6 @@ export default function Footer() {
             <p className="text-sm text-slate-400 mb-4">
               Find mahjong games anywhere you go. The only directory of pickup games, open play, and events across the US.
             </p>
-            <div className="flex gap-2 text-xl opacity-30" aria-hidden="true">
-              <span>🀇</span><span>🀈</span><span>🀉</span><span>🀙</span><span>🀄</span>
-            </div>
           </div>
 
           {/* Explore */}
