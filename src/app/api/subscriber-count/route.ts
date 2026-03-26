@@ -1,13 +1,21 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
+import { getAdminDb } from "@/lib/firebase-admin";
 
-// GET: Return the count of active paying subscribers from Stripe
+/**
+ * GET /api/subscriber-count
+ * Returns: { count, freeEntries, totalEntries }
+ * - count: active paid subscribers (from Stripe)
+ * - freeEntries: free giveaway entries this month (from Firestore)
+ * - totalEntries: count + freeEntries
+ */
 export async function GET() {
+  let subscriberCount = 0;
+  let freeEntryCount = 0;
+
+  // Count active subscriptions from Stripe
   try {
     const stripe = getStripe();
-
-    // Count active subscriptions only (not trialing, canceled, etc.)
-    let count = 0;
     let hasMore = true;
     let startingAfter: string | undefined;
 
@@ -16,23 +24,35 @@ export async function GET() {
         status: "active",
         limit: 100,
       };
-      if (startingAfter) {
-        params.starting_after = startingAfter;
-      }
+      if (startingAfter) params.starting_after = startingAfter;
 
       const subscriptions = await stripe.subscriptions.list(params);
-      count += subscriptions.data.length;
+      subscriberCount += subscriptions.data.length;
       hasMore = subscriptions.has_more;
-
       if (subscriptions.data.length > 0) {
         startingAfter = subscriptions.data[subscriptions.data.length - 1].id;
       }
     }
-
-    return NextResponse.json({ count });
   } catch (err) {
-    console.error("Subscriber count error:", err);
-    // Return 0 on error rather than failing - honest count
-    return NextResponse.json({ count: 0 });
+    console.error("Stripe subscriber count error:", err);
   }
+
+  // Count free entries for current month from Firestore
+  try {
+    const db = getAdminDb();
+    const now = new Date();
+    const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+    const snap = await db.collection("giveawayFreeEntries")
+      .where("month", "==", currentMonth)
+      .get();
+    freeEntryCount = snap.size;
+  } catch (err) {
+    console.error("Free entry count error:", err);
+  }
+
+  return NextResponse.json({
+    count: subscriberCount,
+    freeEntries: freeEntryCount,
+    totalEntries: subscriberCount + freeEntryCount,
+  });
 }

@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { Gift, Trophy, ArrowRight, Check, Loader2, Users, Target } from "lucide-react";
+import { CURRENT_GIVEAWAY } from "@/lib/giveaway-config";
 
 interface Winner {
   id: string;
@@ -64,10 +65,11 @@ export default function GiveawaysPage() {
   const [data, setData] = useState<GiveawayInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [subscriberCount, setSubscriberCount] = useState(0);
+  const [totalEntries, setTotalEntries] = useState(0);
 
   useEffect(() => {
     fetchGiveaway();
-    fetchSubscriberCount();
+    fetchCounts();
   }, []);
 
   async function fetchGiveaway() {
@@ -84,15 +86,16 @@ export default function GiveawaysPage() {
     }
   }
 
-  async function fetchSubscriberCount() {
+  async function fetchCounts() {
     try {
       const res = await fetch("/api/subscriber-count");
       if (res.ok) {
         const json = await res.json();
-        setSubscriberCount(json.count);
+        setSubscriberCount(json.count || 0);
+        setTotalEntries(json.totalEntries || json.count || 0);
       }
     } catch {
-      // silent - stays at 0
+      // silent
     }
   }
 
@@ -104,11 +107,7 @@ export default function GiveawaysPage() {
 
   function getDrawDate(): string {
     if (data?.drawDate) return data.drawDate;
-    // First draw is April 30, 2026
-    const now = new Date();
-    if (now < new Date("2026-04-30")) return FIRST_DRAW_DATE;
-    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-    return lastDay.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+    return CURRENT_GIVEAWAY.drawDate;
   }
 
   // Calculate user's accumulated entries (1 per 6 months subscribed, max 6)
@@ -157,11 +156,11 @@ export default function GiveawaysPage() {
         <div className="max-w-5xl mx-auto px-4 pt-16 pb-12 sm:pt-20 sm:pb-14 text-center relative">
           <Gift className="w-12 h-12 text-skyblue-200 mx-auto mb-4" />
           <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-4xl sm:text-5xl text-white mb-3 tracking-tight drop-shadow-lg">
-            Monthly Mahjong{" "}
+            {CURRENT_GIVEAWAY.month} Mahjong{" "}
             <span className="text-skyblue-200">Giveaway</span>
           </h1>
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
-            Every month, paid members win mahjong prizes. Sets, mats, tile racks, carrying cases, and more. The prize changes month to month.
+            Every month, we give away mahjong prizes to paid members. The prize changes month to month.
           </p>
         </div>
       </section>
@@ -171,35 +170,35 @@ export default function GiveawaysPage() {
         {/* Current Giveaway */}
         <div className="mb-12">
           <div className="mahj-tile p-6 sm:p-8">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-hotpink-100 flex items-center justify-center">
-                <Gift className="w-5 h-5 text-hotpink-500" />
+            {/* Prize headline */}
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center gap-2 bg-hotpink-100 text-hotpink-600 px-4 py-1.5 rounded-full text-sm font-bold mb-3">
+                <Gift className="w-4 h-4" />
+                {CURRENT_GIVEAWAY.month} Giveaway
               </div>
-              <div>
-                <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal">
-                  {data?.prizeName || "Monthly Prize"}
-                </h2>
-                <p className="text-sm text-slate-500">
-                  A premium mahjong accessory — revealed at the start of each month
-                </p>
-              </div>
+              <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-1">
+                {data?.prizeName || CURRENT_GIVEAWAY.prizeName}
+                {(data?.prizeValue || CURRENT_GIVEAWAY.prizeValue) && (
+                  <span className="text-hotpink-500 ml-2">({data?.prizeValue || CURRENT_GIVEAWAY.prizeValue})</span>
+                )}
+              </h2>
+              <p className="text-sm text-slate-500">{CURRENT_GIVEAWAY.prizeDescription}</p>
             </div>
 
-            <div className="grid sm:grid-cols-3 gap-4 mb-6">
+            {/* Stats row — always visible, even logged out */}
+            <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="bg-slate-50 rounded-lg p-3 text-center">
-                <p className="text-xs text-slate-500 mb-1">Winners this month</p>
-                <p className="text-lg font-bold text-charcoal">{data?.numberOfWinners || 1}</p>
+                <p className="text-xs text-slate-500 mb-1">Entries so far</p>
+                <p className="text-2xl font-extrabold text-hotpink-500">{totalEntries}</p>
               </div>
               <div className="bg-slate-50 rounded-lg p-3 text-center">
-                <p className="text-xs text-slate-500 mb-1">Next draw date</p>
+                <p className="text-xs text-slate-500 mb-1">Winners</p>
+                <p className="text-2xl font-extrabold text-charcoal">{data?.numberOfWinners || CURRENT_GIVEAWAY.numberOfWinners}</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-3 text-center">
+                <p className="text-xs text-slate-500 mb-1">Draw date</p>
                 <p className="text-lg font-bold text-charcoal">{getDrawDate()}</p>
               </div>
-              {subscriberCount > 0 && (
-                <div className="bg-slate-50 rounded-lg p-3 text-center">
-                  <p className="text-xs text-slate-500 mb-1">Members entered</p>
-                  <p className="text-lg font-bold text-charcoal">{subscriberCount}</p>
-                </div>
-              )}
             </div>
 
             {/* User status */}
