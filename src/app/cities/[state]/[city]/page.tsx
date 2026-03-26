@@ -3,7 +3,7 @@ import { mockGames, getCitiesWithGames } from "@/lib/mock-data";
 import { slugify, getStateName, isEventExpired } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
 import { findMetroForCity, getMetroCitiesSubtitle } from "@/lib/metro-regions";
-import { MapPin, ChevronRight, MessageSquare, Info } from "lucide-react";
+import { MapPin, ChevronRight, Info } from "lucide-react";
 import CityMap from "@/components/CityMap";
 import CityGamesList from "@/components/CityGamesList";
 import CityContributor from "@/components/CityContributor";
@@ -182,25 +182,6 @@ export default async function CityPage({ params }: Props) {
             </p>
           </div>
         </div>
-      </div>
-
-      {/* Community Forum Link */}
-      <div className="mb-10 bg-softpink-100 border border-hotpink-200 rounded-xl p-5 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <MessageSquare className="w-5 h-5 text-hotpink-500" />
-          <div>
-            <p className="font-semibold text-charcoal text-sm">Join the conversation</p>
-            <p className="text-xs text-slate-500">
-              Discuss games, verify listings, and connect with players in {cityName}.
-            </p>
-          </div>
-        </div>
-        <Link
-          href={`/community`}
-          className="text-hotpink-500 font-semibold text-sm hover:text-hotpink-600 whitespace-nowrap"
-        >
-          Visit Forum
-        </Link>
       </div>
 
       {/* Metro Region Cities */}

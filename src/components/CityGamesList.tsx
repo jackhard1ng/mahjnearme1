@@ -125,8 +125,7 @@ export default function CityGamesList({ games, cityName, metroAbbreviation }: Ci
                     Traveling? Upgrade to see games in every city.
                   </h3>
                   <p className="text-slate-500 text-sm mb-4">
-                    Your free account includes full access to your home metro.
-                    Upgrade to unlock all {games.length} games in {cityName} and 70+ other metros.
+                    Subscribe to unlock all {games.length} games in {cityName} and every other city.
                   </p>
                   <Link
                     href="/pricing"
