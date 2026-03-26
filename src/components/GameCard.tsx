@@ -264,16 +264,92 @@ export default function GameCard({
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </>
+          ) : isTeaser ? (
+            <>
+              {/* Teaser cards: show type, schedule, style, skills — blur venue/name */}
+              <div className="flex items-center gap-2 flex-wrap mb-2">
+                <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${typeColor}`}>
+                  {getGameTypeIcon(game.type)} {typeLabel}
+                </span>
+                {game.gameStyle && (
+                  <span className="px-2 py-0.5 rounded-full text-[11px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
+                    {game.gameStyle === "american" ? "American" : game.gameStyle === "chinese" ? "Chinese" : game.gameStyle === "riichi" ? "Riichi" : "Other"}
+                  </span>
+                )}
+                {game.dropInFriendly && (
+                  <span className="px-2 py-0.5 rounded-full text-[11px] font-medium bg-skyblue-100 text-skyblue-600 border border-skyblue-200">
+                    Drop-in Friendly
+                  </span>
+                )}
+                {timingBadge && (
+                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold ${timingBadgeColor}`}>
+                    {timingBadge === "Happening Now" && <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />}
+                    {timingBadge}
+                  </span>
+                )}
+              </div>
+
+              {/* Blurred venue name */}
+              <div className="mb-1">
+                <span className="inline-block h-5 w-48 bg-slate-200/80 rounded blur-[4px]" />
+              </div>
+              <div className="mb-3">
+                <span className="inline-block h-3.5 w-32 bg-slate-100/80 rounded blur-[3px]" />
+              </div>
+
+              {/* Visible schedule details */}
+              <div className="space-y-1.5 mb-3">
+                {(timingLabel || schedule) && (
+                  <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
+                    <Clock className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
+                    <span className="font-medium">{timingLabel || schedule}</span>
+                  </div>
+                )}
+                {game.recurringSchedule?.frequency && (
+                  <div className="flex items-center gap-2 text-sm text-slate-500">
+                    <span className="w-3.5 h-3.5 shrink-0 text-center text-xs">↻</span>
+                    <span className="capitalize">{game.recurringSchedule.frequency}</span>
+                  </div>
+                )}
+                {distanceText && (
+                  <div className="flex items-center gap-2 text-sm text-slate-500">
+                    <MapPin className="w-3.5 h-3.5 text-skyblue-500 shrink-0" />
+                    <span>{distanceText}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Skill levels */}
+              {game.skillLevels.length > 0 && (
+                <div className="flex flex-wrap gap-1 mb-3">
+                  {game.skillLevels.map((level) => (
+                    <span key={level} className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium ${
+                      level === "beginner" ? "bg-skyblue-100 text-skyblue-600" :
+                      level === "intermediate" ? "bg-hotpink-100 text-hotpink-600" :
+                      "bg-slate-100 text-charcoal"
+                    }`}>
+                      {SKILL_LEVEL_LABELS[level]}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <Link
+                href="/pricing"
+                className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium transition-colors"
+              >
+                Subscribe to see venue &amp; details <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </>
           ) : (
             <>
               {/* Group name, engraved into tile */}
               <h3 className="tile-engraved font-bold text-charcoal text-lg hover:text-hotpink-500 transition-colors leading-tight mb-0.5">
                 {game.name}
               </h3>
-              {!isTeaser && (
+              {(
                 <p className="text-xs text-slate-500 tile-engraved mb-3">{game.organizerName}</p>
               )}
-              {isTeaser && <div className="mb-3" />}
 
               {/* Urgency badge */}
               {timingBadge && (
@@ -287,28 +363,24 @@ export default function GameCard({
 
               {/* Key details (engraved) */}
               <div className="space-y-1.5 mb-3">
-                {!isTeaser && (
-                  <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
-                    <Clock className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
-                    <span className="font-medium">{timingLabel || schedule}</span>
-                  </div>
-                )}
+                <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
+                  <Clock className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
+                  <span className="font-medium">{timingLabel || schedule}</span>
+                </div>
                 <div className="flex items-center gap-2 text-sm text-charcoal tile-engraved">
                   <MapPin className="w-3.5 h-3.5 text-skyblue-500 shrink-0" />
                   <span>
-                    {isTeaser ? game.generalArea : `${game.city}, ${game.state}`}
+                    {`${game.city}, ${game.state}`}
                     {distanceText && (
                       <span className="text-hotpink-500 font-medium ml-2">&middot; {distanceText}</span>
                     )}
                   </span>
                 </div>
-                {!isTeaser && (
-                  <div className="flex items-center gap-2 text-sm text-slate-600 tile-engraved">
-                    <DollarSign className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
-                    <span>{game.cost}</span>
-                  </div>
-                )}
-                {!isTeaser && game.typicalGroupSize && (
+                <div className="flex items-center gap-2 text-sm text-slate-600 tile-engraved">
+                  <DollarSign className="w-3.5 h-3.5 text-hotpink-400 shrink-0" />
+                  <span>{game.cost}</span>
+                </div>
+                {game.typicalGroupSize && (
                   <div className="flex items-center gap-2 text-sm text-slate-600 tile-engraved">
                     <Users className="w-3.5 h-3.5 text-skyblue-500 shrink-0" />
                     <span>{game.typicalGroupSize}</span>

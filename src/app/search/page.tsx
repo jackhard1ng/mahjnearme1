@@ -359,10 +359,47 @@ function SearchContent() {
                 const selectedClass = isSelected ? "ring-2 ring-hotpink-500 rounded-2xl" : "";
                 const distText = game.distance !== null ? formatDistance(game.distance) : null;
 
-                // Show first card as a preview for users without access
-                if (!hasAccess && index === 0) {
+                // Subscriber: full access to everything
+                if (hasAccess) {
+                  return (
+                    <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)} ${selectedClass}`}>
+                      <GameCard
+                        game={game}
+                        userSkillLevel={userProfile?.skillLevel}
+                        onCalendarToggle={user ? toggleCalendarEvent : undefined}
+                        isOnCalendar={(userProfile?.savedEvents || []).includes(game.id)}
+                        index={index}
+                        distanceText={distText}
+                        timingLabel={game.timing.label}
+                        timingBadge={game.timing.badge}
+                        timingBadgeColor={game.timing.badgeColor}
+                      />
+                    </div>
+                  );
+                }
+
+                // Non-subscriber: 2 full cards, 3 teasers, then locked
+                if (index < 2) {
+                  // Full detail cards (first 2)
                   return (
                     <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${index + 1} ${selectedClass}`}>
+                      <GameCard
+                        game={game}
+                        userSkillLevel={userProfile?.skillLevel}
+                        index={index}
+                        distanceText={distText}
+                        timingLabel={game.timing.label}
+                        timingBadge={game.timing.badge}
+                        timingBadgeColor={game.timing.badgeColor}
+                      />
+                    </div>
+                  );
+                }
+
+                if (index < 5) {
+                  // Teaser cards (3-5): type/day/time/style visible, venue blurred
+                  return (
+                    <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)} ${selectedClass}`}>
                       <GameCard
                         game={game}
                         isTeaser={true}
@@ -377,31 +414,13 @@ function SearchContent() {
                   );
                 }
 
-                // Blur all other cards for users without access
-                if (!hasAccess && index >= 1) {
-                  return (
-                    <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)} ${selectedClass}`}>
-                      <GameCard
-                        game={game}
-                        blurred={true}
-                        userSkillLevel={userProfile?.skillLevel}
-                        index={index}
-                        distanceText={distText}
-                        timingLabel={game.timing.label}
-                        timingBadge={game.timing.badge}
-                        timingBadgeColor={game.timing.badgeColor}
-                      />
-                    </div>
-                  );
-                }
-
+                // Locked cards (6+): minimal info only
                 return (
-                  <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-${Math.min(index + 1, 5)} ${selectedClass}`}>
+                  <div key={game.id} data-game-id={game.id} className={`animate-fade-in-up stagger-5 ${selectedClass}`}>
                     <GameCard
                       game={game}
+                      blurred={true}
                       userSkillLevel={userProfile?.skillLevel}
-                      onCalendarToggle={user ? toggleCalendarEvent : undefined}
-                      isOnCalendar={(userProfile?.savedEvents || []).includes(game.id)}
                       index={index}
                       distanceText={distText}
                       timingLabel={game.timing.label}
