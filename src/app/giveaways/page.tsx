@@ -42,8 +42,8 @@ const MILESTONES = [
   },
   {
     members: 5000,
-    prize: "10 Premium Mahjong Sets (~$4,000 total)",
-    description: "Ten premium sets (approximately $400 each) given away. The biggest mahjong giveaway online.",
+    prize: "10 Premium Mahjong Sets",
+    description: "Ten premium sets given away. The biggest mahjong giveaway online.",
   },
   {
     members: 10000,

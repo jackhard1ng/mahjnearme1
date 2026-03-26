@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Official Sweepstakes Rules",
-  description: "Official rules for the MahjNearMe monthly mahjong set giveaway sweepstakes.",
+  description: "Official rules for the MahjNearMe monthly mahjong giveaway sweepstakes.",
 };
 
 // LEGAL NOTE: Sweepstakes laws vary by state. Have this reviewed by legal counsel before launch.
@@ -58,8 +58,10 @@ export default function SweepstakesRulesPage() {
         <div className="mahj-tile p-6">
           <h2 className="font-semibold text-xl text-charcoal mb-3">5. Prize</h2>
           <p className="text-sm text-slate-600">
-            One (1) winner per month will receive a premium mahjong set. Approximate retail value:
-            $300. Prize details may vary. No cash alternative. Prize is non-transferable.
+            One (1) winner per month will receive a mahjong-related prize (e.g., mahjong set,
+            tile rack, carrying case, mat, or other accessory). Prize details and approximate
+            retail value will be announced each month on the giveaway page. No cash alternative.
+            Prize is non-transferable.
           </p>
         </div>
 
