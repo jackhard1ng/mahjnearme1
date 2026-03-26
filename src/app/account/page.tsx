@@ -74,6 +74,9 @@ export default function AccountPage() {
   const suggestionsRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Save feedback
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+
   // Editable fields
   const [editing, setEditing] = useState<string | null>(null);
   const [editingAll, setEditingAll] = useState(false);
@@ -109,15 +112,17 @@ export default function AccountPage() {
     setEditHomeCity(userProfile!.homeCity || "");
   }
 
-  function saveAll() {
-    updateUserProfile({
+  async function saveAll() {
+    setSaveStatus("saving");
+    const ok = await updateUserProfile({
       displayName: editDisplayName,
       skillLevel: (editSkillLevel || null) as "beginner" | "intermediate" | "advanced" | null,
       gameStylePreference: (editGameStyle || null) as "american" | "chinese" | "riichi" | "other" | "any" | null,
       homeCity: editHomeCity,
     });
-    setEditingAll(false);
-    setEditing(null);
+    setSaveStatus(ok ? "saved" : "error");
+    if (ok) { setEditingAll(false); setEditing(null); }
+    setTimeout(() => setSaveStatus("idle"), 3000);
   }
 
   function cancelEditAll() {
@@ -153,14 +158,17 @@ export default function AccountPage() {
     if (field === "homeCity") setEditHomeCity(userProfile!.homeCity || "");
   }
 
-  function saveEdit(field: string) {
+  async function saveEdit(field: string) {
     const updates: Record<string, string> = {};
     if (field === "displayName") updates.displayName = editDisplayName;
     if (field === "skillLevel") updates.skillLevel = editSkillLevel;
     if (field === "gameStylePreference") updates.gameStylePreference = editGameStyle;
     if (field === "homeCity") updates.homeCity = editHomeCity;
-    updateUserProfile(updates);
-    setEditing(null);
+    setSaveStatus("saving");
+    const ok = await updateUserProfile(updates);
+    setSaveStatus(ok ? "saved" : "error");
+    if (ok) setEditing(null);
+    setTimeout(() => setSaveStatus("idle"), 3000);
   }
 
   const isFieldEditing = (field: string) => editingAll || editing === field;
@@ -297,9 +305,10 @@ export default function AccountPage() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={saveAll}
-                  className="flex items-center gap-1.5 bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
+                  disabled={saveStatus === "saving"}
+                  className="flex items-center gap-1.5 bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors disabled:opacity-50"
                 >
-                  <Check className="w-3.5 h-3.5" /> Save All
+                  {saveStatus === "saving" ? "Saving..." : <><Check className="w-3.5 h-3.5" /> Save All</>}
                 </button>
                 <button
                   onClick={cancelEditAll}
@@ -307,6 +316,8 @@ export default function AccountPage() {
                 >
                   Cancel
                 </button>
+                {saveStatus === "saved" && <span className="text-xs text-green-600 font-medium">Saved</span>}
+                {saveStatus === "error" && <span className="text-xs text-red-500 font-medium">Save failed — try again</span>}
               </div>
             )}
           </div>

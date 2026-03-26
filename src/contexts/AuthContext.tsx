@@ -23,7 +23,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, displayName: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
-  updateUserProfile: (updates: Partial<UserProfile>) => void;
+  updateUserProfile: (updates: Partial<UserProfile>) => Promise<boolean>;
   hasAccess: boolean;
   isAdmin: boolean;
   isContributor: boolean;
@@ -97,7 +97,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 ...data,
                 id: firebaseUser.uid,
                 email: firebaseUser.email || data.email || "",
-                displayName: firebaseUser.displayName || data.displayName || "",
+                // Firestore displayName takes priority (user may have changed it in account settings)
+                // Fall back to Auth displayName for users who haven't edited it yet
+                displayName: data.displayName || firebaseUser.displayName || "",
               } as UserProfile);
             } else {
               // First-time user, create their Firestore document
@@ -150,17 +152,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await firebaseSignOut(auth);
   };
 
-  const updateUserProfile = (updates: Partial<UserProfile>) => {
+  const updateUserProfile = async (updates: Partial<UserProfile>): Promise<boolean> => {
+    // Optimistically update local state
     setUserProfile((prev) => prev ? { ...prev, ...updates } : prev);
 
-    // Persist to Firestore if user is signed in
-    if (user) {
-      try {
-        const db = getFirebaseDb();
-        setDoc(doc(db, "users", user.uid), { ...updates, updatedAt: new Date().toISOString() }, { merge: true });
-      } catch {
-        // Firestore unavailable, local-only update is fine
+    if (!user) return false;
+
+    try {
+      const db = getFirebaseDb();
+
+      // Write to Firestore
+      await setDoc(
+        doc(db, "users", user.uid),
+        { ...updates, updatedAt: new Date().toISOString() },
+        { merge: true }
+      );
+
+      // If displayName was updated, also sync to Firebase Auth
+      // so it persists across page reloads (Auth displayName is read on load)
+      if (updates.displayName && updates.displayName !== user.displayName) {
+        await updateProfile(user, { displayName: updates.displayName });
       }
+
+      return true;
+    } catch (err) {
+      console.error("[updateUserProfile] Write failed:", err);
+      // Revert optimistic update on failure
+      if (userProfile) {
+        setUserProfile(userProfile);
+      }
+      return false;
     }
   };
 
