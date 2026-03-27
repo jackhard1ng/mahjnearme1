@@ -537,7 +537,7 @@ export default function AddYourGroupPage() {
           </div>
 
           <p className="text-center text-xs text-slate-400 mt-6">
-            Questions? Email us at <a href="mailto:the contact form" className="text-hotpink-500 hover:underline">the contact form</a>
+            Questions? <a href="/contact" className="text-hotpink-500 hover:underline">Contact us</a> or DM us on <a href="https://instagram.com/mahjnearme" target="_blank" rel="noopener noreferrer" className="text-hotpink-500 hover:underline">Instagram</a>
           </p>
         </div>
       </section>
