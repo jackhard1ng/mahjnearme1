@@ -59,14 +59,14 @@ export default function PrivacyPolicyPage() {
         <section>
           <h2 className="font-semibold text-xl text-charcoal mb-3">7. Your Rights</h2>
           <p className="text-sm text-slate-600 leading-relaxed">
-            You have the right to access, update, or delete your personal information at any time. You can manage your account settings from your profile page, or contact us at hello@mahjnearme.com to request data deletion.
+            You have the right to access, update, or delete your personal information at any time. You can manage your account settings from your profile page, or contact us via the contact form on our website to request data deletion.
           </p>
         </section>
 
         <section>
           <h2 className="font-semibold text-xl text-charcoal mb-3">8. Contact</h2>
           <p className="text-sm text-slate-600 leading-relaxed">
-            If you have any questions about this privacy policy, contact us at hello@mahjnearme.com.
+            If you have any questions about this privacy policy, contact us via the contact form on our website.
           </p>
         </section>
       </div>

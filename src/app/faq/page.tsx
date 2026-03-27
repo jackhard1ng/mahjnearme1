@@ -33,7 +33,7 @@ const faqs = [
     questions: [
       { q: "My group isn't listed. How do I add it?", a: "Go to the 'List Your Group' page and fill out the form. We'll add your group to the directory within 48 hours — completely free." },
       { q: "Does it cost anything to get listed?", a: "No. Listing your group is always free. We want every mahjong game in the country on here." },
-      { q: "How do I update my listing?", a: "Email us at hello@mahjnearme.com or use the contact form. We'll update your info quickly." },
+      { q: "How do I update my listing?", a: "Use the contact form on our site or DM us on Instagram @mahjnearme. We'll update your info quickly." },
     ],
   },
   {
