@@ -415,12 +415,15 @@ export default function GiveawaysPage() {
         )}
 
         {/* Fine print */}
-        <div className="text-center text-sm text-slate-400 space-y-1">
+        <div className="text-center text-sm text-slate-400 space-y-2">
           <p>
             No purchase necessary.{" "}
             <Link href="/sweepstakes-rules" className="hover:text-hotpink-500 underline">
               Official Sweepstakes Rules
             </Link>
+          </p>
+          <p>
+            Questions? <Link href="/contact" className="hover:text-hotpink-500 underline">Contact us</Link>
           </p>
         </div>
       </div>

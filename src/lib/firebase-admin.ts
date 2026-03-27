@@ -7,17 +7,25 @@ let db: Firestore | undefined;
 function getAdminApp(): App {
   if (!app) {
     if (getApps().length === 0) {
-      // In production, use a service account. For development, the
-      // FIREBASE_PROJECT_ID env var is enough if running locally with
-      // Firebase emulator or if the server has default credentials.
       const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
 
       if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
-        const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
-        app = initializeApp({ credential: cert(serviceAccount), projectId });
+        try {
+          const raw = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
+          const serviceAccount = JSON.parse(raw);
+
+          // Fix private key newlines — Vercel sometimes escapes \n as literal \\n
+          if (serviceAccount.private_key && typeof serviceAccount.private_key === "string") {
+            serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, "\n");
+          }
+
+          app = initializeApp({ credential: cert(serviceAccount), projectId });
+          console.log("[Firebase Admin] Initialized with service account");
+        } catch (err) {
+          console.error("[Firebase Admin] Failed to init with service account:", err);
+          app = initializeApp({ projectId });
+        }
       } else {
-        // Initialize without explicit credentials (works with GCP default creds
-        // or Firebase emulator)
         app = initializeApp({ projectId });
       }
     } else {

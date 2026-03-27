@@ -225,6 +225,10 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
+
+          <p className="text-center text-sm text-slate-500 mt-6">
+            Questions? <Link href="/contact" className="text-hotpink-500 hover:text-hotpink-600 font-medium">Contact us</Link> or DM us on <a href="https://instagram.com/mahjnearme" target="_blank" rel="noopener noreferrer" className="text-hotpink-500 hover:text-hotpink-600 font-medium">Instagram</a>
+          </p>
         </div>
       </section>
     </>
