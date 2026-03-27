@@ -33,3 +33,4 @@ export const CURRENT_GIVEAWAY = {
   /** Draw date and time. */
   drawDate: "April 30, 2026 at 3:00 PM CT",
 };
+
