@@ -170,7 +170,7 @@ export default function HomePage() {
           <div className="bg-gradient-to-r from-hotpink-50 to-skyblue-50 border border-hotpink-200 rounded-xl p-6 sm:p-8 text-center">
             <div className="text-3xl mb-3">🎁</div>
             <p className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-2">
-              One lucky member wins a premium mahjong set every month. That's worth more than 5 years of membership.
+              Every month we give away a mahjong prize to one lucky member. Sets, mats, accessories, and more.
             </p>
             <p className="text-sm text-slate-500 mb-4">
               Paid subscribers are automatically entered. Annual members get 2x entries.
