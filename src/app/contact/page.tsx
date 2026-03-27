@@ -94,13 +94,13 @@ export default function ContactPage() {
 
           {/* Honeypot — invisible to real users, bots auto-fill it */}
           <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", top: "-9999px", opacity: 0, height: 0, overflow: "hidden" }}>
-            <label htmlFor="hp_email">Leave this empty</label>
+            <label htmlFor="hp_fax_number">Leave this empty</label>
             <input
-              type="email"
-              id="hp_email"
-              name="email_confirm"
+              type="text"
+              id="hp_fax_number"
+              name="fax_number"
               tabIndex={-1}
-              autoComplete="off"
+              autoComplete="nope"
               value={honeypot}
               onChange={(e) => setHoneypot(e.target.value)}
             />
