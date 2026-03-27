@@ -1,5 +1,5 @@
 /**
- * Email utility using SendGrid.
+ * Email utility using SendGrid REST API directly (no library dependency).
  *
  * Required env vars:
  *   SENDGRID_API_KEY - SendGrid API key
@@ -7,21 +7,59 @@
  *   SENDGRID_FROM_EMAIL - Verified sender address
  */
 
-import sgMail from "@sendgrid/mail";
-
-let _initialized = false;
-
-function init(): boolean {
-  if (_initialized) return true;
-  const key = process.env.SENDGRID_API_KEY;
-  if (!key) {
+async function sendViaSendGrid(msg: {
+  to: string;
+  from: string;
+  subject: string;
+  text: string;
+  html: string;
+  replyTo?: string;
+}): Promise<boolean> {
+  const apiKey = process.env.SENDGRID_API_KEY;
+  if (!apiKey) {
     console.error("[Email] SENDGRID_API_KEY is not set!");
     return false;
   }
-  sgMail.setApiKey(key);
-  _initialized = true;
-  console.log("[Email] SendGrid initialized");
-  return true;
+
+  const body: Record<string, unknown> = {
+    personalizations: [{ to: [{ email: msg.to }] }],
+    from: { email: msg.from },
+    subject: msg.subject,
+    content: [
+      { type: "text/plain", value: msg.text },
+      { type: "text/html", value: msg.html },
+    ],
+  };
+
+  if (msg.replyTo) {
+    body.reply_to = { email: msg.replyTo };
+  }
+
+  console.log("[Email] Sending via SendGrid API...");
+  console.log("[Email] To:", msg.to, "From:", msg.from, "Subject:", msg.subject);
+
+  try {
+    const res = await fetch("https://api.sendgrid.com/v3/mail/send", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (res.status === 202 || res.status === 200) {
+      console.log("[Email] Sent successfully! Status:", res.status);
+      return true;
+    }
+
+    const errText = await res.text();
+    console.error("[Email] SendGrid rejected. Status:", res.status, "Body:", errText);
+    return false;
+  } catch (err) {
+    console.error("[Email] Fetch to SendGrid failed:", err);
+    return false;
+  }
 }
 
 export async function sendEmail(opts: {
@@ -31,38 +69,16 @@ export async function sendEmail(opts: {
   html?: string;
   replyTo?: string;
 }): Promise<boolean> {
-  const ready = init();
-
-  // Read env vars at call time, not module load time
   const fromEmail = process.env.SENDGRID_FROM_EMAIL || "noreply@mahjnearme.com";
 
-  const msg = {
+  return sendViaSendGrid({
     to: opts.to,
     from: fromEmail,
     subject: opts.subject,
     text: opts.text,
     html: opts.html || opts.text.replace(/\n/g, "<br/>"),
-    ...(opts.replyTo ? { replyTo: opts.replyTo } : {}),
-  };
-
-  if (!ready) {
-    console.log("[Email] NOT SENDING (no API key). Would send:", JSON.stringify({ to: msg.to, from: msg.from, subject: msg.subject }, null, 2));
-    return false;
-  }
-
-  try {
-    console.log("[Email] Sending to:", msg.to, "from:", msg.from, "subject:", msg.subject);
-    await sgMail.send(msg);
-    console.log("[Email] Sent successfully!");
-    return true;
-  } catch (err: unknown) {
-    const sgErr = err as { response?: { body?: unknown }; message?: string };
-    console.error("[Email] Send FAILED:", sgErr.message);
-    if (sgErr.response?.body) {
-      console.error("[Email] SendGrid error body:", JSON.stringify(sgErr.response.body));
-    }
-    return false;
-  }
+    replyTo: opts.replyTo,
+  });
 }
 
 export async function sendContactNotification(data: {
@@ -112,19 +128,17 @@ export async function sendWelcomeEmail(data: {
   plan?: string;
 }): Promise<boolean> {
   const subject = data.isSubscriber
-    ? "Welcome to MahjNearMe — you're all set!"
+    ? "Welcome to MahjNearMe!"
     : "Welcome to MahjNearMe!";
 
   const html = data.isSubscriber
-    ? `<div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto"><div style="background:#FF1493;padding:24px;text-align:center;border-radius:12px 12px 0 0"><h1 style="color:white;margin:0;font-size:24px">Welcome to MahjNearMe!</h1></div><div style="background:white;padding:32px;border:1px solid #eee;border-radius:0 0 12px 12px"><p>Hi ${data.name || "there"},</p><p>Thanks for subscribing! Your <strong>${data.plan === "annual" ? "annual" : "monthly"}</strong> plan is active.</p><ul><li>Full details on every listing</li><li>Addresses and directions for 2,000+ games</li><li>Automatic entry in our monthly giveaway</li></ul><p><a href="https://www.mahjnearme.com/search" style="color:#FF1493;font-weight:bold">Start searching →</a></p></div></div>`
-    : `<div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto"><div style="background:#FF1493;padding:24px;text-align:center;border-radius:12px 12px 0 0"><h1 style="color:white;margin:0;font-size:24px">Welcome to MahjNearMe!</h1></div><div style="background:white;padding:32px;border:1px solid #eee;border-radius:0 0 12px 12px"><p>Hi ${data.name || "there"},</p><p>Thanks for joining! Search 2,000+ mahjong games across 50 states.</p><p><a href="https://www.mahjnearme.com/search" style="color:#FF1493;font-weight:bold">Start searching →</a></p></div></div>`;
+    ? `<div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto"><div style="background:#FF1493;padding:24px;text-align:center;border-radius:12px 12px 0 0"><h1 style="color:white;margin:0;font-size:24px">Welcome to MahjNearMe!</h1></div><div style="background:white;padding:32px;border:1px solid #eee;border-radius:0 0 12px 12px"><p>Hi ${data.name || "there"},</p><p>Thanks for subscribing! Your <strong>${data.plan === "annual" ? "annual" : "monthly"}</strong> plan is active.</p><ul><li>Full details on every listing</li><li>Addresses and directions for 2,000+ games</li><li>Automatic entry in our monthly giveaway</li></ul><p><a href="https://www.mahjnearme.com/search" style="color:#FF1493;font-weight:bold">Start searching</a></p></div></div>`
+    : `<div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto"><div style="background:#FF1493;padding:24px;text-align:center;border-radius:12px 12px 0 0"><h1 style="color:white;margin:0;font-size:24px">Welcome to MahjNearMe!</h1></div><div style="background:white;padding:32px;border:1px solid #eee;border-radius:0 0 12px 12px"><p>Hi ${data.name || "there"},</p><p>Thanks for joining! Search 2,000+ mahjong games across 50 states.</p><p><a href="https://www.mahjnearme.com/search" style="color:#FF1493;font-weight:bold">Start searching</a></p></div></div>`;
 
   return sendEmail({
     to: data.to,
     subject,
-    text: data.isSubscriber
-      ? `Welcome to MahjNearMe! Your ${data.plan} plan is active. Start searching at https://www.mahjnearme.com/search`
-      : `Welcome to MahjNearMe! Start searching at https://www.mahjnearme.com/search`,
+    text: `Welcome to MahjNearMe! Start searching at https://www.mahjnearme.com/search`,
     html,
   });
 }
