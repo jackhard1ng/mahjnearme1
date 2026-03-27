@@ -172,6 +172,24 @@ function PricingContent() {
         </div>
       </section>
 
+      {/* Launch Deal Banner */}
+      {!isSubscriber && (
+        <section className="py-6 section-warm">
+          <div className="max-w-3xl mx-auto px-4">
+            <div className="bg-charcoal text-white rounded-xl p-5 sm:p-6 text-center">
+              <p className="text-xs font-bold uppercase tracking-wider text-hotpink-400 mb-1">Launch Special</p>
+              <p className="font-[family-name:var(--font-heading)] font-bold text-2xl sm:text-3xl mb-2">
+                First month just $1.99
+              </p>
+              <p className="text-sm text-white/70 mb-1">
+                Use code <code className="bg-white/20 px-2 py-0.5 rounded text-white font-bold">LAUNCH</code> at checkout. Regular price $4.99/mo after.
+              </p>
+              <p className="text-xs text-white/50">Expires April 29, 2026</p>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Pricing Cards */}
       <section className="py-12 sm:py-16 section-warm">
         <div className="max-w-5xl mx-auto px-4">
