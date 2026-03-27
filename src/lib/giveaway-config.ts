@@ -21,11 +21,11 @@ export const CURRENT_GIVEAWAY = {
   /** Link to the prize (optional). Set to null to hide. */
   prizeLink: "https://www.charlestonmahjongclub.com/collections" as string | null,
 
-  /** Partner logo image path (optional). Save image to /public/images/partners/. Set to null to hide. */
-  partnerLogo: "/images/partners/charleston-mahjong-club.png" as string | null,
+  /** Partner logo image path (optional). Only use if there's an actual partnership. Set to null to hide. */
+  partnerLogo: null as string | null,
 
   /** Partner name for alt text. */
-  partnerName: "Charleston Mahjong Club" as string | null,
+  partnerName: null as string | null,
 
   /** Number of winners this month. */
   numberOfWinners: 1,
