@@ -10,17 +10,20 @@ export const CURRENT_GIVEAWAY = {
   month: "April",
 
   /** Prize name. Shown prominently. */
-  prizeName: "Premium Mahjong Accessory",
+  prizeName: "Charleston Mahjong Club Set",
 
   /** Prize value. Shown in parentheses. Set to null to hide. */
-  prizeValue: null as string | null,
+  prizeValue: "$400 value" as string | null,
 
   /** One-line description under the prize name. */
-  prizeDescription: "A premium mahjong accessory — revealed at the start of each month",
+  prizeDescription: "Winner picks any set from charlestonmahjongclub.com — shipped to your door",
+
+  /** Link to the prize (optional). Set to null to hide. */
+  prizeLink: "https://www.charlestonmahjongclub.com/collections" as string | null,
 
   /** Number of winners this month. */
   numberOfWinners: 1,
 
-  /** Draw date. */
-  drawDate: "April 30, 2026",
+  /** Draw date and time. */
+  drawDate: "April 30, 2026 at 3:00 PM CT",
 };

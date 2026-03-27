@@ -113,6 +113,9 @@ export interface UserProfile {
   skillLevel: SkillLevel | null;
   gameStylePreference: GameStyle | "any" | null;
 
+  // Contact (for giveaway winner notification)
+  contactPhone: string | null;
+
   // Preferences
   homeCity: string;
   homeMetro: string | null;

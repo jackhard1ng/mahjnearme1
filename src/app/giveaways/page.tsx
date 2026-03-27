@@ -5,7 +5,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
-import { Gift, Trophy, ArrowRight, Check, Loader2, Users, Target } from "lucide-react";
+import { Gift, Trophy, ArrowRight, Check, Loader2, Users, Target, Phone, ExternalLink } from "lucide-react";
 import { CURRENT_GIVEAWAY } from "@/lib/giveaway-config";
 
 interface Winner {
@@ -38,22 +38,22 @@ const MILESTONES = [
   {
     members: 1000,
     prize: "3 Premium Mahjong Sets",
-    description: "Three winners each receive a premium American mahjong set. Our first milestone giveaway.",
+    description: "The month after we hit 1,000 members, three winners each receive a premium American mahjong set.",
   },
   {
     members: 5000,
     prize: "10 Premium Mahjong Sets",
-    description: "Ten premium sets given away. The biggest mahjong giveaway online.",
+    description: "The month after we hit 5,000, ten sets given away. The biggest mahjong giveaway online.",
   },
   {
     members: 10000,
-    prize: "10 Sets + 20 Mahjong Mats + Experiential Prize",
-    description: "Premium sets, mahjong mats, plus something experiential like a tournament entry or travel prize.",
+    prize: "10 Sets + 20 Mats + Experiential Prize",
+    description: "The month after 10K: premium sets, mahjong mats, plus something experiential like a tournament entry.",
   },
   {
     members: 25000,
     prize: "Major Giveaway with Sponsor Involvement",
-    description: "A landmark giveaway with sponsor partnerships, travel prizes, or equivalent. Details TBA.",
+    description: "The month after 25K: a landmark giveaway with sponsor partnerships and travel prizes.",
   },
 ];
 
@@ -183,6 +183,16 @@ export default function GiveawaysPage() {
                 )}
               </h2>
               <p className="text-sm text-slate-500">{CURRENT_GIVEAWAY.prizeDescription}</p>
+              {CURRENT_GIVEAWAY.prizeLink && (
+                <a
+                  href={CURRENT_GIVEAWAY.prizeLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium mt-2"
+                >
+                  See the collection <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              )}
             </div>
 
             {/* Stats row — always visible, even logged out */}
@@ -208,10 +218,11 @@ export default function GiveawaysPage() {
                   <Check className="w-5 h-5 text-green-500" />
                   <p className="font-semibold text-green-700">You&apos;re entered!</p>
                 </div>
-                <p className="text-sm text-green-600">
+                <p className="text-sm text-green-600 mb-3">
                   You have {entryInfo.entries} {entryInfo.entries === 1 ? "entry" : "entries"} this month.{" "}
                   {entryInfo.explanation && <span className="text-green-500">{entryInfo.explanation}</span>}
                 </p>
+                <WinnerContactForm />
               </div>
             ) : (
               <div className="bg-hotpink-50 border border-hotpink-200 rounded-lg p-4">
@@ -326,7 +337,7 @@ export default function GiveawaysPage() {
             Community Milestones
           </h2>
           <p className="text-center text-slate-500 text-sm mb-6 max-w-xl mx-auto">
-            As MahjNearMe grows, the giveaways get bigger. When we hit subscriber milestones, the prize pool goes up for everyone.
+            When we hit a subscriber milestone, the following month&apos;s giveaway gets a major upgrade. One special drawing, then we continue with our regular monthly prizes.
           </p>
 
           {/* Progress bar */}
@@ -400,6 +411,55 @@ export default function GiveawaysPage() {
         </div>
       </div>
     </>
+  );
+}
+
+function WinnerContactForm() {
+  const { user, userProfile, updateUserProfile } = useAuth();
+  const [phone, setPhone] = useState(userProfile?.contactPhone || "");
+  const [saved, setSaved] = useState(false);
+
+  if (!user) return null;
+
+  async function savePhone() {
+    if (!phone.trim()) return;
+    const ok = await updateUserProfile({ contactPhone: phone.trim() });
+    if (ok) setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  }
+
+  // If already saved, show a checkmark
+  if (userProfile?.contactPhone) {
+    return (
+      <div className="flex items-center gap-2 text-sm text-green-600 border-t border-green-200 pt-3">
+        <Phone className="w-3.5 h-3.5" />
+        <span>We&apos;ll contact you at <strong>{userProfile.contactPhone}</strong> if you win.</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="border-t border-green-200 pt-3">
+      <p className="text-xs text-green-600 mb-2 flex items-center gap-1.5">
+        <Phone className="w-3 h-3" />
+        Add your phone number so we can reach you if you win
+      </p>
+      <div className="flex gap-2">
+        <input
+          type="tel"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="(555) 123-4567"
+          className="border border-green-200 rounded-lg px-3 py-1.5 text-sm flex-1 bg-white focus:outline-none focus:ring-2 focus:ring-green-300"
+        />
+        <button
+          onClick={savePhone}
+          className="bg-green-500 text-white px-4 py-1.5 rounded-lg text-sm font-semibold hover:bg-green-600 transition-colors"
+        >
+          {saved ? "Saved" : "Save"}
+        </button>
+      </div>
+    </div>
   );
 }
 

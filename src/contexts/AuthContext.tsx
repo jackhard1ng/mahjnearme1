@@ -77,6 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             bio: null,
             skillLevel: null,
             gameStylePreference: "american",
+            contactPhone: null,
             homeCity: "",
             homeGeopoint: null,
             savedCities: [],
