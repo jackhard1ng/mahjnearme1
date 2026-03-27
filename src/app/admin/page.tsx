@@ -81,9 +81,24 @@ export default function AdminDashboardPage() {
   const [announcePrizeValue, setAnnouncePrizeValue] = useState("");
   const [reactivating, setReactivating] = useState<string | null>(null);
 
-  useEffect(() => {
+  const refreshAnalytics = useCallback(() => {
     getAnalytics(30).then(setAnalytics);
   }, []);
+
+  useEffect(() => {
+    refreshAnalytics();
+  }, [refreshAnalytics]);
+
+  // Refresh analytics when tab switches back to overview or page regains focus
+  useEffect(() => {
+    if (activeTab === "overview") refreshAnalytics();
+  }, [activeTab, refreshAnalytics]);
+
+  useEffect(() => {
+    const onFocus = () => refreshAnalytics();
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, [refreshAnalytics]);
 
   const fetchContributors = useCallback(async () => {
     try {
