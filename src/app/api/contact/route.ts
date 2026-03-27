@@ -43,7 +43,12 @@ export async function POST(request: NextRequest) {
 
     // --- Send email notification ---
 
-    await sendContactNotification({
+    console.log("[Contact] Submission received:", { name, email, formType: formType || "general", groupName: rest.groupName });
+    console.log("[Contact] SENDGRID_API_KEY set:", !!process.env.SENDGRID_API_KEY);
+    console.log("[Contact] FROM:", process.env.SENDGRID_FROM_EMAIL || "noreply@mahjnearme.com");
+    console.log("[Contact] TO:", process.env.CONTACT_EMAIL || "hello@mahjnearme.com");
+
+    const sent = await sendContactNotification({
       name,
       email,
       formType: formType || "general",
@@ -54,6 +59,8 @@ export async function POST(request: NextRequest) {
       description,
       fullFormData: rest,
     });
+
+    console.log("[Contact] Email sent:", sent);
 
     return NextResponse.json({ success: true });
   } catch {
