@@ -164,13 +164,13 @@ export default function AddYourGroupPage() {
 
                 {/* Honeypot — invisible to real users, bots auto-fill it */}
                 <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", top: "-9999px", opacity: 0, height: 0, overflow: "hidden" }}>
-                  <label htmlFor="hp_email_group">Leave this empty</label>
+                  <label htmlFor="hp_website_url">Leave this empty</label>
                   <input
-                    type="email"
-                    id="hp_email_group"
-                    name="email_confirm"
+                    type="text"
+                    id="hp_website_url"
+                    name="website_url_confirm"
                     tabIndex={-1}
-                    autoComplete="off"
+                    autoComplete="nope"
                     value={honeypot}
                     onChange={(e) => setHoneypot(e.target.value)}
                   />
