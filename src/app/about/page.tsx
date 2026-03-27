@@ -66,14 +66,6 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* Photo */}
-          <div className="mt-8 rounded-xl overflow-hidden flex justify-center">
-            <img
-              src="/images/heidijackhaleyswedding.jfif"
-              alt="Jack with his family"
-              className="max-w-sm w-full h-auto object-contain rounded-xl"
-            />
-          </div>
         </div>
 
         {/* By the Numbers */}
