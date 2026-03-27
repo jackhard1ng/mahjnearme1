@@ -213,7 +213,8 @@ function rawToGame(raw: RawListing): Game {
   const endTime = normalizeTime(raw.endTime);
   const stateAbbr = normalizeState(str(raw.state));
 
-  const metro = findMetroForCity(raw.city);
+  const cityName = str(raw.city);
+  const metro = cityName ? findMetroForCity(cityName) : null;
 
   return {
     id: raw.id || `listing-${Math.random().toString(36).slice(2, 10)}`,
@@ -222,7 +223,7 @@ function rawToGame(raw: RawListing): Game {
     organizerId: null,
     type: normalizeGameType(raw.type),
     gameStyle: normalizeGameStyle(raw.gameStyle),
-    city: str(raw.city),
+    city: cityName,
     state: stateAbbr,
     generalArea: str(raw.generalArea),
     venueName: str(raw.venueName),
