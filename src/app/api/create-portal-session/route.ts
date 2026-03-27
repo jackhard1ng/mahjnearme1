@@ -9,7 +9,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing customer ID" }, { status: 400 });
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_URL || "https://www.mahjnearme.com";
 
     const session = await getStripe().billingPortal.sessions.create({
       customer: stripeCustomerId,
