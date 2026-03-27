@@ -50,19 +50,26 @@ export default function AboutPage() {
           </div>
           <div className="text-slate-600 space-y-4">
             <p>
-              My mom plays mahjong all the time back home in Tulsa. She never has trouble
-              finding a game there. But whenever we&apos;re out of town, it&apos;s a completely
-              different story. There&apos;s just no easy place to look. She&apos;ll spend hours
-              searching Facebook groups, Googling every spelling of &ldquo;mahjongg,&rdquo;
-              and DMing strangers on Instagram just trying to find one game wherever we are.
+              My mom taught me how to play mahjong a while back, and it&apos;s become one of our
+              favorite things to do together. Whenever I&apos;m home, we try to play as much as we
+              can. She plays all the time back home and knows the usual spots, but she&apos;s always
+              up for finding new games.
             </p>
             <p>
-              It happened so many times that we finally said, there has to be a better way.
+              I actually came up with the idea for MahjNearMe during one of our trips out of town.
+              She wanted to find a pickup game, but her only options were digging through random
+              websites, Instagram pages, and Facebook groups. She knew she&apos;d probably spend a
+              few hours doing it and just wished there was one easy place that had everything in one spot.
             </p>
             <p>
-              MahjNearMe is the first and only comprehensive directory of pickup mahjong games,
-              open play sessions, lessons, and events across the United States. Whether you&apos;re
-              at home or traveling, you can find a game in minutes instead of hours.
+              It happened enough times that we finally looked at each other and said,
+              &ldquo;There has to be a better way.&rdquo;
+            </p>
+            <p>
+              So I built MahjNearMe. It&apos;s the first real searchable directory for pickup
+              mahjong games, open play sessions, lessons, and events all over the United States.
+              Now whether you&apos;re at home looking for more options or traveling and just want
+              to play, you can find a game in minutes instead of wasting hours searching.
             </p>
           </div>
 
