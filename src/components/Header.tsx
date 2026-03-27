@@ -47,8 +47,8 @@ export default function Header() {
             <Link href="/giveaways" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               Giveaways
             </Link>
-            <Link href="/pricing" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
-              Pricing
+            <Link href="/about" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
+              About
             </Link>
 
             {user ? (
@@ -165,11 +165,11 @@ export default function Header() {
               Giveaways
             </Link>
             <Link
-              href="/pricing"
+              href="/about"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
             >
-              Pricing
+              About
             </Link>
             <hr className="border-white/20" />
             {user ? (
