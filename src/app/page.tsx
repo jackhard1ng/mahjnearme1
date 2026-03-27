@@ -164,31 +164,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Founder Story */}
-      <section className="py-16 sm:py-20 section-pink">
-        <div className="max-w-3xl mx-auto px-4">
-          <div className="card-white p-8 sm:p-10">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 bg-hotpink-500 rounded-full flex items-center justify-center shrink-0 shadow-lg">
-                <span className="text-2xl font-bold text-white">J</span>
-              </div>
-              <div>
-                <h3 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal">Why we built this</h3>
-              </div>
-            </div>
-            <blockquote className="text-slate-600 leading-relaxed mb-4">
-              &ldquo;My mom plays mahjong all the time back home in Tulsa. But whenever we&apos;re out of town, there&apos;s just no easy place to look. She&apos;ll spend hours searching Facebook groups, Googling different spellings of &lsquo;mahjongg,&rsquo; and DMing strangers on Instagram just to find one game. We thought, there has to be a better way. So we built one.&rdquo;
-            </blockquote>
-            <p className="font-semibold text-charcoal">
-              - Jack, Founder of MahjNearMe
-            </p>
-            <div className="mt-6 rounded-2xl overflow-hidden shadow-lg flex justify-center" style={{ boxShadow: '0 8px 24px rgba(255,20,147,0.15)' }}>
-              <img src="/images/heidijackhaleyswedding.jfif" alt="Jack with his family" className="max-w-xs w-full h-auto object-contain rounded-2xl" loading="lazy" />
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Giveaway Banner */}
       <section className="py-10 section-warm">
         <div className="max-w-3xl mx-auto px-4">
