@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     }
 
     const priceId = plan === "monthly" ? PRICE_IDS.monthly : PRICE_IDS.annual;
-    const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_URL || "https://www.mahjnearme.com";
 
     // Validate referral code if provided
     let validatedReferralCode: string | null = null;
