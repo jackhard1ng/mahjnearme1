@@ -82,7 +82,7 @@ export default function TermsPage() {
         <section>
           <h2 className="font-semibold text-xl text-charcoal mb-3">10. Contact</h2>
           <p className="text-sm text-slate-600 leading-relaxed">
-            Questions about these terms? Contact us at hello@mahjnearme.com.
+            Questions about these terms? Contact us at contact@mahjnearme.com.
           </p>
         </section>
       </div>

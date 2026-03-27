@@ -146,7 +146,7 @@ export default function ContactPage() {
       </div>
 
       <div className="mt-8 text-center text-sm text-slate-500">
-        <p>You can also reach us at <a href="mailto:hello@mahjnearme.com" className="text-hotpink-500 hover:text-hotpink-600 font-medium">hello@mahjnearme.com</a></p>
+        <p>You can also DM us on <a href="https://instagram.com/mahjnearme" target="_blank" rel="noopener noreferrer" className="text-hotpink-500 hover:text-hotpink-600 font-medium">Instagram @mahjnearme</a></p>
       </div>
     </div>
   );

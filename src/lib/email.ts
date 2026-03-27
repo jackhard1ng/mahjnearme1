@@ -3,14 +3,14 @@
  *
  * Required env vars:
  *   SENDGRID_API_KEY - SendGrid API key
- *   CONTACT_EMAIL - Where form submissions go (e.g. hello@mahjnearme.com)
+ *   CONTACT_EMAIL - Where form submissions go (e.g. contact@mahjnearme.com)
  *   SENDGRID_FROM_EMAIL - Verified sender (e.g. noreply@mahjnearme.com)
  */
 
 import sgMail from "@sendgrid/mail";
 
 const FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || "noreply@mahjnearme.com";
-const CONTACT_EMAIL = process.env.CONTACT_EMAIL || "hello@mahjnearme.com";
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL || "contact@mahjnearme.com";
 
 let _initialized = false;
 
@@ -124,7 +124,7 @@ export async function sendWelcomeEmail(data: {
       <li>Automatic entry in our monthly mahjong giveaway</li>
     </ul>
     <p><a href="https://www.mahjnearme.com/search" style="color: #FF1493; font-weight: bold;">Start searching →</a></p>
-    <p style="color: #999; font-size: 13px; margin-top: 24px;">Questions? Reply to this email or contact us at hello@mahjnearme.com</p>
+    <p style="color: #999; font-size: 13px; margin-top: 24px;">Questions? Reply to this email or reach us via the contact form at mahjnearme.com/contact</p>
   </div>
 </div>`
     : `
@@ -142,7 +142,7 @@ export async function sendWelcomeEmail(data: {
     </ul>
     <p>Want full details on every listing? <a href="https://www.mahjnearme.com/pricing" style="color: #FF1493; font-weight: bold;">See our plans →</a></p>
     <p><a href="https://www.mahjnearme.com/search" style="color: #FF1493; font-weight: bold;">Start searching →</a></p>
-    <p style="color: #999; font-size: 13px; margin-top: 24px;">Questions? Reply to this email or contact us at hello@mahjnearme.com</p>
+    <p style="color: #999; font-size: 13px; margin-top: 24px;">Questions? Reply to this email or reach us via the contact form at mahjnearme.com/contact</p>
   </div>
 </div>`;
 
