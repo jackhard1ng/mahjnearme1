@@ -33,7 +33,7 @@ export default function AddYourGroupPage() {
     cost: "",
     skillLevels: [] as string[],
     dropInFriendly: "yes",
-    setsProvided: "no",
+    setsProvided: "yes",
     typicalGroupSize: "",
     // Online presence
     website: "",
