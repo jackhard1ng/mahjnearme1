@@ -351,6 +351,10 @@ function SearchContent() {
               <Link href="/" className="text-hotpink-500 hover:text-hotpink-700 font-medium text-sm">
                 Back to Home
               </Link>
+              <span className="mx-2 text-slate-300">|</span>
+              <Link href="/contact" className="text-hotpink-500 hover:text-hotpink-700 font-medium text-sm">
+                Contact Us
+              </Link>
             </div>
           ) : (
             <>

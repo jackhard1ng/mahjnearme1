@@ -149,6 +149,9 @@ export default function AboutPage() {
           >
             Find a Game Near You
           </Link>
+          <p className="text-sm text-slate-500 mt-4">
+            Have a question or want to get in touch? <Link href="/contact" className="text-hotpink-500 hover:text-hotpink-600 font-medium">Contact us</Link>
+          </p>
         </div>
       </div>
     </div>
