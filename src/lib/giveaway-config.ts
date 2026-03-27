@@ -16,10 +16,16 @@ export const CURRENT_GIVEAWAY = {
   prizeValue: "$400 value" as string | null,
 
   /** One-line description under the prize name. */
-  prizeDescription: "Winner picks any set from charlestonmahjongclub.com — shipped to your door",
+  prizeDescription: "Winner picks any set from charlestonmahjongclub.com, shipped to your door",
 
   /** Link to the prize (optional). Set to null to hide. */
   prizeLink: "https://www.charlestonmahjongclub.com/collections" as string | null,
+
+  /** Partner logo image path (optional). Save image to /public/images/partners/. Set to null to hide. */
+  partnerLogo: "/images/partners/charleston-mahjong-club.png" as string | null,
+
+  /** Partner name for alt text. */
+  partnerName: "Charleston Mahjong Club" as string | null,
 
   /** Number of winners this month. */
   numberOfWinners: 1,

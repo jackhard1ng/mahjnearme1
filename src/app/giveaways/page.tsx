@@ -193,6 +193,20 @@ export default function GiveawaysPage() {
                   See the collection <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               )}
+
+              {/* Partner logo */}
+              {CURRENT_GIVEAWAY.partnerLogo && (
+                <div className="mt-4 flex items-center gap-3">
+                  <span className="text-xs text-slate-400">Prize provided by</span>
+                  <a href={CURRENT_GIVEAWAY.prizeLink || "#"} target="_blank" rel="noopener noreferrer">
+                    <img
+                      src={CURRENT_GIVEAWAY.partnerLogo}
+                      alt={CURRENT_GIVEAWAY.partnerName || "Prize partner"}
+                      className="h-12 w-auto object-contain"
+                    />
+                  </a>
+                </div>
+              )}
             </div>
 
             {/* Stats row — always visible, even logged out */}
@@ -428,12 +442,14 @@ function WinnerContactForm() {
     setTimeout(() => setSaved(false), 3000);
   }
 
-  // If already saved, show a checkmark
+  // If already saved, show confirmation
   if (userProfile?.contactPhone) {
     return (
-      <div className="flex items-center gap-2 text-sm text-green-600 border-t border-green-200 pt-3">
-        <Phone className="w-3.5 h-3.5" />
-        <span>We&apos;ll contact you at <strong>{userProfile.contactPhone}</strong> if you win.</span>
+      <div className="text-sm text-green-600 border-t border-green-200 pt-3">
+        <div className="flex items-center gap-2">
+          <Phone className="w-3.5 h-3.5" />
+          <span>We&apos;ll call/text <strong>{userProfile.contactPhone}</strong> if you win.</span>
+        </div>
       </div>
     );
   }
@@ -442,8 +458,9 @@ function WinnerContactForm() {
     <div className="border-t border-green-200 pt-3">
       <p className="text-xs text-green-600 mb-2 flex items-center gap-1.5">
         <Phone className="w-3 h-3" />
-        Add your phone number so we can reach you if you win
+        Add your phone number so we can reach you faster if you win (optional)
       </p>
+      <p className="text-xs text-green-500 mb-2">No phone? No problem. We&apos;ll email you instead.</p>
       <div className="flex gap-2">
         <input
           type="tel"
