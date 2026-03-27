@@ -47,6 +47,25 @@ export default function AddYourGroupPage() {
     anythingElse: "",
   });
 
+  // Additional events under the same group
+  const [additionalEvents, setAdditionalEvents] = useState<
+    { name: string; dayOfWeek: string; startTime: string; endTime: string; frequency: string; venueName: string; cost: string; description: string }[]
+  >([]);
+
+  function addEvent() {
+    setAdditionalEvents([...additionalEvents, { name: "", dayOfWeek: "", startTime: "", endTime: "", frequency: "weekly", venueName: "", cost: "", description: "" }]);
+  }
+
+  function updateEvent(index: number, field: string, value: string) {
+    const updated = [...additionalEvents];
+    (updated[index] as Record<string, string>)[field] = value;
+    setAdditionalEvents(updated);
+  }
+
+  function removeEvent(index: number) {
+    setAdditionalEvents(additionalEvents.filter((_, i) => i !== index));
+  }
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
@@ -63,6 +82,7 @@ export default function AddYourGroupPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
+          additionalEvents: additionalEvents.filter(e => e.name || e.dayOfWeek),
           formType: "group-listing",
           _hp_email: honeypot,
           _ts: loadTime.current,
@@ -344,6 +364,56 @@ export default function AddYourGroupPage() {
                     </div>
                   </div>
                 </fieldset>
+
+                {/* Additional Events */}
+                <div className="bg-skyblue-50 border border-skyblue-200 rounded-lg p-4">
+                  <p className="text-sm font-medium text-charcoal mb-1">Run more than one event?</p>
+                  <p className="text-xs text-slate-500 mb-3">Add additional events below. They&apos;ll be listed separately but linked to your group.</p>
+
+                  {additionalEvents.map((evt, i) => (
+                    <div key={i} className="bg-white rounded-lg border border-slate-200 p-4 mb-3">
+                      <div className="flex items-center justify-between mb-3">
+                        <p className="text-sm font-semibold text-charcoal">Event {i + 2}</p>
+                        <button type="button" onClick={() => removeEvent(i)} className="text-xs text-red-500 hover:text-red-600">Remove</button>
+                      </div>
+                      <div className="space-y-3">
+                        <input type="text" value={evt.name} onChange={(e) => updateEvent(i, "name", e.target.value)} placeholder="Event name (e.g., Thursday Night Beginner Lessons)" className="w-full border border-skyblue-300 rounded-lg px-3 py-2 text-sm" />
+                        <div className="grid grid-cols-2 gap-3">
+                          <select value={evt.dayOfWeek} onChange={(e) => updateEvent(i, "dayOfWeek", e.target.value)} className="border border-skyblue-300 rounded-lg px-3 py-2 text-sm bg-white">
+                            <option value="">Day of week</option>
+                            <option value="monday">Monday</option>
+                            <option value="tuesday">Tuesday</option>
+                            <option value="wednesday">Wednesday</option>
+                            <option value="thursday">Thursday</option>
+                            <option value="friday">Friday</option>
+                            <option value="saturday">Saturday</option>
+                            <option value="sunday">Sunday</option>
+                          </select>
+                          <select value={evt.frequency} onChange={(e) => updateEvent(i, "frequency", e.target.value)} className="border border-skyblue-300 rounded-lg px-3 py-2 text-sm bg-white">
+                            <option value="weekly">Every week</option>
+                            <option value="biweekly">Every other week</option>
+                            <option value="monthly">Once a month</option>
+                          </select>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <input type="time" value={evt.startTime} onChange={(e) => updateEvent(i, "startTime", e.target.value)} className="border border-skyblue-300 rounded-lg px-3 py-2 text-sm" />
+                          <input type="time" value={evt.endTime} onChange={(e) => updateEvent(i, "endTime", e.target.value)} className="border border-skyblue-300 rounded-lg px-3 py-2 text-sm" />
+                        </div>
+                        <input type="text" value={evt.venueName} onChange={(e) => updateEvent(i, "venueName", e.target.value)} placeholder="Venue (if different from above)" className="w-full border border-skyblue-300 rounded-lg px-3 py-2 text-sm" />
+                        <input type="text" value={evt.cost} onChange={(e) => updateEvent(i, "cost", e.target.value)} placeholder="Cost (if different)" className="w-full border border-skyblue-300 rounded-lg px-3 py-2 text-sm" />
+                        <input type="text" value={evt.description} onChange={(e) => updateEvent(i, "description", e.target.value)} placeholder="Brief description of this event" className="w-full border border-skyblue-300 rounded-lg px-3 py-2 text-sm" />
+                      </div>
+                    </div>
+                  ))}
+
+                  <button
+                    type="button"
+                    onClick={addEvent}
+                    className="text-sm font-semibold text-hotpink-500 hover:text-hotpink-600 transition-colors"
+                  >
+                    + Add another event
+                  </button>
+                </div>
 
                 <hr className="border-skyblue-200" />
 
