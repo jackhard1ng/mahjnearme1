@@ -193,7 +193,7 @@ export default function GameCard({
           <div className="flex items-center justify-between mb-2">
             {!cityTile && (
               <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                {suit === "dots" ? "Circles" : suit === "bam" ? "Bamboo" : "Characters"} &middot; {tileNumber}
+                {suit === "dots" ? "Dots" : suit === "bam" ? "Bam" : "Crack"} &middot; {tileNumber}
               </span>
             )}
             {cityTile && <span />}
