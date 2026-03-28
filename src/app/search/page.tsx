@@ -204,6 +204,43 @@ function SearchContent() {
       games = games.filter((g) => g.type === filters.type);
     }
 
+    // Date filter: show games happening within the selected date range
+    if (filters.dateFrom || filters.dateTo) {
+      const from = filters.dateFrom ? new Date(filters.dateFrom + "T00:00:00") : null;
+      const to = filters.dateTo ? new Date(filters.dateTo + "T23:59:59") : null;
+
+      games = games.filter((g) => {
+        // One-time events: check if eventDate is in range
+        if (!g.isRecurring && g.eventDate) {
+          const eventDate = new Date(g.eventDate + "T00:00:00");
+          if (from && eventDate < from) return false;
+          if (to && eventDate > to) return false;
+          return true;
+        }
+
+        // Recurring events: check if any occurrence falls in range
+        if (g.isRecurring && g.recurringSchedule?.dayOfWeek) {
+          const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+          const days = g.recurringSchedule.dayOfWeek.split("|").map(d => d.trim());
+          const targetDayNums = days.map(d => dayNames.indexOf(d)).filter(n => n >= 0);
+          if (targetDayNums.length === 0) return true; // no valid day, include it
+
+          // Check if any matching day falls within the date range
+          const start = from || new Date();
+          const end = to || new Date(start.getTime() + 30 * 24 * 60 * 60 * 1000); // default 30 days out
+          const check = new Date(start);
+          while (check <= end) {
+            if (targetDayNums.includes(check.getDay())) return true;
+            check.setDate(check.getDate() + 1);
+          }
+          return false;
+        }
+
+        // No date info — include by default
+        return true;
+      });
+    }
+
     // Sort by combined priority score (promoted items get a bonus)
     games.sort((a, b) => {
       if (a.promoted !== b.promoted) return a.promoted ? -1 : 1;
