@@ -93,15 +93,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
             if (userDoc.exists()) {
               const data = userDoc.data();
+              const now = new Date().toISOString();
               setUserProfile({
                 ...defaultProfile,
                 ...data,
                 id: firebaseUser.uid,
                 email: firebaseUser.email || data.email || "",
-                // Firestore displayName takes priority (user may have changed it in account settings)
-                // Fall back to Auth displayName for users who haven't edited it yet
                 displayName: data.displayName || firebaseUser.displayName || "",
+                lastLoginAt: now,
               } as UserProfile);
+              // Update last login in Firestore (fire-and-forget)
+              setDoc(doc(db, "users", firebaseUser.uid), { lastLoginAt: now }, { merge: true }).catch(() => {});
             } else {
               // First-time user, create their Firestore document
               await setDoc(doc(db, "users", firebaseUser.uid), {
