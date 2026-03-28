@@ -216,7 +216,11 @@ export default function AccountPage() {
   }
 
   async function handleManageSubscription() {
-    if (!userProfile?.stripeCustomerId) return;
+    if (!userProfile?.stripeCustomerId) {
+      // No Stripe customer ID — redirect to pricing instead
+      window.location.href = "/pricing";
+      return;
+    }
     setPortalLoading(true);
     try {
       const res = await fetch("/api/create-portal-session", {
@@ -655,7 +659,7 @@ export default function AccountPage() {
             <div className="space-y-3">
               <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-sm text-slate-600">Plan</span>
-                <span className="text-sm font-medium text-charcoal capitalize">{userProfile.plan || "Monthly"}</span>
+                <span className="text-sm font-medium text-charcoal capitalize">{userProfile.plan || "Monthly"} — ${userProfile.plan === "annual" ? "39.99/year" : "4.99/month"}</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-sm text-slate-600">Status</span>
@@ -663,18 +667,26 @@ export default function AccountPage() {
                   {userProfile.subscriptionStatus === "past_due" ? "Past Due" : "Active"}
                 </span>
               </div>
+              {userProfile.subscribedDate && (
+                <div className="flex justify-between items-center py-2 border-b border-slate-100">
+                  <span className="text-sm text-slate-600">Member since</span>
+                  <span className="text-sm font-medium text-charcoal">
+                    {new Date(userProfile.subscribedDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                  </span>
+                </div>
+              )}
               <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-sm text-slate-600">Next billing date</span>
                 <span className="text-sm font-medium text-charcoal">
                   {userProfile.subscriptionEndsAt
                     ? new Date(userProfile.subscriptionEndsAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
-                    : "-"}
+                    : "—"}
                 </span>
               </div>
               <button
                 onClick={() => handleManageSubscription()}
                 disabled={portalLoading}
-                className="flex items-center gap-2 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium mt-2 disabled:opacity-60"
+                className="flex items-center justify-center gap-2 w-full text-sm bg-hotpink-50 text-hotpink-500 border border-hotpink-200 hover:bg-hotpink-100 font-semibold py-2.5 rounded-lg mt-3 disabled:opacity-60 transition-colors"
               >
                 {portalLoading ? (
                   <><Loader2 className="w-4 h-4 animate-spin" /> Opening portal...</>
