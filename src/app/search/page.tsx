@@ -87,10 +87,20 @@ function SearchContent() {
   // Scroll to the selected game card when a map pin is clicked
   useEffect(() => {
     if (!selectedGameId) return;
-    const el = document.querySelector(`[data-game-id="${selectedGameId}"]`);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    // If the selected game isn't visible yet (pagination), expand to show it
+    const selectedIndex = filteredGames.findIndex((g) => g.id === selectedGameId);
+    if (selectedIndex >= 0 && selectedIndex >= visibleCount) {
+      setVisibleCount(selectedIndex + 5); // show a few extra past the selected one
     }
+
+    // Wait a tick for the DOM to update, then scroll
+    setTimeout(() => {
+      const el = document.querySelector(`[data-game-id="${selectedGameId}"]`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 100);
   }, [selectedGameId]);
 
   function toggleCalendarEvent(gameId: string) {
