@@ -144,7 +144,7 @@ export default function SearchFiltersBar({ filters, onFiltersChange }: SearchFil
 
           {/* Date Range */}
           <div>
-            <label className="text-xs font-semibold text-charcoal uppercase tracking-wider mb-1.5 block">Travel Dates (optional)</label>
+            <label className="text-xs font-semibold text-charcoal uppercase tracking-wider mb-1.5 block">Dates</label>
             <div className="grid grid-cols-2 gap-3">
               <input
                 type="date"
