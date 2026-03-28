@@ -1,26 +1,23 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Official Sweepstakes Rules",
-  description: "Official rules for the MahjNearMe monthly mahjong giveaway sweepstakes.",
+  title: "Monthly Drawing Rules",
+  description: "Official rules for the MahjNearMe monthly subscriber drawing.",
 };
-
-// LEGAL NOTE: These rules follow standard US sweepstakes best practices.
-// Jack should still have them reviewed by a lawyer before running the first drawing.
 
 export default function SweepstakesRulesPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
       <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-charcoal mb-4">
-        Official Sweepstakes Rules
+        Monthly Subscriber Drawing Rules
       </h1>
-      <p className="text-sm text-slate-500 mb-8">Last updated: March 27, 2026</p>
+      <p className="text-sm text-slate-500 mb-8">Last updated: March 28, 2026</p>
 
       <div className="prose prose-slate max-w-none space-y-6">
         <div className="mahj-tile p-6">
           <h2 className="font-semibold text-xl text-charcoal mb-3">1. Sponsor</h2>
           <p className="text-sm text-slate-600">
-            The MahjNearMe Monthly Giveaway (&ldquo;Sweepstakes&rdquo;) is sponsored by
+            The MahjNearMe Monthly Subscriber Drawing (&ldquo;Drawing&rdquo;) is sponsored by
             MahjNearMe (&ldquo;Sponsor&rdquo;), located in Kansas City, MO.
           </p>
         </div>
@@ -28,200 +25,107 @@ export default function SweepstakesRulesPage() {
         <div className="mahj-tile p-6">
           <h2 className="font-semibold text-xl text-charcoal mb-3">2. Eligibility</h2>
           <p className="text-sm text-slate-600 mb-2">
-            The Sweepstakes is open only to legal residents of the fifty (50) United States
-            and the District of Columbia who are eighteen (18) years of age or older at the
-            time of entry. The Sweepstakes is void where prohibited by law.
+            The Drawing is open to active paid subscribers of MahjNearMe who are legal residents
+            of the fifty (50) United States and the District of Columbia, and who are eighteen (18)
+            years of age or older. The Drawing is void where prohibited by law.
           </p>
           <p className="text-sm text-slate-600">
             Employees, officers, and directors of MahjNearMe, and their immediate family members
-            (spouse, parent, child, sibling) and household members, are not eligible to participate.
+            and household members, are not eligible.
           </p>
         </div>
 
         <div className="mahj-tile p-6">
-          <h2 className="font-semibold text-xl text-charcoal mb-3">3. Sweepstakes Period</h2>
+          <h2 className="font-semibold text-xl text-charcoal mb-3">3. Drawing Period</h2>
           <p className="text-sm text-slate-600">
-            Each monthly Sweepstakes period (&ldquo;Entry Period&rdquo;) begins on the first (1st)
-            day of the calendar month at 12:00:00 AM Eastern Time (&ldquo;ET&rdquo;) and ends on
-            the last day of that calendar month at 11:59:59 PM ET. The Sponsor reserves the right
-            to modify or discontinue the Sweepstakes at any time with reasonable notice posted on
-            the Sponsor&apos;s website.
+            Each monthly Drawing period begins on the first (1st) day of the calendar month and
+            ends on the last day of that calendar month. The Sponsor reserves the right to modify
+            or discontinue the Drawing at any time with reasonable notice posted on the website.
           </p>
         </div>
 
         <div className="mahj-tile p-6">
           <h2 className="font-semibold text-xl text-charcoal mb-3">4. How to Enter</h2>
           <p className="text-sm text-slate-600 mb-3">
-            <strong>NO PURCHASE OR PAYMENT OF ANY KIND IS NECESSARY TO ENTER OR WIN.</strong>{" "}
-            A purchase will not improve your chances of winning.
+            Active paid subscribers to MahjNearMe are automatically entered into each monthly
+            Drawing during the duration of their active subscription. Monthly subscribers receive
+            one (1) entry per Drawing period. Annual subscribers receive two (2) entries per
+            Drawing period.
           </p>
-          <p className="text-sm text-slate-600 mb-3">
-            <strong>Method 1 — Automatic Entry (with paid subscription):</strong> Active paid
-            subscribers to MahjNearMe are automatically entered into each monthly Sweepstakes
-            during the duration of their active subscription. Monthly subscribers receive one (1)
-            entry per Entry Period. Annual subscribers receive two (2) entries per Entry Period.
+          <p className="text-sm text-slate-600">
             Subscribers who have maintained an active subscription for six (6) or more consecutive
             months earn one (1) additional bonus entry for every six months subscribed, up to a
             maximum of six (6) bonus entries.
-          </p>
-          <p className="text-sm text-slate-600 mb-3">
-            <strong>Method 2 — Free Entry (no purchase necessary):</strong> To enter without a
-            paid subscription, visit{" "}
-            <a href="https://www.mahjnearme.com/giveaways" className="text-hotpink-500 hover:text-hotpink-600">
-              www.mahjnearme.com/giveaways
-            </a>{" "}
-            during the Entry Period and submit your name and email address using the free entry form.
-            Limit one (1) free entry per person per email address per Entry Period. Free entries
-            receive one (1) entry per Entry Period.
-          </p>
-          <p className="text-sm text-slate-600">
-            All entries must be received during the applicable Entry Period. Entries that are
-            incomplete, illegible, corrupted, or received after the Entry Period ends will be
-            disqualified. Entries generated by script, macro, or other automated means are void.
           </p>
         </div>
 
         <div className="mahj-tile p-6">
           <h2 className="font-semibold text-xl text-charcoal mb-3">5. Prize</h2>
           <p className="text-sm text-slate-600 mb-2">
-            One (1) prize will be awarded per Entry Period. The prize will be a mahjong-related
+            One (1) prize will be awarded per Drawing period. The prize will be a mahjong-related
             item (such as a mahjong set, tile rack, carrying case, mat, or other mahjong
-            accessory). The specific prize and its approximate retail value (&ldquo;ARV&rdquo;)
-            will be announced on the giveaway page at{" "}
-            <a href="https://www.mahjnearme.com/giveaways" className="text-hotpink-500 hover:text-hotpink-600">
-              www.mahjnearme.com/giveaways
-            </a>{" "}
-            at the beginning of each Entry Period.
-          </p>
-          <p className="text-sm text-slate-600 mb-2">
-            Prize is awarded &ldquo;as is&rdquo; with no warranty or guarantee. No cash or other
-            substitution, assignment, or transfer of prize is permitted, except by Sponsor who
-            reserves the right to substitute a prize of equal or greater value if the advertised
-            prize becomes unavailable. Prize will be shipped to the winner within the continental
-            United States only. Winner is responsible for any applicable federal, state, and local
-            taxes on the prize.
+            accessory). The specific prize and its approximate retail value will be announced
+            on the giveaway page at the beginning of each Drawing period.
           </p>
           <p className="text-sm text-slate-600">
-            If the ARV of the prize exceeds $600, the winner may be required to complete an IRS
-            Form W-9 before the prize is shipped.
+            Prize is awarded &ldquo;as is.&rdquo; No cash or other substitution is permitted,
+            except by Sponsor who reserves the right to substitute a prize of equal or greater
+            value. Prize will be shipped within the continental United States only. Winner is
+            responsible for any applicable taxes.
           </p>
         </div>
 
         <div className="mahj-tile p-6">
-          <h2 className="font-semibold text-xl text-charcoal mb-3">6. Winner Selection and Notification</h2>
+          <h2 className="font-semibold text-xl text-charcoal mb-3">6. Winner Selection</h2>
           <p className="text-sm text-slate-600 mb-2">
-            On or about the last day of each Entry Period (or within five (5) business days
-            thereafter), one (1) potential winner will be selected in a random drawing from among
-            all eligible entries received during that Entry Period. The drawing will be conducted
-            by the Sponsor.
-          </p>
-          <p className="text-sm text-slate-600 mb-2">
-            The potential winner will be notified by email (and by phone if a phone number was
-            provided) within forty-eight (48) hours of the drawing. The potential winner must
-            respond to the notification within fourteen (14) calendar days to claim the prize and
-            provide a valid shipping address within the continental United States. If the potential
-            winner cannot be reached, fails to respond within the required time period, declines
-            the prize, or is found to be ineligible, the prize will be forfeited and an alternate
-            winner may be selected from the remaining eligible entries.
+            On or about the last day of each Drawing period, one (1) winner will be selected
+            by random drawing from all eligible entries. The winner will be notified by email
+            (and by phone if provided) within forty-eight (48) hours.
           </p>
           <p className="text-sm text-slate-600">
-            Sponsor is not responsible for any change in email address, phone number, or other
-            contact information that may prevent notification.
+            The winner must respond within fourteen (14) calendar days to claim the prize and
+            provide a valid shipping address. If the winner cannot be reached or fails to respond,
+            an alternate winner may be selected.
           </p>
         </div>
 
         <div className="mahj-tile p-6">
           <h2 className="font-semibold text-xl text-charcoal mb-3">7. Odds of Winning</h2>
           <p className="text-sm text-slate-600">
-            Odds of winning depend on the total number of eligible entries received during the
-            applicable Entry Period.
+            Odds of winning depend on the total number of eligible entries during the Drawing period.
           </p>
         </div>
 
         <div className="mahj-tile p-6">
           <h2 className="font-semibold text-xl text-charcoal mb-3">8. General Conditions</h2>
-          <p className="text-sm text-slate-600 mb-2">
-            By entering the Sweepstakes, each entrant agrees to be bound by these Official Rules
-            and the decisions of the Sponsor, which are final and binding in all respects.
-          </p>
-          <p className="text-sm text-slate-600 mb-2">
-            Sponsor reserves the right, in its sole discretion, to cancel, terminate, modify, or
-            suspend the Sweepstakes at any time for any reason, including but not limited to fraud,
-            technical failures, or any other factor beyond Sponsor&apos;s reasonable control that
-            impairs the integrity of the Sweepstakes. In such event, Sponsor may select a winner
-            from among all eligible entries received prior to the cancellation.
-          </p>
           <p className="text-sm text-slate-600">
-            All federal, state, and local laws and regulations apply. Any tax obligations arising
-            from winning a prize are the sole responsibility of the winner.
+            By participating, subscribers agree to be bound by these rules. Sponsor reserves the
+            right to cancel, modify, or suspend the Drawing at any time. All federal, state, and
+            local laws apply. Tax obligations are the sole responsibility of the winner.
           </p>
         </div>
 
         <div className="mahj-tile p-6">
-          <h2 className="font-semibold text-xl text-charcoal mb-3">9. Limitation of Liability</h2>
+          <h2 className="font-semibold text-xl text-charcoal mb-3">9. Privacy</h2>
           <p className="text-sm text-slate-600">
-            The Sponsor, and any of its affiliates, partners, suppliers, and agencies, are not
-            responsible for: (a) late, lost, delayed, stolen, misdirected, incomplete, illegible,
-            or unintelligible entries; (b) phone, electronic, hardware, or software malfunctions,
-            failures, or difficulties; (c) any condition caused by events beyond the control of
-            Sponsor that may cause the Sweepstakes to be disrupted or corrupted; (d) any injuries,
-            losses, or damages of any kind caused by the prize or resulting from acceptance,
-            possession, or use of the prize; or (e) any printing or typographical errors in any
-            materials associated with the Sweepstakes.
-          </p>
-        </div>
-
-        <div className="mahj-tile p-6">
-          <h2 className="font-semibold text-xl text-charcoal mb-3">10. Privacy</h2>
-          <p className="text-sm text-slate-600 mb-2">
-            Personal information collected from entrants will be used by the Sponsor for the
-            purpose of administering the Sweepstakes and, with the winner&apos;s permission,
-            announcing the winner. Personal information will be handled in accordance with
-            the Sponsor&apos;s{" "}
+            Personal information is handled in accordance with the Sponsor&apos;s{" "}
             <a href="/privacy" className="text-hotpink-500 hover:text-hotpink-600">Privacy Policy</a>.
           </p>
+        </div>
+
+        <div className="mahj-tile p-6">
+          <h2 className="font-semibold text-xl text-charcoal mb-3">10. Winner Announcement</h2>
           <p className="text-sm text-slate-600">
-            Email addresses submitted via the free entry method will be used solely for the
-            purpose of the Sweepstakes and will not be added to any marketing lists without
-            the entrant&apos;s separate consent.
+            With the winner&apos;s permission, their first name, last initial, and city/state
+            may be displayed on the MahjNearMe giveaway page.
           </p>
         </div>
 
         <div className="mahj-tile p-6">
-          <h2 className="font-semibold text-xl text-charcoal mb-3">11. Winner Announcement</h2>
+          <h2 className="font-semibold text-xl text-charcoal mb-3">11. Governing Law</h2>
           <p className="text-sm text-slate-600">
-            With the winner&apos;s permission, the winner&apos;s first name, last initial, and
-            city/state may be displayed on the MahjNearMe giveaway page. Winners are under no
-            obligation to consent to public announcement.
-          </p>
-        </div>
-
-        <div className="mahj-tile p-6">
-          <h2 className="font-semibold text-xl text-charcoal mb-3">12. Governing Law</h2>
-          <p className="text-sm text-slate-600">
-            This Sweepstakes is governed by the laws of the State of Missouri, without regard
-            to its conflict of laws provisions. Any disputes arising from or related to this
-            Sweepstakes shall be resolved in the state or federal courts located in Jackson
-            County, Missouri.
-          </p>
-        </div>
-
-        <div className="mahj-tile p-6">
-          <h2 className="font-semibold text-xl text-charcoal mb-3">13. Winner List</h2>
-          <p className="text-sm text-slate-600">
-            To obtain a copy of the winner&apos;s name or a copy of these Official Rules, send
-            a self-addressed, stamped envelope to: MahjNearMe Sweepstakes, 1125 Grand Boulevard,
-            Suite 806, Kansas City, MO 64106. Requests must be received within sixty (60) days
-            after the end of the applicable Entry Period.
-          </p>
-        </div>
-
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
-          <p className="text-xs text-amber-700">
-            <strong>Disclaimer:</strong> These rules are provided as a good-faith effort to comply
-            with US sweepstakes law. They are not legal advice. Sponsor recommends consulting with
-            a licensed attorney to ensure full compliance with all applicable federal, state, and
-            local sweepstakes regulations before conducting any drawing.
+            This Drawing is governed by the laws of the State of Missouri. Any disputes shall
+            be resolved in the state or federal courts located in Jackson County, Missouri.
           </p>
         </div>
       </div>
