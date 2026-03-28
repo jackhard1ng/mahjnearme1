@@ -1,19 +1,15 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
-import { getAdminDb } from "@/lib/firebase-admin";
 
 /**
  * GET /api/subscriber-count
- * Returns: { count, freeEntries, totalEntries }
+ * Returns: { count, totalEntries }
  * - count: active paid subscribers (from Stripe)
- * - freeEntries: free giveaway entries this month (from Firestore)
- * - totalEntries: count + freeEntries
+ * - totalEntries: same as count (only paid subscribers enter the giveaway)
  */
 export async function GET() {
   let subscriberCount = 0;
-  let freeEntryCount = 0;
 
-  // Count active subscriptions from Stripe
   try {
     const stripe = getStripe();
     let hasMore = true;
@@ -37,22 +33,8 @@ export async function GET() {
     console.error("Stripe subscriber count error:", err);
   }
 
-  // Count free entries for current month from Firestore
-  try {
-    const db = getAdminDb();
-    const now = new Date();
-    const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-    const snap = await db.collection("giveawayFreeEntries")
-      .where("month", "==", currentMonth)
-      .get();
-    freeEntryCount = snap.size;
-  } catch (err) {
-    console.error("Free entry count error:", err);
-  }
-
   return NextResponse.json({
     count: subscriberCount,
-    freeEntries: freeEntryCount,
-    totalEntries: subscriberCount + freeEntryCount,
+    totalEntries: subscriberCount,
   });
 }

@@ -409,15 +409,9 @@ export default function GiveawaysPage() {
           </div>
         </div>}
 
-        {/* Free Entry (no purchase necessary) */}
-        {!hasAccess && (
-          <FreeEntryForm />
-        )}
-
         {/* Fine print */}
         <div className="text-center text-sm text-slate-400 space-y-2">
           <p>
-            No purchase necessary.{" "}
             <Link href="/sweepstakes-rules" className="hover:text-hotpink-500 underline">
               Official Sweepstakes Rules
             </Link>
