@@ -363,17 +363,35 @@ const MAX_DISTANCE_FOR_SCORE = 50;
 /**
  * Compute a combined priority score for ranking.
  * Lower score = higher priority (closer + sooner).
+ *
+ * Events with richer data (description, registration link, Instagram,
+ * specific dates) get a small bonus that pushes them above generic
+ * weekly-at-the-JCC listings.
  */
 export function computePriorityScore(
   timing: EventTiming,
-  distanceMiles: number | null
+  distanceMiles: number | null,
+  game?: { description?: string; registrationLink?: string; instagram?: string; eventDate?: string | null; isRecurring?: boolean }
 ): number {
   const timeScore = timing.timeScore;
   const distScore = distanceMiles !== null
     ? Math.min(distanceMiles / MAX_DISTANCE_FOR_SCORE, 1) * 100
-    : 50; // no distance info = middle
+    : 50;
 
-  return TIME_WEIGHT * timeScore + DISTANCE_WEIGHT * distScore;
+  let score = TIME_WEIGHT * timeScore + DISTANCE_WEIGHT * distScore;
+
+  // Richness bonus: events with more data are more useful to users
+  if (game) {
+    let richness = 0;
+    if (game.description && game.description.length > 30) richness += 1;
+    if (game.registrationLink) richness += 1;
+    if (game.instagram) richness += 0.5;
+    if (game.eventDate && !game.isRecurring) richness += 1; // one-time events with specific dates
+    // Apply bonus (up to -3.5 points, subtle but meaningful)
+    score -= richness;
+  }
+
+  return score;
 }
 
 /**

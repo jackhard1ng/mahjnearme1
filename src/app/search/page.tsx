@@ -173,7 +173,7 @@ function SearchContent() {
         );
       }
       const timing = getEventTiming(g, now);
-      const priorityScore = computePriorityScore(timing, distance);
+      const priorityScore = computePriorityScore(timing, distance, g);
       return { ...g, distance, timing, priorityScore };
     });
 

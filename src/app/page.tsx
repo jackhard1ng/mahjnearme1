@@ -5,6 +5,7 @@ import { isEventExpired } from "@/lib/utils";
 import { FEATURED_TILES } from "@/lib/featured-tiles";
 import { Search, MapPin, Sparkles, ArrowRight } from "lucide-react";
 import GamesToday from "@/components/GamesToday";
+import UpcomingEvents from "@/components/UpcomingEvents";
 
 function getStats() {
   const activeGames = mockGames.filter((g) => g.status === "active" && !isEventExpired(g));
@@ -96,6 +97,9 @@ export default function HomePage() {
 
       {/* Games Near You */}
       <GamesToday />
+
+      {/* Upcoming Events */}
+      <UpcomingEvents />
 
       {/* How It Works */}
       <section className="py-16 sm:py-20 relative overflow-hidden">

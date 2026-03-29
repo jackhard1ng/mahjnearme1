@@ -717,35 +717,56 @@ export default function GameDetailPage() {
               More from {game.organizerName}
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {otherGames.slice(0, 6).map((g) => (
-                <Link
-                  key={g.id}
-                  href={`/games/${getGameSlug(g)}`}
-                  className="bg-white border border-slate-200 rounded-xl p-4 hover:border-hotpink-300 hover:shadow-sm transition-all group"
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold border ${getGameTypeColor(g.type)}`}>
-                      {getGameTypeLabel(g.type)}
-                    </span>
-                    {g.dropInFriendly && (
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-skyblue-100 text-skyblue-600">
-                        Drop-in
+              {otherGames.slice(0, 6).map((g, i) => {
+                // Free tier: first 2 show name, rest show teaser
+                const showFull = hasAccess || i < 2;
+                return (
+                  <Link
+                    key={g.id}
+                    href={showFull ? `/games/${getGameSlug(g)}` : "/pricing"}
+                    className="bg-white border border-slate-200 rounded-xl p-4 hover:border-hotpink-300 hover:shadow-sm transition-all group"
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold border ${getGameTypeColor(g.type)}`}>
+                        {getGameTypeLabel(g.type)}
                       </span>
+                      {g.dropInFriendly && (
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-skyblue-100 text-skyblue-600">
+                          Drop-in
+                        </span>
+                      )}
+                    </div>
+                    {showFull ? (
+                      <>
+                        <h3 className="font-semibold text-sm text-charcoal group-hover:text-hotpink-500 transition-colors mb-1 line-clamp-2">
+                          {g.name}
+                        </h3>
+                        <p className="text-xs text-slate-500">
+                          {g.city}, {getStateName(g.state)}
+                          {g.recurringSchedule?.dayOfWeek && (
+                            <span className="ml-2">
+                              &middot; {g.recurringSchedule.dayOfWeek.split("|").map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(", ")}s
+                            </span>
+                          )}
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <div className="h-4 w-40 bg-slate-200/80 rounded blur-[3px] mb-1" />
+                        <p className="text-xs text-slate-500">
+                          {g.city}, {getStateName(g.state)}
+                          {g.recurringSchedule?.dayOfWeek && (
+                            <span className="ml-2">
+                              &middot; {g.recurringSchedule.dayOfWeek.split("|").map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(", ")}s
+                            </span>
+                          )}
+                        </p>
+                        <p className="text-xs text-hotpink-500 font-medium mt-1">Subscribe to see details</p>
+                      </>
                     )}
-                  </div>
-                  <h3 className="font-semibold text-sm text-charcoal group-hover:text-hotpink-500 transition-colors mb-1 line-clamp-2">
-                    {g.name}
-                  </h3>
-                  <p className="text-xs text-slate-500">
-                    {g.city}, {getStateName(g.state)}
-                    {g.recurringSchedule?.dayOfWeek && (
-                      <span className="ml-2">
-                        &middot; {g.recurringSchedule.dayOfWeek.split("|").map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(", ")}s
-                      </span>
-                    )}
-                  </p>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           </div>
         );
