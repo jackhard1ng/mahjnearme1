@@ -164,11 +164,15 @@ export default function EventsPage() {
         {/* Map — visible to everyone, locked pins for free users */}
         {filtered.length > 0 && (
           <>
-            <div className="mb-2 h-[400px] sm:h-[500px]">
+            <div className="mb-2" style={{ height: "500px" }}>
               <LeafletMap
                 games={filtered}
+                selectedGameId={null}
+                onPinClick={() => {}}
                 hasAccess={hasAccess}
                 previewCount={hasAccess ? filtered.length : 0}
+                userHomeMetro={null}
+                searchCenter={null}
               />
             </div>
             {!hasAccess && (
