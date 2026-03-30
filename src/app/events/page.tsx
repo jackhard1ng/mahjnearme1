@@ -157,16 +157,30 @@ export default function EventsPage() {
 
         <p className="text-sm text-slate-500 mb-4">{filtered.length} destination events found</p>
 
-        {/* Map — subscribers only */}
-        {hasAccess && filtered.length > 0 && (
-          <div className="mb-6 rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+        {/* Map — visible to everyone, locked pins for free users */}
+        {filtered.length > 0 && (
+          <div className="mb-6 rounded-xl overflow-hidden border border-slate-200 shadow-sm relative">
             <div className="h-[400px] sm:h-[500px]">
               <LeafletMap
                 games={filtered}
-                hasAccess={true}
-                previewCount={filtered.length}
+                hasAccess={hasAccess}
+                previewCount={hasAccess ? filtered.length : 0}
               />
             </div>
+            {!hasAccess && (
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white via-white/90 to-transparent p-6 text-center">
+                <p className="font-semibold text-charcoal mb-1">
+                  {filtered.length} destination events across the country
+                </p>
+                <p className="text-sm text-slate-500 mb-3">Subscribe to see event details, dates, and locations.</p>
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors text-sm"
+                >
+                  View Plans <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            )}
           </div>
         )}
 
