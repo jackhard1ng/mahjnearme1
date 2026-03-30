@@ -34,6 +34,7 @@ export const GAME_TYPE_LABELS: Record<string, string> = {
   lesson: "Lessons",
   league: "League",
   event: "Event",
+  tournament: "Tournament",
   private: "Private",
 };
 

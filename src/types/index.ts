@@ -234,7 +234,7 @@ export interface SearchFilters {
   gameStyle: GameStyle | "all";
   dropInFriendly: boolean | null;
   skillLevel: SkillLevel | "all";
-  type: GameType | "all";
+  type: GameType | "tournament" | "all";
   dateFrom: string | null;
   dateTo: string | null;
 }

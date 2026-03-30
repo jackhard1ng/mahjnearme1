@@ -210,7 +210,14 @@ function SearchContent() {
     if (filters.skillLevel !== "all") {
       games = games.filter((g) => g.skillLevels.includes(filters.skillLevel as "beginner" | "intermediate" | "advanced"));
     }
-    if (filters.type !== "all") {
+    if (filters.type === "tournament") {
+      const tournamentKw = ["tournament", "championship", "classic", "derby", "mania"];
+      games = games.filter((g) => {
+        if (g.type !== "event") return false;
+        const text = (g.name + " " + (g.description || "")).toLowerCase();
+        return tournamentKw.some((k) => text.includes(k));
+      });
+    } else if (filters.type !== "all") {
       games = games.filter((g) => g.type === filters.type);
     }
 
