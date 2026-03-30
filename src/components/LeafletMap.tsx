@@ -104,6 +104,9 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
     mapRef.current = map;
     setReady(true);
 
+    // Fix click coordinates after container is fully laid out
+    setTimeout(() => map.invalidateSize(), 100);
+
     return () => {
       map.remove();
       mapRef.current = null;
@@ -211,6 +214,8 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
     if (bounds.isValid()) {
       mapRef.current.fitBounds(bounds, { padding: [40, 40], maxZoom: 12 });
     }
+    // Recalculate container size so click coordinates are accurate
+    setTimeout(() => mapRef.current?.invalidateSize(), 200);
     // Intentionally exclude selectedGameId — selection handled in separate effect
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geoGames.length, ready, hasGeoGames, hasAccess, userHomeMetro, searchCenter]);
