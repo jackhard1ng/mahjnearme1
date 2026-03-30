@@ -131,8 +131,12 @@ export async function sendWelcomeEmail(data: {
     ? "Welcome to MahjNearMe!"
     : "Welcome to MahjNearMe!";
 
+  const giveawayLine = data.plan === "annual"
+    ? "<li><strong>2 entries every month</strong> in our premium mahjong set giveaway (annual perk!)</li>"
+    : "<li>Automatic entry in our monthly giveaway</li>";
+
   const html = data.isSubscriber
-    ? `<div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto"><div style="background:#FF1493;padding:24px;text-align:center;border-radius:12px 12px 0 0"><h1 style="color:white;margin:0;font-size:24px">Welcome to MahjNearMe!</h1></div><div style="background:white;padding:32px;border:1px solid #eee;border-radius:0 0 12px 12px"><p>Hi ${data.name || "there"},</p><p>Thanks for subscribing! Your <strong>${data.plan === "annual" ? "annual" : "monthly"}</strong> plan is active.</p><ul><li>Full details on every listing</li><li>Addresses and directions for 2,000+ games</li><li>Automatic entry in our monthly giveaway</li></ul><p><a href="https://www.mahjnearme.com/search" style="color:#FF1493;font-weight:bold">Start searching</a></p></div></div>`
+    ? `<div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto"><div style="background:#FF1493;padding:24px;text-align:center;border-radius:12px 12px 0 0"><h1 style="color:white;margin:0;font-size:24px">Welcome to MahjNearMe!</h1></div><div style="background:white;padding:32px;border:1px solid #eee;border-radius:0 0 12px 12px"><p>Hi ${data.name || "there"},</p><p>Thanks for subscribing! Your <strong>${data.plan === "annual" ? "annual" : "monthly"}</strong> plan is active.</p><ul><li>Full details on every listing</li><li>Addresses and directions for 2,600+ games</li>${giveawayLine}<li>Exclusive access to Destination Events</li></ul><p><a href="https://www.mahjnearme.com/search" style="color:#FF1493;font-weight:bold">Start searching</a></p></div></div>`
     : `<div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto"><div style="background:#FF1493;padding:24px;text-align:center;border-radius:12px 12px 0 0"><h1 style="color:white;margin:0;font-size:24px">Welcome to MahjNearMe!</h1></div><div style="background:white;padding:32px;border:1px solid #eee;border-radius:0 0 12px 12px"><p>Hi ${data.name || "there"},</p><p>Thanks for joining! Search 2,000+ mahjong games across 50 states.</p><p><a href="https://www.mahjnearme.com/search" style="color:#FF1493;font-weight:bold">Start searching</a></p></div></div>`;
 
   return sendEmail({

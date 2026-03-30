@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
-import { CheckCircle, ArrowRight, Search, MapPin, Heart } from "lucide-react";
+import { CheckCircle, ArrowRight, Search, MapPin, Heart, Gift } from "lucide-react";
 
 export default function WelcomePage() {
-  const { user, updateUserProfile } = useAuth();
+  const { user, userProfile, updateUserProfile } = useAuth();
   const [verified, setVerified] = useState(false);
 
   useEffect(() => {
@@ -19,6 +19,8 @@ export default function WelcomePage() {
       setVerified(true);
     }
   }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const isAnnual = userProfile?.plan === "annual";
 
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-16">
@@ -33,7 +35,7 @@ export default function WelcomePage() {
           </h1>
 
           <p className="text-slate-600 mb-2">
-            Your subscription is now active. You have full access to all features.
+            Your {isAnnual ? "annual" : "monthly"} subscription is now active. You have full access to all features.
           </p>
           <p className="text-sm text-slate-500 mb-8">
             You can manage your subscription anytime from your account settings.
@@ -60,6 +62,17 @@ export default function WelcomePage() {
               <div>
                 <p className="font-medium text-charcoal text-sm">Save Your Favorites</p>
                 <p className="text-xs text-slate-500">Save cities and favorite games for quick access</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 bg-green-50 rounded-lg p-3">
+              <Gift className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-medium text-charcoal text-sm">Monthly Giveaway{isAnnual ? " — 2x Entries!" : ""}</p>
+                <p className="text-xs text-slate-500">
+                  {isAnnual
+                    ? "As an annual member, you get 2 entries every month into our premium mahjong set giveaway!"
+                    : "You're automatically entered each month to win a premium mahjong set!"}
+                </p>
               </div>
             </div>
           </div>
