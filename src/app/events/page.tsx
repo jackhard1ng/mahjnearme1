@@ -2,10 +2,20 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useAuth } from "@/contexts/AuthContext";
 import { mockGames } from "@/lib/mock-data";
 import { isEventExpired, slugify, formatTime, getStateName, getGameTypeColor, getGameTypeLabel } from "@/lib/utils";
-import { CalendarDays, MapPin, Lock, ArrowRight, Search, Plane } from "lucide-react";
+import { CalendarDays, MapPin, Lock, ArrowRight, Search, Plane, Map } from "lucide-react";
+
+const LeafletMap = dynamic(() => import("@/components/LeafletMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="bg-skyblue-100 rounded-xl border-2 border-softpink-300 h-[400px] flex items-center justify-center">
+      <p className="text-slate-400 text-sm">Loading map...</p>
+    </div>
+  ),
+});
 
 // Word-boundary keyword patterns for destination events
 const DESTINATION_PATTERNS = [
@@ -146,6 +156,19 @@ export default function EventsPage() {
         </div>
 
         <p className="text-sm text-slate-500 mb-4">{filtered.length} destination events found</p>
+
+        {/* Map — subscribers only */}
+        {hasAccess && filtered.length > 0 && (
+          <div className="mb-6 rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+            <div className="h-[400px] sm:h-[500px]">
+              <LeafletMap
+                games={filtered}
+                hasAccess={true}
+                previewCount={filtered.length}
+              />
+            </div>
+          </div>
+        )}
 
         {/* Subscribers-only content */}
         {hasAccess ? (
