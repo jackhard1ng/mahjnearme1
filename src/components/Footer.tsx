@@ -55,7 +55,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/events" className="text-sm text-slate-400 hover:text-hotpink-400 transition-colors">
-                  Special Events
+                  Destination Events
                 </Link>
               </li>
               <li>

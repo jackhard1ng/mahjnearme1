@@ -7,20 +7,30 @@ import { mockGames } from "@/lib/mock-data";
 import { isEventExpired, slugify, formatTime, getStateName, getGameTypeColor, getGameTypeLabel } from "@/lib/utils";
 import { CalendarDays, MapPin, Lock, ArrowRight, Search, Plane } from "lucide-react";
 
-const DESTINATION_KEYWORDS = ["cruise", "retreat", "getaway", "camp", "destination", "championship", "world", "national", "annual retreat", "spa", "resort", "multi-day", "weekend event", "trip"];
+// Keywords that indicate a multi-day / destination event (not a local one-day tournament)
+const DESTINATION_KEYWORDS = ["cruise", "retreat", "getaway", "camp", "destination", "spa", "resort", "multi-day", "weekend event", "staycation", "trip"];
+// These only count as destination events when paired with a destination keyword
+const CONDITIONAL_KEYWORDS = ["tournament", "championship", "classic", "derby"];
+
+function isDestinationEvent(name: string, description: string): boolean {
+  const text = (name + " " + description).toLowerCase();
+  // Direct match on destination keywords
+  if (DESTINATION_KEYWORDS.some((k) => text.includes(k))) return true;
+  // "Destination" tournaments (e.g. "Destination Mah Jongg - San Diego Tournament")
+  if (text.includes("destination") && CONDITIONAL_KEYWORDS.some((k) => text.includes(k))) return true;
+  return false;
+}
 
 export default function EventsPage() {
   const { hasAccess } = useAuth();
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<"all" | "upcoming" | "retreats" | "tournaments" | "camps">("all");
+  const [filter, setFilter] = useState<"all" | "upcoming" | "retreats" | "cruises" | "camps">("all");
 
   const events = useMemo(() => {
-    const now = new Date();
     return mockGames
       .filter((g) => {
         if (g.status !== "active" || isEventExpired(g)) return false;
-        const text = (g.name + " " + (g.description || "")).toLowerCase();
-        return DESTINATION_KEYWORDS.some((k) => text.includes(k));
+        return isDestinationEvent(g.name, g.description || "");
       })
       .sort((a, b) => {
         // Events with dates sort by date, others go to end
@@ -50,17 +60,17 @@ export default function EventsPage() {
     } else if (filter === "retreats") {
       result = result.filter((g) => {
         const text = (g.name + " " + (g.description || "")).toLowerCase();
-        return text.includes("retreat") || text.includes("getaway") || text.includes("cruise") || text.includes("spa");
+        return text.includes("retreat") || text.includes("getaway") || text.includes("spa") || text.includes("staycation");
       });
-    } else if (filter === "tournaments") {
+    } else if (filter === "cruises") {
       result = result.filter((g) => {
         const text = (g.name + " " + (g.description || "")).toLowerCase();
-        return text.includes("tournament") || text.includes("championship") || text.includes("classic") || text.includes("derby");
+        return text.includes("cruise") || text.includes("trip");
       });
     } else if (filter === "camps") {
       result = result.filter((g) => {
         const text = (g.name + " " + (g.description || "")).toLowerCase();
-        return text.includes("camp") || text.includes("boot camp") || text.includes("bootcamp");
+        return text.includes("camp") || text.includes("boot camp") || text.includes("bootcamp") || text.includes("resort");
       });
     }
 
@@ -78,10 +88,10 @@ export default function EventsPage() {
         <div className="max-w-5xl mx-auto px-4 pt-14 pb-10 sm:pt-20 sm:pb-14 text-center relative">
           <Plane className="w-10 h-10 text-skyblue-200 mx-auto mb-4" />
           <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-3xl sm:text-5xl text-white mb-3 tracking-tight drop-shadow-lg">
-            Special Events
+            Destination Events
           </h1>
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
-            Tournaments, retreats, cruises, camps, and destination mahjong events across the country
+            Retreats, cruises, camps, and destination mahjong experiences worth traveling for
           </p>
         </div>
       </section>
@@ -99,13 +109,13 @@ export default function EventsPage() {
               className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-lg text-sm"
             />
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             {[
               { key: "all" as const, label: "All" },
               { key: "upcoming" as const, label: "Has Date" },
-              { key: "tournaments" as const, label: "Tournaments" },
               { key: "retreats" as const, label: "Retreats" },
-              { key: "camps" as const, label: "Camps" },
+              { key: "cruises" as const, label: "Cruises" },
+              { key: "camps" as const, label: "Camps & Resorts" },
             ].map((f) => (
               <button
                 key={f.key}
@@ -122,7 +132,7 @@ export default function EventsPage() {
           </div>
         </div>
 
-        <p className="text-sm text-slate-500 mb-4">{filtered.length} events found</p>
+        <p className="text-sm text-slate-500 mb-4">{filtered.length} destination events found</p>
 
         {/* Event Grid */}
         <div className="grid sm:grid-cols-2 gap-4">
@@ -206,7 +216,7 @@ export default function EventsPage() {
           <div className="mt-8 bg-gradient-to-r from-hotpink-50 to-skyblue-50 border border-hotpink-200 rounded-xl p-6 text-center">
             <Lock className="w-8 h-8 text-hotpink-400 mx-auto mb-2" />
             <h3 className="font-semibold text-lg text-charcoal mb-1">
-              {filtered.length - 3} more events to discover
+              {filtered.length - 3} more destination events to discover
             </h3>
             <p className="text-sm text-slate-500 mb-4">
               Subscribe to see all event details, venues, and registration links.
