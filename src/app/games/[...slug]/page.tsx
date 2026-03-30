@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, notFound } from "next/navigation";
+import { useParams, useRouter, notFound } from "next/navigation";
 import Link from "next/link";
 import { Game } from "@/types";
 import { mockGames } from "@/lib/mock-data";
@@ -168,6 +168,7 @@ function SidebarCta() {
 
 export default function GameDetailPage() {
   const params = useParams();
+  const router = useRouter();
 
   // params.slug will be an array because of the catch-all [...slug], but
   // since the route is /games/[slug] with a single segment name, Next.js
@@ -249,13 +250,13 @@ export default function GameDetailPage() {
         </nav>
 
         {/* Back link */}
-        <Link
-          href={`/search?q=${encodeURIComponent(game.city)}`}
+        <button
+          onClick={() => router.back()}
           className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to {game.city} games
-        </Link>
+          Go Back
+        </button>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* ---------------------------------------------------------------- */}

@@ -168,7 +168,12 @@ export default function EventsPage() {
               <LeafletMap
                 games={filtered}
                 selectedGameId={null}
-                onPinClick={() => {}}
+                onPinClick={(gameId) => {
+                  const game = filtered.find((g) => g.id === gameId);
+                  if (game) {
+                    window.location.href = `/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`;
+                  }
+                }}
                 hasAccess={hasAccess}
                 previewCount={hasAccess ? filtered.length : 0}
                 userHomeMetro={null}
