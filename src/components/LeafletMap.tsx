@@ -227,7 +227,7 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
   return (
     <div className="rounded-xl border-2 border-softpink-300 h-full min-h-[300px] relative overflow-hidden bg-skyblue-50">
       {/* Map container */}
-      <div ref={containerRef} className="absolute inset-0 z-0" />
+      <div ref={containerRef} className="absolute inset-0 z-10" />
 
       {/* No-coordinates fallback message */}
       {ready && !hasGeoGames && (

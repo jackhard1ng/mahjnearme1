@@ -214,6 +214,14 @@ html {
   background: #F0F7FF;
 }
 
+/* Leaflet popup z-index fix */
+.leaflet-popup {
+  z-index: 1100 !important;
+}
+.leaflet-popup-pane {
+  z-index: 1100 !important;
+}
+
 /* Map pin drop animation */
 @keyframes pin-drop {
   0% { transform: translateY(-20px); opacity: 0; }
