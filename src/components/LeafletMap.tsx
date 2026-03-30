@@ -225,7 +225,7 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
   }, [selectedGameId, ready]);
 
   return (
-    <div className="rounded-xl border-2 border-softpink-300 h-full min-h-[300px] relative overflow-hidden bg-skyblue-50">
+    <div className="rounded-xl border-2 border-softpink-300 h-full min-h-[300px] relative bg-skyblue-50">
       {/* Map container */}
       <div ref={containerRef} className="absolute inset-0 z-10" />
 
@@ -244,14 +244,14 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
       )}
 
       {/* Address disclaimer */}
-      <div className="absolute bottom-3 left-3 right-3 z-[1000]">
+      <div className="absolute bottom-3 left-3 right-3 z-[1000] pointer-events-none">
         <p className="bg-white/90 backdrop-blur-sm text-xs text-slate-500 rounded-lg px-3 py-2 text-center">
           Map pins are approximate. Always confirm the exact location with the host before attending.
         </p>
       </div>
 
       {/* Legend */}
-      <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 space-y-1 z-[1000]">
+      <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 space-y-1 z-[1000] pointer-events-none">
         {[
           { type: "open_play", label: "Open Play" },
           { type: "lesson", label: "Lessons" },
