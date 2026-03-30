@@ -251,6 +251,21 @@ function SearchContent() {
       });
     }
 
+    // City-match boost: games in the exact searched city rank above nearby cities
+    if (query) {
+      // Strip state abbreviations and common suffixes to extract the city name
+      const qCleaned = query.toLowerCase().replace(/[,]/g, "").trim()
+        .replace(/\b[a-z]{2}$/i, "").trim(); // remove trailing 2-letter state abbr
+      if (qCleaned) {
+        for (const g of games) {
+          const cityLower = (g.city || "").toLowerCase();
+          if (cityLower === qCleaned) {
+            g.priorityScore -= 20; // significant boost (lower = higher priority)
+          }
+        }
+      }
+    }
+
     // Sort by combined priority score (promoted items get a bonus)
     games.sort((a, b) => {
       if (a.promoted !== b.promoted) return a.promoted ? -1 : 1;
