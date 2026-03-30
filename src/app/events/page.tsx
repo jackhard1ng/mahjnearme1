@@ -24,7 +24,7 @@ function isDestinationEvent(name: string, description: string): boolean {
 export default function EventsPage() {
   const { hasAccess } = useAuth();
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<"all" | "upcoming" | "retreats" | "cruises" | "camps">("all");
+  const [filter, setFilter] = useState<"all" | "upcoming" | "retreats" | "tournaments" | "cruises" | "camps">("all");
 
   const events = useMemo(() => {
     return mockGames
@@ -61,6 +61,11 @@ export default function EventsPage() {
       result = result.filter((g) => {
         const text = (g.name + " " + (g.description || "")).toLowerCase();
         return text.includes("retreat") || text.includes("getaway") || text.includes("spa") || text.includes("staycation");
+      });
+    } else if (filter === "tournaments") {
+      result = result.filter((g) => {
+        const text = (g.name + " " + (g.description || "")).toLowerCase();
+        return text.includes("tournament") || text.includes("championship") || text.includes("classic") || text.includes("derby") || text.includes("mania");
       });
     } else if (filter === "cruises") {
       result = result.filter((g) => {
@@ -114,6 +119,7 @@ export default function EventsPage() {
               { key: "all" as const, label: "All" },
               { key: "upcoming" as const, label: "Has Date" },
               { key: "retreats" as const, label: "Retreats" },
+              { key: "tournaments" as const, label: "Tournaments" },
               { key: "cruises" as const, label: "Cruises" },
               { key: "camps" as const, label: "Camps & Resorts" },
             ].map((f) => (
