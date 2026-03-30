@@ -27,7 +27,7 @@ export default function SearchFiltersBar({ filters, onFiltersChange }: SearchFil
 
   const hasActiveFilters =
     filters.daysOfWeek.length > 0 ||
-    (filters.gameStyle !== "all" && filters.gameStyle !== "american") ||
+    filters.gameStyle !== "all" ||
     filters.dropInFriendly !== null ||
     filters.skillLevel !== "all" ||
     filters.type !== "all" ||
@@ -36,7 +36,7 @@ export default function SearchFiltersBar({ filters, onFiltersChange }: SearchFil
   const clearFilters = () => {
     onFiltersChange({
       daysOfWeek: [],
-      gameStyle: "american",
+      gameStyle: "all",
       dropInFriendly: null,
       skillLevel: "all",
       type: "all",

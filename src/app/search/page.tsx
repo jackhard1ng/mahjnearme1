@@ -55,7 +55,7 @@ function SearchContent() {
 
   const [filters, setFilters] = useState<SearchFilters>({
     daysOfWeek: [],
-    gameStyle: "american",
+    gameStyle: "all",
     dropInFriendly: null,
     skillLevel: "all",
     type: (typeParam as SearchFilters["type"]) || "all",
