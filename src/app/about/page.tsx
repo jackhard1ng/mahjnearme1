@@ -103,7 +103,7 @@ export default function AboutPage() {
             </div>
           </div>
           <p className="text-center text-sm text-slate-500 mt-5 max-w-md mx-auto">
-            Every listing manually researched by our team — not scraped by a bot.
+            Every listing manually researched by our team. Not scraped by a bot.
           </p>
         </div>
 
