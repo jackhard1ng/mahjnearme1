@@ -114,7 +114,7 @@ export default function EventsPage() {
             Destination Events
           </h1>
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
-            Retreats, cruises, camps, and destination mahjong experiences worth traveling for
+            Plan your next mahj trip around the tiles. Retreats, cruises, tournaments, and camps across the country.
           </p>
         </div>
       </section>
