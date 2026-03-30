@@ -159,7 +159,7 @@ export default function EventsPage() {
 
         {/* Map — visible to everyone, locked pins for free users */}
         {filtered.length > 0 && (
-          <div className="mb-6 rounded-xl overflow-hidden border border-slate-200 shadow-sm relative">
+          <div className="mb-6 rounded-xl border border-slate-200 shadow-sm relative">
             <div className="h-[400px] sm:h-[500px]">
               <LeafletMap
                 games={filtered}
