@@ -7,30 +7,40 @@ import { mockGames } from "@/lib/mock-data";
 import { isEventExpired, slugify, formatTime, getStateName, getGameTypeColor, getGameTypeLabel } from "@/lib/utils";
 import { CalendarDays, MapPin, Lock, ArrowRight, Search, Plane } from "lucide-react";
 
-// Keywords that indicate a multi-day / destination event (not a local one-day tournament)
-const DESTINATION_KEYWORDS = ["cruise", "retreat", "getaway", "camp", "destination", "spa", "resort", "multi-day", "weekend event", "staycation", "trip"];
-// These only count as destination events when paired with a destination keyword
-const CONDITIONAL_KEYWORDS = ["tournament", "championship", "classic", "derby"];
+// Word-boundary keyword patterns for destination events
+const DESTINATION_PATTERNS = [
+  /\bcruise\b/i,
+  /\bretreat\b/i,
+  /\bgetaway\b/i,
+  /\bresort\b/i,
+  /\bdestination\b/i,
+  /\bmulti[- ]day\b/i,
+  /\bweekend event\b/i,
+  /\bstaycation\b/i,
+];
 
-function isDestinationEvent(name: string, description: string): boolean {
-  const text = (name + " " + description).toLowerCase();
-  // Direct match on destination keywords
-  if (DESTINATION_KEYWORDS.some((k) => text.includes(k))) return true;
-  // "Destination" tournaments (e.g. "Destination Mah Jongg - San Diego Tournament")
-  if (text.includes("destination") && CONDITIONAL_KEYWORDS.some((k) => text.includes(k))) return true;
+// "camp" needs special handling — match "camp" but not "campbell", "campus", "campaign"
+const CAMP_PATTERN = /\bcamp\b(?!bell|us|aign)/i;
+
+function isDestinationEvent(type: string, name: string, description: string): boolean {
+  // Only events qualify as destination events
+  if (type !== "event") return false;
+  const text = name + " " + description;
+  if (DESTINATION_PATTERNS.some((p) => p.test(text))) return true;
+  if (CAMP_PATTERN.test(text)) return true;
   return false;
 }
 
 export default function EventsPage() {
   const { hasAccess } = useAuth();
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<"all" | "upcoming" | "retreats" | "tournaments" | "cruises" | "camps">("all");
+  const [filter, setFilter] = useState<"all" | "retreats" | "tournaments" | "cruises" | "camps">("all");
 
   const events = useMemo(() => {
     return mockGames
       .filter((g) => {
         if (g.status !== "active" || isEventExpired(g)) return false;
-        return isDestinationEvent(g.name, g.description || "");
+        return isDestinationEvent(g.type, g.name, g.description || "");
       })
       .sort((a, b) => {
         // Events with dates sort by date, others go to end
@@ -55,12 +65,10 @@ export default function EventsPage() {
       );
     }
 
-    if (filter === "upcoming") {
-      result = result.filter((g) => g.eventDate);
-    } else if (filter === "retreats") {
+    if (filter === "retreats") {
       result = result.filter((g) => {
         const text = (g.name + " " + (g.description || "")).toLowerCase();
-        return text.includes("retreat") || text.includes("getaway") || text.includes("spa") || text.includes("staycation");
+        return text.includes("retreat") || text.includes("getaway") || text.includes("staycation");
       });
     } else if (filter === "tournaments") {
       result = result.filter((g) => {
@@ -117,7 +125,6 @@ export default function EventsPage() {
           <div className="flex gap-2 flex-wrap">
             {[
               { key: "all" as const, label: "All" },
-              { key: "upcoming" as const, label: "Has Date" },
               { key: "retreats" as const, label: "Retreats" },
               { key: "tournaments" as const, label: "Tournaments" },
               { key: "cruises" as const, label: "Cruises" },
