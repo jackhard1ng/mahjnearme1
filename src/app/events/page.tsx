@@ -134,96 +134,86 @@ export default function EventsPage() {
 
         <p className="text-sm text-slate-500 mb-4">{filtered.length} destination events found</p>
 
-        {/* Event Grid */}
-        <div className="grid sm:grid-cols-2 gap-4">
-          {filtered.map((g, i) => {
-            const eventDate = g.eventDate ? new Date(g.eventDate + "T00:00:00") : null;
-            const showDetails = hasAccess || i < 3; // Free tier: first 3 show details
+        {/* Subscribers-only content */}
+        {hasAccess ? (
+          <div className="grid sm:grid-cols-2 gap-4">
+            {filtered.map((g) => {
+              const eventDate = g.eventDate ? new Date(g.eventDate + "T00:00:00") : null;
 
-            return (
-              <div key={g.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-md transition-all">
-                <div className="p-5">
-                  {/* Date + Type */}
-                  <div className="flex items-start justify-between mb-3">
-                    {eventDate ? (
-                      <div className="shrink-0 w-14 text-center mr-4">
-                        <div className="bg-hotpink-500 text-white text-[10px] font-bold uppercase rounded-t-lg py-0.5">
-                          {eventDate.toLocaleDateString("en-US", { month: "short" })}
+              return (
+                <div key={g.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-md transition-all">
+                  <div className="p-5">
+                    {/* Date + Type */}
+                    <div className="flex items-start justify-between mb-3">
+                      {eventDate ? (
+                        <div className="shrink-0 w-14 text-center mr-4">
+                          <div className="bg-hotpink-500 text-white text-[10px] font-bold uppercase rounded-t-lg py-0.5">
+                            {eventDate.toLocaleDateString("en-US", { month: "short" })}
+                          </div>
+                          <div className="border border-t-0 border-slate-200 rounded-b-lg py-1">
+                            <p className="text-xl font-bold text-charcoal leading-none">{eventDate.getDate()}</p>
+                          </div>
                         </div>
-                        <div className="border border-t-0 border-slate-200 rounded-b-lg py-1">
-                          <p className="text-xl font-bold text-charcoal leading-none">{eventDate.getDate()}</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="shrink-0 w-14 text-center mr-4">
-                        <div className="bg-skyblue-400 text-white text-[10px] font-bold uppercase rounded-t-lg py-0.5">
-                          TBD
-                        </div>
-                        <div className="border border-t-0 border-slate-200 rounded-b-lg py-1">
-                          <p className="text-sm font-bold text-slate-400 leading-none">2026</p>
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getGameTypeColor(g.type)}`}>
-                          {getGameTypeLabel(g.type)}
-                        </span>
-                      </div>
-
-                      {showDetails ? (
-                        <Link href={`/games/${slugify(g.city + "-" + g.state)}/${slugify(g.name)}`} className="hover:text-hotpink-500 transition-colors">
-                          <h3 className="font-semibold text-charcoal text-sm line-clamp-2">{g.name}</h3>
-                        </Link>
                       ) : (
-                        <div>
-                          <div className="h-4 w-48 bg-slate-200/80 rounded blur-[3px] mb-1" />
+                        <div className="shrink-0 w-14 text-center mr-4">
+                          <div className="bg-skyblue-400 text-white text-[10px] font-bold uppercase rounded-t-lg py-0.5">
+                            TBD
+                          </div>
+                          <div className="border border-t-0 border-slate-200 rounded-b-lg py-1">
+                            <p className="text-sm font-bold text-slate-400 leading-none">2026</p>
+                          </div>
                         </div>
                       )}
 
-                      <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-1">
-                        <MapPin className="w-3 h-3" />
-                        <span>{g.city}, {g.state}</span>
-                        {g.eventStartTime && (
-                          <span className="ml-1">&middot; {formatTime(g.eventStartTime)}</span>
-                        )}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getGameTypeColor(g.type)}`}>
+                            {getGameTypeLabel(g.type)}
+                          </span>
+                        </div>
+
+                        <Link href={`/games/${slugify(g.city + "-" + g.state)}/${slugify(g.name)}`} className="hover:text-hotpink-500 transition-colors">
+                          <h3 className="font-semibold text-charcoal text-sm line-clamp-2">{g.name}</h3>
+                        </Link>
+
+                        <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-1">
+                          <MapPin className="w-3 h-3" />
+                          <span>{g.city}, {g.state}</span>
+                          {g.eventStartTime && (
+                            <span className="ml-1">&middot; {formatTime(g.eventStartTime)}</span>
+                          )}
+                        </div>
                       </div>
                     </div>
+
+                    {g.description && (
+                      <p className="text-xs text-slate-500 line-clamp-2 mt-2">{g.description}</p>
+                    )}
+
+                    {g.cost && g.cost !== "Contact for price" && (
+                      <p className="text-xs font-medium text-charcoal mt-2">{g.cost}</p>
+                    )}
                   </div>
-
-                  {/* Description */}
-                  {showDetails && g.description ? (
-                    <p className="text-xs text-slate-500 line-clamp-2 mt-2">{g.description}</p>
-                  ) : !showDetails ? (
-                    <div className="flex items-center gap-1.5 mt-2 text-xs text-hotpink-500 font-medium">
-                      <Lock className="w-3 h-3" />
-                      <Link href="/pricing">Subscribe to see event details</Link>
-                    </div>
-                  ) : null}
-
-                  {showDetails && g.cost && g.cost !== "Contact for price" && (
-                    <p className="text-xs font-medium text-charcoal mt-2">{g.cost}</p>
-                  )}
                 </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Subscribe CTA */}
-        {!hasAccess && filtered.length > 3 && (
-          <div className="mt-8 bg-gradient-to-r from-hotpink-50 to-skyblue-50 border border-hotpink-200 rounded-xl p-6 text-center">
-            <Lock className="w-8 h-8 text-hotpink-400 mx-auto mb-2" />
-            <h3 className="font-semibold text-lg text-charcoal mb-1">
-              {filtered.length - 3} more destination events to discover
-            </h3>
-            <p className="text-sm text-slate-500 mb-4">
-              Subscribe to see all event details, venues, and registration links.
+              );
+            })}
+          </div>
+        ) : (
+          /* Full paywall for non-subscribers */
+          <div className="bg-gradient-to-br from-hotpink-50 via-white to-skyblue-50 border border-hotpink-200 rounded-xl p-10 text-center">
+            <Lock className="w-12 h-12 text-hotpink-400 mx-auto mb-4" />
+            <h2 className="font-semibold text-2xl text-charcoal mb-2">
+              {filtered.length} Destination Events
+            </h2>
+            <p className="text-slate-500 mb-2 max-w-md mx-auto">
+              Retreats, cruises, camps, and destination mahjong experiences are exclusive to subscribers.
+            </p>
+            <p className="text-sm text-slate-400 mb-6 max-w-md mx-auto">
+              Subscribe to browse all destination events with full details, dates, venues, and registration links.
             </p>
             <Link
               href="/pricing"
-              className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
+              className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
             >
               View Plans <ArrowRight className="w-4 h-4" />
             </Link>
