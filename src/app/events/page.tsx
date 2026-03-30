@@ -155,7 +155,11 @@ export default function EventsPage() {
           </div>
         </div>
 
-        <p className="text-sm text-slate-500 mb-4">{filtered.length} destination events found</p>
+        <p className="text-sm text-slate-500 mb-2">{filtered.length} destination events found</p>
+        <p className="text-xs text-slate-400 mb-4">
+          These are multi-day events worth traveling for — retreats, cruises, camps, and destination tournaments.
+          Looking for local one-day tournaments near you? <Link href="/search" className="text-hotpink-500 font-medium hover:underline">Search all 70+ tournaments</Link> using the Tournament filter on Find Games.
+        </p>
 
         {/* Map — visible to everyone, locked pins for free users */}
         {filtered.length > 0 && (
