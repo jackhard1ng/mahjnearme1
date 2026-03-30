@@ -158,13 +158,13 @@ export default function EventsPage() {
         <p className="text-sm text-slate-500 mb-2">{filtered.length} destination events found</p>
         <p className="text-xs text-slate-400 mb-4">
           These are multi-day events worth traveling for — retreats, cruises, camps, and destination tournaments.
-          Looking for local one-day tournaments near you? <Link href="/search" className="text-hotpink-500 font-medium hover:underline">Search all 70+ tournaments</Link> using the Tournament filter on Find Games.
+          Looking for local one-day tournaments near you? <Link href="/search?type=tournament" className="text-hotpink-500 font-medium hover:underline">Browse all 70+ tournaments</Link>.
         </p>
 
         {/* Map — visible to everyone, locked pins for free users */}
         {filtered.length > 0 && (
-          <div className="mb-6 rounded-xl border border-slate-200 shadow-sm relative">
-            <div className="h-[400px] sm:h-[500px]">
+          <>
+            <div className="mb-2 h-[400px] sm:h-[500px]">
               <LeafletMap
                 games={filtered}
                 hasAccess={hasAccess}
@@ -172,7 +172,7 @@ export default function EventsPage() {
               />
             </div>
             {!hasAccess && (
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white via-white/90 to-transparent p-6 text-center">
+              <div className="mb-6 bg-gradient-to-r from-hotpink-50 to-skyblue-50 border border-hotpink-200 rounded-xl p-6 text-center">
                 <p className="font-semibold text-charcoal mb-1">
                   {filtered.length} destination events across the country
                 </p>
@@ -185,7 +185,7 @@ export default function EventsPage() {
                 </Link>
               </div>
             )}
-          </div>
+          </>
         )}
 
         {/* Subscribers-only content */}

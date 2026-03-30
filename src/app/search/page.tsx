@@ -42,6 +42,7 @@ function SearchContent() {
   const query = searchParams.get("q") || "";
   const latParam = searchParams.get("lat");
   const lngParam = searchParams.get("lng");
+  const typeParam = searchParams.get("type");
   const { user, hasAccess, userProfile, updateUserProfile } = useAuth();
   const prefsApplied = useRef(false);
 
@@ -57,7 +58,7 @@ function SearchContent() {
     gameStyle: "american",
     dropInFriendly: null,
     skillLevel: "all",
-    type: "all",
+    type: (typeParam as SearchFilters["type"]) || "all",
     dateFrom: null,
     dateTo: null,
   });
