@@ -2,8 +2,30 @@
 
 import { useEffect, useRef } from "react";
 import { Game } from "@/types";
-import { slugify, getMapPinColor } from "@/lib/utils";
+import { slugify } from "@/lib/utils";
 import type L from "leaflet";
+
+const CATEGORY_COLORS: Record<string, string> = {
+  retreat: "#8B5CF6",   // purple
+  cruise: "#3B82F6",    // blue
+  camp: "#10B981",      // green
+  tournament: "#F59E0B", // amber
+  other: "#FF1493",     // hotpink
+};
+
+function getEventCategory(name: string, description: string): string {
+  const text = (name + " " + description).toLowerCase();
+  if (text.includes("cruise")) return "cruise";
+  if (text.includes("retreat") || text.includes("getaway") || text.includes("staycation")) return "retreat";
+  if (text.includes("tournament") || text.includes("championship") || text.includes("classic") || text.includes("derby")) return "tournament";
+  if (/\bcamp\b(?!bell|us|aign)/i.test(text) || text.includes("resort")) return "camp";
+  return "other";
+}
+
+function getCategoryLabel(cat: string): string {
+  const labels: Record<string, string> = { retreat: "Retreat", cruise: "Cruise", camp: "Camp / Resort", tournament: "Tournament", other: "Event" };
+  return labels[cat] || "Event";
+}
 
 interface DestinationMapProps {
   games: Game[];
@@ -45,30 +67,35 @@ export default function DestinationMap({ games, hasAccess }: DestinationMapProps
       games.forEach((game) => {
         if (!game.geopoint || game.geopoint.lat === 0 && game.geopoint.lng === 0) return;
 
-        const color = hasAccess ? getMapPinColor(game.type) : "#9CA3AF";
-        const size = 24;
+        const category = getEventCategory(game.name, game.description || "");
+        const color = hasAccess ? CATEGORY_COLORS[category] : "#9CA3AF";
+        const w = 14;
+        const h = 20;
 
         const icon = L.divIcon({
           className: "",
           html: `<div style="
-            width: ${size}px; height: ${size}px;
+            width: ${w}px; height: ${h}px;
             background: ${color};
             border: 2px solid #fff;
-            border-radius: 50%;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
             cursor: pointer;
           "></div>`,
-          iconSize: [size, size],
-          iconAnchor: [size / 2, size / 2],
-          popupAnchor: [0, -size / 2],
+          iconSize: [w, h],
+          iconAnchor: [w / 2, h],
+          popupAnchor: [0, -h],
         });
 
         const marker = L.marker([game.geopoint.lat, game.geopoint.lng], { icon });
 
         if (hasAccess) {
           const gameUrl = `/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`;
+          const catLabel = getCategoryLabel(category);
           marker.bindPopup(
             `<div style="font-family: system-ui, sans-serif; min-width: 200px;">
+              <span style="display:inline-block; background:${color}; color:#fff; font-size:10px; font-weight:700; padding:1px 6px; border-radius:8px; margin-bottom:4px;">${catLabel}</span><br/>
               <strong style="font-size: 14px; color: #1a1a2e;">${game.name}</strong><br/>
               <span style="color: #64748b; font-size: 12px;">${game.city}, ${game.state}</span><br/>
               ${game.eventDate ? `<span style="color: #D97706; font-size: 11px; font-weight: 600;">${new Date(game.eventDate + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span><br/>` : ""}
@@ -104,9 +131,21 @@ export default function DestinationMap({ games, hasAccess }: DestinationMapProps
   }, [games, hasAccess]);
 
   return (
-    <div
-      ref={containerRef}
-      style={{ width: "100%", height: "100%" }}
-    />
+    <div style={{ width: "100%", height: "100%", position: "relative" }}>
+      <div ref={containerRef} style={{ width: "100%", height: "100%" }} />
+      <div style={{
+        position: "absolute", top: 10, right: 10, zIndex: 1000,
+        background: "rgba(255,255,255,0.92)", backdropFilter: "blur(4px)",
+        borderRadius: 8, padding: "8px 10px", fontSize: 11,
+        pointerEvents: "none",
+      }}>
+        {Object.entries(CATEGORY_COLORS).map(([key, color]) => (
+          <div key={key} style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
+            <div style={{ width: 10, height: 10, borderRadius: "50%", background: color }} />
+            <span style={{ color: "#334155" }}>{getCategoryLabel(key)}</span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
