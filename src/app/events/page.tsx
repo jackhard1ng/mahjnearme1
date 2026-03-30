@@ -6,12 +6,12 @@ import dynamic from "next/dynamic";
 import { useAuth } from "@/contexts/AuthContext";
 import { mockGames } from "@/lib/mock-data";
 import { isEventExpired, slugify, formatTime, getStateName, getGameTypeColor, getGameTypeLabel } from "@/lib/utils";
-import { CalendarDays, MapPin, Lock, ArrowRight, Search, Plane, Map } from "lucide-react";
+import { MapPin, Lock, ArrowRight, Search, Plane } from "lucide-react";
 
-const LeafletMap = dynamic(() => import("@/components/LeafletMap"), {
+const DestinationMap = dynamic(() => import("@/components/DestinationMap"), {
   ssr: false,
   loading: () => (
-    <div className="bg-skyblue-100 rounded-xl border-2 border-softpink-300 h-[400px] flex items-center justify-center">
+    <div className="bg-skyblue-100 rounded-xl border-2 border-softpink-300 h-full flex items-center justify-center">
       <p className="text-slate-400 text-sm">Loading map...</p>
     </div>
   ),
@@ -155,30 +155,16 @@ export default function EventsPage() {
           </div>
         </div>
 
-        <p className="text-sm text-slate-500 mb-2">{filtered.length} destination events found</p>
-        <p className="text-xs text-slate-400 mb-4">
-          These are multi-day events worth traveling for — retreats, cruises, camps, and destination tournaments.
-          Looking for local one-day tournaments near you? <Link href="/search?type=tournament" className="text-hotpink-500 font-medium hover:underline">Browse all 70+ tournaments</Link>.
+        <p className="text-sm text-slate-500 mb-4">
+          {filtered.length} destination events found.
+          {" "}Looking for local tournaments? <Link href="/search?type=tournament" className="text-hotpink-500 font-medium hover:underline">Browse all 70+ tournaments</Link>
         </p>
 
         {/* Map — visible to everyone, locked pins for free users */}
         {filtered.length > 0 && (
           <>
-            <div className="mb-2" style={{ height: "500px" }}>
-              <LeafletMap
-                games={filtered}
-                selectedGameId={null}
-                onPinClick={(gameId) => {
-                  const game = filtered.find((g) => g.id === gameId);
-                  if (game) {
-                    window.location.href = `/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`;
-                  }
-                }}
-                hasAccess={hasAccess}
-                previewCount={hasAccess ? filtered.length : 0}
-                userHomeMetro={null}
-                searchCenter={null}
-              />
+            <div className="mb-4 rounded-xl border border-slate-200 overflow-hidden" style={{ height: "500px" }}>
+              <DestinationMap games={filtered} hasAccess={hasAccess} />
             </div>
             {!hasAccess && (
               <div className="mb-6 bg-gradient-to-r from-hotpink-50 to-skyblue-50 border border-hotpink-200 rounded-xl p-6 text-center">
