@@ -1063,6 +1063,7 @@ function AdminOrganizersPanel() {
 function AdminApprovalsPanel() {
   const [claims, setClaims] = useState<{ id: string; userId: string; userEmail: string; userName: string; listingIds: string[]; status: string; message: string; createdAt: string }[]>([]);
   const [approvals, setApprovals] = useState<{ id: string; type: string; userId: string; userEmail: string; userName: string; listingId: string | null; oldValues: Record<string, unknown> | null; newValues: Record<string, unknown> | null; status: string; createdAt: string }[]>([]);
+  const [applications, setApplications] = useState<{ id: string; userId: string; userEmail: string; userName: string; organizerName: string; city: string; state: string; role: string; bio: string; isInstructor: boolean; instructorDetails: Record<string, unknown> | null; message: string; website: string; instagram: string; createdAt: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState<string | null>(null);
   const [importStatus, setImportStatus] = useState("");
@@ -1075,18 +1076,33 @@ function AdminApprovalsPanel() {
   const loadData = async () => {
     setLoading(true);
     try {
-      const [claimsRes, approvalsRes] = await Promise.all([
+      const [claimsRes, approvalsRes, appsRes] = await Promise.all([
         adminFetch("/api/claims?status=pending"),
         adminFetch("/api/approvals?status=pending"),
+        adminFetch("/api/organizer-apply?status=pending"),
       ]);
       const claimsData = await claimsRes.json();
       const approvalsData = await approvalsRes.json();
+      const appsData = await appsRes.json();
       setClaims(claimsData.claims || []);
       setApprovals(approvalsData.approvals || []);
+      setApplications(appsData.applications || []);
     } catch {
       // silently handle
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleApplication = async (appId: string, status: "approved" | "rejected") => {
+    setProcessing(appId);
+    try {
+      await adminFetch("/api/organizer-apply", "PUT", { id: appId, status, reviewedBy: "admin" });
+      await loadData();
+    } catch {
+      // silently handle
+    } finally {
+      setProcessing(null);
     }
   };
 
@@ -1246,6 +1262,68 @@ function AdminApprovalsPanel() {
         >
           <UserPlus className="w-4 h-4" /> Assign by Email
         </button>
+      </div>
+
+      {/* Organizer/Instructor Applications */}
+      <div>
+        <h3 className="font-semibold text-slate-800 mb-3">
+          Organizer Applications ({applications.length})
+        </h3>
+        {applications.length === 0 ? (
+          <p className="text-slate-400 text-sm">No pending applications.</p>
+        ) : (
+          <div className="space-y-3">
+            {applications.map((app) => (
+              <div key={app.id} className="border border-slate-200 rounded-lg p-4">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <p className="font-medium text-slate-800">{app.organizerName}</p>
+                      {app.isInstructor && (
+                        <span className="bg-purple-100 text-purple-700 text-xs font-semibold px-2 py-0.5 rounded-full">Instructor</span>
+                      )}
+                      <span className="bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded-full capitalize">{app.role}</span>
+                    </div>
+                    <p className="text-sm text-slate-500">{app.userEmail}</p>
+                    <p className="text-sm text-slate-600 mt-1">{app.city}, {app.state}</p>
+                    {app.bio && <p className="text-sm text-slate-500 mt-1">{app.bio}</p>}
+                    {app.website && <p className="text-xs text-slate-400 mt-1">Website: {app.website}</p>}
+                    {app.instagram && <p className="text-xs text-slate-400">Instagram: {app.instagram}</p>}
+                    {app.isInstructor && app.instructorDetails && (
+                      <div className="mt-1 text-xs text-purple-600">
+                        {(app.instructorDetails.teachingStyles as string[])?.length > 0 && (
+                          <span>Teaching: {(app.instructorDetails.teachingStyles as string[]).join(", ")} | </span>
+                        )}
+                        {(app.instructorDetails.gameStylesTaught as string[])?.length > 0 && (
+                          <span>Styles: {(app.instructorDetails.gameStylesTaught as string[]).join(", ")} | </span>
+                        )}
+                        {app.instructorDetails.serviceArea ? <span>Area: {String(app.instructorDetails.serviceArea)}</span> : null}
+                      </div>
+                    )}
+                    {app.message && <p className="text-sm text-slate-500 mt-1 italic">&quot;{app.message}&quot;</p>}
+                    <p className="text-xs text-slate-400 mt-1">Applied {new Date(app.createdAt).toLocaleDateString()}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleApplication(app.id, "approved")}
+                      disabled={processing === app.id}
+                      className="bg-green-500 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-green-600 disabled:opacity-50"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => handleApplication(app.id, "rejected")}
+                      disabled={processing === app.id}
+                      className="bg-red-500 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-red-600 disabled:opacity-50"
+                    >
+                      Reject
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Pending Claims */}

@@ -86,7 +86,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/claim-listing" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
+                <Link href="/for-organizers" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
                   For Organizers
                 </Link>
               </li>

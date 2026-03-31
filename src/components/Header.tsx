@@ -99,12 +99,12 @@ export default function Header() {
                       </Link>
                     ) : (
                       <Link
-                        href="/claim-listing"
+                        href="/for-organizers"
                         onClick={() => setUserMenuOpen(false)}
                         className="flex items-center gap-3 px-4 py-2 text-sm text-charcoal hover:bg-hotpink-50"
                       >
                         <GraduationCap className="w-4 h-4" />
-                        Claim Your Listings
+                        For Organizers
                       </Link>
                     )}
                     {isContributor && (
@@ -223,11 +223,11 @@ export default function Header() {
                   </Link>
                 ) : (
                   <Link
-                    href="/claim-listing"
+                    href="/for-organizers"
                     onClick={() => setMobileMenuOpen(false)}
                     className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
                   >
-                    Claim Your Listings
+                    For Organizers
                   </Link>
                 )}
                 <Link

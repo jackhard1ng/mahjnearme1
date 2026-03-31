@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     const { route, method, body } = await req.json();
 
     // Only allow proxying to our own API routes
-    const allowedPrefixes = ["/api/subscribers", "/api/billing-date", "/api/giveaway", "/api/organizers", "/api/contributor-activity", "/api/referrals", "/api/digest", "/api/claims", "/api/approvals", "/api/listings"];
+    const allowedPrefixes = ["/api/subscribers", "/api/billing-date", "/api/giveaway", "/api/organizers", "/api/contributor-activity", "/api/referrals", "/api/digest", "/api/claims", "/api/approvals", "/api/listings", "/api/organizer-apply"];
     if (!allowedPrefixes.some((p) => route.startsWith(p))) {
       return NextResponse.json({ error: "Route not allowed" }, { status: 403 });
     }
