@@ -35,8 +35,10 @@ function fetchListings() {
   fetch("/api/listings")
     .then((r) => r.json())
     .then((data) => {
-      if (data.listings && Array.isArray(data.listings)) {
+      if (data.listings && Array.isArray(data.listings) && data.listings.length > 0) {
+        // Only replace fallback if Firestore actually has data
         _clientCache = data.listings as Game[];
+        _fallbackLoaded = false;
       }
       _fetching = false;
       _listeners.forEach((cb) => cb());
