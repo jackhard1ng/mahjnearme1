@@ -52,7 +52,7 @@ export default function TravelPlannerPage() {
           href="/signup"
           className="inline-block bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
         >
-          Get Started Free
+          Get Started
         </Link>
       </div>
     );

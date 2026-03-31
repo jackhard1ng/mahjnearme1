@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Menu, X, User, LogOut, Settings, LayoutDashboard, ChevronDown, CalendarDays, Heart, MessageSquare, Briefcase } from "lucide-react";
+import { Menu, X, User, LogOut, Settings, LayoutDashboard, ChevronDown, CalendarDays, Heart, MessageSquare, Briefcase, GraduationCap } from "lucide-react";
 
 export default function Header() {
-  const { user, userProfile, signOut, isAdmin, isContributor } = useAuth();
+  const { user, userProfile, signOut, isAdmin, isContributor, isOrganizer } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
@@ -50,6 +50,9 @@ export default function Header() {
             <Link href="/giveaways" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               Giveaways
             </Link>
+            <Link href="/instructors" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
+              Instructors
+            </Link>
             <Link href="/about" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               About
             </Link>
@@ -85,6 +88,25 @@ export default function Header() {
                       <Settings className="w-4 h-4" />
                       Account Settings
                     </Link>
+                    {isOrganizer ? (
+                      <Link
+                        href="/organizer"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-charcoal hover:bg-hotpink-50"
+                      >
+                        <GraduationCap className="w-4 h-4" />
+                        Organizer Dashboard
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/claim-listing"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-charcoal hover:bg-hotpink-50"
+                      >
+                        <GraduationCap className="w-4 h-4" />
+                        Claim Your Listings
+                      </Link>
+                    )}
                     {isContributor && (
                       <Link
                         href="/contributor-panel"
@@ -175,6 +197,13 @@ export default function Header() {
               Giveaways
             </Link>
             <Link
+              href="/instructors"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
+            >
+              Instructors
+            </Link>
+            <Link
               href="/about"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
@@ -184,6 +213,23 @@ export default function Header() {
             <hr className="border-white/20" />
             {user ? (
               <>
+                {isOrganizer ? (
+                  <Link
+                    href="/organizer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
+                  >
+                    Organizer Dashboard
+                  </Link>
+                ) : (
+                  <Link
+                    href="/claim-listing"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
+                  >
+                    Claim Your Listings
+                  </Link>
+                )}
                 <Link
                   href="/calendar"
                   onClick={() => setMobileMenuOpen(false)}

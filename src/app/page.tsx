@@ -225,7 +225,7 @@ export default function HomePage() {
                 href="/signup"
                 className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors shadow-lg"
               >
-                Get Started Free <ArrowRight className="w-4 h-4" />
+                Get Started <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </div>
