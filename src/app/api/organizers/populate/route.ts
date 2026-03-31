@@ -34,6 +34,7 @@ export async function POST(req: Request) {
       states: Set<string>;
       listingIds: string[];
       listingCount: number;
+      locations: Map<string, { venueName: string; address: string; city: string; state: string; lat: number; lng: number }>;
     }>();
 
     for (const l of listings) {
@@ -67,6 +68,7 @@ export async function POST(req: Request) {
           states: new Set(),
           listingIds: [],
           listingCount: 0,
+          locations: new Map<string, { venueName: string; address: string; city: string; state: string; lat: number; lng: number }>(),
         });
       }
 
@@ -79,6 +81,21 @@ export async function POST(req: Request) {
       if (l.website && !org.website) org.website = l.website;
       if (l.instagram && !org.instagram) org.instagram = l.instagram;
       if (l.facebookGroup && !org.facebookGroup) org.facebookGroup = l.facebookGroup;
+
+      // Extract location if it has address or geopoint
+      if (l.venueName || l.address || (l.latitude && l.longitude)) {
+        const locKey = `${l.venueName || ""}-${l.city}-${l.state}`.toLowerCase();
+        if (!org.locations.has(locKey)) {
+          org.locations.set(locKey, {
+            venueName: l.venueName || "",
+            address: l.address || "",
+            city: l.city || "",
+            state: l.state || "",
+            lat: l.latitude ? Number(l.latitude) : 0,
+            lng: l.longitude ? Number(l.longitude) : 0,
+          });
+        }
+      }
     }
 
     // Get existing organizers to avoid duplicates
@@ -112,8 +129,9 @@ export async function POST(req: Request) {
         facebookGroup: org.facebookGroup,
         cities: Array.from(org.cities),
         states: Array.from(org.states),
-        listingIds: org.listingIds.slice(0, 50), // cap at 50 for Firestore doc size
+        listingIds: org.listingIds.slice(0, 50),
         listingCount: org.listingCount,
+        locations: Array.from(org.locations.values()).slice(0, 10), // cap at 10 locations
         verified: false,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),

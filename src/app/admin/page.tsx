@@ -1033,6 +1033,18 @@ function AdminOrganizersPanel() {
                     <p className="text-xs text-slate-400 mt-1">
                       {((org.cities as string[]) || []).slice(0, 5).join(", ")} {((org.states as string[]) || []).length > 0 ? `(${((org.states as string[]) || []).join(", ")})` : ""}
                     </p>
+                    {((org.locations as unknown[]) || []).length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mt-1.5">
+                        {((org.locations as { venueName: string; city: string; state: string }[]) || []).slice(0, 3).map((loc, i) => (
+                          <span key={i} className="text-[10px] bg-skyblue-50 text-skyblue-600 px-1.5 py-0.5 rounded">
+                            {loc.venueName ? `${loc.venueName}, ${loc.city}` : loc.city}, {loc.state}
+                          </span>
+                        ))}
+                        {((org.locations as unknown[]) || []).length > 3 && (
+                          <span className="text-[10px] text-slate-400">+{((org.locations as unknown[]) || []).length - 3} more</span>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <button onClick={() => startEdit(org)} className="text-xs text-hotpink-500 font-medium hover:underline shrink-0 ml-4">Edit</button>
                 </div>
