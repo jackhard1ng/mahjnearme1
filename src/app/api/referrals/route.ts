@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { MONTHLY_REFERRAL_COMMISSION, ANNUAL_REFERRAL_COMMISSION } from "@/lib/constants";
+import { requireAdmin } from "@/lib/api-auth";
 
 // GET: Fetch referral dashboard data for a contributor
 export async function GET(request: NextRequest) {
@@ -12,6 +13,8 @@ export async function GET(request: NextRequest) {
     const db = getAdminDb();
 
     if (adminView) {
+      const denied = requireAdmin(request);
+      if (denied) return denied;
       // Admin view: all contributors with referral stats
       const contributorsSnap = await db.collection("users")
         .where("isContributor", "==", true)

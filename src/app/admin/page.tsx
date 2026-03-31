@@ -66,6 +66,15 @@ interface GiveawayData {
   winners: { id: string; month: string; winnerName: string; winnerCity: string; drawnAt: string }[];
 }
 
+// Helper to route admin API calls through the secure proxy
+async function adminFetch(route: string, method: string = "GET", body?: unknown): Promise<Response> {
+  return fetch("/api/admin-proxy", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ route, method, body }),
+  });
+}
+
 export default function AdminDashboardPage() {
   const [games] = useState(mockGames);
   const [activeTab, setActiveTab] = useState<"overview" | "subscribers" | "contributors" | "referrals" | "giveaways" | "organizers" | "notifications">("overview");
@@ -105,7 +114,7 @@ export default function AdminDashboardPage() {
 
   const fetchContributors = useCallback(async () => {
     try {
-      const res = await fetch("/api/contributor-activity");
+      const res = await adminFetch("/api/contributor-activity");
       if (res.ok) {
         const data = await res.json();
         setContributors(data.contributors || []);
@@ -115,7 +124,7 @@ export default function AdminDashboardPage() {
 
   const fetchReferrals = useCallback(async () => {
     try {
-      const res = await fetch("/api/referrals?admin=true");
+      const res = await adminFetch("/api/referrals?admin=true");
       if (res.ok) {
         setReferralData(await res.json());
       }
@@ -124,7 +133,7 @@ export default function AdminDashboardPage() {
 
   const fetchGiveaway = useCallback(async () => {
     try {
-      const res = await fetch("/api/giveaway?admin=true");
+      const res = await adminFetch("/api/giveaway?admin=true");
       if (res.ok) {
         setGiveawayData(await res.json());
       }
@@ -141,11 +150,7 @@ export default function AdminDashboardPage() {
     if (!confirm("Draw a winner? This action cannot be undone.")) return;
     setDrawing(true);
     try {
-      const res = await fetch("/api/giveaway", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "draw" }),
-      });
+      const res = await adminFetch("/api/giveaway", "POST", { action: "draw" });
       const data = await res.json();
       if (data.success) {
         alert(`Winner: ${data.winner.winnerName} from ${data.winner.winnerCity}`);
@@ -168,11 +173,7 @@ export default function AdminDashboardPage() {
     if (!confirm(`Send giveaway announcement to all active contributors?\n\nPrize: ${announcePrizeValue} ${announcePrizeName}`)) return;
     setSendingAnnouncement(true);
     try {
-      const res = await fetch("/api/giveaway/announce", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prizeName: announcePrizeName, prizeValue: announcePrizeValue }),
-      });
+      const res = await adminFetch("/api/giveaway/announce", "POST", { prizeName: announcePrizeName, prizeValue: announcePrizeValue });
       const data = await res.json();
       if (data.success) {
         alert(`Announcement sent to ${data.sent} contributor(s): ${data.recipients.join(", ")}`);
@@ -191,11 +192,7 @@ export default function AdminDashboardPage() {
   async function handleReactivate(userId: string) {
     setReactivating(userId);
     try {
-      await fetch("/api/contributor-activity", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, action: "reactivate" }),
-      });
+      await adminFetch("/api/contributor-activity", "PATCH", { userId, action: "reactivate" });
       fetchContributors();
     } catch { /* silent */ }
     finally { setReactivating(null); }
@@ -755,7 +752,7 @@ function AdminSubscribersPanel() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch("/api/subscribers");
+        const res = await adminFetch("/api/subscribers");
         if (res.ok) setData(await res.json());
       } catch { /* silent */ }
       setLoading(false);
@@ -858,7 +855,7 @@ function AdminOrganizersPanel() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("/api/organizers?all=true");
+        const res = await adminFetch("/api/organizers?all=true");
         if (res.ok) {
           const data = await res.json();
           setOrganizers(data.organizers || []);
@@ -970,7 +967,7 @@ function AdminNotificationsPanel() {
   async function fetchData() {
     setLoading(true);
     try {
-      const res = await fetch("/api/digest/status");
+      const res = await adminFetch("/api/digest/status");
       if (res.ok) {
         const data = await res.json();
         setSubscribers(data.subscribers || []);
@@ -987,7 +984,7 @@ function AdminNotificationsPanel() {
     setSendingType(type);
     setSendResult(null);
     try {
-      const res = await fetch(`/api/digest/trigger?type=${type}`, { method: "POST" });
+      const res = await adminFetch(`/api/digest?type=${type}`, "POST");
       const data = await res.json();
       if (data.success) {
         setSendResult(`Sent ${data.emailsSent} emails. ${data.newListings} new listings found.`);
@@ -1006,14 +1003,10 @@ function AdminNotificationsPanel() {
     setSendingAnnounce(true);
     setAnnounceResult(null);
     try {
-      const res = await fetch("/api/digest/announce-trigger", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          subject: announceSubject,
-          message: announceMessage,
-          audience: announceAudience,
-        }),
+      const res = await adminFetch("/api/digest/announce", "POST", {
+        subject: announceSubject,
+        message: announceMessage,
+        audience: announceAudience,
       });
       const data = await res.json();
       if (data.success) {

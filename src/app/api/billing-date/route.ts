@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
+import { requireAdmin } from "@/lib/api-auth";
 
 /**
- * GET /api/billing-date?customerId=cus_xxx
- * Returns the next billing date from Stripe for a customer.
+ * GET /api/billing-date — Protected
  */
 export async function GET(req: Request) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   const url = new URL(req.url);
   const customerId = url.searchParams.get("customerId");
 

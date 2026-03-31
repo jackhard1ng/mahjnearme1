@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { requireAdmin } from "@/lib/api-auth";
 
 // LEGAL NOTE: Sweepstakes laws vary by state. Have this reviewed by legal counsel before launch.
 
@@ -25,6 +26,8 @@ export async function GET(request: NextRequest) {
     }));
 
     if (admin) {
+      const denied = requireAdmin(request);
+      if (denied) return denied;
       // Admin: also get entry pool for current month
       const usersSnap = await db.collection("users").get();
       const eligibleEntries: { userId: string; userName: string; email: string; plan: string; entries: number }[] = [];
@@ -122,6 +125,8 @@ export async function POST(request: NextRequest) {
 
     // Admin draw winner
     if (body.action === "draw") {
+      const denied = requireAdmin(request);
+      if (denied) return denied;
       const now = new Date();
       const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 

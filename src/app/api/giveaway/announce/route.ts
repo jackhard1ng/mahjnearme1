@@ -1,14 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { formatCurrency } from "@/lib/currency";
+import { requireAdmin } from "@/lib/api-auth";
 import {
   MONTHLY_REFERRAL_COMMISSION,
   ANNUAL_REFERRAL_COMMISSION,
 } from "@/lib/constants";
 
-// POST: Send contributor giveaway announcement emails
-// Admin-only action triggered from the giveaway tab
+// POST: Send contributor giveaway announcement emails — Protected
 export async function POST(request: NextRequest) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
+
   try {
     const db = getAdminDb();
     const body = await request.json();

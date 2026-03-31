@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { CONTRIBUTOR_INACTIVITY_NUDGE_DAYS, CONTRIBUTOR_INACTIVITY_SUSPEND_DAYS } from "@/lib/constants";
+import { requireAdmin } from "@/lib/api-auth";
 
 // POST: Record contributor activity (listing verification, post, etc.)
 export async function POST(request: NextRequest) {
@@ -37,6 +38,8 @@ export async function POST(request: NextRequest) {
 
 // PATCH: Admin action to reactivate a suspended contributor
 export async function PATCH(request: NextRequest) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
   try {
     const { userId, action } = await request.json();
 
@@ -65,7 +68,9 @@ export async function PATCH(request: NextRequest) {
 }
 
 // GET: Admin view of contributor accountability status
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
   try {
     const db = getAdminDb();
     const snap = await db.collection("users")

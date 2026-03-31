@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { requireAdmin } from "@/lib/api-auth";
 
 /**
- * GET /api/digest/status
- * Returns notification subscribers and last run info for both types.
+ * GET /api/digest/status — Protected
  */
-export async function GET() {
+export async function GET(req: Request) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const db = getAdminDb();
 

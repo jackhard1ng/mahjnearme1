@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { requireAdmin } from "@/lib/api-auth";
 
 /**
- * GET /api/subscribers
- * Returns list of active subscribers with details from Stripe + Firestore.
+ * GET /api/subscribers — Protected
  */
-export async function GET() {
+export async function GET(req: Request) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
+
   try {
     const stripe = getStripe();
     const db = getAdminDb();

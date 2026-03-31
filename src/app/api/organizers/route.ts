@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { requireAdmin } from "@/lib/api-auth";
 
 // GET: List organizers, optionally filtered by metro
 export async function GET(request: NextRequest) {
@@ -36,6 +37,8 @@ export async function GET(request: NextRequest) {
 
 // POST: Create a new organizer
 export async function POST(request: NextRequest) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
   try {
     const db = getAdminDb();
     const body = await request.json();
@@ -103,6 +106,8 @@ export async function POST(request: NextRequest) {
 
 // PUT: Update an existing organizer
 export async function PUT(request: NextRequest) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
   try {
     const db = getAdminDb();
     const body = await request.json();
@@ -131,6 +136,8 @@ export async function PUT(request: NextRequest) {
 
 // DELETE: Remove an organizer
 export async function DELETE(request: NextRequest) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
   try {
     const db = getAdminDb();
     const { searchParams } = new URL(request.url);
