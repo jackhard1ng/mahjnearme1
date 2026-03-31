@@ -185,8 +185,8 @@ export default function AccountPage() {
   }, [savedCity, userProfile?.savedCities]);
 
   function addSavedCity(city: string) {
-    if (!userProfile || userProfile.savedCities.includes(city)) return;
-    updateUserProfile({ savedCities: [...userProfile.savedCities, city] });
+    if (!userProfile || (userProfile.savedCities || []).includes(city)) return;
+    updateUserProfile({ savedCities: [...(userProfile.savedCities || []), city] });
     setSavedCity("");
     setShowSuggestions(false);
     setHighlightedIndex(-1);
@@ -194,7 +194,7 @@ export default function AccountPage() {
 
   function removeSavedCity(city: string) {
     if (!userProfile) return;
-    updateUserProfile({ savedCities: userProfile.savedCities.filter((c) => c !== city) });
+    updateUserProfile({ savedCities: (userProfile.savedCities || []).filter((c) => c !== city) });
   }
 
   function handleCityKeyDown(e: React.KeyboardEvent) {
@@ -706,10 +706,10 @@ export default function AccountPage() {
             Saved Cities
           </h3>
           <div className="flex flex-wrap gap-2 mb-4">
-            {userProfile.savedCities.length === 0 && (
+            {(userProfile.savedCities || []).length === 0 && (
               <p className="text-sm text-slate-500">No saved cities yet. Save cities to get alerts about new games!</p>
             )}
-            {userProfile.savedCities.map((city) => (
+            {(userProfile.savedCities || []).map((city) => (
               <span key={city} className="inline-flex items-center gap-1.5 bg-skyblue-100 rounded-lg px-3 py-1.5 text-sm text-slate-700">
                 {city}
                 <button onClick={() => removeSavedCity(city)} className="text-slate-400 hover:text-red-500">
@@ -790,13 +790,13 @@ export default function AccountPage() {
             <Heart className="w-5 h-5 text-hotpink-500" />
             Favorite Games
           </h3>
-          {userProfile.favoriteGames.length === 0 ? (
+          {(userProfile.favoriteGames || []).length === 0 ? (
             <p className="text-sm text-slate-500">
               No favorite games yet. Heart a game on the search page to save it here!
             </p>
           ) : (
             <div className="space-y-2">
-              {userProfile.favoriteGames.map((gameId) => (
+              {(userProfile.favoriteGames || []).map((gameId) => (
                 <div key={gameId} className="flex items-center justify-between bg-skyblue-50 rounded-lg px-4 py-3">
                   <span className="text-sm text-slate-700">{gameId}</span>
                   <ChevronRight className="w-4 h-4 text-slate-400" />

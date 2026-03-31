@@ -126,11 +126,11 @@ export interface UserProfile {
   savedEvents: string[];
 
   // Email notifications
-  emailNotifications: {
-    newEventsInArea: boolean;
-    weeklyDigest: boolean;
-  };
-  notifyStates: string[]; // state abbreviations to get notifications for
+  emailNotifications?: {
+    newEventsInArea?: boolean;
+    weeklyDigest?: boolean;
+  } | null;
+  notifyStates?: string[]; // state abbreviations to get notifications for
 
   createdAt: string;
   lastLoginAt: string;
