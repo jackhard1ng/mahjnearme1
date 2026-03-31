@@ -65,6 +65,9 @@ export async function POST(request: Request) {
             plan,
             subscribedPrice: priceAmount,
             subscribedDate: new Date().toISOString(),
+            subscriptionEndsAt: subscription.items.data[0]?.current_period_end
+              ? new Date(subscription.items.data[0].current_period_end * 1000).toISOString()
+              : null,
             isGrandfathered: false,
             referredByCode,
             updatedAt: new Date().toISOString(),
