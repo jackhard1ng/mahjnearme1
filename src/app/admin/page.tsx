@@ -920,10 +920,16 @@ function AdminOrganizersPanel() {
     setEditing(org.id as string);
     setEditData({
       organizerName: (org.organizerName as string) || "",
+      slug: (org.slug as string) || "",
       contactEmail: (org.contactEmail as string) || "",
       website: (org.website as string) || "",
       instagram: (org.instagram as string) || "",
       facebookGroup: (org.facebookGroup as string) || "",
+      bio: (org.bio as string) || "",
+      verified: org.verified ? "true" : "false",
+      featured: org.featured ? "true" : "false",
+      isInstructor: org.isInstructor ? "true" : "false",
+      userId: (org.userId as string) || "",
     });
   }
 
@@ -931,7 +937,22 @@ function AdminOrganizersPanel() {
     if (!editing) return;
     setSaving(true);
     try {
-      await adminFetch("/api/organizers", "PUT", { id: editing, ...editData, updatedAt: new Date().toISOString() });
+      const payload: Record<string, unknown> = {
+        id: editing,
+        organizerName: editData.organizerName,
+        slug: editData.slug,
+        contactEmail: editData.contactEmail,
+        website: editData.website,
+        instagram: editData.instagram,
+        facebookGroup: editData.facebookGroup,
+        bio: editData.bio,
+        verified: editData.verified === "true",
+        featured: editData.featured === "true",
+        isInstructor: editData.isInstructor === "true",
+        updatedAt: new Date().toISOString(),
+      };
+      if (editData.userId) payload.userId = editData.userId;
+      await adminFetch("/api/organizers", "PUT", payload);
       setEditing(null);
       fetchOrganizers();
     } catch { /* silent */ }
@@ -944,11 +965,15 @@ function AdminOrganizersPanel() {
         return (
           ((o.organizerName as string) || "").toLowerCase().includes(q) ||
           ((o.nameKey as string) || "").toLowerCase().includes(q) ||
+          ((o.slug as string) || "").toLowerCase().includes(q) ||
           ((o.contactEmail as string) || "").toLowerCase().includes(q) ||
           ((o.instagram as string) || "").toLowerCase().includes(q) ||
           ((o.website as string) || "").toLowerCase().includes(q) ||
+          ((o.facebookGroup as string) || "").toLowerCase().includes(q) ||
+          ((o.bio as string) || "").toLowerCase().includes(q) ||
           ((o.cities as string[]) || []).some((c) => c.toLowerCase().includes(q)) ||
-          ((o.states as string[]) || []).some((s) => s.toLowerCase().includes(q))
+          ((o.states as string[]) || []).some((s) => s.toLowerCase().includes(q)) ||
+          ((o.listingIds as string[]) || []).some((id) => id.toLowerCase().includes(q))
         );
       })
     : organizers;
@@ -1011,9 +1036,27 @@ function AdminOrganizersPanel() {
                 <div className="space-y-2">
                   <div className="grid grid-cols-2 gap-2">
                     <input value={editData.organizerName} onChange={(e) => setEditData({ ...editData, organizerName: e.target.value })} placeholder="Name" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
+                    <input value={editData.slug} onChange={(e) => setEditData({ ...editData, slug: e.target.value })} placeholder="Slug (URL)" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
                     <input value={editData.contactEmail} onChange={(e) => setEditData({ ...editData, contactEmail: e.target.value })} placeholder="Email" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
                     <input value={editData.website} onChange={(e) => setEditData({ ...editData, website: e.target.value })} placeholder="Website" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
                     <input value={editData.instagram} onChange={(e) => setEditData({ ...editData, instagram: e.target.value })} placeholder="Instagram" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
+                    <input value={editData.facebookGroup} onChange={(e) => setEditData({ ...editData, facebookGroup: e.target.value })} placeholder="Facebook Group" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
+                    <input value={editData.userId} onChange={(e) => setEditData({ ...editData, userId: e.target.value })} placeholder="Linked User ID" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm font-mono text-xs" />
+                  </div>
+                  <textarea value={editData.bio} onChange={(e) => setEditData({ ...editData, bio: e.target.value })} placeholder="Bio" className="w-full border border-slate-200 rounded-lg px-3 py-1.5 text-sm h-16 resize-none" />
+                  <div className="flex flex-wrap gap-4 text-sm">
+                    <label className="flex items-center gap-1.5">
+                      <input type="checkbox" checked={editData.verified === "true"} onChange={(e) => setEditData({ ...editData, verified: e.target.checked ? "true" : "false" })} />
+                      Verified
+                    </label>
+                    <label className="flex items-center gap-1.5">
+                      <input type="checkbox" checked={editData.featured === "true"} onChange={(e) => setEditData({ ...editData, featured: e.target.checked ? "true" : "false" })} />
+                      Featured
+                    </label>
+                    <label className="flex items-center gap-1.5">
+                      <input type="checkbox" checked={editData.isInstructor === "true"} onChange={(e) => setEditData({ ...editData, isInstructor: e.target.checked ? "true" : "false" })} />
+                      Instructor
+                    </label>
                   </div>
                   <div className="flex gap-2">
                     <button onClick={saveEdit} disabled={saving} className="bg-hotpink-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-hotpink-600 disabled:opacity-50">
@@ -1025,10 +1068,13 @@ function AdminOrganizersPanel() {
               ) : (
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <p className="font-semibold text-charcoal">{org.organizerName as string}</p>
                       <span className="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">{org.listingCount as number} listings</span>
                       {org.verified === true && <span className="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded-full">Verified</span>}
+                      {org.featured === true && <span className="text-xs bg-amber-100 text-amber-600 px-2 py-0.5 rounded-full">Featured</span>}
+                      {org.isInstructor === true && <span className="text-xs bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full">Instructor</span>}
+                      {org.userId ? <span className="text-xs bg-skyblue-100 text-skyblue-600 px-2 py-0.5 rounded-full">Linked</span> : null}
                     </div>
                     <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
                       {org.contactEmail ? <span>{String(org.contactEmail)}</span> : null}
