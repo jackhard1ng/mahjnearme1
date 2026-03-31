@@ -848,92 +848,161 @@ function AdminSubscribersPanel() {
 }
 
 function AdminOrganizersPanel() {
-  const [organizers, setOrganizers] = useState<{ id: string; organizerName: string; venueName: string; city: string; metroRegion: string; contactEmail: string; lastUpdated: string }[]>([]);
+  const [organizers, setOrganizers] = useState<Record<string, unknown>[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [populating, setPopulating] = useState(false);
+  const [populateResult, setPopulateResult] = useState<string | null>(null);
+  const [editing, setEditing] = useState<string | null>(null);
+  const [editData, setEditData] = useState<Record<string, string>>({});
+  const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await adminFetch("/api/organizers?all=true");
-        if (res.ok) {
-          const data = await res.json();
-          setOrganizers(data.organizers || []);
-        }
-      } catch {
-        // silent
-      } finally {
-        setLoading(false);
+  async function fetchOrganizers() {
+    setLoading(true);
+    try {
+      const res = await adminFetch("/api/organizers?all=true");
+      if (res.ok) {
+        const data = await res.json();
+        setOrganizers(data.organizers || []);
       }
-    })();
-  }, []);
+    } catch { /* silent */ }
+    setLoading(false);
+  }
+
+  useEffect(() => { fetchOrganizers(); }, []);
+
+  async function handlePopulate() {
+    if (!confirm("This will scan all listings and create organizer profiles. Existing ones won't be overwritten. Continue?")) return;
+    setPopulating(true);
+    setPopulateResult(null);
+    try {
+      const res = await adminFetch("/api/organizers/populate", "POST");
+      const data = await res.json();
+      if (data.success) {
+        setPopulateResult(`Created ${data.created} organizers. ${data.skipped} skipped. ${data.totalOrganizers} total found.`);
+        fetchOrganizers();
+      } else {
+        setPopulateResult(`Error: ${data.error}`);
+      }
+    } catch { setPopulateResult("Failed."); }
+    setPopulating(false);
+  }
+
+  function startEdit(org: Record<string, unknown>) {
+    setEditing(org.id as string);
+    setEditData({
+      organizerName: (org.organizerName as string) || "",
+      contactEmail: (org.contactEmail as string) || "",
+      website: (org.website as string) || "",
+      instagram: (org.instagram as string) || "",
+      facebookGroup: (org.facebookGroup as string) || "",
+    });
+  }
+
+  async function saveEdit() {
+    if (!editing) return;
+    setSaving(true);
+    try {
+      await adminFetch("/api/organizers", "PUT", { id: editing, ...editData, updatedAt: new Date().toISOString() });
+      setEditing(null);
+      fetchOrganizers();
+    } catch { /* silent */ }
+    setSaving(false);
+  }
 
   const filtered = search
-    ? organizers.filter(
-        (o) =>
-          o.organizerName.toLowerCase().includes(search.toLowerCase()) ||
-          o.venueName?.toLowerCase().includes(search.toLowerCase()) ||
-          o.metroRegion?.toLowerCase().includes(search.toLowerCase())
-      )
+    ? organizers.filter((o) => {
+        const q = search.toLowerCase();
+        return (
+          ((o.organizerName as string) || "").toLowerCase().includes(q) ||
+          ((o.contactEmail as string) || "").toLowerCase().includes(q) ||
+          ((o.cities as string[]) || []).some((c) => c.toLowerCase().includes(q)) ||
+          ((o.states as string[]) || []).some((s) => s.toLowerCase().includes(q))
+        );
+      })
     : organizers;
+
+  // Sort by listing count descending
+  const sorted = [...filtered].sort((a, b) => ((b.listingCount as number) || 0) - ((a.listingCount as number) || 0));
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-charcoal">Organizer Directory</h2>
-        <div className="relative w-64">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <h2 className="text-xl font-bold text-charcoal">Organizer Directory ({organizers.length})</h2>
+        <div className="flex gap-2">
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search organizers..."
-            className="w-full pl-3 pr-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-hotpink-200"
+            placeholder="Search organizers, cities..."
+            className="w-64 pl-3 pr-3 py-2 text-sm border border-slate-200 rounded-lg"
           />
+          <button
+            onClick={handlePopulate}
+            disabled={populating}
+            className="inline-flex items-center gap-1.5 bg-skyblue-500 text-white px-3 py-2 rounded-lg text-sm font-semibold hover:bg-skyblue-600 disabled:opacity-50 shrink-0"
+          >
+            {populating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+            {populating ? "Populating..." : "Populate from Listings"}
+          </button>
         </div>
       </div>
+
+      {populateResult && (
+        <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-sm text-green-700">{populateResult}</div>
+      )}
 
       {loading ? (
         <div className="flex items-center justify-center py-12">
           <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
         </div>
+      ) : organizers.length === 0 ? (
+        <div className="bg-white border border-slate-200 rounded-xl p-8 text-center">
+          <p className="text-slate-500 mb-3">No organizers in the directory yet.</p>
+          <p className="text-xs text-slate-400">Click "Populate from Listings" to auto-create profiles from your existing listings data.</p>
+        </div>
       ) : (
-        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-slate-50 text-slate-600">
-                <tr>
-                  <th className="text-left px-4 py-2.5 font-medium">Organizer</th>
-                  <th className="text-left px-4 py-2.5 font-medium">Venue</th>
-                  <th className="text-left px-4 py-2.5 font-medium">City</th>
-                  <th className="text-left px-4 py-2.5 font-medium">Metro</th>
-                  <th className="text-left px-4 py-2.5 font-medium">Contact</th>
-                  <th className="text-left px-4 py-2.5 font-medium">Updated</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {filtered.map((org) => (
-                  <tr key={org.id} className="hover:bg-slate-50">
-                    <td className="px-4 py-2.5 font-medium text-charcoal">{org.organizerName}</td>
-                    <td className="px-4 py-2.5 text-slate-500">{org.venueName || "-"}</td>
-                    <td className="px-4 py-2.5 text-slate-500">{org.city || "-"}</td>
-                    <td className="px-4 py-2.5 text-slate-500">{org.metroRegion || "-"}</td>
-                    <td className="px-4 py-2.5 text-slate-500 text-xs">{org.contactEmail || "-"}</td>
-                    <td className="px-4 py-2.5 text-xs text-slate-400">
-                      {new Date(org.lastUpdated).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          {filtered.length === 0 && (
-            <p className="text-center text-slate-500 text-sm py-8">
-              {organizers.length === 0 ? "No organizers in the directory yet." : "No organizers match your search."}
-            </p>
-          )}
-          <div className="px-4 py-3 border-t border-slate-100 bg-slate-50 text-xs text-slate-500">
-            {organizers.length} total organizers across all metros
-          </div>
+        <div className="space-y-2">
+          {sorted.map((org) => (
+            <div key={org.id as string} className="bg-white border border-slate-200 rounded-xl p-4">
+              {editing === org.id ? (
+                <div className="space-y-2">
+                  <div className="grid grid-cols-2 gap-2">
+                    <input value={editData.organizerName} onChange={(e) => setEditData({ ...editData, organizerName: e.target.value })} placeholder="Name" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
+                    <input value={editData.contactEmail} onChange={(e) => setEditData({ ...editData, contactEmail: e.target.value })} placeholder="Email" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
+                    <input value={editData.website} onChange={(e) => setEditData({ ...editData, website: e.target.value })} placeholder="Website" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
+                    <input value={editData.instagram} onChange={(e) => setEditData({ ...editData, instagram: e.target.value })} placeholder="Instagram" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
+                  </div>
+                  <div className="flex gap-2">
+                    <button onClick={saveEdit} disabled={saving} className="bg-hotpink-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-hotpink-600 disabled:opacity-50">
+                      {saving ? "Saving..." : "Save"}
+                    </button>
+                    <button onClick={() => setEditing(null)} className="text-slate-500 text-xs hover:text-slate-700">Cancel</button>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <p className="font-semibold text-charcoal">{org.organizerName as string}</p>
+                      <span className="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">{org.listingCount as number} listings</span>
+                      {org.verified === true && <span className="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded-full">Verified</span>}
+                    </div>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
+                      {org.contactEmail ? <span>{String(org.contactEmail)}</span> : null}
+                      {org.website ? <a href={String(org.website)} target="_blank" rel="noopener noreferrer" className="text-hotpink-500 hover:underline">{String(org.website).replace(/^https?:\/\//, "").replace(/\/$/, "")}</a> : null}
+                      {org.instagram ? <span>@{String(org.instagram).replace(/^@/, "")}</span> : null}
+                    </div>
+                    <p className="text-xs text-slate-400 mt-1">
+                      {((org.cities as string[]) || []).slice(0, 5).join(", ")} {((org.states as string[]) || []).length > 0 ? `(${((org.states as string[]) || []).join(", ")})` : ""}
+                    </p>
+                  </div>
+                  <button onClick={() => startEdit(org)} className="text-xs text-hotpink-500 font-medium hover:underline shrink-0 ml-4">Edit</button>
+                </div>
+              )}
+            </div>
+          ))}
+          <p className="text-xs text-slate-400 text-center pt-2">Showing {sorted.length} of {organizers.length} organizers</p>
         </div>
       )}
     </div>
