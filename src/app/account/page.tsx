@@ -662,7 +662,7 @@ export default function AccountPage() {
             <div className="space-y-3">
               <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-sm text-slate-600">Plan</span>
-                <span className="text-sm font-medium text-charcoal capitalize">{userProfile.plan || "Monthly"} — ${userProfile.plan === "annual" ? "39.99/year" : "4.99/month"}</span>
+                <span className="text-sm font-medium text-charcoal capitalize">{userProfile.plan || "Monthly"}</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-sm text-slate-600">Status</span>
