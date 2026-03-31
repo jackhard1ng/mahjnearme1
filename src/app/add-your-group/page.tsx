@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useRef, useEffect, FormEvent } from "react";
-import { CheckCircle, Send, MapPin, Globe, Calendar, Users, Star, MessageCircle, Search } from "lucide-react";
+import { CheckCircle, Send, MapPin, Globe, Calendar, Users, Star, MessageCircle, Search, ArrowRight } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import Link from "next/link";
 
 export default function AddYourGroupPage() {
+  const { user, userProfile, isOrganizer } = useAuth();
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -53,6 +56,17 @@ export default function AddYourGroupPage() {
   const [orgLoading, setOrgLoading] = useState(false);
   const [allOrgs, setAllOrgs] = useState<Record<string, unknown>[]>([]);
   const [orgLoaded, setOrgLoaded] = useState(false);
+
+  // Prefill from user profile if logged in
+  useEffect(() => {
+    if (userProfile) {
+      setForm((prev) => ({
+        ...prev,
+        name: prev.name || userProfile.displayName || "",
+        email: prev.email || userProfile.email || "",
+      }));
+    }
+  }, [userProfile]);
 
   useEffect(() => {
     // Load organizer directory once
@@ -181,6 +195,32 @@ export default function AddYourGroupPage() {
               We&apos;re building the most complete directory of mahjong games in the country. If your group isn&apos;t listed yet, tell us about it and we&apos;ll have it up within 48 hours.
             </p>
           </div>
+
+          {/* Organizer detection */}
+          {isOrganizer && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-8 text-center">
+              <p className="text-green-800 font-medium mb-2">
+                You&apos;re an approved organizer! Add events directly from your dashboard.
+              </p>
+              <Link
+                href="/organizer"
+                className="inline-flex items-center gap-1 bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition"
+              >
+                Go to Dashboard <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          )}
+          {user && !isOrganizer && (
+            <div className="bg-skyblue-50 border border-skyblue-200 rounded-lg p-4 mb-8 text-center">
+              <p className="text-skyblue-800 text-sm">
+                Already running a group listed here?{" "}
+                <Link href="/claim-listing" className="font-semibold underline">
+                  Claim your listings
+                </Link>{" "}
+                to get your own organizer dashboard.
+              </p>
+            </div>
+          )}
 
           {submitted ? (
             <div className="mahj-tile p-10 text-center">

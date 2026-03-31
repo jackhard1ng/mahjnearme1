@@ -271,6 +271,7 @@ function rawToGame(raw: RawListing): Game {
     claimedBy: null,
     source: "csv_import",
     promoted: false,
+    organizerEdited: false,
     lastVerified: isValidDate(str(raw.lastVerified)) ? str(raw.lastVerified) : "2026-03-24",
     createdAt: "2026-01-01T00:00:00Z",
     updatedAt: "2026-03-24T00:00:00Z",

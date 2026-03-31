@@ -168,6 +168,7 @@ function rowToGame(
     claimedBy: null,
     source: "csv_import",
     promoted: bool(row[COL.promoted]),
+    organizerEdited: false,
     lastVerified: str(row[COL.lastVerified]) || new Date().toISOString().split("T")[0],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),

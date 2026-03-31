@@ -295,6 +295,7 @@ export default function AdminGamesPage() {
         claimedBy: null,
         source: "manual",
         promoted: false,
+        organizerEdited: false,
         lastVerified: "",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
