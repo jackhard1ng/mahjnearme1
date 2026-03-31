@@ -439,16 +439,9 @@ function WinnerContactForm() {
     setTimeout(() => setSaved(false), 3000);
   }
 
-  // If already saved, show confirmation
+  // If already saved, don't show anything
   if (userProfile?.contactPhone) {
-    return (
-      <div className="text-sm text-green-600 border-t border-green-200 pt-3">
-        <div className="flex items-center gap-2">
-          <Phone className="w-3.5 h-3.5" />
-          <span>We&apos;ll call/text <strong>{userProfile.contactPhone}</strong> if you win.</span>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
