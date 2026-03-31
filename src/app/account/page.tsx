@@ -74,6 +74,7 @@ export default function AccountPage() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [portalLoading, setPortalLoading] = useState(false);
+  const [nextBillingDate, setNextBillingDate] = useState<string | null>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -96,6 +97,15 @@ export default function AccountPage() {
       router.push("/login");
     }
   }, [user, loading, router]);
+
+  // Fetch next billing date from Stripe
+  useEffect(() => {
+    if (!userProfile?.stripeCustomerId) return;
+    fetch(`/api/billing-date?customerId=${userProfile.stripeCustomerId}`)
+      .then((r) => r.json())
+      .then((d) => { if (d.nextBillingDate) setNextBillingDate(d.nextBillingDate); })
+      .catch(() => {});
+  }, [userProfile?.stripeCustomerId]);
 
   if (loading || !user || !userProfile) {
     return (
@@ -680,8 +690,10 @@ export default function AccountPage() {
               )}
               <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-sm text-slate-600">Next billing date</span>
-                <span className="text-sm font-medium text-slate-500 text-xs">
-                  View in Manage Subscription below
+                <span className="text-sm font-medium text-charcoal">
+                  {nextBillingDate
+                    ? new Date(nextBillingDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
+                    : "Loading..."}
                 </span>
               </div>
               <button
