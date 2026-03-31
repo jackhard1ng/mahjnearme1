@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, FormEvent } from "react";
-import { CheckCircle, Send, MapPin, Globe, Calendar, Users, Star, MessageCircle } from "lucide-react";
+import { useState, useRef, useEffect, FormEvent } from "react";
+import { CheckCircle, Send, MapPin, Globe, Calendar, Users, Star, MessageCircle, Search } from "lucide-react";
 
 export default function AddYourGroupPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -46,6 +46,62 @@ export default function AddYourGroupPage() {
     whatToBring: "",
     anythingElse: "",
   });
+
+  // Organizer lookup
+  const [orgSearch, setOrgSearch] = useState("");
+  const [orgResults, setOrgResults] = useState<Record<string, unknown>[]>([]);
+  const [orgLoading, setOrgLoading] = useState(false);
+  const [allOrgs, setAllOrgs] = useState<Record<string, unknown>[]>([]);
+  const [orgLoaded, setOrgLoaded] = useState(false);
+
+  useEffect(() => {
+    // Load organizer directory once
+    fetch("/api/organizers/overrides")
+      .then((r) => r.json())
+      .then((data) => {
+        const list = Object.entries(data).map(([key, val]) => ({
+          key,
+          ...(val as Record<string, unknown>),
+        }));
+        setAllOrgs(list);
+        setOrgLoaded(true);
+      })
+      .catch(() => setOrgLoaded(true));
+  }, []);
+
+  useEffect(() => {
+    if (!orgSearch.trim() || orgSearch.length < 2) {
+      setOrgResults([]);
+      return;
+    }
+    const q = orgSearch.toLowerCase();
+    const matches = allOrgs.filter((o) =>
+      String(o.displayName || "").toLowerCase().includes(q) ||
+      String(o.key || "").includes(q)
+    ).slice(0, 8);
+    setOrgResults(matches);
+  }, [orgSearch, allOrgs]);
+
+  function selectOrganizer(org: Record<string, unknown>) {
+    const locs = (org.locations as { venueName: string; address: string; city: string; state: string }[]) || [];
+    const firstLoc = locs[0];
+
+    setForm({
+      ...form,
+      name: String(org.displayName || ""),
+      email: String(org.contactEmail || form.email),
+      website: String(org.website || ""),
+      instagram: String(org.instagram || ""),
+      facebookGroup: String(org.facebookGroup || ""),
+      groupName: String(org.displayName || ""),
+      city: firstLoc?.city || form.city,
+      state: firstLoc?.state || form.state,
+      venueName: firstLoc?.venueName || form.venueName,
+      address: firstLoc?.address || form.address,
+    });
+    setOrgSearch("");
+    setOrgResults([]);
+  }
 
   // Additional events under the same group
   const [additionalEvents, setAdditionalEvents] = useState<
@@ -140,6 +196,49 @@ export default function AddYourGroupPage() {
             </div>
           ) : (
             <div className="mahj-tile p-8">
+              {/* Returning organizer search */}
+              <div className="mb-8 pb-6 border-b border-slate-200">
+                <p className="text-sm font-semibold text-charcoal mb-2 flex items-center gap-2">
+                  <Search className="w-4 h-4 text-hotpink-500" />
+                  Already listed? Search your name to auto-fill
+                </p>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={orgSearch}
+                    onChange={(e) => setOrgSearch(e.target.value)}
+                    placeholder="Search by organizer or group name..."
+                    className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-200 focus:border-hotpink-400"
+                  />
+                  {orgResults.length > 0 && (
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg z-20 max-h-60 overflow-y-auto">
+                      {orgResults.map((org) => {
+                        const locs = (org.locations as { city: string; state: string; venueName: string }[]) || [];
+                        return (
+                          <button
+                            key={String(org.key)}
+                            type="button"
+                            onClick={() => selectOrganizer(org)}
+                            className="w-full text-left px-4 py-3 hover:bg-hotpink-50 border-b border-slate-100 last:border-0"
+                          >
+                            <p className="font-medium text-charcoal text-sm">{String(org.displayName)}</p>
+                            <p className="text-xs text-slate-400">
+                              {locs.length > 0
+                                ? locs.slice(0, 2).map((l) => l.venueName ? `${l.venueName}, ${l.city}` : l.city).join(" · ")
+                                : ""}
+                              {org.website ? ` · ${String(org.website).replace(/^https?:\/\//, "").replace(/\/$/, "")}` : ""}
+                            </p>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                  {orgSearch.length >= 2 && orgResults.length === 0 && orgLoaded && (
+                    <p className="text-xs text-slate-400 mt-1">No match found. Fill out the form below and we&apos;ll add you.</p>
+                  )}
+                </div>
+              </div>
+
               <form onSubmit={handleSubmit} className="space-y-8">
                 {/* Section 1: Contact Info */}
                 <fieldset>
