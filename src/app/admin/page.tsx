@@ -943,7 +943,10 @@ function AdminOrganizersPanel() {
         const q = search.toLowerCase();
         return (
           ((o.organizerName as string) || "").toLowerCase().includes(q) ||
+          ((o.nameKey as string) || "").toLowerCase().includes(q) ||
           ((o.contactEmail as string) || "").toLowerCase().includes(q) ||
+          ((o.instagram as string) || "").toLowerCase().includes(q) ||
+          ((o.website as string) || "").toLowerCase().includes(q) ||
           ((o.cities as string[]) || []).some((c) => c.toLowerCase().includes(q)) ||
           ((o.states as string[]) || []).some((s) => s.toLowerCase().includes(q))
         );
@@ -962,7 +965,7 @@ function AdminOrganizersPanel() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search organizers, cities..."
+            placeholder="Search by name, city, email, Instagram..."
             className="w-64 pl-3 pr-3 py-2 text-sm border border-slate-200 rounded-lg"
           />
           <button
