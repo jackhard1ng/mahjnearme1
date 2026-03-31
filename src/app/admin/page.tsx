@@ -395,43 +395,7 @@ export default function AdminDashboardPage() {
       )}
 
       {/* Subscribers Tab */}
-      {activeTab === "subscribers" && (
-        <div className="space-y-6">
-          <div className="bg-white border border-slate-200 rounded-xl p-6">
-            <h2 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
-              <DollarSign className="w-5 h-5 text-hotpink-500" /> Subscriber Metrics
-            </h2>
-            <p className="text-sm text-slate-500 mb-4">
-              Subscriber data is loaded from Firestore in production. The stats below show
-              pricing structure for reference.
-            </p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-slate-50 rounded-lg p-4 text-center">
-                <p className="text-sm text-slate-500 mb-1">Monthly Price</p>
-                <p className="text-xl font-bold text-charcoal">{formatCurrency(MONTHLY_PRICE)}</p>
-              </div>
-              <div className="bg-slate-50 rounded-lg p-4 text-center">
-                <p className="text-sm text-slate-500 mb-1">Annual Price</p>
-                <p className="text-xl font-bold text-charcoal">{formatCurrency(ANNUAL_PRICE)}</p>
-              </div>
-              <div className="bg-slate-50 rounded-lg p-4 text-center">
-                <p className="text-sm text-slate-500 mb-1">Monthly MRR</p>
-                <p className="text-xl font-bold text-hotpink-600">-</p>
-                <p className="text-xs text-slate-400">Loaded from Stripe</p>
-              </div>
-              <div className="bg-slate-50 rounded-lg p-4 text-center">
-                <p className="text-sm text-slate-500 mb-1">ARR</p>
-                <p className="text-xl font-bold text-hotpink-600">-</p>
-                <p className="text-xs text-slate-400">Loaded from Stripe</p>
-              </div>
-            </div>
-            <p className="text-xs text-slate-400 mt-4">
-              Grandfathered subscribers keep their locked-in price permanently when prices increase.
-              View grandfathered subscribers in the Users panel.
-            </p>
-          </div>
-        </div>
-      )}
+      {activeTab === "subscribers" && <AdminSubscribersPanel />}
 
       {/* Contributors Tab */}
       {activeTab === "contributors" && (
@@ -777,6 +741,111 @@ export default function AdminDashboardPage() {
       )}
       {activeTab === "organizers" && <AdminOrganizersPanel />}
       {activeTab === "notifications" && <AdminNotificationsPanel />}
+    </div>
+  );
+}
+
+function AdminSubscribersPanel() {
+  const [data, setData] = useState<{
+    subscribers: { name: string; email: string; plan: string; price: number; subscribedDate: string; homeCity: string }[];
+    metrics: { total: number; monthlyCount: number; annualCount: number; mrr: number; arr: number } | null;
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await fetch("/api/subscribers");
+        if (res.ok) setData(await res.json());
+      } catch { /* silent */ }
+      setLoading(false);
+    }
+    load();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-12">
+        <Loader2 className="w-6 h-6 text-hotpink-500 animate-spin" />
+      </div>
+    );
+  }
+
+  const metrics = data?.metrics;
+  const subs = data?.subscribers || [];
+
+  return (
+    <div className="space-y-6">
+      {/* Revenue Metrics */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="bg-white border border-slate-200 rounded-xl p-4 text-center">
+          <p className="text-xs text-slate-500 mb-1">Total Subscribers</p>
+          <p className="text-2xl font-bold text-charcoal">{metrics?.total || 0}</p>
+        </div>
+        <div className="bg-white border border-slate-200 rounded-xl p-4 text-center">
+          <p className="text-xs text-slate-500 mb-1">Monthly</p>
+          <p className="text-2xl font-bold text-charcoal">{metrics?.monthlyCount || 0}</p>
+        </div>
+        <div className="bg-white border border-slate-200 rounded-xl p-4 text-center">
+          <p className="text-xs text-slate-500 mb-1">Annual</p>
+          <p className="text-2xl font-bold text-charcoal">{metrics?.annualCount || 0}</p>
+        </div>
+        <div className="bg-white border border-slate-200 rounded-xl p-4 text-center">
+          <p className="text-xs text-slate-500 mb-1">MRR</p>
+          <p className="text-2xl font-bold text-hotpink-600">${metrics?.mrr?.toFixed(2) || "0"}</p>
+        </div>
+        <div className="bg-white border border-slate-200 rounded-xl p-4 text-center">
+          <p className="text-xs text-slate-500 mb-1">ARR</p>
+          <p className="text-2xl font-bold text-hotpink-600">${metrics?.arr?.toFixed(2) || "0"}</p>
+        </div>
+      </div>
+
+      {/* Subscriber List */}
+      <div className="bg-white border border-slate-200 rounded-xl p-6">
+        <h3 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
+          <Users className="w-5 h-5 text-hotpink-500" />
+          Active Subscribers ({subs.length})
+        </h3>
+
+        {subs.length === 0 ? (
+          <p className="text-sm text-slate-500">No active subscribers.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-slate-200 text-left">
+                  <th className="pb-2 font-medium text-slate-500">Name</th>
+                  <th className="pb-2 font-medium text-slate-500">Email</th>
+                  <th className="pb-2 font-medium text-slate-500">Plan</th>
+                  <th className="pb-2 font-medium text-slate-500">Price</th>
+                  <th className="pb-2 font-medium text-slate-500">Since</th>
+                  <th className="pb-2 font-medium text-slate-500">City</th>
+                </tr>
+              </thead>
+              <tbody>
+                {subs.map((sub, i) => (
+                  <tr key={i} className="border-b border-slate-100">
+                    <td className="py-2 text-charcoal font-medium">{sub.name}</td>
+                    <td className="py-2 text-slate-600">{sub.email}</td>
+                    <td className="py-2">
+                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                        sub.plan === "annual" ? "bg-hotpink-100 text-hotpink-600" : "bg-skyblue-100 text-skyblue-600"
+                      }`}>
+                        {sub.plan}
+                      </span>
+                    </td>
+                    <td className="py-2 text-slate-600">${sub.price.toFixed(2)}</td>
+                    <td className="py-2 text-xs text-slate-500">
+                      {new Date(sub.subscribedDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    </td>
+                    <td className="py-2 text-xs text-slate-500">{sub.homeCity || ""}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
