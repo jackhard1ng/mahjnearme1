@@ -98,17 +98,21 @@ async function handleDigest(req: Request) {
       const isPaid = user.accountType === "subscriber" || user.accountType === "admin" || user.accountType === "contributor" || user.subscriptionStatus === "active";
 
       // Find new listings relevant to this user
+      // notifyStates stores abbreviations (e.g. "OK") but listings use full names (e.g. "Oklahoma")
+      // Convert user's state abbreviations to full names for matching
+      const US_STATES: Record<string, string> = require("@/lib/constants").US_STATES;
+      const userStateNames = userStates.map((abbr: string) => US_STATES[abbr] || abbr);
+
       let relevantNew: typeof newListings = [];
-      if (wantsNewEvents && userStates.length > 0) {
-        // User has specific states selected
-        relevantNew = newListings.filter((l) => userStates.includes(l.state));
-      } else if (wantsDigest) {
-        // Weekly digest — show all new listings (limited for free users)
-        relevantNew = newListings;
+      if (userStates.length > 0) {
+        // Filter by user's selected states (works for both toggles)
+        relevantNew = newListings.filter((l) => userStateNames.includes(l.state) || userStates.includes(l.state));
+      } else {
+        // No states selected — skip (they need to pick states)
+        continue;
       }
 
-      if (relevantNew.length === 0 && wantsNewEvents) continue; // nothing new in their area
-      if (newListings.length === 0 && wantsDigest) continue; // nothing new at all
+      if (relevantNew.length === 0) continue; // nothing new in their area
 
       // 5. Build and send email
       const displayName = user.displayName || "there";
