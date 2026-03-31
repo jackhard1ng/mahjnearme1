@@ -9,7 +9,9 @@ import { getStateName } from "@/lib/utils";
 import METRO_REGIONS, { findMetroByAbbreviation } from "@/lib/metro-regions";
 import { HOME_METRO_CHANGE_COOLDOWN_DAYS } from "@/lib/constants";
 import ReferralDashboard from "@/components/ReferralDashboard";
-import NotificationPreferences from "@/components/NotificationPreferences";
+// NotificationPreferences loaded lazily to prevent hydration crashes
+import dynamic from "next/dynamic";
+const NotificationPreferences = dynamic(() => import("@/components/NotificationPreferences"), { ssr: false });
 import {
   User,
   MapPin,
@@ -72,7 +74,6 @@ export default function AccountPage() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [portalLoading, setPortalLoading] = useState(false);
-  const [nextBillingDate, setNextBillingDate] = useState<string | null>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -95,36 +96,6 @@ export default function AccountPage() {
       router.push("/login");
     }
   }, [user, loading, router]);
-
-  // Fetch billing date from Stripe if not stored locally
-  useEffect(() => {
-    if (userProfile?.subscriptionEndsAt) {
-      setNextBillingDate(userProfile.subscriptionEndsAt);
-      return;
-    }
-    if (userProfile?.stripeCustomerId) {
-      fetch(`/api/billing-date?customerId=${userProfile.stripeCustomerId}`)
-        .then((r) => r.json())
-        .then((d) => {
-          if (d.nextBillingDate) {
-            setNextBillingDate(d.nextBillingDate);
-            // Also save it to Firestore for next time
-            updateUserProfile({ subscriptionEndsAt: d.nextBillingDate });
-          }
-        })
-        .catch(() => {});
-    } else if (userProfile?.subscribedDate) {
-      // Fallback: estimate from subscribed date + plan interval
-      const subDate = new Date(userProfile.subscribedDate);
-      const now = new Date();
-      if (userProfile.plan === "annual") {
-        while (subDate <= now) subDate.setFullYear(subDate.getFullYear() + 1);
-      } else {
-        while (subDate <= now) subDate.setMonth(subDate.getMonth() + 1);
-      }
-      setNextBillingDate(subDate.toISOString());
-    }
-  }, [userProfile?.subscriptionEndsAt, userProfile?.stripeCustomerId, userProfile?.subscribedDate]);
 
   if (loading || !user || !userProfile) {
     return (
@@ -709,10 +680,8 @@ export default function AccountPage() {
               )}
               <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-sm text-slate-600">Next billing date</span>
-                <span className="text-sm font-medium text-charcoal">
-                  {nextBillingDate
-                    ? new Date(nextBillingDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
-                    : "—"}
+                <span className="text-sm font-medium text-slate-500 text-xs">
+                  View in Manage Subscription below
                 </span>
               </div>
               <button
