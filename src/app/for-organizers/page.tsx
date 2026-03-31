@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import {
-  Search,
   CheckCircle,
   Star,
   GraduationCap,
@@ -62,9 +61,9 @@ export default function ForOrganizersPage() {
       {/* Benefits */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
         {[
-          { icon: Calendar, title: "Manage Listings", desc: "Edit schedules, venues, and details for all your events" },
+          { icon: Calendar, title: "Manage Listings", desc: "Claim existing listings or add new events to the directory" },
           { icon: Users, title: "Public Profile", desc: "Get a profile page to share with your community" },
-          { icon: Edit3, title: "Add Events", desc: "Create new listings and grow your reach" },
+          { icon: Edit3, title: "Keep Info Fresh", desc: "Update schedules, venues, and contact details anytime" },
         ].map(({ icon: Icon, title, desc }) => (
           <div key={title} className="bg-white border border-slate-200 rounded-lg p-4 text-center">
             <Icon className="w-8 h-8 text-softpink-500 mx-auto mb-2" />
@@ -74,26 +73,28 @@ export default function ForOrganizersPage() {
         ))}
       </div>
 
-      {/* Already listed? Claim */}
-      <div className="bg-skyblue-50 border-2 border-skyblue-200 rounded-xl p-5 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Search className="w-6 h-6 text-skyblue-600 flex-shrink-0" />
-          <div>
-            <p className="font-semibold text-slate-800">Already listed on MahjNearMe?</p>
-            <p className="text-sm text-slate-600">Search for your games and claim them to get your dashboard.</p>
-          </div>
-        </div>
-        <Link
-          href="/claim-listing"
-          className="inline-flex items-center gap-2 bg-skyblue-500 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-skyblue-600 transition text-sm whitespace-nowrap"
-        >
-          Claim Listings <ArrowRight className="w-4 h-4" />
-        </Link>
+      {/* How it works */}
+      <div className="bg-skyblue-50 border border-skyblue-200 rounded-xl p-5 mb-10">
+        <h3 className="font-semibold text-slate-800 mb-3">How it works</h3>
+        <ol className="space-y-2 text-sm text-slate-700">
+          <li className="flex gap-2">
+            <span className="bg-skyblue-200 text-skyblue-800 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>
+            Apply below as an organizer, instructor, or both
+          </li>
+          <li className="flex gap-2">
+            <span className="bg-skyblue-200 text-skyblue-800 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>
+            We review your application (usually within 24 hours)
+          </li>
+          <li className="flex gap-2">
+            <span className="bg-skyblue-200 text-skyblue-800 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>
+            Once approved, you get your dashboard where you can claim existing listings or add new events
+          </li>
+        </ol>
       </div>
 
       {/* Role selection */}
       <h2 className="text-xl font-bold text-slate-800 mb-2 text-center">
-        Not listed yet? Apply here
+        Apply now
       </h2>
       <p className="text-center text-slate-500 text-sm mb-6">
         Choose what best describes you
@@ -101,55 +102,70 @@ export default function ForOrganizersPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         {/* Organizer */}
-        <button
-          onClick={() => setSelectedRole(selectedRole === "organizer" ? null : "organizer")}
-          className={`text-left border-2 rounded-xl p-5 transition ${
-            selectedRole === "organizer"
-              ? "border-softpink-500 bg-softpink-50"
-              : "border-slate-200 bg-white hover:border-softpink-300"
-          }`}
-        >
+        <div className={`text-left border-2 rounded-xl p-5 transition ${
+          selectedRole === "organizer" ? "border-softpink-500 bg-softpink-50" : "border-slate-200 bg-white"
+        }`}>
           <Calendar className="w-7 h-7 text-softpink-500 mb-2" />
           <h3 className="font-semibold text-slate-800 mb-1">Organizer</h3>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-500 mb-3">
             I run mahjong games, meetups, or events and want to manage my listings.
           </p>
-        </button>
+          <button
+            onClick={() => setSelectedRole(selectedRole === "organizer" ? null : "organizer")}
+            className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition ${
+              selectedRole === "organizer"
+                ? "bg-softpink-500 text-white"
+                : "bg-softpink-100 text-softpink-700 hover:bg-softpink-200"
+            }`}
+          >
+            {selectedRole === "organizer" ? <><CheckCircle className="w-4 h-4" /> Selected</> : <>Apply as Organizer <ArrowRight className="w-4 h-4" /></>}
+          </button>
+        </div>
 
         {/* Instructor */}
-        <button
-          onClick={() => setSelectedRole(selectedRole === "instructor" ? null : "instructor")}
-          className={`text-left border-2 rounded-xl p-5 transition ${
-            selectedRole === "instructor"
-              ? "border-purple-500 bg-purple-50"
-              : "border-slate-200 bg-white hover:border-purple-300"
-          }`}
-        >
+        <div className={`text-left border-2 rounded-xl p-5 transition ${
+          selectedRole === "instructor" ? "border-purple-500 bg-purple-50" : "border-slate-200 bg-white"
+        }`}>
           <GraduationCap className="w-7 h-7 text-purple-500 mb-2" />
           <h3 className="font-semibold text-slate-800 mb-1">Instructor</h3>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-500 mb-3">
             I teach mahjong lessons and want to be listed in the instructor directory.
           </p>
-        </button>
+          <button
+            onClick={() => setSelectedRole(selectedRole === "instructor" ? null : "instructor")}
+            className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition ${
+              selectedRole === "instructor"
+                ? "bg-purple-500 text-white"
+                : "bg-purple-100 text-purple-700 hover:bg-purple-200"
+            }`}
+          >
+            {selectedRole === "instructor" ? <><CheckCircle className="w-4 h-4" /> Selected</> : <>Apply as Instructor <ArrowRight className="w-4 h-4" /></>}
+          </button>
+        </div>
 
         {/* Both */}
-        <button
-          onClick={() => setSelectedRole(selectedRole === "both" ? null : "both")}
-          className={`text-left border-2 rounded-xl p-5 transition ${
-            selectedRole === "both"
-              ? "border-amber-500 bg-amber-50"
-              : "border-slate-200 bg-white hover:border-amber-300"
-          }`}
-        >
+        <div className={`text-left border-2 rounded-xl p-5 transition ${
+          selectedRole === "both" ? "border-amber-500 bg-amber-50" : "border-slate-200 bg-white"
+        }`}>
           <div className="flex gap-1 mb-2">
             <Calendar className="w-7 h-7 text-softpink-500" />
             <GraduationCap className="w-7 h-7 text-purple-500" />
           </div>
           <h3 className="font-semibold text-slate-800 mb-1">Both</h3>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-500 mb-3">
             I run games and teach lessons. I want to manage events and be in the instructor directory.
           </p>
-        </button>
+          <button
+            onClick={() => setSelectedRole(selectedRole === "both" ? null : "both")}
+            className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition ${
+              selectedRole === "both"
+                ? "bg-amber-500 text-white"
+                : "bg-amber-100 text-amber-700 hover:bg-amber-200"
+            }`}
+          >
+            {selectedRole === "both" ? <><CheckCircle className="w-4 h-4" /> Selected</> : <>Apply as Both <ArrowRight className="w-4 h-4" /></>}
+          </button>
+        </div>
       </div>
 
       {/* Apply form */}
@@ -190,14 +206,16 @@ export default function ForOrganizersPage() {
         <Star className="w-8 h-8 text-amber-500 mx-auto mb-2" />
         <h3 className="font-semibold text-slate-800 mb-2">Upgrade for more</h3>
         <p className="text-sm text-slate-600 mb-1">
-          Subscribed organizers ($4.99/mo or $39.99/yr) get:
+          Subscribed organizers and instructors ($4.99/mo or $39.99/yr) get:
         </p>
         <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-amber-800 mt-2">
           <span className="flex items-center gap-1"><Zap className="w-3 h-3" /> Instant edits (no approval wait)</span>
-          <span className="flex items-center gap-1"><Star className="w-3 h-3" /> Featured badge on listings</span>
-          <span className="flex items-center gap-1"><Users className="w-3 h-3" /> Priority placement in search</span>
+          <span className="flex items-center gap-1"><Star className="w-3 h-3" /> Featured badge on listings and instructor profile</span>
+          <span className="flex items-center gap-1"><Users className="w-3 h-3" /> Priority placement in search results</span>
         </div>
-        <p className="text-xs text-amber-600 mt-3">Free organizers get all core features. Subscribing is optional.</p>
+        <p className="text-xs text-amber-600 mt-3">
+          Free organizers and instructors get all core features. Subscribing is optional.
+        </p>
       </div>
     </div>
   );
@@ -394,7 +412,7 @@ function ApplyForm({
           </div>
         )}
 
-        <button onClick={handleSubmit} disabled={submitting} className="bg-softpink-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-softpink-600 transition disabled:opacity-50 flex items-center gap-2">
+        <button onClick={handleSubmit} disabled={submitting} className="w-full bg-softpink-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-softpink-600 transition disabled:opacity-50 flex items-center justify-center gap-2">
           {submitting ? (<><Loader2 className="w-4 h-4 animate-spin" /> Submitting...</>) : (<><CheckCircle className="w-4 h-4" /> Submit Application</>)}
         </button>
       </div>

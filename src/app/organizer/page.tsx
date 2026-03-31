@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Game } from "@/types";
 import Link from "next/link";
@@ -20,6 +20,7 @@ import {
   Calendar,
   Star,
   ExternalLink,
+  Search,
 } from "lucide-react";
 
 interface OrganizerData {
@@ -58,7 +59,7 @@ export default function OrganizerDashboardPage() {
   const [listings, setListings] = useState<Game[]>([]);
   const [pendingApprovals, setPendingApprovals] = useState<PendingApproval[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"listings" | "profile" | "add" | "instructor">("listings");
+  const [activeTab, setActiveTab] = useState<"listings" | "claim" | "add" | "profile" | "instructor">("listings");
   const [editingListing, setEditingListing] = useState<Game | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState("");
@@ -187,6 +188,7 @@ export default function OrganizerDashboardPage() {
         {(
           [
             { key: "listings", label: "My Listings", icon: Calendar },
+            { key: "claim", label: "Claim Listings", icon: Search },
             { key: "add", label: "Add Event", icon: Plus },
             { key: "profile", label: "Profile", icon: User },
             { key: "instructor", label: "Instructor", icon: Star },
@@ -219,6 +221,16 @@ export default function OrganizerDashboardPage() {
           saveMessage={saveMessage}
           setSaveMessage={setSaveMessage}
           onRefresh={fetchData}
+        />
+      )}
+      {activeTab === "claim" && organizer && (
+        <ClaimListingsTab
+          userId={user.uid}
+          userEmail={userProfile?.email || ""}
+          userName={userProfile?.displayName || ""}
+          organizerProfileId={organizer.id}
+          existingListingIds={organizer.listingIds || []}
+          onSuccess={fetchData}
         />
       )}
       {activeTab === "add" && (
@@ -1032,6 +1044,183 @@ function InstructorTab({
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
         Save
       </button>
+    </div>
+  );
+}
+
+// ----- Claim Listings Tab -----
+
+function ClaimListingsTab({
+  userId,
+  userEmail,
+  userName,
+  organizerProfileId,
+  existingListingIds,
+  onSuccess,
+}: {
+  userId: string;
+  userEmail: string;
+  userName: string;
+  organizerProfileId: string;
+  existingListingIds: string[];
+  onSuccess: () => void;
+}) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [allGames, setAllGames] = useState<Game[]>([]);
+  const [loaded, setLoaded] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [submitting, setSubmitting] = useState(false);
+  const [message, setMessage] = useState("");
+
+  // Load games from mock-data (static JSON) since Firestore may not be populated
+  useEffect(() => {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const { mockGames } = require("@/lib/mock-data");
+      setAllGames(mockGames);
+    } catch {
+      setAllGames([]);
+    }
+    setLoaded(true);
+  }, []);
+
+  const filteredGames = useMemo(() => {
+    if (!searchQuery.trim() || searchQuery.length < 2) return [];
+    const q = searchQuery.toLowerCase();
+    return allGames
+      .filter(
+        (g: Game) =>
+          g.status === "active" &&
+          !existingListingIds.includes(g.id) &&
+          (g.name.toLowerCase().includes(q) ||
+            g.organizerName.toLowerCase().includes(q) ||
+            g.contactName.toLowerCase().includes(q) ||
+            g.venueName.toLowerCase().includes(q) ||
+            g.city.toLowerCase().includes(q))
+      )
+      .slice(0, 50);
+  }, [allGames, searchQuery, existingListingIds]);
+
+  const toggleListing = (id: string) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
+  const handleClaim = async () => {
+    if (selectedIds.length === 0) return;
+    setSubmitting(true);
+    setMessage("");
+
+    try {
+      const res = await fetch("/api/claims", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          userEmail,
+          userName,
+          listingIds: selectedIds,
+          organizerProfileId,
+          message: "Claim from organizer dashboard",
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setMessage(data.error || "Failed to submit claim.");
+      } else {
+        setMessage(`Claim submitted for ${selectedIds.length} listing${selectedIds.length > 1 ? "s" : ""}. Pending admin approval.`);
+        setSelectedIds([]);
+        onSuccess();
+      }
+    } catch {
+      setMessage("Something went wrong.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (!loaded) {
+    return <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-softpink-500" /></div>;
+  }
+
+  return (
+    <div className="max-w-2xl">
+      <h2 className="text-lg font-semibold text-slate-800 mb-2">Claim Existing Listings</h2>
+      <p className="text-sm text-slate-500 mb-4">
+        Search for your games that are already listed on MahjNearMe and claim them to manage from your dashboard.
+      </p>
+
+      <div className="relative mb-4">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search by group name, venue, city..."
+          className="w-full pl-10 pr-4 py-2.5 border-2 border-slate-200 rounded-lg focus:border-softpink-400 focus:outline-none"
+        />
+      </div>
+
+      {searchQuery.length >= 2 && (
+        <div className="space-y-2 max-h-[350px] overflow-y-auto mb-4">
+          {filteredGames.length === 0 ? (
+            <p className="text-slate-400 text-center py-6 text-sm">No listings found for &quot;{searchQuery}&quot;</p>
+          ) : (
+            filteredGames.map((game: Game) => (
+              <button
+                key={game.id}
+                onClick={() => toggleListing(game.id)}
+                className={`w-full text-left p-3 rounded-lg border-2 transition ${
+                  selectedIds.includes(game.id)
+                    ? "border-softpink-400 bg-softpink-50"
+                    : "border-slate-200 hover:border-slate-300 bg-white"
+                }`}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-slate-800 truncate">{game.name}</p>
+                    <div className="flex items-center gap-3 text-sm text-slate-500 mt-1">
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-3 h-3" /> {game.city}, {game.state}
+                      </span>
+                      {game.venueName && <span className="truncate">{game.venueName}</span>}
+                    </div>
+                  </div>
+                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ml-3 mt-1 ${
+                    selectedIds.includes(game.id) ? "border-softpink-500 bg-softpink-500" : "border-slate-300"
+                  }`}>
+                    {selectedIds.includes(game.id) && <CheckCircle className="w-3 h-3 text-white" />}
+                  </div>
+                </div>
+              </button>
+            ))
+          )}
+        </div>
+      )}
+
+      {selectedIds.length > 0 && (
+        <div className="bg-skyblue-50 border border-skyblue-200 rounded-lg p-4">
+          <p className="text-sm font-medium text-slate-800 mb-3">
+            {selectedIds.length} listing{selectedIds.length > 1 ? "s" : ""} selected
+          </p>
+          <button
+            onClick={handleClaim}
+            disabled={submitting}
+            className="bg-softpink-500 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-softpink-600 disabled:opacity-50 flex items-center gap-2"
+          >
+            {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
+            Submit Claim for Approval
+          </button>
+        </div>
+      )}
+
+      {message && (
+        <div className={`mt-4 p-3 rounded-lg text-sm ${message.includes("Failed") || message.includes("wrong") ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
+          {message}
+        </div>
+      )}
     </div>
   );
 }
