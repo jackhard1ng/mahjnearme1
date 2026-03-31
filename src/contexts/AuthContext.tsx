@@ -27,6 +27,8 @@ interface AuthContextType {
   hasAccess: boolean;
   isAdmin: boolean;
   isContributor: boolean;
+  isOrganizer: boolean;
+  isSubscribedOrganizer: boolean;
   hasMetroAccess: (metroAbbreviation: string | null) => boolean;
   needsMetroSelection: boolean;
 }
@@ -58,6 +60,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             subscriptionEndsAt: null,
             plan: null,
             isContributor: false,
+            isOrganizer: false,
+            organizerProfileId: null,
             contributorCity: null,
             contributorMetro: null,
             contributorAppliedAt: null,
@@ -202,6 +206,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const isAdmin = userProfile?.accountType === "admin";
   const isContributor = userProfile?.isContributor === true || userProfile?.accountType === "contributor";
+  const isOrganizer = userProfile?.isOrganizer === true || userProfile?.accountType === "organizer";
+  const isSubscribedOrganizer = isOrganizer && (
+    userProfile?.accountType === "subscriber" ||
+    userProfile?.subscriptionStatus === "active"
+  );
 
   const isPaidUser =
     userProfile?.accountType === "admin" ||
@@ -238,6 +247,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         hasAccess,
         isAdmin,
         isContributor,
+        isOrganizer,
+        isSubscribedOrganizer,
         hasMetroAccess,
         needsMetroSelection,
       }}

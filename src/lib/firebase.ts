@@ -29,6 +29,10 @@ function getApp() {
   return app;
 }
 
+export function getFirebaseApp(): FirebaseApp {
+  return getApp();
+}
+
 export function getFirebaseAuth(): Auth {
   if (!auth) {
     auth = getAuth(getApp());

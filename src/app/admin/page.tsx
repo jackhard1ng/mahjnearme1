@@ -77,7 +77,7 @@ async function adminFetch(route: string, method: string = "GET", body?: unknown)
 
 export default function AdminDashboardPage() {
   const [games] = useState(mockGames);
-  const [activeTab, setActiveTab] = useState<"overview" | "subscribers" | "contributors" | "referrals" | "giveaways" | "organizers" | "notifications">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "subscribers" | "contributors" | "referrals" | "giveaways" | "organizers" | "approvals" | "notifications">("overview");
   const [analytics, setAnalytics] = useState<{
     totalViews: number;
     todayViews: number;
@@ -234,6 +234,7 @@ export default function AdminDashboardPage() {
     { id: "referrals" as const, label: "Referrals" },
     { id: "giveaways" as const, label: "Giveaways" },
     { id: "organizers" as const, label: "Organizers" },
+    { id: "approvals" as const, label: "Approvals" },
     { id: "notifications" as const, label: "Notifications" },
   ];
 
@@ -737,6 +738,7 @@ export default function AdminDashboardPage() {
         </div>
       )}
       {activeTab === "organizers" && <AdminOrganizersPanel />}
+      {activeTab === "approvals" && <AdminApprovalsPanel />}
       {activeTab === "notifications" && <AdminNotificationsPanel />}
     </div>
   );
@@ -1054,6 +1056,319 @@ function AdminOrganizersPanel() {
           <p className="text-xs text-slate-400 text-center pt-2">Showing {sorted.length} of {organizers.length} organizers</p>
         </div>
       )}
+    </div>
+  );
+}
+
+function AdminApprovalsPanel() {
+  const [claims, setClaims] = useState<{ id: string; userId: string; userEmail: string; userName: string; listingIds: string[]; status: string; message: string; createdAt: string }[]>([]);
+  const [approvals, setApprovals] = useState<{ id: string; type: string; userId: string; userEmail: string; userName: string; listingId: string | null; oldValues: Record<string, unknown> | null; newValues: Record<string, unknown> | null; status: string; createdAt: string }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [processing, setProcessing] = useState<string | null>(null);
+  const [importStatus, setImportStatus] = useState("");
+  const [importing, setImporting] = useState(false);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const [claimsRes, approvalsRes] = await Promise.all([
+        adminFetch("/api/claims?status=pending"),
+        adminFetch("/api/approvals?status=pending"),
+      ]);
+      const claimsData = await claimsRes.json();
+      const approvalsData = await approvalsRes.json();
+      setClaims(claimsData.claims || []);
+      setApprovals(approvalsData.approvals || []);
+    } catch {
+      // silently handle
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClaim = async (claimId: string, status: "approved" | "rejected") => {
+    setProcessing(claimId);
+    try {
+      await adminFetch("/api/claims", "PUT", { id: claimId, status, reviewedBy: "admin" });
+      await loadData();
+    } catch {
+      // silently handle
+    } finally {
+      setProcessing(null);
+    }
+  };
+
+  const handleApproval = async (approvalId: string, status: "approved" | "rejected") => {
+    setProcessing(approvalId);
+    try {
+      await adminFetch("/api/approvals", "PUT", { id: approvalId, status, reviewedBy: "admin" });
+      await loadData();
+    } catch {
+      // silently handle
+    } finally {
+      setProcessing(null);
+    }
+  };
+
+  const handleAssignOrganizer = async () => {
+    const email = prompt("Enter the user's email to make them an organizer:");
+    if (!email) return;
+
+    try {
+      const res = await adminFetch("/api/subscribers?email=" + encodeURIComponent(email));
+      const data = await res.json();
+      const user = data.subscribers?.find((s: { email: string }) => s.email === email);
+      if (!user) {
+        alert("User not found with that email.");
+        return;
+      }
+      // Create organizer profile and link to user
+      const slug = email.split("@")[0].toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      await adminFetch("/api/organizers", "POST", {
+        organizerName: user.name || email.split("@")[0],
+        slug,
+        nameKey: slug,
+        bio: "",
+        contactEmail: email,
+        website: "",
+        instagram: "",
+        facebookGroup: "",
+        locations: [],
+        listingIds: [],
+        listingCount: 0,
+        cities: [],
+        states: [],
+        verified: true,
+        featured: false,
+        userId: user.id,
+        isInstructor: false,
+        instructorDetails: null,
+        metroRegion: "other",
+        addedBy: "admin",
+      });
+      alert("Organizer profile created. The user will need to re-login to see their dashboard.");
+    } catch {
+      alert("Failed to assign organizer status.");
+    }
+  };
+
+  const handleImportListings = async () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+
+      setImporting(true);
+      setImportStatus("Reading file...");
+
+      try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+        const listings = data.listings || data;
+
+        if (!Array.isArray(listings)) {
+          setImportStatus("Error: Invalid JSON format. Expected { listings: [...] }");
+          setImporting(false);
+          return;
+        }
+
+        setImportStatus(`Importing ${listings.length} listings...`);
+
+        const res = await adminFetch("/api/listings/import", "POST", { listings });
+        const result = await res.json();
+
+        if (result.success) {
+          setImportStatus(
+            `Done! Added: ${result.added}, Updated: ${result.updated}, Skipped (organizer-edited): ${result.skipped}`
+          );
+        } else {
+          setImportStatus(`Error: ${result.error}`);
+        }
+      } catch (err) {
+        setImportStatus("Error: Failed to parse or import file.");
+      } finally {
+        setImporting(false);
+      }
+    };
+    input.click();
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="w-6 h-6 animate-spin text-softpink-500" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-8">
+      {/* Import Listings */}
+      <div className="bg-white border border-slate-200 rounded-lg p-4">
+        <h3 className="font-semibold text-slate-800 mb-2 flex items-center gap-2">
+          <Upload className="w-4 h-4" /> Import Listings to Firestore
+        </h3>
+        <p className="text-sm text-slate-500 mb-3">
+          Upload a JSON file to merge listings into Firestore. New listings get added.
+          Existing listings that organizers have edited will NOT be overwritten.
+        </p>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleImportListings}
+            disabled={importing}
+            className="bg-skyblue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-skyblue-600 disabled:opacity-50 flex items-center gap-2"
+          >
+            {importing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+            Import JSON
+          </button>
+          {importStatus && (
+            <span className={`text-sm ${importStatus.startsWith("Error") ? "text-red-600" : "text-green-600"}`}>
+              {importStatus}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Assign Organizer */}
+      <div className="bg-white border border-slate-200 rounded-lg p-4">
+        <h3 className="font-semibold text-slate-800 mb-2 flex items-center gap-2">
+          <UserPlus className="w-4 h-4" /> Assign Organizer Status
+        </h3>
+        <button
+          onClick={handleAssignOrganizer}
+          className="bg-softpink-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-softpink-600 flex items-center gap-2"
+        >
+          <UserPlus className="w-4 h-4" /> Assign by Email
+        </button>
+      </div>
+
+      {/* Pending Claims */}
+      <div>
+        <h3 className="font-semibold text-slate-800 mb-3">
+          Pending Claims ({claims.length})
+        </h3>
+        {claims.length === 0 ? (
+          <p className="text-slate-400 text-sm">No pending claims.</p>
+        ) : (
+          <div className="space-y-3">
+            {claims.map((claim) => (
+              <div key={claim.id} className="border border-slate-200 rounded-lg p-4">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="font-medium text-slate-800">{claim.userName || claim.userEmail}</p>
+                    <p className="text-sm text-slate-500">{claim.userEmail}</p>
+                    <p className="text-sm text-slate-600 mt-1">
+                      Claiming {claim.listingIds.length} listing{claim.listingIds.length > 1 ? "s" : ""}
+                    </p>
+                    {claim.message && (
+                      <p className="text-sm text-slate-500 mt-1 italic">&quot;{claim.message}&quot;</p>
+                    )}
+                    <p className="text-xs text-slate-400 mt-1">
+                      Submitted {new Date(claim.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleClaim(claim.id, "approved")}
+                      disabled={processing === claim.id}
+                      className="bg-green-500 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-green-600 disabled:opacity-50"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => handleClaim(claim.id, "rejected")}
+                      disabled={processing === claim.id}
+                      className="bg-red-500 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-red-600 disabled:opacity-50"
+                    >
+                      Reject
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Pending Edits & New Listings */}
+      <div>
+        <h3 className="font-semibold text-slate-800 mb-3">
+          Pending Edits & New Listings ({approvals.length})
+        </h3>
+        {approvals.length === 0 ? (
+          <p className="text-slate-400 text-sm">No pending approvals.</p>
+        ) : (
+          <div className="space-y-3">
+            {approvals.map((approval) => (
+              <div key={approval.id} className="border border-slate-200 rounded-lg p-4">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                        approval.type === "new_listing"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-blue-100 text-blue-700"
+                      }`}>
+                        {approval.type === "new_listing" ? "New Listing" : "Edit"}
+                      </span>
+                      <span className="text-sm text-slate-600">by {approval.userName || approval.userEmail}</span>
+                    </div>
+
+                    {approval.type === "listing_edit" && approval.oldValues && approval.newValues && (
+                      <div className="text-sm mt-2 space-y-1">
+                        {Object.keys(approval.newValues).map((key) => (
+                          <div key={key} className="text-slate-600">
+                            <span className="font-medium">{key}:</span>{" "}
+                            <span className="text-red-500 line-through">
+                              {String((approval.oldValues as Record<string, unknown>)?.[key] || "")}
+                            </span>{" "}
+                            <span className="text-green-600">
+                              {String((approval.newValues as Record<string, unknown>)?.[key] || "")}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {approval.type === "new_listing" && approval.newValues && (
+                      <div className="text-sm text-slate-600 mt-1">
+                        <p>Name: {(approval.newValues as Record<string, unknown>).name as string}</p>
+                        <p>City: {(approval.newValues as Record<string, unknown>).city as string}, {(approval.newValues as Record<string, unknown>).state as string}</p>
+                      </div>
+                    )}
+
+                    <p className="text-xs text-slate-400 mt-1">
+                      Submitted {new Date(approval.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleApproval(approval.id, "approved")}
+                      disabled={processing === approval.id}
+                      className="bg-green-500 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-green-600 disabled:opacity-50"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => handleApproval(approval.id, "rejected")}
+                      disabled={processing === approval.id}
+                      className="bg-red-500 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-red-600 disabled:opacity-50"
+                    >
+                      Reject
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,8 +1,11 @@
 /**
- * Data access layer — now backed by real listings from /public/listings.json (2,027 listings).
+ * Data access layer -- backed by /public/listings.json as a synchronous fallback.
  *
  * This file re-exports the normalized data under the same names that the rest of the
- * codebase expects (mockGames, getCitiesWithGames, etc.) so no import changes are needed.
+ * codebase expects (mockGames, getCitiesWithGames, etc.) so no import changes are needed
+ * for pages that haven't migrated to async Firestore reads yet.
+ *
+ * NEW: Also re-exports async Firestore-backed functions for migrated pages.
  */
 
 import {
@@ -13,18 +16,24 @@ import {
   getGamesByState,
 } from "@/lib/listings-data";
 
-// The main games array — all 15 files that import `mockGames` continue to work.
+// The main games array -- synchronous fallback from JSON.
+// Client components should prefer useListings() hook.
+// Server components should prefer getListingsServer().
 export const mockGames = loadListings();
 
-// Re-export helpers
+// Re-export synchronous helpers (still used by some pages during migration)
 export { getCitiesWithGames, getStatesWithGames, getGamesByCity, getGamesByState };
+
+// NOTE: For server components and API routes that need Firestore-backed data,
+// import directly from "@/lib/listings-firestore" (not from this file).
+// This file is imported by client components and cannot include firebase-admin.
 
 // --- Products (unchanged, still hardcoded) ---
 
 export const mockProducts: import("@/types").Product[] = [
   {
     id: "prod_1",
-    name: "American Mahjong Set \u2014 166 Tiles",
+    name: "American Mahjong Set -- 166 Tiles",
     category: "Mahjong Sets",
     imageUrl: "",
     affiliateLink: "",
@@ -54,7 +63,7 @@ export const mockProducts: import("@/types").Product[] = [
   },
   {
     id: "prod_4",
-    name: "Mahjong Table Cover \u2014 Green Felt",
+    name: "Mahjong Table Cover -- Green Felt",
     category: "Table Accessories",
     imageUrl: "",
     affiliateLink: "",

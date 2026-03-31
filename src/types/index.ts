@@ -2,7 +2,7 @@ export type GameType = "open_play" | "lesson" | "league" | "event" | "private";
 export type GameStyle = "american" | "chinese" | "riichi" | "other";
 export type SkillLevel = "beginner" | "intermediate" | "advanced";
 export type Frequency = "weekly" | "biweekly" | "monthly" | "first_tuesday" | "first_wednesday" | "first_thursday" | "last_friday";
-export type AccountType = "free" | "trial" | "subscriber" | "contributor" | "admin";
+export type AccountType = "free" | "trial" | "subscriber" | "contributor" | "organizer" | "admin";
 export type SubscriptionStatus = "trialing" | "active" | "past_due" | "canceled" | "none";
 export type ListingStatus = "active" | "pending" | "claimed" | "inactive";
 export type ListingSource = "manual" | "csv_import" | "organizer_submitted";
@@ -71,6 +71,7 @@ export interface Game {
   claimedBy: string | null;
   source: ListingSource;
   promoted: boolean;
+  organizerEdited: boolean;
   lastVerified: string;
   createdAt: string;
   updatedAt: string;
@@ -105,6 +106,10 @@ export interface UserProfile {
   contributorStatus: ContributorStatus | null;
   lastActivityDate: string | null;
   verificationsThisMonth: number;
+
+  // Organizer
+  isOrganizer: boolean;
+  organizerProfileId: string | null;
 
   // Player Profile
   photoURL: string | null;
@@ -247,27 +252,85 @@ export interface SearchFilters {
 }
 
 // Organizer Directory
-export interface Organizer {
-  id: string;
-  organizerName: string;
+export type TeachingStyle = "private" | "group" | "corporate" | "kids" | "online";
+
+export interface InstructorDetails {
+  teachingStyles: TeachingStyle[];
+  certifications: string;
+  serviceArea: string;
+  gameStylesTaught: GameStyle[];
+}
+
+export interface OrganizerLocation {
   venueName: string;
   address: string;
   city: string;
-  metroRegion: string;
-  gameStyle: GameStyle;
-  contactName: string;
+  state: string;
+  lat: number;
+  lng: number;
+}
+
+export interface Organizer {
+  id: string;
+  nameKey: string;
+  organizerName: string;
+  slug: string;
+  bio: string;
   contactEmail: string;
-  contactPhone: string;
   website: string;
   instagram: string;
   facebookGroup: string;
-  skillLevels: SkillLevel[];
-  dropInFriendly: boolean;
-  setsProvided: boolean;
-  typicalGroupSize: string;
-  notes: string;
-  addedBy: string;
-  lastUpdated: string;
+  photoURL: string | null;
+  photos: string[];
+  locations: OrganizerLocation[];
+  listingIds: string[];
+  listingCount: number;
+  cities: string[];
+  states: string[];
+  verified: boolean;
+  featured: boolean;
+  userId: string | null;
+  isInstructor: boolean;
+  instructorDetails: InstructorDetails | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Listing Claims
+export type ClaimStatus = "pending" | "approved" | "rejected";
+
+export interface ListingClaim {
+  id: string;
+  userId: string;
+  userEmail: string;
+  userName: string;
+  listingIds: string[];
+  organizerProfileId: string | null;
+  status: ClaimStatus;
+  message: string;
+  reviewedBy: string | null;
+  reviewedAt: string | null;
+  createdAt: string;
+}
+
+// Approval Queue
+export type ApprovalType = "claim" | "listing_edit" | "new_listing";
+export type ApprovalStatus = "pending" | "approved" | "rejected";
+
+export interface ApprovalRequest {
+  id: string;
+  type: ApprovalType;
+  userId: string;
+  userEmail: string;
+  userName: string;
+  organizerProfileId: string | null;
+  listingId: string | null;
+  claimId: string | null;
+  oldValues: Record<string, unknown> | null;
+  newValues: Record<string, unknown> | null;
+  status: ApprovalStatus;
+  reviewedBy: string | null;
+  reviewedAt: string | null;
   createdAt: string;
 }
 
