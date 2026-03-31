@@ -9,6 +9,7 @@ import { getStateName } from "@/lib/utils";
 import METRO_REGIONS, { findMetroByAbbreviation } from "@/lib/metro-regions";
 import { HOME_METRO_CHANGE_COOLDOWN_DAYS } from "@/lib/constants";
 import ReferralDashboard from "@/components/ReferralDashboard";
+import NotificationPreferences from "@/components/NotificationPreferences";
 import {
   User,
   MapPin,
@@ -806,35 +807,7 @@ export default function AccountPage() {
         </div>
 
         {/* Notification Preferences */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6">
-          <h3 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
-            <Bell className="w-5 h-5 text-hotpink-500" />
-            Notifications
-          </h3>
-          <div className="space-y-3">
-            {[
-              { label: "New games in saved cities", enabled: true },
-              { label: "Weekly digest email", enabled: true },
-              { label: "Subscription reminders", enabled: true },
-              { label: "Product recommendations", enabled: false },
-            ].map((pref) => (
-              <div key={pref.label} className="flex items-center justify-between py-2">
-                <span className="text-sm text-slate-700">{pref.label}</span>
-                <button
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    pref.enabled ? "bg-hotpink-500" : "bg-slate-200"
-                  }`}
-                >
-                  <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      pref.enabled ? "translate-x-6" : "translate-x-1"
-                    }`}
-                  />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
+        <NotificationPreferences />
 
         {/* Sign Out */}
         <button

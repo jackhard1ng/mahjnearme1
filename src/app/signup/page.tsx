@@ -20,6 +20,7 @@ import {
   Zap,
   MapPin,
   Plane,
+  Bell,
 } from "lucide-react";
 
 type OnboardingStep = 1 | 2 | 3 | 4;
@@ -86,7 +87,7 @@ function SignupPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const planParam = searchParams.get("plan"); // "monthly" | "annual" | null
-  const { signUp, signInWithGoogle, user, loading: authLoading } = useAuth();
+  const { signUp, signInWithGoogle, user, loading: authLoading, updateUserProfile } = useAuth();
 
   // Registration form state
   const [name, setName] = useState("");
@@ -103,6 +104,7 @@ function SignupPage() {
   const [gameStyle, setGameStyle] = useState<string | null>("american");
   const [homeCity, setHomeCity] = useState("");
   const [travelCities, setTravelCities] = useState("");
+  const [wantsNotifications, setWantsNotifications] = useState(false);
 
   // Redirect if already logged in and not in onboarding
   if (user && !authLoading && !isRegistered) {
@@ -204,7 +206,17 @@ function SignupPage() {
     router.push("/search");
   }
 
-  const handleOnboardingComplete = () => {
+  const handleOnboardingComplete = async () => {
+    // Save onboarding preferences
+    await updateUserProfile({
+      skillLevel: skillLevel as "beginner" | "intermediate" | "advanced" | null,
+      gameStylePreference: (gameStyle as "american" | "chinese" | "riichi" | "any") || null,
+      homeCity: homeCity.trim(),
+      emailNotifications: {
+        newEventsInArea: wantsNotifications,
+        weeklyDigest: false,
+      },
+    });
     redirectAfterOnboarding();
   };
 
@@ -418,6 +430,30 @@ function SignupPage() {
                   <p className="text-xs text-slate-400 mt-2">
                     Separate cities with commas. You can always update this later.
                   </p>
+                </div>
+
+                {/* Email notification opt-in */}
+                <div className="mt-6 pt-5 border-t border-slate-200">
+                  <button
+                    type="button"
+                    onClick={() => setWantsNotifications(!wantsNotifications)}
+                    className="flex items-start gap-3 w-full text-left"
+                  >
+                    <div className={`mt-0.5 flex items-center justify-center w-5 h-5 rounded border-2 shrink-0 transition-colors ${
+                      wantsNotifications ? "bg-hotpink-500 border-hotpink-500" : "border-slate-300"
+                    }`}>
+                      {wantsNotifications && <Check className="w-3 h-3 text-white" />}
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-charcoal flex items-center gap-1.5">
+                        <Bell className="w-3.5 h-3.5 text-hotpink-500" />
+                        Email me when new events are listed near me
+                      </p>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        Get notified when new games, tournaments, or events are added in your area. You can change this anytime in account settings.
+                      </p>
+                    </div>
+                  </button>
                 </div>
               </div>
             )}

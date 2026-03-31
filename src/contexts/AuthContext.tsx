@@ -83,6 +83,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             savedCities: [],
             favoriteGames: [],
             savedEvents: [],
+            emailNotifications: { newEventsInArea: false, weeklyDigest: false },
+            notifyStates: [],
             createdAt: new Date().toISOString(),
             lastLoginAt: new Date().toISOString(),
           };

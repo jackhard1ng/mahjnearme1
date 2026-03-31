@@ -125,6 +125,13 @@ export interface UserProfile {
   favoriteGames: string[];
   savedEvents: string[];
 
+  // Email notifications
+  emailNotifications: {
+    newEventsInArea: boolean;
+    weeklyDigest: boolean;
+  };
+  notifyStates: string[]; // state abbreviations to get notifications for
+
   createdAt: string;
   lastLoginAt: string;
 }
