@@ -1006,7 +1006,7 @@ function AdminNotificationsPanel() {
     setSendingAnnounce(true);
     setAnnounceResult(null);
     try {
-      const res = await fetch("/api/digest/announce", {
+      const res = await fetch("/api/digest/announce-trigger", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

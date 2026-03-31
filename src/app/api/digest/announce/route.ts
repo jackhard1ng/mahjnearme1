@@ -11,8 +11,7 @@ export async function POST(req: Request) {
   const cronSecret = process.env.CRON_SECRET;
   const authHeader = req.headers.get("authorization");
   if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
-    // Also allow calls from the trigger route (no auth header but same server)
-    // For admin panel calls, we'll pass the secret
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
