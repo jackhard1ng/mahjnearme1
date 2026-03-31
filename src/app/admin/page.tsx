@@ -883,13 +883,10 @@ function AdminNotificationsPanel() {
     digest: boolean;
     accountType: string;
   }[]>([]);
-  const [lastRun, setLastRun] = useState<{
-    sentAt: string;
-    emailsSent: number;
-    newListingsCount: number;
-  } | null>(null);
+  const [lastNewEvents, setLastNewEvents] = useState<{ sentAt: string; emailsSent: number; newListingsCount: number } | null>(null);
+  const [lastDigest, setLastDigest] = useState<{ sentAt: string; emailsSent: number; newListingsCount: number } | null>(null);
   const [loading, setLoading] = useState(true);
-  const [sending, setSending] = useState(false);
+  const [sendingType, setSendingType] = useState<string | null>(null);
   const [sendResult, setSendResult] = useState<string | null>(null);
 
   useEffect(() => {
@@ -903,7 +900,8 @@ function AdminNotificationsPanel() {
       if (res.ok) {
         const data = await res.json();
         setSubscribers(data.subscribers || []);
-        setLastRun(data.lastRun || null);
+        setLastNewEvents(data.lastNewEvents || null);
+        setLastDigest(data.lastDigest || null);
       }
     } catch {
       // silent
@@ -911,22 +909,26 @@ function AdminNotificationsPanel() {
     setLoading(false);
   }
 
-  async function triggerDigest() {
-    setSending(true);
+  async function triggerSend(type: "newEvents" | "digest") {
+    setSendingType(type);
     setSendResult(null);
     try {
-      const res = await fetch("/api/digest/trigger", { method: "POST" });
+      const res = await fetch(`/api/digest/trigger?type=${type}`, { method: "POST" });
       const data = await res.json();
       if (data.success) {
         setSendResult(`Sent ${data.emailsSent} emails. ${data.newListings} new listings found.`);
-        fetchData(); // refresh
+        fetchData();
       } else {
         setSendResult(`Error: ${data.error || "Unknown error"}`);
       }
     } catch {
-      setSendResult("Failed to trigger digest.");
+      setSendResult("Failed to trigger.");
     }
-    setSending(false);
+    setSendingType(null);
+  }
+
+  function formatDate(dateStr: string) {
+    return new Date(dateStr).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
   }
 
   if (loading) {
@@ -939,37 +941,66 @@ function AdminNotificationsPanel() {
 
   return (
     <div className="space-y-6">
-      {/* Digest Controls */}
-      <div className="bg-white border border-slate-200 rounded-xl p-6">
-        <h3 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
-          <Send className="w-5 h-5 text-hotpink-500" />
-          Weekly Digest
-        </h3>
+      {/* Two send buttons */}
+      <div className="grid sm:grid-cols-2 gap-4">
+        {/* New Events Alert */}
+        <div className="bg-white border border-slate-200 rounded-xl p-6">
+          <h3 className="font-semibold text-charcoal mb-1 flex items-center gap-2">
+            <Bell className="w-4 h-4 text-hotpink-500" />
+            New Events Alert
+          </h3>
+          <p className="text-xs text-slate-400 mb-3">
+            Send to users with "New events in my area" on. Use after updating the JSON.
+          </p>
 
-        {lastRun && (
-          <div className="bg-slate-50 rounded-lg p-3 mb-4 text-sm">
-            <p className="text-slate-600">
-              Last sent: <strong>{new Date(lastRun.sentAt).toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}</strong>
-            </p>
-            <p className="text-slate-500">
-              {lastRun.emailsSent} emails sent, {lastRun.newListingsCount} new listings
-            </p>
-          </div>
-        )}
+          {lastNewEvents && (
+            <div className="bg-slate-50 rounded-lg p-2 mb-3 text-xs text-slate-500">
+              Last: {formatDate(lastNewEvents.sentAt)} ({lastNewEvents.emailsSent} sent, {lastNewEvents.newListingsCount} new)
+            </div>
+          )}
 
-        <button
-          onClick={triggerDigest}
-          disabled={sending}
-          className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-hotpink-600 transition-colors disabled:opacity-50"
-        >
-          {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
-          {sending ? "Sending..." : "Send Digest Now"}
-        </button>
+          <button
+            onClick={() => triggerSend("newEvents")}
+            disabled={sendingType !== null}
+            className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-hotpink-600 transition-colors disabled:opacity-50"
+          >
+            {sendingType === "newEvents" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+            {sendingType === "newEvents" ? "Sending..." : "Send New Events Alert"}
+          </button>
+        </div>
 
-        {sendResult && (
-          <p className="mt-3 text-sm text-green-600 font-medium">{sendResult}</p>
-        )}
+        {/* Weekly Digest */}
+        <div className="bg-white border border-slate-200 rounded-xl p-6">
+          <h3 className="font-semibold text-charcoal mb-1 flex items-center gap-2">
+            <Mail className="w-4 h-4 text-skyblue-500" />
+            Weekly Digest
+          </h3>
+          <p className="text-xs text-slate-400 mb-3">
+            Send to users with "Weekly digest" on. Runs automatically every Monday.
+          </p>
+
+          {lastDigest && (
+            <div className="bg-slate-50 rounded-lg p-2 mb-3 text-xs text-slate-500">
+              Last: {formatDate(lastDigest.sentAt)} ({lastDigest.emailsSent} sent, {lastDigest.newListingsCount} new)
+            </div>
+          )}
+
+          <button
+            onClick={() => triggerSend("digest")}
+            disabled={sendingType !== null}
+            className="inline-flex items-center gap-2 bg-skyblue-500 text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-skyblue-600 transition-colors disabled:opacity-50"
+          >
+            {sendingType === "digest" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
+            {sendingType === "digest" ? "Sending..." : "Send Weekly Digest"}
+          </button>
+        </div>
       </div>
+
+      {sendResult && (
+        <div className="bg-green-50 border border-green-200 rounded-xl p-3 text-sm text-green-700 font-medium">
+          {sendResult}
+        </div>
+      )}
 
       {/* Notification Subscribers */}
       <div className="bg-white border border-slate-200 rounded-xl p-6">

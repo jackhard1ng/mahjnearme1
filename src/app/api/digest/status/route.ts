@@ -3,16 +3,20 @@ import { getAdminDb } from "@/lib/firebase-admin";
 
 /**
  * GET /api/digest/status
- * Returns notification subscribers and last digest run info.
- * Used by the admin panel.
+ * Returns notification subscribers and last run info for both types.
  */
 export async function GET() {
   try {
     const db = getAdminDb();
 
-    // Get last run info
-    const lastRunDoc = await db.collection("digest").doc("lastRun").get();
-    const lastRun = lastRunDoc.exists ? lastRunDoc.data() : null;
+    // Get last run info for both types
+    const [newEventsDoc, digestDoc] = await Promise.all([
+      db.collection("digest").doc("lastNewEvents").get(),
+      db.collection("digest").doc("lastDigest").get(),
+    ]);
+
+    const lastNewEvents = newEventsDoc.exists ? newEventsDoc.data() : null;
+    const lastDigest = digestDoc.exists ? digestDoc.data() : null;
 
     // Get users with notifications enabled
     const usersSnap = await db.collection("users").get();
@@ -42,14 +46,19 @@ export async function GET() {
 
     return NextResponse.json({
       subscribers,
-      lastRun: lastRun ? {
-        sentAt: lastRun.sentAt,
-        emailsSent: lastRun.emailsSent,
-        newListingsCount: lastRun.newListingsCount,
+      lastNewEvents: lastNewEvents ? {
+        sentAt: lastNewEvents.sentAt,
+        emailsSent: lastNewEvents.emailsSent,
+        newListingsCount: lastNewEvents.newListingsCount,
+      } : null,
+      lastDigest: lastDigest ? {
+        sentAt: lastDigest.sentAt,
+        emailsSent: lastDigest.emailsSent,
+        newListingsCount: lastDigest.newListingsCount,
       } : null,
     });
   } catch (err) {
     console.error("[Digest Status] Error:", err);
-    return NextResponse.json({ subscribers: [], lastRun: null });
+    return NextResponse.json({ subscribers: [], lastNewEvents: null, lastDigest: null });
   }
 }

@@ -1,30 +1,29 @@
 import { NextResponse } from "next/server";
 
 /**
- * POST /api/digest/trigger
- * Admin-only endpoint to manually trigger the weekly digest.
- * Calls the main digest endpoint with the CRON_SECRET.
+ * POST /api/digest/trigger?type=newEvents|digest
+ * Admin-only endpoint to manually trigger notifications.
  */
-export async function POST() {
+export async function POST(req: Request) {
   const cronSecret = process.env.CRON_SECRET;
   if (!cronSecret) {
     return NextResponse.json({ error: "CRON_SECRET not configured" }, { status: 500 });
   }
 
+  const url = new URL(req.url);
+  const sendType = url.searchParams.get("type") || "digest";
   const baseUrl = process.env.NEXT_PUBLIC_URL || "https://www.mahjnearme.com";
 
   try {
-    const res = await fetch(`${baseUrl}/api/digest`, {
+    const res = await fetch(`${baseUrl}/api/digest?type=${sendType}`, {
       method: "POST",
-      headers: {
-        "Authorization": `Bearer ${cronSecret}`,
-      },
+      headers: { "Authorization": `Bearer ${cronSecret}` },
     });
 
     const data = await res.json();
     return NextResponse.json(data);
   } catch (err) {
     console.error("[Digest Trigger] Error:", err);
-    return NextResponse.json({ error: "Failed to trigger digest" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to trigger" }, { status: 500 });
   }
 }
