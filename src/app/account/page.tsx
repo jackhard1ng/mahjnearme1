@@ -9,9 +9,7 @@ import { getStateName } from "@/lib/utils";
 import METRO_REGIONS, { findMetroByAbbreviation } from "@/lib/metro-regions";
 import { HOME_METRO_CHANGE_COOLDOWN_DAYS } from "@/lib/constants";
 import ReferralDashboard from "@/components/ReferralDashboard";
-// NotificationPreferences loaded lazily to prevent hydration crashes
 import dynamic from "next/dynamic";
-const NotificationPreferences = dynamic(() => import("@/components/NotificationPreferences"), { ssr: false });
 import {
   User,
   MapPin,
@@ -33,6 +31,8 @@ import {
   MessageSquare,
   Star,
 } from "lucide-react";
+
+const NotificationPreferences = dynamic(() => import("@/components/NotificationPreferences"), { ssr: false });
 
 const AVATAR_COLORS = [
   { value: "hotpink", bg: "bg-hotpink-500", ring: "ring-hotpink-300" },
@@ -851,11 +851,12 @@ function ChangePasswordSection() {
     if (!user?.email) return;
     setStatus("sending");
     try {
-      const { sendPasswordResetEmail } = await import("firebase/auth");
-      const { getFirebaseAuth } = await import("@/lib/firebase");
-      await sendPasswordResetEmail(getFirebaseAuth(), user.email);
+      const auth = await import("firebase/auth");
+      const fb = await import("@/lib/firebase");
+      await auth.sendPasswordResetEmail(fb.getFirebaseAuth(), user.email);
       setStatus("sent");
-    } catch {
+    } catch (e) {
+      console.error("Password reset error:", e);
       setStatus("error");
     }
   }

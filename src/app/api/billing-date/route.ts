@@ -22,7 +22,7 @@ export async function GET(req: Request) {
     });
 
     if (subscriptions.data.length > 0) {
-      const sub = subscriptions.data[0];
+      const sub = subscriptions.data[0] as unknown as { current_period_end: number };
       const periodEnd = sub.current_period_end;
       return NextResponse.json({
         nextBillingDate: new Date(periodEnd * 1000).toISOString(),
