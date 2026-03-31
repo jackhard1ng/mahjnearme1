@@ -5,7 +5,7 @@ import { requireAdmin } from "@/lib/api-auth";
 /**
  * POST /api/organizers/populate
  * Extracts unique organizers from listings.json and populates the organizers collection.
- * Only creates new organizers — doesn't overwrite existing ones.
+ * Only creates new organizers -- doesn't overwrite existing ones.
  */
 export async function POST(req: Request) {
   const denied = requireAdmin(req);
@@ -104,8 +104,9 @@ export async function POST(req: Request) {
 
     let created = 0;
     let skipped = 0;
-    const batch = db.batch();
-    let batchCount = 0;
+
+    // Collect all docs to create, then batch them
+    const toCreate: { key: string; data: Record<string, unknown> }[] = [];
 
     for (const [key, org] of orgMap.entries()) {
       if (existingKeys.has(key)) {
@@ -119,36 +120,49 @@ export async function POST(req: Request) {
         continue;
       }
 
-      const docRef = db.collection("organizers").doc();
-      batch.set(docRef, {
-        nameKey: key,
-        organizerName: org.displayName,
-        contactEmail: org.contactEmail,
-        website: org.website,
-        instagram: org.instagram,
-        facebookGroup: org.facebookGroup,
-        cities: Array.from(org.cities),
-        states: Array.from(org.states),
-        listingIds: org.listingIds.slice(0, 50),
-        listingCount: org.listingCount,
-        locations: Array.from(org.locations.values()).slice(0, 10), // cap at 10 locations
-        verified: false,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+      const slug = key.replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      const now = new Date().toISOString();
+
+      toCreate.push({
+        key,
+        data: {
+          nameKey: key,
+          organizerName: org.displayName,
+          slug,
+          bio: "",
+          contactEmail: org.contactEmail,
+          website: org.website,
+          instagram: org.instagram,
+          facebookGroup: org.facebookGroup,
+          photoURL: null,
+          photos: [],
+          cities: Array.from(org.cities),
+          states: Array.from(org.states),
+          listingIds: org.listingIds.slice(0, 50),
+          listingCount: org.listingCount,
+          locations: Array.from(org.locations.values()).slice(0, 10),
+          verified: false,
+          featured: false,
+          userId: null,
+          isInstructor: false,
+          instructorDetails: null,
+          createdAt: now,
+          updatedAt: now,
+        },
       });
-
-      created++;
-      batchCount++;
-
-      // Firestore batch limit is 500
-      if (batchCount >= 450) {
-        await batch.commit();
-        batchCount = 0;
-      }
     }
 
-    if (batchCount > 0) {
+    // Write in batches of 450 (new batch each time)
+    const BATCH_SIZE = 450;
+    for (let i = 0; i < toCreate.length; i += BATCH_SIZE) {
+      const chunk = toCreate.slice(i, i + BATCH_SIZE);
+      const batch = db.batch();
+      for (const item of chunk) {
+        const docRef = db.collection("organizers").doc();
+        batch.set(docRef, item.data);
+      }
       await batch.commit();
+      created += chunk.length;
     }
 
     return NextResponse.json({
@@ -159,6 +173,6 @@ export async function POST(req: Request) {
     });
   } catch (err) {
     console.error("[Organizers Populate] Error:", err);
-    return NextResponse.json({ error: "Internal error" }, { status: 500 });
+    return NextResponse.json({ error: "Internal error: " + (err instanceof Error ? err.message : String(err)) }, { status: 500 });
   }
 }
