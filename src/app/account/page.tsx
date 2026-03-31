@@ -100,13 +100,31 @@ export default function AccountPage() {
   useEffect(() => {
     if (userProfile?.subscriptionEndsAt) {
       setNextBillingDate(userProfile.subscriptionEndsAt);
-    } else if (userProfile?.stripeCustomerId) {
+      return;
+    }
+    if (userProfile?.stripeCustomerId) {
       fetch(`/api/billing-date?customerId=${userProfile.stripeCustomerId}`)
         .then((r) => r.json())
-        .then((d) => { if (d.nextBillingDate) setNextBillingDate(d.nextBillingDate); })
+        .then((d) => {
+          if (d.nextBillingDate) {
+            setNextBillingDate(d.nextBillingDate);
+            // Also save it to Firestore for next time
+            updateUserProfile({ subscriptionEndsAt: d.nextBillingDate });
+          }
+        })
         .catch(() => {});
+    } else if (userProfile?.subscribedDate) {
+      // Fallback: estimate from subscribed date + plan interval
+      const subDate = new Date(userProfile.subscribedDate);
+      const now = new Date();
+      if (userProfile.plan === "annual") {
+        while (subDate <= now) subDate.setFullYear(subDate.getFullYear() + 1);
+      } else {
+        while (subDate <= now) subDate.setMonth(subDate.getMonth() + 1);
+      }
+      setNextBillingDate(subDate.toISOString());
     }
-  }, [userProfile?.subscriptionEndsAt, userProfile?.stripeCustomerId]);
+  }, [userProfile?.subscriptionEndsAt, userProfile?.stripeCustomerId, userProfile?.subscribedDate]);
 
   if (loading || !user || !userProfile) {
     return (

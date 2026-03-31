@@ -1,112 +1,103 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Bell, MapPin, Check } from "lucide-react";
-import { US_STATES } from "@/lib/constants";
-import { getStateName } from "@/lib/utils";
 
 export default function NotificationPreferences() {
   const { userProfile, updateUserProfile } = useAuth();
   const [showStatePicker, setShowStatePicker] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  if (!userProfile) return null;
+  useEffect(() => { setMounted(true); }, []);
 
-  const notifs = userProfile.emailNotifications || { newEventsInArea: false, weeklyDigest: false };
-  const notifyStates = userProfile.notifyStates || [];
-  const eitherEnabled = notifs.newEventsInArea || notifs.weeklyDigest;
+  if (!mounted || !userProfile) return null;
 
-  async function toggleNotification(key: "newEventsInArea" | "weeklyDigest") {
-    const updated = { ...notifs, [key]: !notifs[key] };
-    await updateUserProfile({ emailNotifications: updated });
+  const notifs = userProfile.emailNotifications || {};
+  const newEventsOn = notifs.newEventsInArea === true;
+  const digestOn = notifs.weeklyDigest === true;
+  const notifyStates: string[] = userProfile.notifyStates || [];
+  const eitherEnabled = newEventsOn || digestOn;
+
+  const US_STATES: Record<string, string> = {
+    AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California",
+    CO: "Colorado", CT: "Connecticut", DE: "Delaware", DC: "District of Columbia",
+    FL: "Florida", GA: "Georgia", HI: "Hawaii", ID: "Idaho", IL: "Illinois",
+    IN: "Indiana", IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana",
+    ME: "Maine", MD: "Maryland", MA: "Massachusetts", MI: "Michigan", MN: "Minnesota",
+    MS: "Mississippi", MO: "Missouri", MT: "Montana", NE: "Nebraska", NV: "Nevada",
+    NH: "New Hampshire", NJ: "New Jersey", NM: "New Mexico", NY: "New York",
+    NC: "North Carolina", ND: "North Dakota", OH: "Ohio", OK: "Oklahoma",
+    OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island", SC: "South Carolina",
+    SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont",
+    VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming",
+  };
+
+  async function toggleNotif(key: string) {
+    const updated = { ...notifs, [key]: !(notifs as Record<string, boolean>)[key] };
+    await updateUserProfile({ emailNotifications: updated } as any);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   }
 
   async function toggleState(abbr: string) {
     const updated = notifyStates.includes(abbr)
-      ? notifyStates.filter((s: string) => s !== abbr)
+      ? notifyStates.filter((s) => s !== abbr)
       : [...notifyStates, abbr];
     await updateUserProfile({ notifyStates: updated });
   }
 
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-6">
-      <h3 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
-        <Bell className="w-5 h-5 text-hotpink-500" />
+      <h3 className="font-semibold text-lg text-charcoal mb-4">
         Email Notifications
-        {saved && (
-          <span className="text-xs text-green-500 font-medium flex items-center gap-1 ml-auto">
-            <Check className="w-3 h-3" /> Saved
-          </span>
-        )}
+        {saved && <span className="text-xs text-green-500 ml-2">Saved</span>}
       </h3>
 
       <div className="space-y-4">
-        {/* New events toggle */}
         <div className="flex items-center justify-between py-2">
           <div>
             <p className="text-sm font-medium text-slate-700">New events in my area</p>
-            <p className="text-xs text-slate-400">Get notified when new games, tournaments, or events are added in your selected states</p>
+            <p className="text-xs text-slate-400">Get notified when new listings are added in your selected states</p>
           </div>
           <button
-            onClick={() => toggleNotification("newEventsInArea")}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ml-4 ${
-              notifs.newEventsInArea ? "bg-hotpink-500" : "bg-slate-200"
-            }`}
+            onClick={() => toggleNotif("newEventsInArea")}
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ml-4 ${newEventsOn ? "bg-hotpink-500" : "bg-slate-200"}`}
           >
-            <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                notifs.newEventsInArea ? "translate-x-6" : "translate-x-1"
-              }`}
-            />
+            <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${newEventsOn ? "translate-x-6" : "translate-x-1"}`} />
           </button>
         </div>
 
-        {/* Weekly digest toggle */}
         <div className="flex items-center justify-between py-2 border-t border-slate-100">
           <div>
             <p className="text-sm font-medium text-slate-700">Weekly digest</p>
-            <p className="text-xs text-slate-400">A weekly summary of new listings and upcoming events in your selected states</p>
+            <p className="text-xs text-slate-400">A weekly summary of new listings in your selected states</p>
           </div>
           <button
-            onClick={() => toggleNotification("weeklyDigest")}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ml-4 ${
-              notifs.weeklyDigest ? "bg-hotpink-500" : "bg-slate-200"
-            }`}
+            onClick={() => toggleNotif("weeklyDigest")}
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ml-4 ${digestOn ? "bg-hotpink-500" : "bg-slate-200"}`}
           >
-            <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                notifs.weeklyDigest ? "translate-x-6" : "translate-x-1"
-              }`}
-            />
+            <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${digestOn ? "translate-x-6" : "translate-x-1"}`} />
           </button>
         </div>
 
-        {/* State selector - shown when either toggle is on */}
         {eitherEnabled && (
           <div className="pt-2 border-t border-slate-100">
-            <div className="flex items-center gap-2 mb-2">
-              <MapPin className="w-3.5 h-3.5 text-hotpink-500" />
-              <p className="text-xs font-medium text-slate-600">
-                {notifyStates.length === 0
-                  ? "Select which states you want notifications for"
-                  : `Watching ${notifyStates.length} state${notifyStates.length !== 1 ? "s" : ""}`}
-              </p>
-            </div>
+            <p className="text-xs font-medium text-slate-600 mb-2">
+              {notifyStates.length === 0
+                ? "Select which states you want notifications for"
+                : `Watching ${notifyStates.length} state${notifyStates.length !== 1 ? "s" : ""}`}
+            </p>
 
-            {/* Selected states */}
             {notifyStates.length > 0 && (
               <div className="flex flex-wrap gap-1.5 mb-2">
-                {notifyStates.map((abbr: string) => (
+                {notifyStates.map((abbr) => (
                   <button
                     key={abbr}
                     onClick={() => toggleState(abbr)}
-                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-hotpink-100 text-hotpink-600 border border-hotpink-200 hover:bg-hotpink-200 transition-colors"
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-hotpink-100 text-hotpink-600 border border-hotpink-200 hover:bg-hotpink-200"
                   >
-                    {getStateName(abbr) || abbr}
-                    <span className="text-hotpink-400">&times;</span>
+                    {US_STATES[abbr] || abbr} &times;
                   </button>
                 ))}
               </div>
@@ -121,7 +112,7 @@ export default function NotificationPreferences() {
 
             {showStatePicker && (
               <div className="mt-2 max-h-48 overflow-y-auto border border-slate-200 rounded-lg p-2 grid grid-cols-2 sm:grid-cols-3 gap-1">
-                {Object.entries(US_STATES).sort((a, b) => (a[1] as string).localeCompare(b[1] as string)).map(([abbr, name]) => (
+                {Object.entries(US_STATES).sort((a, b) => a[1].localeCompare(b[1])).map(([abbr, name]) => (
                   <button
                     key={abbr}
                     onClick={() => toggleState(abbr)}
@@ -131,7 +122,7 @@ export default function NotificationPreferences() {
                         : "text-slate-600 hover:bg-slate-50"
                     }`}
                   >
-                    {notifyStates.includes(abbr) ? "✓ " : ""}{name as string}
+                    {notifyStates.includes(abbr) ? "✓ " : ""}{name}
                   </button>
                 ))}
               </div>
