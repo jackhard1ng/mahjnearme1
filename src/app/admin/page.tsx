@@ -856,6 +856,32 @@ function AdminOrganizersPanel() {
   const [editing, setEditing] = useState<string | null>(null);
   const [editData, setEditData] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
+  const [enriching, setEnriching] = useState(false);
+  const [enrichResult, setEnrichResult] = useState<string | null>(null);
+
+  async function handleEnrich() {
+    if (!confirm("This will apply all organizer profile edits to the listings and download the updated JSON. Continue?")) return;
+    setEnriching(true);
+    setEnrichResult(null);
+    try {
+      const res = await adminFetch("/api/organizers/enrich", "POST");
+      const data = await res.json();
+      if (data.success && data.enrichedData) {
+        // Download the enriched JSON
+        const blob = new Blob([JSON.stringify(data.enrichedData, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "listings.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        setEnrichResult(`Updated ${data.enriched} listings with organizer data. ${data.unmatched} unmatched. Downloaded listings.json.`);
+      } else {
+        setEnrichResult(`Error: ${data.error || "Unknown"}`);
+      }
+    } catch { setEnrichResult("Failed."); }
+    setEnriching(false);
+  }
 
   async function fetchOrganizers() {
     setLoading(true);
@@ -945,11 +971,22 @@ function AdminOrganizersPanel() {
             {populating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
             {populating ? "Populating..." : "Populate from Listings"}
           </button>
+          <button
+            onClick={handleEnrich}
+            disabled={enriching || organizers.length === 0}
+            className="inline-flex items-center gap-1.5 bg-hotpink-500 text-white px-3 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 disabled:opacity-50 shrink-0"
+          >
+            {enriching ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+            {enriching ? "Enriching..." : "Apply & Download JSON"}
+          </button>
         </div>
       </div>
 
       {populateResult && (
         <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-sm text-green-700">{populateResult}</div>
+      )}
+      {enrichResult && (
+        <div className="bg-skyblue-50 border border-skyblue-200 rounded-lg p-3 text-sm text-skyblue-700">{enrichResult}</div>
       )}
 
       {loading ? (
