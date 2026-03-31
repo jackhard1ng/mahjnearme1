@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Menu, X, User, LogOut, Settings, LayoutDashboard, ChevronDown, CalendarDays, Heart, MessageSquare, Briefcase, GraduationCap } from "lucide-react";
+import { Menu, X, User, LogOut, Settings, LayoutDashboard, ChevronDown, CalendarDays, Briefcase, GraduationCap } from "lucide-react";
 
 export default function Header() {
   const { user, userProfile, signOut, isAdmin, isContributor, isOrganizer } = useAuth();
@@ -50,8 +50,8 @@ export default function Header() {
             <Link href="/giveaways" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               Giveaways
             </Link>
-            <Link href="/instructors" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
-              Instructors
+            <Link href={isOrganizer ? "/organizer" : "/for-organizers"} className="text-white/90 hover:text-white transition-colors text-sm font-medium">
+              For Organizers
             </Link>
             <Link href="/about" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               About
@@ -88,7 +88,7 @@ export default function Header() {
                       <Settings className="w-4 h-4" />
                       Account Settings
                     </Link>
-                    {isOrganizer ? (
+                    {isOrganizer && (
                       <Link
                         href="/organizer"
                         onClick={() => setUserMenuOpen(false)}
@@ -96,15 +96,6 @@ export default function Header() {
                       >
                         <GraduationCap className="w-4 h-4" />
                         Organizer Dashboard
-                      </Link>
-                    ) : (
-                      <Link
-                        href="/for-organizers"
-                        onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-charcoal hover:bg-hotpink-50"
-                      >
-                        <GraduationCap className="w-4 h-4" />
-                        For Organizers
                       </Link>
                     )}
                     {isContributor && (
@@ -197,11 +188,11 @@ export default function Header() {
               Giveaways
             </Link>
             <Link
-              href="/instructors"
+              href={isOrganizer ? "/organizer" : "/for-organizers"}
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
             >
-              Instructors
+              For Organizers
             </Link>
             <Link
               href="/about"
@@ -213,21 +204,13 @@ export default function Header() {
             <hr className="border-white/20" />
             {user ? (
               <>
-                {isOrganizer ? (
+                {isOrganizer && (
                   <Link
                     href="/organizer"
                     onClick={() => setMobileMenuOpen(false)}
                     className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
                   >
                     Organizer Dashboard
-                  </Link>
-                ) : (
-                  <Link
-                    href="/for-organizers"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
-                  >
-                    For Organizers
                   </Link>
                 )}
                 <Link
