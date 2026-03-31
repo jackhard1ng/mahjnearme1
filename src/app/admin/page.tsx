@@ -888,6 +888,11 @@ function AdminNotificationsPanel() {
   const [loading, setLoading] = useState(true);
   const [sendingType, setSendingType] = useState<string | null>(null);
   const [sendResult, setSendResult] = useState<string | null>(null);
+  const [announceSubject, setAnnounceSubject] = useState("");
+  const [announceMessage, setAnnounceMessage] = useState("");
+  const [announceAudience, setAnnounceAudience] = useState<"all" | "paid" | "free">("all");
+  const [sendingAnnounce, setSendingAnnounce] = useState(false);
+  const [announceResult, setAnnounceResult] = useState<string | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -925,6 +930,34 @@ function AdminNotificationsPanel() {
       setSendResult("Failed to trigger.");
     }
     setSendingType(null);
+  }
+
+  async function sendAnnouncement() {
+    if (!announceSubject.trim() || !announceMessage.trim()) return;
+    setSendingAnnounce(true);
+    setAnnounceResult(null);
+    try {
+      const res = await fetch("/api/digest/announce", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          subject: announceSubject,
+          message: announceMessage,
+          audience: announceAudience,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setAnnounceResult(`Sent to ${data.emailsSent} users. ${data.skipped} skipped. ${data.emailsFailed} failed.`);
+        setAnnounceSubject("");
+        setAnnounceMessage("");
+      } else {
+        setAnnounceResult(`Error: ${data.error || "Unknown"}`);
+      }
+    } catch {
+      setAnnounceResult("Failed to send.");
+    }
+    setSendingAnnounce(false);
   }
 
   function formatDate(dateStr: string) {
@@ -1047,6 +1080,75 @@ function AdminNotificationsPanel() {
             </table>
           </div>
         )}
+      </div>
+
+      {/* Send Announcement */}
+      <div className="bg-white border border-slate-200 rounded-xl p-6">
+        <h3 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
+          <Send className="w-5 h-5 text-hotpink-500" />
+          Send Announcement
+        </h3>
+        <p className="text-xs text-slate-400 mb-4">Send a one-time email to all users or a specific group.</p>
+
+        <div className="space-y-3">
+          <div>
+            <label className="text-xs font-medium text-slate-600 mb-1 block">Audience</label>
+            <div className="flex gap-2">
+              {[
+                { key: "all" as const, label: "All Users" },
+                { key: "paid" as const, label: "Paid Only" },
+                { key: "free" as const, label: "Free Only" },
+              ].map((a) => (
+                <button
+                  key={a.key}
+                  onClick={() => setAnnounceAudience(a.key)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                    announceAudience === a.key
+                      ? "bg-hotpink-500 text-white"
+                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  }`}
+                >
+                  {a.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-xs font-medium text-slate-600 mb-1 block">Subject</label>
+            <input
+              type="text"
+              value={announceSubject}
+              onChange={(e) => setAnnounceSubject(e.target.value)}
+              placeholder="e.g., New feature: Get notified about new games in your area"
+              className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+            />
+          </div>
+
+          <div>
+            <label className="text-xs font-medium text-slate-600 mb-1 block">Message</label>
+            <textarea
+              value={announceMessage}
+              onChange={(e) => setAnnounceMessage(e.target.value)}
+              rows={6}
+              placeholder="Write your message here. Line breaks will be preserved."
+              className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm resize-y"
+            />
+          </div>
+
+          <button
+            onClick={sendAnnouncement}
+            disabled={sendingAnnounce || !announceSubject.trim() || !announceMessage.trim()}
+            className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-hotpink-600 transition-colors disabled:opacity-50"
+          >
+            {sendingAnnounce ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+            {sendingAnnounce ? "Sending..." : `Send to ${announceAudience === "all" ? "All Users" : announceAudience === "paid" ? "Paid Users" : "Free Users"}`}
+          </button>
+
+          {announceResult && (
+            <p className="text-sm text-green-600 font-medium">{announceResult}</p>
+          )}
+        </div>
       </div>
     </div>
   );
