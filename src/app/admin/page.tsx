@@ -25,6 +25,9 @@ import {
   Download,
   RefreshCw,
   Loader2,
+  Bell,
+  Send,
+  Mail,
 } from "lucide-react";
 
 interface ContributorData {
@@ -65,7 +68,7 @@ interface GiveawayData {
 
 export default function AdminDashboardPage() {
   const [games] = useState(mockGames);
-  const [activeTab, setActiveTab] = useState<"overview" | "subscribers" | "contributors" | "referrals" | "giveaways" | "organizers">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "subscribers" | "contributors" | "referrals" | "giveaways" | "organizers" | "notifications">("overview");
   const [analytics, setAnalytics] = useState<{
     totalViews: number;
     todayViews: number;
@@ -234,6 +237,7 @@ export default function AdminDashboardPage() {
     { id: "referrals" as const, label: "Referrals" },
     { id: "giveaways" as const, label: "Giveaways" },
     { id: "organizers" as const, label: "Organizers" },
+    { id: "notifications" as const, label: "Notifications" },
   ];
 
   return (
@@ -772,6 +776,7 @@ export default function AdminDashboardPage() {
         </div>
       )}
       {activeTab === "organizers" && <AdminOrganizersPanel />}
+      {activeTab === "notifications" && <AdminNotificationsPanel />}
     </div>
   );
 }
@@ -865,6 +870,153 @@ function AdminOrganizersPanel() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function AdminNotificationsPanel() {
+  const [subscribers, setSubscribers] = useState<{
+    name: string;
+    email: string;
+    states: string[];
+    newEvents: boolean;
+    digest: boolean;
+    accountType: string;
+  }[]>([]);
+  const [lastRun, setLastRun] = useState<{
+    sentAt: string;
+    emailsSent: number;
+    newListingsCount: number;
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
+  const [sendResult, setSendResult] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/digest/status");
+      if (res.ok) {
+        const data = await res.json();
+        setSubscribers(data.subscribers || []);
+        setLastRun(data.lastRun || null);
+      }
+    } catch {
+      // silent
+    }
+    setLoading(false);
+  }
+
+  async function triggerDigest() {
+    setSending(true);
+    setSendResult(null);
+    try {
+      const res = await fetch("/api/digest/trigger", { method: "POST" });
+      const data = await res.json();
+      if (data.success) {
+        setSendResult(`Sent ${data.emailsSent} emails. ${data.newListings} new listings found.`);
+        fetchData(); // refresh
+      } else {
+        setSendResult(`Error: ${data.error || "Unknown error"}`);
+      }
+    } catch {
+      setSendResult("Failed to trigger digest.");
+    }
+    setSending(false);
+  }
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-12">
+        <Loader2 className="w-6 h-6 text-hotpink-500 animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Digest Controls */}
+      <div className="bg-white border border-slate-200 rounded-xl p-6">
+        <h3 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
+          <Send className="w-5 h-5 text-hotpink-500" />
+          Weekly Digest
+        </h3>
+
+        {lastRun && (
+          <div className="bg-slate-50 rounded-lg p-3 mb-4 text-sm">
+            <p className="text-slate-600">
+              Last sent: <strong>{new Date(lastRun.sentAt).toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}</strong>
+            </p>
+            <p className="text-slate-500">
+              {lastRun.emailsSent} emails sent, {lastRun.newListingsCount} new listings
+            </p>
+          </div>
+        )}
+
+        <button
+          onClick={triggerDigest}
+          disabled={sending}
+          className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-hotpink-600 transition-colors disabled:opacity-50"
+        >
+          {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
+          {sending ? "Sending..." : "Send Digest Now"}
+        </button>
+
+        {sendResult && (
+          <p className="mt-3 text-sm text-green-600 font-medium">{sendResult}</p>
+        )}
+      </div>
+
+      {/* Notification Subscribers */}
+      <div className="bg-white border border-slate-200 rounded-xl p-6">
+        <h3 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
+          <Bell className="w-5 h-5 text-hotpink-500" />
+          Users with Notifications On ({subscribers.length})
+        </h3>
+
+        {subscribers.length === 0 ? (
+          <p className="text-sm text-slate-500">No users have enabled notifications yet.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-slate-200 text-left">
+                  <th className="pb-2 font-medium text-slate-500">Name</th>
+                  <th className="pb-2 font-medium text-slate-500">Email</th>
+                  <th className="pb-2 font-medium text-slate-500">Type</th>
+                  <th className="pb-2 font-medium text-slate-500">New Events</th>
+                  <th className="pb-2 font-medium text-slate-500">Digest</th>
+                  <th className="pb-2 font-medium text-slate-500">Watching</th>
+                </tr>
+              </thead>
+              <tbody>
+                {subscribers.map((sub, i) => (
+                  <tr key={i} className="border-b border-slate-100">
+                    <td className="py-2 text-charcoal">{sub.name}</td>
+                    <td className="py-2 text-slate-600">{sub.email}</td>
+                    <td className="py-2">
+                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                        sub.accountType === "admin" ? "bg-purple-100 text-purple-600" :
+                        sub.accountType === "subscriber" ? "bg-green-100 text-green-600" :
+                        "bg-slate-100 text-slate-600"
+                      }`}>
+                        {sub.accountType}
+                      </span>
+                    </td>
+                    <td className="py-2">{sub.newEvents ? "✓" : ""}</td>
+                    <td className="py-2">{sub.digest ? "✓" : ""}</td>
+                    <td className="py-2 text-xs text-slate-500">{sub.states.join(", ") || "None"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
