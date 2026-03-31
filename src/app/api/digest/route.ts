@@ -36,9 +36,8 @@ async function handleDigest(req: Request) {
     const db = getAdminDb();
 
     // 1. Load current listings
-    const listingsRes = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.mahjnearme.com"}/listings.json`
-    );
+    const baseUrl = process.env.NEXT_PUBLIC_URL || "https://www.mahjnearme.com";
+    const listingsRes = await fetch(`${baseUrl}/listings.json`);
 
     let currentListings: { id: string; name: string; type: string; city: string; state: string; gameStyle?: string; eventDate?: string; description?: string }[] = [];
 
