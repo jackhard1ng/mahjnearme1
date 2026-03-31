@@ -840,6 +840,9 @@ export default function AccountPage() {
         {/* Notification Preferences */}
         <NotificationPreferences />
 
+        {/* Change Password */}
+        <ChangePasswordSection />
+
         {/* Sign Out */}
         <button
           onClick={() => {
@@ -852,6 +855,62 @@ export default function AccountPage() {
           Sign Out
         </button>
       </div>
+    </div>
+  );
+}
+
+function ChangePasswordSection() {
+  const { user } = useAuth();
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  if (!user?.email) return null;
+
+  // Google-only users can't change password
+  const isGoogleUser = user.providerData.some((p) => p.providerId === "google.com");
+  const isEmailUser = user.providerData.some((p) => p.providerId === "password");
+
+  if (isGoogleUser && !isEmailUser) {
+    return (
+      <div className="bg-white border border-slate-200 rounded-xl p-6">
+        <h3 className="font-semibold text-lg text-charcoal mb-2">Password</h3>
+        <p className="text-sm text-slate-500">You signed in with Google. Your password is managed by your Google account.</p>
+      </div>
+    );
+  }
+
+  async function sendReset() {
+    if (!user?.email) return;
+    setStatus("sending");
+    try {
+      const { sendPasswordResetEmail } = await import("firebase/auth");
+      const { getFirebaseAuth } = await import("@/lib/firebase");
+      await sendPasswordResetEmail(getFirebaseAuth(), user.email);
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  return (
+    <div className="bg-white border border-slate-200 rounded-xl p-6">
+      <h3 className="font-semibold text-lg text-charcoal mb-2">Password</h3>
+
+      {status === "sent" ? (
+        <p className="text-sm text-green-600">Password reset email sent to <strong>{user.email}</strong>. Check your inbox.</p>
+      ) : status === "error" ? (
+        <p className="text-sm text-red-500">Something went wrong. Please try again.</p>
+      ) : (
+        <>
+          <p className="text-sm text-slate-500 mb-3">We&apos;ll send a password reset link to your email.</p>
+          <button
+            onClick={sendReset}
+            disabled={status === "sending"}
+            className="inline-flex items-center gap-2 bg-slate-100 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-200 transition-colors disabled:opacity-50"
+          >
+            {status === "sending" ? "Sending..." : "Change Password"}
+          </button>
+        </>
+      )}
     </div>
   );
 }
