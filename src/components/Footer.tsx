@@ -86,6 +86,16 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/claim-listing" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
+                  For Organizers
+                </Link>
+              </li>
+              <li>
+                <Link href="/instructors" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
+                  Find Instructors
+                </Link>
+              </li>
+              <li>
                 <a href="https://instagram.com/mahjnearme" target="_blank" rel="noopener noreferrer" className="text-sm text-slate-400 hover:text-skyblue-400 transition-colors">
                   Instagram
                 </a>
