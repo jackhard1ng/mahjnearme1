@@ -1295,7 +1295,7 @@ function AdminApprovalsPanel() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="w-6 h-6 animate-spin text-softpink-500" />
+        <Loader2 className="w-6 h-6 animate-spin text-hotpink-500" />
       </div>
     );
   }
@@ -1335,7 +1335,7 @@ function AdminApprovalsPanel() {
         </h3>
         <button
           onClick={handleAssignOrganizer}
-          className="bg-softpink-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-softpink-600 flex items-center gap-2"
+          className="bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-hotpink-600 flex items-center gap-2"
         >
           <UserPlus className="w-4 h-4" /> Assign by Email
         </button>

@@ -79,7 +79,7 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
         <h1 className="text-2xl font-bold text-slate-800 mb-4">Organizer Not Found</h1>
         <p className="text-slate-600 mb-6">This organizer profile doesn&apos;t exist.</p>
-        <Link href="/search" className="text-softpink-500 hover:text-softpink-600 font-medium">
+        <Link href="/search" className="text-hotpink-500 hover:text-hotpink-600 font-medium">
           Search for Games
         </Link>
       </div>
@@ -152,7 +152,7 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
                 href={website.startsWith("http") ? website : `https://${website}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-softpink-500 hover:text-softpink-600 flex items-center gap-1"
+                className="text-sm text-hotpink-500 hover:text-hotpink-600 flex items-center gap-1"
               >
                 <Globe className="w-4 h-4" /> Website
               </a>
@@ -166,7 +166,7 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
                 }
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-softpink-500 hover:text-softpink-600 flex items-center gap-1"
+                className="text-sm text-hotpink-500 hover:text-hotpink-600 flex items-center gap-1"
               >
                 Instagram
               </a>
@@ -176,7 +176,7 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
                 href={facebookGroup.startsWith("http") ? facebookGroup : `https://facebook.com/groups/${facebookGroup}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-softpink-500 hover:text-softpink-600 flex items-center gap-1"
+                className="text-sm text-hotpink-500 hover:text-hotpink-600 flex items-center gap-1"
               >
                 Facebook
               </a>
@@ -184,7 +184,7 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
             {email && (
               <a
                 href={`mailto:${email}`}
-                className="text-sm text-softpink-500 hover:text-softpink-600 flex items-center gap-1"
+                className="text-sm text-hotpink-500 hover:text-hotpink-600 flex items-center gap-1"
               >
                 <Mail className="w-4 h-4" /> Contact
               </a>

@@ -47,7 +47,7 @@ export default function ForOrganizersPage() {
         </p>
         <Link
           href="/organizer"
-          className="inline-flex items-center gap-2 bg-softpink-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-softpink-600 transition"
+          className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-hotpink-600 transition"
         >
           Go to Dashboard <ArrowRight className="w-4 h-4" />
         </Link>
@@ -76,7 +76,7 @@ export default function ForOrganizersPage() {
           { icon: Edit3, title: "Keep Info Fresh", desc: "Update schedules, venues, and contact details anytime" },
         ].map(({ icon: Icon, title, desc }) => (
           <div key={title} className="bg-white border border-slate-200 rounded-lg p-4 text-center">
-            <Icon className="w-8 h-8 text-softpink-500 mx-auto mb-2" />
+            <Icon className="w-8 h-8 text-hotpink-500 mx-auto mb-2" />
             <h3 className="font-semibold text-slate-800 mb-1">{title}</h3>
             <p className="text-sm text-slate-500">{desc}</p>
           </div>
@@ -113,9 +113,9 @@ export default function ForOrganizersPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         {/* Organizer */}
         <div className={`text-left border-2 rounded-xl p-5 transition ${
-          selectedRole === "organizer" ? "border-softpink-500 bg-softpink-50" : "border-slate-200 bg-white"
+          selectedRole === "organizer" ? "border-hotpink-500 bg-softpink-50" : "border-slate-200 bg-white"
         }`}>
-          <Calendar className="w-7 h-7 text-softpink-500 mb-2" />
+          <Calendar className="w-7 h-7 text-hotpink-500 mb-2" />
           <h3 className="font-semibold text-slate-800 mb-1">Organizer</h3>
           <p className="text-sm text-slate-500 mb-3">
             I run mahjong games, meetups, or events and want to manage my listings.
@@ -124,7 +124,7 @@ export default function ForOrganizersPage() {
             onClick={() => setSelectedRole(selectedRole === "organizer" ? null : "organizer")}
             className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition ${
               selectedRole === "organizer"
-                ? "bg-softpink-500 text-white"
+                ? "bg-hotpink-500 text-white"
                 : "bg-softpink-100 text-softpink-700 hover:bg-softpink-200"
             }`}
           >
@@ -158,7 +158,7 @@ export default function ForOrganizersPage() {
           selectedRole === "both" ? "border-amber-500 bg-amber-50" : "border-slate-200 bg-white"
         }`}>
           <div className="flex gap-1 mb-2">
-            <Calendar className="w-7 h-7 text-softpink-500" />
+            <Calendar className="w-7 h-7 text-hotpink-500" />
             <GraduationCap className="w-7 h-7 text-purple-500" />
           </div>
           <h3 className="font-semibold text-slate-800 mb-1">Both</h3>
@@ -183,7 +183,7 @@ export default function ForOrganizersPage() {
         <div ref={formRef}>
           {authLoading ? (
             <div className="flex items-center justify-center py-8">
-              <Loader2 className="w-6 h-6 animate-spin text-softpink-500" />
+              <Loader2 className="w-6 h-6 animate-spin text-hotpink-500" />
             </div>
           ) : user && userProfile ? (
             <ApplyForm
@@ -198,7 +198,7 @@ export default function ForOrganizersPage() {
               <p className="text-slate-600 mb-4">Sign in to submit your application.</p>
               <Link
                 href="/login?redirect=/for-organizers"
-                className="inline-flex items-center gap-2 bg-softpink-500 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-softpink-600 transition"
+                className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-hotpink-600 transition"
               >
                 Sign In to Apply <ArrowRight className="w-4 h-4" />
               </Link>
@@ -211,7 +211,7 @@ export default function ForOrganizersPage() {
       <div className="text-center my-8">
         <p className="text-slate-500 text-sm">
           Looking for a mahjong instructor?{" "}
-          <Link href="/instructors" className="text-softpink-500 font-medium hover:text-softpink-600">
+          <Link href="/instructors" className="text-hotpink-500 font-medium hover:text-hotpink-600">
             Browse the instructor directory
           </Link>
         </p>
@@ -428,7 +428,7 @@ function ApplyForm({
           </div>
         )}
 
-        <button onClick={handleSubmit} disabled={submitting} className="w-full bg-softpink-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-softpink-600 transition disabled:opacity-50 flex items-center justify-center gap-2">
+        <button onClick={handleSubmit} disabled={submitting} className="w-full bg-hotpink-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-hotpink-600 transition disabled:opacity-50 flex items-center justify-center gap-2">
           {submitting ? (<><Loader2 className="w-4 h-4 animate-spin" /> Submitting...</>) : (<><CheckCircle className="w-4 h-4" /> Submit Application</>)}
         </button>
       </div>

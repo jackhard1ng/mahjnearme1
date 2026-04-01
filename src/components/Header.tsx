@@ -50,6 +50,9 @@ export default function Header() {
             <Link href="/giveaways" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               Giveaways
             </Link>
+            <Link href="/instructors" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
+              Instructors
+            </Link>
             <Link href={isOrganizer ? "/organizer" : "/for-organizers"} className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               For Organizers
             </Link>
@@ -186,6 +189,13 @@ export default function Header() {
               className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
             >
               Giveaways
+            </Link>
+            <Link
+              href="/instructors"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
+            >
+              Instructors
             </Link>
             <Link
               href={isOrganizer ? "/organizer" : "/for-organizers"}

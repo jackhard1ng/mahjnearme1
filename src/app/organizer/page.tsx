@@ -94,7 +94,7 @@ export default function OrganizerDashboardPage() {
   if (authLoading || loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-8 h-8 animate-spin text-softpink-500" />
+        <Loader2 className="w-8 h-8 animate-spin text-hotpink-500" />
       </div>
     );
   }
@@ -102,10 +102,10 @@ export default function OrganizerDashboardPage() {
   if (!user) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-        <User className="w-12 h-12 text-softpink-500 mx-auto mb-4" />
+        <User className="w-12 h-12 text-hotpink-500 mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-slate-800 mb-4">Organizer Dashboard</h1>
         <p className="text-slate-600 mb-6">Sign in to access your organizer dashboard.</p>
-        <Link href="/account" className="inline-block bg-softpink-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-softpink-600 transition">
+        <Link href="/account" className="inline-block bg-hotpink-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-hotpink-600 transition">
           Sign In
         </Link>
       </div>
@@ -120,7 +120,7 @@ export default function OrganizerDashboardPage() {
         <p className="text-slate-600 mb-6">
           Claim your listings to get your free organizer dashboard. You&apos;ll be able to edit your events, add new ones, and manage your public profile.
         </p>
-        <Link href="/claim-listing" className="inline-block bg-softpink-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-softpink-600 transition">
+        <Link href="/claim-listing" className="inline-block bg-hotpink-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-hotpink-600 transition">
           Claim Your Listings
         </Link>
       </div>
@@ -148,7 +148,7 @@ export default function OrganizerDashboardPage() {
         {organizer?.slug && (
           <Link
             href={`/organizer/${organizer.slug}`}
-            className="text-sm text-softpink-500 hover:text-softpink-600 flex items-center gap-1"
+            className="text-sm text-hotpink-500 hover:text-hotpink-600 flex items-center gap-1"
           >
             <ExternalLink className="w-4 h-4" /> View Public Profile
           </Link>
@@ -199,7 +199,7 @@ export default function OrganizerDashboardPage() {
             onClick={() => setActiveTab(key)}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition flex items-center gap-1.5 ${
               activeTab === key
-                ? "border-softpink-500 text-softpink-600"
+                ? "border-hotpink-500 text-hotpink-600"
                 : "border-transparent text-slate-500 hover:text-slate-700"
             }`}
           >
@@ -404,7 +404,7 @@ function ListingsTab({
                 />
               </div>
               <div className="flex gap-2">
-                <button onClick={saveEdit} disabled={saving} className="bg-softpink-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-softpink-600 disabled:opacity-50 flex items-center gap-1">
+                <button onClick={saveEdit} disabled={saving} className="bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-hotpink-600 disabled:opacity-50 flex items-center gap-1">
                   {saving ? <Loader2 className="w-3 h-3 animate-spin" /> : <CheckCircle className="w-3 h-3" />}
                   {isSubscribed ? "Save" : "Submit for Approval"}
                 </button>
@@ -433,7 +433,7 @@ function ListingsTab({
               </div>
               <button
                 onClick={() => startEdit(game)}
-                className="text-softpink-500 hover:text-softpink-600 p-1"
+                className="text-hotpink-500 hover:text-hotpink-600 p-1"
                 title="Edit listing"
               >
                 <Edit3 className="w-4 h-4" />
@@ -684,7 +684,7 @@ function AddListingTab({
         <button
           onClick={handleSubmit}
           disabled={submitting}
-          className="bg-softpink-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-softpink-600 transition disabled:opacity-50 flex items-center gap-2"
+          className="bg-hotpink-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-hotpink-600 transition disabled:opacity-50 flex items-center gap-2"
         >
           {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
           {isSubscribed ? "Add Event" : "Submit for Approval"}
@@ -852,7 +852,7 @@ function ProfileTab({
         <button
           onClick={saveProfile}
           disabled={saving}
-          className="bg-softpink-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-softpink-600 disabled:opacity-50 flex items-center gap-2"
+          className="bg-hotpink-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-hotpink-600 disabled:opacity-50 flex items-center gap-2"
         >
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
           Save Profile
@@ -977,7 +977,7 @@ function InstructorTab({
                   onClick={() => toggleTeachingStyle(opt.value)}
                   className={`px-3 py-1.5 rounded-full text-sm border transition ${
                     details.teachingStyles.includes(opt.value)
-                      ? "bg-softpink-500 text-white border-softpink-500"
+                      ? "bg-hotpink-500 text-white border-hotpink-500"
                       : "border-slate-300 text-slate-600 hover:border-softpink-300"
                   }`}
                 >
@@ -996,7 +996,7 @@ function InstructorTab({
                   onClick={() => toggleGameStyle(opt.value)}
                   className={`px-3 py-1.5 rounded-full text-sm border transition ${
                     details.gameStylesTaught.includes(opt.value)
-                      ? "bg-softpink-500 text-white border-softpink-500"
+                      ? "bg-hotpink-500 text-white border-hotpink-500"
                       : "border-slate-300 text-slate-600 hover:border-softpink-300"
                   }`}
                 >
@@ -1039,7 +1039,7 @@ function InstructorTab({
       <button
         onClick={save}
         disabled={saving}
-        className="bg-softpink-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-softpink-600 disabled:opacity-50 flex items-center gap-2"
+        className="bg-hotpink-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-hotpink-600 disabled:opacity-50 flex items-center gap-2"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
         Save
@@ -1142,7 +1142,7 @@ function ClaimListingsTab({
   };
 
   if (!loaded) {
-    return <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-softpink-500" /></div>;
+    return <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-hotpink-500" /></div>;
   }
 
   return (
@@ -1189,7 +1189,7 @@ function ClaimListingsTab({
                     </div>
                   </div>
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ml-3 mt-1 ${
-                    selectedIds.includes(game.id) ? "border-softpink-500 bg-softpink-500" : "border-slate-300"
+                    selectedIds.includes(game.id) ? "border-hotpink-500 bg-hotpink-500" : "border-slate-300"
                   }`}>
                     {selectedIds.includes(game.id) && <CheckCircle className="w-3 h-3 text-white" />}
                   </div>
@@ -1208,7 +1208,7 @@ function ClaimListingsTab({
           <button
             onClick={handleClaim}
             disabled={submitting}
-            className="bg-softpink-500 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-softpink-600 disabled:opacity-50 flex items-center gap-2"
+            className="bg-hotpink-500 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-hotpink-600 disabled:opacity-50 flex items-center gap-2"
           >
             {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
             Submit Claim for Approval

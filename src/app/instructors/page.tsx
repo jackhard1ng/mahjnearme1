@@ -140,7 +140,7 @@ export default function InstructorsPage() {
       {/* Results */}
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <Loader2 className="w-8 h-8 animate-spin text-softpink-500" />
+          <Loader2 className="w-8 h-8 animate-spin text-hotpink-500" />
         </div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-16 text-slate-400">
@@ -149,7 +149,7 @@ export default function InstructorsPage() {
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="text-softpink-500 mt-2 text-sm"
+              className="text-hotpink-500 mt-2 text-sm"
             >
               Clear search
             </button>

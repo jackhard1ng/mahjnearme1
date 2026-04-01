@@ -23,7 +23,7 @@ import { isEventExpired } from "@/lib/utils";
 import { haversineDistance, formatDistance } from "@/lib/distance";
 import { geocodeSearchQuery } from "@/lib/geocode";
 import { getEventTiming, computePriorityScore, EventTiming } from "@/lib/event-timing";
-import { ShieldCheck, SlidersHorizontal, MapPin, Navigation } from "lucide-react";
+import { ShieldCheck, SlidersHorizontal, MapPin, Navigation, GraduationCap, ArrowRight } from "lucide-react";
 import { getCityTile } from "@/lib/city-tiles";
 import Link from "next/link";
 
@@ -391,6 +391,24 @@ function SearchContent() {
 
         {/* Game Cards List */}
         <div className="order-2 lg:order-2 space-y-4">
+          {/* Instructor callout when searching for lessons */}
+          {(filters.type === "lesson" || (query && /lesson|instructor|teach|learn|class|tutor/i.test(query))) && (
+            <Link
+              href={`/instructors${query ? `?q=${encodeURIComponent(query)}` : ""}`}
+              className="block bg-purple-50 border-2 border-purple-200 rounded-xl p-4 hover:border-purple-300 transition"
+            >
+              <div className="flex items-center gap-3">
+                <div className="bg-purple-100 p-2 rounded-lg flex-shrink-0">
+                  <GraduationCap className="w-5 h-5 text-purple-600" />
+                </div>
+                <div className="flex-1">
+                  <p className="font-semibold text-purple-800 text-sm">Looking for a mahjong instructor?</p>
+                  <p className="text-purple-600 text-xs">Browse certified instructors who offer private lessons, group classes, and more</p>
+                </div>
+                <ArrowRight className="w-4 h-4 text-purple-400 flex-shrink-0" />
+              </div>
+            </Link>
+          )}
           {filteredGames.length === 0 ? (
             <div className="card-white text-center py-16 px-6">
               <SlidersHorizontal className="w-12 h-12 text-hotpink-300 mx-auto mb-4" />
