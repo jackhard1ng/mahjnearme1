@@ -158,9 +158,15 @@ export default function InstructorsPage() {
         <h1 className="text-3xl font-bold text-slate-800 mb-2">
           Find a Mahjong Instructor
         </h1>
-        <p className="text-slate-600">
+        <p className="text-slate-600 mb-4">
           Browse by location, teaching style, and game variant.
         </p>
+        <Link
+          href="/for-organizers"
+          className="inline-flex items-center gap-2 bg-purple-500 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-purple-600 transition text-sm"
+        >
+          <GraduationCap className="w-4 h-4" /> Are you an instructor? Apply to get listed
+        </Link>
       </div>
 
       {/* Search & filters */}
@@ -229,22 +235,6 @@ export default function InstructorsPage() {
         </>
       )}
 
-      {/* CTA */}
-      <div className="mt-12 bg-purple-50 border border-purple-200 rounded-xl p-6 text-center">
-        <GraduationCap className="w-8 h-8 text-purple-500 mx-auto mb-3" />
-        <h2 className="text-lg font-semibold text-purple-800 mb-2">
-          Are you a mahjong instructor?
-        </h2>
-        <p className="text-purple-600 text-sm mb-4">
-          Get listed in our directory for free. Reach students looking for lessons in your area.
-        </p>
-        <Link
-          href="/for-organizers"
-          className="inline-block bg-purple-500 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-purple-600 transition"
-        >
-          Apply to Get Listed
-        </Link>
-      </div>
     </div>
   );
 }
