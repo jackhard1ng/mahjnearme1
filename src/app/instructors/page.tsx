@@ -297,7 +297,7 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
       {isFeatured && (
         <div className="bg-gradient-to-r from-amber-400 to-amber-500 px-4 py-1 flex items-center gap-1.5">
           <Star className="w-3 h-3 fill-white text-white" />
-          <span className="text-white text-xs font-bold">Featured Instructor</span>
+          <span className="text-white text-xs font-bold">Featured & Verified Instructor</span>
         </div>
       )}
       {/* Card content - clickable to profile */}

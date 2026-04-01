@@ -1241,6 +1241,7 @@ function AdminOrganizersPanel() {
                   <div className="flex flex-col gap-1 shrink-0 ml-4">
                     <button onClick={() => startEdit(org)} className="text-xs text-hotpink-500 font-medium hover:underline">Edit</button>
                     <button onClick={() => linkUserToOrganizer(org)} className="text-xs text-skyblue-500 font-medium hover:underline">{org.userId ? "Re-link" : "Link User"}</button>
+                    <button onClick={async () => { if (!confirm(`Delete "${org.organizerName}"? This cannot be undone.`)) return; await adminFetch(`/api/organizers?id=${org.id}`, "DELETE"); fetchOrganizers(); }} className="text-xs text-red-400 font-medium hover:underline hover:text-red-600">Delete</button>
                   </div>
                 </div>
               )}

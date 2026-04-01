@@ -363,18 +363,21 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
         </div>
       )}
 
-      {/* Photos */}
-      {photos.length > 0 && (
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold text-slate-800 mb-3">Photos</h2>
-          <div className="flex gap-3 overflow-x-auto pb-2">
-            {photos.map((url, i) => (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img key={i} src={url} alt={`${name} photo ${i + 1}`} className="w-48 h-32 rounded-lg object-cover flex-shrink-0" />
-            ))}
+      {/* Photos (exclude profile photo) */}
+      {(() => {
+        const galleryPhotos = photos.filter((url) => url !== photoURL);
+        return galleryPhotos.length > 0 ? (
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold text-slate-800 mb-3">Photos</h2>
+            <div className="flex gap-3 overflow-x-auto pb-2">
+              {galleryPhotos.map((url, i) => (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img key={i} src={url} alt={`${name} photo ${i + 1}`} className="w-48 h-32 rounded-lg object-cover flex-shrink-0" />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        ) : null;
+      })()}
 
       {/* Events */}
       <div className="bg-white border border-slate-200 rounded-xl p-6">

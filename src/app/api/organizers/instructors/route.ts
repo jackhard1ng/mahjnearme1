@@ -19,7 +19,7 @@ export async function GET() {
       return {
         id: doc.id,
         organizerName: data.organizerName || "",
-        slug: data.slug || data.nameKey || doc.id,
+        slug: (data.slug || data.nameKey || doc.id).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/(^-|-$)/g, ""),
         bio: data.bio || "",
         contactEmail: data.contactEmail || "",
         website: data.website || "",
