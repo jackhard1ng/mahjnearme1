@@ -46,7 +46,14 @@ async function getOrganizerBySlug(slug: string) {
   const snap3 = await db.collection("organizers").where("nameKey", "==", normalized).limit(1).get();
   if (!snap3.empty) return { id: snap3.docs[0].id, ...snap3.docs[0].data() } as Record<string, unknown> & { id: string };
 
-  // 5. Try by organizer ID directly (in case slug IS the doc ID)
+  // 5. Try by Instagram handle (e.g. /organizer/mahj918 matches @mahj.918 or @mahj918)
+  const igVariants = [normalized, normalized.replace(/-/g, "."), `@${normalized}`, `@${normalized.replace(/-/g, ".")}`];
+  for (const ig of igVariants) {
+    const snapIg = await db.collection("organizers").where("instagram", "==", ig).limit(1).get();
+    if (!snapIg.empty) return { id: snapIg.docs[0].id, ...snapIg.docs[0].data() } as Record<string, unknown> & { id: string };
+  }
+
+  // 6. Try by organizer ID directly (in case slug IS the doc ID)
   try {
     const docSnap = await db.collection("organizers").doc(slug).get();
     if (docSnap.exists) return { id: docSnap.id, ...docSnap.data() } as Record<string, unknown> & { id: string };

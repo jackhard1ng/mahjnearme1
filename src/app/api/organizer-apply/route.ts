@@ -137,44 +137,96 @@ export async function PUT(request: NextRequest) {
     const now = new Date().toISOString();
 
     if (newStatus === "approved") {
-      // Create organizer profile
-      const slug = (app.organizerName || app.userName || app.userEmail.split("@")[0])
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
+      // Try to match an existing organizer profile by name, email, or Instagram
+      let existingOrgId: string | null = null;
 
-      const orgData = {
-        nameKey: slug,
-        organizerName: app.organizerName,
-        slug,
-        bio: app.bio || "",
-        contactEmail: app.contactEmail || app.userEmail,
-        website: app.website || "",
-        instagram: app.instagram || "",
-        facebookGroup: app.facebookGroup || "",
-        photoURL: null,
-        photos: [],
-        cities: [app.city],
-        states: [app.state],
-        locations: [],
-        listingIds: [],
-        listingCount: 0,
-        verified: true,
-        featured: false,
-        userId: app.userId,
-        isInstructor: app.isInstructor || false,
-        instructorDetails: app.instructorDetails || null,
-        createdAt: now,
-        updatedAt: now,
-      };
+      const nameToMatch = (app.organizerName || "").toLowerCase().trim();
+      const emailToMatch = (app.contactEmail || app.userEmail || "").toLowerCase().trim();
+      const igToMatch = (app.instagram || "").toLowerCase().replace("@", "").trim();
 
-      const orgRef = await db.collection("organizers").add(orgData);
+      // Search by email first (most reliable)
+      if (emailToMatch) {
+        const byEmail = await db.collection("organizers").where("contactEmail", "==", emailToMatch).limit(1).get();
+        if (!byEmail.empty) existingOrgId = byEmail.docs[0].id;
+      }
+
+      // Then by Instagram
+      if (!existingOrgId && igToMatch) {
+        const byIg = await db.collection("organizers").where("instagram", "==", `@${igToMatch}`).limit(1).get();
+        if (!byIg.empty) existingOrgId = byIg.docs[0].id;
+        if (!existingOrgId) {
+          const byIg2 = await db.collection("organizers").where("instagram", "==", igToMatch).limit(1).get();
+          if (!byIg2.empty) existingOrgId = byIg2.docs[0].id;
+        }
+      }
+
+      // Then by nameKey
+      if (!existingOrgId && nameToMatch) {
+        const byName = await db.collection("organizers").where("nameKey", "==", nameToMatch).limit(1).get();
+        if (!byName.empty) existingOrgId = byName.docs[0].id;
+      }
+
+      let organizerProfileId: string;
+
+      if (existingOrgId) {
+        // Link to existing organizer profile
+        organizerProfileId = existingOrgId;
+        const updateData: Record<string, unknown> = {
+          userId: app.userId,
+          verified: true,
+          updatedAt: now,
+        };
+        if (app.isInstructor) {
+          updateData.isInstructor = true;
+          if (app.instructorDetails) updateData.instructorDetails = app.instructorDetails;
+        }
+        if (app.bio) updateData.bio = app.bio;
+        if (app.website) updateData.website = app.website;
+        if (app.instagram) updateData.instagram = app.instagram;
+        if (app.facebookGroup) updateData.facebookGroup = app.facebookGroup;
+        await db.collection("organizers").doc(existingOrgId).update(updateData);
+      } else {
+        // Create new organizer profile
+        const slug = (app.organizerName || app.userName || app.userEmail.split("@")[0])
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/-+/g, "-")
+          .replace(/(^-|-$)/g, "");
+
+        const orgData = {
+          nameKey: slug,
+          organizerName: app.organizerName,
+          slug,
+          bio: app.bio || "",
+          contactEmail: app.contactEmail || app.userEmail,
+          website: app.website || "",
+          instagram: app.instagram || "",
+          facebookGroup: app.facebookGroup || "",
+          photoURL: null,
+          photos: [],
+          cities: [app.city],
+          states: [app.state],
+          locations: [],
+          listingIds: [],
+          listingCount: 0,
+          verified: true,
+          featured: false,
+          userId: app.userId,
+          isInstructor: app.isInstructor || false,
+          instructorDetails: app.instructorDetails || null,
+          createdAt: now,
+          updatedAt: now,
+        };
+
+        const orgRef = await db.collection("organizers").add(orgData);
+        organizerProfileId = orgRef.id;
+      }
 
       // Update user profile
       await db.collection("users").doc(app.userId).set(
         {
           isOrganizer: true,
-          organizerProfileId: orgRef.id,
+          organizerProfileId,
           updatedAt: now,
         },
         { merge: true }
