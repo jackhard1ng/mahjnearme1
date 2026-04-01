@@ -9,6 +9,9 @@ import {
   Plus,
   Loader2,
   MapPin,
+  Gift,
+  Copy,
+  DollarSign,
   Clock,
   CheckCircle,
   AlertCircle,
@@ -59,7 +62,7 @@ export default function OrganizerDashboardPage() {
   const [listings, setListings] = useState<Game[]>([]);
   const [pendingApprovals, setPendingApprovals] = useState<PendingApproval[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"listings" | "claim" | "add" | "profile" | "instructor">("listings");
+  const [activeTab, setActiveTab] = useState<"listings" | "claim" | "add" | "profile" | "instructor" | "referrals">("listings");
   const [editingListing, setEditingListing] = useState<Game | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState("");
@@ -193,6 +196,7 @@ export default function OrganizerDashboardPage() {
             { key: "add", label: "Add Event", icon: Plus },
             { key: "profile", label: "Profile", icon: User },
             { key: "instructor", label: "Instructor", icon: Star },
+            ...(isSubscribedOrganizer ? [{ key: "referrals" as const, label: "Referrals", icon: Gift }] : []),
           ] as const
         ).map(({ key, label, icon: Icon }) => (
           <button
@@ -252,6 +256,9 @@ export default function OrganizerDashboardPage() {
       )}
       {activeTab === "instructor" && organizer && (
         <InstructorTab organizer={organizer} userId={user.uid} onRefresh={fetchData} />
+      )}
+      {activeTab === "referrals" && isSubscribedOrganizer && (
+        <ReferralsTab userId={user.uid} />
       )}
     </div>
   );
@@ -1255,6 +1262,230 @@ function ClaimListingsTab({
 
       {message && (
         <div className={`mt-4 p-3 rounded-lg text-sm ${message.includes("Failed") || message.includes("wrong") ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
+          {message}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ----- Referrals Tab -----
+
+function ReferralsTab({ userId }: { userId: string }) {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<{
+    hasCode: boolean;
+    code: string | null;
+    shareLink: string | null;
+    referrals: { plan: string; status: string; isVested: boolean; signupDate: string }[];
+    activeCount: number;
+    vestedCount: number;
+    monthlyEarnings: number;
+    totalEarned: number;
+    totalPaid: number;
+    pendingPayout: number;
+    canRequestPayout: boolean;
+    payoutThreshold: number;
+  } | null>(null);
+  const [newCode, setNewCode] = useState("");
+  const [creating, setCreating] = useState(false);
+  const [requesting, setRequesting] = useState(false);
+  const [message, setMessage] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    fetchData();
+  }, [userId]);
+
+  async function fetchData() {
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/organizer-referral?userId=${userId}`);
+      if (res.ok) {
+        setData(await res.json());
+      }
+    } catch { /* ok */ }
+    setLoading(false);
+  }
+
+  async function createCode() {
+    if (!newCode.trim()) return;
+    setCreating(true);
+    setMessage("");
+    try {
+      const res = await fetch("/api/organizer-referral", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, code: newCode }),
+      });
+      const result = await res.json();
+      if (!res.ok) {
+        setMessage(result.error || "Failed to create code");
+      } else {
+        setMessage("Code created!");
+        fetchData();
+      }
+    } catch {
+      setMessage("Something went wrong.");
+    }
+    setCreating(false);
+  }
+
+  async function requestPayout() {
+    setRequesting(true);
+    setMessage("");
+    try {
+      const res = await fetch("/api/organizer-referral", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId }),
+      });
+      const result = await res.json();
+      if (!res.ok) {
+        setMessage(result.error || "Failed to request payout");
+      } else {
+        setMessage(`Payout of $${result.amount.toFixed(2)} requested! We will process it shortly.`);
+        fetchData();
+      }
+    } catch {
+      setMessage("Something went wrong.");
+    }
+    setRequesting(false);
+  }
+
+  function copyLink() {
+    if (data?.shareLink) {
+      navigator.clipboard.writeText(data.shareLink);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }
+
+  if (loading) {
+    return <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-hotpink-500" /></div>;
+  }
+
+  return (
+    <div className="max-w-2xl">
+      <h2 className="text-lg font-semibold text-slate-800 mb-2">Referral Program</h2>
+      <p className="text-sm text-slate-500 mb-6">
+        Share your code with other mahjong players. They get 15% off their subscription, you earn commissions.
+      </p>
+
+      {!data?.hasCode ? (
+        /* Create code */
+        <div className="bg-white border-2 border-hotpink-200 rounded-xl p-6">
+          <h3 className="font-semibold text-slate-800 mb-2">Choose your referral code</h3>
+          <p className="text-sm text-slate-500 mb-4">Pick something memorable. This is what people will enter at checkout.</p>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={newCode}
+              onChange={(e) => setNewCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""))}
+              placeholder="e.g. MAHJ918"
+              maxLength={20}
+              className="flex-1 p-2.5 border border-slate-200 rounded-lg font-mono text-lg uppercase tracking-wider"
+            />
+            <button
+              onClick={createCode}
+              disabled={creating || newCode.length < 3}
+              className="bg-hotpink-500 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-hotpink-600 disabled:opacity-50 flex items-center gap-2"
+            >
+              {creating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Gift className="w-4 h-4" />}
+              Create Code
+            </button>
+          </div>
+          <p className="text-xs text-slate-400 mt-2">3-20 characters, letters and numbers only</p>
+        </div>
+      ) : (
+        /* Code stats */
+        <div className="space-y-4">
+          {/* Code + share */}
+          <div className="bg-white border border-slate-200 rounded-xl p-5">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm text-slate-500">Your code</span>
+              <button onClick={copyLink} className="text-xs text-hotpink-500 hover:text-hotpink-600 font-medium flex items-center gap-1">
+                <Copy className="w-3 h-3" /> {copied ? "Copied!" : "Copy link"}
+              </button>
+            </div>
+            <p className="text-3xl font-bold text-slate-800 font-mono tracking-wider mb-1">{data.code}</p>
+            <p className="text-sm text-slate-400">{data.shareLink}</p>
+            <p className="text-xs text-slate-400 mt-2">New subscribers get 15% off when they use your code</p>
+          </div>
+
+          {/* Earnings overview */}
+          <div className="grid grid-cols-3 gap-3">
+            <div className="bg-white border border-slate-200 rounded-xl p-4 text-center">
+              <p className="text-2xl font-bold text-slate-800">{data.activeCount}</p>
+              <p className="text-xs text-slate-500">Active Referrals</p>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-xl p-4 text-center">
+              <p className="text-2xl font-bold text-green-600">${data.monthlyEarnings.toFixed(2)}</p>
+              <p className="text-xs text-slate-500">Monthly Earnings</p>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-xl p-4 text-center">
+              <p className="text-2xl font-bold text-slate-800">${data.pendingPayout.toFixed(2)}</p>
+              <p className="text-xs text-slate-500">Available Balance</p>
+            </div>
+          </div>
+
+          {/* Commission rates */}
+          <div className="bg-skyblue-50 border border-skyblue-200 rounded-lg p-3 text-sm text-skyblue-800">
+            <p className="font-medium mb-1">Commission rates</p>
+            <p className="text-xs">$1.00/month for each monthly subscriber you refer. $5.00 for each annual subscriber. 60-day vesting period.</p>
+          </div>
+
+          {/* Payout button */}
+          {data.canRequestPayout && (
+            <button
+              onClick={requestPayout}
+              disabled={requesting}
+              className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              {requesting ? <Loader2 className="w-4 h-4 animate-spin" /> : <DollarSign className="w-4 h-4" />}
+              Request Payout (${data.pendingPayout.toFixed(2)})
+            </button>
+          )}
+          {!data.canRequestPayout && data.pendingPayout > 0 && (
+            <p className="text-xs text-slate-400 text-center">
+              Minimum payout is ${data.payoutThreshold}. Current balance: ${data.pendingPayout.toFixed(2)}
+            </p>
+          )}
+
+          {/* Referral list */}
+          {data.referrals.length > 0 && (
+            <div>
+              <h3 className="font-medium text-slate-800 mb-2">Your referrals</h3>
+              <div className="space-y-1">
+                {data.referrals.map((r, i) => (
+                  <div key={i} className="flex items-center justify-between text-sm py-1.5 border-b border-slate-100 last:border-0">
+                    <div className="flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${r.status === "active" ? "bg-green-400" : "bg-slate-300"}`} />
+                      <span className="text-slate-600">{r.plan === "annual" ? "Annual" : "Monthly"} subscriber</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-xs">
+                      {!r.isVested && <span className="text-amber-500">Vesting</span>}
+                      {r.isVested && r.status === "active" && (
+                        <span className="text-green-600 font-medium">
+                          ${r.plan === "monthly" ? "1.00" : "5.00"}{r.plan === "monthly" ? "/mo" : ""}
+                        </span>
+                      )}
+                      <span className="text-slate-400">{new Date(r.signupDate).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {data.totalPaid > 0 && (
+            <p className="text-xs text-slate-400 text-center">Total paid out: ${data.totalPaid.toFixed(2)}</p>
+          )}
+        </div>
+      )}
+
+      {message && (
+        <div className={`mt-4 p-3 rounded-lg text-sm ${message.includes("Failed") || message.includes("wrong") || message.includes("taken") || message.includes("Minimum") ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
           {message}
         </div>
       )}
