@@ -11,6 +11,7 @@ interface OrganizerOverride {
   facebookGroup?: string;
   featured?: boolean;
   verified?: boolean;
+  photoURL?: string;
   locations?: { venueName: string; address: string; city: string; state: string; lat: number; lng: number }[];
 }
 
@@ -62,6 +63,7 @@ function applyOverride(game: Game, overrides: Record<string, OrganizerOverride>)
     facebookGroup: override.facebookGroup || game.facebookGroup,
     promoted: override.featured || game.promoted,
     verified: override.verified || game.verified,
+    imageUrl: override.photoURL || game.imageUrl,
   };
 }
 

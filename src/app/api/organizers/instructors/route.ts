@@ -19,7 +19,7 @@ export async function GET() {
       return {
         id: doc.id,
         organizerName: data.organizerName || "",
-        slug: data.slug || "",
+        slug: data.slug || data.nameKey || doc.id,
         bio: data.bio || "",
         contactEmail: data.contactEmail || "",
         website: data.website || "",
@@ -28,7 +28,7 @@ export async function GET() {
         cities: data.cities || [],
         states: data.states || [],
         featured: data.featured || false,
-        verified: data.verified || false,
+        verified: data.verified || !!data.userId,
         listingCount: data.listingCount || 0,
         hasUser: !!data.userId,
         instructorDetails: data.instructorDetails || null,

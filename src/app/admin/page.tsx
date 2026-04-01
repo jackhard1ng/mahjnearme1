@@ -1240,9 +1240,7 @@ function AdminOrganizersPanel() {
                   </div>
                   <div className="flex flex-col gap-1 shrink-0 ml-4">
                     <button onClick={() => startEdit(org)} className="text-xs text-hotpink-500 font-medium hover:underline">Edit</button>
-                    {!org.userId && (
-                      <button onClick={() => linkUserToOrganizer(org)} className="text-xs text-skyblue-500 font-medium hover:underline">Link User</button>
-                    )}
+                    <button onClick={() => linkUserToOrganizer(org)} className="text-xs text-skyblue-500 font-medium hover:underline">{org.userId ? "Re-link" : "Link User"}</button>
                   </div>
                 </div>
               )}

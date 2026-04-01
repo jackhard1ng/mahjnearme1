@@ -23,6 +23,7 @@ export async function GET() {
       facebookGroup?: string;
       featured?: boolean;
       verified?: boolean;
+      photoURL?: string;
       locations?: { venueName: string; address: string; city: string; state: string; lat: number; lng: number }[];
     }> = {};
 
@@ -50,6 +51,7 @@ export async function GET() {
       if (data.facebookGroup) entry.facebookGroup = data.facebookGroup;
       if (data.featured) entry.featured = true;
       if (data.verified || data.userId) entry.verified = true;
+      if (data.photoURL) entry.photoURL = data.photoURL;
       if (data.locations && (data.locations as unknown[]).length > 0) {
         entry.locations = data.locations;
       }
