@@ -96,14 +96,46 @@ export default function InstructorsPage() {
 
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
-      result = result.filter(
-        (i) =>
-          i.organizerName.toLowerCase().includes(q) ||
-          i.cities.some((c) => c.toLowerCase().includes(q)) ||
-          i.states.some((s) => s.toLowerCase().includes(q)) ||
-          (i.instructorDetails?.serviceArea || "").toLowerCase().includes(q) ||
-          (i.instructorDetails?.certifications || "").toLowerCase().includes(q)
-      );
+
+      // Common area aliases: search term -> also match these terms
+      const areaAliases: Record<string, string[]> = {
+        miami: ["south florida", "fort lauderdale", "boca raton", "west palm beach", "broward", "dade"],
+        "fort lauderdale": ["south florida", "miami", "broward"],
+        "south florida": ["miami", "fort lauderdale", "boca raton", "west palm beach"],
+        dallas: ["dfw", "fort worth", "plano", "frisco", "arlington", "north texas"],
+        "fort worth": ["dfw", "dallas", "north texas"],
+        houston: ["htx", "katy", "woodlands", "sugar land"],
+        chicago: ["chicagoland", "northwest suburbs", "north shore"],
+        "new york": ["nyc", "brooklyn", "manhattan", "queens", "bronx", "long island"],
+        nyc: ["new york", "brooklyn", "manhattan"],
+        brooklyn: ["nyc", "new york"],
+        "los angeles": ["la", "west la", "pasadena", "santa monica"],
+        "san francisco": ["sf", "bay area", "oakland"],
+        dc: ["dmv", "nova", "northern virginia", "maryland"],
+        washington: ["dc", "dmv", "nova"],
+        atlanta: ["atl", "alpharetta", "roswell", "buckhead"],
+        denver: ["front range", "colorado"],
+        phoenix: ["scottsdale", "mesa", "chandler", "arizona"],
+        seattle: ["puget sound", "bellevue", "washington"],
+      };
+
+      const expandedTerms = [q, ...(areaAliases[q] || [])];
+
+      result = result.filter((i) => {
+        const name = i.organizerName.toLowerCase();
+        const cities = i.cities.map((c) => c.toLowerCase());
+        const states = i.states.map((s) => s.toLowerCase());
+        const serviceArea = (i.instructorDetails?.serviceArea || "").toLowerCase();
+        const certs = (i.instructorDetails?.certifications || "").toLowerCase();
+
+        return expandedTerms.some((term) =>
+          name.includes(term) ||
+          cities.some((c) => c.includes(term)) ||
+          states.some((s) => s.includes(term)) ||
+          serviceArea.includes(term) ||
+          certs.includes(term)
+        );
+      });
     }
 
     if (styleFilter !== "all") {
