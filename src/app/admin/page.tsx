@@ -959,6 +959,29 @@ function AdminOrganizersPanel() {
     setSaving(false);
   }
 
+  async function linkUserToOrganizer(org: Record<string, unknown>) {
+    const email = prompt(`Enter the email of the user to link to "${org.organizerName}":\n\nThis will give them organizer access and connect all ${org.listingCount || 0} listings to their dashboard.`);
+    if (!email) return;
+
+    try {
+      const res = await adminFetch("/api/admin-link-organizer", "POST", {
+        email: email.trim(),
+        organizerProfileId: org.id,
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || "Failed to link user.");
+        return;
+      }
+
+      alert(`Linked ${email} to "${org.organizerName}". They now have organizer access with ${org.listingCount || 0} listings.`);
+      fetchOrganizers();
+    } catch {
+      alert("Failed to link user.");
+    }
+  }
+
   const filtered = search
     ? organizers.filter((o) => {
         const q = search.toLowerCase();
@@ -1097,7 +1120,12 @@ function AdminOrganizersPanel() {
                       </div>
                     )}
                   </div>
-                  <button onClick={() => startEdit(org)} className="text-xs text-hotpink-500 font-medium hover:underline shrink-0 ml-4">Edit</button>
+                  <div className="flex flex-col gap-1 shrink-0 ml-4">
+                    <button onClick={() => startEdit(org)} className="text-xs text-hotpink-500 font-medium hover:underline">Edit</button>
+                    {!org.userId && (
+                      <button onClick={() => linkUserToOrganizer(org)} className="text-xs text-skyblue-500 font-medium hover:underline">Link User</button>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
