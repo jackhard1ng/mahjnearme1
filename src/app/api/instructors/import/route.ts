@@ -82,21 +82,27 @@ export async function POST(request: NextRequest) {
       return certs.join(", ");
     }
 
-    const BATCH_SIZE = 400;
-    let batch = db.batch();
-    let batchCount = 0;
+    // Also track nameKeys to skip duplicates already in the DB
+    const existingNameKeys = new Set(orgSnap.docs.map((d) => d.data().nameKey || "").filter(Boolean));
+    const seenUsernames = new Set<string>();
+
+    // Collect all operations first, then batch write
+    const updates: { id: string; data: Record<string, unknown> }[] = [];
+    const creates: Record<string, unknown>[] = [];
 
     for (const inst of instructors) {
       const username = (inst.username || "").toLowerCase().trim();
-      if (!username) { skipped++; continue; }
+      if (!username || seenUsernames.has(username)) { skipped++; continue; }
+      seenUsernames.add(username);
 
       // Try to match existing organizer
       const existing = orgByInstagram.get(username);
 
       if (existing) {
         // Flag existing organizer as instructor
+        if (existing.data.isInstructor) { skipped++; continue; } // Already an instructor
         const loc = parseLocation(inst.bio || "");
-        const updates: Record<string, unknown> = {
+        const updateData: Record<string, unknown> = {
           isInstructor: true,
           instructorDetails: {
             teachingStyles: parseTeachingStyles(inst.bio || ""),
@@ -106,20 +112,19 @@ export async function POST(request: NextRequest) {
           },
           updatedAt: now,
         };
-        // Fill in missing fields from Instagram data
-        if (!existing.data.bio && inst.bio) updates.bio = inst.bio.replace(/\n/g, " ").replace(/[^\x20-\x7E]/g, " ").trim();
-        if (!existing.data.website && inst.external_url) updates.website = inst.external_url;
-
-        batch.update(db.collection("organizers").doc(existing.id), updates);
+        if (!existing.data.bio && inst.bio) updateData.bio = inst.bio.replace(/\n/g, " ").replace(/[^\x20-\x7E]/g, " ").trim();
+        if (!existing.data.website && inst.external_url) updateData.website = inst.external_url;
+        updates.push({ id: existing.id, data: updateData });
         flagged++;
+      } else if (existingNameKeys.has(username)) {
+        skipped++; // Already imported as nameKey
       } else {
-        // Create new organizer profile as instructor
         const displayName = inst.full_name || username;
         const slug = username.replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
         const loc = parseLocation(inst.bio || "");
         const bio = (inst.bio || "").replace(/\n/g, " ").replace(/[^\x20-\x7E]/g, " ").trim();
 
-        const orgData = {
+        creates.push({
           nameKey: username,
           organizerName: displayName,
           slug,
@@ -147,22 +152,29 @@ export async function POST(request: NextRequest) {
           },
           createdAt: now,
           updatedAt: now,
-        };
-
-        const docRef = db.collection("organizers").doc();
-        batch.set(docRef, orgData);
+        });
         created++;
-      }
-
-      batchCount++;
-      if (batchCount >= BATCH_SIZE) {
-        await batch.commit();
-        batch = db.batch();
-        batchCount = 0;
       }
     }
 
-    if (batchCount > 0) {
+    // Write updates in batches
+    const BATCH_SIZE = 450;
+    for (let i = 0; i < updates.length; i += BATCH_SIZE) {
+      const chunk = updates.slice(i, i + BATCH_SIZE);
+      const batch = db.batch();
+      for (const item of chunk) {
+        batch.update(db.collection("organizers").doc(item.id), item.data);
+      }
+      await batch.commit();
+    }
+
+    // Write creates in batches
+    for (let i = 0; i < creates.length; i += BATCH_SIZE) {
+      const chunk = creates.slice(i, i + BATCH_SIZE);
+      const batch = db.batch();
+      for (const item of chunk) {
+        batch.set(db.collection("organizers").doc(), item);
+      }
       await batch.commit();
     }
 

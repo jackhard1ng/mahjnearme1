@@ -17,6 +17,7 @@ const LeafletMap = dynamic(() => import("@/components/LeafletMap"), {
 });
 import SkeletonCard from "@/components/SkeletonCard";
 import { mockGames } from "@/lib/mock-data";
+import { useEnrichedGames } from "@/hooks/useOrganizerOverrides";
 import { useAuth } from "@/contexts/AuthContext";
 import { SearchFilters, Game } from "@/types";
 import { isEventExpired } from "@/lib/utils";
@@ -156,10 +157,11 @@ function SearchContent() {
     setVisibleCount(20);
   }, [query, latParam, lngParam, geocodeQuery]);
 
-  // All active, non-expired games
+  // All active, non-expired games with organizer overrides applied
+  const enrichedGames = useEnrichedGames(mockGames);
   const activeGames = useMemo(() => {
-    return mockGames.filter((g) => g.status === "active" && !isEventExpired(g));
-  }, []);
+    return enrichedGames.filter((g) => g.status === "active" && !isEventExpired(g));
+  }, [enrichedGames]);
 
   // Calculate distances, timing, and apply filters + ranking
   const filteredGames: RankedGame[] = useMemo(() => {
