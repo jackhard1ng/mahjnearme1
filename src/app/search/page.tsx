@@ -317,9 +317,14 @@ function SearchContent() {
         <SearchBar defaultValue={query} />
       </div>
 
-      {/* Filters */}
+      {/* Filters + Browse link */}
       <div className="mb-4">
         <SearchFiltersBar filters={filters} onFiltersChange={setFilters} />
+        <div className="flex justify-end mt-2">
+          <Link href="/cities" className="text-xs text-hotpink-500 hover:text-hotpink-600 font-medium">
+            Browse all states and cities →
+          </Link>
+        </div>
       </div>
 
       {/* Proximity info badge */}

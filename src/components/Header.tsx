@@ -41,9 +41,6 @@ export default function Header() {
             <Link href="/search" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               Find Games
             </Link>
-            <Link href="/cities" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
-              Browse
-            </Link>
             <Link href="/events" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               Destination Events
             </Link>
@@ -55,9 +52,6 @@ export default function Header() {
             </Link>
             <Link href={isOrganizer ? "/organizer" : "/for-organizers"} className="text-white/90 hover:text-white transition-colors text-sm font-medium">
               For Organizers
-            </Link>
-            <Link href="/about" className="text-white/90 hover:text-white transition-colors text-sm font-medium">
-              About
             </Link>
 
             {user ? (
@@ -170,13 +164,6 @@ export default function Header() {
               Find Games
             </Link>
             <Link
-              href="/cities"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
-            >
-              Browse
-            </Link>
-            <Link
               href="/events"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
@@ -203,13 +190,6 @@ export default function Header() {
               className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
             >
               For Organizers
-            </Link>
-            <Link
-              href="/about"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
-            >
-              About
             </Link>
             <hr className="border-white/20" />
             {user ? (

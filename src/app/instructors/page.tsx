@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   Search,
   GraduationCap,
@@ -11,6 +12,8 @@ import {
   Mail,
   Loader2,
   Filter,
+  Lock,
+  ArrowRight,
 } from "lucide-react";
 
 interface Instructor {
@@ -34,6 +37,7 @@ interface Instructor {
 }
 
 export default function InstructorsPage() {
+  const { hasAccess, loading: authLoading } = useAuth();
   const [instructors, setInstructors] = useState<Instructor[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -87,6 +91,33 @@ export default function InstructorsPage() {
     // Featured instructors first
     return result.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
   }, [instructors, searchQuery, styleFilter, typeFilter]);
+
+  if (!authLoading && !hasAccess) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+        <Lock className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+        <h1 className="text-2xl font-bold text-slate-800 mb-2">
+          Find a Mahjong Instructor
+        </h1>
+        <p className="text-slate-600 mb-6">
+          Browse certified instructors who offer private lessons, group classes, and more.
+          Available for subscribers.
+        </p>
+        <Link
+          href="/signup"
+          className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition"
+        >
+          Get Started <ArrowRight className="w-4 h-4" />
+        </Link>
+        <p className="text-xs text-slate-400 mt-4">
+          Are you an instructor?{" "}
+          <Link href="/for-organizers" className="text-hotpink-500 hover:text-hotpink-600 font-medium">
+            Apply to get listed
+          </Link>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
