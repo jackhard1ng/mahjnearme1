@@ -244,7 +244,7 @@ export default function GiveawaysPage() {
                   Paid members are automatically entered every month.
                 </p>
                 <p className="text-sm text-slate-500 mb-3">
-                  Upgrade to be included in this month&apos;s drawing.
+                  Upgrade to be included in this month&apos;s drawing. Must have an active subscription at the time of drawing to be eligible.
                 </p>
                 <Link
                   href="/pricing"

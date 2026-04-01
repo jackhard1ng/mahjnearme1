@@ -266,6 +266,7 @@ function ApplyForm({
     certifications: "",
     serviceArea: "",
     gameStylesTaught: [] as string[],
+    managementPreference: "self" as "self" | "assisted",
     message: "",
   });
   const [submitting, setSubmitting] = useState(false);
@@ -308,6 +309,7 @@ function ApplyForm({
           instructorDetails: showInstructorFields
             ? { teachingStyles: form.teachingStyles, certifications: form.certifications, serviceArea: form.serviceArea, gameStylesTaught: form.gameStylesTaught }
             : null,
+          managementPreference: form.managementPreference,
           message: form.message,
         }),
       });
@@ -416,6 +418,27 @@ function ApplyForm({
             </div>
           </div>
         )}
+
+        {/* Management preference */}
+        <div className="border-t border-slate-200 pt-4">
+          <label className="block text-sm font-medium text-slate-700 mb-2">How do you want to manage your events?</label>
+          <div className="space-y-2">
+            <label className="flex items-start gap-2.5 cursor-pointer">
+              <input type="radio" name="mgmt" checked={form.managementPreference === "self"} onChange={() => setForm({ ...form, managementPreference: "self" })} className="mt-0.5" />
+              <div>
+                <p className="text-sm font-medium text-slate-700">I want to manage my own events</p>
+                <p className="text-xs text-slate-500">You get a dashboard to edit listings, add events, and update your profile</p>
+              </div>
+            </label>
+            <label className="flex items-start gap-2.5 cursor-pointer">
+              <input type="radio" name="mgmt" checked={form.managementPreference === "assisted"} onChange={() => setForm({ ...form, managementPreference: "assisted" })} className="mt-0.5" />
+              <div>
+                <p className="text-sm font-medium text-slate-700">I want MahjNearMe to manage my events for me</p>
+                <p className="text-xs text-slate-500">Just send us updates and we will handle everything</p>
+              </div>
+            </label>
+          </div>
+        </div>
 
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1">Anything else you want us to know?</label>

@@ -853,6 +853,7 @@ function AdminOrganizersPanel() {
   const [organizers, setOrganizers] = useState<Record<string, unknown>[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [tierFilter, setTierFilter] = useState<"all" | "linked" | "instructors" | "featured">("all");
   const [populating, setPopulating] = useState(false);
   const [populateResult, setPopulateResult] = useState<string | null>(null);
   const [importingInstructors, setImportingInstructors] = useState(false);
@@ -1003,8 +1004,19 @@ function AdminOrganizersPanel() {
       })
     : organizers;
 
+  // Apply tier filter
+  const tierFiltered = tierFilter === "all" ? filtered
+    : tierFilter === "linked" ? filtered.filter((o) => !!o.userId)
+    : tierFilter === "instructors" ? filtered.filter((o) => o.isInstructor === true)
+    : tierFilter === "featured" ? filtered.filter((o) => o.featured === true)
+    : filtered;
+
   // Sort by listing count descending
-  const sorted = [...filtered].sort((a, b) => ((b.listingCount as number) || 0) - ((a.listingCount as number) || 0));
+  const sorted = [...tierFiltered].sort((a, b) => ((b.listingCount as number) || 0) - ((a.listingCount as number) || 0));
+
+  const linkedCount = organizers.filter((o) => !!o.userId).length;
+  const instructorCount = organizers.filter((o) => o.isInstructor === true).length;
+  const featuredCount = organizers.filter((o) => o.featured === true).length;
 
   return (
     <div className="space-y-4">
@@ -1076,6 +1088,20 @@ function AdminOrganizersPanel() {
             {importingInstructors ? "Importing..." : "Import Instructors"}
           </button>
         </div>
+      </div>
+
+      {/* Tier filter tabs */}
+      <div className="flex gap-1 flex-wrap">
+        {([
+          { key: "all" as const, label: `All (${organizers.length})` },
+          { key: "linked" as const, label: `Linked (${linkedCount})` },
+          { key: "instructors" as const, label: `Instructors (${instructorCount})` },
+          { key: "featured" as const, label: `Featured (${featuredCount})` },
+        ]).map(({ key, label }) => (
+          <button key={key} onClick={() => setTierFilter(key)} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${tierFilter === key ? "bg-hotpink-500 text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}>
+            {label}
+          </button>
+        ))}
       </div>
 
       {populateResult && (
@@ -1458,6 +1484,11 @@ function AdminApprovalsPanel() {
                         {app.instructorDetails.serviceArea ? <span>Area: {String(app.instructorDetails.serviceArea)}</span> : null}
                       </div>
                     )}
+                    {(app as Record<string, unknown>).managementPreference ? (
+                      <p className={`text-xs font-medium mt-1 ${(app as Record<string, unknown>).managementPreference === "assisted" ? "text-amber-600" : "text-green-600"}`}>
+                        {(app as Record<string, unknown>).managementPreference === "assisted" ? "Wants MahjNearMe to manage events" : "Wants to manage own events"}
+                      </p>
+                    ) : null}
                     {app.message && <p className="text-sm text-slate-500 mt-1 italic">&quot;{app.message}&quot;</p>}
                     <p className="text-xs text-slate-400 mt-1">Applied {new Date(app.createdAt).toLocaleDateString()}</p>
                   </div>

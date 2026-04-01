@@ -29,6 +29,12 @@ export default function SweepstakesRulesPage() {
             of the fifty (50) United States and the District of Columbia, and who are eighteen (18)
             years of age or older. The Drawing is void where prohibited by law.
           </p>
+          <p className="text-sm text-slate-600 mb-2">
+            Participants must have an active paid subscription at the time the Drawing is conducted
+            to be eligible. Subscriptions canceled before the Drawing date forfeit eligibility for that
+            month&apos;s Drawing. Subscriptions are non-refundable and cancellations after a Drawing are
+            not prorated.
+          </p>
           <p className="text-sm text-slate-600">
             Employees, officers, and directors of MahjNearMe, and their immediate family members
             and household members, are not eligible.
