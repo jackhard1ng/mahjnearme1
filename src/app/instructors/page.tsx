@@ -30,6 +30,7 @@ interface Instructor {
   states: string[];
   featured: boolean;
   listingCount: number;
+  hasUser: boolean;
   instructorDetails: {
     teachingStyles: string[];
     certifications: string;
@@ -324,12 +325,22 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
 
       {/* Action footer */}
       <div className="border-t border-slate-100 px-4 py-2.5 bg-slate-50 flex items-center justify-between">
-        <Link
-          href={`/organizer/${instructor.slug}`}
-          className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium flex items-center gap-1"
-        >
-          View Profile <ExternalLink className="w-3 h-3" />
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href={`/organizer/${instructor.slug}`}
+            className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium flex items-center gap-1"
+          >
+            View Profile <ExternalLink className="w-3 h-3" />
+          </Link>
+          {!instructor.hasUser && (
+            <Link
+              href="/for-organizers"
+              className="text-[11px] text-purple-500 hover:text-purple-600 font-medium"
+            >
+              Is this you? Claim your profile
+            </Link>
+          )}
+        </div>
         <div className="flex items-center gap-2">
           {instructor.website && (
             <a

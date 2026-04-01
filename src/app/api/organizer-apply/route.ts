@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
       contactEmail,
       isInstructor,
       instructorDetails,
+      managementPreference,
       message,
     } = body;
 
@@ -67,6 +68,7 @@ export async function POST(request: NextRequest) {
       contactEmail: contactEmail || userEmail,
       isInstructor: isInstructor || false,
       instructorDetails: isInstructor ? (instructorDetails || null) : null,
+      managementPreference: managementPreference || "self",
       message: message || "",
       status: "pending",
       reviewedBy: null,
@@ -174,6 +176,7 @@ export async function PUT(request: NextRequest) {
         const updateData: Record<string, unknown> = {
           userId: app.userId,
           verified: true,
+          managementPreference: app.managementPreference || "self",
           updatedAt: now,
         };
         if (app.isInstructor) {
@@ -212,6 +215,7 @@ export async function PUT(request: NextRequest) {
           verified: true,
           featured: false,
           userId: app.userId,
+          managementPreference: app.managementPreference || "self",
           isInstructor: app.isInstructor || false,
           instructorDetails: app.instructorDetails || null,
           createdAt: now,

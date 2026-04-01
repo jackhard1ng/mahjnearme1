@@ -29,6 +29,7 @@ export async function GET() {
         states: data.states || [],
         featured: data.featured || false,
         listingCount: data.listingCount || 0,
+        hasUser: !!data.userId,
         instructorDetails: data.instructorDetails || null,
       };
     });

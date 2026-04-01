@@ -853,7 +853,7 @@ function AdminOrganizersPanel() {
   const [organizers, setOrganizers] = useState<Record<string, unknown>[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [tierFilter, setTierFilter] = useState<"all" | "linked" | "instructors" | "featured">("all");
+  const [tierFilter, setTierFilter] = useState<"all" | "linked" | "self" | "assisted" | "instructors" | "featured">("all");
   const [populating, setPopulating] = useState(false);
   const [populateResult, setPopulateResult] = useState<string | null>(null);
   const [importingInstructors, setImportingInstructors] = useState(false);
@@ -1007,6 +1007,8 @@ function AdminOrganizersPanel() {
   // Apply tier filter
   const tierFiltered = tierFilter === "all" ? filtered
     : tierFilter === "linked" ? filtered.filter((o) => !!o.userId)
+    : tierFilter === "self" ? filtered.filter((o) => !!o.userId && o.managementPreference === "self")
+    : tierFilter === "assisted" ? filtered.filter((o) => !!o.userId && o.managementPreference === "assisted")
     : tierFilter === "instructors" ? filtered.filter((o) => o.isInstructor === true)
     : tierFilter === "featured" ? filtered.filter((o) => o.featured === true)
     : filtered;
@@ -1015,6 +1017,8 @@ function AdminOrganizersPanel() {
   const sorted = [...tierFiltered].sort((a, b) => ((b.listingCount as number) || 0) - ((a.listingCount as number) || 0));
 
   const linkedCount = organizers.filter((o) => !!o.userId).length;
+  const selfCount = organizers.filter((o) => !!o.userId && o.managementPreference === "self").length;
+  const assistedCount = organizers.filter((o) => !!o.userId && o.managementPreference === "assisted").length;
   const instructorCount = organizers.filter((o) => o.isInstructor === true).length;
   const featuredCount = organizers.filter((o) => o.featured === true).length;
 
@@ -1095,6 +1099,8 @@ function AdminOrganizersPanel() {
         {([
           { key: "all" as const, label: `All (${organizers.length})` },
           { key: "linked" as const, label: `Linked (${linkedCount})` },
+          { key: "self" as const, label: `Self-Managed (${selfCount})` },
+          { key: "assisted" as const, label: `We Manage (${assistedCount})` },
           { key: "instructors" as const, label: `Instructors (${instructorCount})` },
           { key: "featured" as const, label: `Featured (${featuredCount})` },
         ]).map(({ key, label }) => (
@@ -1204,6 +1210,8 @@ function AdminOrganizersPanel() {
                       {org.featured === true && <span className="text-xs bg-amber-100 text-amber-600 px-2 py-0.5 rounded-full">Featured</span>}
                       {org.isInstructor === true && <span className="text-xs bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full">Instructor</span>}
                       {org.userId ? <span className="text-xs bg-skyblue-100 text-skyblue-600 px-2 py-0.5 rounded-full">Linked</span> : null}
+                      {org.managementPreference === "assisted" ? <span className="text-xs bg-amber-100 text-amber-600 px-2 py-0.5 rounded-full">We Manage</span> : null}
+                      {org.managementPreference === "self" ? <span className="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded-full">Self</span> : null}
                     </div>
                     <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
                       {org.contactEmail ? <span>{String(org.contactEmail)}</span> : null}
