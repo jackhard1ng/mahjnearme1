@@ -515,6 +515,8 @@ function AddListingTab({
     description: duplicateFrom?.description || "",
     skillLevels: duplicateFrom?.skillLevels?.join("|") || "beginner|intermediate",
     dropInFriendly: duplicateFrom?.dropInFriendly ?? true,
+    isDestinationEvent: false,
+    eventDate: "",
     contactEmail: duplicateFrom?.contactEmail || organizer?.contactEmail || "",
     website: duplicateFrom?.website || organizer?.website || "",
     instagram: duplicateFrom?.instagram || organizer?.instagram || "",
@@ -563,7 +565,8 @@ function AddListingTab({
               frequency: form.frequency,
             }
           : null,
-        eventDate: null,
+        eventDate: form.eventDate || null,
+        isDestinationEvent: form.isDestinationEvent || false,
         cost: form.cost || "Contact for price",
         description: form.description,
         skillLevels: form.skillLevels.split("|").filter(Boolean),
@@ -709,10 +712,23 @@ function AddListingTab({
           <textarea value={form.description} onChange={(e) => updateForm("description", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg h-24 resize-none" placeholder="Tell players about your game..." />
         </div>
 
-        <div className="flex items-center gap-2">
-          <input type="checkbox" id="dropIn" checked={form.dropInFriendly} onChange={(e) => updateForm("dropInFriendly", e.target.checked)} />
-          <label htmlFor="dropIn" className="text-sm text-slate-700">Drop-in friendly</label>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <input type="checkbox" id="dropIn" checked={form.dropInFriendly} onChange={(e) => updateForm("dropInFriendly", e.target.checked)} />
+            <label htmlFor="dropIn" className="text-sm text-slate-700">Drop-in friendly</label>
+          </div>
+          <div className="flex items-center gap-2">
+            <input type="checkbox" id="destEvent" checked={form.isDestinationEvent} onChange={(e) => updateForm("isDestinationEvent", e.target.checked)} />
+            <label htmlFor="destEvent" className="text-sm text-slate-700">Destination / special event</label>
+          </div>
         </div>
+
+        {(form.isDestinationEvent || !form.dayOfWeek) && (
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Event Date</label>
+            <input type="date" value={form.eventDate} onChange={(e) => updateForm("eventDate", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg" />
+          </div>
+        )}
 
         <button
           onClick={handleSubmit}

@@ -32,10 +32,12 @@ const DESTINATION_PATTERNS = [
 // "camp" needs special handling — match "camp" but not "campbell", "campus", "campaign"
 const CAMP_PATTERN = /\bcamp\b(?!bell|us|aign)/i;
 
-function isDestinationEvent(type: string, name: string, description: string): boolean {
-  // Only events qualify as destination events
-  if (type !== "event") return false;
-  const text = name + " " + description;
+function isDestinationEvent(game: { type: string; name: string; description?: string; isDestinationEvent?: boolean }): boolean {
+  // Organizer-flagged destination events
+  if (game.isDestinationEvent) return true;
+  // Only events qualify via keyword matching
+  if (game.type !== "event") return false;
+  const text = game.name + " " + (game.description || "");
   if (DESTINATION_PATTERNS.some((p) => p.test(text))) return true;
   if (CAMP_PATTERN.test(text)) return true;
   return false;
@@ -50,7 +52,7 @@ export default function EventsPage() {
     return mockGames
       .filter((g) => {
         if (g.status !== "active" || isEventExpired(g)) return false;
-        return isDestinationEvent(g.type, g.name, g.description || "");
+        return isDestinationEvent(g);
       })
       .sort((a, b) => {
         // Events with dates sort by date, others go to end
