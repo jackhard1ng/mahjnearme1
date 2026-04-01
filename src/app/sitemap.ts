@@ -13,6 +13,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { route: "/cities", priority: 0.9, freq: "weekly" as const },
     { route: "/pricing", priority: 0.8, freq: "monthly" as const },
     { route: "/giveaways", priority: 0.7, freq: "monthly" as const },
+    { route: "/instructors", priority: 0.8, freq: "weekly" as const },
+    { route: "/for-organizers", priority: 0.7, freq: "monthly" as const },
+    { route: "/events", priority: 0.8, freq: "daily" as const },
     { route: "/about", priority: 0.6, freq: "monthly" as const },
     { route: "/faq", priority: 0.6, freq: "monthly" as const },
     { route: "/shop", priority: 0.5, freq: "monthly" as const },
@@ -27,7 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority,
   }));
 
-  // State pages — high priority SEO targets
+  // State pages
   const statePages = getStatesWithGames().map((s) => ({
     url: `${baseUrl}/states/${slugify(s.stateName)}`,
     lastModified: new Date(),
@@ -35,7 +38,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  // City pages — highest priority long-tail SEO targets
+  // City pages
   const cityPages = getCitiesWithGames().map((c) => ({
     url: `${baseUrl}/cities/${slugify(getStateName(c.state))}/${slugify(c.city)}`,
     lastModified: new Date(),
@@ -53,6 +56,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     }));
 
+  // Organizer profile pages
+  // Generate from unique contact names in listings (matching how populate script creates slugs)
+  const orgSlugs = new Set<string>();
+  for (const g of mockGames) {
+    const name = (g.contactName || g.organizerName || "").trim();
+    if (!name || name.length < 3) continue;
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/(^-|-$)/g, "");
+    if (slug.length >= 3) orgSlugs.add(slug);
+  }
+
+  const organizerPages = [...orgSlugs].map((slug) => ({
+    url: `${baseUrl}/organizer/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  }));
+
   // Blog posts
   const blogPages = getAllPosts().map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
@@ -61,5 +81,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...statePages, ...cityPages, ...gamePages, ...blogPages];
+  return [...staticPages, ...statePages, ...cityPages, ...gamePages, ...organizerPages, ...blogPages];
 }

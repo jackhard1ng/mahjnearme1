@@ -212,8 +212,40 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
     ? `/search?q=${encodeURIComponent(primaryCity)}`
     : "/search";
 
+  // JSON-LD structured data for SEO
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": isInstructor ? "LocalBusiness" : "Organization",
+    name,
+    ...(personalName && personalName !== name ? { alternateName: personalName } : {}),
+    description: cleanText(bio) || `${name} hosts mahjong games${locationText ? ` in ${locationText}` : ""}.`,
+    ...(website ? { url: website.startsWith("http") ? website : `https://${website}` } : {}),
+    ...(email ? { email } : {}),
+    ...(photoURL ? { image: photoURL } : {}),
+    ...(locationText ? {
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: cities[0] || "",
+        addressRegion: stateAbbr || "",
+        addressCountry: "US",
+      },
+    } : {}),
+    ...(isInstructor ? {
+      "@type": "LocalBusiness",
+      priceRange: "$$",
+      additionalType: "https://schema.org/EducationalOrganization",
+      knowsAbout: ["Mahjong", "American Mahjong", "Mahjong lessons"],
+      ...(instructorDetails?.serviceArea ? { areaServed: cleanText(instructorDetails.serviceArea) } : {}),
+    } : {}),
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
+      {/* SEO structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Profile Header */}
       <div className="bg-white border border-slate-200 rounded-xl p-6 mb-6">
         <div className="flex flex-col md:flex-row gap-6">
