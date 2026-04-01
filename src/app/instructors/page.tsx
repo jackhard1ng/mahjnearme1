@@ -159,32 +159,10 @@ export default function InstructorsPage() {
     });
   }, [instructors, searchQuery, styleFilter, typeFilter]);
 
-  if (!authLoading && !hasAccess) {
-    return (
-      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-        <Lock className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-slate-800 mb-2">
-          Find a Mahjong Instructor
-        </h1>
-        <p className="text-slate-600 mb-2">
-          Browse {instructors.length > 0 ? `${instructors.length}+` : ""} certified instructors who offer private lessons, group classes, and more.
-        </p>
-        <p className="text-slate-500 text-sm mb-6">Available for subscribers.</p>
-        <Link
-          href="/signup"
-          className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition"
-        >
-          Get Started <ArrowRight className="w-4 h-4" />
-        </Link>
-        <p className="text-xs text-slate-400 mt-4">
-          Are you an instructor?{" "}
-          <Link href="/for-organizers" className="text-hotpink-500 hover:text-hotpink-600 font-medium">
-            Apply to get listed
-          </Link>
-        </p>
-      </div>
-    );
-  }
+  const featuredInstructors = filtered.filter((i) => i.featured);
+  const verifiedInstructors = filtered.filter((i) => (i.verified || i.hasUser) && !i.featured);
+  const otherInstructors = filtered.filter((i) => !i.verified && !i.hasUser && !i.featured);
+  const showFullDirectory = hasAccess;
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -258,14 +236,66 @@ export default function InstructorsPage() {
         </div>
       ) : (
         <>
-          <p className="text-sm text-slate-500 mb-4">
-            {filtered.length} instructor{filtered.length !== 1 ? "s" : ""} found
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {filtered.map((instructor) => (
-              <InstructorCard key={instructor.id} instructor={instructor} />
-            ))}
-          </div>
+          {/* Featured - visible to everyone */}
+          {featuredInstructors.length > 0 && (
+            <div className="mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {featuredInstructors.map((instructor) => (
+                  <InstructorCard key={instructor.id} instructor={instructor} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Verified - visible to everyone */}
+          {verifiedInstructors.length > 0 && (
+            <div className="mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {verifiedInstructors.map((instructor) => (
+                  <InstructorCard key={instructor.id} instructor={instructor} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Unverified - subscribers only, blurred preview for others */}
+          {otherInstructors.length > 0 && !showFullDirectory && (
+            <div className="relative mt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-30 blur-[3px] pointer-events-none select-none" aria-hidden="true">
+                {otherInstructors.slice(0, 4).map((instructor) => (
+                  <InstructorCard key={instructor.id} instructor={instructor} />
+                ))}
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-6 text-center max-w-sm mx-4">
+                  <Lock className="w-8 h-8 text-purple-400 mx-auto mb-3" />
+                  <h3 className="font-bold text-slate-800 mb-1">
+                    {otherInstructors.length}+ more instructor{otherInstructors.length !== 1 ? "s" : ""}
+                  </h3>
+                  <p className="text-sm text-slate-500 mb-4">
+                    Subscribe to browse the full directory
+                  </p>
+                  <Link
+                    href="/signup"
+                    className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-hotpink-600 transition text-sm"
+                  >
+                    Get Started <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Full unverified list for subscribers */}
+          {otherInstructors.length > 0 && showFullDirectory && (
+            <div className="mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {otherInstructors.map((instructor) => (
+                  <InstructorCard key={instructor.id} instructor={instructor} />
+                ))}
+              </div>
+            </div>
+          )}
         </>
       )}
 
