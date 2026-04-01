@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Menu, X, User, LogOut, Settings, LayoutDashboard, ChevronDown, CalendarDays, Briefcase, GraduationCap } from "lucide-react";
+import { Menu, X, User, LogOut, Settings, LayoutDashboard, ChevronDown, CalendarDays, GraduationCap } from "lucide-react";
 
 export default function Header() {
-  const { user, userProfile, signOut, isAdmin, isContributor, isOrganizer } = useAuth();
+  const { user, userProfile, signOut, isAdmin, isOrganizer } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
@@ -93,16 +93,6 @@ export default function Header() {
                       >
                         <GraduationCap className="w-4 h-4" />
                         Organizer Dashboard
-                      </Link>
-                    )}
-                    {isContributor && (
-                      <Link
-                        href="/contributor-panel"
-                        onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-charcoal hover:bg-hotpink-50"
-                      >
-                        <Briefcase className="w-4 h-4" />
-                        Contributor Panel
                       </Link>
                     )}
                     {isAdmin && (
@@ -217,15 +207,6 @@ export default function Header() {
                 >
                   Account Settings
                 </Link>
-                {isContributor && (
-                  <Link
-                    href="/contributor-panel"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg font-medium"
-                  >
-                    Contributor Panel
-                  </Link>
-                )}
                 <button
                   onClick={() => {
                     signOut();

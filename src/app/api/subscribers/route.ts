@@ -58,18 +58,21 @@ export async function GET(req: Request) {
           monthlyRevenue += amount;
         }
 
-        // Try to get home city from Firestore
+        // Try to get home city and display name from Firestore
         let homeCity = "";
+        let firestoreName = "";
         const customerId = typeof customer === "object" ? (customer as { id?: string }).id : customer;
         if (customerId) {
           const usersSnap = await db.collection("users").where("stripeCustomerId", "==", customerId).limit(1).get();
           if (!usersSnap.empty) {
-            homeCity = usersSnap.docs[0].data().homeCity || "";
+            const userData = usersSnap.docs[0].data();
+            homeCity = userData.homeCity || "";
+            firestoreName = userData.displayName || "";
           }
         }
 
         subscribers.push({
-          name: name || email?.split("@")[0] || "Unknown",
+          name: name || firestoreName || email?.split("@")[0] || "Unknown",
           email,
           plan: isAnnual ? "annual" : "monthly",
           price: amount,

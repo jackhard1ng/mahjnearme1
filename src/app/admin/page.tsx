@@ -77,7 +77,7 @@ async function adminFetch(route: string, method: string = "GET", body?: unknown)
 
 export default function AdminDashboardPage() {
   const [games] = useState(mockGames);
-  const [activeTab, setActiveTab] = useState<"overview" | "subscribers" | "contributors" | "referrals" | "giveaways" | "organizers" | "approvals" | "notifications">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "subscribers" | "referrals" | "giveaways" | "organizers" | "approvals" | "notifications">("overview");
   const [analytics, setAnalytics] = useState<{
     totalViews: number;
     todayViews: number;
@@ -141,7 +141,7 @@ export default function AdminDashboardPage() {
   }, []);
 
   useEffect(() => {
-    if (activeTab === "contributors") fetchContributors();
+    // Contributors tab removed - replaced by organizer referrals
     if (activeTab === "referrals") fetchReferrals();
     if (activeTab === "giveaways") fetchGiveaway();
   }, [activeTab, fetchContributors, fetchReferrals, fetchGiveaway]);
@@ -230,7 +230,6 @@ export default function AdminDashboardPage() {
   const tabs = [
     { id: "overview" as const, label: "Overview" },
     { id: "subscribers" as const, label: "Subscribers" },
-    { id: "contributors" as const, label: "Contributors" },
     { id: "referrals" as const, label: "Referrals" },
     { id: "giveaways" as const, label: "Giveaways" },
     { id: "organizers" as const, label: "Organizers" },
@@ -395,8 +394,8 @@ export default function AdminDashboardPage() {
       {/* Subscribers Tab */}
       {activeTab === "subscribers" && <AdminSubscribersPanel />}
 
-      {/* Contributors Tab */}
-      {activeTab === "contributors" && (
+      {/* Contributors Tab (deprecated - replaced by organizer referrals) */}
+      {false && (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="font-semibold text-lg text-charcoal flex items-center gap-2">
