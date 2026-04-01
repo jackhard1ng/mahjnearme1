@@ -251,8 +251,8 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
 
   return (
     <div className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-purple-300 hover:shadow-sm transition">
-      {/* Card content */}
-      <div className="p-4">
+      {/* Card content - clickable to profile */}
+      <Link href={`/organizer/${instructor.slug}`} className="block p-4">
         <div className="flex gap-3">
           {/* Avatar / placeholder */}
           <div className="flex-shrink-0">
@@ -321,17 +321,11 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
             <Users className="w-3 h-3" /> {instructor.listingCount} event{instructor.listingCount !== 1 ? "s" : ""} listed
           </p>
         )}
-      </div>
+      </Link>
 
       {/* Action footer */}
       <div className="border-t border-slate-100 px-4 py-2.5 bg-slate-50 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link
-            href={`/organizer/${instructor.slug}`}
-            className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium flex items-center gap-1"
-          >
-            View Profile <ExternalLink className="w-3 h-3" />
-          </Link>
+        <div>
           {!instructor.hasUser && (
             <Link
               href="/for-organizers"
