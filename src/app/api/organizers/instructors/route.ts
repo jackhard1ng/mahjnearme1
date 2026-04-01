@@ -28,6 +28,7 @@ export async function GET() {
         cities: data.cities || [],
         states: data.states || [],
         featured: data.featured || false,
+        listingCount: data.listingCount || 0,
         instructorDetails: data.instructorDetails || null,
       };
     });
