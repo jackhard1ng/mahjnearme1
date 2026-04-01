@@ -28,37 +28,65 @@ async function getOrganizerBySlug(slug: string) {
   const normalized = toSlug(slug);
   const lowered = slug.toLowerCase();
 
-  // 1. Try normalized slug
-  const snap1 = await db.collection("organizers").where("slug", "==", normalized).limit(1).get();
-  if (!snap1.empty) return { id: snap1.docs[0].id, ...snap1.docs[0].data() } as Record<string, unknown> & { id: string };
+  // Try multiple lookup strategies
+  const queries = [
+    // 1. Exact slug
+    () => db.collection("organizers").where("slug", "==", normalized).limit(1).get(),
+    // 2. Lowercased slug
+    () => db.collection("organizers").where("slug", "==", lowered).limit(1).get(),
+    // 3. Original slug as-is
+    () => db.collection("organizers").where("slug", "==", slug).limit(1).get(),
+    // 4. nameKey with spaces
+    () => db.collection("organizers").where("nameKey", "==", slug.replace(/-/g, " ").toLowerCase().trim()).limit(1).get(),
+    // 5. nameKey with dashes
+    () => db.collection("organizers").where("nameKey", "==", normalized).limit(1).get(),
+  ];
 
-  // 2. Try lowercased original (handles /organizer/Mahj918 -> mahj918)
-  if (lowered !== normalized) {
-    const snap1b = await db.collection("organizers").where("slug", "==", lowered).limit(1).get();
-    if (!snap1b.empty) return { id: snap1b.docs[0].id, ...snap1b.docs[0].data() } as Record<string, unknown> & { id: string };
+  for (const query of queries) {
+    try {
+      const snap = await query();
+      if (!snap.empty) return { id: snap.docs[0].id, ...snap.docs[0].data() } as Record<string, unknown> & { id: string };
+    } catch { /* continue */ }
   }
 
-  // 3. Try nameKey (space-separated version)
-  const nameKeyVersion = slug.replace(/-/g, " ").toLowerCase().trim();
-  const snap2 = await db.collection("organizers").where("nameKey", "==", nameKeyVersion).limit(1).get();
-  if (!snap2.empty) return { id: snap2.docs[0].id, ...snap2.docs[0].data() } as Record<string, unknown> & { id: string };
-
-  // 4. Try nameKey with dashes
-  const snap3 = await db.collection("organizers").where("nameKey", "==", normalized).limit(1).get();
-  if (!snap3.empty) return { id: snap3.docs[0].id, ...snap3.docs[0].data() } as Record<string, unknown> & { id: string };
-
-  // 5. Try by Instagram handle (e.g. /organizer/mahj918 matches @mahj.918 or @mahj918)
-  const igVariants = [normalized, normalized.replace(/-/g, "."), `@${normalized}`, `@${normalized.replace(/-/g, ".")}`];
+  // 6. Try Instagram handle variants
+  const igVariants = new Set([
+    normalized,
+    lowered,
+    normalized.replace(/-/g, "."),
+    lowered.replace(/-/g, "."),
+    `@${normalized}`,
+    `@${lowered}`,
+    `@${normalized.replace(/-/g, ".")}`,
+    `@${lowered.replace(/-/g, ".")}`,
+  ]);
   for (const ig of igVariants) {
-    const snapIg = await db.collection("organizers").where("instagram", "==", ig).limit(1).get();
-    if (!snapIg.empty) return { id: snapIg.docs[0].id, ...snapIg.docs[0].data() } as Record<string, unknown> & { id: string };
+    try {
+      const snap = await db.collection("organizers").where("instagram", "==", ig).limit(1).get();
+      if (!snap.empty) return { id: snap.docs[0].id, ...snap.docs[0].data() } as Record<string, unknown> & { id: string };
+    } catch { /* continue */ }
   }
 
-  // 6. Try by organizer ID directly (in case slug IS the doc ID)
+  // 7. Try by Firestore document ID
   try {
     const docSnap = await db.collection("organizers").doc(slug).get();
     if (docSnap.exists) return { id: docSnap.id, ...docSnap.data() } as Record<string, unknown> & { id: string };
   } catch { /* not a valid doc ID */ }
+
+  // 8. Try organizerName match (last resort)
+  try {
+    const nameToMatch = slug.replace(/-/g, " ").toLowerCase().trim();
+    const allSnap = await db.collection("organizers").get();
+    for (const doc of allSnap.docs) {
+      const data = doc.data();
+      const orgName = ((data.organizerName as string) || "").toLowerCase();
+      const orgSlug = ((data.slug as string) || "").toLowerCase();
+      const orgNameKey = ((data.nameKey as string) || "").toLowerCase();
+      if (orgName.includes(nameToMatch) || orgSlug.includes(normalized) || orgNameKey.includes(normalized)) {
+        return { id: doc.id, ...data } as Record<string, unknown> & { id: string };
+      }
+    }
+  } catch { /* continue */ }
 
   return null;
 }
