@@ -125,9 +125,43 @@ export async function PUT(request: NextRequest) {
     }
 
     const now = new Date().toISOString();
+    const orgData = doc.data()!;
     await docRef.update({ ...updates, lastUpdated: now });
 
-    return NextResponse.json({ success: true });
+    // Propagate contact/name changes to all linked listings
+    const listingIds = (orgData.listingIds as string[]) || [];
+    if (listingIds.length > 0) {
+      const listingUpdates: Record<string, unknown> = { updatedAt: now };
+      if (updates.organizerName) {
+        listingUpdates.organizerName = updates.organizerName;
+        listingUpdates.contactName = updates.organizerName;
+      }
+      if (updates.contactEmail) listingUpdates.contactEmail = updates.contactEmail;
+      if (updates.website) listingUpdates.website = updates.website;
+      if (updates.instagram) listingUpdates.instagram = updates.instagram;
+      if (updates.facebookGroup) listingUpdates.facebookGroup = updates.facebookGroup;
+
+      // Only propagate if there are actual listing field changes
+      if (Object.keys(listingUpdates).length > 1) {
+        const BATCH_SIZE = 450;
+        for (let i = 0; i < listingIds.length; i += BATCH_SIZE) {
+          const chunk = listingIds.slice(i, i + BATCH_SIZE);
+          const batch = db.batch();
+          for (const lid of chunk) {
+            batch.update(db.collection("listings").doc(lid), listingUpdates);
+          }
+          await batch.commit();
+        }
+      }
+    }
+
+    // Clear listings cache so changes appear immediately
+    try {
+      const { clearListingsCache } = await import("@/lib/listings-firestore");
+      clearListingsCache();
+    } catch { /* ok */ }
+
+    return NextResponse.json({ success: true, listingsUpdated: listingIds.length });
   } catch (err) {
     console.error("Organizers PUT error:", err);
     return NextResponse.json({ error: "Failed to update organizer" }, { status: 500 });
