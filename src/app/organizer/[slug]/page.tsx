@@ -187,6 +187,7 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
   const photoURL = organizer.photoURL as string | null;
   const photos = (organizer.photos as string[]) || [];
   const featured = organizer.featured as boolean;
+  const verified = (organizer.verified as boolean) || !!(organizer.userId);
   const isInstructor = organizer.isInstructor as boolean;
   const instructorDetails = organizer.instructorDetails as {
     teachingStyles?: string[];
@@ -247,7 +248,13 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* Profile Header */}
-      <div className="bg-white border border-slate-200 rounded-xl p-6 mb-6">
+      <div className={`rounded-xl p-6 mb-6 ${featured ? "bg-amber-50/50 border-2 border-amber-200" : "bg-white border border-slate-200"}`}>
+        {featured && (
+          <div className="flex items-center gap-1.5 mb-4 -mt-1">
+            <Star className="w-4 h-4 fill-amber-500 text-amber-500" />
+            <span className="text-amber-700 text-sm font-bold">Featured on MahjNearMe</span>
+          </div>
+        )}
         <div className="flex flex-col md:flex-row gap-6">
           {photoURL ? (
             <div className="flex-shrink-0">
@@ -265,9 +272,10 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
               {personalName && personalName !== name && (
                 <span className="text-slate-500 text-sm font-normal">by {personalName}</span>
               )}
-              {featured && (
-                <span className="bg-amber-100 text-amber-700 text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
-                  <Star className="w-3 h-3 fill-amber-500" /> Featured
+              {verified && !featured && (
+                <span className="bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                  Verified
                 </span>
               )}
               {isInstructor && (

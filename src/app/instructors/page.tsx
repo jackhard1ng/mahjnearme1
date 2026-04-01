@@ -29,6 +29,7 @@ interface Instructor {
   cities: string[];
   states: string[];
   featured: boolean;
+  verified: boolean;
   listingCount: number;
   hasUser: boolean;
   instructorDetails: {
@@ -249,23 +250,44 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
 
   const hasContact = instructor.website || instructor.contactEmail || instructor.instagram;
 
+  // Three tiers: featured (paid), verified (free with account), unverified (listed by admin)
+  const isFeatured = instructor.featured;
+  const isVerified = instructor.hasUser || instructor.verified;
+  const borderClass = isFeatured
+    ? "border-amber-300 bg-amber-50/30"
+    : isVerified
+    ? "border-slate-200 bg-white"
+    : "border-slate-100 bg-slate-50/50";
+
   return (
-    <div className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-purple-300 hover:shadow-sm transition">
+    <div className={`border rounded-xl overflow-hidden hover:shadow-sm transition ${borderClass}`}>
+      {/* Featured banner */}
+      {isFeatured && (
+        <div className="bg-gradient-to-r from-amber-400 to-amber-500 px-4 py-1 flex items-center gap-1.5">
+          <Star className="w-3 h-3 fill-white text-white" />
+          <span className="text-white text-xs font-bold">Featured Instructor</span>
+        </div>
+      )}
       {/* Card content - clickable to profile */}
       <Link href={`/organizer/${instructor.slug}`} className="block p-4">
         <div className="flex gap-3">
           {/* Avatar / placeholder */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 relative">
             {instructor.photoURL ? (
               /* eslint-disable-next-line @next/next/no-img-element */
               <img
                 src={instructor.photoURL}
                 alt={instructor.organizerName}
-                className="w-14 h-14 rounded-full object-cover border-2 border-purple-100"
+                className={`w-14 h-14 rounded-full object-cover border-2 ${isFeatured ? "border-amber-300" : "border-purple-100"}`}
               />
             ) : (
-              <div className="w-14 h-14 rounded-full bg-purple-100 flex items-center justify-center">
-                <GraduationCap className="w-6 h-6 text-purple-400" />
+              <div className={`w-14 h-14 rounded-full flex items-center justify-center ${isFeatured ? "bg-amber-100" : "bg-purple-100"}`}>
+                <GraduationCap className={`w-6 h-6 ${isFeatured ? "text-amber-500" : "text-purple-400"}`} />
+              </div>
+            )}
+            {isVerified && !isFeatured && (
+              <div className="absolute -bottom-0.5 -right-0.5 bg-green-500 rounded-full p-0.5" title="Verified account">
+                <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
               </div>
             )}
           </div>
@@ -274,9 +296,9 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
               <h3 className="font-bold text-slate-800">{instructor.organizerName}</h3>
-              {instructor.featured && (
-                <span className="bg-amber-100 text-amber-700 text-[10px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-0.5">
-                  <Star className="w-2.5 h-2.5 fill-amber-500" /> Featured
+              {isVerified && !isFeatured && (
+                <span className="text-green-600 text-[10px] font-semibold flex items-center gap-0.5">
+                  Verified
                 </span>
               )}
             </div>

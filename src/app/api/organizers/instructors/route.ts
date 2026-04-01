@@ -28,6 +28,7 @@ export async function GET() {
         cities: data.cities || [],
         states: data.states || [],
         featured: data.featured || false,
+        verified: data.verified || false,
         listingCount: data.listingCount || 0,
         hasUser: !!data.userId,
         instructorDetails: data.instructorDetails || null,
