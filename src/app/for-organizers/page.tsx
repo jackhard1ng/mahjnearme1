@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import {
@@ -21,8 +21,18 @@ import {
 type ApplyRole = "organizer" | "instructor" | "both" | null;
 
 export default function ForOrganizersPage() {
-  const { user, userProfile, isOrganizer } = useAuth();
+  const { user, userProfile, isOrganizer, loading: authLoading } = useAuth();
   const [selectedRole, setSelectedRole] = useState<ApplyRole>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to form when role is selected
+  useEffect(() => {
+    if (selectedRole && formRef.current) {
+      setTimeout(() => {
+        formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }, [selectedRole]);
 
   if (isOrganizer) {
     return (
@@ -170,25 +180,31 @@ export default function ForOrganizersPage() {
 
       {/* Apply form */}
       {selectedRole && (
-        user && userProfile ? (
-          <ApplyForm
-            userId={user.uid}
-            userEmail={userProfile.email}
-            userName={userProfile.displayName}
-            role={selectedRole}
-            onClose={() => setSelectedRole(null)}
-          />
-        ) : (
-          <div className="bg-white border-2 border-softpink-200 rounded-xl p-6 mb-8 text-center">
-            <p className="text-slate-600 mb-4">Sign in to submit your application.</p>
-            <Link
-              href="/login?redirect=/for-organizers"
-              className="inline-flex items-center gap-2 bg-softpink-500 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-softpink-600 transition"
-            >
-              Sign In to Apply <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        )
+        <div ref={formRef}>
+          {authLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="w-6 h-6 animate-spin text-softpink-500" />
+            </div>
+          ) : user && userProfile ? (
+            <ApplyForm
+              userId={user.uid}
+              userEmail={userProfile.email}
+              userName={userProfile.displayName}
+              role={selectedRole}
+              onClose={() => setSelectedRole(null)}
+            />
+          ) : (
+            <div className="bg-white border-2 border-softpink-200 rounded-xl p-6 mb-8 text-center">
+              <p className="text-slate-600 mb-4">Sign in to submit your application.</p>
+              <Link
+                href="/login?redirect=/for-organizers"
+                className="inline-flex items-center gap-2 bg-softpink-500 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-softpink-600 transition"
+              >
+                Sign In to Apply <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          )}
+        </div>
       )}
 
       {/* Find instructors link */}
