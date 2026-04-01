@@ -37,66 +37,42 @@ async function getOrganizerBySlug(slug: string) {
   const db = getAdminDb();
   const normalized = toSlug(slug);
   const lowered = slug.toLowerCase();
+  const withSpaces = slug.replace(/-/g, " ").toLowerCase().trim();
+  const stripped = lowered.replace(/[^a-z0-9]/g, "");
 
-  // Try multiple lookup strategies
-  const queries = [
-    // 1. Exact slug
-    () => db.collection("organizers").where("slug", "==", normalized).limit(1).get(),
-    // 2. Lowercased slug
-    () => db.collection("organizers").where("slug", "==", lowered).limit(1).get(),
-    // 3. Original slug as-is
-    () => db.collection("organizers").where("slug", "==", slug).limit(1).get(),
-    // 4. nameKey with spaces
-    () => db.collection("organizers").where("nameKey", "==", slug.replace(/-/g, " ").toLowerCase().trim()).limit(1).get(),
-    // 5. nameKey with dashes
-    () => db.collection("organizers").where("nameKey", "==", normalized).limit(1).get(),
-  ];
+  // Load all organizers once and match in code
+  // With ~1,750 docs this is fast and avoids index/query issues
+  const allSnap = await db.collection("organizers").get();
 
-  for (const query of queries) {
-    try {
-      const snap = await query();
-      if (!snap.empty) return { id: snap.docs[0].id, ...snap.docs[0].data() } as Record<string, unknown> & { id: string };
-    } catch { /* continue */ }
+  for (const doc of allSnap.docs) {
+    const data = doc.data();
+    const orgSlug = ((data.slug as string) || "").toLowerCase();
+    const orgNameKey = ((data.nameKey as string) || "").toLowerCase();
+    const orgName = ((data.organizerName as string) || "").toLowerCase();
+    const orgIg = ((data.instagram as string) || "").toLowerCase().replace("@", "");
+    const orgStripped = orgNameKey.replace(/[^a-z0-9]/g, "");
+
+    // Exact matches
+    if (orgSlug === normalized || orgSlug === lowered) return { id: doc.id, ...data } as Record<string, unknown> & { id: string };
+    if (orgNameKey === normalized || orgNameKey === lowered || orgNameKey === withSpaces) return { id: doc.id, ...data } as Record<string, unknown> & { id: string };
+    if (doc.id === slug) return { id: doc.id, ...data } as Record<string, unknown> & { id: string };
+
+    // Instagram match
+    if (orgIg && (orgIg === normalized || orgIg === lowered || orgIg === normalized.replace(/-/g, "."))) return { id: doc.id, ...data } as Record<string, unknown> & { id: string };
+
+    // Stripped alphanumeric match (handles spaces vs no spaces vs dashes)
+    if (stripped && orgStripped && stripped === orgStripped) return { id: doc.id, ...data } as Record<string, unknown> & { id: string };
   }
 
-  // 6. Try Instagram handle variants
-  const igVariants = new Set([
-    normalized,
-    lowered,
-    normalized.replace(/-/g, "."),
-    lowered.replace(/-/g, "."),
-    `@${normalized}`,
-    `@${lowered}`,
-    `@${normalized.replace(/-/g, ".")}`,
-    `@${lowered.replace(/-/g, ".")}`,
-  ]);
-  for (const ig of igVariants) {
-    try {
-      const snap = await db.collection("organizers").where("instagram", "==", ig).limit(1).get();
-      if (!snap.empty) return { id: snap.docs[0].id, ...snap.docs[0].data() } as Record<string, unknown> & { id: string };
-    } catch { /* continue */ }
-  }
-
-  // 7. Try by Firestore document ID
-  try {
-    const docSnap = await db.collection("organizers").doc(slug).get();
-    if (docSnap.exists) return { id: docSnap.id, ...docSnap.data() } as Record<string, unknown> & { id: string };
-  } catch { /* not a valid doc ID */ }
-
-  // 8. Try organizerName match (last resort)
-  try {
-    const nameToMatch = slug.replace(/-/g, " ").toLowerCase().trim();
-    const allSnap = await db.collection("organizers").get();
-    for (const doc of allSnap.docs) {
-      const data = doc.data();
-      const orgName = ((data.organizerName as string) || "").toLowerCase();
-      const orgSlug = ((data.slug as string) || "").toLowerCase();
-      const orgNameKey = ((data.nameKey as string) || "").toLowerCase();
-      if (orgName.includes(nameToMatch) || orgSlug.includes(normalized) || orgNameKey.includes(normalized)) {
-        return { id: doc.id, ...data } as Record<string, unknown> & { id: string };
-      }
+  // Fuzzy: partial name match
+  for (const doc of allSnap.docs) {
+    const data = doc.data();
+    const orgName = ((data.organizerName as string) || "").toLowerCase();
+    const orgNameKey = ((data.nameKey as string) || "").toLowerCase();
+    if (orgName.includes(withSpaces) || orgNameKey.includes(normalized)) {
+      return { id: doc.id, ...data } as Record<string, unknown> & { id: string };
     }
-  } catch { /* continue */ }
+  }
 
   return null;
 }

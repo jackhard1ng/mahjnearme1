@@ -153,6 +153,8 @@ export async function PUT(request: NextRequest) {
       const nameToMatch = (app.organizerName || "").toLowerCase().trim();
       const emailToMatch = (app.contactEmail || app.userEmail || "").toLowerCase().trim();
       const igToMatch = (app.instagram || "").toLowerCase().replace("@", "").trim();
+      const websiteToMatch = (app.website || "").toLowerCase().trim();
+      const orgNameSlug = nameToMatch.replace(/[^a-z0-9]+/g, "");
 
       // Search by email first (most reliable)
       if (emailToMatch) {
@@ -170,10 +172,26 @@ export async function PUT(request: NextRequest) {
         }
       }
 
+      // Then by website
+      if (!existingOrgId && websiteToMatch) {
+        const byWeb = await db.collection("organizers").where("website", "==", websiteToMatch).limit(1).get();
+        if (!byWeb.empty) existingOrgId = byWeb.docs[0].id;
+      }
+
       // Then by nameKey
       if (!existingOrgId && nameToMatch) {
         const byName = await db.collection("organizers").where("nameKey", "==", nameToMatch).limit(1).get();
         if (!byName.empty) existingOrgId = byName.docs[0].id;
+      }
+
+      // Then try slug-format of organizer name (e.g. "Modern Mahjong" -> "modernmahjong")
+      if (!existingOrgId && orgNameSlug) {
+        const bySlug = await db.collection("organizers").where("nameKey", "==", orgNameSlug).limit(1).get();
+        if (!bySlug.empty) existingOrgId = bySlug.docs[0].id;
+        if (!existingOrgId) {
+          const bySlug2 = await db.collection("organizers").where("slug", "==", orgNameSlug).limit(1).get();
+          if (!bySlug2.empty) existingOrgId = bySlug2.docs[0].id;
+        }
       }
 
       let organizerProfileId: string;
