@@ -92,13 +92,19 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get("status") || "pending";
 
+    // Simple query without composite index requirement
     const snap = await db
       .collection("organizerApplications")
-      .where("status", "==", status)
-      .orderBy("createdAt", "desc")
       .get();
 
-    const applications = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const applications = snap.docs
+      .map((doc) => ({ id: doc.id, ...doc.data() }))
+      .filter((app) => (app as Record<string, unknown>).status === status)
+      .sort((a, b) => {
+        const aTime = (a as Record<string, unknown>).createdAt as string || "";
+        const bTime = (b as Record<string, unknown>).createdAt as string || "";
+        return bTime.localeCompare(aTime);
+      });
 
     return NextResponse.json({ applications });
   } catch (err) {

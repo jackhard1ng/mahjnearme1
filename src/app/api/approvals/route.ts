@@ -16,20 +16,18 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get("type");
     const userId = searchParams.get("userId");
 
-    let query: FirebaseFirestore.Query = db
-      .collection("approvals")
-      .where("status", "==", status);
+    const snap = await db.collection("approvals").get();
+    let approvals = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Record<string, unknown>));
 
+    approvals = approvals.filter((a) => a.status === status);
     if (type) {
-      query = query.where("type", "==", type);
+      approvals = approvals.filter((a) => a.type === type);
     }
     if (userId) {
-      query = query.where("userId", "==", userId);
+      approvals = approvals.filter((a) => a.userId === userId);
     }
 
-    query = query.orderBy("createdAt", "desc");
-    const snap = await query.get();
-    const approvals = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    approvals.sort((a, b) => ((b.createdAt as string) || "").localeCompare((a.createdAt as string) || ""));
 
     return NextResponse.json({ approvals });
   } catch (err) {

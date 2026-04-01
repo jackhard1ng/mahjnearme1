@@ -15,18 +15,17 @@ export async function GET(request: NextRequest) {
     const userId = searchParams.get("userId");
     const status = searchParams.get("status");
 
-    let query: FirebaseFirestore.Query = db.collection("claims");
+    const snap = await db.collection("claims").get();
+    let claims = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Record<string, unknown>));
 
     if (userId) {
-      query = query.where("userId", "==", userId);
+      claims = claims.filter((c) => c.userId === userId);
     }
     if (status) {
-      query = query.where("status", "==", status);
+      claims = claims.filter((c) => c.status === status);
     }
 
-    query = query.orderBy("createdAt", "desc");
-    const snap = await query.get();
-    const claims = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    claims.sort((a, b) => ((b.createdAt as string) || "").localeCompare((a.createdAt as string) || ""));
 
     return NextResponse.json({ claims });
   } catch (err) {
