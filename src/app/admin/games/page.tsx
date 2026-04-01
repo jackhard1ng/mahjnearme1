@@ -5,6 +5,16 @@ import { mockGames } from "@/lib/mock-data";
 import { GAME_TYPE_LABELS, GAME_STYLE_LABELS, SKILL_LEVEL_LABELS, DAYS_OF_WEEK } from "@/lib/constants";
 import { getVerificationStatus, getGameTypeLabel, formatSchedule } from "@/lib/utils";
 import { GameType, GameStyle, SkillLevel, Game } from "@/types";
+
+// Helper to route admin API calls through the secure proxy
+async function adminFetch(route: string, method: string = "GET", body?: unknown): Promise<Response> {
+  return fetch("/api/admin-proxy", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ route, method, body }),
+  });
+}
+
 import {
   Plus,
   Upload,
@@ -242,6 +252,28 @@ export default function AdminGamesPage() {
             : g
         )
       );
+      // Save to Firestore
+      adminFetch("/api/listings", "PUT", {
+        id: editingGameId,
+        name: form.name,
+        organizerName: form.organizerName,
+        type: form.type,
+        gameStyle: form.gameStyle,
+        city: form.city,
+        state: form.state,
+        venueName: form.venueName,
+        address: form.address,
+        generalArea: form.generalArea,
+        geopoint,
+        cost: form.cost || "Contact for price",
+        contactEmail: form.contactEmail,
+        description: form.description,
+        skillLevels: form.skillLevels,
+        dropInFriendly: form.dropInFriendly,
+        setsProvided: form.setsProvided,
+        isRecurring: true,
+        recurringSchedule: { dayOfWeek: form.dayOfWeek, startTime: form.startTime, endTime: form.endTime, frequency: "weekly" },
+      }).catch(() => {});
       showToast(`"${form.name}" has been updated.`);
     } else {
       // Create new game
@@ -302,7 +334,9 @@ export default function AdminGamesPage() {
       };
 
       setGames((prev) => [newGame, ...prev]);
-      showToast(`"${form.name}" has been created.`);
+      // Save to Firestore
+      adminFetch("/api/listings", "POST", newGame).catch(() => {});
+      showToast(`"${form.name}" has been created and saved.`);
     }
 
     resetForm();
