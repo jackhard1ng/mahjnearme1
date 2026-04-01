@@ -247,22 +247,11 @@ export default function InstructorsPage() {
             </div>
           )}
 
-          {/* Verified - visible to everyone */}
-          {verifiedInstructors.length > 0 && (
-            <div className="mb-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {verifiedInstructors.map((instructor) => (
-                  <InstructorCard key={instructor.id} instructor={instructor} />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Unverified - subscribers only, blurred preview for others */}
-          {otherInstructors.length > 0 && !showFullDirectory && (
+          {/* Verified + Unverified - subscribers only, blurred preview for others */}
+          {!showFullDirectory && (verifiedInstructors.length > 0 || otherInstructors.length > 0) && (
             <div className="relative mt-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-30 blur-[3px] pointer-events-none select-none" aria-hidden="true">
-                {otherInstructors.slice(0, 4).map((instructor) => (
+                {[...verifiedInstructors, ...otherInstructors].slice(0, 4).map((instructor) => (
                   <InstructorCard key={instructor.id} instructor={instructor} />
                 ))}
               </div>
@@ -270,7 +259,7 @@ export default function InstructorsPage() {
                 <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-6 text-center max-w-sm mx-4">
                   <Lock className="w-8 h-8 text-purple-400 mx-auto mb-3" />
                   <h3 className="font-bold text-slate-800 mb-1">
-                    {otherInstructors.length}+ more instructor{otherInstructors.length !== 1 ? "s" : ""}
+                    {verifiedInstructors.length + otherInstructors.length}+ more instructor{verifiedInstructors.length + otherInstructors.length !== 1 ? "s" : ""}
                   </h3>
                   <p className="text-sm text-slate-500 mb-4">
                     Subscribe to browse the full directory
@@ -286,11 +275,11 @@ export default function InstructorsPage() {
             </div>
           )}
 
-          {/* Full unverified list for subscribers */}
-          {otherInstructors.length > 0 && showFullDirectory && (
+          {/* Full directory for subscribers (verified + unverified) */}
+          {showFullDirectory && (verifiedInstructors.length > 0 || otherInstructors.length > 0) && (
             <div className="mb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {otherInstructors.map((instructor) => (
+                {[...verifiedInstructors, ...otherInstructors].map((instructor) => (
                   <InstructorCard key={instructor.id} instructor={instructor} />
                 ))}
               </div>

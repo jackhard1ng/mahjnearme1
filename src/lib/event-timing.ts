@@ -387,10 +387,10 @@ export function computePriorityScore(
     if (game.registrationLink) richness += 1;
     if (game.instagram) richness += 0.5;
     if (game.eventDate && !game.isRecurring) richness += 1; // one-time events with specific dates
-    // Featured/promoted organizer boost (significant, pushes them up in results)
-    if (game.promoted) richness += 8;
+    // Featured/promoted organizer boost (strong, pushes them clearly above others)
+    if (game.promoted) richness += 15;
     // Verified organizer gets a smaller boost
-    if (game.verified) richness += 2;
+    if (game.verified) richness += 3;
     // Apply bonus
     score -= richness;
   }
