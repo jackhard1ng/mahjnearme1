@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { notifyAdmin } from "@/lib/admin-notify";
 
 /**
  * API for organizers to manage their own listings.
@@ -126,6 +127,11 @@ export async function PUT(request: NextRequest) {
           updatedAt: now,
         });
 
+      notifyAdmin(
+        `[Live Edit] ${profile.user.displayName || profile.user.email} edited a listing`,
+        `Organizer: ${(org.organizerName as string) || "Unknown"}\nListing: ${listingId}\nChanges: ${JSON.stringify(updates, null, 2)}\n\nThis edit went live instantly (subscribed organizer).`
+      ).catch(() => {});
+
       return NextResponse.json({ success: true, instant: true });
     } else {
       // Free organizer: goes to approval queue
@@ -155,6 +161,11 @@ export async function PUT(request: NextRequest) {
       };
 
       await db.collection("approvals").add(approvalData);
+
+      notifyAdmin(
+        `[Pending Edit] ${profile.user.displayName || profile.user.email} wants to edit a listing`,
+        `Organizer: ${(org.organizerName as string) || "Unknown"}\nListing: ${listingId}\nChanges: ${JSON.stringify(updates, null, 2)}\n\nNeeds your approval in the admin panel.`
+      ).catch(() => {});
 
       return NextResponse.json({ success: true, instant: false, pending: true });
     }
@@ -214,6 +225,11 @@ export async function POST(request: NextRequest) {
         updatedAt: now,
       });
 
+      notifyAdmin(
+        `[New Event Live] ${profile.user.displayName || profile.user.email} added a new event`,
+        `Organizer: ${(org.organizerName as string) || "Unknown"}\nEvent: ${listing.name || "Untitled"}\nCity: ${listing.city || ""}, ${listing.state || ""}\n\nThis event is live now (subscribed organizer).`
+      ).catch(() => {});
+
       return NextResponse.json({ success: true, instant: true, listingId: ref.id });
     } else {
       // Free: goes to approval queue
@@ -234,6 +250,11 @@ export async function POST(request: NextRequest) {
       };
 
       await db.collection("approvals").add(approvalData);
+
+      notifyAdmin(
+        `[New Event Pending] ${profile.user.displayName || profile.user.email} submitted a new event`,
+        `Organizer: ${(org.organizerName as string) || "Unknown"}\nEvent: ${listing.name || "Untitled"}\nCity: ${listing.city || ""}, ${listing.state || ""}\n\nNeeds your approval in the admin panel.`
+      ).catch(() => {});
 
       return NextResponse.json({ success: true, instant: false, pending: true });
     }

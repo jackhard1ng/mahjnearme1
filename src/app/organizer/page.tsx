@@ -63,6 +63,7 @@ export default function OrganizerDashboardPage() {
   const [editingListing, setEditingListing] = useState<Game | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState("");
+  const [duplicateSource, setDuplicateSource] = useState<Game | null>(null);
 
   const fetchData = useCallback(async () => {
     if (!user) return;
@@ -221,6 +222,10 @@ export default function OrganizerDashboardPage() {
           saveMessage={saveMessage}
           setSaveMessage={setSaveMessage}
           onRefresh={fetchData}
+          onDuplicate={(game) => {
+            setDuplicateSource(game);
+            setActiveTab("add");
+          }}
         />
       )}
       {activeTab === "claim" && organizer && (
@@ -238,7 +243,8 @@ export default function OrganizerDashboardPage() {
           userId={user.uid}
           organizer={organizer}
           isSubscribed={isSubscribedOrganizer}
-          onSuccess={fetchData}
+          onSuccess={() => { fetchData(); setDuplicateSource(null); }}
+          duplicateFrom={duplicateSource}
         />
       )}
       {activeTab === "profile" && organizer && (
@@ -264,6 +270,7 @@ function ListingsTab({
   saveMessage,
   setSaveMessage,
   onRefresh,
+  onDuplicate,
 }: {
   listings: Game[];
   editingListing: Game | null;
@@ -275,6 +282,7 @@ function ListingsTab({
   saveMessage: string;
   setSaveMessage: (s: string) => void;
   onRefresh: () => void;
+  onDuplicate: (game: Game) => void;
 }) {
   const [editForm, setEditForm] = useState<Record<string, string>>({});
 
@@ -431,13 +439,22 @@ function ListingsTab({
                   )}
                 </div>
               </div>
-              <button
-                onClick={() => startEdit(game)}
-                className="text-hotpink-500 hover:text-hotpink-600 p-1"
-                title="Edit listing"
-              >
-                <Edit3 className="w-4 h-4" />
-              </button>
+              <div className="flex gap-1">
+                <button
+                  onClick={() => startEdit(game)}
+                  className="text-hotpink-500 hover:text-hotpink-600 p-1"
+                  title="Edit listing"
+                >
+                  <Edit3 className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => onDuplicate(game)}
+                  className="text-skyblue-500 hover:text-skyblue-600 p-1"
+                  title="Duplicate as new event"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -467,31 +484,33 @@ function AddListingTab({
   organizer,
   isSubscribed,
   onSuccess,
+  duplicateFrom,
 }: {
   userId: string;
   organizer: OrganizerData | null;
   isSubscribed: boolean;
   onSuccess: () => void;
+  duplicateFrom: Game | null;
 }) {
   const [form, setForm] = useState({
-    name: "",
-    type: "open_play",
-    gameStyle: "american",
-    venueName: "",
-    address: "",
-    city: "",
-    state: "",
-    dayOfWeek: "",
-    startTime: "",
-    endTime: "",
-    frequency: "weekly",
-    cost: "",
-    description: "",
-    skillLevels: "beginner|intermediate",
-    dropInFriendly: true,
-    contactEmail: organizer?.contactEmail || "",
-    website: organizer?.website || "",
-    instagram: organizer?.instagram || "",
+    name: duplicateFrom?.name ? `${duplicateFrom.name} (copy)` : "",
+    type: duplicateFrom?.type || "open_play",
+    gameStyle: duplicateFrom?.gameStyle || "american",
+    venueName: duplicateFrom?.venueName || "",
+    address: duplicateFrom?.address || "",
+    city: duplicateFrom?.city || "",
+    state: duplicateFrom?.state || "",
+    dayOfWeek: duplicateFrom?.recurringSchedule?.dayOfWeek || "",
+    startTime: duplicateFrom?.recurringSchedule?.startTime || "",
+    endTime: duplicateFrom?.recurringSchedule?.endTime || "",
+    frequency: duplicateFrom?.recurringSchedule?.frequency || "weekly",
+    cost: duplicateFrom?.cost || "",
+    description: duplicateFrom?.description || "",
+    skillLevels: duplicateFrom?.skillLevels?.join("|") || "beginner|intermediate",
+    dropInFriendly: duplicateFrom?.dropInFriendly ?? true,
+    contactEmail: duplicateFrom?.contactEmail || organizer?.contactEmail || "",
+    website: duplicateFrom?.website || organizer?.website || "",
+    instagram: duplicateFrom?.instagram || organizer?.instagram || "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
@@ -577,7 +596,14 @@ function AddListingTab({
 
   return (
     <div className="max-w-2xl">
-      <h2 className="text-lg font-semibold text-slate-800 mb-4">Add New Event</h2>
+      <h2 className="text-lg font-semibold text-slate-800 mb-2">
+        {duplicateFrom ? "Duplicate Event" : "Add New Event"}
+      </h2>
+      {duplicateFrom && (
+        <p className="text-sm text-skyblue-600 mb-4">
+          Based on &quot;{duplicateFrom.name}&quot;. Edit the details below and submit.
+        </p>
+      )}
 
       {message && (
         <div className={`p-3 rounded-lg text-sm mb-4 ${message.includes("Failed") || message.includes("wrong") ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>

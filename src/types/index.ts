@@ -274,6 +274,7 @@ export interface Organizer {
   id: string;
   nameKey: string;
   organizerName: string;
+  personalName: string;
   slug: string;
   bio: string;
   contactEmail: string;

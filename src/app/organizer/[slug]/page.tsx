@@ -140,6 +140,7 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
   }
 
   const name = organizer.organizerName as string;
+  const personalName = organizer.personalName as string;
   const bio = organizer.bio as string;
   const email = organizer.contactEmail as string;
   const website = organizer.website as string;
@@ -189,6 +190,9 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2 flex-wrap">
               <h1 className="text-2xl sm:text-3xl font-bold text-slate-800">{name}</h1>
+              {personalName && personalName !== name && (
+                <span className="text-slate-500 text-sm font-normal">by {personalName}</span>
+              )}
               {featured && (
                 <span className="bg-amber-100 text-amber-700 text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
                   <Star className="w-3 h-3 fill-amber-500" /> Featured

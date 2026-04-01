@@ -923,6 +923,7 @@ function AdminOrganizersPanel() {
     setEditing(org.id as string);
     setEditData({
       organizerName: (org.organizerName as string) || "",
+      personalName: (org.personalName as string) || "",
       slug: (org.slug as string) || "",
       contactEmail: (org.contactEmail as string) || "",
       website: (org.website as string) || "",
@@ -943,6 +944,7 @@ function AdminOrganizersPanel() {
       const payload: Record<string, unknown> = {
         id: editing,
         organizerName: editData.organizerName,
+        personalName: editData.personalName,
         slug: editData.slug,
         contactEmail: editData.contactEmail,
         website: editData.website,
@@ -1136,7 +1138,8 @@ function AdminOrganizersPanel() {
               {editing === org.id ? (
                 <div className="space-y-2">
                   <div className="grid grid-cols-2 gap-2">
-                    <input value={editData.organizerName} onChange={(e) => setEditData({ ...editData, organizerName: e.target.value })} placeholder="Name" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
+                    <input value={editData.organizerName} onChange={(e) => setEditData({ ...editData, organizerName: e.target.value })} placeholder="Company/Brand Name" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
+                    <input value={editData.personalName} onChange={(e) => setEditData({ ...editData, personalName: e.target.value })} placeholder="Personal Name(s)" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
                     <input value={editData.slug} onChange={(e) => setEditData({ ...editData, slug: e.target.value })} placeholder="Slug (URL)" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
                     <input value={editData.contactEmail} onChange={(e) => setEditData({ ...editData, contactEmail: e.target.value })} placeholder="Email" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
                     <input value={editData.website} onChange={(e) => setEditData({ ...editData, website: e.target.value })} placeholder="Website" className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm" />
@@ -1205,6 +1208,7 @@ function AdminOrganizersPanel() {
                     <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <p className="font-semibold text-charcoal">{org.organizerName as string}</p>
+                      {org.personalName ? <span className="text-xs text-slate-400">({org.personalName as string})</span> : null}
                       <span className="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">{org.listingCount as number} listings</span>
                       {org.verified === true && <span className="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded-full">Verified</span>}
                       {org.featured === true && <span className="text-xs bg-amber-100 text-amber-600 px-2 py-0.5 rounded-full">Featured</span>}

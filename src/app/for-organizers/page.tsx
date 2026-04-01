@@ -254,7 +254,8 @@ function ApplyForm({
   const roleLabel = role === "organizer" ? "Organizer" : role === "instructor" ? "Instructor" : "Organizer & Instructor";
 
   const [form, setForm] = useState({
-    organizerName: userName || "",
+    organizerName: "",
+    personalName: userName || "",
     city: "",
     state: "",
     bio: "",
@@ -280,7 +281,7 @@ function ApplyForm({
     setForm((f) => ({ ...f, gameStylesTaught: f.gameStylesTaught.includes(s) ? f.gameStylesTaught.filter((x) => x !== s) : [...f.gameStylesTaught, s] }));
 
   const handleSubmit = async () => {
-    if (!form.organizerName || !form.city || !form.state) {
+    if ((!form.organizerName && !form.personalName) || !form.city || !form.state) {
       setError("Name, city, and state are required.");
       return;
     }
@@ -297,7 +298,8 @@ function ApplyForm({
           userEmail,
           userName,
           role,
-          organizerName: form.organizerName,
+          organizerName: form.organizerName || form.personalName,
+          personalName: form.personalName,
           city: form.city,
           state: form.state,
           bio: form.bio,
@@ -347,8 +349,13 @@ function ApplyForm({
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Your Name / Group Name *</label>
-            <input type="text" value={form.organizerName} onChange={(e) => setForm({ ...form, organizerName: e.target.value })} className="w-full p-2.5 border border-slate-200 rounded-lg" placeholder="e.g. Jane Smith or Dallas Mahjong Club" />
+            <label className="block text-sm font-medium text-slate-700 mb-1">Brand / Company Name *</label>
+            <input type="text" value={form.organizerName} onChange={(e) => setForm({ ...form, organizerName: e.target.value })} className="w-full p-2.5 border border-slate-200 rounded-lg" placeholder="e.g. Mahj918, Dallas Mahjong Club" />
+            <p className="text-xs text-slate-400 mt-1">This is what players will see on your listings</p>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Your Name(s) *</label>
+            <input type="text" value={form.personalName} onChange={(e) => setForm({ ...form, personalName: e.target.value })} className="w-full p-2.5 border border-slate-200 rounded-lg" placeholder="e.g. Candace & Nicolle" />
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Contact Email *</label>

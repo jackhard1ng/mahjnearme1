@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { requireAdmin } from "@/lib/api-auth";
+import { notifyAdmin } from "@/lib/admin-notify";
 
 /**
  * POST /api/organizer-apply - Submit an organizer/instructor application
@@ -27,6 +28,7 @@ export async function POST(request: NextRequest) {
       contactEmail,
       isInstructor,
       instructorDetails,
+      personalName,
       managementPreference,
       message,
     } = body;
@@ -59,6 +61,7 @@ export async function POST(request: NextRequest) {
       userName: userName || "",
       role: role || "organizer",
       organizerName,
+      personalName: personalName || "",
       city,
       state: state.toUpperCase(),
       bio: bio || "",
@@ -77,6 +80,11 @@ export async function POST(request: NextRequest) {
     };
 
     const ref = await db.collection("organizerApplications").add(applicationData);
+
+    notifyAdmin(
+      `[New Application] ${organizerName || userName || userEmail} applied as ${role || "organizer"}`,
+      `Name: ${organizerName}${personalName ? ` (${personalName})` : ""}\nEmail: ${contactEmail || userEmail}\nCity: ${city}, ${state}\nRole: ${role || "organizer"}\nManagement: ${managementPreference || "self"}\n${message ? `Message: ${message}` : ""}\n\nReview in the admin Approvals tab.`
+    ).catch(() => {});
 
     return NextResponse.json({ id: ref.id, ...applicationData });
   } catch (err) {
@@ -199,6 +207,7 @@ export async function PUT(request: NextRequest) {
         const orgData = {
           nameKey: slug,
           organizerName: app.organizerName,
+          personalName: app.personalName || "",
           slug,
           bio: app.bio || "",
           contactEmail: app.contactEmail || app.userEmail,
