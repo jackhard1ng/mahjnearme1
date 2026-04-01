@@ -186,7 +186,7 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// DELETE: Remove an organizer
+// DELETE: Remove an organizer and clean up linked user
 export async function DELETE(request: NextRequest) {
   const denied = requireAdmin(request);
   if (denied) return denied;
@@ -197,6 +197,19 @@ export async function DELETE(request: NextRequest) {
 
     if (!id) {
       return NextResponse.json({ error: "Organizer ID is required" }, { status: 400 });
+    }
+
+    // Check if organizer has a linked user and clean up their user doc
+    const orgDoc = await db.collection("organizers").doc(id).get();
+    if (orgDoc.exists) {
+      const orgData = orgDoc.data()!;
+      if (orgData.userId) {
+        await db.collection("users").doc(orgData.userId as string).update({
+          isOrganizer: false,
+          organizerProfileId: null,
+          updatedAt: new Date().toISOString(),
+        });
+      }
     }
 
     await db.collection("organizers").doc(id).delete();
