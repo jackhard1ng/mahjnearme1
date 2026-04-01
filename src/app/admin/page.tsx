@@ -855,6 +855,8 @@ function AdminOrganizersPanel() {
   const [search, setSearch] = useState("");
   const [populating, setPopulating] = useState(false);
   const [populateResult, setPopulateResult] = useState<string | null>(null);
+  const [importingInstructors, setImportingInstructors] = useState(false);
+  const [instructorImportResult, setInstructorImportResult] = useState<string | null>(null);
   const [editing, setEditing] = useState<string | null>(null);
   const [editData, setEditData] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
@@ -1032,11 +1034,55 @@ function AdminOrganizersPanel() {
             {enriching ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
             {enriching ? "Enriching..." : "Apply & Download JSON"}
           </button>
+          <button
+            onClick={() => {
+              const input = document.createElement("input");
+              input.type = "file";
+              input.accept = ".json";
+              input.onchange = async (e) => {
+                const file = (e.target as HTMLInputElement).files?.[0];
+                if (!file) return;
+                setImportingInstructors(true);
+                setInstructorImportResult(null);
+                try {
+                  const text = await file.text();
+                  const data = JSON.parse(text);
+                  const instructors = Array.isArray(data) ? data : data.instructors || data;
+                  if (!Array.isArray(instructors)) {
+                    setInstructorImportResult("Error: Expected a JSON array of instructors.");
+                    setImportingInstructors(false);
+                    return;
+                  }
+                  setInstructorImportResult(`Importing ${instructors.length} instructors...`);
+                  const res = await adminFetch("/api/instructors/import", "POST", { instructors });
+                  const result = await res.json();
+                  if (result.success) {
+                    setInstructorImportResult(`Done! Flagged ${result.flagged} existing organizers as instructors. Created ${result.created} new instructor profiles. Skipped ${result.skipped}.`);
+                    fetchOrganizers();
+                  } else {
+                    setInstructorImportResult(`Error: ${result.error}`);
+                  }
+                } catch {
+                  setInstructorImportResult("Error: Failed to parse JSON file.");
+                }
+                setImportingInstructors(false);
+              };
+              input.click();
+            }}
+            disabled={importingInstructors}
+            className="inline-flex items-center gap-1.5 bg-purple-500 text-white px-3 py-2 rounded-lg text-sm font-semibold hover:bg-purple-600 disabled:opacity-50 shrink-0"
+          >
+            {importingInstructors ? <Loader2 className="w-4 h-4 animate-spin" /> : <Star className="w-4 h-4" />}
+            {importingInstructors ? "Importing..." : "Import Instructors"}
+          </button>
         </div>
       </div>
 
       {populateResult && (
         <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-sm text-green-700">{populateResult}</div>
+      )}
+      {instructorImportResult && (
+        <div className={`p-3 rounded-lg text-sm ${instructorImportResult.startsWith("Error") ? "bg-red-50 text-red-700 border border-red-200" : "bg-purple-50 text-purple-700 border border-purple-200"}`}>{instructorImportResult}</div>
       )}
       {enrichResult && (
         <div className="bg-skyblue-50 border border-skyblue-200 rounded-lg p-3 text-sm text-skyblue-700">{enrichResult}</div>
