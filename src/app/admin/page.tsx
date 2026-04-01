@@ -1081,6 +1081,35 @@ function AdminOrganizersPanel() {
                       Instructor
                     </label>
                   </div>
+                  {/* Photo upload */}
+                  <div className="flex items-center gap-3">
+                    <label className="text-xs font-medium text-slate-600">Photo:</label>
+                    {org.photoURL ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img src={String(org.photoURL)} alt="" className="w-8 h-8 rounded-full object-cover" />
+                    ) : null}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file || !editing) return;
+                        try {
+                          const { getStorage, ref, uploadBytes, getDownloadURL } = await import("firebase/storage");
+                          const { getFirebaseApp } = await import("@/lib/firebase");
+                          const storage = getStorage(getFirebaseApp());
+                          const storageRef = ref(storage, `organizer-photos/${editing}/${Date.now()}-${file.name}`);
+                          await uploadBytes(storageRef, file);
+                          const url = await getDownloadURL(storageRef);
+                          await adminFetch("/api/organizers", "PUT", { id: editing, photoURL: url });
+                          fetchOrganizers();
+                        } catch {
+                          alert("Failed to upload photo.");
+                        }
+                      }}
+                      className="text-xs text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-slate-100 file:text-slate-600 file:font-medium file:text-xs hover:file:bg-slate-200"
+                    />
+                  </div>
                   <div className="flex gap-2">
                     <button onClick={saveEdit} disabled={saving} className="bg-hotpink-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-hotpink-600 disabled:opacity-50">
                       {saving ? "Saving..." : "Save"}
@@ -1090,7 +1119,12 @@ function AdminOrganizersPanel() {
                 </div>
               ) : (
                 <div className="flex items-start justify-between">
-                  <div className="flex-1">
+                  <div className="flex items-start gap-3 flex-1">
+                    {org.photoURL ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img src={String(org.photoURL)} alt="" className="w-10 h-10 rounded-full object-cover flex-shrink-0 mt-0.5" />
+                    ) : null}
+                    <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <p className="font-semibold text-charcoal">{org.organizerName as string}</p>
                       <span className="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">{org.listingCount as number} listings</span>
@@ -1119,6 +1153,7 @@ function AdminOrganizersPanel() {
                         )}
                       </div>
                     )}
+                  </div>
                   </div>
                   <div className="flex flex-col gap-1 shrink-0 ml-4">
                     <button onClick={() => startEdit(org)} className="text-xs text-hotpink-500 font-medium hover:underline">Edit</button>
