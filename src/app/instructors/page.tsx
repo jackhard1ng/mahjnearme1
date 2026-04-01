@@ -102,8 +102,7 @@ export default function InstructorsPage() {
           i.cities.some((c) => c.toLowerCase().includes(q)) ||
           i.states.some((s) => s.toLowerCase().includes(q)) ||
           (i.instructorDetails?.serviceArea || "").toLowerCase().includes(q) ||
-          (i.instructorDetails?.certifications || "").toLowerCase().includes(q) ||
-          (i.bio || "").toLowerCase().includes(q)
+          (i.instructorDetails?.certifications || "").toLowerCase().includes(q)
       );
     }
 
