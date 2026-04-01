@@ -83,62 +83,102 @@ function buildGoogleMapsUrl(address: string): string {
 function GameJsonLd({ game }: { game: Game }) {
   const schedule = formatSchedule(game);
   const cityState = `${game.city}, ${getStateName(game.state)}`;
+  const gameUrl = `${SITE_URL}/games/${getGameSlug(game)}`;
 
-  const jsonLd = {
+  // Compute next occurrence date for recurring events
+  let startDate: string | undefined;
+  if (game.eventDate) {
+    startDate = game.eventDate;
+  } else if (game.isRecurring && game.recurringSchedule?.dayOfWeek) {
+    const dayMap: Record<string, number> = {
+      sunday: 0, monday: 1, tuesday: 2, wednesday: 3,
+      thursday: 4, friday: 5, saturday: 6,
+    };
+    const targetDay = dayMap[game.recurringSchedule.dayOfWeek.toLowerCase()];
+    if (targetDay !== undefined) {
+      const now = new Date();
+      const currentDay = now.getDay();
+      let daysUntil = targetDay - currentDay;
+      if (daysUntil < 0) daysUntil += 7;
+      if (daysUntil === 0) daysUntil = 0; // today is fine
+      const nextDate = new Date(now);
+      nextDate.setDate(now.getDate() + daysUntil);
+      const time = game.recurringSchedule.startTime || "12:00";
+      startDate = `${nextDate.toISOString().split("T")[0]}T${time}:00`;
+    }
+  }
+
+  const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Event",
     name: game.name,
-    description: game.description,
+    description: game.description || `${game.type === "lesson" ? "Mahjong lesson" : "Mahjong game"} in ${cityState}`,
+    url: gameUrl,
+    image: game.imageUrl || `${SITE_URL}/images/og-default.jpg`,
     organizer: {
       "@type": "Organization",
-      name: game.organizerName,
+      name: game.organizerName || "MahjNearMe",
+      url: SITE_URL,
     },
+    ...(game.contactName && {
+      performer: {
+        "@type": "Person",
+        name: game.contactName,
+      },
+    }),
     location: {
       "@type": "Place",
-      name: game.venueName,
+      name: game.venueName || `${game.city}, ${game.state}`,
       address: {
         "@type": "PostalAddress",
         streetAddress: game.address,
         addressLocality: game.city,
         addressRegion: game.state,
+        addressCountry: "US",
       },
-      geo: {
-        "@type": "GeoCoordinates",
-        latitude: game.geopoint.lat,
-        longitude: game.geopoint.lng,
-      },
+      ...(game.geopoint.lat !== 0 && {
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: game.geopoint.lat,
+          longitude: game.geopoint.lng,
+        },
+      }),
     },
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
-    isAccessibleForFree: game.costAmount === 0,
+    isAccessibleForFree: game.costAmount === 0 || game.cost?.toLowerCase() === "free",
     ...(game.costAmount !== null &&
       game.costAmount > 0 && {
         offers: {
           "@type": "Offer",
           price: game.costAmount,
           priceCurrency: "USD",
+          url: gameUrl,
+          availability: "https://schema.org/InStock",
         },
       }),
-    ...(game.eventDate && {
-      startDate: game.eventDate,
-    }),
-    ...(game.isRecurring &&
-      game.recurringSchedule && {
-        eventSchedule: {
-          "@type": "Schedule",
-          repeatFrequency:
-            game.recurringSchedule.frequency === "weekly"
-              ? "P1W"
-              : game.recurringSchedule.frequency === "biweekly"
-                ? "P2W"
-                : "P1M",
-          byDay: `https://schema.org/${game.recurringSchedule.dayOfWeek.charAt(0).toUpperCase() + game.recurringSchedule.dayOfWeek.slice(1)}`,
-          startTime: game.recurringSchedule.startTime,
-          endTime: game.recurringSchedule.endTime,
-        },
-      }),
-    url: `${SITE_URL}/games/${getGameSlug(game)}`,
   };
+
+  // Always include startDate (critical for Google)
+  if (startDate) {
+    jsonLd.startDate = startDate;
+  }
+
+  // Recurring event schedule
+  if (game.isRecurring && game.recurringSchedule) {
+    jsonLd.eventSchedule = {
+      "@type": "Schedule",
+      repeatFrequency:
+        game.recurringSchedule.frequency === "weekly"
+          ? "P1W"
+          : game.recurringSchedule.frequency === "biweekly"
+            ? "P2W"
+            : "P1M",
+      byDay: `https://schema.org/${game.recurringSchedule.dayOfWeek.charAt(0).toUpperCase() + game.recurringSchedule.dayOfWeek.slice(1)}`,
+      startTime: game.recurringSchedule.startTime,
+      endTime: game.recurringSchedule.endTime,
+    };
+  }
 
   return (
     <script
@@ -238,6 +278,8 @@ export default function GameDetailPage() {
     <>
       {/* JSON-LD Structured Data */}
       <GameJsonLd game={game} />
+      {/* Canonical URL */}
+      <link rel="canonical" href={`${SITE_URL}/games/${getGameSlug(game)}`} />
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Breadcrumbs */}

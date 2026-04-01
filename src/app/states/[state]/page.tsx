@@ -34,6 +34,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       `mah jongg ${stateName}`,
       `mahjong games ${stateName}`,
     ],
+    alternates: {
+      canonical: `/states/${state}`,
+    },
+    openGraph: {
+      type: "website",
+      url: `/states/${state}`,
+      title: `Mahjong Games in ${stateName}`,
+      description: `Find ${stateGames.length} mahjong games across ${stateCities.size} cities in ${stateName}.`,
+      siteName: "MahjNearMe",
+    },
   };
 }
 

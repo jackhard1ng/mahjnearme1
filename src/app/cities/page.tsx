@@ -9,6 +9,16 @@ export const metadata: Metadata = {
   title: "Browse Mahjong Games by State & City",
   description:
     "Browse mahjong games, open play sessions, and events across all 50 states. Find games by state or city.",
+  alternates: {
+    canonical: "/cities",
+  },
+  openGraph: {
+    type: "website",
+    url: "/cities",
+    title: "Browse Mahjong Games by State & City",
+    description: "Browse mahjong games across all 50 states. Find games by state or city.",
+    siteName: "MahjNearMe",
+  },
 };
 
 function getGameTypeIcon(type: string) {
