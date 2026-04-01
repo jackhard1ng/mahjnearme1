@@ -418,8 +418,25 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
                   <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mt-1">
                     <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{game.city}, {game.state}</span>
                     {game.venueName && <span>{game.venueName}</span>}
-                    {game.recurringSchedule && (
-                      <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{game.recurringSchedule.dayOfWeek} {game.recurringSchedule.startTime && `at ${game.recurringSchedule.startTime}`}</span>
+                    {game.recurringSchedule?.dayOfWeek && (
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        {game.recurringSchedule.dayOfWeek.charAt(0).toUpperCase() + game.recurringSchedule.dayOfWeek.slice(1)}s
+                        {game.recurringSchedule.startTime && ` at ${game.recurringSchedule.startTime}`}
+                        {game.recurringSchedule.frequency && game.recurringSchedule.frequency !== "weekly" && ` (${game.recurringSchedule.frequency})`}
+                      </span>
+                    )}
+                    {!game.recurringSchedule?.dayOfWeek && game.eventDate && (
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        {new Date(game.eventDate + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                        {game.eventStartTime && ` at ${game.eventStartTime}`}
+                      </span>
+                    )}
+                    {game.type && (
+                      <span className="capitalize bg-slate-100 px-1.5 py-0.5 rounded text-[10px]">
+                        {game.type.replace("_", " ")}
+                      </span>
                     )}
                   </div>
                 </Link>
