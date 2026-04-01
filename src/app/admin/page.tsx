@@ -1292,10 +1292,17 @@ function AdminApprovalsPanel() {
   const handleApplication = async (appId: string, status: "approved" | "rejected") => {
     setProcessing(appId);
     try {
-      await adminFetch("/api/organizer-apply", "PUT", { id: appId, status, reviewedBy: "admin" });
+      const res = await adminFetch("/api/organizer-apply", "PUT", { id: appId, status, reviewedBy: "admin" });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(`Error: ${data.error || "Failed to process application"}`);
+      } else {
+        alert(status === "approved" ? "Approved! They now have organizer access." : "Rejected.");
+      }
       await loadData();
-    } catch {
-      // silently handle
+    } catch (err) {
+      alert("Error processing application. Check console.");
+      console.error("Application error:", err);
     } finally {
       setProcessing(null);
     }
@@ -1304,10 +1311,13 @@ function AdminApprovalsPanel() {
   const handleClaim = async (claimId: string, status: "approved" | "rejected") => {
     setProcessing(claimId);
     try {
-      await adminFetch("/api/claims", "PUT", { id: claimId, status, reviewedBy: "admin" });
+      const res = await adminFetch("/api/claims", "PUT", { id: claimId, status, reviewedBy: "admin" });
+      const data = await res.json();
+      if (!res.ok) alert(`Error: ${data.error || "Failed"}`);
       await loadData();
-    } catch {
-      // silently handle
+    } catch (err) {
+      alert("Error processing claim.");
+      console.error(err);
     } finally {
       setProcessing(null);
     }
@@ -1316,10 +1326,13 @@ function AdminApprovalsPanel() {
   const handleApproval = async (approvalId: string, status: "approved" | "rejected") => {
     setProcessing(approvalId);
     try {
-      await adminFetch("/api/approvals", "PUT", { id: approvalId, status, reviewedBy: "admin" });
+      const res = await adminFetch("/api/approvals", "PUT", { id: approvalId, status, reviewedBy: "admin" });
+      const data = await res.json();
+      if (!res.ok) alert(`Error: ${data.error || "Failed"}`);
       await loadData();
-    } catch {
-      // silently handle
+    } catch (err) {
+      alert("Error processing approval.");
+      console.error(err);
     } finally {
       setProcessing(null);
     }
