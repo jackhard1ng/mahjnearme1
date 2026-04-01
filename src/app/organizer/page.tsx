@@ -248,7 +248,7 @@ export default function OrganizerDashboardPage() {
         />
       )}
       {activeTab === "profile" && organizer && (
-        <ProfileTab organizer={organizer} userId={user.uid} onRefresh={fetchData} />
+        <ProfileTab organizer={organizer} userId={user.uid} isSubscribed={isSubscribedOrganizer} onRefresh={fetchData} />
       )}
       {activeTab === "instructor" && organizer && (
         <InstructorTab organizer={organizer} userId={user.uid} onRefresh={fetchData} />
@@ -725,10 +725,12 @@ function AddListingTab({
 function ProfileTab({
   organizer,
   userId,
+  isSubscribed,
   onRefresh,
 }: {
   organizer: OrganizerData;
   userId: string;
+  isSubscribed: boolean;
   onRefresh: () => void;
 }) {
   const [form, setForm] = useState({
@@ -854,19 +856,28 @@ function ProfileTab({
           </div>
         </div>
 
-        {/* Photo upload */}
+        {/* Photo upload - subscribers only */}
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-1">
-            <Upload className="w-3 h-3" /> Profile Photo
+            <Upload className="w-3 h-3" /> Profile Photo & Gallery
           </label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handlePhotoUpload}
-            disabled={uploading}
-            className="text-sm text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-softpink-100 file:text-softpink-700 file:font-medium hover:file:bg-softpink-200"
-          />
-          {uploading && <p className="text-xs text-slate-400 mt-1">Uploading...</p>}
+          {isSubscribed ? (
+            <>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoUpload}
+                disabled={uploading}
+                className="text-sm text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-hotpink-100 file:text-hotpink-700 file:font-medium hover:file:bg-hotpink-200"
+              />
+              {uploading && <p className="text-xs text-slate-400 mt-1">Uploading...</p>}
+            </>
+          ) : (
+            <p className="text-sm text-slate-500">
+              Photo uploads are available for subscribers.{" "}
+              <a href="/pricing" className="text-hotpink-500 font-medium hover:text-hotpink-600">Upgrade</a> to add photos, flyers, and a gallery to your profile.
+            </p>
+          )}
         </div>
 
         {message && (

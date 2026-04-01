@@ -23,6 +23,16 @@ function toSlug(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/(^-|-$)/g, "");
 }
 
+/** Clean emoji and special chars from display text */
+function cleanText(s: string): string {
+  if (!s) return "";
+  return s
+    .replace(/[\u{1F300}-\u{1FAD6}\u{2600}-\u{27BF}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E0020}-\u{E007F}]/gu, "")
+    .replace(/\|/g, ",")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
 async function getOrganizerBySlug(slug: string) {
   const db = getAdminDb();
   const normalized = toSlug(slug);
@@ -194,6 +204,8 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
     : stateAbbr || "";
 
   const listings = await getOrganizerListings(organizer);
+  const storedListingCount = (organizer.listingCount as number) || 0;
+  const displayEventCount = listings.length > 0 ? listings.length : storedListingCount;
 
   const primaryCity = cities[0] || "";
   const searchLink = primaryCity
@@ -240,7 +252,7 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
               </p>
             )}
 
-            {bio && <p className="text-slate-600 mb-4">{bio}</p>}
+            {bio && <p className="text-slate-600 mb-4">{cleanText(bio)}</p>}
 
             <div className="flex flex-wrap gap-3">
               {website && (
@@ -277,7 +289,7 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
                 <GraduationCap className="w-5 h-5" /> Book a Mahjong Lesson
               </h2>
               <p className="text-white/80 text-sm mt-1">
-                {name} offers mahjong lessons{instructorDetails?.serviceArea ? ` in ${instructorDetails.serviceArea}` : ""}.
+                {name} offers mahjong lessons{instructorDetails?.serviceArea ? ` in ${cleanText(instructorDetails.serviceArea)}` : ""}.
                 {instructorDetails?.teachingStyles?.length ? ` Available for ${instructorDetails.teachingStyles.join(", ")} lessons.` : ""}
               </p>
             </div>
@@ -316,10 +328,10 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
               <div><span className="font-medium text-purple-700">Styles Taught: </span><span className="text-purple-600">{instructorDetails.gameStylesTaught.map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(", ")}</span></div>
             )}
             {instructorDetails.certifications && (
-              <div><span className="font-medium text-purple-700">Certifications: </span><span className="text-purple-600">{instructorDetails.certifications}</span></div>
+              <div><span className="font-medium text-purple-700">Certifications: </span><span className="text-purple-600">{cleanText(instructorDetails.certifications)}</span></div>
             )}
             {instructorDetails.serviceArea && (
-              <div><span className="font-medium text-purple-700">Service Area: </span><span className="text-purple-600">{instructorDetails.serviceArea}</span></div>
+              <div><span className="font-medium text-purple-700">Service Area: </span><span className="text-purple-600">{cleanText(instructorDetails.serviceArea)}</span></div>
             )}
           </div>
         </div>
@@ -342,7 +354,7 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
       <div className="bg-white border border-slate-200 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
-            <Calendar className="w-5 h-5" /> Games & Events ({listings.length})
+            <Calendar className="w-5 h-5" /> Games & Events ({displayEventCount})
           </h2>
           {listings.length > 0 && (
             <Link href={searchLink} className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium flex items-center gap-1">
@@ -354,8 +366,19 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
         {listings.length === 0 ? (
           <div className="text-center py-8">
             <Users className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-            <p className="text-slate-400 mb-2">No events listed yet.</p>
-            <p className="text-slate-400 text-sm">Check back soon or contact this organizer directly.</p>
+            {storedListingCount > 0 ? (
+              <>
+                <p className="text-slate-500 mb-3">This organizer has {storedListingCount} event{storedListingCount !== 1 ? "s" : ""} on MahjNearMe.</p>
+                <Link href={searchLink} className="inline-flex items-center gap-1 bg-hotpink-500 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-hotpink-600 transition text-sm">
+                  View events in search <ArrowRight className="w-3 h-3" />
+                </Link>
+              </>
+            ) : (
+              <>
+                <p className="text-slate-400 mb-2">No events listed yet.</p>
+                <p className="text-slate-400 text-sm">Check back soon or contact this organizer directly.</p>
+              </>
+            )}
           </div>
         ) : (
           <>
