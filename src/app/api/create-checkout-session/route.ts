@@ -18,19 +18,43 @@ export async function POST(request: Request) {
     const priceId = plan === "monthly" ? PRICE_IDS.monthly : PRICE_IDS.annual;
     const baseUrl = process.env.NEXT_PUBLIC_URL || "https://www.mahjnearme.com";
 
-    // Validate referral code if provided
+    // Validate referral code if provided (check both old contributors and new organizer codes)
     let validatedReferralCode: string | null = null;
     if (referralCode) {
       try {
         const db = getAdminDb();
-        const snap = await db.collection("users")
-          .where("referralCode", "==", referralCode.toUpperCase())
+        const code = referralCode.toUpperCase();
+
+        // Check old contributor codes
+        const contribSnap = await db.collection("users")
+          .where("referralCode", "==", code)
           .where("isContributor", "==", true)
           .limit(1)
           .get();
 
-        if (!snap.empty) {
-          validatedReferralCode = referralCode.toUpperCase();
+        if (!contribSnap.empty) {
+          validatedReferralCode = code;
+        } else {
+          // Check new organizer referral codes
+          const orgSnap = await db.collection("organizers")
+            .where("referralCode", "==", code)
+            .limit(1)
+            .get();
+
+          if (!orgSnap.empty) {
+            validatedReferralCode = code;
+          } else {
+            // Also check user-level referral codes for organizers
+            const userSnap = await db.collection("users")
+              .where("referralCode", "==", code)
+              .where("isOrganizer", "==", true)
+              .limit(1)
+              .get();
+
+            if (!userSnap.empty) {
+              validatedReferralCode = code;
+            }
+          }
         }
       } catch {
         // Referral validation failed, proceed without it
@@ -44,7 +68,7 @@ export async function POST(request: Request) {
       payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
       subscription_data: {},
-      allow_promotion_codes: !validatedReferralCode, // Don't allow promo codes if referral is applied
+      allow_promotion_codes: true, // Always show Stripe's code field (organizer promo codes work here)
       success_url: `${baseUrl}/welcome?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/pricing`,
       metadata: {
