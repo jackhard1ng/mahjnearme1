@@ -659,6 +659,52 @@ export default function AdminDashboardPage() {
                 </p>
               </div>
 
+              {/* Manual Entry (Mail-In AMOE) */}
+              <div className="bg-white border border-slate-200 rounded-xl p-6">
+                <h3 className="font-semibold text-charcoal mb-2">Add Manual Entry (Mail-In)</h3>
+                <p className="text-sm text-slate-500 mb-4">
+                  For mail-in entries received. Enter their info from the card.
+                </p>
+                <div className="grid sm:grid-cols-3 gap-3 mb-3">
+                  <input id="manual-entry-name" type="text" placeholder="Full name" className="border border-slate-200 rounded-lg px-3 py-2 text-sm" />
+                  <input id="manual-entry-email" type="email" placeholder="Email address" className="border border-slate-200 rounded-lg px-3 py-2 text-sm" />
+                  <input id="manual-entry-city" type="text" placeholder="City, State" className="border border-slate-200 rounded-lg px-3 py-2 text-sm" />
+                </div>
+                <button
+                  onClick={async () => {
+                    const nameEl = document.getElementById("manual-entry-name") as HTMLInputElement;
+                    const emailEl = document.getElementById("manual-entry-email") as HTMLInputElement;
+                    const cityEl = document.getElementById("manual-entry-city") as HTMLInputElement;
+                    const name = nameEl?.value?.trim();
+                    const email = emailEl?.value?.trim();
+                    if (!name || !email) { alert("Name and email are required."); return; }
+                    try {
+                      const res = await adminFetch("/api/giveaway", "POST", {
+                        action: "manual_entry",
+                        name,
+                        email,
+                        city: cityEl?.value?.trim() || "",
+                      });
+                      const data = await res.json();
+                      if (res.ok) {
+                        alert(`${name} added to this month's drawing.`);
+                        nameEl.value = "";
+                        emailEl.value = "";
+                        cityEl.value = "";
+                        fetchGiveaway();
+                      } else {
+                        alert(data.error || "Failed to add entry.");
+                      }
+                    } catch {
+                      alert("Failed to add entry.");
+                    }
+                  }}
+                  className="flex items-center gap-2 bg-skyblue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-skyblue-600"
+                >
+                  <Plus className="w-4 h-4" /> Add Entry
+                </button>
+              </div>
+
               {/* Send Contributor Announcement */}
               <div className="bg-white border border-slate-200 rounded-xl p-6">
                 <h3 className="font-semibold text-charcoal mb-2">Send Contributor Announcement</h3>

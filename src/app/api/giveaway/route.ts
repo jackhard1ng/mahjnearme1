@@ -123,6 +123,42 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true, month: currentMonth });
     }
 
+    // Admin manual entry (mail-in AMOE)
+    if (body.action === "manual_entry") {
+      const denied = requireAdmin(request);
+      if (denied) return denied;
+
+      const { email, name, city } = body;
+      if (!email || !name) {
+        return NextResponse.json({ error: "Name and email are required" }, { status: 400 });
+      }
+
+      const now = new Date();
+      const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+
+      // Check if already entered this month
+      const existingSnap = await db.collection("giveawayManualEntries")
+        .where("email", "==", email.toLowerCase())
+        .where("month", "==", currentMonth)
+        .limit(1)
+        .get();
+
+      if (!existingSnap.empty) {
+        return NextResponse.json({ error: "This person already has an entry this month" }, { status: 409 });
+      }
+
+      await db.collection("giveawayManualEntries").add({
+        email: email.toLowerCase(),
+        name,
+        city: city || "",
+        month: currentMonth,
+        source: "mail_in",
+        createdAt: now.toISOString(),
+      });
+
+      return NextResponse.json({ success: true, month: currentMonth });
+    }
+
     // Admin draw winner
     if (body.action === "draw") {
       const denied = requireAdmin(request);
@@ -176,6 +212,21 @@ export async function POST(request: NextRequest) {
           userId: `free_${doc.id}`,
           name: data.name || data.email,
           city: "Free Entry",
+          photoURL: null,
+        });
+      }
+
+      // Add manual (mail-in) entries
+      const manualEntriesSnap = await db.collection("giveawayManualEntries")
+        .where("month", "==", currentMonth)
+        .get();
+
+      for (const doc of manualEntriesSnap.docs) {
+        const data = doc.data();
+        pool.push({
+          userId: `mailin_${doc.id}`,
+          name: data.name || data.email,
+          city: data.city || "Mail-In Entry",
           photoURL: null,
         });
       }
