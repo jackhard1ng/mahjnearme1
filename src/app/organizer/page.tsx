@@ -132,14 +132,14 @@ export default function OrganizerDashboardPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-5xl mx-auto px-4 py-8">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="bg-white border border-slate-200 rounded-xl p-5 mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-800">
             {organizer?.organizerName || "Organizer Dashboard"}
           </h1>
-          <p className="text-slate-500 text-sm">
+          <p className="text-slate-500 text-sm mt-0.5">
             {isSubscribedOrganizer ? (
               <span className="flex items-center gap-1 text-amber-600">
                 <Star className="w-4 h-4 fill-amber-500" /> Featured Organizer
@@ -188,7 +188,7 @@ export default function OrganizerDashboardPage() {
       )}
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-6 border-b border-slate-200">
+      <div className="flex gap-1 mb-4 overflow-x-auto">
         {(
           [
             { key: "listings", label: "My Listings", icon: Calendar },
@@ -202,10 +202,10 @@ export default function OrganizerDashboardPage() {
           <button
             key={key}
             onClick={() => setActiveTab(key)}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition flex items-center gap-1.5 ${
+            className={`px-4 py-2.5 text-sm font-medium rounded-lg transition flex items-center gap-1.5 whitespace-nowrap ${
               activeTab === key
-                ? "border-hotpink-500 text-hotpink-600"
-                : "border-transparent text-slate-500 hover:text-slate-700"
+                ? "bg-hotpink-500 text-white shadow-sm"
+                : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
             }`}
           >
             <Icon className="w-4 h-4" /> {label}
@@ -213,7 +213,8 @@ export default function OrganizerDashboardPage() {
         ))}
       </div>
 
-      {/* Tab content */}
+      {/* Tab content in white card */}
+      <div className="bg-white border border-slate-200 rounded-xl p-5">
       {activeTab === "listings" && (
         <ListingsTab
           listings={listings}
@@ -260,6 +261,7 @@ export default function OrganizerDashboardPage() {
       {activeTab === "referrals" && (
         <ReferralsTab userId={user.uid} />
       )}
+      </div>
     </div>
   );
 }
