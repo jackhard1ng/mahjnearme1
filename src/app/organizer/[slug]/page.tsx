@@ -20,25 +20,57 @@ interface OrganizerPageProps {
 
 async function getOrganizerBySlug(slug: string) {
   const db = getAdminDb();
+  // Normalize the slug: collapse multiple dashes, trim
+  const normalized = slug.toLowerCase().replace(/-+/g, "-").replace(/(^-|-$)/g, "");
+
+  // Try exact slug match
   const snap = await db
     .collection("organizers")
-    .where("slug", "==", slug)
+    .where("slug", "==", normalized)
     .limit(1)
     .get();
 
-  if (snap.empty) {
-    // Try nameKey as fallback
-    const snap2 = await db
+  if (!snap.empty) {
+    const doc = snap.docs[0];
+    return { id: doc.id, ...doc.data() } as Record<string, unknown> & { id: string };
+  }
+
+  // Try original slug (in case it has different casing)
+  if (normalized !== slug) {
+    const snap1b = await db
       .collection("organizers")
-      .where("nameKey", "==", slug)
+      .where("slug", "==", slug)
       .limit(1)
       .get();
-    if (snap2.empty) return null;
+    if (!snap1b.empty) {
+      const doc = snap1b.docs[0];
+      return { id: doc.id, ...doc.data() } as Record<string, unknown> & { id: string };
+    }
+  }
+
+  // Try nameKey as fallback
+  const snap2 = await db
+    .collection("organizers")
+    .where("nameKey", "==", normalized)
+    .limit(1)
+    .get();
+  if (!snap2.empty) {
     const doc = snap2.docs[0];
     return { id: doc.id, ...doc.data() } as Record<string, unknown> & { id: string };
   }
-  const doc = snap.docs[0];
-  return { id: doc.id, ...doc.data() } as Record<string, unknown> & { id: string };
+
+  // Last resort: scan all organizers for partial slug match
+  const allSnap = await db.collection("organizers").get();
+  for (const doc of allSnap.docs) {
+    const data = doc.data();
+    const orgSlug = ((data.slug as string) || "").replace(/-+/g, "-").replace(/(^-|-$)/g, "");
+    const orgNameKey = ((data.nameKey as string) || "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    if (orgSlug === normalized || orgNameKey === normalized) {
+      return { id: doc.id, ...data } as Record<string, unknown> & { id: string };
+    }
+  }
+
+  return null;
 }
 
 async function getOrganizerListings(organizer: Record<string, unknown>): Promise<Game[]> {
