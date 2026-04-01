@@ -21,6 +21,7 @@ import {
   Search,
   CheckCircle,
   XCircle,
+  Loader2,
   Eye,
   Edit,
   Trash2,
@@ -33,7 +34,7 @@ import {
 import Papa from "papaparse";
 import { geocodeAddress } from "@/lib/geocode";
 
-type View = "list" | "add" | "csv";
+type View = "list" | "add" | "csv" | "bulk";
 
 const emptyForm = {
   name: "",
@@ -452,6 +453,14 @@ export default function AdminGamesPage() {
             <Upload className="w-4 h-4" /> CSV Upload
           </button>
           <button
+            onClick={() => { resetForm(); setView("bulk"); }}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              view === "bulk" ? "bg-hotpink-500 text-white" : "bg-white border border-slate-200 text-slate-700 hover:bg-skyblue-100"
+            }`}
+          >
+            <FileSpreadsheet className="w-4 h-4" /> Paste JSON
+          </button>
+          <button
             onClick={() => { resetForm(); setView("add"); }}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
               view === "add" ? "bg-hotpink-500 text-white" : "bg-hotpink-500 text-white hover:bg-hotpink-600"
@@ -573,6 +582,9 @@ export default function AdminGamesPage() {
           </button>
         </div>
       )}
+
+      {/* Bulk Paste JSON View */}
+      {view === "bulk" && <BulkPasteView onImported={(count) => { showToast(`${count} events saved to Firestore.`); setView("list"); }} />}
 
       {/* Quick Add / Edit Form */}
       {view === "add" && (
@@ -876,6 +888,141 @@ export default function AdminGamesPage() {
           </div>
         </>
       )}
+    </div>
+  );
+}
+
+/**
+ * Bulk Paste JSON view.
+ * Paste JSON from Claude (extracted from screenshots/flyers) and import all at once.
+ */
+function BulkPasteView({ onImported }: { onImported: (count: number) => void }) {
+  const [jsonText, setJsonText] = useState("");
+  const [importing, setImporting] = useState(false);
+  const [preview, setPreview] = useState<Record<string, unknown>[] | null>(null);
+  const [error, setError] = useState("");
+
+  function handlePreview() {
+    setError("");
+    setPreview(null);
+    try {
+      const parsed = JSON.parse(jsonText);
+      const items = Array.isArray(parsed) ? parsed : parsed.listings || parsed.events || parsed.games || [parsed];
+      if (!Array.isArray(items) || items.length === 0) {
+        setError("Could not find events in the JSON. Expected an array or an object with a listings/events/games array.");
+        return;
+      }
+      setPreview(items);
+    } catch {
+      setError("Invalid JSON. Make sure Claude gave you valid JSON output.");
+    }
+  }
+
+  async function handleImport() {
+    if (!preview) return;
+    setImporting(true);
+    setError("");
+
+    try {
+      const res = await adminFetch("/api/listings/import", "POST", { listings: preview });
+      const result = await res.json();
+      if (result.success) {
+        onImported(result.added + result.updated);
+      } else {
+        setError(result.error || "Import failed");
+      }
+    } catch {
+      setError("Import failed.");
+    }
+    setImporting(false);
+  }
+
+  const exampleJson = `[
+  {
+    "id": "unique-event-id",
+    "name": "Tuesday Night Mahjong",
+    "type": "open_play",
+    "gameStyle": "american",
+    "city": "Dallas",
+    "state": "TX",
+    "venueName": "The Mahj Spot",
+    "address": "123 Main St, Dallas, TX 75201",
+    "contactName": "Jane Smith",
+    "contactEmail": "jane@example.com",
+    "instagram": "@janesmith",
+    "isRecurring": true,
+    "dayOfWeek": "tuesday",
+    "startTime": "18:00",
+    "endTime": "20:00",
+    "frequency": "weekly",
+    "cost": "$5",
+    "skillLevels": "beginner|intermediate",
+    "description": "Friendly open play for all levels"
+  }
+]`;
+
+  return (
+    <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-4">
+      <div>
+        <h2 className="text-lg font-semibold text-charcoal mb-1">Bulk Paste Events</h2>
+        <p className="text-sm text-slate-500">
+          Paste JSON from Claude (extracted from screenshots, flyers, or Instagram posts) and import all events at once. Existing events with the same ID will be updated. Events edited by organizers will not be overwritten.
+        </p>
+      </div>
+
+      <textarea
+        value={jsonText}
+        onChange={(e) => { setJsonText(e.target.value); setPreview(null); }}
+        placeholder="Paste JSON here..."
+        className="w-full h-64 p-3 border border-slate-200 rounded-lg text-sm font-mono resize-none focus:border-hotpink-400 focus:outline-none"
+      />
+
+      <div className="flex gap-2">
+        <button
+          onClick={handlePreview}
+          disabled={!jsonText.trim()}
+          className="bg-skyblue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-skyblue-600 disabled:opacity-50"
+        >
+          Preview
+        </button>
+        {preview && (
+          <button
+            onClick={handleImport}
+            disabled={importing}
+            className="bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 disabled:opacity-50 flex items-center gap-2"
+          >
+            {importing ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+            Import {preview.length} Event{preview.length !== 1 ? "s" : ""} to Firestore
+          </button>
+        )}
+      </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">{error}</div>
+      )}
+
+      {preview && (
+        <div className="border border-slate-200 rounded-lg overflow-hidden">
+          <div className="bg-slate-50 px-3 py-2 border-b border-slate-200">
+            <p className="text-sm font-medium text-slate-700">{preview.length} event{preview.length !== 1 ? "s" : ""} found</p>
+          </div>
+          <div className="max-h-64 overflow-y-auto">
+            {preview.map((item, i) => (
+              <div key={i} className="px-3 py-2 border-b border-slate-100 last:border-0 text-sm">
+                <p className="font-medium text-slate-800">{(item.name as string) || "Untitled"}</p>
+                <p className="text-xs text-slate-500">
+                  {(item.city as string) || ""}{(item.state as string) ? `, ${item.state}` : ""} {(item.venueName as string) ? `at ${item.venueName}` : ""}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <details className="text-xs text-slate-400">
+        <summary className="cursor-pointer hover:text-slate-600">Example JSON format (tell Claude to use this)</summary>
+        <pre className="mt-2 p-3 bg-slate-50 rounded-lg overflow-x-auto text-[11px]">{exampleJson}</pre>
+      </details>
     </div>
   );
 }
