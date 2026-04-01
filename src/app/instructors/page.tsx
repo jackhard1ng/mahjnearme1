@@ -118,9 +118,10 @@ export default function InstructorsPage() {
       );
     }
 
-    // Featured first, then by listing count, then alphabetical
+    // Featured first, then verified, then by listing count, then alphabetical
     return result.sort((a, b) => {
       if (a.featured !== b.featured) return b.featured ? 1 : -1;
+      if (a.verified !== b.verified) return b.verified ? 1 : -1;
       if (a.listingCount !== b.listingCount) return (b.listingCount || 0) - (a.listingCount || 0);
       return a.organizerName.localeCompare(b.organizerName);
     });

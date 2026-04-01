@@ -34,11 +34,14 @@ function cleanText(s: string): string {
 }
 
 async function getOrganizerBySlug(slug: string) {
+  try {
   const db = getAdminDb();
   const normalized = toSlug(slug);
   const lowered = slug.toLowerCase();
   const withSpaces = slug.replace(/-/g, " ").toLowerCase().trim();
   const stripped = lowered.replace(/[^a-z0-9]/g, "");
+
+  console.log(`[Organizer Lookup] slug="${slug}" normalized="${normalized}" stripped="${stripped}"`);
 
   // Load all organizers once and match in code
   // With ~1,750 docs this is fast and avoids index/query issues
@@ -75,6 +78,10 @@ async function getOrganizerBySlug(slug: string) {
   }
 
   return null;
+  } catch (err) {
+    console.error(`[Organizer Lookup] Error for slug="${slug}":`, err);
+    return null;
+  }
 }
 
 async function getOrganizerListings(organizer: Record<string, unknown>): Promise<Game[]> {
@@ -142,10 +149,12 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
   const organizer = await getOrganizerBySlug(slug);
 
   if (!organizer) {
+    console.error(`[Organizer Profile] Not found for slug: "${slug}"`);
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
         <h1 className="text-2xl font-bold text-slate-800 mb-4">Organizer Not Found</h1>
         <p className="text-slate-600 mb-6">This organizer profile doesn&apos;t exist or the link may have changed.</p>
+        <p className="text-xs text-slate-400 mb-4">Looking for: {slug}</p>
         <Link href="/search" className="text-hotpink-500 hover:text-hotpink-600 font-medium">
           Search for Games
         </Link>
