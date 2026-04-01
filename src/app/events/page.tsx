@@ -5,8 +5,9 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/contexts/AuthContext";
 import { mockGames } from "@/lib/mock-data";
+import { useEnrichedGames } from "@/hooks/useOrganizerOverrides";
 import { isEventExpired, slugify, formatTime, getStateName, getGameTypeColor, getGameTypeLabel } from "@/lib/utils";
-import { MapPin, Lock, ArrowRight, Search, Plane } from "lucide-react";
+import { MapPin, Lock, ArrowRight, Search, Plane, Star } from "lucide-react";
 
 const DestinationMap = dynamic(() => import("@/components/DestinationMap"), {
   ssr: false,
@@ -48,20 +49,24 @@ export default function EventsPage() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "retreats" | "tournaments" | "cruises" | "camps">("all");
 
+  const enrichedGames = useEnrichedGames(mockGames);
+
   const events = useMemo(() => {
-    return mockGames
+    return enrichedGames
       .filter((g) => {
         if (g.status !== "active" || isEventExpired(g)) return false;
         return isDestinationEvent(g);
       })
       .sort((a, b) => {
-        // Events with dates sort by date, others go to end
+        // Featured first, then verified, then by date
+        if (a.promoted !== b.promoted) return b.promoted ? 1 : -1;
+        if (a.verified !== b.verified) return (b.verified ? 1 : 0) - (a.verified ? 1 : 0);
         if (a.eventDate && b.eventDate) return a.eventDate.localeCompare(b.eventDate);
         if (a.eventDate) return -1;
         if (b.eventDate) return 1;
         return a.name.localeCompare(b.name);
       });
-  }, []);
+  }, [enrichedGames]);
 
   const filtered = useMemo(() => {
     let result = events;
@@ -185,14 +190,66 @@ export default function EventsPage() {
           </>
         )}
 
-        {/* Subscribers-only content */}
-        {hasAccess ? (
-          <div className="grid sm:grid-cols-2 gap-4">
-            {filtered.map((g) => {
+        {/* Event cards - Featured visible to everyone, rest to subscribers */}
+        {(() => {
+          const featuredEvents = filtered.filter((g) => g.promoted);
+          const otherEvents = filtered.filter((g) => !g.promoted);
+
+          return (
+            <>
+              {/* Featured events - visible to everyone */}
+              {featuredEvents.length > 0 && (
+                <div className="grid sm:grid-cols-2 gap-4 mb-6">
+                  {featuredEvents.map((g) => (
+                    <EventCard key={g.id} game={g} hasAccess={true} />
+                  ))}
+                </div>
+              )}
+
+              {/* Rest of events */}
+              {hasAccess ? (
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {otherEvents.map((g) => (
+                    <EventCard key={g.id} game={g} hasAccess={true} />
+                  ))}
+                </div>
+              ) : otherEvents.length > 0 ? (
+                <div className="relative">
+                  <div className="grid sm:grid-cols-2 gap-4 opacity-30 blur-[3px] pointer-events-none select-none" aria-hidden="true">
+                    {otherEvents.slice(0, 4).map((g) => (
+                      <EventCard key={g.id} game={g} hasAccess={false} />
+                    ))}
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-6 text-center max-w-sm mx-4">
+                      <Lock className="w-8 h-8 text-hotpink-400 mx-auto mb-3" />
+                      <h3 className="font-bold text-slate-800 mb-1">{otherEvents.length}+ more destination events</h3>
+                      <p className="text-sm text-slate-500 mb-4">Subscribe to see all events with full details and registration links</p>
+                      <Link href="/pricing" className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-hotpink-600 transition text-sm">
+                        View Plans <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+            </>
+          );
+        })()}
+      </div>
+    </>
+  );
+}
+
+function EventCard({ game: g, hasAccess }: { game: typeof mockGames[0]; hasAccess: boolean }) {
               const eventDate = g.eventDate ? new Date(g.eventDate + "T00:00:00") : null;
 
               return (
-                <div key={g.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-md transition-all">
+                <div className={`bg-white border rounded-xl overflow-hidden hover:shadow-md transition-all ${g.promoted ? "border-amber-300" : "border-slate-200"}`}>
+                  {g.promoted && (
+                    <div className="bg-gradient-to-r from-amber-400 to-amber-500 px-3 py-0.5 text-white text-xs font-bold flex items-center gap-1">
+                      <Star className="w-3 h-3 fill-white" /> Featured Event
+                    </div>
+                  )}
                   <div className="p-5">
                     {/* Date + Type */}
                     <div className="flex items-start justify-between mb-3">
@@ -247,30 +304,4 @@ export default function EventsPage() {
                   </div>
                 </div>
               );
-            })}
-          </div>
-        ) : (
-          /* Full paywall for non-subscribers */
-          <div className="bg-gradient-to-br from-hotpink-50 via-white to-skyblue-50 border border-hotpink-200 rounded-xl p-10 text-center">
-            <Lock className="w-12 h-12 text-hotpink-400 mx-auto mb-4" />
-            <h2 className="font-semibold text-2xl text-charcoal mb-2">
-              {filtered.length} Destination Events
-            </h2>
-            <p className="text-slate-500 mb-2 max-w-md mx-auto">
-              Retreats, cruises, camps, and destination mahjong experiences are exclusive to subscribers.
-            </p>
-            <p className="text-sm text-slate-400 mb-6 max-w-md mx-auto">
-              Subscribe to browse all destination events with full details, dates, venues, and registration links.
-            </p>
-            <Link
-              href="/pricing"
-              className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
-            >
-              View Plans <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        )}
-      </div>
-    </>
-  );
 }
