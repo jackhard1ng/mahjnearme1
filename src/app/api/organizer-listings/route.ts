@@ -27,6 +27,18 @@ async function getOrganizerProfile(db: FirebaseFirestore.Firestore, userId: stri
   };
 }
 
+// All verified organizers (linked accounts) get instant edits/listings.
+// The approval queue only applies to unverified accounts (which shouldn't
+// be hitting this endpoint anyway since they need to be organizers first).
+function isVerifiedOrganizer(userData: Record<string, unknown>): boolean {
+  return (
+    userData.isOrganizer === true ||
+    userData.accountType === "subscriber" ||
+    userData.accountType === "admin" ||
+    userData.subscriptionStatus === "active"
+  );
+}
+
 function isSubscribed(userData: Record<string, unknown>): boolean {
   return (
     userData.accountType === "subscriber" ||
@@ -116,7 +128,7 @@ export async function PUT(request: NextRequest) {
 
     const now = new Date().toISOString();
 
-    if (isSubscribed(profile.user)) {
+    if (isVerifiedOrganizer(profile.user)) {
       // Subscribed organizer: edit goes live immediately
       await db
         .collection("listings")
@@ -205,7 +217,7 @@ export async function POST(request: NextRequest) {
       source: "organizer_submitted",
     };
 
-    if (isSubscribed(profile.user)) {
+    if (isVerifiedOrganizer(profile.user)) {
       // Subscribed: goes live immediately
       const newListing = {
         ...listingData,
