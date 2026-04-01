@@ -26,14 +26,15 @@ function toSlug(s: string): string {
 async function getOrganizerBySlug(slug: string) {
   const db = getAdminDb();
   const normalized = toSlug(slug);
+  const lowered = slug.toLowerCase();
 
-  // 1. Try exact slug match
+  // 1. Try normalized slug
   const snap1 = await db.collection("organizers").where("slug", "==", normalized).limit(1).get();
   if (!snap1.empty) return { id: snap1.docs[0].id, ...snap1.docs[0].data() } as Record<string, unknown> & { id: string };
 
-  // 2. Try original slug as-is
-  if (normalized !== slug) {
-    const snap1b = await db.collection("organizers").where("slug", "==", slug).limit(1).get();
+  // 2. Try lowercased original (handles /organizer/Mahj918 -> mahj918)
+  if (lowered !== normalized) {
+    const snap1b = await db.collection("organizers").where("slug", "==", lowered).limit(1).get();
     if (!snap1b.empty) return { id: snap1b.docs[0].id, ...snap1b.docs[0].data() } as Record<string, unknown> & { id: string };
   }
 
@@ -111,7 +112,9 @@ export async function generateMetadata({ params }: OrganizerPageProps): Promise<
   const name = organizer.organizerName as string;
   const cities = (organizer.cities as string[]) || [];
   const isInstructor = organizer.isInstructor as boolean;
-  const cityText = cities.length > 0 ? ` in ${cities.slice(0, 3).join(", ")}` : "";
+  const metaStates = (organizer.states as string[]) || [];
+  const metaStateAbbr = metaStates.length > 0 ? metaStates[0] : "";
+  const cityText = cities.length > 0 ? ` in ${cities.slice(0, 2).join(", ")}${metaStateAbbr ? `, ${metaStateAbbr}` : ""}` : "";
   const role = isInstructor ? "Mahjong Instructor" : "Mahjong Organizer";
 
   return {
@@ -153,6 +156,13 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
     gameStylesTaught?: string[];
   } | null;
   const cities = (organizer.cities as string[]) || [];
+  const states = (organizer.states as string[]) || [];
+
+  // Build location display: "Tulsa, OK" or "Tulsa, Claremore, OK"
+  const stateAbbr = states.length > 0 ? states[0] : "";
+  const locationText = cities.length > 0
+    ? `${cities.slice(0, 3).join(", ")}${stateAbbr ? `, ${stateAbbr}` : ""}`
+    : stateAbbr || "";
 
   const listings = await getOrganizerListings(organizer);
 
@@ -191,11 +201,10 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
               )}
             </div>
 
-            {cities.length > 0 && (
+            {locationText && (
               <p className="text-slate-500 flex items-center gap-1 mb-3">
                 <MapPin className="w-4 h-4" />
-                {cities.slice(0, 5).join(", ")}
-                {cities.length > 5 ? ` +${cities.length - 5} more` : ""}
+                {locationText}
               </p>
             )}
 
