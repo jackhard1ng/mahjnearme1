@@ -693,6 +693,58 @@ export default function AccountPage() {
           )}
         </div>
 
+        {/* Apply Referral Code */}
+        {(userProfile.accountType === "subscriber" || userProfile.subscriptionStatus === "active") && (
+          <div className="bg-white border border-slate-200 rounded-xl p-6">
+            <h3 className="font-semibold text-lg text-charcoal mb-2 flex items-center gap-2">
+              Apply Referral Code
+            </h3>
+            <p className="text-sm text-slate-500 mb-3">
+              {userProfile.referredByCode
+                ? `Code "${userProfile.referredByCode}" is applied to your subscription (15% off).`
+                : "Have a referral code? Apply it to get 15% off your subscription starting next billing cycle."
+              }
+            </p>
+            {!userProfile.referredByCode && (
+              <div className="flex gap-2">
+                <input
+                  id="apply-code-input"
+                  type="text"
+                  placeholder="e.g. MAHJ918"
+                  className="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm uppercase font-mono"
+                  maxLength={20}
+                />
+                <button
+                  onClick={async () => {
+                    const input = document.getElementById("apply-code-input") as HTMLInputElement;
+                    const code = input?.value?.trim();
+                    if (!code) return;
+                    try {
+                      const res = await fetch("/api/apply-code", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ userId: user?.uid, code }),
+                      });
+                      const data = await res.json();
+                      if (res.ok) {
+                        alert(data.message || "Code applied!");
+                        window.location.reload();
+                      } else {
+                        alert(data.error || "Failed to apply code.");
+                      }
+                    } catch {
+                      alert("Something went wrong.");
+                    }
+                  }}
+                  className="bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-hotpink-600"
+                >
+                  Apply
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Saved Cities */}
         <div className="bg-white border border-slate-200 rounded-xl p-6">
           <h3 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
