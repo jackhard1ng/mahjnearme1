@@ -9,6 +9,8 @@ interface OrganizerOverride {
   website?: string;
   instagram?: string;
   facebookGroup?: string;
+  featured?: boolean;
+  verified?: boolean;
   locations?: { venueName: string; address: string; city: string; state: string; lat: number; lng: number }[];
 }
 
@@ -58,6 +60,8 @@ function applyOverride(game: Game, overrides: Record<string, OrganizerOverride>)
     website: override.website || game.website,
     instagram: override.instagram || game.instagram,
     facebookGroup: override.facebookGroup || game.facebookGroup,
+    promoted: override.featured || game.promoted,
+    verified: override.verified || game.verified,
   };
 }
 

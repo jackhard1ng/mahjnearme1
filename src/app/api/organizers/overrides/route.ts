@@ -21,6 +21,8 @@ export async function GET() {
       website?: string;
       instagram?: string;
       facebookGroup?: string;
+      featured?: boolean;
+      verified?: boolean;
       locations?: { venueName: string; address: string; city: string; state: string; lat: number; lng: number }[];
     }> = {};
 
@@ -46,6 +48,8 @@ export async function GET() {
       if (data.website) entry.website = data.website;
       if (data.instagram) entry.instagram = data.instagram;
       if (data.facebookGroup) entry.facebookGroup = data.facebookGroup;
+      if (data.featured) entry.featured = true;
+      if (data.verified || data.userId) entry.verified = true;
       if (data.locations && (data.locations as unknown[]).length > 0) {
         entry.locations = data.locations;
       }

@@ -404,8 +404,13 @@ export default function GameCard({
                   </span>
                 )}
                 {game.promoted && (
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-hotpink-100 text-hotpink-600 border border-hotpink-200">
-                    Featured
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 border border-amber-200">
+                    <Star className="w-3 h-3 fill-amber-500" /> Featured
+                  </span>
+                )}
+                {!game.promoted && game.verified && (
+                  <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-50 text-green-600 border border-green-200">
+                    <CheckCircle className="w-2.5 h-2.5" /> Verified
                   </span>
                 )}
                 {isGreatForUser && !game.promoted && (

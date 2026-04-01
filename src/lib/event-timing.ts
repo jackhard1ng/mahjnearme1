@@ -371,7 +371,7 @@ const MAX_DISTANCE_FOR_SCORE = 50;
 export function computePriorityScore(
   timing: EventTiming,
   distanceMiles: number | null,
-  game?: { description?: string; registrationLink?: string; instagram?: string; eventDate?: string | null; isRecurring?: boolean }
+  game?: { description?: string; registrationLink?: string; instagram?: string; eventDate?: string | null; isRecurring?: boolean; promoted?: boolean; verified?: boolean }
 ): number {
   const timeScore = timing.timeScore;
   const distScore = distanceMiles !== null
@@ -387,7 +387,11 @@ export function computePriorityScore(
     if (game.registrationLink) richness += 1;
     if (game.instagram) richness += 0.5;
     if (game.eventDate && !game.isRecurring) richness += 1; // one-time events with specific dates
-    // Apply bonus (up to -3.5 points, subtle but meaningful)
+    // Featured/promoted organizer boost (significant, pushes them up in results)
+    if (game.promoted) richness += 8;
+    // Verified organizer gets a smaller boost
+    if (game.verified) richness += 2;
+    // Apply bonus
     score -= richness;
   }
 
