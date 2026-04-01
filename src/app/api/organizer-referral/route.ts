@@ -8,8 +8,11 @@ import { getStripe } from "@/lib/stripe";
  * PUT /api/organizer-referral - Request a payout
  */
 
-const MONTHLY_COMMISSION = 1.0;
-const ANNUAL_COMMISSION = 5.0;
+// Commission rates by tier
+const PAID_MONTHLY_COMMISSION = 1.50;
+const PAID_ANNUAL_COMMISSION = 7.50;
+const FREE_MONTHLY_COMMISSION = 1.00;
+const FREE_ANNUAL_COMMISSION = 5.00;
 const PAYOUT_THRESHOLD = 10;
 const VESTING_DAYS = 60;
 const COUPON_ID = "REFERRAL_15_OFF";
@@ -38,9 +41,6 @@ export async function POST(request: NextRequest) {
     const userData = userDoc.data()!;
     if (!userData.isOrganizer) {
       return NextResponse.json({ error: "Must be an organizer" }, { status: 403 });
-    }
-    if (userData.accountType !== "subscriber" && userData.accountType !== "admin" && userData.subscriptionStatus !== "active") {
-      return NextResponse.json({ error: "Must be a paid subscriber to get a referral code" }, { status: 403 });
     }
 
     // Check code isn't already taken by another organizer
@@ -136,6 +136,9 @@ export async function GET(request: NextRequest) {
     }
     const userData = userDoc.data()!;
     const referralCode = userData.referralCode;
+    const isPaid = userData.accountType === "subscriber" || userData.accountType === "admin" || userData.subscriptionStatus === "active";
+    const monthlyRate = isPaid ? PAID_MONTHLY_COMMISSION : FREE_MONTHLY_COMMISSION;
+    const annualRate = isPaid ? PAID_ANNUAL_COMMISSION : FREE_ANNUAL_COMMISSION;
 
     if (!referralCode) {
       return NextResponse.json({
@@ -177,9 +180,9 @@ export async function GET(request: NextRequest) {
     let monthlyEarnings = 0;
     for (const r of vestedActive) {
       if (r.plan === "monthly") {
-        monthlyEarnings += MONTHLY_COMMISSION;
+        monthlyEarnings += monthlyRate;
       } else if (r.plan === "annual") {
-        monthlyEarnings += ANNUAL_COMMISSION / 12;
+        monthlyEarnings += annualRate / 12;
       }
     }
 
@@ -199,9 +202,9 @@ export async function GET(request: NextRequest) {
         // Monthly earnings since signup
         const signup = new Date(r.subscriberSignupDate);
         const months = Math.max(1, Math.floor((now.getTime() - signup.getTime()) / (30 * 24 * 60 * 60 * 1000)));
-        totalEarned += r.status === "active" ? months * MONTHLY_COMMISSION : MONTHLY_COMMISSION;
+        totalEarned += r.status === "active" ? months * monthlyRate : monthlyRate;
       } else {
-        totalEarned += ANNUAL_COMMISSION;
+        totalEarned += annualRate;
       }
     }
 
@@ -225,6 +228,9 @@ export async function GET(request: NextRequest) {
       pendingPayout,
       canRequestPayout: pendingPayout >= PAYOUT_THRESHOLD,
       payoutThreshold: PAYOUT_THRESHOLD,
+      isPaid,
+      monthlyRate,
+      annualRate,
     });
   } catch (err) {
     console.error("Organizer referral GET error:", err);

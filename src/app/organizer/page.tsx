@@ -196,7 +196,7 @@ export default function OrganizerDashboardPage() {
             { key: "add", label: "Add Event", icon: Plus },
             { key: "profile", label: "Profile", icon: User },
             { key: "instructor", label: "Instructor", icon: Star },
-            ...(isSubscribedOrganizer ? [{ key: "referrals" as const, label: "Referrals", icon: Gift }] : []),
+            { key: "referrals" as const, label: "Referrals", icon: Gift },
           ] as const
         ).map(({ key, label, icon: Icon }) => (
           <button
@@ -257,7 +257,7 @@ export default function OrganizerDashboardPage() {
       {activeTab === "instructor" && organizer && (
         <InstructorTab organizer={organizer} userId={user.uid} onRefresh={fetchData} />
       )}
-      {activeTab === "referrals" && isSubscribedOrganizer && (
+      {activeTab === "referrals" && (
         <ReferralsTab userId={user.uid} />
       )}
     </div>
@@ -1279,6 +1279,9 @@ function ReferralsTab({ userId }: { userId: string }) {
     pendingPayout: number;
     canRequestPayout: boolean;
     payoutThreshold: number;
+    isPaid: boolean;
+    monthlyRate: number;
+    annualRate: number;
   } | null>(null);
   const [newCode, setNewCode] = useState("");
   const [creating, setCreating] = useState(false);
@@ -1425,7 +1428,12 @@ function ReferralsTab({ userId }: { userId: string }) {
           {/* Commission rates */}
           <div className="bg-skyblue-50 border border-skyblue-200 rounded-lg p-3 text-sm text-skyblue-800">
             <p className="font-medium mb-1">Commission rates</p>
-            <p className="text-xs">$1.00/month for each monthly subscriber you refer. $5.00 for each annual subscriber. 60-day vesting period.</p>
+            <p className="text-xs">
+              ${data.monthlyRate?.toFixed(2) || "1.00"}/month for each monthly subscriber you refer. ${data.annualRate?.toFixed(2) || "5.00"} for each annual subscriber. 60-day vesting period.
+              {!data.isPaid && (
+                <span className="block mt-1 text-amber-600">Subscribe to earn higher rates: $1.50/month and $7.50/annual.</span>
+              )}
+            </p>
           </div>
 
           {/* Payout button */}
@@ -1460,7 +1468,7 @@ function ReferralsTab({ userId }: { userId: string }) {
                       {!r.isVested && <span className="text-amber-500">Vesting</span>}
                       {r.isVested && r.status === "active" && (
                         <span className="text-green-600 font-medium">
-                          ${r.plan === "monthly" ? "1.00" : "5.00"}{r.plan === "monthly" ? "/mo" : ""}
+                          ${r.plan === "monthly" ? (data.monthlyRate?.toFixed(2) || "1.00") : (data.annualRate?.toFixed(2) || "5.00")}{r.plan === "monthly" ? "/mo" : ""}
                         </span>
                       )}
                       <span className="text-slate-400">{new Date(r.signupDate).toLocaleDateString()}</span>
