@@ -126,6 +126,24 @@ export async function PUT(request: NextRequest) {
 
     const now = new Date().toISOString();
     const orgData = doc.data()!;
+
+    // Auto-update slug when name changes (unless slug was explicitly provided)
+    if (updates.organizerName && !updates.slug) {
+      updates.slug = updates.organizerName
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/(^-|-$)/g, "");
+    }
+    // Clean any explicitly provided slug
+    if (updates.slug) {
+      updates.slug = updates.slug
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/(^-|-$)/g, "");
+    }
+
     await docRef.update({ ...updates, lastUpdated: now });
 
     // Propagate contact/name changes to all linked listings

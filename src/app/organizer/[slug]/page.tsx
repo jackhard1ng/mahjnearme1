@@ -18,57 +18,39 @@ interface OrganizerPageProps {
   params: Promise<{ slug: string }>;
 }
 
+/** Normalize a string to a clean URL slug */
+function toSlug(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/(^-|-$)/g, "");
+}
+
 async function getOrganizerBySlug(slug: string) {
   const db = getAdminDb();
-  // Normalize the slug: collapse multiple dashes, trim
-  const normalized = slug.toLowerCase().replace(/-+/g, "-").replace(/(^-|-$)/g, "");
+  const normalized = toSlug(slug);
 
-  // Try exact slug match
-  const snap = await db
-    .collection("organizers")
-    .where("slug", "==", normalized)
-    .limit(1)
-    .get();
+  // 1. Try exact slug match
+  const snap1 = await db.collection("organizers").where("slug", "==", normalized).limit(1).get();
+  if (!snap1.empty) return { id: snap1.docs[0].id, ...snap1.docs[0].data() } as Record<string, unknown> & { id: string };
 
-  if (!snap.empty) {
-    const doc = snap.docs[0];
-    return { id: doc.id, ...doc.data() } as Record<string, unknown> & { id: string };
-  }
-
-  // Try original slug (in case it has different casing)
+  // 2. Try original slug as-is
   if (normalized !== slug) {
-    const snap1b = await db
-      .collection("organizers")
-      .where("slug", "==", slug)
-      .limit(1)
-      .get();
-    if (!snap1b.empty) {
-      const doc = snap1b.docs[0];
-      return { id: doc.id, ...doc.data() } as Record<string, unknown> & { id: string };
-    }
+    const snap1b = await db.collection("organizers").where("slug", "==", slug).limit(1).get();
+    if (!snap1b.empty) return { id: snap1b.docs[0].id, ...snap1b.docs[0].data() } as Record<string, unknown> & { id: string };
   }
 
-  // Try nameKey as fallback
-  const snap2 = await db
-    .collection("organizers")
-    .where("nameKey", "==", normalized)
-    .limit(1)
-    .get();
-  if (!snap2.empty) {
-    const doc = snap2.docs[0];
-    return { id: doc.id, ...doc.data() } as Record<string, unknown> & { id: string };
-  }
+  // 3. Try nameKey (space-separated version)
+  const nameKeyVersion = slug.replace(/-/g, " ").toLowerCase().trim();
+  const snap2 = await db.collection("organizers").where("nameKey", "==", nameKeyVersion).limit(1).get();
+  if (!snap2.empty) return { id: snap2.docs[0].id, ...snap2.docs[0].data() } as Record<string, unknown> & { id: string };
 
-  // Last resort: scan all organizers for partial slug match
-  const allSnap = await db.collection("organizers").get();
-  for (const doc of allSnap.docs) {
-    const data = doc.data();
-    const orgSlug = ((data.slug as string) || "").replace(/-+/g, "-").replace(/(^-|-$)/g, "");
-    const orgNameKey = ((data.nameKey as string) || "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-    if (orgSlug === normalized || orgNameKey === normalized) {
-      return { id: doc.id, ...data } as Record<string, unknown> & { id: string };
-    }
-  }
+  // 4. Try nameKey with dashes
+  const snap3 = await db.collection("organizers").where("nameKey", "==", normalized).limit(1).get();
+  if (!snap3.empty) return { id: snap3.docs[0].id, ...snap3.docs[0].data() } as Record<string, unknown> & { id: string };
+
+  // 5. Try by organizer ID directly (in case slug IS the doc ID)
+  try {
+    const docSnap = await db.collection("organizers").doc(slug).get();
+    if (docSnap.exists) return { id: docSnap.id, ...docSnap.data() } as Record<string, unknown> & { id: string };
+  } catch { /* not a valid doc ID */ }
 
   return null;
 }
@@ -85,10 +67,7 @@ async function getOrganizerListings(organizer: Record<string, unknown>): Promise
       const listings: Game[] = [];
       for (let i = 0; i < listingIds.length; i += 30) {
         const batch = listingIds.slice(i, i + 30);
-        const snap = await db
-          .collection("listings")
-          .where("__name__", "in", batch)
-          .get();
+        const snap = await db.collection("listings").where("__name__", "in", batch).get();
         for (const doc of snap.docs) {
           const data = doc.data();
           if (data.status === "active") {
@@ -97,9 +76,7 @@ async function getOrganizerListings(organizer: Record<string, unknown>): Promise
         }
       }
       if (listings.length > 0) return listings;
-    } catch {
-      // Fall through to JSON fallback
-    }
+    } catch { /* fall through */ }
   }
 
   // Fallback: match from static JSON by organizer/contact name
@@ -144,7 +121,7 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
         <h1 className="text-2xl font-bold text-slate-800 mb-4">Organizer Not Found</h1>
-        <p className="text-slate-600 mb-6">This organizer profile doesn&apos;t exist.</p>
+        <p className="text-slate-600 mb-6">This organizer profile doesn&apos;t exist or the link may have changed.</p>
         <Link href="/search" className="text-hotpink-500 hover:text-hotpink-600 font-medium">
           Search for Games
         </Link>
@@ -172,7 +149,6 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
 
   const listings = await getOrganizerListings(organizer);
 
-  // Build a search link for this organizer's city
   const primaryCity = cities[0] || "";
   const searchLink = primaryCity
     ? `/search?q=${encodeURIComponent(primaryCity)}`
@@ -183,14 +159,14 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
       {/* Profile Header */}
       <div className="bg-white border border-slate-200 rounded-xl p-6 mb-6">
         <div className="flex flex-col md:flex-row gap-6">
-          {photoURL && (
+          {photoURL ? (
             <div className="flex-shrink-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={photoURL}
-                alt={name}
-                className="w-24 h-24 rounded-full object-cover border-2 border-slate-200"
-              />
+              <img src={photoURL} alt={name} className="w-24 h-24 rounded-full object-cover border-2 border-slate-200" />
+            </div>
+          ) : (
+            <div className="flex-shrink-0 w-24 h-24 rounded-full bg-hotpink-100 flex items-center justify-center">
+              <GraduationCap className="w-10 h-10 text-hotpink-400" />
             </div>
           )}
           <div className="flex-1">
@@ -218,47 +194,24 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
 
             {bio && <p className="text-slate-600 mb-4">{bio}</p>}
 
-            {/* Contact links */}
             <div className="flex flex-wrap gap-3">
               {website && (
-                <a
-                  href={website.startsWith("http") ? website : `https://${website}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium"
-                >
+                <a href={website.startsWith("http") ? website : `https://${website}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium">
                   <Globe className="w-4 h-4" /> Website
                 </a>
               )}
               {instagram && (
-                <a
-                  href={
-                    instagram.startsWith("http")
-                      ? instagram
-                      : `https://instagram.com/${instagram.replace("@", "")}`
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium"
-                >
+                <a href={instagram.startsWith("http") ? instagram : `https://instagram.com/${instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium">
                   Instagram
                 </a>
               )}
               {facebookGroup && (
-                <a
-                  href={facebookGroup.startsWith("http") ? facebookGroup : `https://facebook.com/groups/${facebookGroup}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium"
-                >
+                <a href={facebookGroup.startsWith("http") ? facebookGroup : `https://facebook.com/groups/${facebookGroup}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium">
                   Facebook
                 </a>
               )}
               {email && (
-                <a
-                  href={`mailto:${email}`}
-                  className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium"
-                >
+                <a href={`mailto:${email}`} className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium">
                   <Mail className="w-4 h-4" /> Contact
                 </a>
               )}
@@ -282,30 +235,17 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
             </div>
             <div className="flex gap-2 flex-shrink-0">
               {website && (
-                <a
-                  href={website.startsWith("http") ? website : `https://${website}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 bg-white text-purple-700 px-4 py-2.5 rounded-lg font-semibold text-sm hover:bg-purple-50 transition"
-                >
+                <a href={website.startsWith("http") ? website : `https://${website}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 bg-white text-purple-700 px-4 py-2.5 rounded-lg font-semibold text-sm hover:bg-purple-50 transition">
                   <Globe className="w-4 h-4" /> Book Online
                 </a>
               )}
               {email && (
-                <a
-                  href={`mailto:${email}?subject=Mahjong Lesson Inquiry`}
-                  className="inline-flex items-center gap-1.5 bg-white/20 text-white border border-white/30 px-4 py-2.5 rounded-lg font-semibold text-sm hover:bg-white/30 transition"
-                >
+                <a href={`mailto:${email}?subject=Mahjong Lesson Inquiry`} className="inline-flex items-center gap-1.5 bg-white/20 text-white border border-white/30 px-4 py-2.5 rounded-lg font-semibold text-sm hover:bg-white/30 transition">
                   <Mail className="w-4 h-4" /> Email
                 </a>
               )}
               {!website && !email && instagram && (
-                <a
-                  href={instagram.startsWith("http") ? instagram : `https://instagram.com/${instagram.replace("@", "")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 bg-white text-purple-700 px-4 py-2.5 rounded-lg font-semibold text-sm hover:bg-purple-50 transition"
-                >
+                <a href={instagram.startsWith("http") ? instagram : `https://instagram.com/${instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 bg-white text-purple-700 px-4 py-2.5 rounded-lg font-semibold text-sm hover:bg-purple-50 transition">
                   DM on Instagram
                 </a>
               )}
@@ -318,74 +258,46 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
       {isInstructor && instructorDetails && (
         <div className="bg-purple-50 border border-purple-200 rounded-xl p-5 mb-6">
           <h2 className="font-semibold text-purple-800 flex items-center gap-2 mb-3">
-            <GraduationCap className="w-5 h-5" /> Mahjong Instructor
+            <GraduationCap className="w-5 h-5" /> Instructor Details
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             {instructorDetails.teachingStyles && instructorDetails.teachingStyles.length > 0 && (
-              <div>
-                <span className="font-medium text-purple-700">Lesson Types: </span>
-                <span className="text-purple-600">
-                  {instructorDetails.teachingStyles
-                    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-                    .join(", ")}
-                </span>
-              </div>
+              <div><span className="font-medium text-purple-700">Lesson Types: </span><span className="text-purple-600">{instructorDetails.teachingStyles.map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(", ")}</span></div>
             )}
             {instructorDetails.gameStylesTaught && instructorDetails.gameStylesTaught.length > 0 && (
-              <div>
-                <span className="font-medium text-purple-700">Styles Taught: </span>
-                <span className="text-purple-600">
-                  {instructorDetails.gameStylesTaught
-                    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-                    .join(", ")}
-                </span>
-              </div>
+              <div><span className="font-medium text-purple-700">Styles Taught: </span><span className="text-purple-600">{instructorDetails.gameStylesTaught.map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(", ")}</span></div>
             )}
             {instructorDetails.certifications && (
-              <div>
-                <span className="font-medium text-purple-700">Certifications: </span>
-                <span className="text-purple-600">{instructorDetails.certifications}</span>
-              </div>
+              <div><span className="font-medium text-purple-700">Certifications: </span><span className="text-purple-600">{instructorDetails.certifications}</span></div>
             )}
             {instructorDetails.serviceArea && (
-              <div>
-                <span className="font-medium text-purple-700">Service Area: </span>
-                <span className="text-purple-600">{instructorDetails.serviceArea}</span>
-              </div>
+              <div><span className="font-medium text-purple-700">Service Area: </span><span className="text-purple-600">{instructorDetails.serviceArea}</span></div>
             )}
           </div>
         </div>
       )}
 
-      {/* Photos gallery */}
+      {/* Photos */}
       {photos.length > 0 && (
         <div className="mb-6">
           <h2 className="text-lg font-semibold text-slate-800 mb-3">Photos</h2>
           <div className="flex gap-3 overflow-x-auto pb-2">
             {photos.map((url, i) => (
               /* eslint-disable-next-line @next/next/no-img-element */
-              <img
-                key={i}
-                src={url}
-                alt={`${name} photo ${i + 1}`}
-                className="w-48 h-32 rounded-lg object-cover flex-shrink-0"
-              />
+              <img key={i} src={url} alt={`${name} photo ${i + 1}`} className="w-48 h-32 rounded-lg object-cover flex-shrink-0" />
             ))}
           </div>
         </div>
       )}
 
-      {/* Events section */}
+      {/* Events */}
       <div className="bg-white border border-slate-200 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
             <Calendar className="w-5 h-5" /> Games & Events ({listings.length})
           </h2>
           {listings.length > 0 && (
-            <Link
-              href={searchLink}
-              className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium flex items-center gap-1"
-            >
+            <Link href={searchLink} className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium flex items-center gap-1">
               See all in search <ArrowRight className="w-3 h-3" />
             </Link>
           )}
@@ -399,53 +311,22 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
           </div>
         ) : (
           <>
-            {/* Show first 5 events as previews */}
             <div className="space-y-3 mb-4">
               {listings.slice(0, 5).map((game) => (
-                <Link
-                  key={game.id}
-                  href={`/games/${game.state?.toLowerCase()}/${encodeURIComponent(game.city?.toLowerCase().replace(/\s+/g, "-"))}/${game.id}`}
-                  className="block border border-slate-100 rounded-lg p-3 hover:border-hotpink-200 transition"
-                >
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="font-medium text-slate-800 text-sm">{game.name}</h3>
-                      <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mt-1">
-                        <span className="flex items-center gap-1">
-                          <MapPin className="w-3 h-3" />
-                          {game.city}, {game.state}
-                        </span>
-                        {game.venueName && <span>{game.venueName}</span>}
-                        {game.recurringSchedule && (
-                          <span className="flex items-center gap-1">
-                            <Calendar className="w-3 h-3" />
-                            {game.recurringSchedule.dayOfWeek}{" "}
-                            {game.recurringSchedule.startTime && `at ${game.recurringSchedule.startTime}`}
-                          </span>
-                        )}
-                        {game.type && (
-                          <span className="capitalize bg-slate-100 px-1.5 py-0.5 rounded text-[10px]">
-                            {game.type.replace("_", " ")}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <ExternalLink className="w-3.5 h-3.5 text-slate-400 flex-shrink-0 mt-1" />
+                <Link key={game.id} href={`/games/${game.state?.toLowerCase()}/${encodeURIComponent(game.city?.toLowerCase().replace(/\s+/g, "-"))}/${game.id}`} className="block border border-slate-100 rounded-lg p-3 hover:border-hotpink-200 transition">
+                  <h3 className="font-medium text-slate-800 text-sm">{game.name}</h3>
+                  <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mt-1">
+                    <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{game.city}, {game.state}</span>
+                    {game.venueName && <span>{game.venueName}</span>}
+                    {game.recurringSchedule && (
+                      <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{game.recurringSchedule.dayOfWeek} {game.recurringSchedule.startTime && `at ${game.recurringSchedule.startTime}`}</span>
+                    )}
                   </div>
                 </Link>
               ))}
             </div>
-
-            {/* See all events button */}
-            {listings.length > 5 && (
-              <p className="text-center text-sm text-slate-400 mb-4">
-                Showing 5 of {listings.length} events
-              </p>
-            )}
-            <Link
-              href={searchLink}
-              className="block w-full text-center bg-hotpink-500 text-white py-3 rounded-lg font-semibold hover:bg-hotpink-600 transition"
-            >
+            {listings.length > 5 && <p className="text-center text-sm text-slate-400 mb-4">Showing 5 of {listings.length} events</p>}
+            <Link href={searchLink} className="block w-full text-center bg-hotpink-500 text-white py-3 rounded-lg font-semibold hover:bg-hotpink-600 transition">
               See all events from {name} <ArrowRight className="w-4 h-4 inline ml-1" />
             </Link>
           </>
