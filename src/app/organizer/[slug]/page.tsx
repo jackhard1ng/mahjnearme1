@@ -7,9 +7,10 @@ import {
   Mail,
   Calendar,
   Star,
-  Users,
   GraduationCap,
   ExternalLink,
+  ArrowRight,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -25,31 +26,62 @@ async function getOrganizerBySlug(slug: string) {
     .limit(1)
     .get();
 
-  if (snap.empty) return null;
+  if (snap.empty) {
+    // Try nameKey as fallback
+    const snap2 = await db
+      .collection("organizers")
+      .where("nameKey", "==", slug)
+      .limit(1)
+      .get();
+    if (snap2.empty) return null;
+    const doc = snap2.docs[0];
+    return { id: doc.id, ...doc.data() } as Record<string, unknown> & { id: string };
+  }
   const doc = snap.docs[0];
   return { id: doc.id, ...doc.data() } as Record<string, unknown> & { id: string };
 }
 
-async function getOrganizerListings(listingIds: string[]): Promise<Game[]> {
-  if (!listingIds.length) return [];
-  const db = getAdminDb();
-  const listings: Game[] = [];
+async function getOrganizerListings(organizer: Record<string, unknown>): Promise<Game[]> {
+  const listingIds = (organizer.listingIds as string[]) || [];
+  const orgName = (organizer.organizerName as string) || "";
+  const nameKey = (organizer.nameKey as string) || "";
 
-  for (let i = 0; i < listingIds.length; i += 30) {
-    const batch = listingIds.slice(i, i + 30);
-    const snap = await db
-      .collection("listings")
-      .where("__name__", "in", batch)
-      .get();
-    for (const doc of snap.docs) {
-      const data = doc.data();
-      if (data.status === "active") {
-        listings.push({ id: doc.id, ...data } as unknown as Game);
+  // Try Firestore first
+  if (listingIds.length > 0) {
+    try {
+      const db = getAdminDb();
+      const listings: Game[] = [];
+      for (let i = 0; i < listingIds.length; i += 30) {
+        const batch = listingIds.slice(i, i + 30);
+        const snap = await db
+          .collection("listings")
+          .where("__name__", "in", batch)
+          .get();
+        for (const doc of snap.docs) {
+          const data = doc.data();
+          if (data.status === "active") {
+            listings.push({ id: doc.id, ...data } as unknown as Game);
+          }
+        }
       }
+      if (listings.length > 0) return listings;
+    } catch {
+      // Fall through to JSON fallback
     }
   }
 
-  return listings;
+  // Fallback: match from static JSON by organizer/contact name
+  try {
+    const { loadListings } = require("@/lib/listings-data");
+    const allGames: Game[] = loadListings();
+    return allGames.filter((g) => {
+      const cn = (g.contactName || "").toLowerCase().trim();
+      const on = (g.organizerName || "").toLowerCase().trim();
+      return cn === nameKey || on === nameKey || cn === orgName.toLowerCase() || on === orgName.toLowerCase();
+    });
+  } catch {
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: OrganizerPageProps): Promise<Metadata> {
@@ -62,11 +94,13 @@ export async function generateMetadata({ params }: OrganizerPageProps): Promise<
 
   const name = organizer.organizerName as string;
   const cities = (organizer.cities as string[]) || [];
+  const isInstructor = organizer.isInstructor as boolean;
   const cityText = cities.length > 0 ? ` in ${cities.slice(0, 3).join(", ")}` : "";
+  const role = isInstructor ? "Mahjong Instructor" : "Mahjong Organizer";
 
   return {
-    title: `${name} | Mahjong Organizer${cityText} | MahjNearMe`,
-    description: `${name} hosts mahjong games${cityText}. View their schedule, events, and contact info on MahjNearMe.`,
+    title: `${name} | ${role}${cityText} | MahjNearMe`,
+    description: `${name} hosts mahjong games${cityText}. View their profile, schedule, and contact info on MahjNearMe.`,
   };
 }
 
@@ -103,99 +137,154 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
     gameStylesTaught?: string[];
   } | null;
   const cities = (organizer.cities as string[]) || [];
-  const listingIds = (organizer.listingIds as string[]) || [];
 
-  const listings = await getOrganizerListings(listingIds);
+  const listings = await getOrganizerListings(organizer);
+
+  // Build a search link for this organizer's city
+  const primaryCity = cities[0] || "";
+  const searchLink = primaryCity
+    ? `/search?q=${encodeURIComponent(primaryCity)}`
+    : "/search";
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row gap-6 mb-8">
-        {photoURL && (
-          <div className="flex-shrink-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={photoURL}
-              alt={name}
-              className="w-24 h-24 rounded-full object-cover border-2 border-slate-200"
-            />
-          </div>
-        )}
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <h1 className="text-3xl font-bold text-slate-800">{name}</h1>
-            {featured && (
-              <span className="bg-amber-100 text-amber-700 text-xs font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
-                <Star className="w-3 h-3 fill-amber-500" /> Featured
-              </span>
-            )}
-            {isInstructor && (
-              <span className="bg-purple-100 text-purple-700 text-xs font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
-                <GraduationCap className="w-3 h-3" /> Instructor
-              </span>
-            )}
-          </div>
-
-          {cities.length > 0 && (
-            <p className="text-slate-500 flex items-center gap-1 mb-2">
-              <MapPin className="w-4 h-4" />
-              {cities.slice(0, 5).join(", ")}
-              {cities.length > 5 ? ` +${cities.length - 5} more` : ""}
-            </p>
+      {/* Profile Header */}
+      <div className="bg-white border border-slate-200 rounded-xl p-6 mb-6">
+        <div className="flex flex-col md:flex-row gap-6">
+          {photoURL && (
+            <div className="flex-shrink-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={photoURL}
+                alt={name}
+                className="w-24 h-24 rounded-full object-cover border-2 border-slate-200"
+              />
+            </div>
           )}
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-800">{name}</h1>
+              {featured && (
+                <span className="bg-amber-100 text-amber-700 text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
+                  <Star className="w-3 h-3 fill-amber-500" /> Featured
+                </span>
+              )}
+              {isInstructor && (
+                <span className="bg-purple-100 text-purple-700 text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
+                  <GraduationCap className="w-3 h-3" /> Instructor
+                </span>
+              )}
+            </div>
 
-          {bio && <p className="text-slate-600 mb-3">{bio}</p>}
+            {cities.length > 0 && (
+              <p className="text-slate-500 flex items-center gap-1 mb-3">
+                <MapPin className="w-4 h-4" />
+                {cities.slice(0, 5).join(", ")}
+                {cities.length > 5 ? ` +${cities.length - 5} more` : ""}
+              </p>
+            )}
 
-          <div className="flex flex-wrap gap-3">
-            {website && (
-              <a
-                href={website.startsWith("http") ? website : `https://${website}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-hotpink-500 hover:text-hotpink-600 flex items-center gap-1"
-              >
-                <Globe className="w-4 h-4" /> Website
-              </a>
-            )}
-            {instagram && (
-              <a
-                href={
-                  instagram.startsWith("http")
-                    ? instagram
-                    : `https://instagram.com/${instagram.replace("@", "")}`
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-hotpink-500 hover:text-hotpink-600 flex items-center gap-1"
-              >
-                Instagram
-              </a>
-            )}
-            {facebookGroup && (
-              <a
-                href={facebookGroup.startsWith("http") ? facebookGroup : `https://facebook.com/groups/${facebookGroup}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-hotpink-500 hover:text-hotpink-600 flex items-center gap-1"
-              >
-                Facebook
-              </a>
-            )}
-            {email && (
-              <a
-                href={`mailto:${email}`}
-                className="text-sm text-hotpink-500 hover:text-hotpink-600 flex items-center gap-1"
-              >
-                <Mail className="w-4 h-4" /> Contact
-              </a>
-            )}
+            {bio && <p className="text-slate-600 mb-4">{bio}</p>}
+
+            {/* Contact links */}
+            <div className="flex flex-wrap gap-3">
+              {website && (
+                <a
+                  href={website.startsWith("http") ? website : `https://${website}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium"
+                >
+                  <Globe className="w-4 h-4" /> Website
+                </a>
+              )}
+              {instagram && (
+                <a
+                  href={
+                    instagram.startsWith("http")
+                      ? instagram
+                      : `https://instagram.com/${instagram.replace("@", "")}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium"
+                >
+                  Instagram
+                </a>
+              )}
+              {facebookGroup && (
+                <a
+                  href={facebookGroup.startsWith("http") ? facebookGroup : `https://facebook.com/groups/${facebookGroup}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium"
+                >
+                  Facebook
+                </a>
+              )}
+              {email && (
+                <a
+                  href={`mailto:${email}`}
+                  className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium"
+                >
+                  <Mail className="w-4 h-4" /> Contact
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
+      {/* Instructor booking CTA */}
+      {isInstructor && (
+        <div className="bg-gradient-to-r from-purple-500 to-hotpink-500 rounded-xl p-5 mb-6 text-white">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h2 className="font-bold text-lg flex items-center gap-2">
+                <GraduationCap className="w-5 h-5" /> Book a Mahjong Lesson
+              </h2>
+              <p className="text-white/80 text-sm mt-1">
+                {name} offers mahjong lessons{instructorDetails?.serviceArea ? ` in ${instructorDetails.serviceArea}` : ""}.
+                {instructorDetails?.teachingStyles?.length ? ` Available for ${instructorDetails.teachingStyles.join(", ")} lessons.` : ""}
+              </p>
+            </div>
+            <div className="flex gap-2 flex-shrink-0">
+              {website && (
+                <a
+                  href={website.startsWith("http") ? website : `https://${website}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 bg-white text-purple-700 px-4 py-2.5 rounded-lg font-semibold text-sm hover:bg-purple-50 transition"
+                >
+                  <Globe className="w-4 h-4" /> Book Online
+                </a>
+              )}
+              {email && (
+                <a
+                  href={`mailto:${email}?subject=Mahjong Lesson Inquiry`}
+                  className="inline-flex items-center gap-1.5 bg-white/20 text-white border border-white/30 px-4 py-2.5 rounded-lg font-semibold text-sm hover:bg-white/30 transition"
+                >
+                  <Mail className="w-4 h-4" /> Email
+                </a>
+              )}
+              {!website && !email && instagram && (
+                <a
+                  href={instagram.startsWith("http") ? instagram : `https://instagram.com/${instagram.replace("@", "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 bg-white text-purple-700 px-4 py-2.5 rounded-lg font-semibold text-sm hover:bg-purple-50 transition"
+                >
+                  DM on Instagram
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Instructor details */}
       {isInstructor && instructorDetails && (
-        <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-8">
+        <div className="bg-purple-50 border border-purple-200 rounded-xl p-5 mb-6">
           <h2 className="font-semibold text-purple-800 flex items-center gap-2 mb-3">
             <GraduationCap className="w-5 h-5" /> Mahjong Instructor
           </h2>
@@ -238,7 +327,7 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
 
       {/* Photos gallery */}
       {photos.length > 0 && (
-        <div className="mb-8">
+        <div className="mb-6">
           <h2 className="text-lg font-semibold text-slate-800 mb-3">Photos</h2>
           <div className="flex gap-3 overflow-x-auto pb-2">
             {photos.map((url, i) => (
@@ -254,55 +343,80 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
         </div>
       )}
 
-      {/* Listings */}
-      <div>
-        <h2 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
-          <Calendar className="w-5 h-5" /> Games & Events ({listings.length})
-        </h2>
+      {/* Events section */}
+      <div className="bg-white border border-slate-200 rounded-xl p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
+            <Calendar className="w-5 h-5" /> Games & Events ({listings.length})
+          </h2>
+          {listings.length > 0 && (
+            <Link
+              href={searchLink}
+              className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium flex items-center gap-1"
+            >
+              See all in search <ArrowRight className="w-3 h-3" />
+            </Link>
+          )}
+        </div>
 
         {listings.length === 0 ? (
-          <p className="text-slate-400 py-8 text-center">No active listings yet.</p>
-        ) : (
-          <div className="space-y-3">
-            {listings.map((game) => (
-              <Link
-                key={game.id}
-                href={`/games/${game.state?.toLowerCase()}/${encodeURIComponent(game.city?.toLowerCase().replace(/\s+/g, "-"))}/${game.id}`}
-                className="block border border-slate-200 rounded-lg p-4 hover:border-softpink-300 transition"
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-medium text-slate-800">{game.name}</h3>
-                    <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500 mt-1">
-                      <span className="flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />
-                        {game.city}, {game.state}
-                      </span>
-                      {game.venueName && <span>{game.venueName}</span>}
-                      {game.recurringSchedule && (
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
-                          {game.recurringSchedule.dayOfWeek}{" "}
-                          {game.recurringSchedule.startTime && `at ${game.recurringSchedule.startTime}`}
-                        </span>
-                      )}
-                      {game.type && (
-                        <span className="capitalize bg-slate-100 px-2 py-0.5 rounded text-xs">
-                          {game.type.replace("_", " ")}
-                        </span>
-                      )}
-                    </div>
-                    {game.description && (
-                      <p className="text-sm text-slate-500 mt-2 line-clamp-2">
-                        {game.description}
-                      </p>
-                    )}
-                  </div>
-                  <ExternalLink className="w-4 h-4 text-slate-400 flex-shrink-0 mt-1" />
-                </div>
-              </Link>
-            ))}
+          <div className="text-center py-8">
+            <Users className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+            <p className="text-slate-400 mb-2">No events listed yet.</p>
+            <p className="text-slate-400 text-sm">Check back soon or contact this organizer directly.</p>
           </div>
+        ) : (
+          <>
+            {/* Show first 5 events as previews */}
+            <div className="space-y-3 mb-4">
+              {listings.slice(0, 5).map((game) => (
+                <Link
+                  key={game.id}
+                  href={`/games/${game.state?.toLowerCase()}/${encodeURIComponent(game.city?.toLowerCase().replace(/\s+/g, "-"))}/${game.id}`}
+                  className="block border border-slate-100 rounded-lg p-3 hover:border-hotpink-200 transition"
+                >
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="font-medium text-slate-800 text-sm">{game.name}</h3>
+                      <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mt-1">
+                        <span className="flex items-center gap-1">
+                          <MapPin className="w-3 h-3" />
+                          {game.city}, {game.state}
+                        </span>
+                        {game.venueName && <span>{game.venueName}</span>}
+                        {game.recurringSchedule && (
+                          <span className="flex items-center gap-1">
+                            <Calendar className="w-3 h-3" />
+                            {game.recurringSchedule.dayOfWeek}{" "}
+                            {game.recurringSchedule.startTime && `at ${game.recurringSchedule.startTime}`}
+                          </span>
+                        )}
+                        {game.type && (
+                          <span className="capitalize bg-slate-100 px-1.5 py-0.5 rounded text-[10px]">
+                            {game.type.replace("_", " ")}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <ExternalLink className="w-3.5 h-3.5 text-slate-400 flex-shrink-0 mt-1" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* See all events button */}
+            {listings.length > 5 && (
+              <p className="text-center text-sm text-slate-400 mb-4">
+                Showing 5 of {listings.length} events
+              </p>
+            )}
+            <Link
+              href={searchLink}
+              className="block w-full text-center bg-hotpink-500 text-white py-3 rounded-lg font-semibold hover:bg-hotpink-600 transition"
+            >
+              See all events from {name} <ArrowRight className="w-4 h-4 inline ml-1" />
+            </Link>
+          </>
         )}
       </div>
     </div>
