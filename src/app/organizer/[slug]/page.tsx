@@ -286,25 +286,26 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
 
             {bio && <p className="text-slate-600 mb-4">{cleanText(bio)}</p>}
 
-            <div className="flex flex-wrap gap-3">
+            {/* Contact links as styled buttons */}
+            <div className="flex flex-wrap gap-2">
               {website && (
-                <a href={website.startsWith("http") ? website : `https://${website}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium">
-                  <Globe className="w-4 h-4" /> Website
+                <a href={website.startsWith("http") ? website : `https://${website}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm bg-white border border-slate-200 text-slate-700 px-3 py-1.5 rounded-lg hover:border-hotpink-300 hover:text-hotpink-600 transition">
+                  <Globe className="w-3.5 h-3.5" /> {website.replace(/^https?:\/\//, "").replace(/\/$/, "").split("/")[0]}
                 </a>
               )}
               {instagram && (
-                <a href={instagram.startsWith("http") ? instagram : `https://instagram.com/${instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium">
-                  Instagram
+                <a href={instagram.startsWith("http") ? instagram : `https://instagram.com/${instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm bg-white border border-slate-200 text-slate-700 px-3 py-1.5 rounded-lg hover:border-hotpink-300 hover:text-hotpink-600 transition">
+                  @{instagram.replace("@", "").replace(/^https?:\/\/instagram\.com\//, "")}
                 </a>
               )}
               {facebookGroup && (
-                <a href={facebookGroup.startsWith("http") ? facebookGroup : `https://facebook.com/groups/${facebookGroup}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium">
+                <a href={facebookGroup.startsWith("http") ? facebookGroup : `https://facebook.com/groups/${facebookGroup}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm bg-white border border-slate-200 text-slate-700 px-3 py-1.5 rounded-lg hover:border-hotpink-300 hover:text-hotpink-600 transition">
                   Facebook
                 </a>
               )}
               {email && (
-                <a href={`mailto:${email}`} className="inline-flex items-center gap-1.5 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium">
-                  <Mail className="w-4 h-4" /> Contact
+                <a href={`mailto:${email}`} className="inline-flex items-center gap-1.5 text-sm bg-white border border-slate-200 text-slate-700 px-3 py-1.5 rounded-lg hover:border-hotpink-300 hover:text-hotpink-600 transition">
+                  <Mail className="w-3.5 h-3.5" /> {email}
                 </a>
               )}
             </div>
