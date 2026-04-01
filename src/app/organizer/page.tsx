@@ -756,31 +756,17 @@ function ProfileTab({
     setSaving(true);
     setMessage("");
     try {
-      const res = await fetch("/api/organizers", {
+      const res = await fetch("/api/organizer-profile", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: organizer.id, ...form }),
+        body: JSON.stringify({ userId, updates: form }),
       });
       if (res.ok) {
         setMessage("Profile updated!");
         onRefresh();
       } else {
-        // Try through admin-proxy for organizer self-service
-        const proxyRes = await fetch("/api/admin-proxy", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            route: `/api/organizers`,
-            method: "PUT",
-            body: { id: organizer.id, ...form },
-          }),
-        });
-        if (proxyRes.ok) {
-          setMessage("Profile updated!");
-          onRefresh();
-        } else {
-          setMessage("Failed to update profile.");
-        }
+        const data = await res.json();
+        setMessage(data.error || "Failed to update profile.");
       }
     } catch {
       setMessage("Something went wrong.");
@@ -802,14 +788,13 @@ function ProfileTab({
       await uploadBytes(storageRef, file);
       const url = await getDownloadURL(storageRef);
 
-      // Update organizer profile with photo
-      await fetch("/api/admin-proxy", {
-        method: "POST",
+      // Update organizer profile with photo (self-service endpoint)
+      await fetch("/api/organizer-profile", {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          route: `/api/organizers`,
-          method: "PUT",
-          body: { id: organizer.id, photoURL: url, photos: [...(organizer.photos || []), url] },
+          userId,
+          updates: { photoURL: url, photos: [...(organizer.photos || []), url] },
         }),
       });
 
@@ -865,20 +850,29 @@ function ProfileTab({
 
         {/* Photo upload - subscribers only */}
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-1">
-            <Upload className="w-3 h-3" /> Profile Photo & Gallery
+          <label className="block text-sm font-medium text-slate-700 mb-2 flex items-center gap-1">
+            <Upload className="w-3 h-3" /> Profile Photo / Logo
           </label>
           {isSubscribed ? (
-            <>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handlePhotoUpload}
-                disabled={uploading}
-                className="text-sm text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-hotpink-100 file:text-hotpink-700 file:font-medium hover:file:bg-hotpink-200"
-              />
-              {uploading && <p className="text-xs text-slate-400 mt-1">Uploading...</p>}
-            </>
+            <div className="flex items-center gap-4">
+              {organizer.photoURL ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img src={organizer.photoURL} alt="Current photo" className="w-16 h-16 rounded-full object-cover border-2 border-slate-200" />
+              ) : (
+                <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 text-xs">No photo</div>
+              )}
+              <div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoUpload}
+                  disabled={uploading}
+                  className="text-sm text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-hotpink-100 file:text-hotpink-700 file:font-medium hover:file:bg-hotpink-200"
+                />
+                {uploading && <p className="text-xs text-slate-400 mt-1">Uploading...</p>}
+                <p className="text-xs text-slate-400 mt-1">This shows on your profile and next to your events in search results</p>
+              </div>
+            </div>
           ) : (
             <p className="text-sm text-slate-500">
               Photo uploads are available for subscribers.{" "}
@@ -970,13 +964,12 @@ function InstructorTab({
         instructorDetails: isInstructor ? details : null,
       };
 
-      const res = await fetch("/api/admin-proxy", {
-        method: "POST",
+      const res = await fetch("/api/organizer-profile", {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          route: "/api/organizers",
-          method: "PUT",
-          body: updateData,
+          userId,
+          updates: { isInstructor, instructorDetails: isInstructor ? details : null },
         }),
       });
 
