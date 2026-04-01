@@ -425,7 +425,7 @@ export default async function OrganizerProfilePage({ params }: OrganizerPageProp
           <>
             <div className="space-y-3 mb-4">
               {listings.slice(0, 5).map((game) => (
-                <Link key={game.id} href={`/games/${game.state?.toLowerCase()}/${encodeURIComponent(game.city?.toLowerCase().replace(/\s+/g, "-"))}/${game.id}`} className="block border border-slate-100 rounded-lg p-3 hover:border-hotpink-200 transition">
+                <Link key={game.id} href={`/games/${(game.city + "-" + game.state).toLowerCase().replace(/[^a-z0-9]+/g, "-")}/${(game.name || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/(^-|-$)/g, "")}`} className="block border border-slate-100 rounded-lg p-3 hover:border-hotpink-200 transition">
                   <h3 className="font-medium text-slate-800 text-sm">{game.name}</h3>
                   <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mt-1">
                     <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{game.city}, {game.state}</span>

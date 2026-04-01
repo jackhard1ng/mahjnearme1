@@ -51,8 +51,24 @@ function getGameSlug(game: Game): string {
 
 function findGameBySlug(slug: string[]): Game | undefined {
   const joined = slug.join("/");
-  return mockGames.find(
+  // Try slug match first
+  const bySlug = mockGames.find(
     (g) => g.status === "active" && getGameSlug(g) === joined
+  );
+  if (bySlug) return bySlug;
+
+  // Fallback: try matching by game ID (last segment)
+  const lastSegment = slug[slug.length - 1];
+  if (lastSegment) {
+    const byId = mockGames.find(
+      (g) => g.status === "active" && g.id === lastSegment
+    );
+    if (byId) return byId;
+  }
+
+  // Fallback: try matching ID against full joined path
+  return mockGames.find(
+    (g) => g.status === "active" && g.id === joined
   );
 }
 

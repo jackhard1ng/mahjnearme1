@@ -29,6 +29,7 @@ import {
   Star,
   Flag,
   ArrowRight,
+  Pencil,
 } from "lucide-react";
 
 interface GameCardProps {
@@ -161,7 +162,7 @@ export default function GameCard({
   timingBadge = null,
   timingBadgeColor = "",
 }: GameCardProps) {
-  const { hasAccess } = useAuth();
+  const { hasAccess, isAdmin } = useAuth();
   const verification = getVerificationStatus(game.verified);
   const typeColor = getGameTypeColor(game.type);
   const typeLabel = getGameTypeLabel(game.type);
@@ -469,6 +470,15 @@ export default function GameCard({
                     >
                       <CalendarPlus className="w-3 h-3" /> {isOnCalendar ? "On Calendar" : "Add to Calendar"}
                     </button>
+                  )}
+                  {isAdmin && (
+                    <Link
+                      href={`/admin/games?edit=${game.id}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full font-medium text-slate-500 bg-slate-100 border border-slate-200 hover:bg-slate-200 transition-colors"
+                    >
+                      <Pencil className="w-3 h-3" /> Edit
+                    </Link>
                   )}
                 </div>
               )}
