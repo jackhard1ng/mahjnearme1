@@ -38,7 +38,17 @@ export async function POST(request: NextRequest) {
       const chunk = listings.slice(i, i + BATCH_SIZE);
       const batch = db.batch();
 
-      for (const listing of chunk) {
+      for (const rawListing of chunk) {
+        const listing = {
+          ...rawListing,
+          // Normalize skillLevels: accept pipe-delimited string or array
+          skillLevels: (() => {
+            const s = rawListing.skillLevels;
+            if (Array.isArray(s)) return s;
+            if (typeof s === "string" && s) return s.split("|").filter(Boolean);
+            return ["beginner", "intermediate"];
+          })(),
+        };
         const docId = listing.id;
         if (!docId) {
           skipped++;

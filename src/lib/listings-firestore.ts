@@ -59,7 +59,12 @@ function docToGame(data: Record<string, unknown>, id: string): Game {
     description: (data.description as string) || "",
     howToJoin: (data.howToJoin as string) || "",
     whatToBring: (data.whatToBring as string) || "",
-    skillLevels: (data.skillLevels as Game["skillLevels"]) || ["beginner", "intermediate"],
+    skillLevels: (() => {
+      const raw = data.skillLevels;
+      if (Array.isArray(raw)) return raw as Game["skillLevels"];
+      if (typeof raw === "string" && raw) return raw.split("|").filter(Boolean) as Game["skillLevels"];
+      return ["beginner", "intermediate"] as Game["skillLevels"];
+    })(),
     dropInFriendly: (data.dropInFriendly as boolean) ?? false,
     setsProvided: (data.setsProvided as boolean) ?? false,
     maxPlayers: (data.maxPlayers as number) ?? null,
