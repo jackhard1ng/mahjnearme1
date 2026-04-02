@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { mockGames } from "@/lib/mock-data";
 import { GAME_TYPE_LABELS, GAME_STYLE_LABELS, SKILL_LEVEL_LABELS, DAYS_OF_WEEK } from "@/lib/constants";
 import { getVerificationStatus, getGameTypeLabel, formatSchedule } from "@/lib/utils";
@@ -67,6 +67,27 @@ export default function AdminGamesPage() {
 
   // Mutable games state
   const [games, setGames] = useState<Game[]>(mockGames);
+  const [organizers, setOrganizers] = useState<{ id: string; name: string; email: string; website: string; instagram: string; city: string; state: string }[]>([]);
+
+  // Load organizers for autofill
+  useEffect(() => {
+    adminFetch("/api/organizers?all=true")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.organizers) {
+          setOrganizers(data.organizers.map((o: Record<string, unknown>) => ({
+            id: o.id,
+            name: (o.organizerName as string) || "",
+            email: (o.contactEmail as string) || "",
+            website: (o.website as string) || "",
+            instagram: (o.instagram as string) || "",
+            city: ((o.cities as string[]) || [])[0] || "",
+            state: ((o.states as string[]) || [])[0] || "",
+          })).sort((a: { name: string }, b: { name: string }) => a.name.localeCompare(b.name)));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Toast state
   const [toast, setToast] = useState<{ message: string; type: "success" | "info" | "error" } | null>(null);
@@ -592,6 +613,33 @@ export default function AdminGamesPage() {
           <h2 className="font-semibold text-lg text-charcoal mb-4">
             {editingGameId ? "Edit Game" : "Quick Add Game"}
           </h2>
+          {/* Organizer autofill */}
+          {!editingGameId && organizers.length > 0 && (
+            <div className="mb-4">
+              <label className="block text-xs font-medium text-slate-600 mb-1">Select Organizer (auto-fills contact info)</label>
+              <select
+                onChange={(e) => {
+                  const org = organizers.find((o) => o.id === e.target.value);
+                  if (org) {
+                    setForm({
+                      ...form,
+                      organizerName: org.name,
+                      contactEmail: org.email,
+                      city: org.city || form.city,
+                      state: org.state || form.state,
+                    });
+                  }
+                }}
+                className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+                defaultValue=""
+              >
+                <option value="">-- Choose an organizer or type manually below --</option>
+                {organizers.map((org) => (
+                  <option key={org.id} value={org.id}>{org.name}{org.city ? ` (${org.city})` : ""}</option>
+                ))}
+              </select>
+            </div>
+          )}
           <div className="grid sm:grid-cols-2 gap-4 mb-4">
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Name *</label>

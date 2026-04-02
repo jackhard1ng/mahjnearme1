@@ -88,12 +88,15 @@ async function getOrganizerListings(organizer: Record<string, unknown>): Promise
   const listingIds = (organizer.listingIds as string[]) || [];
   const orgName = (organizer.organizerName as string) || "";
   const nameKey = (organizer.nameKey as string) || "";
+  const orgId = (organizer.id as string) || "";
+  const orgUserId = (organizer.userId as string) || "";
 
-  // Try Firestore first
+  const db = getAdminDb();
+  const listings: Game[] = [];
+
+  // 1. Try Firestore by listingIds
   if (listingIds.length > 0) {
     try {
-      const db = getAdminDb();
-      const listings: Game[] = [];
       for (let i = 0; i < listingIds.length; i += 30) {
         const batch = listingIds.slice(i, i + 30);
         const snap = await db.collection("listings").where("__name__", "in", batch).get();
@@ -104,11 +107,40 @@ async function getOrganizerListings(organizer: Record<string, unknown>): Promise
           }
         }
       }
-      if (listings.length > 0) return listings;
-    } catch { /* fall through */ }
+    } catch { /* continue */ }
   }
 
-  // Fallback: match from static JSON by organizer/contact name
+  // 2. Also check Firestore for listings by organizerId or claimedBy
+  if (orgId) {
+    try {
+      const byOrgId = await db.collection("listings").where("organizerId", "==", orgId).get();
+      for (const doc of byOrgId.docs) {
+        if (!listings.some((l) => l.id === doc.id)) {
+          const data = doc.data();
+          if (data.status === "active") {
+            listings.push({ id: doc.id, ...data } as unknown as Game);
+          }
+        }
+      }
+    } catch { /* continue */ }
+  }
+  if (orgUserId) {
+    try {
+      const byClaimed = await db.collection("listings").where("claimedBy", "==", orgUserId).get();
+      for (const doc of byClaimed.docs) {
+        if (!listings.some((l) => l.id === doc.id)) {
+          const data = doc.data();
+          if (data.status === "active") {
+            listings.push({ id: doc.id, ...data } as unknown as Game);
+          }
+        }
+      }
+    } catch { /* continue */ }
+  }
+
+  if (listings.length > 0) return listings;
+
+  // 3. Fallback: match from static JSON by organizer/contact name
   try {
     const { loadListings } = require("@/lib/listings-data");
     const allGames: Game[] = loadListings();

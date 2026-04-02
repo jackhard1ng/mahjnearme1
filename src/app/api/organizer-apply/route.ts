@@ -270,6 +270,37 @@ export async function PUT(request: NextRequest) {
       reviewedAt: now,
     });
 
+    // Send approval/rejection email to the applicant
+    if (app.contactEmail || app.userEmail) {
+      const toEmail = app.contactEmail || app.userEmail;
+      if (newStatus === "approved") {
+        notifyAdmin(
+          `Your MahjNearMe Organizer Account is Approved!`,
+          `Hi ${app.organizerName || app.userName || ""}!\n\nGreat news, your organizer account on MahjNearMe has been approved!\n\nYou can now:\n- Manage your events and listings\n- Update your public profile\n- Add new events\n\nJust log in and click "For Organizers" in the menu to access your dashboard.\n\nWelcome to MahjNearMe!\nJack`
+        ).catch(() => {});
+        // Also send directly to the applicant (not just admin)
+        try {
+          const apiKey = process.env.SENDGRID_API_KEY;
+          const fromEmail = process.env.SENDGRID_FROM_EMAIL;
+          if (apiKey && fromEmail) {
+            await fetch("https://api.sendgrid.com/v3/mail/send", {
+              method: "POST",
+              headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+              body: JSON.stringify({
+                personalizations: [{ to: [{ email: toEmail }] }],
+                from: { email: fromEmail, name: "MahjNearMe" },
+                subject: "Your MahjNearMe Organizer Account is Approved!",
+                content: [
+                  { type: "text/plain", value: `Hi ${app.organizerName || app.userName || ""}!\n\nGreat news - your organizer account on MahjNearMe has been approved!\n\nYou can now manage your events, update your profile, and add new listings. Just log in at mahjnearme.com and click "For Organizers" in the menu.\n\nWelcome aboard!\nJack @ MahjNearMe` },
+                  { type: "text/html", value: `<div style="font-family:sans-serif;font-size:14px;color:#333"><p>Hi ${app.organizerName || app.userName || ""}!</p><p>Great news - your organizer account on MahjNearMe has been approved!</p><p>You can now:</p><ul><li>Manage your events and listings</li><li>Update your public profile</li><li>Add new events</li></ul><p>Just log in at <a href="https://www.mahjnearme.com">mahjnearme.com</a> and click <strong>"For Organizers"</strong> in the menu to access your dashboard.</p><p>Welcome aboard!<br>Jack @ MahjNearMe</p></div>` },
+                ],
+              }),
+            });
+          }
+        } catch { /* ok */ }
+      }
+    }
+
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("Organizer apply PUT error:", err);

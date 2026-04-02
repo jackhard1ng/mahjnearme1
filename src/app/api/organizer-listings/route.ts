@@ -141,7 +141,7 @@ export async function PUT(request: NextRequest) {
 
       notifyAdmin(
         `[Live Edit] ${profile.user.displayName || profile.user.email} edited a listing`,
-        `Organizer: ${(org.organizerName as string) || "Unknown"}\nListing: ${listingId}\nChanges: ${JSON.stringify(updates, null, 2)}\n\nThis edit went live instantly (subscribed organizer).`
+        `Organizer: ${(org.organizerName as string) || "Unknown"}\nListing: ${listingId}\nChanges: ${JSON.stringify(updates, null, 2)}\n\nThis edit went live instantly (verified organizer).`
       ).catch(() => {});
 
       return NextResponse.json({ success: true, instant: true });
@@ -239,7 +239,7 @@ export async function POST(request: NextRequest) {
 
       notifyAdmin(
         `[New Event Live] ${profile.user.displayName || profile.user.email} added a new event`,
-        `Organizer: ${(org.organizerName as string) || "Unknown"}\nEvent: ${listing.name || "Untitled"}\nCity: ${listing.city || ""}, ${listing.state || ""}\n\nThis event is live now (subscribed organizer).`
+        `Organizer: ${(org.organizerName as string) || "Unknown"}\nEvent: ${listing.name || "Untitled"}\nCity: ${listing.city || ""}, ${listing.state || ""}\n\nThis event is live now (verified organizer).`
       ).catch(() => {});
 
       return NextResponse.json({ success: true, instant: true, listingId: ref.id });
