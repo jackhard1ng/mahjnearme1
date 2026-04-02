@@ -24,6 +24,7 @@ import {
   Star,
   ExternalLink,
   Search,
+  Trash2,
 } from "lucide-react";
 
 interface OrganizerData {
@@ -294,6 +295,29 @@ function ListingsTab({
   onDuplicate: (game: Game) => void;
 }) {
   const [editForm, setEditForm] = useState<Record<string, string>>({});
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const deleteListing = async (listingId: string) => {
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/organizer-listings?userId=${userId}&listingId=${listingId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setSaveMessage(data.error || "Failed to delete");
+      } else {
+        setSaveMessage("Event deleted.");
+        setConfirmDeleteId(null);
+        onRefresh();
+      }
+    } catch {
+      setSaveMessage("Something went wrong.");
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   const startEdit = (game: Game) => {
     setEditingListing(game);
@@ -463,6 +487,32 @@ function ListingsTab({
                 >
                   <Copy className="w-3.5 h-3.5" /> Copy event
                 </button>
+                {confirmDeleteId === game.id ? (
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs text-red-600 font-medium">Delete?</span>
+                    <button
+                      onClick={() => deleteListing(game.id)}
+                      disabled={deleting}
+                      className="text-xs font-medium text-white bg-red-500 hover:bg-red-600 px-2 py-1 rounded transition disabled:opacity-50"
+                    >
+                      {deleting ? <Loader2 className="w-3 h-3 animate-spin" /> : "Yes"}
+                    </button>
+                    <button
+                      onClick={() => setConfirmDeleteId(null)}
+                      className="text-xs text-slate-500 hover:text-slate-700 px-1.5 py-1"
+                    >
+                      No
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setConfirmDeleteId(game.id)}
+                    className="text-slate-400 hover:text-red-500 p-1 transition"
+                    title="Delete listing"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </div>
           )}

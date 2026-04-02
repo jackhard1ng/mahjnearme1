@@ -187,6 +187,57 @@ export async function PUT(request: NextRequest) {
   }
 }
 
+export async function DELETE(request: NextRequest) {
+  try {
+    const db = getAdminDb();
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("userId");
+    const listingId = searchParams.get("listingId");
+
+    if (!userId || !listingId) {
+      return NextResponse.json({ error: "userId and listingId required" }, { status: 400 });
+    }
+
+    const profile = await getOrganizerProfile(db, userId);
+    if (!profile) {
+      return NextResponse.json({ error: "Not an organizer" }, { status: 403 });
+    }
+
+    const org = profile.organizer as Record<string, unknown>;
+    const listingIds = (org.listingIds as string[]) || [];
+    if (!listingIds.includes(listingId)) {
+      return NextResponse.json({ error: "Listing does not belong to you" }, { status: 403 });
+    }
+
+    const now = new Date().toISOString();
+
+    // Soft delete: set status to inactive
+    await db.collection("listings").doc(listingId).update({
+      status: "inactive",
+      deletedAt: now,
+      deletedBy: userId,
+    });
+
+    // Remove from organizer's listingIds
+    const updatedIds = listingIds.filter((id) => id !== listingId);
+    await db.collection("organizers").doc(profile.organizerProfileId).update({
+      listingIds: updatedIds,
+      listingCount: updatedIds.length,
+      updatedAt: now,
+    });
+
+    notifyAdmin(
+      `[Deleted] ${profile.user.displayName || profile.user.email} deleted a listing`,
+      `Organizer: ${(org.organizerName as string) || "Unknown"}\nListing ID: ${listingId}\n\nListing set to inactive (soft delete).`
+    ).catch(() => {});
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("Organizer listings DELETE error:", err);
+    return NextResponse.json({ error: "Failed to delete listing" }, { status: 500 });
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const db = getAdminDb();
