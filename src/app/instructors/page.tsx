@@ -67,7 +67,7 @@ const GAME_STYLE_LABELS: Record<string, string> = {
 };
 
 export default function InstructorsPage() {
-  const { hasAccess, loading: authLoading } = useAuth();
+  const { hasAccess, isOrganizer, loading: authLoading } = useAuth();
   const [instructors, setInstructors] = useState<Instructor[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -162,7 +162,8 @@ export default function InstructorsPage() {
   const featuredInstructors = filtered.filter((i) => i.featured);
   const verifiedInstructors = filtered.filter((i) => (i.verified || i.hasUser) && !i.featured);
   const otherInstructors = filtered.filter((i) => !i.verified && !i.hasUser && !i.featured);
-  const showFullDirectory = hasAccess;
+  // Verified organizers (free or paid) can browse the full instructor directory
+  const showFullDirectory = hasAccess || isOrganizer;
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
