@@ -208,6 +208,30 @@ export async function POST(request: NextRequest) {
     const now = new Date().toISOString();
     const org = profile.organizer as Record<string, unknown>;
 
+    // Check if admin already imported this event (same name+city+state, no owner)
+    // If so, claim it instead of creating a duplicate.
+    let existingUnownedId: string | null = null;
+    if (listing.name && listing.city && listing.state) {
+      const nameNorm = (listing.name as string).toLowerCase().trim();
+      const cityNorm = (listing.city as string).toLowerCase().trim();
+      const stateNorm = (listing.state as string).toUpperCase().trim();
+      const dupSnap = await db.collection("listings")
+        .where("city", "==", listing.city)
+        .where("state", "==", stateNorm)
+        .get();
+      for (const doc of dupSnap.docs) {
+        const d = doc.data();
+        if (
+          (d.name as string || "").toLowerCase().trim() === nameNorm &&
+          !d.organizerId &&
+          !d.claimedBy
+        ) {
+          existingUnownedId = doc.id;
+          break;
+        }
+      }
+    }
+
     // Add organizer reference to listing
     const listingData = {
       ...listing,
@@ -223,15 +247,28 @@ export async function POST(request: NextRequest) {
         ...listingData,
         status: "active",
         organizerEdited: true,
-        // All organizer-submitted listings from linked accounts are verified.
-        // Subscribed organizers also get the promoted (Featured) badge.
         verified: true,
         promoted: isSubscribed(profile.user),
         createdAt: now,
         updatedAt: now,
       };
 
-      const ref = await db.collection("listings").add(newListing);
+      let listingId: string;
+      if (existingUnownedId) {
+        // Claim the pre-imported listing instead of creating a duplicate
+        await db.collection("listings").doc(existingUnownedId).update({
+          ...listingData,
+          organizerEdited: true,
+          verified: true,
+          promoted: isSubscribed(profile.user),
+          updatedAt: now,
+        });
+        listingId = existingUnownedId;
+      } else {
+        const ref = await db.collection("listings").add(newListing);
+        listingId = ref.id;
+      }
+      const ref = { id: listingId } as { id: string };
 
       // Add to organizer's listing IDs
       const listingIds = [...((org.listingIds as string[]) || []), ref.id];
@@ -243,10 +280,10 @@ export async function POST(request: NextRequest) {
 
       notifyAdmin(
         `[New Event Live] ${profile.user.displayName || profile.user.email} added a new event`,
-        `Organizer: ${(org.organizerName as string) || "Unknown"}\nEvent: ${listing.name || "Untitled"}\nCity: ${listing.city || ""}, ${listing.state || ""}\n\nThis event is live now (verified organizer).`
+        `Organizer: ${(org.organizerName as string) || "Unknown"}\nEvent: ${listing.name || "Untitled"}\nCity: ${listing.city || ""}, ${listing.state || ""}${existingUnownedId ? "\n\nNote: claimed a pre-imported listing (no duplicate created)." : "\n\nThis event is live now (verified organizer)."}`
       ).catch(() => {});
 
-      return NextResponse.json({ success: true, instant: true, listingId: ref.id });
+      return NextResponse.json({ success: true, instant: true, listingId: ref.id, claimed: !!existingUnownedId });
     } else {
       // Free: goes to approval queue
       const approvalData = {
