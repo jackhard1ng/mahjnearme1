@@ -40,7 +40,7 @@ function fetchOverrides() {
  * Matches by organizerName or listing name prefix.
  */
 function applyOverride(game: Game, overrides: Record<string, OrganizerOverride>): Game {
-  const orgName = (game.organizerName || game.contactName || "").toLowerCase().trim();
+  const orgName = (game.organizerName || "").toLowerCase().trim();
   const listingName = game.name || "";
 
   let prefix = "";

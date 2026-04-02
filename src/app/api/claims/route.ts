@@ -178,11 +178,14 @@ export async function PUT(request: NextRequest) {
       );
 
       // Update the listings as claimed
+      const orgDoc = await db.collection("organizers").doc(organizerProfileId).get();
+      const orgData = orgDoc.data() || {};
       const batch = db.batch();
       for (const listingId of claim.listingIds) {
         batch.update(db.collection("listings").doc(listingId), {
           claimedBy: claim.userId,
           organizerId: organizerProfileId,
+          organizerName: orgData.organizerName || claim.userName || "",
           updatedAt: now,
         });
       }
