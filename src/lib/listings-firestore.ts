@@ -66,7 +66,7 @@ function docToGame(data: Record<string, unknown>, id: string): Game {
       return ["beginner", "intermediate"] as Game["skillLevels"];
     })(),
     dropInFriendly: (data.dropInFriendly as boolean) ?? false,
-    setsProvided: (data.setsProvided as boolean) ?? false,
+    setsProvided: (data.setsProvided as boolean) ?? true,
     maxPlayers: (data.maxPlayers as number) ?? null,
     typicalGroupSize: (data.typicalGroupSize as string) || "",
     imageUrl: (data.imageUrl as string) || "",

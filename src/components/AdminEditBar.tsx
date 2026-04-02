@@ -90,7 +90,7 @@ function gameToForm(g: Game): EditForm {
     whatToBring: g.whatToBring || "",
     skillLevels: (g.skillLevels || []).join("|"),
     dropInFriendly: g.dropInFriendly ?? false,
-    setsProvided: g.setsProvided ?? false,
+    setsProvided: g.setsProvided ?? true,
     typicalGroupSize: g.typicalGroupSize || "",
     imageUrl: g.imageUrl || "",
     status: g.status || "active",
