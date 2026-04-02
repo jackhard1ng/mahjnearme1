@@ -248,30 +248,28 @@ export default function InstructorsPage() {
             </div>
           )}
 
-          {/* Verified + Unverified - subscribers only, blurred preview for others */}
+          {/* Verified + Unverified - subscribers only; cards still clickable so people can view individual profiles */}
           {!showFullDirectory && (verifiedInstructors.length > 0 || otherInstructors.length > 0) && (
-            <div className="relative mt-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-30 blur-[3px] pointer-events-none select-none" aria-hidden="true">
+            <div className="mt-4 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-50 blur-[2px]">
                 {[...verifiedInstructors, ...otherInstructors].slice(0, 4).map((instructor) => (
                   <InstructorCard key={instructor.id} instructor={instructor} />
                 ))}
               </div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-6 text-center max-w-sm mx-4">
-                  <Lock className="w-8 h-8 text-purple-400 mx-auto mb-3" />
-                  <h3 className="font-bold text-slate-800 mb-1">
-                    {verifiedInstructors.length + otherInstructors.length}+ more instructor{verifiedInstructors.length + otherInstructors.length !== 1 ? "s" : ""}
-                  </h3>
-                  <p className="text-sm text-slate-500 mb-4">
-                    Subscribe to browse the full directory
-                  </p>
-                  <Link
-                    href="/signup"
-                    className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-hotpink-600 transition text-sm"
-                  >
-                    Get Started <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
+              <div className="bg-white border border-slate-200 rounded-xl p-5 text-center">
+                <Lock className="w-6 h-6 text-purple-400 mx-auto mb-2" />
+                <p className="text-sm font-semibold text-slate-700 mb-0.5">
+                  {verifiedInstructors.length + otherInstructors.length}+ instructor{verifiedInstructors.length + otherInstructors.length !== 1 ? "s" : ""} in the full directory
+                </p>
+                <p className="text-xs text-slate-500 mb-3">
+                  Subscribe to browse. Already know who you&apos;re looking for? Click their card above to view their profile.
+                </p>
+                <Link
+                  href="/signup"
+                  className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-hotpink-600 transition text-sm"
+                >
+                  Get Started <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </div>
           )}
