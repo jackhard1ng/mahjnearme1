@@ -197,7 +197,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const isAdmin = userProfile?.accountType === "admin" || userProfile?.email === "jack@fluttr.com";
+  const adminEmails = ["jack@fluttr.com", "jack@mahjnearme.com"];
+  const isAdmin = userProfile?.accountType === "admin" || adminEmails.includes(userProfile?.email || "");
 
   const hasAccess =
     isAdmin ||
