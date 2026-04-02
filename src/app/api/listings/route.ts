@@ -67,11 +67,12 @@ export async function GET(request: NextRequest) {
     }
 
     const snap = await query.get();
-    // Use docToGame to normalize all fields with proper defaults so organizer-submitted
-    // events (which may be missing some JSON fields) are still fully typed Game objects
-    const listings = snap.docs
-      .map((doc) => docToGame(doc.data() as Record<string, unknown>, doc.id))
-      .filter((g) => g.status === "active");
+    // Normalize all fields. Do NOT filter by status here — the search page
+    // already filters client-side (status === "active" && !isEventExpired),
+    // and the admin needs to see pending/inactive events too.
+    const listings = snap.docs.map((doc) =>
+      docToGame(doc.data() as Record<string, unknown>, doc.id)
+    );
 
     const res = NextResponse.json({ listings, count: listings.length, source: "firestore" });
     res.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
