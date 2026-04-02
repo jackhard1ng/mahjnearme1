@@ -106,7 +106,7 @@ export async function getListingsServer(): Promise<Game[]> {
 
     _cache = snap.docs.map((doc) => docToGame(doc.data(), doc.id));
     _cacheTime = Date.now();
-    return _cache;
+    return _cache!;
   } catch (err) {
     console.error("[listings-firestore] Firestore error, falling back to JSON:", err);
     return getFallbackListings();

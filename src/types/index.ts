@@ -60,12 +60,12 @@ export interface Game {
   typicalGroupSize: string;
   imageUrl: string;
 
-  // League-specific
-  leagueStartDate: string | null;
-  leagueEndDate: string | null;
-  sessionCount: number | null;
-  registrationDeadline: string | null;
-  commitmentNote: string;
+  // League-specific (only set on type="league" listings)
+  leagueStartDate?: string | null;
+  leagueEndDate?: string | null;
+  sessionCount?: number | null;
+  registrationDeadline?: string | null;
+  commitmentNote?: string;
 
   // Reactions
   goingCount: number;
@@ -78,7 +78,7 @@ export interface Game {
   claimedBy: string | null;
   source: ListingSource;
   promoted: boolean;
-  isDestinationEvent: boolean;
+  isDestinationEvent?: boolean;
   organizerEdited: boolean;
   lastVerified: string;
   createdAt: string;
