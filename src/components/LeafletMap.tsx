@@ -125,7 +125,29 @@ export default function LeafletMap({ games, selectedGameId, onPinClick, hasAcces
     markers.clearLayers();
     markerMapRef.current.clear();
 
-    if (!hasGeoGames) return;
+    // If no geocoded games but we have a search center, fly to it
+    if (!hasGeoGames) {
+      if (searchCenter && searchCenter.lat !== 0 && searchCenter.lng !== 0) {
+        mapRef.current.setView([searchCenter.lat, searchCenter.lng], 10);
+        const searchIcon = L.divIcon({
+          className: "search-center-pin",
+          html: `<div style="
+            width: 18px; height: 18px;
+            background: #3B82F6;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.4), 0 2px 6px rgba(0,0,0,0.3);
+          "></div>`,
+          iconSize: [18, 18],
+          iconAnchor: [9, 9],
+        });
+        L.marker([searchCenter.lat, searchCenter.lng], { icon: searchIcon, interactive: false })
+          .bindPopup('<div style="font-family: system-ui; font-size: 13px; font-weight: 600; color: #3B82F6;">Your search location</div>', { closeButton: false })
+          .addTo(markers);
+        setTimeout(() => mapRef.current?.invalidateSize(), 200);
+      }
+      return;
+    }
 
     const bounds = L.latLngBounds([]);
     const now = new Date();

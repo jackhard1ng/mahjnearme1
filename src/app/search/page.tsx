@@ -185,7 +185,10 @@ function SearchContent() {
 
     // Proximity filter
     if (searchCenter) {
-      games = games.filter((g) => g.distance === null || g.distance <= searchRadius);
+      // Only include events with a valid calculated distance — events missing
+      // geopoints (distance === null) are excluded so they don't appear in
+      // unrelated location searches
+      games = games.filter((g) => g.distance !== null && g.distance <= searchRadius);
     } else if (query) {
       const q = query.toLowerCase();
       games = games.filter(
