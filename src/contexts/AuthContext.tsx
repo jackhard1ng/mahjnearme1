@@ -112,11 +112,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               setDoc(doc(db, "users", firebaseUser.uid), { lastLoginAt: now }, { merge: true }).catch(() => {});
             } else {
               // First-time user, create their Firestore document
+              // Preserve admin status for known admin emails
+              const adminEmails = ["jack@fluttr.com", "jack@mahjnearme.com"];
+              const isKnownAdmin = adminEmails.includes((firebaseUser.email || "").toLowerCase());
               await setDoc(doc(db, "users", firebaseUser.uid), {
                 email: defaultProfile.email,
                 displayName: defaultProfile.displayName,
-                accountType: defaultProfile.accountType,
-                subscriptionStatus: defaultProfile.subscriptionStatus,
+                accountType: isKnownAdmin ? "admin" : defaultProfile.accountType,
+                subscriptionStatus: isKnownAdmin ? "active" : defaultProfile.subscriptionStatus,
                 createdAt: defaultProfile.createdAt,
                 lastLoginAt: defaultProfile.lastLoginAt,
               });
@@ -194,8 +197,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const isAdmin = userProfile?.accountType === "admin" || userProfile?.email === "jack@fluttr.com";
+
   const hasAccess =
-    userProfile?.accountType === "admin" ||
+    isAdmin ||
     userProfile?.accountType === "subscriber" ||
     userProfile?.accountType === "contributor" ||
     userProfile?.subscriptionStatus === "active" ||
@@ -203,8 +208,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Legacy: treat any trialing status as active (trial feature removed)
     userProfile?.subscriptionStatus === "trialing" ||
     userProfile?.accountType === "trial";
-
-  const isAdmin = userProfile?.accountType === "admin";
   const isContributor = userProfile?.isContributor === true || userProfile?.accountType === "contributor";
   const isOrganizer = userProfile?.isOrganizer === true || userProfile?.accountType === "organizer";
   const isSubscribedOrganizer = isOrganizer && (
