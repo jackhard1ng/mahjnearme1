@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useParams, useRouter, notFound } from "next/navigation";
 import Link from "next/link";
 import { Game } from "@/types";
@@ -236,13 +237,35 @@ export default function GameDetailPage() {
       ? rawSlug.split("/")
       : [];
 
-  const foundGame = findGameBySlug(slugSegments);
+  const localGame = findGameBySlug(slugSegments);
+  const [firestoreGame, setFirestoreGame] = useState<Game | null>(null);
+  const [fetchDone, setFetchDone] = useState(false);
 
-  if (!foundGame) {
-    notFound();
+  useEffect(() => {
+    if (localGame) return;
+    const lastSegment = slugSegments[slugSegments.length - 1] || "";
+    if (!lastSegment) { setFetchDone(true); return; }
+    fetch(`/api/listings?id=${encodeURIComponent(lastSegment)}`)
+      .then((r) => r.json())
+      .then((data) => { if (data.listing) setFirestoreGame(data.listing as Game); })
+      .catch(() => {})
+      .finally(() => setFetchDone(true));
+  }, []);
+
+  const game = (localGame || firestoreGame)!;
+
+  if (!localGame && !fetchDone) {
+    return <div className="max-w-7xl mx-auto px-4 py-20 text-center"><p className="text-slate-400">Loading...</p></div>;
   }
 
-  const game: Game = foundGame;
+  if (!game) {
+    notFound();
+    return null;
+  }
+
+  // TypeScript: game is guaranteed non-undefined after notFound()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _game: Game = game;
 
   const { user, hasAccess, loading, userProfile, updateUserProfile } = useAuth();
 
