@@ -14,6 +14,7 @@ import {
   Star,
   XCircle,
   Plus,
+  Trash2,
 } from "lucide-react";
 import { Game, GameType, GameStyle, SkillLevel } from "@/types";
 
@@ -196,11 +197,15 @@ function Toggle({ label, checked, onChange }: { label: string; checked: boolean;
 function EventCard({
   game,
   onSaved,
+  onDeleted,
 }: {
   game: Game;
   onSaved: (updated: Game) => void;
+  onDeleted: (id: string) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [form, setForm] = useState<EditForm>(gameToForm(game));
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
@@ -228,6 +233,25 @@ function EventCard({
       setMessage("Geocoding failed");
     } finally {
       setRegeocoding(false);
+    }
+  };
+
+  const deleteListing = async () => {
+    setDeleting(true);
+    try {
+      const res = await adminFetch(`/api/listings?id=${game.id}`, "DELETE");
+      if (res.ok) {
+        onDeleted(game.id);
+      } else {
+        const data = await res.json();
+        setMessage(data.error || "Delete failed");
+        setConfirmDelete(false);
+      }
+    } catch {
+      setMessage("Something went wrong");
+      setConfirmDelete(false);
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -491,6 +515,28 @@ function EventCard({
             >
               Cancel
             </button>
+            {confirmDelete ? (
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={deleteListing}
+                  disabled={deleting}
+                  className="px-3 py-2.5 bg-red-500 text-white rounded-xl text-sm font-semibold hover:bg-red-600 disabled:opacity-50 flex items-center gap-1"
+                >
+                  {deleting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Delete"}
+                </button>
+                <button onClick={() => setConfirmDelete(false)} className="px-2 py-2.5 text-sm text-slate-500 hover:text-slate-700">
+                  No
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setConfirmDelete(true)}
+                className="px-3 py-2.5 border border-red-200 text-red-400 hover:text-red-600 hover:border-red-400 rounded-xl transition"
+                title="Delete listing"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            )}
           </div>
         </div>
       )}
@@ -656,6 +702,9 @@ export default function AdminEventsPage() {
               game={game}
               onSaved={(updated) =>
                 setGames((prev) => prev.map((g) => (g.id === updated.id ? updated : g)))
+              }
+              onDeleted={(id) =>
+                setGames((prev) => prev.filter((g) => g.id !== id))
               }
             />
           ))}

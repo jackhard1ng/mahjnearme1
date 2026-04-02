@@ -160,8 +160,35 @@ export async function POST(request: NextRequest) {
 }
 
 /**
- * PUT /api/listings - Admin: update a listing.
+ * DELETE /api/listings?id=xxx - Admin: soft-delete a listing (set status=inactive).
  */
+export async function DELETE(request: NextRequest) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
+
+  try {
+    const db = getAdminDb();
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ error: "Listing ID is required" }, { status: 400 });
+    }
+
+    const now = new Date().toISOString();
+    await db.collection("listings").doc(id).update({
+      status: "inactive",
+      deletedAt: now,
+    });
+    clearListingsCache();
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("Listings DELETE error:", err);
+    return NextResponse.json({ error: "Failed to delete listing" }, { status: 500 });
+  }
+}
+
 export async function PUT(request: NextRequest) {
   const denied = requireAdmin(request);
   if (denied) return denied;
