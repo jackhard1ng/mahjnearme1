@@ -227,8 +227,12 @@ export default function AdminDashboardPage() {
   const states = new Set(games.map((g) => g.state));
   const recentGames = games.slice(0, 5);
   const organizerSubmissions = games
-    .filter((g) => g.source === "organizer_submitted")
-    .sort((a, b) => ((b as Record<string,unknown>).createdAt as string || "").localeCompare((a as Record<string,unknown>).createdAt as string || ""));
+    .filter((g) => g.source === "organizer_submitted" || (g.organizerEdited && g.organizerName))
+    .sort((a, b) => {
+      const aTime = (a as unknown as Record<string,string>).createdAt || "";
+      const bTime = (b as unknown as Record<string,string>).createdAt || "";
+      return bTime.localeCompare(aTime);
+    });
 
   const tabs = [
     { id: "overview" as const, label: "Overview" },
@@ -328,17 +332,19 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          {/* Organizer Submissions feed */}
-          {organizerSubmissions.length > 0 && (
-            <div className="bg-white border border-violet-200 rounded-xl mb-6">
-              <div className="px-5 py-4 border-b border-violet-100 flex items-center justify-between">
-                <h2 className="font-semibold text-charcoal flex items-center gap-2">
-                  <Star className="w-5 h-5 text-violet-500" />
-                  Organizer Submissions
-                  <span className="text-xs font-medium bg-violet-100 text-violet-700 px-2 py-0.5 rounded-full">{organizerSubmissions.length}</span>
-                </h2>
-                <Link href="/admin/events" className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium">View in Events</Link>
-              </div>
+          {/* Organizer Submissions feed — always visible */}
+          <div className="bg-white border border-violet-200 rounded-xl mb-6">
+            <div className="px-5 py-4 border-b border-violet-100 flex items-center justify-between">
+              <h2 className="font-semibold text-charcoal flex items-center gap-2">
+                <Star className="w-5 h-5 text-violet-500" />
+                Organizer Submissions
+                <span className="text-xs font-medium bg-violet-100 text-violet-700 px-2 py-0.5 rounded-full">{organizerSubmissions.length}</span>
+              </h2>
+              <Link href="/admin/events" className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium">View in Events</Link>
+            </div>
+            {organizerSubmissions.length === 0 ? (
+              <p className="px-5 py-4 text-sm text-slate-400">No organizer-submitted events yet.</p>
+            ) : (
               <div className="divide-y divide-slate-50">
                 {organizerSubmissions.map((game) => (
                   <div key={game.id} className="px-5 py-3 flex items-center justify-between gap-3">
@@ -348,13 +354,13 @@ export default function AdminDashboardPage() {
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${game.status === "active" ? "bg-green-100 text-green-700" : "bg-slate-100 text-slate-600"}`}>{game.status}</span>
-                      <Link href={`/admin/events`} className="text-xs text-hotpink-500 hover:underline">Edit</Link>
+                      <Link href="/admin/events" className="text-xs text-hotpink-500 hover:underline">Edit</Link>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           <div className="grid lg:grid-cols-2 gap-6">
             <div className="bg-white border border-slate-200 rounded-xl">
