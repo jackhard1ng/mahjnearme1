@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { requireAdmin } from "@/lib/api-auth";
+import { clearListingsCache } from "@/lib/listings-firestore";
 
 /**
  * POST /api/listings/import
@@ -83,6 +84,8 @@ export async function POST(request: NextRequest) {
 
       await batch.commit();
     }
+
+    clearListingsCache();
 
     return NextResponse.json({
       success: true,
