@@ -244,10 +244,25 @@ export default function GameDetailPage() {
   useEffect(() => {
     if (localGame) return;
     const lastSegment = slugSegments[slugSegments.length - 1] || "";
+    const fullSlug = slugSegments.join("/");
     if (!lastSegment) { setFetchDone(true); return; }
+
+    // Try by ID first, then search by slug
     fetch(`/api/listings?id=${encodeURIComponent(lastSegment)}`)
       .then((r) => r.json())
-      .then((data) => { if (data.listing) setFirestoreGame(data.listing as Game); })
+      .then((data) => {
+        if (data.listing) {
+          setFirestoreGame(data.listing as Game);
+          setFetchDone(true);
+        } else {
+          // Try searching by slug in name
+          return fetch(`/api/listings?search=${encodeURIComponent(lastSegment)}`)
+            .then((r) => r.json())
+            .then((data) => {
+              if (data.listing) setFirestoreGame(data.listing as Game);
+            });
+        }
+      })
       .catch(() => {})
       .finally(() => setFetchDone(true));
   }, []);

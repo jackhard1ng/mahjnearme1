@@ -13,15 +13,30 @@ export async function GET(request: NextRequest) {
     const db = getAdminDb();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
+    const search = searchParams.get("search");
     const state = searchParams.get("state");
     const city = searchParams.get("city");
 
     if (id) {
       const doc = await db.collection("listings").doc(id).get();
       if (!doc.exists) {
-        return NextResponse.json({ error: "Listing not found" }, { status: 404 });
+        return NextResponse.json({ listing: null });
       }
       return NextResponse.json({ listing: { id: doc.id, ...doc.data() } });
+    }
+
+    // Search by slug/name - used when game detail page can't find by ID
+    if (search) {
+      const slugToMatch = search.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      const allSnap = await db.collection("listings").get();
+      for (const doc of allSnap.docs) {
+        const data = doc.data();
+        const nameSlug = ((data.name as string) || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+        if (nameSlug === slugToMatch || nameSlug.includes(slugToMatch) || doc.id.includes(slugToMatch)) {
+          return NextResponse.json({ listing: { id: doc.id, ...data } });
+        }
+      }
+      return NextResponse.json({ listing: null });
     }
 
     // Check if Firestore has listings
