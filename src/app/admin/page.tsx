@@ -28,6 +28,7 @@ import {
   Bell,
   Send,
   Mail,
+  Copy,
 } from "lucide-react";
 
 interface ContributorData {
