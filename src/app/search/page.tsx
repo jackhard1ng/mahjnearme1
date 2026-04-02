@@ -16,7 +16,7 @@ const LeafletMap = dynamic(() => import("@/components/LeafletMap"), {
   ),
 });
 import SkeletonCard from "@/components/SkeletonCard";
-import { mockGames } from "@/lib/mock-data";
+import { useFirestoreListings } from "@/hooks/useFirestoreListings";
 import { useEnrichedGames } from "@/hooks/useOrganizerOverrides";
 import { useAuth } from "@/contexts/AuthContext";
 import { SearchFilters, Game } from "@/types";
@@ -158,7 +158,10 @@ function SearchContent() {
   }, [query, latParam, lngParam, geocodeQuery]);
 
   // All active, non-expired games with organizer overrides applied
-  const enrichedGames = useEnrichedGames(mockGames);
+  // useFirestoreListings starts with mockGames then updates to live Firestore data
+  // (includes new organizer-submitted events not in the static JSON)
+  const baseGames = useFirestoreListings();
+  const enrichedGames = useEnrichedGames(baseGames);
   const activeGames = useMemo(() => {
     return enrichedGames.filter((g) => g.status === "active" && !isEventExpired(g));
   }, [enrichedGames]);

@@ -522,9 +522,31 @@ function AddListingTab({
     contactEmail: duplicateFrom?.contactEmail || organizer?.contactEmail || "",
     website: duplicateFrom?.website || organizer?.website || "",
     instagram: duplicateFrom?.instagram || organizer?.instagram || "",
+    imageUrl: duplicateFrom?.imageUrl || "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
+  const [uploadingFlyer, setUploadingFlyer] = useState(false);
+
+  const handleFlyerUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !organizer) return;
+    setUploadingFlyer(true);
+    try {
+      const { getStorage, ref, uploadBytes, getDownloadURL } = await import("firebase/storage");
+      const { getFirebaseApp } = await import("@/lib/firebase");
+      const storage = getStorage(getFirebaseApp());
+      const storageRef = ref(storage, `event-flyers/${organizer.id}/${Date.now()}-${file.name}`);
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
+      setForm((prev) => ({ ...prev, imageUrl: url }));
+      setMessage("Flyer uploaded!");
+    } catch {
+      setMessage("Failed to upload flyer.");
+    } finally {
+      setUploadingFlyer(false);
+    }
+  };
 
   const handleSubmit = async () => {
     if (!form.name || !form.city || !form.state) {
@@ -578,6 +600,7 @@ function AddListingTab({
         instagram: form.instagram,
         contactName: organizer?.organizerName || "",
         organizerName: organizer?.organizerName || "",
+        ...(form.imageUrl ? { imageUrl: form.imageUrl } : {}),
       };
 
       const res = await fetch("/api/organizer-listings", {
@@ -731,6 +754,43 @@ function AddListingTab({
             <input type="date" value={form.eventDate} onChange={(e) => updateForm("eventDate", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg" />
           </div>
         )}
+
+        {/* Event flyer upload - subscribers only */}
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-2 flex items-center gap-1">
+            <Upload className="w-3 h-3" /> Event Flyer / Photo
+          </label>
+          {isSubscribed ? (
+            <div className="space-y-2">
+              {form.imageUrl ? (
+                <div className="flex items-center gap-3">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={form.imageUrl} alt="Event flyer" className="w-20 h-20 object-cover rounded-lg border border-slate-200" />
+                  <button
+                    type="button"
+                    onClick={() => setForm((prev) => ({ ...prev, imageUrl: "" }))}
+                    className="text-xs text-red-500 hover:text-red-700"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ) : null}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFlyerUpload}
+                disabled={uploadingFlyer}
+                className="text-sm text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-hotpink-100 file:text-hotpink-700 file:font-medium hover:file:bg-hotpink-200"
+              />
+              {uploadingFlyer && <p className="text-xs text-slate-400">Uploading...</p>}
+            </div>
+          ) : (
+            <p className="text-sm text-slate-500">
+              Flyer uploads are a subscriber perk.{" "}
+              <a href="/pricing" className="text-hotpink-500 font-medium hover:text-hotpink-600">Upgrade</a> to add event photos.
+            </p>
+          )}
+        </div>
 
         <button
           onClick={handleSubmit}
@@ -898,6 +958,42 @@ function ProfileTab({
             </p>
           )}
         </div>
+
+        {/* Venue photo gallery - subscribers only */}
+        {isSubscribed && (organizer.photos || []).length > 0 && (
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Venue Gallery</label>
+            <div className="grid grid-cols-3 gap-2">
+              {(organizer.photos || []).map((url, idx) => (
+                <div key={idx} className="relative group">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={url} alt={`Venue photo ${idx + 1}`} className="w-full h-24 object-cover rounded-lg border border-slate-200" />
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      const newPhotos = (organizer.photos || []).filter((_, i) => i !== idx);
+                      const newPhotoURL = newPhotos.length > 0 ? newPhotos[newPhotos.length - 1] : "";
+                      await fetch("/api/organizer-profile", {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          userId,
+                          updates: { photos: newPhotos, photoURL: newPhotoURL },
+                        }),
+                      });
+                      onRefresh();
+                    }}
+                    className="absolute top-1 right-1 bg-black/60 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Remove photo"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-slate-400 mt-1">Hover a photo to remove it. The most recent photo is used as your profile photo.</p>
+          </div>
+        )}
 
         {message && (
           <div className={`p-3 rounded-lg text-sm ${message.includes("Failed") || message.includes("wrong") ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
@@ -1127,16 +1223,29 @@ function ClaimListingsTab({
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Load games from mock-data (static JSON) since Firestore may not be populated
+  // Load games from Firestore (includes all listings + newly added organizer events)
   useEffect(() => {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const { mockGames } = require("@/lib/mock-data");
-      setAllGames(mockGames);
-    } catch {
-      setAllGames([]);
-    }
-    setLoaded(true);
+    fetch("/api/listings")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.listings && data.listings.length > 0) {
+          setAllGames(data.listings);
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
+          const { mockGames } = require("@/lib/mock-data");
+          setAllGames(mockGames);
+        }
+      })
+      .catch(() => {
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
+          const { mockGames } = require("@/lib/mock-data");
+          setAllGames(mockGames);
+        } catch {
+          setAllGames([]);
+        }
+      })
+      .finally(() => setLoaded(true));
   }, []);
 
   const filteredGames = useMemo(() => {

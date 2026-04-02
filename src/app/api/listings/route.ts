@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { requireAdmin } from "@/lib/api-auth";
-import { clearListingsCache } from "@/lib/listings-firestore";
+import { clearListingsCache, docToGame } from "@/lib/listings-firestore";
 
 /**
  * GET /api/listings - Returns all active listings from Firestore.
@@ -67,7 +67,11 @@ export async function GET(request: NextRequest) {
     }
 
     const snap = await query.get();
-    const listings = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    // Use docToGame to normalize all fields with proper defaults so organizer-submitted
+    // events (which may be missing some JSON fields) are still fully typed Game objects
+    const listings = snap.docs
+      .map((doc) => docToGame(doc.data() as Record<string, unknown>, doc.id))
+      .filter((g) => g.status === "active");
 
     const res = NextResponse.json({ listings, count: listings.length, source: "firestore" });
     res.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");

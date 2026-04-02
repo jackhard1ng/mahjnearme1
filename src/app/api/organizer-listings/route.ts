@@ -223,6 +223,10 @@ export async function POST(request: NextRequest) {
         ...listingData,
         status: "active",
         organizerEdited: true,
+        // All organizer-submitted listings from linked accounts are verified.
+        // Subscribed organizers also get the promoted (Featured) badge.
+        verified: true,
+        promoted: isSubscribed(profile.user),
         createdAt: now,
         updatedAt: now,
       };
