@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-const ADMIN_EMAILS = ["jack@fluttr.com", "jack@mahjnearme.com"];
+const ADMIN_EMAILS = ["jack@fluttrr.com", "jack@mahjnearme.com"];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, userProfile, isAdmin, loading } = useAuth();
