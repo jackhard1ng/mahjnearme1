@@ -15,52 +15,108 @@ export async function GET(request: NextRequest) {
     if (adminView) {
       const denied = requireAdmin(request);
       if (denied) return denied;
-      // Admin view: all contributors with referral stats
+
+      // 1. Legacy contributors (isContributor=true)
       const contributorsSnap = await db.collection("users")
         .where("isContributor", "==", true)
         .get();
 
+      // 2. Organizers with referral codes
+      const organizersSnap = await db.collection("organizers")
+        .where("referralCode", "!=", null)
+        .get();
+
+      // Build a map of userId → organizer data
+      const orgByUserId: Record<string, { organizerName: string; referralCode: string; stripePromoId?: string }> = {};
+      for (const doc of organizersSnap.docs) {
+        const d = doc.data();
+        if (d.referralCode && d.userId) {
+          orgByUserId[d.userId as string] = {
+            organizerName: (d.organizerName as string) || "",
+            referralCode: d.referralCode as string,
+            stripePromoId: d.stripePromoId as string | undefined,
+          };
+        }
+      }
+
+      // Collect all unique user IDs (contributors + organizers)
+      const allUserIds = new Set<string>([
+        ...contributorsSnap.docs.map((d) => d.id),
+        ...Object.keys(orgByUserId),
+      ]);
+
       const contributors = [];
-      for (const doc of contributorsSnap.docs) {
-        const data = doc.data();
+      for (const userId of allUserIds) {
+        // Get user doc (may already be loaded for contributors)
+        const userDoc = contributorsSnap.docs.find((d) => d.id === userId)
+          || await db.collection("users").doc(userId).get();
+        const data = (userDoc as FirebaseFirestore.DocumentSnapshot).data?.() || {};
+
+        const orgData = orgByUserId[userId] || null;
+        const referralCode = orgData?.referralCode || (data.referralCode as string) || null;
+        if (!referralCode) continue;
+
         const referralsSnap = await db.collection("referrals")
-          .where("contributorId", "==", doc.id)
+          .where("referralCode", "==", referralCode)
           .get();
 
-        const activeReferrals = referralsSnap.docs.filter(
-          (r) => r.data().status === "active"
-        );
-        const totalCommission = activeReferrals.reduce((sum, r) => {
-          const ref = r.data();
-          if (!ref.isVested) return sum;
-          return sum + (ref.plan === "monthly" ? MONTHLY_REFERRAL_COMMISSION : ANNUAL_REFERRAL_COMMISSION);
-        }, 0);
+        const now = new Date();
+        const activeReferrals = referralsSnap.docs.filter((r) => r.data().status === "active");
+        const vestedActive = activeReferrals.filter((r) => {
+          const d = r.data();
+          return d.isVested || (d.vestingDate && new Date(d.vestingDate as string) <= now);
+        });
+
+        const isPaid = data.accountType === "subscriber" || data.subscriptionStatus === "active" || data.accountType === "admin";
+        const monthlyRate = isPaid ? 1.50 : 1.00;
+        const annualRate = isPaid ? 7.50 : 5.00;
+
+        let monthlyEarnings = 0;
+        for (const r of vestedActive) {
+          const rd = r.data();
+          monthlyEarnings += rd.plan === "monthly" ? monthlyRate : annualRate / 12;
+        }
+
+        // Total paid out
+        const payoutsSnap = await db.collection("commissionPayouts")
+          .where("contributorId", "==", userId)
+          .get();
+        const totalPaid = payoutsSnap.docs
+          .filter((d) => d.data().status === "paid")
+          .reduce((sum, d) => sum + ((d.data().amount as number) || 0), 0);
 
         contributors.push({
-          id: doc.id,
-          name: data.displayName || data.email,
-          referralCode: data.referralCode,
-          metro: data.contributorMetro,
+          id: userId,
+          name: orgData?.organizerName || (data.displayName as string) || (data.email as string) || userId,
+          email: (data.email as string) || "",
+          referralCode,
+          shareLink: `${process.env.NEXT_PUBLIC_URL || "https://www.mahjnearme.com"}/pricing?ref=${referralCode}`,
+          metro: (data.contributorMetro as string) || "",
+          isOrganizer: !!(data.isOrganizer),
+          isContributor: !!(data.isContributor),
+          isPaid,
+          tier: isPaid ? "paid" : "free",
           activeReferrals: activeReferrals.length,
+          vestedReferrals: vestedActive.length,
           totalReferrals: referralsSnap.size,
-          commissionOwed: totalCommission,
-          lastActivityDate: data.lastActivityDate,
+          monthlyEarnings: Math.round(monthlyEarnings * 100) / 100,
+          commissionOwed: Math.round(monthlyEarnings * 100) / 100,
+          totalPaid: Math.round(totalPaid * 100) / 100,
+          pendingPayout: Math.round((monthlyEarnings - totalPaid) * 100) / 100,
+          lastActivityDate: (data.lastActivityDate as string) || "",
+          codeCreatedAt: (data.updatedAt as string) || "",
         });
       }
 
-      // Totals
-      const allReferralsSnap = await db.collection("referrals").get();
-      const totalCommissionsOwed = allReferralsSnap.docs
-        .filter((r) => r.data().status === "active" && r.data().isVested)
-        .reduce((sum, r) => {
-          const ref = r.data();
-          return sum + (ref.plan === "monthly" ? MONTHLY_REFERRAL_COMMISSION : ANNUAL_REFERRAL_COMMISSION);
-        }, 0);
+      contributors.sort((a, b) => b.totalReferrals - a.totalReferrals);
+
+      const totalCommissionsOwed = contributors.reduce((sum, c) => sum + c.commissionOwed, 0);
+      const totalReferrals = contributors.reduce((sum, c) => sum + c.totalReferrals, 0);
 
       return NextResponse.json({
         contributors,
-        totalCommissionsOwed,
-        totalReferrals: allReferralsSnap.size,
+        totalCommissionsOwed: Math.round(totalCommissionsOwed * 100) / 100,
+        totalReferrals,
       });
     }
 
