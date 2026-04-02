@@ -443,11 +443,11 @@ export default function AdminGamesPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="max-w-7xl mx-auto px-4 py-6">
       {/* Toast Notification */}
       {toast && (
         <div
-          className={`fixed top-6 right-6 z-50 flex items-center gap-2 px-5 py-3 rounded-xl shadow-lg border text-sm font-medium transition-all ${
+          className={`fixed top-4 left-4 right-4 sm:left-auto sm:right-6 sm:w-auto z-50 flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg border text-sm font-medium transition-all ${
             toast.type === "success"
               ? "bg-hotpink-50 border-hotpink-200 text-hotpink-700"
               : toast.type === "error"
@@ -472,11 +472,11 @@ export default function AdminGamesPage() {
         </div>
       )}
 
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <h1 className="font-[family-name:var(--font-heading)] font-bold text-xl sm:text-2xl text-charcoal">
           Game Management
         </h1>
-        <div className="flex gap-3">
+        <div className="flex gap-2 flex-wrap">
           <button
             onClick={() => { resetForm(); setView("csv"); }}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${

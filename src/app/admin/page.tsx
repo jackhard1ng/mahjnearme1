@@ -238,57 +238,57 @@ export default function AdminDashboardPage() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl text-charcoal">
-            Admin Dashboard
-          </h1>
-          <p className="text-slate-500 mt-1">MahjNearMe management console</p>
-        </div>
-        <div className="flex gap-3 flex-wrap">
+    <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="mb-6">
+        <h1 className="font-[family-name:var(--font-heading)] font-bold text-2xl sm:text-3xl text-charcoal">
+          Admin Dashboard
+        </h1>
+        <p className="text-slate-500 mt-1 text-sm">MahjNearMe management console</p>
+        <div className="flex gap-2 flex-wrap mt-3">
           <Link
             href="/admin/events"
-            className="flex items-center gap-2 bg-hotpink-50 border border-hotpink-200 px-4 py-2 rounded-lg text-sm font-medium text-hotpink-700 hover:bg-hotpink-100 transition-colors"
+            className="flex items-center gap-1.5 bg-hotpink-50 border border-hotpink-200 px-3 py-1.5 rounded-lg text-sm font-medium text-hotpink-700 hover:bg-hotpink-100 transition-colors"
           >
-            <GamepadIcon className="w-4 h-4" /> Edit Events
+            <GamepadIcon className="w-3.5 h-3.5" /> Edit Events
           </Link>
           <Link
             href="/admin/games"
-            className="flex items-center gap-2 bg-white border border-slate-200 px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-skyblue-100 transition-colors"
+            className="flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-skyblue-100 transition-colors"
           >
-            <GamepadIcon className="w-4 h-4" /> Manage Games (legacy)
+            <GamepadIcon className="w-3.5 h-3.5" /> Games (legacy)
           </Link>
           <Link
             href="/admin/games?action=new"
-            className="flex items-center gap-2 bg-hotpink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
+            className="flex items-center gap-1.5 bg-hotpink-500 text-white px-3 py-1.5 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
           >
-            <Plus className="w-4 h-4" /> Quick Add Game
+            <Plus className="w-3.5 h-3.5" /> Quick Add
           </Link>
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="flex gap-1 border-b border-slate-200 mb-8">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px ${
-              activeTab === tab.id
-                ? "border-hotpink-500 text-hotpink-600"
-                : "border-transparent text-slate-500 hover:text-slate-700"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+      {/* Tabs — horizontally scrollable on mobile */}
+      <div className="overflow-x-auto -mx-4 px-4 mb-6">
+        <div className="flex gap-1 border-b border-slate-200 min-w-max">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-3 py-2 text-sm font-medium border-b-2 transition-colors -mb-px whitespace-nowrap ${
+                activeTab === tab.id
+                  ? "border-hotpink-500 text-hotpink-600"
+                  : "border-transparent text-slate-500 hover:text-slate-700"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Overview Tab */}
       {activeTab === "overview" && (
         <>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
             <div className="bg-white border border-slate-200 rounded-xl p-5">
               <div className="flex items-center justify-between mb-2">
                 <GamepadIcon className="w-5 h-5 text-hotpink-500" />
