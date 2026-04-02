@@ -32,24 +32,20 @@ async function handleDigest(req: Request) {
     const db = getAdminDb();
     const US_STATES: Record<string, string> = require("@/lib/constants").US_STATES;
 
-    // 1. Load current listings
-    const baseUrl = process.env.NEXT_PUBLIC_URL || "https://www.mahjnearme.com";
-    const listingsRes = await fetch(`${baseUrl}/listings.json`);
-
-    let currentListings: { id: string; name: string; type: string; city: string; state: string; gameStyle?: string; eventDate?: string }[] = [];
-
-    if (listingsRes.ok) {
-      const data = await listingsRes.json();
-      currentListings = (data.listings || []).map((l: Record<string, unknown>) => ({
-        id: l.id || `${l.name}-${l.city}-${l.state}`,
-        name: l.name as string,
-        type: l.type as string,
-        city: l.city as string,
-        state: l.state as string,
-        gameStyle: l.gameStyle as string | undefined,
-        eventDate: l.eventDate as string | undefined,
-      }));
-    }
+    // 1. Load current listings from Firestore (source of truth)
+    const listingsSnap = await db.collection("listings").where("status", "==", "active").get();
+    const currentListings: { id: string; name: string; type: string; city: string; state: string; gameStyle?: string; eventDate?: string }[] = listingsSnap.docs.map((doc) => {
+      const d = doc.data();
+      return {
+        id: doc.id,
+        name: (d.name as string) || "",
+        type: (d.type as string) || "open_play",
+        city: (d.city as string) || "",
+        state: (d.state as string) || "",
+        gameStyle: d.gameStyle as string | undefined,
+        eventDate: d.eventDate as string | undefined,
+      };
+    });
 
     if (currentListings.length === 0) {
       return NextResponse.json({ error: "Could not load listings" }, { status: 500 });

@@ -226,6 +226,9 @@ export default function AdminDashboardPage() {
   const cities = new Set(games.map((g) => `${g.city}, ${g.state}`));
   const states = new Set(games.map((g) => g.state));
   const recentGames = games.slice(0, 5);
+  const organizerSubmissions = games
+    .filter((g) => g.source === "organizer_submitted")
+    .sort((a, b) => ((b as Record<string,unknown>).createdAt as string || "").localeCompare((a as Record<string,unknown>).createdAt as string || ""));
 
   const tabs = [
     { id: "overview" as const, label: "Overview" },
@@ -324,6 +327,34 @@ export default function AdminDashboardPage() {
               <p className="text-sm text-slate-500">Views (30d)</p>
             </div>
           </div>
+
+          {/* Organizer Submissions feed */}
+          {organizerSubmissions.length > 0 && (
+            <div className="bg-white border border-violet-200 rounded-xl mb-6">
+              <div className="px-5 py-4 border-b border-violet-100 flex items-center justify-between">
+                <h2 className="font-semibold text-charcoal flex items-center gap-2">
+                  <Star className="w-5 h-5 text-violet-500" />
+                  Organizer Submissions
+                  <span className="text-xs font-medium bg-violet-100 text-violet-700 px-2 py-0.5 rounded-full">{organizerSubmissions.length}</span>
+                </h2>
+                <Link href="/admin/events" className="text-sm text-hotpink-500 hover:text-hotpink-600 font-medium">View in Events</Link>
+              </div>
+              <div className="divide-y divide-slate-50">
+                {organizerSubmissions.map((game) => (
+                  <div key={game.id} className="px-5 py-3 flex items-center justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-charcoal truncate">{game.name}</p>
+                      <p className="text-xs text-slate-500">{game.organizerName || "—"} · {game.city}, {game.state}</p>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${game.status === "active" ? "bg-green-100 text-green-700" : "bg-slate-100 text-slate-600"}`}>{game.status}</span>
+                      <Link href={`/admin/events`} className="text-xs text-hotpink-500 hover:underline">Edit</Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="grid lg:grid-cols-2 gap-6">
             <div className="bg-white border border-slate-200 rounded-xl">
