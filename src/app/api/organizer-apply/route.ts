@@ -275,8 +275,8 @@ export async function PUT(request: NextRequest) {
       const toEmail = app.contactEmail || app.userEmail;
       if (newStatus === "approved") {
         notifyAdmin(
-          `Your MahjNearMe Organizer Account is Approved!`,
-          `Hi ${app.organizerName || app.userName || ""}!\n\nGreat news, your organizer account on MahjNearMe has been approved!\n\nYou can now:\n- Manage your events and listings\n- Update your public profile\n- Add new events\n\nJust log in and click "For Organizers" in the menu to access your dashboard.\n\nWelcome to MahjNearMe!\nJack`
+          `[Approved] ${app.organizerName || app.userName || app.userEmail}`,
+          `You approved ${app.organizerName || app.userName || app.userEmail} (${toEmail}) as an organizer. Approval email sent to them.`
         ).catch(() => {});
         // Also send directly to the applicant (not just admin)
         try {
