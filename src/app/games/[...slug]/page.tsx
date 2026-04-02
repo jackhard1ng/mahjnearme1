@@ -17,6 +17,7 @@ import {
 import { SKILL_LEVEL_COLORS, SKILL_LEVEL_LABELS } from "@/lib/constants";
 import { SITE_NAME, SITE_URL, GAME_STYLE_LABELS } from "@/lib/constants";
 import { useAuth } from "@/contexts/AuthContext";
+import AdminEditBar from "@/components/AdminEditBar";
 import {
   MapPin,
   Clock,
@@ -868,6 +869,9 @@ export default function GameDetailPage() {
           </div>
         );
       })()}
+
+      {/* Admin-only: floating edit bar at the bottom of the screen */}
+      <AdminEditBar game={game} />
     </>
   );
 }
