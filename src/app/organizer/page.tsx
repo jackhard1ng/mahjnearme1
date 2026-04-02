@@ -558,9 +558,12 @@ function AddListingTab({
     setMessage("");
 
     try {
-      // Auto-geocode address
+      // Auto-geocode address — always include city+state so Nominatim can resolve
+      // a bare street address like "15 chestnut avenue" without a city
       let geopoint = { lat: 0, lng: 0 };
-      const addressToGeocode = form.address || `${form.city}, ${form.state}`;
+      const addressToGeocode = form.address
+        ? `${form.address}, ${form.city}, ${form.state}`
+        : `${form.city}, ${form.state}`;
       try {
         const geoRes = await fetch(`/api/geocode?q=${encodeURIComponent(addressToGeocode)}`);
         const geoData = await geoRes.json();
