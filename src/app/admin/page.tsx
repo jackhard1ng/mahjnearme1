@@ -1318,6 +1318,7 @@ function AdminApprovalsPanel() {
   const [processing, setProcessing] = useState<string | null>(null);
   const [importStatus, setImportStatus] = useState("");
   const [importing, setImporting] = useState(false);
+  const [showAiPrompt, setShowAiPrompt] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -1512,6 +1513,136 @@ function AdminApprovalsPanel() {
             </span>
           )}
         </div>
+      </div>
+
+      {/* AI Import Prompt */}
+      <div className="bg-white border border-slate-200 rounded-lg p-4">
+        <div className="flex items-center justify-between">
+          <h3 className="font-semibold text-slate-800 flex items-center gap-2">
+            <span>🤖</span> AI Prompt — Screenshot to JSON
+          </h3>
+          <button
+            onClick={() => setShowAiPrompt(!showAiPrompt)}
+            className="text-sm text-hotpink-600 font-medium hover:underline"
+          >
+            {showAiPrompt ? "Hide" : "Show"}
+          </button>
+        </div>
+        <p className="text-sm text-slate-500 mt-1 mb-2">Paste this into ChatGPT / Claude with screenshots of event listings to generate import-ready JSON.</p>
+        {showAiPrompt && (() => {
+          const prompt = `You are helping me convert mahjong event listings (from screenshots, websites, or text) into structured JSON for import into MahjNearMe.
+
+Return ONLY a valid JSON object in this exact format — no markdown, no explanation, just the JSON:
+
+{
+  "listings": [
+    {
+      "id": "city-slug-venue-slug-1",
+      "name": "Event Name",
+      "type": "open_play",
+      "gameStyle": "american",
+      "city": "New Orleans",
+      "state": "LA",
+      "generalArea": "Uptown",
+      "venueName": "Community Center",
+      "address": "123 Main St",
+      "isRecurring": true,
+      "dayOfWeek": "monday",
+      "startTime": "10:00 AM",
+      "endTime": "12:00 PM",
+      "frequency": "weekly",
+      "eventDate": null,
+      "cost": "Free",
+      "costAmount": 0,
+      "contactName": "Jane Smith",
+      "contactEmail": "jane@example.com",
+      "contactPhone": "",
+      "website": "",
+      "instagram": "@handle",
+      "facebookGroup": "",
+      "registrationLink": "",
+      "description": "",
+      "howToJoin": "",
+      "skillLevels": "beginner|intermediate",
+      "dropInFriendly": true,
+      "setsProvided": true,
+      "typicalGroupSize": "",
+      "source": "manual",
+      "notes": ""
+    }
+  ]
+}
+
+FIELD RULES:
+
+id: lowercase, hyphens only, format "city-venuename-number" (e.g. "new-orleans-tulane-1"). Must be unique.
+
+type: one of — open_play, lesson, league, event
+  - open_play: regular drop-in games, clubs, community groups
+  - lesson: classes, instruction, beginner workshops
+  - league: organized season-based competitive play
+  - event: one-time tournaments, special events
+
+gameStyle: one of — american, chinese, riichi, other
+  - Default to "american" unless clearly stated otherwise
+
+state: 2-letter uppercase abbreviation (e.g. "LA", "TX", "NY")
+
+dayOfWeek: lowercase day name(s), pipe-separated for multiple days
+  Examples: "monday" / "tuesday|thursday" / "saturday"
+  Use null if one-time event
+
+startTime / endTime: "10:00 AM" or "2:30 PM" format (12-hour with AM/PM)
+  Always include both if available
+
+frequency: one of — weekly, biweekly, monthly
+  Default to "weekly" for recurring events unless stated otherwise
+
+isRecurring: true if it happens regularly, false if one-time event
+  If isRecurring is false, set eventDate to "YYYY-MM-DD" format
+
+eventDate: "YYYY-MM-DD" for one-time events only, null for recurring
+
+skillLevels: pipe-separated string — "beginner", "intermediate", "advanced"
+  - Default: "beginner|intermediate" (most events welcome all levels)
+  - If name contains "101": use "beginner"
+  - If name contains "102": use "beginner|intermediate"
+  - Only use "advanced" if explicitly stated
+
+setsProvided: true by default — most venues provide sets. Only set false if explicitly stated "bring your own tiles" or "BYOT"
+
+dropInFriendly: true by default for open_play. false for league or invite-only events.
+
+cost: human-readable string like "Free", "$10", "$5/session", "Contact for price"
+costAmount: numeric dollar amount (0 for free, null if unknown)
+
+instagram: include @ symbol if present (e.g. "@mahjongclub")
+
+generalArea: neighborhood or area within the city (e.g. "Downtown", "Uptown", "West Side")
+
+Leave any unknown fields as null or empty string "".
+Do NOT include geopoint, status, promoted, or any internal fields.
+Generate as many listings as are present in the screenshots/text provided.`;
+
+          return (
+            <div className="mt-3">
+              <div className="relative">
+                <pre className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs text-slate-700 whitespace-pre-wrap overflow-auto max-h-64 font-mono leading-relaxed">
+                  {prompt}
+                </pre>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(prompt);
+                    alert("Prompt copied to clipboard!");
+                  }}
+                  className="absolute top-2 right-2 bg-hotpink-500 text-white text-xs px-3 py-1.5 rounded-lg font-medium hover:bg-hotpink-600"
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
+          );
+        })()}
       </div>
 
       {/* Assign Organizer */}
