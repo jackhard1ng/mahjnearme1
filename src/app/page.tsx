@@ -5,7 +5,6 @@ import { isEventExpired } from "@/lib/utils";
 import { FEATURED_TILES } from "@/lib/featured-tiles";
 import { Search, MapPin, Sparkles, ArrowRight } from "lucide-react";
 import GamesToday from "@/components/GamesToday";
-import UpcomingEvents from "@/components/UpcomingEvents";
 import SeasonalEvents from "@/components/SeasonalEvents";
 
 function getStats() {
@@ -99,10 +98,7 @@ export default function HomePage() {
       {/* Games Near You */}
       <GamesToday />
 
-      {/* Upcoming Events */}
-      <UpcomingEvents />
-
-      {/* Seasonal Events */}
+      {/* Seasonal Events (themed or upcoming fallback) */}
       <SeasonalEvents />
 
       {/* How It Works */}
