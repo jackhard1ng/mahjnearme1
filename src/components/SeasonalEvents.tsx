@@ -51,7 +51,7 @@ const MONTHLY_THEMES: Record<number, MonthTheme> = {
   3: {
     emoji: "🃏",
     headline: "New Card, New Plays",
-    subhead: "NMJL card release parties, walkthroughs, Masters watch events, and spring tournaments",
+    subhead: "NMJL card release parties, walkthroughs, Masters-themed mahjong events, and spring tournaments",
     keywords: ["new card", "nmjl", "card release", "card party", "walkthrough", "masters", "spring", "april"],
     searchQuery: "new card",
     gradient: "from-violet-500 to-purple-400",

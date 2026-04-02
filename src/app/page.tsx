@@ -7,6 +7,23 @@ import { Search, MapPin, Sparkles, ArrowRight } from "lucide-react";
 import GamesToday from "@/components/GamesToday";
 import SeasonalEvents from "@/components/SeasonalEvents";
 
+async function getLiveGameCount(): Promise<number> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_URL || "https://www.mahjnearme.com";
+    const res = await fetch(`${baseUrl}/api/listings`, {
+      next: { revalidate: 300 }, // revalidate every 5 minutes
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const listings = data.listings || [];
+      return listings.filter((g: { status: string }) => g.status === "active").length;
+    }
+  } catch {
+    // fall through to mock count
+  }
+  return mockGames.filter((g) => g.status === "active" && !isEventExpired(g)).length;
+}
+
 function getStats() {
   const activeGames = mockGames.filter((g) => g.status === "active" && !isEventExpired(g));
   const states = new Set(activeGames.map((g) => g.state));
@@ -24,7 +41,6 @@ function getCityCounts(): Record<string, number> {
   return counts;
 }
 
-const stats = getStats();
 const cityCounts = getCityCounts();
 
 /** Build the marquee tile data with live counts. */
@@ -33,7 +49,8 @@ const tilesWithCounts = FEATURED_TILES.map((t) => {
   return { ...t, count: cityCounts[key] || 0 };
 }).filter((t) => t.count > 0);
 
-export default function HomePage() {
+export default async function HomePage() {
+  const liveGameCount = await getLiveGameCount();
 
   return (
     <>
@@ -58,7 +75,7 @@ export default function HomePage() {
           </div>
 
           <p className="text-xs sm:text-sm text-white/70">
-            <span className="font-semibold text-white">{Math.floor(stats.gameCount / 100) * 100}+ games</span> across{" "}
+            <span className="font-semibold text-white">{Math.floor(liveGameCount / 100) * 100}+ games</span> across{" "}
             <span className="font-semibold text-white">all 50 states</span>
           </p>
         </div>
@@ -219,7 +236,7 @@ export default function HomePage() {
                 Ready to find your next game?
               </h3>
               <p className="text-slate-600 mb-6">
-                See all {Math.floor(stats.gameCount / 100) * 100}+ games with full details, plus enter our monthly set giveaway.
+                See all {Math.floor(liveGameCount / 100) * 100}+ games with full details, plus enter our monthly set giveaway.
               </p>
               <Link
                 href="/signup"
