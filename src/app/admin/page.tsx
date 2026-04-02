@@ -1538,7 +1538,7 @@ function AdminApprovalsPanel() {
 
         if (result.success) {
           setImportStatus(
-            `Done! Added: ${result.added}, Updated: ${result.updated}, Skipped (organizer-edited): ${result.skipped}`
+            `Done! Added: ${result.added}, Updated: ${result.updated}, Skipped: ${result.skipped}${result.duplicates ? `, Blocked duplicates (organizer-owned): ${result.duplicates}` : ""}`
           );
         } else {
           setImportStatus(`Error: ${result.error}`);

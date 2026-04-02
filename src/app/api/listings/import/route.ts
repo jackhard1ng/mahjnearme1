@@ -32,6 +32,20 @@ export async function POST(request: NextRequest) {
     let added = 0;
     let updated = 0;
     let skipped = 0;
+    let duplicates = 0;
+
+    // Build a name+city+state index of organizer-owned listings so we can
+    // detect duplicates even when the AI generates a different doc ID.
+    const orgOwnedSnap = await db.collection("listings")
+      .where("organizerEdited", "==", true)
+      .select("name", "city", "state")
+      .get();
+    const orgOwnedKeys = new Set(
+      orgOwnedSnap.docs.map((d) => {
+        const data = d.data();
+        return `${(data.name as string || "").toLowerCase().trim()}|${(data.city as string || "").toLowerCase().trim()}|${(data.state as string || "").toLowerCase().trim()}`;
+      })
+    );
 
     // Process in batches of 450 (Firestore limit is 500 per batch)
     const BATCH_SIZE = 450;
@@ -42,7 +56,6 @@ export async function POST(request: NextRequest) {
       for (const rawListing of chunk) {
         const listing = {
           ...rawListing,
-          // Normalize skillLevels: accept pipe-delimited string or array
           skillLevels: (() => {
             const s = rawListing.skillLevels;
             if (Array.isArray(s)) return s;
@@ -56,6 +69,13 @@ export async function POST(request: NextRequest) {
           continue;
         }
 
+        // Check if an organizer-owned listing with same name+city+state exists
+        const nameKey = `${(listing.name || "").toLowerCase().trim()}|${(listing.city || "").toLowerCase().trim()}|${(listing.state || "").toLowerCase().trim()}`;
+        if (orgOwnedKeys.has(nameKey)) {
+          duplicates++;
+          continue;
+        }
+
         const ref = db.collection("listings").doc(docId);
         const existing = await ref.get();
 
@@ -66,11 +86,9 @@ export async function POST(request: NextRequest) {
             skipped++;
             continue;
           }
-          // Update existing listing
           batch.update(ref, { ...listing, updatedAt: now });
           updated++;
         } else {
-          // New listing
           batch.set(ref, {
             ...listing,
             status: "active",
@@ -92,6 +110,7 @@ export async function POST(request: NextRequest) {
       added,
       updated,
       skipped,
+      duplicates,
       total: listings.length,
     });
   } catch (err) {
