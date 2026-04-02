@@ -343,6 +343,35 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
+          {/* Quick Actions */}
+          <div className="bg-white border border-slate-200 rounded-xl mb-6">
+            <div className="px-5 py-4 border-b border-slate-100">
+              <h2 className="font-semibold text-charcoal">Quick Actions</h2>
+            </div>
+            <div className="p-5 grid grid-cols-3 sm:grid-cols-5 gap-3">
+              <Link href="/admin/events" className="flex flex-col items-center gap-2 bg-hotpink-50 hover:bg-hotpink-100 border border-hotpink-200 rounded-xl p-4 transition-colors">
+                <GamepadIcon className="w-6 h-6 text-hotpink-500" />
+                <span className="text-xs font-medium text-slate-700 text-center">Edit Events</span>
+              </Link>
+              <Link href="/admin/games?action=new" className="flex flex-col items-center gap-2 bg-skyblue-50 hover:bg-softpink-100 border border-slate-200 rounded-xl p-4 transition-colors">
+                <Plus className="w-6 h-6 text-hotpink-500" />
+                <span className="text-xs font-medium text-slate-700 text-center">Add Game</span>
+              </Link>
+              <Link href="/admin/mobile" className="flex flex-col items-center gap-2 bg-skyblue-50 hover:bg-softpink-100 border border-slate-200 rounded-xl p-4 transition-colors">
+                <UserPlus className="w-6 h-6 text-hotpink-500" />
+                <span className="text-xs font-medium text-slate-700 text-center">Approvals</span>
+              </Link>
+              <Link href="/admin/users" className="flex flex-col items-center gap-2 bg-skyblue-50 hover:bg-softpink-100 border border-slate-200 rounded-xl p-4 transition-colors">
+                <UserPlus className="w-6 h-6 text-hotpink-500" />
+                <span className="text-xs font-medium text-slate-700 text-center">Users</span>
+              </Link>
+              <Link href="/admin/submissions" className="flex flex-col items-center gap-2 bg-skyblue-50 hover:bg-softpink-100 border border-slate-200 rounded-xl p-4 transition-colors">
+                <FileSpreadsheet className="w-6 h-6 text-hotpink-500" />
+                <span className="text-xs font-medium text-slate-700 text-center">Inquiries</span>
+              </Link>
+            </div>
+          </div>
+
           {/* Organizer Submissions feed — always visible */}
           <div className="bg-white border border-violet-200 rounded-xl mb-6">
             <div className="px-5 py-4 border-b border-violet-100 flex items-center justify-between">
@@ -397,34 +426,6 @@ export default function AdminDashboardPage() {
             </div>
 
             <div className="space-y-4">
-              <div className="bg-white border border-slate-200 rounded-xl">
-                <div className="px-5 py-4 border-b border-slate-100">
-                  <h2 className="font-semibold text-charcoal">Quick Actions</h2>
-                </div>
-                <div className="p-5 grid grid-cols-2 gap-3">
-                  <Link href="/admin/events" className="flex flex-col items-center gap-2 bg-hotpink-50 hover:bg-hotpink-100 border border-hotpink-200 rounded-xl p-4 transition-colors">
-                    <GamepadIcon className="w-6 h-6 text-hotpink-500" />
-                    <span className="text-sm font-medium text-slate-700">Edit Events</span>
-                  </Link>
-                  <Link href="/admin/games?action=new" className="flex flex-col items-center gap-2 bg-skyblue-50 hover:bg-softpink-100 border border-slate-200 rounded-xl p-4 transition-colors">
-                    <Plus className="w-6 h-6 text-hotpink-500" />
-                    <span className="text-sm font-medium text-slate-700">Add Game</span>
-                  </Link>
-                  <Link href="/admin/games?action=csv" className="flex flex-col items-center gap-2 bg-skyblue-50 hover:bg-softpink-100 border border-slate-200 rounded-xl p-4 transition-colors">
-                    <Upload className="w-6 h-6 text-hotpink-500" />
-                    <span className="text-sm font-medium text-slate-700">CSV Upload</span>
-                  </Link>
-                  <Link href="/admin/users" className="flex flex-col items-center gap-2 bg-skyblue-50 hover:bg-softpink-100 border border-slate-200 rounded-xl p-4 transition-colors">
-                    <UserPlus className="w-6 h-6 text-hotpink-500" />
-                    <span className="text-sm font-medium text-slate-700">Users</span>
-                  </Link>
-                  <Link href="/admin/submissions" className="flex flex-col items-center gap-2 bg-skyblue-50 hover:bg-softpink-100 border border-slate-200 rounded-xl p-4 transition-colors">
-                    <FileSpreadsheet className="w-6 h-6 text-hotpink-500" />
-                    <span className="text-sm font-medium text-slate-700">Inquiries</span>
-                  </Link>
-                </div>
-              </div>
-
               {analytics && analytics.topPages.length > 0 && (
                 <div className="bg-white border border-slate-200 rounded-xl">
                   <div className="px-5 py-4 border-b border-slate-100">
