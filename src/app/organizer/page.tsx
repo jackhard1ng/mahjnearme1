@@ -162,12 +162,32 @@ export default function OrganizerDashboardPage() {
 
       {/* Subscription upsell for free organizers */}
       {!isSubscribedOrganizer && (
-        <div className="bg-skyblue-50 border border-skyblue-200 rounded-lg p-3 mb-6 text-sm text-skyblue-800">
-          Want a Featured badge, priority placement, photo uploads, and a referral code?{" "}
-          <Link href="/pricing" className="font-semibold underline">
-            Subscribe
-          </Link>{" "}
-          to unlock premium organizer perks.
+        <div className="space-y-2 mb-6">
+          {organizer?.slug && (
+            <div className="bg-violet-50 border border-violet-200 rounded-lg p-3 text-sm text-violet-800">
+              <p className="font-semibold mb-0.5">Your profile page is public and shareable 🎉</p>
+              <p className="text-violet-700 text-xs mb-2">
+                Anyone you send your link to can see your full profile, events, and contact info — no subscription needed.
+                The directory listing (where members browse &amp; discover instructors) is a subscriber feature, but your personal page is always free to share.
+              </p>
+              <div className="flex items-center gap-2 bg-white border border-violet-200 rounded px-2 py-1.5">
+                <span className="text-xs text-slate-500 truncate flex-1">mahjnearme.com/organizer/{organizer.slug}</span>
+                <button
+                  onClick={() => navigator.clipboard.writeText(`https://mahjnearme.com/organizer/${organizer.slug}`)}
+                  className="text-xs font-medium text-violet-600 hover:text-violet-700 shrink-0"
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
+          )}
+          <div className="bg-skyblue-50 border border-skyblue-200 rounded-lg p-3 text-sm text-skyblue-800">
+            Want a Featured badge, priority placement, photo uploads, and a referral code?{" "}
+            <Link href="/pricing" className="font-semibold underline">
+              Subscribe
+            </Link>{" "}
+            to unlock premium organizer perks.
+          </div>
         </div>
       )}
 
