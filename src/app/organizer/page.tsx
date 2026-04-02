@@ -1697,6 +1697,46 @@ function ReferralsTab({ userId }: { userId: string }) {
           {data.totalPaid > 0 && (
             <p className="text-xs text-slate-400 text-center">Total paid out: ${data.totalPaid.toFixed(2)}</p>
           )}
+
+          {/* Promotion ideas */}
+          <div className="bg-gradient-to-br from-hotpink-50 to-skyblue-50 border border-hotpink-200 rounded-xl p-5 space-y-4">
+            <div>
+              <h3 className="font-semibold text-slate-800 mb-1 flex items-center gap-2">💬 Promote to your players</h3>
+              <p className="text-xs text-slate-500">Copy one of these and share it wherever your players are — Facebook group, email, Instagram, next session.</p>
+            </div>
+
+            {[
+              {
+                label: "Facebook group / email",
+                text: `Hey everyone! 🀄 All of my events are now listed on MahjNearMe — the easiest way to find and keep track of our games. Use my code ${data.code} at checkout for 15% off a subscription. Check it out: ${data.shareLink}`,
+              },
+              {
+                label: "Instagram caption",
+                text: `Find all my mahjong events in one place on @mahjnearme 🀄✨ New players can use code ${data.code} for 15% off. Link: ${data.shareLink}`,
+              },
+              {
+                label: "Short text / DM",
+                text: `My events are on MahjNearMe now! Use code ${data.code} for 15% off: ${data.shareLink}`,
+              },
+              {
+                label: "Giveaway angle 🎁",
+                text: `Want to win a free mahjong set? 🀄🎁 MahjNearMe does a monthly giveaway — every subscriber gets an entry automatically. Use my code ${data.code} for 15% off when you sign up: ${data.shareLink}`,
+              },
+            ].map(({ label, text }) => (
+              <div key={label} className="bg-white rounded-lg border border-slate-200 p-3">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-xs font-medium text-slate-600">{label}</span>
+                  <button
+                    onClick={() => { navigator.clipboard.writeText(text); }}
+                    className="text-xs text-hotpink-500 hover:text-hotpink-600 font-medium flex items-center gap-1"
+                  >
+                    <Copy className="w-3 h-3" /> Copy
+                  </button>
+                </div>
+                <p className="text-xs text-slate-600 leading-relaxed">{text}</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
