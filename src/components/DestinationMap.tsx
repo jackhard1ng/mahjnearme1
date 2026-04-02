@@ -66,6 +66,9 @@ export default function DestinationMap({ games, hasAccess }: DestinationMapProps
 
       games.forEach((game) => {
         if (!game.geopoint || game.geopoint.lat === 0 && game.geopoint.lng === 0) return;
+        // Skip points outside continental US / Hawaii / Alaska bounds — bad geocodes
+        const { lat, lng } = game.geopoint;
+        if (lat < 18 || lat > 72 || lng < -180 || lng > -60) return;
 
         const category = getEventCategory(game.name, game.description || "");
         const color = hasAccess ? CATEGORY_COLORS[category] : "#9CA3AF";

@@ -60,9 +60,13 @@ export default function EventsPage() {
         return isDestinationEvent(g);
       })
       .sort((a, b) => {
-        // Featured first, then verified, then by date
-        if (a.promoted !== b.promoted) return b.promoted ? 1 : -1;
-        if (a.verified !== b.verified) return (b.verified ? 1 : 0) - (a.verified ? 1 : 0);
+        // 1. Featured (paid subscriber organizer) first
+        if (a.promoted !== b.promoted) return a.promoted ? -1 : 1;
+        // 2. Organizer-submitted/edited events next (verified organizer accounts)
+        const aOrg = a.organizerEdited ? 1 : 0;
+        const bOrg = b.organizerEdited ? 1 : 0;
+        if (aOrg !== bOrg) return bOrg - aOrg;
+        // 3. Then by date ascending
         if (a.eventDate && b.eventDate) return a.eventDate.localeCompare(b.eventDate);
         if (a.eventDate) return -1;
         if (b.eventDate) return 1;
@@ -250,6 +254,11 @@ function EventCard({ game: g, hasAccess }: { game: Game; hasAccess: boolean }) {
                   {g.promoted && (
                     <div className="bg-gradient-to-r from-amber-400 to-amber-500 px-3 py-0.5 text-white text-xs font-bold flex items-center gap-1">
                       <Star className="w-3 h-3 fill-white" /> Featured Event
+                    </div>
+                  )}
+                  {!g.promoted && g.organizerEdited && (
+                    <div className="bg-gradient-to-r from-violet-500 to-violet-600 px-3 py-0.5 text-white text-xs font-bold flex items-center gap-1">
+                      <Star className="w-3 h-3 fill-white" /> Verified Organizer
                     </div>
                   )}
                   <div className="p-5">
