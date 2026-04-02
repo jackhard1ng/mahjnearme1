@@ -39,15 +39,15 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ listing: null });
     }
 
-    // Check if Firestore has listings
-    const countSnap = await db.collection("listings").limit(1).get();
+    // Check if Firestore has a full dataset (threshold: 1000 listings)
+    // If under threshold, seed from JSON — this handles empty DB and partial imports
+    const countSnap = await db.collection("listings").limit(1000).get();
 
-    if (countSnap.empty) {
-      // Auto-seed from JSON on first request
-      console.log("[Listings API] Firestore empty, auto-seeding from JSON...");
+    if (countSnap.size < 1000) {
+      console.log(`[Listings API] Only ${countSnap.size} listings in Firestore, seeding from JSON...`);
       const seeded = await seedFromJSON(db);
       if (!seeded) {
-        // Seeding failed or in progress, return JSON directly
+        // Seeding failed — return JSON directly as fallback
         const { loadListings } = require("@/lib/listings-data");
         const games = loadListings();
         const res = NextResponse.json({ listings: games, count: games.length, source: "json" });
@@ -99,11 +99,16 @@ async function seedFromJSON(db: FirebaseFirestore.Firestore): Promise<boolean> {
     const { loadListings } = require("@/lib/listings-data");
     const games = loadListings();
 
+    // Get all existing doc IDs so we don't overwrite imported/organizer-edited listings
+    const existingSnap = await db.collection("listings").select().get();
+    const existingIds = new Set(existingSnap.docs.map((d) => d.id));
+
     const BATCH_SIZE = 450;
     for (let i = 0; i < games.length; i += BATCH_SIZE) {
       const chunk = games.slice(i, i + BATCH_SIZE);
       const batch = db.batch();
       for (const game of chunk) {
+        if (existingIds.has(game.id)) continue; // don't overwrite existing docs
         const ref = db.collection("listings").doc(game.id);
         batch.set(ref, { ...game, organizerEdited: false });
       }
