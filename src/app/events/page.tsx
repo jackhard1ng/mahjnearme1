@@ -4,7 +4,8 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/contexts/AuthContext";
-import { mockGames } from "@/lib/mock-data";
+import { Game } from "@/types";
+import { useFirestoreListings } from "@/hooks/useFirestoreListings";
 import { useEnrichedGames } from "@/hooks/useOrganizerOverrides";
 import { isEventExpired, slugify, formatTime, getStateName, getGameTypeColor, getGameTypeLabel } from "@/lib/utils";
 import { MapPin, Lock, ArrowRight, Search, Plane, Star } from "lucide-react";
@@ -49,7 +50,8 @@ export default function EventsPage() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "retreats" | "tournaments" | "cruises" | "camps">("all");
 
-  const enrichedGames = useEnrichedGames(mockGames);
+  const baseGames = useFirestoreListings();
+  const enrichedGames = useEnrichedGames(baseGames);
 
   const events = useMemo(() => {
     return enrichedGames
@@ -240,7 +242,7 @@ export default function EventsPage() {
   );
 }
 
-function EventCard({ game: g, hasAccess }: { game: typeof mockGames[0]; hasAccess: boolean }) {
+function EventCard({ game: g, hasAccess }: { game: Game; hasAccess: boolean }) {
               const eventDate = g.eventDate ? new Date(g.eventDate + "T00:00:00") : null;
 
               return (

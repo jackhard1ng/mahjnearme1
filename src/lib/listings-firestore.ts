@@ -73,6 +73,7 @@ function docToGame(data: Record<string, unknown>, id: string): Game {
     claimedBy: (data.claimedBy as string) || null,
     source: (data.source as Game["source"]) || "csv_import",
     promoted: (data.promoted as boolean) ?? false,
+    isDestinationEvent: (data.isDestinationEvent as boolean) ?? false,
     organizerEdited: (data.organizerEdited as boolean) ?? false,
     lastVerified: (data.lastVerified as string) || "",
     createdAt: (data.createdAt as string) || "",

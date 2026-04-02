@@ -54,6 +54,7 @@ interface EditForm {
   status: string;
   verified: boolean;
   promoted: boolean;
+  isDestinationEvent: boolean;
 }
 
 function gameToForm(g: Game): EditForm {
@@ -90,6 +91,7 @@ function gameToForm(g: Game): EditForm {
     status: g.status || "active",
     verified: g.verified ?? false,
     promoted: g.promoted ?? false,
+    isDestinationEvent: g.isDestinationEvent ?? false,
   };
 }
 
@@ -222,6 +224,7 @@ export default function AdminEditBar({ game, onSaved }: {
       status: form.status,
       verified: form.verified,
       promoted: form.promoted,
+      isDestinationEvent: form.isDestinationEvent,
       isRecurring: !!form.dayOfWeek,
       recurringSchedule: form.dayOfWeek
         ? { dayOfWeek: form.dayOfWeek, startTime: form.startTime, endTime: form.endTime, frequency: form.frequency }
@@ -387,6 +390,7 @@ export default function AdminEditBar({ game, onSaved }: {
               <div className="flex flex-wrap gap-4">
                 <Tog label="Verified" checked={form.verified} onChange={set("verified") as (v: boolean) => void} />
                 <Tog label="Featured (Promoted)" checked={form.promoted} onChange={set("promoted") as (v: boolean) => void} />
+                <Tog label="Destination Event" checked={form.isDestinationEvent} onChange={set("isDestinationEvent") as (v: boolean) => void} />
               </div>
 
               {/* Spacer so save button doesn't cover last field */}

@@ -448,7 +448,7 @@ function ListingsTab({
                   )}
                 </div>
               </div>
-              <div className="flex gap-1">
+              <div className="flex items-center gap-1.5">
                 <button
                   onClick={() => startEdit(game)}
                   className="text-hotpink-500 hover:text-hotpink-600 p-1"
@@ -458,10 +458,10 @@ function ListingsTab({
                 </button>
                 <button
                   onClick={() => onDuplicate(game)}
-                  className="text-skyblue-500 hover:text-skyblue-600 p-1"
-                  title="Duplicate as new event"
+                  className="flex items-center gap-1 text-xs font-medium text-skyblue-600 hover:text-skyblue-700 bg-skyblue-50 hover:bg-skyblue-100 border border-skyblue-200 px-2.5 py-1.5 rounded-lg transition"
+                  title="Copy this event with a new date"
                 >
-                  <Plus className="w-4 h-4" />
+                  <Copy className="w-3.5 h-3.5" /> Copy event
                 </button>
               </div>
             </div>
@@ -653,7 +653,19 @@ function AddListingTab({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Event Name *</label>
-            <input type="text" value={form.name} onChange={(e) => updateForm("name", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg" placeholder="e.g. Tuesday Night Mahjong" />
+            <input
+              type="text"
+              value={form.name}
+              onChange={(e) => {
+                const name = e.target.value;
+                const updates: Partial<typeof form> = { name };
+                if (/\b102\b/.test(name)) updates.skillLevels = "beginner|intermediate";
+                else if (/\b101\b/.test(name)) updates.skillLevels = "beginner";
+                setForm((prev) => ({ ...prev, ...updates }));
+              }}
+              className="w-full p-2 border border-slate-200 rounded-lg"
+              placeholder="e.g. Tuesday Night Mahjong"
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Type</label>
@@ -738,6 +750,32 @@ function AddListingTab({
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1">Description</label>
           <textarea value={form.description} onChange={(e) => updateForm("description", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg h-24 resize-none" placeholder="Tell players about your game..." />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">Skill Level(s)</label>
+          <div className="flex flex-wrap gap-2">
+            {(["beginner", "intermediate", "advanced"] as const).map((level) => {
+              const levels = form.skillLevels.split("|").filter(Boolean);
+              const checked = levels.includes(level);
+              return (
+                <label key={level} className="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => {
+                      const next = checked ? levels.filter((l) => l !== level) : [...levels, level];
+                      updateForm("skillLevels", next.join("|"));
+                    }}
+                  />
+                  <span className="text-sm text-slate-700 capitalize">{level}</span>
+                </label>
+              );
+            })}
+          </div>
+          {/\b10[12]\b/.test(form.name) && (
+            <p className="text-xs text-skyblue-600 mt-1">Auto-set based on event name</p>
+          )}
         </div>
 
         <div className="flex items-center gap-4">

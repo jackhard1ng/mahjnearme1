@@ -71,6 +71,7 @@ export interface Game {
   claimedBy: string | null;
   source: ListingSource;
   promoted: boolean;
+  isDestinationEvent: boolean;
   organizerEdited: boolean;
   lastVerified: string;
   createdAt: string;
