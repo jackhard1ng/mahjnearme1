@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { mockGames } from "@/lib/mock-data";
+import { useFirestoreListings } from "@/hooks/useFirestoreListings";
 import { getAnalytics, DailyStats } from "@/lib/analytics";
 import { formatCurrency } from "@/lib/currency";
 import { MONTHLY_PRICE, ANNUAL_PRICE } from "@/lib/constants";
@@ -76,7 +76,7 @@ async function adminFetch(route: string, method: string = "GET", body?: unknown)
 }
 
 export default function AdminDashboardPage() {
-  const [games] = useState(mockGames);
+  const games = useFirestoreListings();
   const [activeTab, setActiveTab] = useState<"overview" | "subscribers" | "referrals" | "giveaways" | "organizers" | "approvals" | "notifications">("overview");
   const [analytics, setAnalytics] = useState<{
     totalViews: number;
