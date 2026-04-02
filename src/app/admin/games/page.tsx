@@ -65,9 +65,21 @@ export default function AdminGamesPage() {
   const [csvErrors, setCsvErrors] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Mutable games state
+  // Mutable games state — loads from Firestore so organizer-submitted events appear
   const [games, setGames] = useState<Game[]>(mockGames);
   const [organizers, setOrganizers] = useState<{ id: string; name: string; email: string; website: string; instagram: string; city: string; state: string }[]>([]);
+
+  // Load listings from Firestore on mount
+  useEffect(() => {
+    fetch("/api/listings")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.listings && data.listings.length > 0) {
+          setGames(data.listings as Game[]);
+        }
+      })
+      .catch(() => {}); // keep mockGames on error
+  }, []);
 
   // Load organizers for autofill
   useEffect(() => {

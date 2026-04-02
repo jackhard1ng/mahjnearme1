@@ -246,12 +246,18 @@ export default function AdminDashboardPage() {
           </h1>
           <p className="text-slate-500 mt-1">MahjNearMe management console</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-wrap">
+          <Link
+            href="/admin/events"
+            className="flex items-center gap-2 bg-hotpink-50 border border-hotpink-200 px-4 py-2 rounded-lg text-sm font-medium text-hotpink-700 hover:bg-hotpink-100 transition-colors"
+          >
+            <GamepadIcon className="w-4 h-4" /> Edit Events
+          </Link>
           <Link
             href="/admin/games"
             className="flex items-center gap-2 bg-white border border-slate-200 px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-skyblue-100 transition-colors"
           >
-            <GamepadIcon className="w-4 h-4" /> Manage Games
+            <GamepadIcon className="w-4 h-4" /> Manage Games (legacy)
           </Link>
           <Link
             href="/admin/games?action=new"
@@ -348,6 +354,10 @@ export default function AdminDashboardPage() {
                   <h2 className="font-semibold text-charcoal">Quick Actions</h2>
                 </div>
                 <div className="p-5 grid grid-cols-2 gap-3">
+                  <Link href="/admin/events" className="flex flex-col items-center gap-2 bg-hotpink-50 hover:bg-hotpink-100 border border-hotpink-200 rounded-xl p-4 transition-colors">
+                    <GamepadIcon className="w-6 h-6 text-hotpink-500" />
+                    <span className="text-sm font-medium text-slate-700">Edit Events</span>
+                  </Link>
                   <Link href="/admin/games?action=new" className="flex flex-col items-center gap-2 bg-skyblue-50 hover:bg-softpink-100 border border-slate-200 rounded-xl p-4 transition-colors">
                     <Plus className="w-6 h-6 text-hotpink-500" />
                     <span className="text-sm font-medium text-slate-700">Add Game</span>
