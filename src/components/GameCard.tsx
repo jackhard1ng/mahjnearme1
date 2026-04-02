@@ -353,12 +353,17 @@ export default function GameCard({
               <h3 className="tile-engraved font-bold text-charcoal text-lg hover:text-hotpink-500 transition-colors leading-tight mb-0.5">
                 {game.name}
               </h3>
-              <div className="flex items-center gap-1.5 mb-3">
-                {game.imageUrl && (
+              <div className="flex items-center gap-2 mb-3">
+                {game.imageUrl ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
-                  <img src={game.imageUrl} alt="" className="w-4 h-4 rounded-full object-cover flex-shrink-0" />
-                )}
-                <p className="text-xs text-slate-500 tile-engraved">{game.organizerName}</p>
+                  <img src={game.imageUrl} alt="" className={`rounded-full object-cover flex-shrink-0 ${game.promoted ? "w-8 h-8 border-2 border-amber-400" : "w-6 h-6 border border-slate-200"}`} />
+                ) : null}
+                <div className="min-w-0">
+                  <p className="text-xs text-slate-500 tile-engraved truncate">{game.organizerName}</p>
+                  {game.promoted && (
+                    <p className="text-[10px] text-amber-600 font-medium">Featured Organizer</p>
+                  )}
+                </div>
               </div>
 
               {/* Urgency badge */}
