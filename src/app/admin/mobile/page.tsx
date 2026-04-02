@@ -103,13 +103,14 @@ function ApprovalsTab() {
   const [loading, setLoading] = useState(true);
   const [acting, setActing] = useState<string | null>(null);
   const [toast, setToast] = useState("");
+  const [statusView, setStatusView] = useState<"pending" | "approved" | "rejected">("pending");
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (status = "pending") => {
     setLoading(true);
     try {
       const [appsRes, approvalsRes] = await Promise.all([
-        adminFetch("/api/organizer-apply?status=pending"),
-        adminFetch("/api/approvals?status=pending"),
+        adminFetch(`/api/organizer-apply?status=${status}`),
+        adminFetch(`/api/approvals?status=${status}`),
       ]);
       const appsData = await appsRes.json();
       const approvalsData = await approvalsRes.json();
@@ -123,6 +124,8 @@ function ApprovalsTab() {
   }, []);
 
   useEffect(() => { load(); }, [load]);
+
+  useEffect(() => { load(statusView); }, [load, statusView]);
 
   const actOnOrgApp = async (id: string, action: "approve" | "reject") => {
     setActing(id);
@@ -184,14 +187,21 @@ function ApprovalsTab() {
         </div>
       )}
 
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-slate-500">{total} pending</p>
-        <button onClick={load} className="text-slate-400 hover:text-slate-600">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex gap-1">
+          {(["pending", "approved", "rejected"] as const).map((s) => (
+            <button key={s} onClick={() => setStatusView(s)}
+              className={`px-3 py-1 rounded-full text-xs font-medium border transition capitalize ${statusView === s ? "bg-hotpink-500 text-white border-hotpink-500" : "border-slate-200 bg-white text-slate-600"}`}>
+              {s}
+            </button>
+          ))}
+        </div>
+        <button onClick={() => load(statusView)} className="text-slate-400 hover:text-slate-600">
           <RefreshCw className="w-4 h-4" />
         </button>
       </div>
 
-      {total === 0 && (
+      {total === 0 && !loading && (
         <div className="text-center py-12 text-slate-400">
           <CheckCircle className="w-10 h-10 mx-auto mb-2 text-green-400" />
           <p>All caught up!</p>
