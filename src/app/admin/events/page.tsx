@@ -506,6 +506,9 @@ export default function AdminEventsPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "active" | "pending" | "inactive">("all");
   const [sourceFilter, setSourceFilter] = useState<"all" | "organizer" | "json">("all");
+  const [missingCoordsOnly, setMissingCoordsOnly] = useState(false);
+  const [geocoding, setGeocoding] = useState(false);
+  const [geocodeProgress, setGeocodeProgress] = useState("");
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -533,19 +536,51 @@ export default function AdminEventsPage() {
   useEffect(() => { load(); }, [load]);
 
   const filtered = games.filter((g) => {
-    const q = search.toLowerCase();
+    const q = search.toLowerCase().replace(/^@/, "");
     const matchSearch = !q ||
       (g.name || "").toLowerCase().includes(q) ||
       (g.city || "").toLowerCase().includes(q) ||
-      (g.organizerName || "").toLowerCase().includes(q);
+      (g.organizerName || "").toLowerCase().includes(q) ||
+      (g.instagram || "").toLowerCase().replace(/^@/, "").includes(q) ||
+      (g.contactEmail || "").toLowerCase().includes(q) ||
+      (g.venueName || "").toLowerCase().includes(q);
     const matchStatus = statusFilter === "all" || g.status === statusFilter;
     const matchSource = sourceFilter === "all" ||
       (sourceFilter === "organizer" && g.source === "organizer_submitted") ||
       (sourceFilter === "json" && g.source !== "organizer_submitted");
-    return matchSearch && matchStatus && matchSource;
+    const noCoords = !g.geopoint || (g.geopoint.lat === 0 && g.geopoint.lng === 0);
+    const matchCoords = !missingCoordsOnly || noCoords;
+    return matchSearch && matchStatus && matchSource && matchCoords;
   });
 
   const noCoords = games.filter((g) => !g.geopoint || (g.geopoint.lat === 0 && g.geopoint.lng === 0)).length;
+
+  const batchGeocode = async () => {
+    const missing = games.filter((g) => !g.geopoint || (g.geopoint.lat === 0 && g.geopoint.lng === 0));
+    if (missing.length === 0) return;
+    setGeocoding(true);
+    let done = 0;
+    let succeeded = 0;
+    for (const g of missing) {
+      const q = g.address ? `${g.address}, ${g.city}, ${g.state}` : `${g.city}, ${g.state}`;
+      if (!g.city && !g.address) { done++; continue; }
+      try {
+        const res = await fetch(`/api/geocode?q=${encodeURIComponent(q)}`);
+        const data = await res.json();
+        if (data.lat && data.lng) {
+          await adminFetch("/api/listings", "PUT", { id: g.id, geopoint: { lat: data.lat, lng: data.lng } });
+          setGames((prev) => prev.map((x) => x.id === g.id ? { ...x, geopoint: { lat: data.lat, lng: data.lng } } : x));
+          succeeded++;
+        }
+      } catch { /* skip */ }
+      done++;
+      setGeocodeProgress(`${done}/${missing.length} geocoded (${succeeded} found)`);
+      // Nominatim rate limit: 1 req/sec
+      await new Promise((r) => setTimeout(r, 1100));
+    }
+    setGeocoding(false);
+    setGeocodeProgress(`Done — ${succeeded} of ${missing.length} geocoded`);
+  };
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-6">
@@ -553,9 +588,17 @@ export default function AdminEventsPage() {
         <h1 className="text-xl font-bold text-slate-800">Events</h1>
         <div className="flex items-center gap-2">
           {noCoords > 0 && (
-            <span className="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full flex items-center gap-1">
-              <MapPin className="w-3 h-3" /> {noCoords} missing coords
-            </span>
+            <button
+              onClick={batchGeocode}
+              disabled={geocoding}
+              className="text-xs bg-red-100 text-red-600 hover:bg-red-200 px-2 py-1 rounded-full flex items-center gap-1 transition disabled:opacity-50"
+            >
+              {geocoding ? <Loader2 className="w-3 h-3 animate-spin" /> : <MapPin className="w-3 h-3" />}
+              {geocoding ? geocodeProgress : `${noCoords} missing coords — fix all`}
+            </button>
+          )}
+          {geocodeProgress && !geocoding && (
+            <span className="text-xs text-green-600">{geocodeProgress}</span>
           )}
           <button onClick={load} className="text-slate-400 hover:text-slate-600">
             <RefreshCw className="w-4 h-4" />
@@ -586,6 +629,10 @@ export default function AdminEventsPage() {
           <button onClick={() => setSourceFilter(sourceFilter === "organizer" ? "all" : "organizer")}
             className={`px-3 py-1 rounded-full text-xs font-medium border transition ${sourceFilter === "organizer" ? "bg-blue-500 text-white border-blue-500" : "border-slate-200 bg-white text-slate-600"}`}>
             Organizer-added
+          </button>
+          <button onClick={() => setMissingCoordsOnly(!missingCoordsOnly)}
+            className={`px-3 py-1 rounded-full text-xs font-medium border transition ${missingCoordsOnly ? "bg-red-500 text-white border-red-500" : "border-slate-200 bg-white text-slate-600"}`}>
+            No map pin
           </button>
         </div>
       </div>
