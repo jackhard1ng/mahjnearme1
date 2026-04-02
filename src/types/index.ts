@@ -60,6 +60,13 @@ export interface Game {
   typicalGroupSize: string;
   imageUrl: string;
 
+  // League-specific
+  leagueStartDate: string | null;
+  leagueEndDate: string | null;
+  sessionCount: number | null;
+  registrationDeadline: string | null;
+  commitmentNote: string;
+
   // Reactions
   goingCount: number;
   beenHereCount: number;

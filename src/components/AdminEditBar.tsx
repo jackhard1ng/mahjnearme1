@@ -55,6 +55,11 @@ interface EditForm {
   verified: boolean;
   promoted: boolean;
   isDestinationEvent: boolean;
+  leagueStartDate: string;
+  leagueEndDate: string;
+  sessionCount: string;
+  registrationDeadline: string;
+  commitmentNote: string;
 }
 
 function gameToForm(g: Game): EditForm {
@@ -92,6 +97,11 @@ function gameToForm(g: Game): EditForm {
     verified: g.verified ?? false,
     promoted: g.promoted ?? false,
     isDestinationEvent: g.isDestinationEvent ?? false,
+    leagueStartDate: g.leagueStartDate || "",
+    leagueEndDate: g.leagueEndDate || "",
+    sessionCount: g.sessionCount?.toString() || "",
+    registrationDeadline: g.registrationDeadline || "",
+    commitmentNote: g.commitmentNote || "",
   };
 }
 
@@ -225,6 +235,11 @@ export default function AdminEditBar({ game, onSaved }: {
       verified: form.verified,
       promoted: form.promoted,
       isDestinationEvent: form.isDestinationEvent,
+      leagueStartDate: form.leagueStartDate || null,
+      leagueEndDate: form.leagueEndDate || null,
+      sessionCount: form.sessionCount ? parseInt(form.sessionCount, 10) : null,
+      registrationDeadline: form.registrationDeadline || null,
+      commitmentNote: form.commitmentNote,
       isRecurring: !!form.dayOfWeek,
       recurringSchedule: form.dayOfWeek
         ? { dayOfWeek: form.dayOfWeek, startTime: form.startTime, endTime: form.endTime, frequency: form.frequency }
@@ -392,6 +407,21 @@ export default function AdminEditBar({ game, onSaved }: {
                 <Tog label="Featured (Promoted)" checked={form.promoted} onChange={set("promoted") as (v: boolean) => void} />
                 <Tog label="Destination Event" checked={form.isDestinationEvent} onChange={set("isDestinationEvent") as (v: boolean) => void} />
               </div>
+
+              {form.type === "league" && (
+                <>
+                  <Section title="League Season" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <F label="Season Start" value={form.leagueStartDate} onChange={set("leagueStartDate")} type="date" />
+                    <F label="Season End" value={form.leagueEndDate} onChange={set("leagueEndDate")} type="date" />
+                    <F label="Total Sessions" value={form.sessionCount} onChange={set("sessionCount")} placeholder="e.g. 10" />
+                    <F label="Registration Deadline" value={form.registrationDeadline} onChange={set("registrationDeadline")} type="date" />
+                    <div className="sm:col-span-2">
+                      <F label="Commitment Note" value={form.commitmentNote} onChange={set("commitmentNote")} placeholder="e.g. Must attend 8 of 10 sessions" />
+                    </div>
+                  </div>
+                </>
+              )}
 
               {/* Spacer so save button doesn't cover last field */}
               <div className="h-4" />

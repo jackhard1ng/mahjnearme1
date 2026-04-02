@@ -523,6 +523,12 @@ function AddListingTab({
     website: duplicateFrom?.website || organizer?.website || "",
     instagram: duplicateFrom?.instagram || organizer?.instagram || "",
     imageUrl: duplicateFrom?.imageUrl || "",
+    // League-specific
+    leagueStartDate: duplicateFrom?.leagueStartDate || "",
+    leagueEndDate: duplicateFrom?.leagueEndDate || "",
+    sessionCount: duplicateFrom?.sessionCount?.toString() || "",
+    registrationDeadline: duplicateFrom?.registrationDeadline || "",
+    commitmentNote: duplicateFrom?.commitmentNote || "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
@@ -604,6 +610,13 @@ function AddListingTab({
         contactName: organizer?.organizerName || "",
         organizerName: organizer?.organizerName || "",
         ...(form.imageUrl ? { imageUrl: form.imageUrl } : {}),
+        ...(form.type === "league" ? {
+          leagueStartDate: form.leagueStartDate || null,
+          leagueEndDate: form.leagueEndDate || null,
+          sessionCount: form.sessionCount ? parseInt(form.sessionCount, 10) : null,
+          registrationDeadline: form.registrationDeadline || null,
+          commitmentNote: form.commitmentNote,
+        } : {}),
       };
 
       const res = await fetch("/api/organizer-listings", {
@@ -735,6 +748,40 @@ function AddListingTab({
             </select>
           </div>
         </div>
+
+        {/* League-specific fields */}
+        {form.type === "league" && (
+          <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 space-y-4">
+            <h3 className="font-semibold text-purple-800 flex items-center gap-2 text-sm">
+              <span className="text-base">🏆</span> League Season Details
+            </h3>
+            <p className="text-xs text-purple-600">
+              League play requires commitment to most or all sessions. Fill in the season info so players know what they&apos;re signing up for.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Season Start Date</label>
+                <input type="date" value={form.leagueStartDate} onChange={(e) => updateForm("leagueStartDate", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg bg-white" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Season End Date</label>
+                <input type="date" value={form.leagueEndDate} onChange={(e) => updateForm("leagueEndDate", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg bg-white" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Total Sessions</label>
+                <input type="number" min="1" max="52" value={form.sessionCount} onChange={(e) => updateForm("sessionCount", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg bg-white" placeholder="e.g. 10" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Registration Deadline</label>
+                <input type="date" value={form.registrationDeadline} onChange={(e) => updateForm("registrationDeadline", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg bg-white" />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-slate-700 mb-1">Commitment Requirement</label>
+                <input type="text" value={form.commitmentNote} onChange={(e) => updateForm("commitmentNote", e.target.value)} className="w-full p-2 border border-slate-200 rounded-lg bg-white" placeholder="e.g. Must attend at least 8 of 10 sessions to be eligible for standings" />
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>

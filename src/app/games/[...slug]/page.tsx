@@ -41,6 +41,9 @@ import {
   Lock,
   ArrowLeft,
   CalendarPlus,
+  Trophy,
+  CalendarRange,
+  AlarmClock,
 } from "lucide-react";
 
 // ---------------------------------------------------------------------------
@@ -510,6 +513,66 @@ export default function GameDetailPage() {
                 </button>
               )}
             </div>
+
+            {/* League Info — only shown for league type */}
+            {game.type === "league" && (game.leagueStartDate || game.leagueEndDate || game.sessionCount || game.registrationDeadline || game.commitmentNote) && (
+              <div className="mahj-tile p-6">
+                <h2 className="font-semibold text-lg text-charcoal mb-4 flex items-center gap-2">
+                  <Trophy className="w-5 h-5 text-purple-500" />
+                  League Season Info
+                </h2>
+                <div className="space-y-3">
+                  {(game.leagueStartDate || game.leagueEndDate) && (
+                    <div className="flex items-start gap-3">
+                      <CalendarRange className="w-4 h-4 text-purple-400 mt-0.5 shrink-0" />
+                      <div>
+                        <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">Season Dates</p>
+                        <p className="text-slate-700 font-medium">
+                          {game.leagueStartDate
+                            ? new Date(game.leagueStartDate + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
+                            : "TBD"}
+                          {" → "}
+                          {game.leagueEndDate
+                            ? new Date(game.leagueEndDate + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
+                            : "TBD"}
+                        </p>
+                        {game.sessionCount && (
+                          <p className="text-sm text-slate-500 mt-0.5">{game.sessionCount} session{game.sessionCount !== 1 ? "s" : ""} total</p>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {game.registrationDeadline && (() => {
+                    const deadline = new Date(game.registrationDeadline + "T00:00:00");
+                    const today = new Date();
+                    const daysLeft = Math.ceil((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+                    const urgent = daysLeft >= 0 && daysLeft <= 7;
+                    return (
+                      <div className="flex items-start gap-3">
+                        <AlarmClock className={`w-4 h-4 mt-0.5 shrink-0 ${urgent ? "text-red-400" : "text-purple-400"}`} />
+                        <div>
+                          <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">Registration Deadline</p>
+                          <p className={`font-medium ${urgent ? "text-red-600" : "text-slate-700"}`}>
+                            {deadline.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                            {daysLeft >= 0 && daysLeft <= 14 && (
+                              <span className={`ml-2 text-sm ${urgent ? "text-red-500 font-semibold" : "text-slate-500"}`}>
+                                ({daysLeft === 0 ? "today!" : `${daysLeft} day${daysLeft !== 1 ? "s" : ""} left`})
+                              </span>
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                  {game.commitmentNote && (
+                    <div className="bg-purple-50 border border-purple-200 rounded-lg px-4 py-3 flex items-start gap-2">
+                      <AlertCircle className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
+                      <p className="text-sm text-purple-800">{game.commitmentNote}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Cost & Group Size */}
             <div className="grid sm:grid-cols-2 gap-6">
