@@ -227,7 +227,7 @@ export default function AdminDashboardPage() {
   const states = new Set(games.map((g) => g.state));
   const recentGames = games.slice(0, 5);
   const organizerSubmissions = games
-    .filter((g) => g.source === "organizer_submitted" || (g.organizerEdited && g.organizerName))
+    .filter((g) => g.source === "organizer_submitted")
     .sort((a, b) => {
       const aTime = (a as unknown as Record<string,string>).createdAt || "";
       const bTime = (b as unknown as Record<string,string>).createdAt || "";
