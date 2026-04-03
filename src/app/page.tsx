@@ -11,12 +11,18 @@ async function getLiveGameCount(): Promise<number> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_URL || "https://www.mahjnearme.com";
     const res = await fetch(`${baseUrl}/api/listings`, {
-      next: { revalidate: 300 }, // revalidate every 5 minutes
+      next: { revalidate: 300 },
     });
     if (res.ok) {
       const data = await res.json();
-      const listings = data.listings || [];
-      return listings.filter((g: { status: string }) => g.status === "active").length;
+      const now = new Date();
+      return (data.listings || []).filter((g: { status: string; isRecurring: boolean; eventDate: string | null }) => {
+        if (g.status !== "active") return false;
+        if (!g.isRecurring && g.eventDate) {
+          return new Date(g.eventDate + "T23:59:59") >= now;
+        }
+        return true;
+      }).length;
     }
   } catch {
     // fall through to mock count

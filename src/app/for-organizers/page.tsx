@@ -58,7 +58,7 @@ export default function ForOrganizersPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
       {/* Hero */}
-      <div className="text-center mb-10">
+      <div className="text-center mb-8">
         <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 mb-3">
           For Organizers & Instructors
         </h1>
@@ -68,8 +68,15 @@ export default function ForOrganizersPage() {
         </p>
       </div>
 
-      {/* Benefits */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+      {/* Role selection — top so people see it first */}
+      <h2 className="text-xl font-bold text-slate-800 mb-2 text-center">
+        Apply now
+      </h2>
+      <p className="text-center text-slate-500 text-sm mb-6">
+        Choose what best describes you
+      </p>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
         {[
           { icon: Calendar, title: "Manage Listings", desc: "Claim existing listings or add new events to the directory" },
           { icon: Users, title: "Public Profile", desc: "Get a profile page to share with your community" },
@@ -102,14 +109,7 @@ export default function ForOrganizersPage() {
         </ol>
       </div>
 
-      {/* Role selection */}
-      <h2 className="text-xl font-bold text-slate-800 mb-2 text-center">
-        Apply now
-      </h2>
-      <p className="text-center text-slate-500 text-sm mb-6">
-        Choose what best describes you
-      </p>
-
+      {/* Apply form */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         {/* Organizer */}
         <div className={`text-left border-2 rounded-xl p-5 transition ${
