@@ -182,6 +182,10 @@ export default function OrganizerDashboardPage() {
             </div>
           )}
           <div className="bg-skyblue-50 border border-skyblue-200 rounded-lg p-3 text-sm text-skyblue-800">
+            <p className="font-semibold mb-0.5">⚡ Early access perk — visible to all free users right now</p>
+            <p className="text-skyblue-700 text-xs mb-2">
+              Paid organizers are currently shown in the instructor directory to <strong>every visitor</strong> — including free members who haven&apos;t subscribed. That&apos;s a lot of free traffic. This may change as the platform grows, so locking in now gets you the most exposure.
+            </p>
             Want a Featured badge, priority placement, photo uploads, and a referral code?{" "}
             <Link href="/pricing" className="font-semibold underline">
               Subscribe
