@@ -160,6 +160,7 @@ function GameJsonLd({ game }: { game: Game }) {
           priceCurrency: "USD",
           url: gameUrl,
           availability: "https://schema.org/InStock",
+          validFrom: (game.eventDate || new Date().toISOString().split("T")[0]),
         },
       }),
   };
