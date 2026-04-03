@@ -11,6 +11,7 @@ import {
   ChevronDown,
   MapPin,
   RefreshCw,
+  Trash2,
 } from "lucide-react";
 
 async function adminFetch(route: string, method = "GET", body?: unknown) {
@@ -176,6 +177,8 @@ export default function AdminEditBar({ game, onSaved }: {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [regeocoding, setRegeocoding] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   // Don't render anything for non-admins
   if (!isAdmin) return null;
@@ -199,6 +202,25 @@ export default function AdminEditBar({ game, onSaved }: {
       }
     } catch { setMessage("Geocoding failed"); }
     setRegeocoding(false);
+  };
+
+  const deleteListing = async () => {
+    setDeleting(true);
+    try {
+      const res = await adminFetch(`/api/listings?id=${game.id}`, "DELETE");
+      if (res.ok) {
+        window.location.href = "/admin/events";
+      } else {
+        const data = await res.json();
+        setMessage(data.error || "Delete failed");
+        setConfirmDelete(false);
+      }
+    } catch {
+      setMessage("Something went wrong");
+      setConfirmDelete(false);
+    } finally {
+      setDeleting(false);
+    }
   };
 
   const save = async () => {
@@ -444,6 +466,24 @@ export default function AdminEditBar({ game, onSaved }: {
                   className="px-4 py-3 border border-slate-600 rounded-xl text-sm text-slate-300 hover:bg-slate-800">
                   Cancel
                 </button>
+                {confirmDelete ? (
+                  <>
+                    <button onClick={deleteListing} disabled={deleting}
+                      className="px-4 py-3 bg-red-500 text-white rounded-xl text-sm font-semibold hover:bg-red-600 disabled:opacity-50">
+                      {deleting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Delete"}
+                    </button>
+                    <button onClick={() => setConfirmDelete(false)}
+                      className="px-3 py-3 text-slate-400 hover:text-slate-200 text-sm">
+                      No
+                    </button>
+                  </>
+                ) : (
+                  <button onClick={() => setConfirmDelete(true)}
+                    className="px-4 py-3 border border-red-800 text-red-400 hover:text-red-300 hover:border-red-600 rounded-xl transition"
+                    title="Delete listing">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </div>
           </div>
