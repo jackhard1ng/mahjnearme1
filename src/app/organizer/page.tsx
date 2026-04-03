@@ -160,6 +160,32 @@ export default function OrganizerDashboardPage() {
         )}
       </div>
 
+      {/* Paid organizer confirmation banner */}
+      {isSubscribedOrganizer && (
+        <div className="mb-6 bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-xl p-4">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">🌟</span>
+            <div>
+              <p className="font-bold text-amber-800 text-sm">You&apos;re featured — your visibility just went way up</p>
+              <p className="text-amber-700 text-xs mt-1">
+                Your profile and events are now shown to <strong>every visitor</strong> on MahjNearMe — subscribers and free members alike. You appear at the top of the instructor directory with a Featured badge, and your events are prioritized in search results. Share your profile link to start driving students your way.
+              </p>
+              {organizer?.slug && (
+                <div className="flex items-center gap-2 bg-white border border-amber-200 rounded-lg px-3 py-1.5 mt-2 max-w-sm">
+                  <span className="text-xs text-slate-500 truncate flex-1">mahjnearme.com/organizer/{organizer.slug}</span>
+                  <button
+                    onClick={() => navigator.clipboard.writeText(`https://mahjnearme.com/organizer/${organizer.slug}`)}
+                    className="text-xs font-medium text-amber-600 hover:text-amber-700 shrink-0"
+                  >
+                    Copy
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Subscription upsell for free organizers */}
       {!isSubscribedOrganizer && organizer?.slug && (
         <div className="mb-6 border-2 border-violet-300 bg-gradient-to-br from-violet-50 to-skyblue-50 rounded-xl p-4">
