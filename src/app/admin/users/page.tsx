@@ -22,6 +22,7 @@ interface UserRecord {
   skillLevel: string | null;
   // Contributor fields
   isContributor: boolean;
+  isOrganizer: boolean;
   referralCode: string | null;
   referralLink: string | null;
   contributorCity: string | null;
@@ -169,6 +170,22 @@ export default function AdminUsersPage() {
     }
   }
 
+  async function handleToggleOrganizer(userId: string, current: boolean) {
+    if (!isFirebaseConfigured) return;
+    try {
+      const db = getFirebaseDb();
+      await setDoc(
+        doc(db, "users", userId),
+        { isOrganizer: !current, updatedAt: new Date().toISOString() },
+        { merge: true }
+      );
+      setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, isOrganizer: !current } : u));
+      showToast(!current ? "Organizer access granted." : "Organizer access removed.");
+    } catch {
+      showToast("Failed to update.");
+    }
+  }
+
   const fetchReferralStats = useCallback(async (userId: string, referralCode: string) => {
     if (referralStats[userId]) return;
     try {
@@ -218,6 +235,7 @@ export default function AdminUsersPage() {
             gameStylePreference: data.gameStylePreference || null,
             skillLevel: data.skillLevel || null,
             isContributor: data.isContributor || false,
+            isOrganizer: data.isOrganizer || false,
             referralCode: data.referralCode || null,
             referralLink: data.referralLink || null,
             contributorCity: data.contributorCity || null,
@@ -510,6 +528,13 @@ export default function AdminUsersPage() {
                               </span>
 
                               <div className="ml-auto flex items-center gap-2 flex-wrap">
+                                <button
+                                  onClick={() => handleToggleOrganizer(user.id, user.isOrganizer)}
+                                  className={`flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${user.isOrganizer ? "bg-violet-100 hover:bg-violet-200 text-violet-700" : "bg-slate-100 hover:bg-slate-200 text-slate-600"}`}
+                                >
+                                  <Crown className="w-3.5 h-3.5" />
+                                  {user.isOrganizer ? "Organizer ✓" : "Make Organizer"}
+                                </button>
                                 {user.accountType !== "contributor" && user.accountType !== "admin" && (
                                   <button
                                     onClick={() => { setPromotingUserId(user.id); setPromoCity(user.homeCity || ""); }}
