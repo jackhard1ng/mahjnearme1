@@ -1663,6 +1663,10 @@ gameStyle: one of — american, chinese, riichi, other
 
 state: 2-letter uppercase abbreviation (e.g. "LA", "TX", "NY")
 
+address: street address ONLY — do NOT include city, state, or zip code. Just the street number and name.
+  Correct: "620 Blue Meadow Rd"
+  Wrong: "620 Blue Meadow Rd, Gulfport, MS 39507"
+
 dayOfWeek: lowercase day name(s), pipe-separated for multiple days
   Examples: "monday" / "tuesday|thursday" / "saturday"
   Use null if one-time event
