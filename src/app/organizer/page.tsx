@@ -161,36 +161,33 @@ export default function OrganizerDashboardPage() {
       </div>
 
       {/* Subscription upsell for free organizers */}
-      {!isSubscribedOrganizer && (
-        <div className="space-y-2 mb-6">
-          {organizer?.slug && (
-            <div className="bg-violet-50 border border-violet-200 rounded-lg p-3 text-sm text-violet-800">
-              <p className="font-semibold mb-0.5">Your profile page is public and shareable 🎉</p>
-              <p className="text-violet-700 text-xs mb-2">
-                Anyone you send your link to can see your full profile, events, and contact info — no subscription needed.
-                The directory listing (where members browse &amp; discover instructors) is a subscriber feature, but your personal page is always free to share.
+      {!isSubscribedOrganizer && organizer?.slug && (
+        <div className="mb-6 border-2 border-violet-300 bg-gradient-to-br from-violet-50 to-skyblue-50 rounded-xl p-4">
+          <div className="flex items-start gap-2 mb-3">
+            <span className="text-lg">⚡</span>
+            <div>
+              <p className="font-bold text-slate-800 text-sm">Early access: paid organizers are visible to everyone right now</p>
+              <p className="text-xs text-slate-600 mt-0.5">
+                Your profile is shown in the instructor directory to <strong>every visitor</strong> — including free members. This free traffic perk may not last as the platform grows, so now is the best time to lock it in.
               </p>
-              <div className="flex items-center gap-2 bg-white border border-violet-200 rounded px-2 py-1.5">
-                <span className="text-xs text-slate-500 truncate flex-1">mahjnearme.com/organizer/{organizer.slug}</span>
-                <button
-                  onClick={() => navigator.clipboard.writeText(`https://mahjnearme.com/organizer/${organizer.slug}`)}
-                  className="text-xs font-medium text-violet-600 hover:text-violet-700 shrink-0"
-                >
-                  Copy
-                </button>
-              </div>
             </div>
-          )}
-          <div className="bg-skyblue-50 border border-skyblue-200 rounded-lg p-3 text-sm text-skyblue-800">
-            <p className="font-semibold mb-0.5">⚡ Early access perk — visible to all free users right now</p>
-            <p className="text-skyblue-700 text-xs mb-2">
-              Paid organizers are currently shown in the instructor directory to <strong>every visitor</strong> — including free members who haven&apos;t subscribed. That&apos;s a lot of free traffic. This may change as the platform grows, so locking in now gets you the most exposure.
-            </p>
-            Want a Featured badge, priority placement, photo uploads, and a referral code?{" "}
-            <Link href="/pricing" className="font-semibold underline">
-              Subscribe
-            </Link>{" "}
-            to unlock premium organizer perks.
+          </div>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <Link
+              href="/pricing"
+              className="flex-1 text-center bg-violet-500 hover:bg-violet-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition"
+            >
+              Upgrade to get full visibility →
+            </Link>
+            <div className="flex items-center gap-2 flex-1 bg-white border border-violet-200 rounded-lg px-3 py-2">
+              <span className="text-xs text-slate-500 truncate flex-1">mahjnearme.com/organizer/{organizer.slug}</span>
+              <button
+                onClick={() => navigator.clipboard.writeText(`https://mahjnearme.com/organizer/${organizer.slug}`)}
+                className="text-xs font-medium text-violet-600 hover:text-violet-700 shrink-0"
+              >
+                Copy link
+              </button>
+            </div>
           </div>
         </div>
       )}
