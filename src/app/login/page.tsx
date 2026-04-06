@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle } from "lucide-react";
@@ -9,6 +9,8 @@ import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle } from "lucide-react";
 export default function LoginPage() {
   const router = useRouter();
   const { signIn, signInWithGoogle, user, loading: authLoading } = useAuth();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/search";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +20,7 @@ export default function LoginPage() {
 
   // Redirect if already logged in
   if (user && !authLoading) {
-    router.push("/search");
+    router.push(redirectTo);
     return null;
   }
 
@@ -29,7 +31,7 @@ export default function LoginPage() {
 
     try {
       await signIn(email, password);
-      router.push("/search");
+      router.push(redirectTo);
     } catch (err: unknown) {
       if (err instanceof Error) {
         if (err.message.includes("user-not-found") || err.message.includes("wrong-password") || err.message.includes("invalid-credential")) {
@@ -53,7 +55,7 @@ export default function LoginPage() {
 
     try {
       await signInWithGoogle();
-      router.push("/search");
+      router.push(redirectTo);
     } catch (err: unknown) {
       if (err instanceof Error && err.message.includes("popup-closed-by-user")) {
         // User closed the popup, no error needed
@@ -214,7 +216,7 @@ export default function LoginPage() {
         {/* Sign Up Link */}
         <p className="text-center text-sm text-slate-500 mt-6">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="text-hotpink-500 hover:text-hotpink-600 font-semibold">
+          <Link href={redirectTo !== "/search" ? `/signup?redirect=${encodeURIComponent(redirectTo)}` : "/signup"} className="text-hotpink-500 hover:text-hotpink-600 font-semibold">
             Sign up free
           </Link>
         </p>

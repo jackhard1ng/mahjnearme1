@@ -208,8 +208,16 @@ function SignupPage() {
         // Fall through to pricing if checkout fails
       }
     }
-    // Redirect to /pricing with from=signup so the page shows a subscribe prompt
-    // Also pass the original redirect destination along
+
+    // If user came from a free flow (organizer/instructor signup, etc.),
+    // go directly there instead of showing pricing
+    const freeRedirects = ["/for-organizers", "/organizer", "/contact", "/add-your-group"];
+    if (redirectParam && freeRedirects.some((p) => redirectParam.startsWith(p))) {
+      router.push(redirectParam);
+      return;
+    }
+
+    // Otherwise show pricing as a soft upsell after signup
     const pricingUrl = redirectParam
       ? `/pricing?from=signup&redirect=${encodeURIComponent(redirectParam)}`
       : "/pricing?from=signup";
