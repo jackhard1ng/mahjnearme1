@@ -12,7 +12,7 @@ import { useAuth } from "@/contexts/AuthContext";
 const PROMO = {
   enabled: true,
   code: "LAUNCH",
-  text: "Launch deal: First month just $1.99, then $4.99/mo",
+  text: "Launch deal: 60% off your first month",
   cta: "Subscribe now",
   href: "/pricing",
   /** Set to null for no expiry display, or a date string */
