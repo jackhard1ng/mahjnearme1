@@ -267,7 +267,7 @@ function rawToGame(raw: RawListing): Game {
     beenHereCount: 0,
     headsUpCount: 0,
     status: "active",
-    verified: true,
+    verified: false,
     claimedBy: null,
     source: "csv_import",
     promoted: false,
