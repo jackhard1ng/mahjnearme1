@@ -3,6 +3,7 @@ import { getStripe, getPlanFromPriceId } from "@/lib/stripe";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { sendWelcomeEmail } from "@/lib/email";
 import Stripe from "stripe";
+import type { Firestore } from "firebase-admin/firestore";
 
 // Disable body parsing. Stripe needs the raw body for signature verification
 export const runtime = "nodejs";
@@ -12,7 +13,7 @@ export const runtime = "nodejs";
  * organizer profile and all linked listings.
  */
 async function promoteOrganizerListings(
-  db: FirebaseFirestore.Firestore,
+  db: Firestore,
   userId: string,
   promoted: boolean
 ) {

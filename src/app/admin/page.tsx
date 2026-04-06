@@ -29,7 +29,6 @@ import {
   Send,
   Mail,
   Copy,
-  Trash2,
   X,
 } from "lucide-react";
 
