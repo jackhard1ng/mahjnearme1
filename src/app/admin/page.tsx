@@ -970,13 +970,18 @@ function GiveawayWheel({
   const spinAngleRef = useRef(0);
 
   // Build weighted segments (each entry count = 1 segment slice)
-  const segments = entries.flatMap((e) =>
-    Array.from({ length: e.entries }, () => ({
+  // Show first name + last initial for privacy (e.g. "Sarah A.")
+  const segments = entries.flatMap((e) => {
+    const parts = e.userName.trim().split(/\s+/);
+    const shortName = parts.length > 1
+      ? `${parts[0]} ${parts[parts.length - 1][0]}.`
+      : parts[0];
+    return Array.from({ length: e.entries }, () => ({
       userId: e.userId,
-      label: e.userName.length > 15 ? e.userName.slice(0, 14) + "…" : e.userName,
+      label: shortName.length > 15 ? shortName.slice(0, 14) + "…" : shortName,
       fullName: e.userName,
-    }))
-  );
+    }));
+  });
 
   // Draw the wheel on canvas
   useEffect(() => {
