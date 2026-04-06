@@ -111,6 +111,9 @@ export async function POST(request: Request) {
           }
         }
 
+        // Promote organizer profile to featured/verified/instructor on subscribe
+        await promoteOrganizerOnSubscribe(db, firebaseUid);
+
         console.log(`Checkout completed for user ${firebaseUid}, plan: ${plan}`);
         break;
       }
@@ -146,6 +149,11 @@ export async function POST(request: Request) {
             : null,
           updatedAt: new Date().toISOString(),
         });
+
+        // Promote organizer profile when subscription becomes active
+        if (isActive) {
+          await promoteOrganizerOnSubscribe(db, userDoc.id);
+        }
 
         console.log(`Subscription updated for customer ${customerId}: ${subscription.status}`);
         break;
@@ -203,4 +211,26 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json({ received: true });
+}
+
+async function promoteOrganizerOnSubscribe(
+  db: ReturnType<typeof getAdminDb>,
+  firebaseUid: string
+) {
+  try {
+    const userDoc = await db.collection("users").doc(firebaseUid).get();
+    const userData = userDoc.data();
+    if (!userData?.organizerProfileId) return;
+
+    await db.collection("organizers").doc(userData.organizerProfileId).update({
+      verified: true,
+      featured: true,
+      isInstructor: true,
+      updatedAt: new Date().toISOString(),
+    });
+
+    console.log(`Promoted organizer ${userData.organizerProfileId} for subscriber ${firebaseUid}`);
+  } catch (err) {
+    console.error(`Failed to promote organizer for user ${firebaseUid}:`, err);
+  }
 }
