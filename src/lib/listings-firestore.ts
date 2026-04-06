@@ -79,7 +79,7 @@ function docToGame(data: Record<string, unknown>, id: string): Game {
     beenHereCount: (data.beenHereCount as number) ?? 0,
     headsUpCount: (data.headsUpCount as number) ?? 0,
     status: (data.status as Game["status"]) || "active",
-    verified: (data.verified as boolean) ?? true,
+    verified: (data.verified as boolean) ?? false,
     claimedBy: (data.claimedBy as string) || null,
     source: (data.source as Game["source"]) || "csv_import",
     promoted: (data.promoted as boolean) ?? false,
