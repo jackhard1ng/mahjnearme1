@@ -212,11 +212,23 @@ export async function DELETE(request: NextRequest) {
     const now = new Date().toISOString();
 
     // Soft delete: set status to inactive
-    await db.collection("listings").doc(listingId).update({
-      status: "inactive",
-      deletedAt: now,
-      deletedBy: userId,
-    });
+    const listingRef = db.collection("listings").doc(listingId);
+    const listingDoc = await listingRef.get();
+    if (listingDoc.exists) {
+      await listingRef.update({
+        status: "inactive",
+        deletedAt: now,
+        deletedBy: userId,
+      });
+    } else {
+      // Listing might not be in Firestore yet (JSON-only) — create a deletion record
+      await listingRef.set({
+        id: listingId,
+        status: "inactive",
+        deletedAt: now,
+        deletedBy: userId,
+      });
+    }
 
     // Remove from organizer's listingIds
     const updatedIds = listingIds.filter((id) => id !== listingId);

@@ -145,13 +145,21 @@ export default function AdminDashboardPage() {
     } catch { /* silent */ }
   }, []);
 
+  const [giveawayError, setGiveawayError] = useState<string | null>(null);
+
   const fetchGiveaway = useCallback(async () => {
+    setGiveawayError(null);
     try {
       const res = await adminFetch("/api/giveaway?admin=true");
       if (res.ok) {
         setGiveawayData(await res.json());
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setGiveawayError(data.error || `Failed to load (${res.status})`);
       }
-    } catch { /* silent */ }
+    } catch (err) {
+      setGiveawayError("Network error loading giveaway data");
+    }
   }, []);
 
   useEffect(() => {
@@ -654,6 +662,19 @@ export default function AdminDashboardPage() {
               <RefreshCw className="w-3.5 h-3.5" /> Refresh
             </button>
           </div>
+
+          {giveawayError && (
+            <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-600">
+              <p className="font-medium">Error loading giveaway data</p>
+              <p className="text-red-500 mt-1">{giveawayError}</p>
+            </div>
+          )}
+
+          {!giveawayData && !giveawayError && (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
+            </div>
+          )}
 
           {giveawayData && (
             <>

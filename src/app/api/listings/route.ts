@@ -176,11 +176,28 @@ export async function DELETE(request: NextRequest) {
     }
 
     const now = new Date().toISOString();
-    await db.collection("listings").doc(id).update({
-      status: "inactive",
-      deletedAt: now,
-    });
+
+    // Check if doc exists first
+    const docRef = db.collection("listings").doc(id);
+    const doc = await docRef.get();
+
+    if (!doc.exists) {
+      // If the listing is from JSON and was never seeded to Firestore,
+      // create a minimal doc to record the deletion
+      await docRef.set({
+        id,
+        status: "inactive",
+        deletedAt: now,
+      });
+    } else {
+      await docRef.update({
+        status: "inactive",
+        deletedAt: now,
+      });
+    }
+
     clearListingsCache();
+    console.log(`[Listings] Deleted listing ${id}`);
 
     return NextResponse.json({ success: true });
   } catch (err) {
