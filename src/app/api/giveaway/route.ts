@@ -29,6 +29,12 @@ export async function GET(request: NextRequest) {
       const denied = requireAdmin(request);
       if (denied) return denied;
       // Admin: also get entry pool for current month
+      // Get exclusions for this month
+      const exclusionsSnap = await db.collection("giveawayExclusions")
+        .where("month", "==", currentMonth)
+        .get();
+      const excludedUserIds = new Set(exclusionsSnap.docs.map((d) => d.data().userId));
+
       const usersSnap = await db.collection("users").get();
       const eligibleEntries: { userId: string; userName: string; email: string; plan: string; entries: number }[] = [];
 
@@ -41,8 +47,15 @@ export async function GET(request: NextRequest) {
           data.accountType === "admin"
         );
 
-        if (isActive) {
-          const entries = data.plan === "annual" ? 2 : 1;
+        if (isActive && !excludedUserIds.has(doc.id)) {
+          let entries = data.plan === "annual" ? 2 : 1;
+          // Loyalty bonus: +1 entry for every 6 months subscribed, max 6 bonus
+          if (data.subscribedDate) {
+            const subDate = new Date(data.subscribedDate);
+            const monthsSubscribed = Math.floor((now.getTime() - subDate.getTime()) / (30.44 * 24 * 60 * 60 * 1000));
+            const loyaltyBonus = Math.min(Math.floor(monthsSubscribed / 6), 6);
+            entries += loyaltyBonus;
+          }
           eligibleEntries.push({
             userId: doc.id,
             userName: data.displayName || data.email || "Unknown",
@@ -61,10 +74,26 @@ export async function GET(request: NextRequest) {
       for (const doc of freeEntriesSnap.docs) {
         const data = doc.data();
         eligibleEntries.push({
-          userId: doc.id,
+          userId: `free_${doc.id}`,
           userName: data.name || data.email,
           email: data.email,
           plan: "free_entry",
+          entries: 1,
+        });
+      }
+
+      // Include manual (mail-in) entries
+      const manualEntriesSnap = await db.collection("giveawayManualEntries")
+        .where("month", "==", currentMonth)
+        .get();
+
+      for (const doc of manualEntriesSnap.docs) {
+        const data = doc.data();
+        eligibleEntries.push({
+          userId: `mailin_${doc.id}`,
+          userName: data.name || data.email,
+          email: data.email,
+          plan: "mail_in",
           entries: 1,
         });
       }
@@ -177,21 +206,31 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Winner already drawn for this month" }, { status: 409 });
       }
 
-      // Build entry pool
+      // Build entry pool (respect exclusions)
+      const exclusionsSnap = await db.collection("giveawayExclusions")
+        .where("month", "==", currentMonth)
+        .get();
+      const excludedUserIds = new Set(exclusionsSnap.docs.map((d) => d.data().userId));
+
       const usersSnap = await db.collection("users").get();
       const pool: { userId: string; name: string; city: string; photoURL: string | null }[] = [];
 
       for (const doc of usersSnap.docs) {
         const data = doc.data();
-        // Eligibility is based on active subscription status at draw time
         const isActive = data.subscriptionStatus === "active" && (
           data.accountType === "subscriber" ||
           data.accountType === "contributor" ||
           data.accountType === "admin"
         );
 
-        if (isActive) {
-          const entries = data.plan === "annual" ? 2 : 1;
+        if (isActive && !excludedUserIds.has(doc.id)) {
+          let entries = data.plan === "annual" ? 2 : 1;
+          if (data.subscribedDate) {
+            const subDate = new Date(data.subscribedDate);
+            const monthsSubscribed = Math.floor((now.getTime() - subDate.getTime()) / (30.44 * 24 * 60 * 60 * 1000));
+            const loyaltyBonus = Math.min(Math.floor(monthsSubscribed / 6), 6);
+            entries += loyaltyBonus;
+          }
           for (let i = 0; i < entries; i++) {
             pool.push({
               userId: doc.id,
@@ -256,6 +295,44 @@ export async function POST(request: NextRequest) {
       await db.collection("giveawayDraws").add(drawData);
 
       return NextResponse.json({ success: true, winner: drawData });
+    }
+
+    // Admin remove entry (for canceled/refunded subscribers or bad entries)
+    if (body.action === "remove_entry") {
+      const denied = requireAdmin(request);
+      if (denied) return denied;
+
+      const { entryId, entryType } = body;
+      if (!entryId) {
+        return NextResponse.json({ error: "entryId is required" }, { status: 400 });
+      }
+
+      try {
+        if (entryType === "free_entry") {
+          const docId = entryId.replace("free_", "");
+          await db.collection("giveawayFreeEntries").doc(docId).delete();
+        } else if (entryType === "mail_in") {
+          const docId = entryId.replace("mailin_", "");
+          await db.collection("giveawayManualEntries").doc(docId).delete();
+        }
+        // For subscriber entries, we don't delete the user — they're just
+        // excluded automatically when their subscription is canceled.
+        // But if someone needs manual exclusion, we add them to an exclusion list.
+        else {
+          const now = new Date();
+          const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+          await db.collection("giveawayExclusions").add({
+            userId: entryId,
+            month: currentMonth,
+            reason: body.reason || "admin_removed",
+            createdAt: now.toISOString(),
+          });
+        }
+        return NextResponse.json({ success: true });
+      } catch (err) {
+        console.error("Remove entry error:", err);
+        return NextResponse.json({ error: "Failed to remove entry" }, { status: 500 });
+      }
     }
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
