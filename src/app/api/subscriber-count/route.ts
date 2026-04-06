@@ -64,7 +64,7 @@ export async function GET() {
     totalEntries += mailSnap.size;
 
     const res = NextResponse.json({ count: subscriberCount, totalEntries });
-    res.headers.set("Cache-Control", "public, s-maxage=300, stale-while-revalidate=600");
+    res.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=120");
     return res;
   } catch (err) {
     console.error("Subscriber count error:", err);

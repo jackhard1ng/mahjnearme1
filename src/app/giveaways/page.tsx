@@ -88,7 +88,7 @@ export default function GiveawaysPage() {
 
   async function fetchCounts() {
     try {
-      const res = await fetch("/api/subscriber-count");
+      const res = await fetch(`/api/subscriber-count?_=${Date.now()}`);
       if (res.ok) {
         const json = await res.json();
         setSubscriberCount(json.count || 0);
