@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { mockGames } from "@/lib/mock-data";
-import { formatSchedule, slugify, capitalize } from "@/lib/utils";
+import { formatSchedule, slugify, capitalize, isEventExpired } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
 import Link from "next/link";
 import {
@@ -89,7 +89,7 @@ export default function CalendarPage() {
 
   const savedGames = useMemo(() => {
     if (!userProfile?.savedEvents?.length) return [];
-    return mockGames.filter((g) => userProfile.savedEvents.includes(g.id));
+    return mockGames.filter((g) => userProfile.savedEvents.includes(g.id) && g.status === "active" && !isEventExpired(g));
   }, [userProfile?.savedEvents]);
 
   const grouped = useMemo(() => groupByDate(savedGames), [savedGames]);

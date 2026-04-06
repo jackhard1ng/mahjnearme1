@@ -356,7 +356,7 @@ export default function AdminGamesPage() {
         goingCount: 0,
         beenHereCount: 0,
         headsUpCount: 0,
-        status: "pending",
+        status: "active",
         verified: false,
         claimedBy: null,
         source: "manual",
@@ -376,6 +376,105 @@ export default function AdminGamesPage() {
     resetForm();
     setView("list");
   };
+
+  function handleExportForAudit() {
+    const activeGames = games.filter((g) => g.status === "active");
+    const items = activeGames.map((g) => {
+      const urlsToCheck: { type: string; url: string }[] = [];
+      if (g.website) urlsToCheck.push({ type: "website", url: g.website });
+      if (g.instagram) {
+        const handle = g.instagram.replace(/^@/, "");
+        const url = g.instagram.startsWith("http")
+          ? g.instagram
+          : `https://www.instagram.com/${handle}`;
+        urlsToCheck.push({ type: "instagram", url });
+      }
+      if (g.facebookGroup) urlsToCheck.push({ type: "facebook", url: g.facebookGroup });
+      if (g.registrationLink) urlsToCheck.push({ type: "registration", url: g.registrationLink });
+
+      let schedule = "no schedule listed";
+      if (g.isRecurring && g.recurringSchedule) {
+        schedule = `${g.recurringSchedule.frequency || "weekly"} on ${g.recurringSchedule.dayOfWeek}, ${g.recurringSchedule.startTime || "?"}–${g.recurringSchedule.endTime || "?"}`;
+      } else if (g.eventDate) {
+        const time = g.eventStartTime ? ` at ${g.eventStartTime}${g.eventEndTime ? "–" + g.eventEndTime : ""}` : "";
+        schedule = `${g.eventDate}${time}`;
+      }
+
+      return {
+        id: g.id,
+        name: g.name,
+        organizer: g.organizerName,
+        type: g.type,
+        gameStyle: g.gameStyle,
+        city: g.city,
+        state: g.state,
+        venue: g.venueName,
+        address: g.address,
+        schedule,
+        isRecurring: g.isRecurring,
+        eventDate: g.eventDate,
+        contactName: g.contactName,
+        contactEmail: g.contactEmail,
+        contactPhone: g.contactPhone,
+        urlsToCheck,
+        hasNoUrls: urlsToCheck.length === 0,
+        verified: g.verified,
+        source: g.source,
+        description: g.description,
+        audit: {
+          status: "",
+          notes: "",
+          correctedFields: {},
+          checkedAt: "",
+        },
+      };
+    });
+
+    // Sort: no URLs first, then by state/city
+    items.sort((a, b) => {
+      if (a.hasNoUrls !== b.hasNoUrls) return a.hasNoUrls ? -1 : 1;
+      if (a.state !== b.state) return a.state.localeCompare(b.state);
+      return a.city.localeCompare(b.city);
+    });
+
+    const output = {
+      exportedAt: new Date().toISOString(),
+      totalActive: items.length,
+      totalWithUrls: items.filter((v) => !v.hasNoUrls).length,
+      totalWithoutUrls: items.filter((v) => v.hasNoUrls).length,
+      instructions: {
+        purpose:
+          "Verify each listing is a real, currently-active mahjong event by visiting the URLs and confirming the event details match what we have on file.",
+        steps: [
+          "For each listing, visit every URL in urlsToCheck.",
+          "Confirm the event exists, is still active/scheduled, and the details (venue, schedule, contact) match our listing.",
+          "Set audit.status to one of: verified, cannot_verify, dead_link, event_ended, info_mismatch, suspicious.",
+          "If info doesn't match, put the correct values in audit.correctedFields (e.g. { \"address\": \"new address\" }).",
+          "Add any notes in audit.notes.",
+          "Set audit.checkedAt to the current date.",
+          "For listings with hasNoUrls=true, try searching Google for the organizer name + city.",
+        ],
+        auditStatuses: {
+          verified: "Event confirmed active, details match",
+          cannot_verify: "No working URL found, couldn't confirm via search either",
+          dead_link: "URL(s) are broken / 404 / domain expired",
+          event_ended: "Event existed but is no longer running",
+          info_mismatch: "Event exists but our details are wrong — see correctedFields",
+          suspicious: "Listing looks fake, duplicated, or is not actually a mahjong event",
+        },
+      },
+      listings: items,
+    };
+
+    const blob = new Blob([JSON.stringify(output, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `verification-audit-${new Date().toISOString().split("T")[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast(`Exported ${items.length} active listings for audit.`);
+  }
 
   const handleVerifyToggle = (gameId: string) => {
     const game = games.find((g) => g.id === gameId);
@@ -477,6 +576,12 @@ export default function AdminGamesPage() {
           Game Management
         </h1>
         <div className="flex gap-2 flex-wrap">
+          <button
+            onClick={() => handleExportForAudit()}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-white border border-slate-200 text-slate-700 hover:bg-skyblue-100 transition-colors"
+          >
+            <Download className="w-4 h-4" /> Export for Audit
+          </button>
           <button
             onClick={() => { resetForm(); setView("csv"); }}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${

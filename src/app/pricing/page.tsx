@@ -66,6 +66,8 @@ function PricingContent() {
   const [referralCode, setReferralCode] = useState("");
   const [referralValid, setReferralValid] = useState<boolean | null>(null);
   const [referralName, setReferralName] = useState("");
+  const fromSignup = searchParams.get("from") === "signup";
+  const redirectAfterSubscribe = searchParams.get("redirect");
 
   useEffect(() => {
     const ref = searchParams.get("ref");
@@ -97,12 +99,20 @@ function PricingContent() {
 
   async function handleCheckout(plan: "monthly" | "annual") {
     if (!user) {
-      router.push(`/signup?plan=${plan}`);
+      const signupUrl = redirectAfterSubscribe
+        ? `/signup?plan=${plan}&redirect=${encodeURIComponent(redirectAfterSubscribe)}`
+        : `/signup?plan=${plan}`;
+      router.push(signupUrl);
       return;
     }
 
     setCheckoutLoading(plan);
     try {
+      // Store original destination so /welcome can redirect back after checkout
+      if (redirectAfterSubscribe) {
+        sessionStorage.setItem("postCheckoutRedirect", redirectAfterSubscribe);
+      }
+
       const res = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -171,6 +181,19 @@ function PricingContent() {
           </p>
         </div>
       </section>
+
+      {/* Post-Signup Subscribe Prompt */}
+      {fromSignup && user && isFree && (
+        <section className="py-6 section-warm">
+          <div className="max-w-3xl mx-auto px-4">
+            <div className="bg-gradient-to-r from-hotpink-50 to-skyblue-50 border-2 border-hotpink-200 rounded-xl p-5 sm:p-6 text-center">
+              <p className="font-[family-name:var(--font-heading)] font-bold text-xl sm:text-2xl text-charcoal">
+                You&apos;re in. Subscribe to unlock every game near you.
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Launch Deal Banner */}
       {!isSubscriber && (

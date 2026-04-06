@@ -13,6 +13,7 @@ import {
   getGameTypeLabel,
   getVerificationStatus,
   getStateName,
+  isEventExpired,
 } from "@/lib/utils";
 import { SKILL_LEVEL_COLORS, SKILL_LEVEL_LABELS } from "@/lib/constants";
 import { SITE_NAME, SITE_URL, GAME_STYLE_LABELS } from "@/lib/constants";
@@ -870,6 +871,7 @@ export default function GameDetailPage() {
           (g) =>
             g.id !== game.id &&
             g.status === "active" &&
+            !isEventExpired(g) &&
             g.organizerName === game.organizerName
         );
         if (otherGames.length === 0) return null;

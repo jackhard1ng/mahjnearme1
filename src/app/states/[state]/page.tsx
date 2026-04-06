@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const stateName = state.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 
   const stateGames = mockGames.filter(
-    (g) => slugify(getStateName(g.state)) === state && g.status === "active"
+    (g) => slugify(getStateName(g.state)) === state && g.status === "active" && !isEventExpired(g)
   );
   const stateCities = new Set(stateGames.map((g) => g.city));
 
