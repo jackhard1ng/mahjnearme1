@@ -45,6 +45,7 @@ import {
   Trophy,
   CalendarRange,
   AlarmClock,
+  Flag,
 } from "lucide-react";
 
 // ---------------------------------------------------------------------------
@@ -192,6 +193,101 @@ function GameJsonLd({ game }: { game: Game }) {
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Report outdated listing
+// ---------------------------------------------------------------------------
+
+function ReportListingButton({ gameName, gameId, city, state }: { gameName: string; gameId: string; city: string; state: string }) {
+  const [open, setOpen] = useState(false);
+  const [reason, setReason] = useState("");
+  const [email, setEmail] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!reason.trim() || reason.trim().length < 10) return;
+    setSending(true);
+    try {
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: email || "Anonymous reporter",
+          email: email || "noreply@mahjnearme.com",
+          formType: "listing_report",
+          message: `Listing report for "${gameName}" (${city}, ${state})\nID: ${gameId}\n\nReason: ${reason}`,
+          _ts: Date.now() - 5000, // satisfy spam check
+        }),
+      });
+      setSent(true);
+    } catch {
+      alert("Something went wrong — please try again.");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  if (sent) {
+    return (
+      <div className="mahj-tile p-4 text-center">
+        <CheckCircle className="w-5 h-5 text-green-500 mx-auto mb-1" />
+        <p className="text-sm text-slate-600">Thanks for the report! We&apos;ll review this listing.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mahj-tile p-4">
+      {!open ? (
+        <button
+          onClick={() => setOpen(true)}
+          className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-700 transition-colors w-full justify-center"
+        >
+          <Flag className="w-3.5 h-3.5" />
+          Report outdated listing
+        </button>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <p className="text-xs font-medium text-slate-600">What&apos;s wrong with this listing?</p>
+          <textarea
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            placeholder="e.g. This group no longer meets, wrong address, venue closed…"
+            className="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-hotpink-300 resize-none"
+            rows={3}
+            required
+            minLength={10}
+          />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Your email (optional)"
+            className="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-hotpink-300"
+          />
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              disabled={sending || reason.trim().length < 10}
+              className="flex-1 bg-hotpink-500 text-white text-sm font-medium rounded-lg px-3 py-2 hover:bg-hotpink-600 disabled:opacity-50 transition-colors"
+            >
+              {sending ? "Sending…" : "Submit Report"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="text-sm text-slate-500 hover:text-slate-700 px-3 py-2"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      )}
+    </div>
   );
 }
 
@@ -860,6 +956,9 @@ export default function GameDetailPage() {
                 Share this game
               </button>
             </div>
+
+            {/* Report outdated listing */}
+            <ReportListingButton gameName={game.name} gameId={game.id} city={game.city} state={game.state} />
           </div>
         </div>
       </div>

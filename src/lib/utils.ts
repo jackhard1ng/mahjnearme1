@@ -26,6 +26,22 @@ export function getVerificationStatus(verified: boolean): {
   return { label: "Unverified", color: "text-slate-500", bgColor: "bg-slate-100 border-slate-200" };
 }
 
+/**
+ * Returns the number of days since a listing was last verified/updated.
+ * Returns null if the date is missing or invalid.
+ */
+export function daysSinceVerified(lastVerified: string | null | undefined): number | null {
+  if (!lastVerified || !/^\d{4}-\d{2}-\d{2}$/.test(lastVerified)) return null;
+  const [y, m, d] = lastVerified.split("-").map(Number);
+  const then = new Date(y, m - 1, d);
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  return Math.floor((now.getTime() - then.getTime()) / 86_400_000);
+}
+
+/** Threshold (days) after which a recurring listing is considered stale. */
+export const STALE_THRESHOLD_DAYS = 90;
+
 export function getGameTypeColor(type: string): string {
   switch (type) {
     case "open_play": return "bg-openplay-light text-[#C4107A] border-openplay-border";

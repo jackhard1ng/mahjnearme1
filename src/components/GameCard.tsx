@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Game } from "@/types";
-import { getGameTypeColor, getGameTypeLabel, getVerificationStatus, formatSchedule, slugify } from "@/lib/utils";
+import { getGameTypeColor, getGameTypeLabel, getVerificationStatus, formatSchedule, slugify, daysSinceVerified, STALE_THRESHOLD_DAYS } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
 import { SKILL_LEVEL_LABELS } from "@/lib/constants";
 import { useAuth } from "@/contexts/AuthContext";
@@ -577,14 +577,30 @@ export default function GameCard({
                   </span>
                 )}
               </div>
-              <div className="flex items-center gap-1">
-                <CheckCircle className={`w-3.5 h-3.5 ${game.verified ? "text-hotpink-500" : "text-slate-300"}`} />
-                <span className={`text-[11px] font-medium ${game.verified ? "text-hotpink-600" : "text-slate-400"}`}>
-                  {game.lastVerified && /^\d{4}-\d{2}-\d{2}$/.test(game.lastVerified)
-                    ? `Updated ${new Date(game.lastVerified + "T00:00:00").toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
-                    : verification.label}
-                </span>
-              </div>
+              {(() => {
+                const age = daysSinceVerified(game.lastVerified);
+                const isStale = game.isRecurring && !game.organizerEdited && age !== null && age > STALE_THRESHOLD_DAYS;
+                if (isStale) {
+                  return (
+                    <div className="flex items-center gap-1">
+                      <AlertCircle className="w-3.5 h-3.5 text-amber-500" />
+                      <span className="text-[11px] font-medium text-amber-600">
+                        Not recently verified
+                      </span>
+                    </div>
+                  );
+                }
+                return (
+                  <div className="flex items-center gap-1">
+                    <CheckCircle className={`w-3.5 h-3.5 ${game.verified ? "text-hotpink-500" : "text-slate-300"}`} />
+                    <span className={`text-[11px] font-medium ${game.verified ? "text-hotpink-600" : "text-slate-400"}`}>
+                      {game.lastVerified && /^\d{4}-\d{2}-\d{2}$/.test(game.lastVerified)
+                        ? `Updated ${new Date(game.lastVerified + "T00:00:00").toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
+                        : verification.label}
+                    </span>
+                  </div>
+                );
+              })()}
             </>
           )}
         </div>
