@@ -499,15 +499,25 @@ export default function AdminGamesPage() {
     );
   };
 
-  const handleDelete = (gameId: string) => {
+  const handleDelete = async (gameId: string) => {
     const game = games.find((g) => g.id === gameId);
     if (!game) return;
     if (!window.confirm(`Are you sure you want to delete "${game.name}"? This action cannot be undone.`)) {
       return;
     }
-    setGames((prev) => prev.filter((g) => g.id !== gameId));
-    setExpandedGameId(null);
-    showToast(`"${game.name}" has been deleted.`, "info");
+    try {
+      const res = await adminFetch(`/api/listings?id=${gameId}`, "DELETE");
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        showToast(data.error || "Failed to delete listing.", "error");
+        return;
+      }
+      setGames((prev) => prev.filter((g) => g.id !== gameId));
+      setExpandedGameId(null);
+      showToast(`"${game.name}" has been deleted.`, "info");
+    } catch {
+      showToast("Failed to delete listing. Please try again.", "error");
+    }
   };
 
   const handleEditGame = (gameId: string) => {
