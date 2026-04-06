@@ -232,6 +232,12 @@ export default function ForOrganizersPage() {
         <p className="text-xs text-amber-600 mt-3">
           Free organizers and instructors get all core features. Subscribing is optional.
         </p>
+        <Link
+          href="/pricing"
+          className="inline-flex items-center gap-2 mt-3 text-sm font-semibold text-amber-700 hover:text-hotpink-500 transition-colors"
+        >
+          View Plans <ArrowRight className="w-4 h-4" />
+        </Link>
       </div>
     </div>
   );

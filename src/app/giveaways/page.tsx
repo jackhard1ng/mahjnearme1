@@ -420,6 +420,14 @@ export default function GiveawaysPage() {
             <Link href="/sweepstakes-rules" className="hover:text-hotpink-500 underline">
               Official Sweepstakes Rules
             </Link>
+            {" · "}
+            <Link href="/pricing" className="hover:text-hotpink-500 underline">
+              Pricing
+            </Link>
+            {" · "}
+            <Link href="/about" className="hover:text-hotpink-500 underline">
+              About Us
+            </Link>
           </p>
           <p>
             Questions? <Link href="/contact" className="hover:text-hotpink-500 underline">Contact us</Link>

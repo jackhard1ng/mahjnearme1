@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 /**
  * Site-wide promo banner. Edit this to change or remove the promotion.
@@ -11,7 +12,7 @@ import { X } from "lucide-react";
 const PROMO = {
   enabled: true,
   code: "LAUNCH",
-  text: "Launch deal: First month just $1.99",
+  text: "Launch deal: First month just $1.99, then $4.99/mo",
   cta: "Subscribe now",
   href: "/pricing",
   /** Set to null for no expiry display, or a date string */
@@ -20,8 +21,10 @@ const PROMO = {
 
 export default function PromoBanner() {
   const [dismissed, setDismissed] = useState(false);
+  const { hasAccess } = useAuth();
 
-  if (!PROMO.enabled || dismissed) return null;
+  // Don't show promo to paying subscribers
+  if (!PROMO.enabled || dismissed || hasAccess) return null;
 
   return (
     <div className="bg-charcoal text-white text-center text-sm py-2.5 px-4 relative">
