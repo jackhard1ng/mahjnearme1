@@ -395,6 +395,11 @@ export function computePriorityScore(
     score -= richness;
   }
 
+  // Add small random jitter so similarly-ranked events shuffle on each page load.
+  // Range ±2 is enough to mix events within the same tier without overriding
+  // meaningful differences (promoted/verified boosts are 3-15 points).
+  score += (Math.random() - 0.5) * 4;
+
   return score;
 }
 

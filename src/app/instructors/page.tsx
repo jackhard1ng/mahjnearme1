@@ -150,18 +150,29 @@ export default function InstructorsPage() {
       );
     }
 
-    // Featured first, then verified, then by listing count, then alphabetical
+    // Featured first, then verified, then by listing count
+    // Within each tier, randomize order so no instructor always appears first
     return result.sort((a, b) => {
       if (a.featured !== b.featured) return b.featured ? 1 : -1;
       if (a.verified !== b.verified) return b.verified ? 1 : -1;
       if (a.listingCount !== b.listingCount) return (b.listingCount || 0) - (a.listingCount || 0);
-      return a.organizerName.localeCompare(b.organizerName);
+      return 0; // stable within same tier — shuffled below
     });
   }, [instructors, searchQuery, styleFilter, typeFilter]);
 
-  const featuredInstructors = filtered.filter((i) => i.featured);
-  const verifiedInstructors = filtered.filter((i) => (i.verified || i.hasUser) && !i.featured);
-  const otherInstructors = filtered.filter((i) => !i.verified && !i.hasUser && !i.featured);
+  // Shuffle within each group so order is random on every page load
+  const shuffle = <T,>(arr: T[]): T[] => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  const featuredInstructors = shuffle(filtered.filter((i) => i.featured));
+  const verifiedInstructors = shuffle(filtered.filter((i) => (i.verified || i.hasUser) && !i.featured));
+  const otherInstructors = shuffle(filtered.filter((i) => !i.verified && !i.hasUser && !i.featured));
   // Verified organizers (free or paid) can browse the full instructor directory
   const showFullDirectory = hasAccess || isOrganizer;
 
