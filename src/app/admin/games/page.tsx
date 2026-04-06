@@ -356,7 +356,7 @@ export default function AdminGamesPage() {
         goingCount: 0,
         beenHereCount: 0,
         headsUpCount: 0,
-        status: "pending",
+        status: "active",
         verified: false,
         claimedBy: null,
         source: "manual",

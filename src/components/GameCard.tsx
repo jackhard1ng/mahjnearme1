@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Game } from "@/types";
 import { getGameTypeColor, getGameTypeLabel, getVerificationStatus, formatSchedule, slugify } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
@@ -163,6 +164,7 @@ export default function GameCard({
   timingBadgeColor = "",
 }: GameCardProps) {
   const { hasAccess, isAdmin } = useAuth();
+  const pathname = usePathname();
   const verification = getVerificationStatus(game.verified);
   const typeColor = getGameTypeColor(game.type);
   const typeLabel = getGameTypeLabel(game.type);
@@ -591,9 +593,10 @@ export default function GameCard({
   );
 
   if (blurred) {
+    const pricingHref = `/pricing?redirect=${encodeURIComponent(pathname)}`;
     return (
       <div className="mahj-tile overflow-hidden flex flex-col relative cursor-pointer">
-        <Link href="/pricing" className="absolute inset-0 z-10 flex items-center justify-center bg-white/90 backdrop-blur-md rounded-[14px]">
+        <Link href={pricingHref} className="absolute inset-0 z-10 flex items-center justify-center bg-white/90 backdrop-blur-md rounded-[14px]">
           <div className="text-center px-6">
             <ShieldCheck className="w-10 h-10 text-hotpink-500 mx-auto mb-3" />
             <p className="font-semibold text-charcoal mb-1">Subscribe to see full details</p>

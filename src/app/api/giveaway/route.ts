@@ -34,11 +34,12 @@ export async function GET(request: NextRequest) {
 
       for (const doc of usersSnap.docs) {
         const data = doc.data();
-        const isActive =
+        // Eligibility is based on active subscription status at draw time
+        const isActive = data.subscriptionStatus === "active" && (
           data.accountType === "subscriber" ||
           data.accountType === "contributor" ||
-          data.accountType === "admin" ||
-          data.subscriptionStatus === "active";
+          data.accountType === "admin"
+        );
 
         if (isActive) {
           const entries = data.plan === "annual" ? 2 : 1;
@@ -182,11 +183,12 @@ export async function POST(request: NextRequest) {
 
       for (const doc of usersSnap.docs) {
         const data = doc.data();
-        const isActive =
+        // Eligibility is based on active subscription status at draw time
+        const isActive = data.subscriptionStatus === "active" && (
           data.accountType === "subscriber" ||
           data.accountType === "contributor" ||
-          data.accountType === "admin" ||
-          data.subscriptionStatus === "active";
+          data.accountType === "admin"
+        );
 
         if (isActive) {
           const entries = data.plan === "annual" ? 2 : 1;

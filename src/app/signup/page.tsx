@@ -87,6 +87,7 @@ function SignupPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const planParam = searchParams.get("plan"); // "monthly" | "annual" | null
+  const redirectParam = searchParams.get("redirect"); // e.g. "/search" or a listing URL
   const { signUp, signInWithGoogle, user, loading: authLoading, updateUserProfile } = useAuth();
 
   // Registration form state
@@ -196,14 +197,23 @@ function SignupPage() {
         });
         const data = await res.json();
         if (data.url) {
+          // Store original destination so we can redirect after checkout
+          if (redirectParam) {
+            sessionStorage.setItem("postCheckoutRedirect", redirectParam);
+          }
           window.location.href = data.url;
           return;
         }
       } catch {
-        // Fall through to search if checkout fails
+        // Fall through to pricing if checkout fails
       }
     }
-    router.push("/search");
+    // Redirect to /pricing with from=signup so the page shows a subscribe prompt
+    // Also pass the original redirect destination along
+    const pricingUrl = redirectParam
+      ? `/pricing?from=signup&redirect=${encodeURIComponent(redirectParam)}`
+      : "/pricing?from=signup";
+    router.push(pricingUrl);
   }
 
   const handleOnboardingComplete = async () => {

@@ -2,12 +2,24 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { CheckCircle, ArrowRight, Search, MapPin, Heart, Gift } from "lucide-react";
 
 export default function WelcomePage() {
   const { user, userProfile, updateUserProfile } = useAuth();
   const [verified, setVerified] = useState(false);
+  const router = useRouter();
+  const [postCheckoutRedirect, setPostCheckoutRedirect] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check for stored redirect destination from pre-signup flow
+    const stored = sessionStorage.getItem("postCheckoutRedirect");
+    if (stored) {
+      setPostCheckoutRedirect(stored);
+      sessionStorage.removeItem("postCheckoutRedirect");
+    }
+  }, []);
 
   useEffect(() => {
     // After successful Stripe checkout, update local profile to reflect active subscription
@@ -79,10 +91,10 @@ export default function WelcomePage() {
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              href="/search"
+              href={postCheckoutRedirect || "/search"}
               className="inline-flex items-center justify-center gap-2 bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors"
             >
-              Find Games <ArrowRight className="w-4 h-4" />
+              {postCheckoutRedirect ? "Continue Where You Left Off" : "Find Games"} <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/account"

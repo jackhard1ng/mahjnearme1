@@ -74,6 +74,7 @@ export default function AccountPage() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [portalLoading, setPortalLoading] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
   const suggestionsRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -689,6 +690,12 @@ export default function AccountPage() {
                   <><ExternalLink className="w-4 h-4" /> Manage Subscription</>
                 )}
               </button>
+              <button
+                onClick={() => setShowCancelModal(true)}
+                className="flex items-center justify-center gap-2 w-full text-sm text-slate-400 hover:text-slate-600 font-medium py-2 mt-1 transition-colors"
+              >
+                Cancel Subscription
+              </button>
             </div>
           )}
         </div>
@@ -870,6 +877,53 @@ export default function AccountPage() {
           Sign Out
         </button>
       </div>
+
+      {/* Cancellation Warning Modal */}
+      {showCancelModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 sm:p-8 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center shrink-0">
+                <AlertTriangle className="w-5 h-5 text-amber-500" />
+              </div>
+              <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal">
+                Are you sure you want to cancel?
+              </h2>
+            </div>
+            <p className="text-sm text-slate-600 mb-4">
+              A couple things to know before you go:
+            </p>
+            <ul className="space-y-3 mb-6">
+              <li className="flex items-start gap-2 text-sm text-slate-600">
+                <span className="text-slate-400 mt-0.5 shrink-0">&bull;</span>
+                <span>You won&apos;t get a prorated refund for the current billing period. Your access continues until the end of the period you&apos;ve already paid for.</span>
+              </li>
+              <li className="flex items-start gap-2 text-sm text-slate-600">
+                <span className="text-slate-400 mt-0.5 shrink-0">&bull;</span>
+                <span><strong className="text-charcoal">You&apos;ll be removed from the monthly giveaway.</strong> Only active subscribers are entered. If you resubscribe later, you&apos;ll be re-entered going forward.</span>
+              </li>
+            </ul>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => setShowCancelModal(false)}
+                className="flex-1 bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors text-sm"
+              >
+                Keep my subscription
+              </button>
+              <button
+                onClick={() => {
+                  setShowCancelModal(false);
+                  handleManageSubscription();
+                }}
+                disabled={portalLoading}
+                className="flex-1 bg-slate-100 text-slate-500 px-6 py-3 rounded-xl font-medium hover:bg-slate-200 transition-colors text-sm"
+              >
+                {portalLoading ? "Opening..." : "Cancel anyway"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
