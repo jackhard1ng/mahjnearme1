@@ -102,6 +102,22 @@ export async function POST(req: Request) {
     const existingSnap = await db.collection("organizers").get();
     const existingKeys = new Set(existingSnap.docs.map((d) => d.data().nameKey || d.data().organizerName?.toLowerCase()));
 
+    // Auto-promote: featured organizers should always be verified + instructor
+    const promotesBatch = db.batch();
+    let promoted = 0;
+    for (const doc of existingSnap.docs) {
+      const data = doc.data();
+      if (data.featured && (!data.verified || !data.isInstructor)) {
+        promotesBatch.update(doc.ref, {
+          verified: true,
+          isInstructor: true,
+          updatedAt: new Date().toISOString(),
+        });
+        promoted++;
+      }
+    }
+    if (promoted > 0) await promotesBatch.commit();
+
     let created = 0;
     let skipped = 0;
 
@@ -169,6 +185,7 @@ export async function POST(req: Request) {
       success: true,
       created,
       skipped,
+      promoted,
       totalOrganizers: orgMap.size,
     });
   } catch (err) {

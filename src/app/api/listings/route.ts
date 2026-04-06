@@ -54,6 +54,9 @@ export async function GET(request: NextRequest) {
         res.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
         return res;
       }
+    } else {
+      // Ensure featured listings are promoted in Firestore even when no seed is needed
+      syncFeaturedListings(db).catch(() => {});
     }
 
     let query: FirebaseFirestore.Query = db.collection("listings");
@@ -96,20 +99,26 @@ export async function GET(request: NextRequest) {
  */
 async function seedFromJSON(db: FirebaseFirestore.Firestore): Promise<boolean> {
   try {
-    const { loadListings } = require("@/lib/listings-data");
+    const { loadListings, FEATURED_LISTING_IDS } = require("@/lib/listings-data");
     const games = loadListings();
 
     // Get all existing doc IDs so we don't overwrite imported/organizer-edited listings
     const existingSnap = await db.collection("listings").select().get();
-    const existingIds = new Set(existingSnap.docs.map((d) => d.id));
+    const existingIds = new Set(existingSnap.docs.map((d: { id: string }) => d.id));
 
     const BATCH_SIZE = 450;
     for (let i = 0; i < games.length; i += BATCH_SIZE) {
       const chunk = games.slice(i, i + BATCH_SIZE);
       const batch = db.batch();
       for (const game of chunk) {
-        if (existingIds.has(game.id)) continue; // don't overwrite existing docs
         const ref = db.collection("listings").doc(game.id);
+        if (existingIds.has(game.id)) {
+          // For existing docs, only update featured/verified status for promoted listings
+          if (FEATURED_LISTING_IDS.has(game.id)) {
+            batch.update(ref, { promoted: true, verified: true, updatedAt: new Date().toISOString() });
+          }
+          continue;
+        }
         batch.set(ref, { ...game, organizerEdited: false });
       }
       await batch.commit();
@@ -121,6 +130,36 @@ async function seedFromJSON(db: FirebaseFirestore.Firestore): Promise<boolean> {
   } catch (err) {
     console.error("[Listings API] Failed to seed:", err);
     return false;
+  }
+}
+
+/**
+ * One-time sync: ensure featured listing IDs are promoted in Firestore.
+ * Runs in the background (fire-and-forget) on the full-DB path.
+ */
+let _featuredSynced = false;
+async function syncFeaturedListings(db: FirebaseFirestore.Firestore) {
+  if (_featuredSynced) return;
+  _featuredSynced = true;
+
+  const { FEATURED_LISTING_IDS } = require("@/lib/listings-data");
+  const ids = Array.from(FEATURED_LISTING_IDS) as string[];
+  const batch = db.batch();
+  let updated = 0;
+
+  for (const id of ids) {
+    const docRef = db.collection("listings").doc(id);
+    const snap = await docRef.get();
+    if (snap.exists && !snap.data()?.promoted) {
+      batch.update(docRef, { promoted: true, verified: true, updatedAt: new Date().toISOString() });
+      updated++;
+    }
+  }
+
+  if (updated > 0) {
+    await batch.commit();
+    clearListingsCache();
+    console.log(`[Listings API] Synced ${updated} featured listings`);
   }
 }
 

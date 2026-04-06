@@ -50,7 +50,7 @@ export async function GET() {
       if (data.instagram) entry.instagram = data.instagram;
       if (data.facebookGroup) entry.facebookGroup = data.facebookGroup;
       if (data.featured) entry.featured = true;
-      if (data.verified || data.userId) entry.verified = true;
+      if (data.verified || data.featured || data.userId) entry.verified = true;
       if (data.photoURL) entry.photoURL = data.photoURL;
       if (data.locations && (data.locations as unknown[]).length > 0) {
         entry.locations = data.locations;

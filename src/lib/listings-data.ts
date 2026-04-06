@@ -204,6 +204,15 @@ function normalizeState(raw: string): string {
   return upper;
 }
 
+// --- Featured / promoted listing IDs (subscribed organizers) ---
+
+const FEATURED_LISTING_IDS = new Set([
+  "mahjong-lv-social-club-daytime-league-las-vegas-nevada-1100",
+  "mahjong-lv-social-club-nighttime-league-las-vegas-nevada-1800",
+]);
+
+export { FEATURED_LISTING_IDS };
+
 // --- Convert a raw listing to a Game ---
 
 function rawToGame(raw: RawListing): Game {
@@ -270,7 +279,7 @@ function rawToGame(raw: RawListing): Game {
     verified: true,
     claimedBy: null,
     source: "csv_import",
-    promoted: false,
+    promoted: FEATURED_LISTING_IDS.has(raw.id),
     organizerEdited: false,
     lastVerified: isValidDate(str(raw.lastVerified)) ? str(raw.lastVerified) : "2026-03-24",
     createdAt: "2026-01-01T00:00:00Z",

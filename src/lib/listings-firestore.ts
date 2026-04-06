@@ -6,6 +6,7 @@
 
 import { Game } from "@/types";
 import { findMetroForCity } from "@/lib/metro-regions";
+import { FEATURED_LISTING_IDS } from "@/lib/listings-data";
 
 // In-memory cache with TTL (5 minutes)
 let _cache: Game[] | null = null;
@@ -82,7 +83,7 @@ function docToGame(data: Record<string, unknown>, id: string): Game {
     verified: (data.verified as boolean) ?? true,
     claimedBy: (data.claimedBy as string) || null,
     source: (data.source as Game["source"]) || "csv_import",
-    promoted: (data.promoted as boolean) ?? false,
+    promoted: (data.promoted as boolean) || FEATURED_LISTING_IDS.has(id),
     isDestinationEvent: (data.isDestinationEvent as boolean) ?? false,
     organizerEdited: (data.organizerEdited as boolean) ?? false,
     lastVerified: (data.lastVerified as string) || "",
