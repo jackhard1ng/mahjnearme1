@@ -201,7 +201,7 @@ function SignupPage() {
           if (redirectParam) {
             sessionStorage.setItem("postCheckoutRedirect", redirectParam);
           }
-          window.location.href = data.url;
+          window.location.assign(data.url);
           return;
         }
       } catch {

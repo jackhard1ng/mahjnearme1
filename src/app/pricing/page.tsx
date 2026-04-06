@@ -126,15 +126,15 @@ function PricingContent() {
 
       const data = await res.json();
       if (data.url) {
-        window.location.href = data.url;
+        window.location.assign(data.url);
+        return; // Don't reset loading state — page is navigating away
       } else {
         alert("Something went wrong. Please try again.");
       }
     } catch {
       alert("Something went wrong. Please try again.");
-    } finally {
-      setCheckoutLoading(null);
     }
+    setCheckoutLoading(null);
   }
 
   type CtaConfig = { label: string; href: string | null; action?: "monthly" | "annual" };

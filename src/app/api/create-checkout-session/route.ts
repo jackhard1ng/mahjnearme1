@@ -68,7 +68,7 @@ export async function POST(request: Request) {
       payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
       subscription_data: {},
-      allow_promotion_codes: true, // Always show Stripe's code field (organizer promo codes work here)
+      allow_promotion_codes: !validatedReferralCode, // Cannot combine with discounts array
       success_url: `${baseUrl}/welcome?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/pricing`,
       metadata: {

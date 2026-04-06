@@ -9,6 +9,8 @@ import {
   signOut as firebaseSignOut,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   updateProfile,
 } from "firebase/auth";
 import { getFirebaseAuth, getFirebaseDb } from "@/lib/firebase";
@@ -39,6 +41,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Handle redirect result from signInWithRedirect (Chrome popup fallback)
+    try {
+      const auth = getFirebaseAuth();
+      getRedirectResult(auth).catch(() => {});
+    } catch {
+      // Firebase not configured
+    }
+  }, []);
 
   useEffect(() => {
     // Only initialize Firebase auth on the client
@@ -156,7 +168,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signInWithGoogle = async () => {
     const auth = getFirebaseAuth();
     const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error: unknown) {
+      // Chrome blocks popups aggressively — fall back to redirect-based flow
+      if (error instanceof Error && (
+        error.message.includes("popup-blocked") ||
+        error.message.includes("popup_blocked") ||
+        error.message.includes("auth/popup-blocked")
+      )) {
+        await signInWithRedirect(auth, provider);
+      } else {
+        throw error;
+      }
+    }
   };
 
   const signOut = async () => {

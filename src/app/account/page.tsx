@@ -234,15 +234,15 @@ export default function AccountPage() {
       });
       const data = await res.json();
       if (data.url) {
-        window.location.href = data.url;
+        window.location.assign(data.url);
+        return;
       } else {
         alert("Could not open subscription management. Please try again.");
       }
     } catch {
       alert("Something went wrong. Please try again.");
-    } finally {
-      setPortalLoading(false);
     }
+    setPortalLoading(false);
   }
 
   return (
