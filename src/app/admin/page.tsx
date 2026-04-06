@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useFirestoreListings } from "@/hooks/useFirestoreListings";
 import { getAnalytics, DailyStats } from "@/lib/analytics";
@@ -29,6 +29,7 @@ import {
   Send,
   Mail,
   Copy,
+  X,
 } from "lucide-react";
 
 interface ContributorData {
@@ -143,13 +144,21 @@ export default function AdminDashboardPage() {
     } catch { /* silent */ }
   }, []);
 
+  const [giveawayError, setGiveawayError] = useState<string | null>(null);
+
   const fetchGiveaway = useCallback(async () => {
+    setGiveawayError(null);
     try {
       const res = await adminFetch("/api/giveaway?admin=true");
       if (res.ok) {
         setGiveawayData(await res.json());
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setGiveawayError(data.error || `Failed to load (${res.status})`);
       }
-    } catch { /* silent */ }
+    } catch (err) {
+      setGiveawayError("Network error loading giveaway data");
+    }
   }, []);
 
   useEffect(() => {
@@ -653,6 +662,19 @@ export default function AdminDashboardPage() {
             </button>
           </div>
 
+          {giveawayError && (
+            <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-600">
+              <p className="font-medium">Error loading giveaway data</p>
+              <p className="text-red-500 mt-1">{giveawayError}</p>
+            </div>
+          )}
+
+          {!giveawayData && !giveawayError && (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
+            </div>
+          )}
+
           {giveawayData && (
             <>
               <div className="grid sm:grid-cols-3 gap-4">
@@ -726,23 +748,74 @@ export default function AdminDashboardPage() {
                 </button>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-6">
-                <h3 className="font-semibold text-charcoal mb-4">Draw Winner</h3>
-                <button
-                  onClick={handleDraw}
-                  disabled={drawing}
-                  className="flex items-center gap-2 bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors disabled:opacity-50"
-                >
-                  {drawing ? (
-                    <><Loader2 className="w-4 h-4 animate-spin" /> Drawing...</>
-                  ) : (
-                    <><Gift className="w-4 h-4" /> Draw Winner</>
-                  )}
-                </button>
-                <p className="text-xs text-slate-400 mt-2">
-                  This action cannot be undone or modified after the fact. The draw is logged with a timestamp.
-                </p>
+              {/* Entry Pool Table */}
+              <div className="bg-white border border-slate-200 rounded-xl">
+                <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                  <h3 className="font-semibold text-charcoal">Entry Pool ({giveawayData.totalEntries} entries from {giveawayData.totalParticipants} people)</h3>
+                </div>
+                <div className="max-h-72 overflow-y-auto divide-y divide-slate-50">
+                  {giveawayData.eligibleEntries
+                    .sort((a, b) => b.entries - a.entries)
+                    .map((entry) => (
+                    <div key={entry.userId} className="px-5 py-2.5 flex items-center justify-between hover:bg-slate-50">
+                      <div className="flex items-center gap-3">
+                        <div>
+                          <p className="text-sm font-medium text-charcoal">{entry.userName}</p>
+                          <p className="text-xs text-slate-500">{entry.email}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${
+                          entry.plan === "annual" ? "bg-amber-100 text-amber-700" :
+                          entry.plan === "free_entry" ? "bg-slate-100 text-slate-600" :
+                          entry.plan === "mail_in" ? "bg-blue-100 text-blue-600" :
+                          "bg-hotpink-100 text-hotpink-600"
+                        }`}>
+                          {entry.plan === "annual" ? "Annual" : entry.plan === "free_entry" ? "Free" : entry.plan === "mail_in" ? "Mail-in" : "Monthly"}
+                        </span>
+                        <span className="text-sm font-bold text-charcoal min-w-[3ch] text-right">{entry.entries}x</span>
+                        <button
+                          onClick={async () => {
+                            if (!confirm(`Remove ${entry.userName} from this month's drawing?`)) return;
+                            try {
+                              const res = await adminFetch("/api/giveaway", "POST", {
+                                action: "remove_entry",
+                                entryId: entry.userId,
+                                entryType: entry.plan,
+                              });
+                              if (res.ok) {
+                                fetchGiveaway();
+                              } else {
+                                const d = await res.json();
+                                alert(d.error || "Failed to remove.");
+                              }
+                            } catch { alert("Failed to remove entry."); }
+                          }}
+                          className="text-slate-300 hover:text-red-500 transition-colors"
+                          title="Remove from drawing"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
+
+              {/* Spin Wheel + Draw */}
+              <GiveawayWheel
+                entries={giveawayData.eligibleEntries}
+                onSpin={async () => {
+                  // Call API first to get the official winner
+                  const res = await adminFetch("/api/giveaway", "POST", { action: "draw" });
+                  const data = await res.json();
+                  if (!data.success) {
+                    throw new Error(data.error || "Draw failed");
+                  }
+                  fetchGiveaway();
+                  return data.winner.winnerName;
+                }}
+              />
 
               {/* Manual Entry (Mail-In AMOE) */}
               <div className="bg-white border border-slate-200 rounded-xl p-6">
@@ -870,6 +943,229 @@ export default function AdminDashboardPage() {
       {activeTab === "organizers" && <AdminOrganizersPanel />}
       {activeTab === "approvals" && <AdminApprovalsPanel />}
       {activeTab === "notifications" && <AdminNotificationsPanel />}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Spin Wheel Component for Giveaway Drawing
+// ---------------------------------------------------------------------------
+
+const WHEEL_COLORS = [
+  "#E91E8C", "#FF6B9D", "#C71585", "#FF1493",
+  "#DB2777", "#EC4899", "#F472B6", "#BE185D",
+  "#9D174D", "#831843", "#FF69B4", "#FFB6C1",
+];
+
+function GiveawayWheel({
+  entries,
+  onSpin,
+}: {
+  entries: { userId: string; userName: string; entries: number }[];
+  onSpin: () => Promise<string>; // returns winner name from API
+}) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [spinning, setSpinning] = useState(false);
+  const [winner, setWinner] = useState<string | null>(null);
+  const spinAngleRef = useRef(0);
+
+  // Build weighted segments (each entry count = 1 segment slice)
+  const segments = entries.flatMap((e) =>
+    Array.from({ length: e.entries }, () => ({
+      userId: e.userId,
+      label: e.userName.length > 15 ? e.userName.slice(0, 14) + "…" : e.userName,
+      fullName: e.userName,
+    }))
+  );
+
+  // Draw the wheel on canvas
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || segments.length === 0) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const size = canvas.width;
+    const center = size / 2;
+    const radius = center - 4;
+    const arc = (2 * Math.PI) / segments.length;
+
+    ctx.clearRect(0, 0, size, size);
+
+    segments.forEach((seg, i) => {
+      const angle = spinAngleRef.current + i * arc;
+      ctx.beginPath();
+      ctx.moveTo(center, center);
+      ctx.arc(center, center, radius, angle, angle + arc);
+      ctx.closePath();
+      ctx.fillStyle = WHEEL_COLORS[i % WHEEL_COLORS.length];
+      ctx.fill();
+      ctx.strokeStyle = "#fff";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Draw label
+      ctx.save();
+      ctx.translate(center, center);
+      ctx.rotate(angle + arc / 2);
+      ctx.fillStyle = "#fff";
+      ctx.font = `bold ${Math.max(9, Math.min(13, 300 / segments.length))}px sans-serif`;
+      ctx.textAlign = "right";
+      ctx.textBaseline = "middle";
+      ctx.fillText(seg.label, radius - 12, 0);
+      ctx.restore();
+    });
+
+    // Center dot
+    ctx.beginPath();
+    ctx.arc(center, center, 8, 0, 2 * Math.PI);
+    ctx.fillStyle = "#fff";
+    ctx.fill();
+    ctx.strokeStyle = "#333";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }, [segments, spinning]); // re-render driven by spinning state updates
+
+  async function spin() {
+    if (spinning || segments.length === 0) return;
+    setWinner(null);
+    setSpinning(true);
+
+    // Call API to get official winner, then spin wheel to match
+    let apiWinnerName: string;
+    try {
+      apiWinnerName = await onSpin();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Draw failed");
+      setSpinning(false);
+      return;
+    }
+
+    // Find a segment index matching the API winner
+    let winnerIndex = segments.findIndex((s) => s.fullName === apiWinnerName);
+    if (winnerIndex === -1) winnerIndex = 0; // fallback
+    const arc = (2 * Math.PI) / segments.length;
+    // Target angle: pointer is at top (3π/2), winner segment center should be there
+    const targetAngle = (2 * Math.PI) * (8 + Math.random() * 3) // 8-11 full rotations
+      - (winnerIndex * arc + arc / 2) // position winner at top
+      + Math.PI * 1.5; // pointer offset (top)
+
+    const startAngle = spinAngleRef.current;
+    const totalDelta = targetAngle - startAngle;
+    const duration = 5000; // 5 seconds
+    const startTime = Date.now();
+
+    function animate() {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      spinAngleRef.current = startAngle + totalDelta * eased;
+
+      // Redraw
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          const size = canvas.width;
+          const cntr = size / 2;
+          const radius = cntr - 4;
+
+          ctx.clearRect(0, 0, size, size);
+
+          segments.forEach((seg, i) => {
+            const angle = spinAngleRef.current + i * arc;
+            ctx.beginPath();
+            ctx.moveTo(cntr, cntr);
+            ctx.arc(cntr, cntr, radius, angle, angle + arc);
+            ctx.closePath();
+            ctx.fillStyle = WHEEL_COLORS[i % WHEEL_COLORS.length];
+            ctx.fill();
+            ctx.strokeStyle = "#fff";
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            ctx.save();
+            ctx.translate(cntr, cntr);
+            ctx.rotate(angle + arc / 2);
+            ctx.fillStyle = "#fff";
+            ctx.font = `bold ${Math.max(9, Math.min(13, 300 / segments.length))}px sans-serif`;
+            ctx.textAlign = "right";
+            ctx.textBaseline = "middle";
+            ctx.fillText(seg.label, radius - 12, 0);
+            ctx.restore();
+          });
+
+          // Center dot
+          ctx.beginPath();
+          ctx.arc(cntr, cntr, 8, 0, 2 * Math.PI);
+          ctx.fillStyle = "#fff";
+          ctx.fill();
+          ctx.strokeStyle = "#333";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setSpinning(false);
+        setWinner(apiWinnerName);
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  if (segments.length === 0) {
+    return (
+      <div className="bg-white border border-slate-200 rounded-xl p-6 text-center text-sm text-slate-500">
+        No entries to draw from.
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white border border-slate-200 rounded-xl p-6">
+      <h3 className="font-semibold text-charcoal mb-4 text-center">Spin the Wheel</h3>
+      <div className="flex flex-col items-center gap-4">
+        {/* Pointer triangle */}
+        <div className="relative">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 z-10">
+            <div className="w-0 h-0 border-l-[10px] border-r-[10px] border-t-[18px] border-l-transparent border-r-transparent border-t-charcoal" />
+          </div>
+          <canvas
+            ref={canvasRef}
+            width={380}
+            height={380}
+            className="rounded-full shadow-lg"
+            style={{ width: 380, height: 380 }}
+          />
+        </div>
+
+        {winner && (
+          <div className="text-center bg-hotpink-50 border border-hotpink-200 rounded-xl px-6 py-4">
+            <p className="text-sm text-slate-600 mb-1">Winner!</p>
+            <p className="text-xl font-bold text-hotpink-600">{winner}</p>
+          </div>
+        )}
+
+        <button
+          onClick={spin}
+          disabled={spinning}
+          className="flex items-center gap-2 bg-hotpink-500 text-white px-8 py-3 rounded-xl font-semibold text-lg hover:bg-hotpink-600 transition-colors disabled:opacity-50"
+        >
+          {spinning ? (
+            <><Loader2 className="w-5 h-5 animate-spin" /> Spinning...</>
+          ) : (
+            <><Gift className="w-5 h-5" /> Spin to Draw Winner</>
+          )}
+        </button>
+        <p className="text-xs text-slate-400">
+          The draw is recorded with a timestamp. Screen record this for your video!
+        </p>
+      </div>
     </div>
   );
 }

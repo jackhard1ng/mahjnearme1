@@ -1,5 +1,5 @@
 import { Game } from "@/types";
-import { formatTime } from "@/lib/utils";
+import { formatTime, daysSinceVerified, STALE_THRESHOLD_DAYS } from "@/lib/utils";
 
 // --- Time Urgency Tiers ---
 
@@ -371,7 +371,7 @@ const MAX_DISTANCE_FOR_SCORE = 50;
 export function computePriorityScore(
   timing: EventTiming,
   distanceMiles: number | null,
-  game?: { description?: string; registrationLink?: string; instagram?: string; eventDate?: string | null; isRecurring?: boolean; promoted?: boolean; verified?: boolean }
+  game?: { description?: string; registrationLink?: string; instagram?: string; eventDate?: string | null; isRecurring?: boolean; promoted?: boolean; verified?: boolean; lastVerified?: string; organizerEdited?: boolean }
 ): number {
   const timeScore = timing.timeScore;
   const distScore = distanceMiles !== null
@@ -394,6 +394,21 @@ export function computePriorityScore(
     // Apply bonus
     score -= richness;
   }
+
+  // Staleness penalty: recurring listings not updated in 90+ days get pushed down.
+  // Organizer-edited listings are exempt (the organizer actively manages them).
+  if (game?.isRecurring && !game.organizerEdited) {
+    const age = daysSinceVerified(game.lastVerified);
+    if (age !== null && age > STALE_THRESHOLD_DAYS) {
+      // +5 base penalty, plus +1 for every additional 30 days stale (caps at +15)
+      score += Math.min(5 + Math.floor((age - STALE_THRESHOLD_DAYS) / 30), 15);
+    }
+  }
+
+  // Add small random jitter so similarly-ranked events shuffle on each page load.
+  // Range ±2 is enough to mix events within the same tier without overriding
+  // meaningful differences (promoted/verified boosts are 3-15 points).
+  score += (Math.random() - 0.5) * 4;
 
   return score;
 }

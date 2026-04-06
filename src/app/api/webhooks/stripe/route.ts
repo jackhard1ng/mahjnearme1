@@ -3,9 +3,57 @@ import { getStripe, getPlanFromPriceId } from "@/lib/stripe";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { sendWelcomeEmail } from "@/lib/email";
 import Stripe from "stripe";
+import type { Firestore } from "firebase-admin/firestore";
 
 // Disable body parsing. Stripe needs the raw body for signature verification
 export const runtime = "nodejs";
+
+/**
+ * When a user subscribes (or cancels), propagate promoted status to their
+ * organizer profile and all linked listings.
+ */
+async function promoteOrganizerListings(
+  db: Firestore,
+  userId: string,
+  promoted: boolean
+) {
+  try {
+    // Find organizer profile linked to this user
+    const orgSnap = await db
+      .collection("organizers")
+      .where("userId", "==", userId)
+      .limit(1)
+      .get();
+
+    if (orgSnap.empty) return; // not an organizer — nothing to do
+
+    const orgDoc = orgSnap.docs[0];
+    const orgId = orgDoc.id;
+
+    // Mark organizer as verified (they have an active account)
+    if (promoted) {
+      await orgDoc.ref.update({ verified: true, updatedAt: new Date().toISOString() });
+    }
+
+    // Update all listings owned by this organizer
+    const listingsSnap = await db
+      .collection("listings")
+      .where("organizerId", "==", orgId)
+      .get();
+
+    const batch = db.batch();
+    for (const doc of listingsSnap.docs) {
+      batch.update(doc.ref, { promoted, updatedAt: new Date().toISOString() });
+    }
+    if (!listingsSnap.empty) {
+      await batch.commit();
+      console.log(`[Stripe] ${promoted ? "Promoted" : "Unpromoted"} ${listingsSnap.size} listings for organizer ${orgId}`);
+    }
+  } catch (err) {
+    // Non-fatal: log and continue so the webhook doesn't fail
+    console.error("[Stripe] Error syncing organizer listings:", err);
+  }
+}
 
 export async function POST(request: Request) {
   const body = await request.text();
@@ -111,6 +159,10 @@ export async function POST(request: Request) {
           }
         }
 
+        // Auto-promote: if this user is an organizer, mark their listings as promoted
+        // and ensure organizer doc is verified.
+        await promoteOrganizerListings(db, firebaseUid, true);
+
         console.log(`Checkout completed for user ${firebaseUid}, plan: ${plan}`);
         break;
       }
@@ -147,6 +199,9 @@ export async function POST(request: Request) {
           updatedAt: new Date().toISOString(),
         });
 
+        // Sync promoted status on listings
+        await promoteOrganizerListings(db, userDoc.id, isActive);
+
         console.log(`Subscription updated for customer ${customerId}: ${subscription.status}`);
         break;
       }
@@ -168,6 +223,10 @@ export async function POST(request: Request) {
             plan: null,
             updatedAt: new Date().toISOString(),
           });
+
+          // Remove promoted status from their listings
+          await promoteOrganizerListings(db, snapshot.docs[0].id, false);
+
           console.log(`Subscription canceled for customer ${customerId}`);
         }
         break;
