@@ -222,14 +222,30 @@ async function promoteOrganizerOnSubscribe(
     const userData = userDoc.data();
     if (!userData?.organizerProfileId) return;
 
-    await db.collection("organizers").doc(userData.organizerProfileId).update({
+    const orgId = userData.organizerProfileId;
+    const now = new Date().toISOString();
+
+    await db.collection("organizers").doc(orgId).update({
       verified: true,
       featured: true,
       isInstructor: true,
-      updatedAt: new Date().toISOString(),
+      updatedAt: now,
     });
 
-    console.log(`Promoted organizer ${userData.organizerProfileId} for subscriber ${firebaseUid}`);
+    // Auto-verify all listings belonging to this organizer
+    const listingsSnap = await db.collection("games")
+      .where("organizerId", "==", orgId)
+      .get();
+
+    const batch = db.batch();
+    for (const listingDoc of listingsSnap.docs) {
+      batch.update(listingDoc.ref, { verified: true, promoted: true, updatedAt: now });
+    }
+    if (!listingsSnap.empty) {
+      await batch.commit();
+    }
+
+    console.log(`Promoted organizer ${orgId} and ${listingsSnap.size} listings for subscriber ${firebaseUid}`);
   } catch (err) {
     console.error(`Failed to promote organizer for user ${firebaseUid}:`, err);
   }

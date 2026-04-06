@@ -416,11 +416,11 @@ export default function GameCard({
                   </span>
                 )}
                 {game.promoted && (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 border border-amber-200">
-                    <Star className="w-3 h-3 fill-amber-500" /> Featured
+                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-amber-100 to-amber-200 text-amber-800 border border-amber-300 shadow-sm">
+                    <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" /> Featured
                   </span>
                 )}
-                {!game.promoted && game.verified && (
+                {(game.verified || game.promoted) && (
                   <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-50 text-green-600 border border-green-200">
                     <CheckCircle className="w-2.5 h-2.5" /> Verified
                   </span>
@@ -578,11 +578,11 @@ export default function GameCard({
                 )}
               </div>
               <div className="flex items-center gap-1">
-                <CheckCircle className={`w-3.5 h-3.5 ${game.verified ? "text-hotpink-500" : "text-slate-300"}`} />
-                <span className={`text-[11px] font-medium ${game.verified ? "text-hotpink-600" : "text-slate-400"}`}>
+                <CheckCircle className={`w-3.5 h-3.5 ${(game.verified || game.promoted) ? "text-hotpink-500" : "text-slate-300"}`} />
+                <span className={`text-[11px] font-medium ${(game.verified || game.promoted) ? "text-hotpink-600" : "text-slate-400"}`}>
                   {game.lastVerified && /^\d{4}-\d{2}-\d{2}$/.test(game.lastVerified)
                     ? `Updated ${new Date(game.lastVerified + "T00:00:00").toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
-                    : verification.label}
+                    : (game.promoted ? "Verified" : verification.label)}
                 </span>
               </div>
             </>
@@ -591,6 +591,10 @@ export default function GameCard({
       </div>
     </>
   );
+
+  const featuredClass = game.promoted
+    ? "ring-2 ring-amber-400 border-amber-400 shadow-[0_0_16px_rgba(245,158,11,0.25)]"
+    : "";
 
   if (blurred) {
     const pricingHref = `/pricing?redirect=${encodeURIComponent(pathname)}`;
@@ -611,7 +615,12 @@ export default function GameCard({
   }
 
   return (
-    <Link href={`/games/${gameSlug}`} className="mahj-tile overflow-hidden flex flex-col hover:shadow-xl transition-shadow cursor-pointer">
+    <Link href={`/games/${gameSlug}`} className={`mahj-tile overflow-hidden flex flex-col hover:shadow-xl transition-shadow cursor-pointer ${featuredClass}`}>
+      {game.promoted && (
+        <div className="bg-gradient-to-r from-amber-500 to-amber-400 text-white text-xs font-bold text-center py-1.5 tracking-wide flex items-center justify-center gap-1.5">
+          <Star className="w-3.5 h-3.5 fill-white" /> FEATURED LISTING
+        </div>
+      )}
       {cardContent}
     </Link>
   );
