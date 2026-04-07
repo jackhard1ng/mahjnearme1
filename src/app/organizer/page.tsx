@@ -1690,7 +1690,7 @@ function ReferralsTab({ userId }: { userId: string }) {
               type="text"
               value={newCode}
               onChange={(e) => setNewCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""))}
-              placeholder="e.g. MAHJ918"
+              placeholder="Your code"
               maxLength={20}
               className="flex-1 p-2.5 border border-slate-200 rounded-lg font-mono text-lg uppercase tracking-wider"
             />

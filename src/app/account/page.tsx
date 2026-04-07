@@ -717,7 +717,7 @@ export default function AccountPage() {
                 <input
                   id="apply-code-input"
                   type="text"
-                  placeholder="e.g. MAHJ918"
+                  placeholder="Enter code"
                   className="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm uppercase font-mono"
                   maxLength={20}
                 />
