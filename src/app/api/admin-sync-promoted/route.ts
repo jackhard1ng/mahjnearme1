@@ -40,28 +40,49 @@ export async function POST(req: NextRequest) {
       userData.accountType === "admin" ||
       userData.subscriptionStatus === "active";
 
-    // 3. Ensure organizer doc is marked verified
-    if (isActive && !orgData.verified) {
-      await orgDoc.ref.update({ verified: true, updatedAt: new Date().toISOString() });
+    // 3. Sync organizer doc: approved + active sub = verified + featured
+    const orgUpdates: Record<string, unknown> = { updatedAt: new Date().toISOString() };
+    if (isActive && !orgData.verified) orgUpdates.verified = true;
+    if ((orgData.featured || false) !== isActive) orgUpdates.featured = isActive;
+    if (Object.keys(orgUpdates).length > 1) {
+      await orgDoc.ref.update(orgUpdates);
     }
 
-    // 4. Update all listings for this organizer
-    const listingsSnap = await db
+    // 4. Update all listings for this organizer (match by ID and by name)
+    const organizerName = orgData.organizerName as string || "";
+    const updatedListingIds = new Set<string>();
+    const batch = db.batch();
+
+    const byIdSnap = await db
       .collection("listings")
       .where("organizerId", "==", orgDoc.id)
       .get();
-
-    const batch = db.batch();
-    let changed = false;
-    for (const listingDoc of listingsSnap.docs) {
+    for (const listingDoc of byIdSnap.docs) {
       const current = listingDoc.data().promoted || false;
       if (current !== isActive) {
         batch.update(listingDoc.ref, { promoted: isActive, updatedAt: new Date().toISOString() });
-        changed = true;
+        updatedListingIds.add(listingDoc.id);
         if (isActive) promoted++; else unpromoted++;
       }
     }
-    if (changed) await batch.commit();
+
+    if (organizerName) {
+      const byNameSnap = await db
+        .collection("listings")
+        .where("organizerName", "==", organizerName)
+        .get();
+      for (const listingDoc of byNameSnap.docs) {
+        if (updatedListingIds.has(listingDoc.id)) continue;
+        const current = listingDoc.data().promoted || false;
+        if (current !== isActive) {
+          batch.update(listingDoc.ref, { promoted: isActive, updatedAt: new Date().toISOString() });
+          updatedListingIds.add(listingDoc.id);
+          if (isActive) promoted++; else unpromoted++;
+        }
+      }
+    }
+
+    if (updatedListingIds.size > 0) await batch.commit();
   }
 
   return NextResponse.json({

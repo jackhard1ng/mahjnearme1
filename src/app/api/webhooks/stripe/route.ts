@@ -9,8 +9,12 @@ import type { Firestore } from "firebase-admin/firestore";
 export const runtime = "nodejs";
 
 /**
- * When a user subscribes (or cancels), propagate promoted status to their
- * organizer profile and all linked listings.
+ * When a user subscribes (or cancels), propagate featured/promoted status to
+ * their organizer profile and all their listings.
+ *
+ * Rule: an organizer who is already approved (has a userId linked to their
+ * organizer doc) AND has an active subscription is automatically featured.
+ * Cancellation removes featured status automatically.
  */
 async function promoteOrganizerListings(
   db: Firestore,
@@ -18,36 +22,63 @@ async function promoteOrganizerListings(
   promoted: boolean
 ) {
   try {
-    // Find organizer profile linked to this user
+    // Find organizer profile linked to this user (i.e. previously approved)
     const orgSnap = await db
       .collection("organizers")
       .where("userId", "==", userId)
       .limit(1)
       .get();
 
-    if (orgSnap.empty) return; // not an organizer — nothing to do
+    if (orgSnap.empty) {
+      console.log(`[Stripe] User ${userId} subscribed but is not a linked organizer — skipping feature sync`);
+      return;
+    }
 
     const orgDoc = orgSnap.docs[0];
     const orgId = orgDoc.id;
+    const orgData = orgDoc.data();
+    const organizerName = orgData.organizerName as string || "";
+    const now = new Date().toISOString();
 
-    // Mark organizer as verified (they have an active account)
-    if (promoted) {
-      await orgDoc.ref.update({ verified: true, updatedAt: new Date().toISOString() });
-    }
+    // Mark organizer as verified + featured (or unset featured on cancel).
+    // verified stays true even on cancel — they still have an account.
+    await orgDoc.ref.update({
+      verified: true,
+      featured: promoted,
+      updatedAt: now,
+    });
+    console.log(`[Stripe] ${promoted ? "Featured" : "Unfeatured"} organizer ${organizerName} (${orgId})`);
 
-    // Update all listings owned by this organizer
-    const listingsSnap = await db
+    // Update all listings owned by this organizer — two ways to match:
+    // 1. By organizerId (the proper link)
+    // 2. By organizerName (fallback for listings imported before the link)
+    const updatedIds = new Set<string>();
+    const batch = db.batch();
+
+    const byIdSnap = await db
       .collection("listings")
       .where("organizerId", "==", orgId)
       .get();
-
-    const batch = db.batch();
-    for (const doc of listingsSnap.docs) {
-      batch.update(doc.ref, { promoted, updatedAt: new Date().toISOString() });
+    for (const doc of byIdSnap.docs) {
+      batch.update(doc.ref, { promoted, updatedAt: now });
+      updatedIds.add(doc.id);
     }
-    if (!listingsSnap.empty) {
+
+    if (organizerName) {
+      const byNameSnap = await db
+        .collection("listings")
+        .where("organizerName", "==", organizerName)
+        .get();
+      for (const doc of byNameSnap.docs) {
+        if (updatedIds.has(doc.id)) continue;
+        batch.update(doc.ref, { promoted, updatedAt: now });
+        updatedIds.add(doc.id);
+      }
+    }
+
+    if (updatedIds.size > 0) {
       await batch.commit();
-      console.log(`[Stripe] ${promoted ? "Promoted" : "Unpromoted"} ${listingsSnap.size} listings for organizer ${orgId}`);
+      console.log(`[Stripe] ${promoted ? "Promoted" : "Unpromoted"} ${updatedIds.size} listings for ${organizerName}`);
     }
   } catch (err) {
     // Non-fatal: log and continue so the webhook doesn't fail
