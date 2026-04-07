@@ -146,6 +146,40 @@ export async function PUT(request: NextRequest) {
 
     await docRef.update({ ...updates, lastUpdated: now });
 
+    // If featured was toggled, propagate to all linked listings as promoted
+    if (typeof updates.featured === "boolean") {
+      const listingIds = (orgData.listingIds as string[]) || [];
+      if (listingIds.length > 0) {
+        // Batch update in chunks of 450 (Firestore batch limit is 500)
+        for (let i = 0; i < listingIds.length; i += 450) {
+          const chunk = listingIds.slice(i, i + 450);
+          const batch = db.batch();
+          for (const listingId of chunk) {
+            batch.update(db.collection("listings").doc(listingId), {
+              promoted: updates.featured,
+              updatedAt: now,
+            });
+          }
+          await batch.commit();
+        }
+        console.log(`[Organizers PUT] Synced promoted=${updates.featured} to ${listingIds.length} listings for ${orgData.organizerName}`);
+      }
+      // Also try matching by organizerName in case listingIds isn't populated
+      // (for organizers whose listings were imported before the link was established)
+      const nameQuery = await db
+        .collection("listings")
+        .where("organizerName", "==", orgData.organizerName)
+        .get();
+      if (!nameQuery.empty) {
+        const batch = db.batch();
+        for (const doc of nameQuery.docs) {
+          batch.update(doc.ref, { promoted: updates.featured, updatedAt: now });
+        }
+        await batch.commit();
+        console.log(`[Organizers PUT] Synced promoted=${updates.featured} to ${nameQuery.size} additional listings matched by name`);
+      }
+    }
+
     // Propagate contact/name changes to all linked listings
     const listingIds = (orgData.listingIds as string[]) || [];
     if (listingIds.length > 0) {
