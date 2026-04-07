@@ -211,6 +211,8 @@ export async function POST(request: NextRequest) {
 
 /**
  * DELETE /api/listings?id=xxx - Admin: soft-delete a listing (set status=inactive).
+ * If the listing is already inactive, performs a HARD delete (removes from Firestore).
+ * Pass ?hard=true to force hard delete regardless of current status.
  */
 export async function DELETE(request: NextRequest) {
   const denied = requireAdmin(request);
@@ -220,36 +222,47 @@ export async function DELETE(request: NextRequest) {
     const db = getAdminDb();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
+    const forceHard = searchParams.get("hard") === "true";
 
     if (!id) {
       return NextResponse.json({ error: "Listing ID is required" }, { status: 400 });
     }
 
     const now = new Date().toISOString();
-
-    // Check if doc exists first
     const docRef = db.collection("listings").doc(id);
     const doc = await docRef.get();
 
     if (!doc.exists) {
       // If the listing is from JSON and was never seeded to Firestore,
-      // create a minimal doc to record the deletion
+      // create a tombstone doc so the JSON re-seed won't resurrect it
       await docRef.set({
         id,
         status: "inactive",
         deletedAt: now,
       });
-    } else {
-      await docRef.update({
-        status: "inactive",
-        deletedAt: now,
-      });
+      clearListingsCache();
+      return NextResponse.json({ success: true, action: "tombstone" });
     }
 
-    clearListingsCache();
-    console.log(`[Listings] Deleted listing ${id}`);
+    const data = doc.data()!;
+    const isAlreadyInactive = data.status === "inactive";
 
-    return NextResponse.json({ success: true });
+    if (forceHard || isAlreadyInactive) {
+      // Hard delete — actually remove from Firestore
+      await docRef.delete();
+      clearListingsCache();
+      console.log(`[Listings] Hard deleted ${id}`);
+      return NextResponse.json({ success: true, action: "hard_delete" });
+    }
+
+    // Soft delete (first pass)
+    await docRef.update({
+      status: "inactive",
+      deletedAt: now,
+    });
+    clearListingsCache();
+    console.log(`[Listings] Soft deleted ${id}`);
+    return NextResponse.json({ success: true, action: "soft_delete" });
   } catch (err) {
     console.error("Listings DELETE error:", err);
     return NextResponse.json({ error: "Failed to delete listing" }, { status: 500 });

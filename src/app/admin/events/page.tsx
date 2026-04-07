@@ -339,11 +339,11 @@ function EventCard({
   return (
     <div className={`bg-white border rounded-xl overflow-hidden ${open ? "border-hotpink-300 shadow-md" : "border-slate-200"}`}>
       {/* Header row */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-start justify-between gap-3 p-4 text-left"
-      >
-        <div className="min-w-0 flex-1">
+      <div className="w-full flex items-start justify-between gap-3 p-4">
+        <button
+          onClick={() => setOpen(!open)}
+          className="min-w-0 flex-1 text-left"
+        >
           <div className="flex items-center gap-2 flex-wrap">
             <span className="font-semibold text-slate-800 text-sm leading-tight">{game.name}</span>
             {game.promoted && <span className="bg-amber-100 text-amber-700 text-xs px-1.5 py-0.5 rounded-full flex items-center gap-0.5"><Star className="w-2.5 h-2.5" />Featured</span>}
@@ -353,11 +353,37 @@ function EventCard({
           <p className="text-xs text-slate-400 mt-0.5">
             {game.city}, {game.state} · {game.type.replace("_", " ")} · {game.status}
           </p>
+        </button>
+        <div className="flex-shrink-0 flex items-center gap-1">
+          {confirmDelete ? (
+            <>
+              <button
+                onClick={deleteListing}
+                disabled={deleting}
+                className="px-2 py-1 bg-red-500 text-white rounded text-xs font-semibold hover:bg-red-600 disabled:opacity-50 flex items-center gap-1"
+              >
+                {deleting ? <Loader2 className="w-3 h-3 animate-spin" /> : (game.status === "inactive" ? "Delete forever" : "Delete")}
+              </button>
+              <button onClick={() => setConfirmDelete(false)} className="text-xs text-slate-500 hover:text-slate-700 px-1">
+                Cancel
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() => setConfirmDelete(true)}
+                className="p-1.5 text-slate-300 hover:text-red-500 rounded transition"
+                title={game.status === "inactive" ? "Permanently delete" : "Delete"}
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+              <button onClick={() => setOpen(!open)} className="p-1.5 text-slate-400 hover:text-slate-600 rounded transition">
+                {open ? <ChevronUp className="w-4 h-4" /> : <Edit3 className="w-4 h-4" />}
+              </button>
+            </>
+          )}
         </div>
-        <div className="flex-shrink-0 text-slate-400">
-          {open ? <ChevronUp className="w-4 h-4" /> : <Edit3 className="w-4 h-4" />}
-        </div>
-      </button>
+      </div>
 
       {/* Edit form */}
       {open && (
