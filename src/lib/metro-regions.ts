@@ -13,7 +13,14 @@ const METRO_REGIONS: MetroRegion[] = [
     state: "AL",
     country: "US",
     abbreviation: "birmingham-al",
-    cities: ["Birmingham", "Hoover", "Vestavia Hills", "Homewood", "Tuscaloosa", "Huntsville", "Montgomery", "Mobile"]
+    cities: ["Birmingham", "Hoover", "Vestavia Hills", "Homewood", "Tuscaloosa", "Huntsville", "Montgomery"]
+  },
+  {
+    metro: "Mobile",
+    state: "AL",
+    country: "US",
+    abbreviation: "mobile-al",
+    cities: ["Mobile", "Daphne", "Fairhope", "Spanish Fort", "Saraland", "Prichard", "Tillmans Corner", "Theodore", "Coden", "Bayou La Batre", "Dauphin Island"]
   },
   // ALASKA
   {
@@ -352,6 +359,13 @@ const METRO_REGIONS: MetroRegion[] = [
     country: "US",
     abbreviation: "buffalo-ny",
     cities: ["Buffalo", "Rochester", "Niagara Falls", "Amherst", "Cheektowaga", "Syracuse", "Albany", "Troy", "Saratoga Springs"]
+  },
+  {
+    metro: "Hudson Valley",
+    state: "NY",
+    country: "US",
+    abbreviation: "hudson-valley-ny",
+    cities: ["Poughkeepsie", "Kingston", "Newburgh", "Middletown", "Beacon", "Hyde Park", "Rhinebeck", "New Paltz", "Fishkill", "Wappingers Falls", "Hopewell Junction"]
   },
   // NORTH CAROLINA
   {

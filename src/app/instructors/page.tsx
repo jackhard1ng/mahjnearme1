@@ -3,6 +3,8 @@
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
+import { US_STATES } from "@/lib/constants";
+import { findMetroForCity } from "@/lib/metro-regions";
 import {
   Search,
   GraduationCap,
@@ -119,7 +121,33 @@ export default function InstructorsPage() {
         seattle: ["puget sound", "bellevue", "washington"],
       };
 
-      const expandedTerms = [q, ...(areaAliases[q] || [])];
+      const expandedTerms = new Set<string>([q, ...(areaAliases[q] || [])]);
+
+      // State name ↔ abbreviation expansion
+      // If user searches "Alabama", also match "AL". If they search "AL", also match "alabama".
+      const upperQ = q.toUpperCase();
+      if (US_STATES[upperQ]) {
+        expandedTerms.add(US_STATES[upperQ].toLowerCase());
+        expandedTerms.add(upperQ.toLowerCase());
+      }
+      for (const [abbr, name] of Object.entries(US_STATES)) {
+        if (name.toLowerCase() === q) {
+          expandedTerms.add(abbr.toLowerCase());
+        }
+      }
+
+      // Metro expansion: if search matches a known city, also include
+      // all sister cities in the same metro region so small-town instructors
+      // are still found when searching the nearest big city.
+      const metro = findMetroForCity(q);
+      if (metro) {
+        expandedTerms.add(metro.metro.toLowerCase());
+        expandedTerms.add(metro.state.toLowerCase());
+        expandedTerms.add((US_STATES[metro.state] || "").toLowerCase());
+        for (const city of metro.cities) {
+          expandedTerms.add(city.toLowerCase());
+        }
+      }
 
       result = result.filter((i) => {
         const name = i.organizerName.toLowerCase();
@@ -128,12 +156,36 @@ export default function InstructorsPage() {
         const serviceArea = (i.instructorDetails?.serviceArea || "").toLowerCase();
         const certs = (i.instructorDetails?.certifications || "").toLowerCase();
 
-        return expandedTerms.some((term) =>
+        // Also derive the instructor's state names from abbreviations, and
+        // metros from their cities, so searching "Alabama" matches an instructor
+        // whose states array is ["AL"] or whose city is in the Alabama metro.
+        const derivedStateNames: string[] = [];
+        for (const s of i.states) {
+          const full = US_STATES[s.toUpperCase()];
+          if (full) derivedStateNames.push(full.toLowerCase());
+        }
+        const derivedMetros: string[] = [];
+        for (const city of i.cities) {
+          const m = findMetroForCity(city);
+          if (m) {
+            derivedMetros.push(m.metro.toLowerCase());
+            derivedMetros.push(m.state.toLowerCase());
+            const stateFull = US_STATES[m.state];
+            if (stateFull) derivedMetros.push(stateFull.toLowerCase());
+            for (const sisterCity of m.cities) {
+              derivedMetros.push(sisterCity.toLowerCase());
+            }
+          }
+        }
+
+        return Array.from(expandedTerms).some((term) =>
           name.includes(term) ||
           cities.some((c) => c.includes(term)) ||
           states.some((s) => s.includes(term)) ||
           serviceArea.includes(term) ||
-          certs.includes(term)
+          certs.includes(term) ||
+          derivedStateNames.some((s) => s.includes(term)) ||
+          derivedMetros.some((m) => m.includes(term))
         );
       });
     }
