@@ -64,13 +64,9 @@ export default function SweepstakesRulesPage() {
           <p className="text-sm font-medium text-charcoal mt-3 mb-1">Method 2: Free Mail-In Entry (No Purchase Necessary)</p>
           <p className="text-sm text-slate-600 mb-2">
             To enter without making a purchase, hand print your full name, email address, city,
-            and state on a 3&quot;x5&quot; card or piece of paper and mail it to:
+            and state on a 3&quot;x5&quot; card or piece of paper and mail it to: MahjNearMe Monthly Drawing,
+            1125 Grand Blvd Apt 806, Kansas City, MO 64106.
           </p>
-          <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm text-slate-700 mb-2">
-            MahjNearMe Monthly Drawing<br />
-            1125 Grand Blvd Apt 806<br />
-            Kansas City, MO 64106
-          </div>
           <p className="text-sm text-slate-600 mb-2">
             Limit one (1) mail-in entry per person per Drawing period. Mail-in entries must be
             postmarked by the last day of the Drawing period and received within seven (7) days
