@@ -310,6 +310,29 @@ export default function AdminGamesPage() {
       }).catch(() => {});
       showToast(`"${form.name}" has been updated.`);
     } else {
+      // Check for potential duplicates first
+      try {
+        const dupRes = await adminFetch("/api/listings?checkDuplicates=true", "POST", {
+          name: form.name,
+          city: form.city,
+          state: form.state,
+          venueName: form.venueName,
+        });
+        if (dupRes.ok) {
+          const { duplicates } = await dupRes.json();
+          if (duplicates && duplicates.length > 0) {
+            const lines = duplicates.slice(0, 5).map(
+              (d: { name: string; venueName: string; organizerName: string }) =>
+                `  • ${d.name}${d.venueName ? ` @ ${d.venueName}` : ""}${d.organizerName ? ` (${d.organizerName})` : ""}`
+            ).join("\n");
+            const proceed = confirm(
+              `Possible duplicate detected. ${duplicates.length} similar listing${duplicates.length === 1 ? "" : "s"} already exist${duplicates.length === 1 ? "s" : ""} in ${form.city}, ${form.state}:\n\n${lines}\n\nAre you sure this is a different event? Click OK to add it anyway, or Cancel to review.`
+            );
+            if (!proceed) return;
+          }
+        }
+      } catch { /* if check fails, proceed silently */ }
+
       // Create new game
       const newGame: Game = {
         id: `new-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`,

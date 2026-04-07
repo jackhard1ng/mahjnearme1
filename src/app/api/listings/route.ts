@@ -126,6 +126,9 @@ async function seedFromJSON(db: FirebaseFirestore.Firestore): Promise<boolean> {
 
 /**
  * POST /api/listings - Admin: create a single listing in Firestore.
+ *
+ * Pass ?checkDuplicates=true to get a list of potential duplicates
+ * instead of creating. Used by Quick Add to show a soft warning.
  */
 export async function POST(request: NextRequest) {
   const denied = requireAdmin(request);
@@ -133,8 +136,55 @@ export async function POST(request: NextRequest) {
 
   try {
     const db = getAdminDb();
+    const { searchParams } = new URL(request.url);
+    const checkOnly = searchParams.get("checkDuplicates") === "true";
     const body = await request.json();
     const now = new Date().toISOString();
+
+    // Duplicate detection: same name OR same venue+city
+    if (checkOnly || body.name) {
+      const nameNorm = (body.name || "").toLowerCase().trim();
+      const cityNorm = (body.city || "").toLowerCase().trim();
+      const stateNorm = (body.state || "").toUpperCase().trim();
+      const venueNorm = (body.venueName || "").toLowerCase().trim();
+
+      if (nameNorm && cityNorm && stateNorm) {
+        const sameCitySnap = await db.collection("listings")
+          .where("city", "==", body.city)
+          .where("state", "==", stateNorm)
+          .get();
+
+        const potentialDupes: Array<{ id: string; name: string; venueName: string; organizerName: string; status: string }> = [];
+
+        for (const doc of sameCitySnap.docs) {
+          const d = doc.data();
+          if (d.status === "inactive") continue;
+          const dName = (d.name as string || "").toLowerCase().trim();
+          const dVenue = (d.venueName as string || "").toLowerCase().trim();
+
+          // Match if: exact name match, OR fuzzy name (one contains the other),
+          // OR same venue name in same city
+          const nameMatch = dName === nameNorm ||
+            (nameNorm.length > 5 && dName.includes(nameNorm)) ||
+            (dName.length > 5 && nameNorm.includes(dName));
+          const venueMatch = venueNorm && dVenue && dVenue === venueNorm;
+
+          if (nameMatch || venueMatch) {
+            potentialDupes.push({
+              id: doc.id,
+              name: d.name as string || "",
+              venueName: d.venueName as string || "",
+              organizerName: d.organizerName as string || "",
+              status: d.status as string || "active",
+            });
+          }
+        }
+
+        if (checkOnly) {
+          return NextResponse.json({ duplicates: potentialDupes });
+        }
+      }
+    }
 
     const listingData = {
       ...body,
