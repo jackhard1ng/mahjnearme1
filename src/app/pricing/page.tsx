@@ -58,7 +58,7 @@ export default function PricingPage() {
 }
 
 function PricingContent() {
-  const { user, userProfile, hasAccess } = useAuth();
+  const { user, userProfile, hasAccess, loading: authLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [checkoutLoading, setCheckoutLoading] = useState<"monthly" | "annual" | null>(null);
@@ -68,6 +68,14 @@ function PricingContent() {
   const [referralName, setReferralName] = useState("");
   const fromSignup = searchParams.get("from") === "signup";
   const redirectAfterSubscribe = searchParams.get("redirect");
+
+  // True until Firebase has finished restoring the auth session AND we've
+  // loaded the userProfile doc from Firestore. Until this is false we cannot
+  // safely know whether the user is already subscribed, so every CTA on the
+  // page has to be held in a "loading" state — otherwise a logged-in
+  // subscriber can briefly see a clickable "Subscribe Monthly" button on
+  // first paint and accidentally create a second subscription.
+  const accountLoading = authLoading || (!!user && !userProfile);
 
   useEffect(() => {
     const ref = searchParams.get("ref");
@@ -98,11 +106,32 @@ function PricingContent() {
   const isFree = !user || accountType === "free";
 
   async function handleCheckout(plan: "monthly" | "annual") {
+    // Don't let a click go through before we know who this user is. Without
+    // this a subscriber whose profile hasn't finished loading yet can click
+    // "Subscribe Monthly" and create a duplicate subscription.
+    if (accountLoading) return;
+
     if (!user) {
       const signupUrl = redirectAfterSubscribe
         ? `/signup?plan=${plan}&redirect=${encodeURIComponent(redirectAfterSubscribe)}`
         : `/signup?plan=${plan}`;
       router.push(signupUrl);
+      return;
+    }
+
+    // Belt-and-braces: if we can already see from the loaded profile that
+    // the user has an active subscription, short-circuit to /account instead
+    // of hitting the checkout API at all. The server will also reject this
+    // with a 409, but catching it on the client saves a round-trip and
+    // avoids briefly landing the user on a Stripe error page.
+    const alreadyActive =
+      userProfile?.accountType === "subscriber" &&
+      (userProfile?.subscriptionStatus === "active" ||
+        userProfile?.subscriptionStatus === "trialing" ||
+        userProfile?.subscriptionStatus === "past_due");
+    if (alreadyActive) {
+      alert("You already have an active subscription. Manage it from your account page.");
+      router.push("/account");
       return;
     }
 
@@ -125,10 +154,20 @@ function PricingContent() {
       });
 
       const data = await res.json();
+
+      // Server said the user already has an active subscription — Firestore
+      // was stale or the client-side check missed it. Bounce them to their
+      // account page rather than creating a duplicate.
+      if (res.status === 409 && data?.alreadySubscribed) {
+        alert(data.error || "You already have an active subscription. Manage it from your account page.");
+        router.push("/account");
+        return;
+      }
+
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert("Something went wrong. Please try again.");
+        alert(data?.error || "Something went wrong. Please try again.");
       }
     } catch {
       alert("Something went wrong. Please try again.");
@@ -140,18 +179,24 @@ function PricingContent() {
   type CtaConfig = { label: string; href: string | null; action?: "monthly" | "annual" };
 
   function getFreeCta(): CtaConfig {
+    if (accountLoading) return { label: "Loading…", href: null };
     if (!user) return { label: "Sign Up Free", href: "/signup" };
     if (isFree) return { label: "Your Current Plan", href: null };
     return { label: "Free Plan", href: null };
   }
 
   function getMonthlyCta(): CtaConfig {
+    // While we're still hydrating the user profile, show a loading label so
+    // subscribers can't click an active "Subscribe Monthly" button during
+    // the brief window before their plan status loads.
+    if (accountLoading) return { label: "Loading…", href: null };
     if (isSubscriber && currentPlan === "monthly") return { label: "Your Current Plan", href: null };
     if (isSubscriber && currentPlan === "annual") return { label: "Switch to Monthly", href: "/account" };
     return { label: "Subscribe Monthly", href: null, action: "monthly" };
   }
 
   function getAnnualCta(): CtaConfig {
+    if (accountLoading) return { label: "Loading…", href: null };
     if (isSubscriber && currentPlan === "annual") return { label: "Your Current Plan", href: null };
     if (isSubscriber && currentPlan === "monthly") return { label: "Switch to Annual & Save", href: "/account" };
     return { label: "Subscribe Annually", href: null, action: "annual" };
