@@ -81,6 +81,10 @@ const MONTHLY_THEMES: Record<number, MonthTheme> = {
       "de mahj-o",
       "de mahjong",
     ],
+    // "Find more events" link: pre-fill search with "new card" which is
+    // the single most-matching theme keyword for April. (Search only
+    // supports one query at a time, so we pick the biggest bucket.)
+    searchQuery: "new card",
     gradient: "from-violet-500 to-purple-400",
     accent: "border-violet-200 hover:border-violet-400",
     accentText: "text-violet-600",
@@ -110,6 +114,9 @@ const MONTHLY_THEMES: Record<number, MonthTheme> = {
       // Memorial Day (last Monday in May)
       "memorial day",
     ],
+    // "Find more events" link: pre-fill search with "cinco" which is the
+    // biggest theme bucket in May.
+    searchQuery: "cinco",
     gradient: "from-amber-500 to-yellow-400",
     accent: "border-amber-200 hover:border-amber-400",
     accentText: "text-amber-600",
@@ -258,9 +265,13 @@ export default function SeasonalEvents() {
 
   // Seasonal theme with matches
   if (theme && seasonalEvents.length > 0) {
+    // `/events` is the Destination Events page (cruises, retreats,
+    // multi-day getaways) — NOT a general events list — so it's the wrong
+    // landing page for "Find more 🃏 events near you". Fall back to the
+    // main search page instead, which is safe for any theme.
     const searchUrl = theme.searchQuery
       ? `/search?q=${encodeURIComponent(theme.searchQuery)}`
-      : `/events`;
+      : `/search`;
 
     return (
       <section className="py-12 sm:py-16 bg-white">
