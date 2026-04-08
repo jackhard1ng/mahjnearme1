@@ -7,184 +7,12 @@ import { useFirestoreListings } from "@/hooks/useFirestoreListings";
 import { useEnrichedGames } from "@/hooks/useOrganizerOverrides";
 import { isEventExpired, slugify, formatTime } from "@/lib/utils";
 import { getEventTiming } from "@/lib/event-timing";
+import {
+  MONTHLY_THEMES,
+  getAllKeywords,
+  gameMatchesKeywords,
+} from "@/lib/seasonal-themes";
 import type { Game } from "@/types";
-
-interface MonthTheme {
-  emoji: string;
-  headline: string;
-  subhead: string;
-  keywords: string[];
-  searchQuery?: string;
-  gradient: string;
-  accent: string;
-  accentText: string;
-}
-
-const MONTHLY_THEMES: Record<number, MonthTheme> = {
-  0: {
-    emoji: "🎉",
-    headline: "New Year, New Games",
-    subhead: "Kick off the year at a mahjong event near you",
-    keywords: ["new year", "january", "winter", "resolution"],
-    gradient: "from-indigo-500 to-blue-400",
-    accent: "border-indigo-200 hover:border-indigo-400",
-    accentText: "text-indigo-600",
-  },
-  1: {
-    emoji: "💕",
-    headline: "Mahj With Someone You Love",
-    subhead: "Valentine's Day events, couple-friendly sessions, and more",
-    keywords: ["valentine", "galentine", "love", "heart", "february"],
-    searchQuery: "valentine",
-    gradient: "from-pink-500 to-rose-400",
-    accent: "border-pink-200 hover:border-pink-400",
-    accentText: "text-pink-600",
-  },
-  2: {
-    emoji: "🍀",
-    headline: "Lucky Tiles This March",
-    subhead: "St. Paddy's Day events, March Madness tournaments, and spring kick-offs",
-    keywords: ["st patrick", "st. patrick", "paddy", "lucky", "shamrock", "march madness", "madness", "green"],
-    searchQuery: "march",
-    gradient: "from-emerald-500 to-green-400",
-    accent: "border-emerald-200 hover:border-emerald-400",
-    accentText: "text-emerald-600",
-  },
-  3: {
-    emoji: "🃏",
-    headline: "New Card, New Plays",
-    subhead: "NMJL card release parties, Masters-themed tournaments, Kentucky Derby events, and Cinco de Mayo celebrations",
-    // Specific phrases only — DO NOT include broad words like "spring" or
-    // "april" here, they match "CCM Spring League", "Austin Spring 2026",
-    // etc. which are generic recurring leagues, not themed events.
-    keywords: [
-      // NMJL 2026 card release
-      "new card",
-      "nmjl",
-      "card release",
-      "card party",
-      "card class",
-      "card workshop",
-      "card walkthrough",
-      "new-card",
-      // The Masters (golf tournament, mid-April)
-      "masters",
-      // Kentucky Derby (first Saturday in May)
-      "kentucky derby",
-      "mahj derby",
-      "derby-themed",
-      "derby day",
-      "run for the jokers",
-      // Cinco de Mayo (May 5) — people plan parties in late April
-      "cinco",
-      "de mahjo",
-      "de mahj-o",
-      "de mahjong",
-    ],
-    gradient: "from-violet-500 to-purple-400",
-    accent: "border-violet-200 hover:border-violet-400",
-    accentText: "text-violet-600",
-  },
-  4: {
-    emoji: "🌹",
-    headline: "Derby Day & Cinco de Mahjo",
-    subhead: "Kentucky Derby parties, Cinco de Mayo mahjong events, and Memorial Day tournaments",
-    // Specific phrases only — the previous list had "mahjo" (matches every
-    // "mahjong" event because "mahjong".includes("mahjo") === true) and
-    // bare "may"/"derby" (matches anything in May or any "Derby City" city
-    // name). Keep this narrow to actual themed events.
-    keywords: [
-      // Cinco de Mayo
-      "cinco",
-      "de mahjo",
-      "de mahj-o",
-      "de mahjong",
-      "fiesta",
-      // Kentucky Derby
-      "kentucky derby",
-      "mahj derby",
-      "derby-themed",
-      "derby day",
-      "run for the jokers",
-      "run for the roses",
-      // Memorial Day (last Monday in May)
-      "memorial day",
-    ],
-    gradient: "from-amber-500 to-yellow-400",
-    accent: "border-amber-200 hover:border-amber-400",
-    accentText: "text-amber-600",
-  },
-  5: {
-    emoji: "🏳️‍🌈",
-    headline: "Pride & Tiles",
-    subhead: "Pride month events, summer kick-offs, and outdoor sessions",
-    keywords: ["pride", "rainbow", "summer", "june", "outdoor"],
-    searchQuery: "pride",
-    gradient: "from-pink-500 to-orange-400",
-    accent: "border-pink-200 hover:border-pink-400",
-    accentText: "text-pink-600",
-  },
-  6: {
-    emoji: "🎆",
-    headline: "Red, White & Mahjong",
-    subhead: "Independence Day events, summer tournaments, and holiday sessions",
-    keywords: ["independence", "july 4", "4th of july", "fourth", "patriot", "summer tournament"],
-    searchQuery: "july",
-    gradient: "from-red-500 to-blue-500",
-    accent: "border-red-200 hover:border-red-400",
-    accentText: "text-red-600",
-  },
-  7: {
-    emoji: "☀️",
-    headline: "Summer Send-Off",
-    subhead: "Late summer tournaments, back-to-school events, and outdoor sessions",
-    keywords: ["summer", "august", "back to school", "sendoff", "outdoor", "pool"],
-    searchQuery: "summer",
-    gradient: "from-orange-400 to-yellow-300",
-    accent: "border-orange-200 hover:border-orange-400",
-    accentText: "text-orange-600",
-  },
-  8: {
-    emoji: "🍂",
-    headline: "Fall Into Mahjong",
-    subhead: "Labor Day events, fall league kick-offs, and autumn tournaments",
-    keywords: ["labor day", "fall", "autumn", "september", "league kickoff", "kick off"],
-    searchQuery: "fall",
-    gradient: "from-orange-500 to-amber-400",
-    accent: "border-orange-200 hover:border-orange-400",
-    accentText: "text-orange-600",
-  },
-  9: {
-    emoji: "🎃",
-    headline: "Spooky Tiles",
-    subhead: "Halloween events, costume tournaments, and haunted mahj nights",
-    keywords: ["halloween", "spooky", "costume", "trick", "treat", "haunted", "october", "fall"],
-    searchQuery: "halloween",
-    gradient: "from-orange-600 to-purple-500",
-    accent: "border-orange-200 hover:border-orange-400",
-    accentText: "text-orange-700",
-  },
-  10: {
-    emoji: "🦃",
-    headline: "Grateful for the Game",
-    subhead: "Thanksgiving week events, friendsgiving mahjong nights, and year-end tournaments",
-    keywords: ["thanksgiving", "friendsgiving", "grateful", "november", "turkey", "holiday"],
-    searchQuery: "thanksgiving",
-    gradient: "from-amber-600 to-orange-500",
-    accent: "border-amber-200 hover:border-amber-400",
-    accentText: "text-amber-700",
-  },
-  11: {
-    emoji: "🎄",
-    headline: "Holiday Mahj Season",
-    subhead: "Holiday parties, year-end tournaments, and festive open play",
-    keywords: ["holiday", "christmas", "hanukkah", "chanukah", "new year", "december", "winter", "festive", "party"],
-    searchQuery: "holiday",
-    gradient: "from-red-500 to-green-500",
-    accent: "border-red-200 hover:border-red-400",
-    accentText: "text-red-600",
-  },
-};
 
 export default function SeasonalEvents() {
   const month = new Date().getMonth();
@@ -214,17 +42,16 @@ export default function SeasonalEvents() {
       nextDate: getEventTiming(g, now).nextDate,
     }));
 
-    // Seasonal (themed) events: keyword match + must have a computable
-    // future occurrence. Events whose next occurrence is somehow in the
-    // past (defensive) are dropped.
+    // Seasonal (themed) events: keyword match on the event NAME + must have
+    // a computable future occurrence. Matching rules (name-only,
+    // word-boundary aware) live in @/lib/seasonal-themes so this component
+    // and the /seasonal page can't drift apart.
+    const themeKeywords = theme ? getAllKeywords(theme) : [];
     const seasonal = theme
       ? withTiming
           .filter(({ game, nextDate }) => {
             if (!nextDate || nextDate < todayStart) return false;
-            const text = (
-              (game.name || "") + " " + (game.description || "")
-            ).toLowerCase();
-            return theme.keywords.some((kw) => text.includes(kw.toLowerCase()));
+            return gameMatchesKeywords(game, themeKeywords);
           })
           .sort((a, b) => a.nextDate!.getTime() - b.nextDate!.getTime())
           .slice(0, 6)
@@ -246,9 +73,11 @@ export default function SeasonalEvents() {
 
   // Seasonal theme with matches
   if (theme && seasonalEvents.length > 0) {
-    const searchUrl = theme.searchQuery
-      ? `/search?q=${encodeURIComponent(theme.searchQuery)}`
-      : `/events`;
+    // "Find more" goes to the dedicated /seasonal page, which shows every
+    // matching themed event for the current month grouped by sub-theme
+    // (NMJL Card Release / Masters / Derby / Cinco etc.). The homepage
+    // section is the teaser — /seasonal is the full list.
+    const searchUrl = "/seasonal";
 
     return (
       <section className="py-12 sm:py-16 bg-white">
