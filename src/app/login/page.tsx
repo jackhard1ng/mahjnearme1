@@ -4,6 +4,7 @@ import { useState, FormEvent, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
+import { getFirebaseAuth } from "@/lib/firebase";
 import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle } from "lucide-react";
 
 export default function LoginPageWrapper() {
@@ -22,7 +23,9 @@ function LoginPage() {
   const router = useRouter();
   const { signIn, signInWithGoogle, user, loading: authLoading } = useAuth();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") || "/search";
+  const planParam = searchParams.get("plan"); // "monthly" | "annual" | null
+  const redirectParam = searchParams.get("redirect");
+  const redirectTo = redirectParam || "/search";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,8 +35,55 @@ function LoginPage() {
 
   // Redirect if already logged in
   if (user && !authLoading) {
+    // If they came from /pricing with a plan choice, bounce them back to
+    // /pricing so they can click Subscribe again now that they're logged in.
+    if (planParam === "monthly" || planParam === "annual") {
+      router.push("/pricing?from=signup");
+      return null;
+    }
     router.push(redirectTo);
     return null;
+  }
+
+  // After a successful login, send the user directly to Stripe checkout if
+  // they came here with a plan choice. Without this, a user who clicked
+  // Subscribe on /pricing and then clicked "Log in" from /signup would land
+  // on /search and silently lose their checkout intent.
+  async function continueAfterLogin() {
+    if (planParam === "monthly" || planParam === "annual") {
+      // Read currentUser directly from the Firebase SDK rather than from the
+      // React `user` state — the auth-state-change listener may not have
+      // flushed by the time this runs, so React's `user` can still be null.
+      const currentUser = getFirebaseAuth().currentUser;
+      if (currentUser) {
+        try {
+          const res = await fetch("/api/create-checkout-session", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              plan: planParam,
+              firebaseUid: currentUser.uid,
+              email: currentUser.email,
+            }),
+          });
+          const data = await res.json();
+          if (data.url) {
+            if (redirectParam) {
+              sessionStorage.setItem("postCheckoutRedirect", redirectParam);
+            }
+            window.location.href = data.url;
+            return;
+          }
+        } catch {
+          // Fall through to pricing if checkout creation fails
+        }
+      }
+      // No current user or checkout creation failed — send them to pricing
+      // so they can retry. They're logged in, so Subscribe will work directly.
+      router.push("/pricing?from=signup");
+      return;
+    }
+    router.push(redirectTo);
   }
 
   const handleEmailLogin = async (e: FormEvent) => {
@@ -43,7 +93,7 @@ function LoginPage() {
 
     try {
       await signIn(email, password);
-      router.push(redirectTo);
+      await continueAfterLogin();
     } catch (err: unknown) {
       if (err instanceof Error) {
         if (err.message.includes("user-not-found") || err.message.includes("wrong-password") || err.message.includes("invalid-credential")) {
@@ -67,7 +117,7 @@ function LoginPage() {
 
     try {
       await signInWithGoogle();
-      router.push(redirectTo);
+      await continueAfterLogin();
     } catch (err: unknown) {
       if (err instanceof Error && err.message.includes("popup-closed-by-user")) {
         // User closed the popup, no error needed

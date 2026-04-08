@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent, Suspense } from "react";
+import { useEffect, useRef, useState, FormEvent, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
@@ -107,11 +107,35 @@ function SignupPage() {
   const [travelCities, setTravelCities] = useState("");
   const [wantsNotifications, setWantsNotifications] = useState(false);
 
-  // Redirect if already logged in and not in onboarding
-  if (user && !authLoading && !isRegistered) {
+  // Set synchronously at the top of handleEmailSignup / handleGoogleSignup so
+  // that when Firebase's auth-state-change flips `user` from null to defined
+  // BEFORE React has run `setIsRegistered(true)`, the redirect-if-logged-in
+  // effect below knows not to bounce the user away from the onboarding flow.
+  // Without this, a user clicking "Subscribe Monthly" on /pricing ends up on
+  // /search after account creation and the Stripe checkout never fires.
+  const signupInProgressRef = useRef(false);
+
+  // Redirect if a logged-in user visits /signup directly (not in the middle
+  // of creating an account on this page). Honor `plan` and `redirect` query
+  // params so we don't drop users out of a subscribe/organizer flow.
+  useEffect(() => {
+    if (authLoading) return;
+    if (!user) return;
+    if (isRegistered) return;
+    if (signupInProgressRef.current) return;
+
+    if (planParam && (planParam === "monthly" || planParam === "annual")) {
+      // They came from /pricing with a plan choice — send them back so they
+      // can click Subscribe again now that they're logged in.
+      router.push("/pricing?from=signup");
+      return;
+    }
+    if (redirectParam) {
+      router.push(redirectParam);
+      return;
+    }
     router.push("/search");
-    return null;
-  }
+  }, [user, authLoading, isRegistered, planParam, redirectParam, router]);
 
   const handleEmailSignup = async (e: FormEvent) => {
     e.preventDefault();
@@ -123,6 +147,9 @@ function SignupPage() {
     }
 
     setLoading(true);
+    // Block the logged-in-redirect effect from firing between the Firebase
+    // auth state update and setIsRegistered(true) below.
+    signupInProgressRef.current = true;
 
     try {
       await signUp(email, password, name);
@@ -134,6 +161,7 @@ function SignupPage() {
       }).catch(() => {});
       setIsRegistered(true);
     } catch (err: unknown) {
+      signupInProgressRef.current = false;
       if (err instanceof Error) {
         if (err.message.includes("email-already-in-use")) {
           setError("An account with this email already exists. Try logging in instead.");
@@ -155,11 +183,15 @@ function SignupPage() {
   const handleGoogleSignup = async () => {
     setError(null);
     setLoading(true);
+    // Block the logged-in-redirect effect from firing between the Firebase
+    // auth state update and setIsRegistered(true) below.
+    signupInProgressRef.current = true;
 
     try {
       await signInWithGoogle();
       setIsRegistered(true);
     } catch (err: unknown) {
+      signupInProgressRef.current = false;
       if (err instanceof Error && err.message.includes("popup-closed-by-user")) {
         // User closed the popup, no error needed
       } else {
@@ -681,10 +713,20 @@ function SignupPage() {
           </p>
         </div>
 
-        {/* Login Link */}
+        {/* Login Link — preserve plan / redirect so a user who clicks "Log in"
+            from the subscribe flow doesn't silently lose their checkout intent. */}
         <p className="text-center text-sm text-slate-500 mt-6">
           Already have an account?{" "}
-          <Link href="/login" className="text-hotpink-500 hover:text-hotpink-600 font-semibold">
+          <Link
+            href={(() => {
+              const params = new URLSearchParams();
+              if (planParam) params.set("plan", planParam);
+              if (redirectParam) params.set("redirect", redirectParam);
+              const qs = params.toString();
+              return qs ? `/login?${qs}` : "/login";
+            })()}
+            className="text-hotpink-500 hover:text-hotpink-600 font-semibold"
+          >
             Log in
           </Link>
         </p>
