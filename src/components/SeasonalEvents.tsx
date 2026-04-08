@@ -214,17 +214,29 @@ export default function SeasonalEvents() {
       nextDate: getEventTiming(g, now).nextDate,
     }));
 
-    // Seasonal (themed) events: keyword match + must have a computable
-    // future occurrence. Events whose next occurrence is somehow in the
-    // past (defensive) are dropped.
+    // Seasonal (themed) events: keyword match on the event NAME + must have
+    // a computable future occurrence. We deliberately do NOT match against
+    // the description — descriptions of generic weekly open-play leagues
+    // frequently mention "NMJL rules" or "bring your NMJL card" as passing
+    // rule references, which falsely pulled them into the New Card section.
+    // Legitimate themed events always put the theme in the event name
+    // (e.g. "Cinco de Mahjo Tournament", "Mahj Derby - Run for the Jokers",
+    // "2026 New Card Class"), so name-only matching is a clean signal.
+    //
+    // Keyword matching uses a leading-space trick for cheap word-boundary
+    // checking: we prepend a space to both the name and each keyword, so a
+    // keyword must be preceded by a space (or appear at the very start of
+    // the name). Without this, "de mahjo" falsely matches "eastside
+    // mahjong" (the 'de' from 'eastside' joins with ' mahjo' from
+    // 'mahjong') and "masters" would match "grandmasters".
     const seasonal = theme
       ? withTiming
           .filter(({ game, nextDate }) => {
             if (!nextDate || nextDate < todayStart) return false;
-            const text = (
-              (game.name || "") + " " + (game.description || "")
-            ).toLowerCase();
-            return theme.keywords.some((kw) => text.includes(kw.toLowerCase()));
+            const name = " " + (game.name || "").toLowerCase();
+            return theme.keywords.some((kw) =>
+              name.includes(" " + kw.toLowerCase())
+            );
           })
           .sort((a, b) => a.nextDate!.getTime() - b.nextDate!.getTime())
           .slice(0, 6)
