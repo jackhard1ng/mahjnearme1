@@ -6,6 +6,8 @@ import { ArrowRight, CalendarDays, MapPin, ExternalLink } from "lucide-react";
 import { useFirestoreListings } from "@/hooks/useFirestoreListings";
 import { useEnrichedGames } from "@/hooks/useOrganizerOverrides";
 import { isEventExpired, slugify, formatTime } from "@/lib/utils";
+import { getEventTiming } from "@/lib/event-timing";
+import type { Game } from "@/types";
 
 interface MonthTheme {
   emoji: string;
@@ -51,9 +53,34 @@ const MONTHLY_THEMES: Record<number, MonthTheme> = {
   3: {
     emoji: "🃏",
     headline: "New Card, New Plays",
-    subhead: "NMJL card release parties, walkthroughs, Masters-themed mahjong events, and spring tournaments",
-    keywords: ["new card", "nmjl", "card release", "card party", "walkthrough", "masters", "kentucky derby", "derby", "spring", "april"],
-    searchQuery: "new card",
+    subhead: "NMJL card release parties, Masters-themed tournaments, Kentucky Derby events, and Cinco de Mayo celebrations",
+    // Specific phrases only — DO NOT include broad words like "spring" or
+    // "april" here, they match "CCM Spring League", "Austin Spring 2026",
+    // etc. which are generic recurring leagues, not themed events.
+    keywords: [
+      // NMJL 2026 card release
+      "new card",
+      "nmjl",
+      "card release",
+      "card party",
+      "card class",
+      "card workshop",
+      "card walkthrough",
+      "new-card",
+      // The Masters (golf tournament, mid-April)
+      "masters",
+      // Kentucky Derby (first Saturday in May)
+      "kentucky derby",
+      "mahj derby",
+      "derby-themed",
+      "derby day",
+      "run for the jokers",
+      // Cinco de Mayo (May 5) — people plan parties in late April
+      "cinco",
+      "de mahjo",
+      "de mahj-o",
+      "de mahjong",
+    ],
     gradient: "from-violet-500 to-purple-400",
     accent: "border-violet-200 hover:border-violet-400",
     accentText: "text-violet-600",
@@ -61,9 +88,28 @@ const MONTHLY_THEMES: Record<number, MonthTheme> = {
   4: {
     emoji: "🌹",
     headline: "Derby Day & Cinco de Mahjo",
-    subhead: "Kentucky Derby parties, Cinco de Mayo mahjong events, and spring celebrations",
-    keywords: ["cinco", "mahjo", "memorial", "fiesta", "may", "spring retreat", "kentucky derby", "derby", "roses"],
-    searchQuery: "cinco",
+    subhead: "Kentucky Derby parties, Cinco de Mayo mahjong events, and Memorial Day tournaments",
+    // Specific phrases only — the previous list had "mahjo" (matches every
+    // "mahjong" event because "mahjong".includes("mahjo") === true) and
+    // bare "may"/"derby" (matches anything in May or any "Derby City" city
+    // name). Keep this narrow to actual themed events.
+    keywords: [
+      // Cinco de Mayo
+      "cinco",
+      "de mahjo",
+      "de mahj-o",
+      "de mahjong",
+      "fiesta",
+      // Kentucky Derby
+      "kentucky derby",
+      "mahj derby",
+      "derby-themed",
+      "derby day",
+      "run for the jokers",
+      "run for the roses",
+      // Memorial Day (last Monday in May)
+      "memorial day",
+    ],
     gradient: "from-amber-500 to-yellow-400",
     accent: "border-amber-200 hover:border-amber-400",
     accentText: "text-amber-600",
@@ -149,36 +195,50 @@ export default function SeasonalEvents() {
 
   const { seasonalEvents, upcomingFallback } = useMemo(() => {
     const now = new Date();
-    const thirtyDaysOut = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+    const todayStart = new Date(now);
+    todayStart.setHours(0, 0, 0, 0);
+    const sixtyDaysOut = new Date(todayStart.getTime() + 60 * 24 * 60 * 60 * 1000);
 
-    const active = enrichedGames.filter((g) => g.status === "active" && !isEventExpired(g));
+    const active = enrichedGames.filter(
+      (g) => g.status === "active" && !isEventExpired(g)
+    );
 
+    // For each game, compute its next real occurrence (via getEventTiming,
+    // which handles both recurring day-of-week math and one-time eventDate).
+    // Without this the cards blindly display the stale `eventDate` field on
+    // recurring events — which is how a Monday league with `eventDate:
+    // "2026-03-30"` ended up showing "MAR 30" on the homepage long after
+    // March 30 had passed.
+    const withTiming = active.map((g: Game) => ({
+      game: g,
+      nextDate: getEventTiming(g, now).nextDate,
+    }));
+
+    // Seasonal (themed) events: keyword match + must have a computable
+    // future occurrence. Events whose next occurrence is somehow in the
+    // past (defensive) are dropped.
     const seasonal = theme
-      ? active
-          .filter((g) => {
-            const text = ((g.name || "") + " " + (g.description || "")).toLowerCase();
+      ? withTiming
+          .filter(({ game, nextDate }) => {
+            if (!nextDate || nextDate < todayStart) return false;
+            const text = (
+              (game.name || "") + " " + (game.description || "")
+            ).toLowerCase();
             return theme.keywords.some((kw) => text.includes(kw.toLowerCase()));
           })
-          .sort((a, b) => {
-            if (a.eventDate && b.eventDate) return a.eventDate.localeCompare(b.eventDate);
-            if (a.eventDate) return -1;
-            if (b.eventDate) return 1;
-            return 0;
-          })
+          .sort((a, b) => a.nextDate!.getTime() - b.nextDate!.getTime())
           .slice(0, 6)
       : [];
 
-    const fallback = active
-      .filter((g) => {
-        if (g.isRecurring || !g.eventDate) return false;
-        const eventDate = new Date(g.eventDate + "T00:00:00");
-        return eventDate >= now && eventDate <= thirtyDaysOut;
+    // Fallback: upcoming events in the next 60 days. Uses the same
+    // next-occurrence helper so recurring events are ranked by their
+    // actual next date, not a stale start date.
+    const fallback = withTiming
+      .filter(({ nextDate }) => {
+        if (!nextDate) return false;
+        return nextDate >= todayStart && nextDate <= sixtyDaysOut;
       })
-      .sort((a, b) => {
-        const dateA = new Date(a.eventDate! + "T00:00:00");
-        const dateB = new Date(b.eventDate! + "T00:00:00");
-        return dateA.getTime() - dateB.getTime();
-      })
+      .sort((a, b) => a.nextDate!.getTime() - b.nextDate!.getTime())
       .slice(0, 6);
 
     return { seasonalEvents: seasonal, upcomingFallback: fallback };
@@ -209,8 +269,7 @@ export default function SeasonalEvents() {
 
           {/* Event cards */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-            {seasonalEvents.map((g) => {
-              const eventDate = g.eventDate ? new Date(g.eventDate + "T00:00:00") : null;
+            {seasonalEvents.map(({ game: g, nextDate }) => {
               const gameUrl = `/games/${slugify(g.city + "-" + g.state)}/${slugify(g.name)}`;
               return (
                 <Link
@@ -219,13 +278,13 @@ export default function SeasonalEvents() {
                   className={`block bg-white border-2 ${theme.accent} rounded-xl p-4 hover:shadow-md transition-all group`}
                 >
                   <div className="flex items-start gap-3">
-                    {eventDate && (
+                    {nextDate && (
                       <div className="shrink-0 text-center w-12">
                         <div className={`bg-gradient-to-b ${theme.gradient} text-white text-[9px] font-bold uppercase rounded-t-lg py-0.5`}>
-                          {eventDate.toLocaleDateString("en-US", { month: "short" })}
+                          {nextDate.toLocaleDateString("en-US", { month: "short" })}
                         </div>
                         <div className="border border-t-0 border-slate-200 rounded-b-lg py-1">
-                          <p className="text-lg font-bold text-charcoal leading-none">{eventDate.getDate()}</p>
+                          <p className="text-lg font-bold text-charcoal leading-none">{nextDate.getDate()}</p>
                         </div>
                       </div>
                     )}
@@ -278,11 +337,11 @@ export default function SeasonalEvents() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {upcomingFallback.map((g) => {
-            const eventDate = new Date(g.eventDate! + "T00:00:00");
-            const monthShort = eventDate.toLocaleDateString("en-US", { month: "short" });
-            const day = eventDate.getDate();
-            const dayOfWeek = eventDate.toLocaleDateString("en-US", { weekday: "short" });
+          {upcomingFallback.map(({ game: g, nextDate }) => {
+            if (!nextDate) return null;
+            const monthShort = nextDate.toLocaleDateString("en-US", { month: "short" });
+            const day = nextDate.getDate();
+            const dayOfWeek = nextDate.toLocaleDateString("en-US", { weekday: "short" });
 
             return (
               <Link
