@@ -189,10 +189,17 @@ export async function POST(request: Request) {
 
         const isActive = subscription.status === "active" || subscription.status === "trialing";
 
+        // If the user has scheduled a cancellation (typically via the Stripe
+        // billing portal) they keep access until the period ends, but we
+        // record the flag so the account page can surface
+        // "Subscription ends on X" instead of silently waiting.
+        const cancelAtPeriodEnd = subscription.cancel_at_period_end === true;
+
         await userDoc.ref.update({
           accountType: isActive ? "subscriber" : "free",
           subscriptionStatus: isActive ? "active" : subscription.status,
           plan: plan || userDoc.data().plan,
+          subscriptionCancelAtPeriodEnd: cancelAtPeriodEnd,
           subscriptionEndsAt: subscription.items.data[0]?.current_period_end
             ? new Date(subscription.items.data[0].current_period_end * 1000).toISOString()
             : null,
@@ -202,7 +209,9 @@ export async function POST(request: Request) {
         // Sync promoted status on listings
         await promoteOrganizerListings(db, userDoc.id, isActive);
 
-        console.log(`Subscription updated for customer ${customerId}: ${subscription.status}`);
+        console.log(
+          `Subscription updated for customer ${customerId}: status=${subscription.status}, cancelAtPeriodEnd=${cancelAtPeriodEnd}`
+        );
         break;
       }
 
@@ -221,6 +230,7 @@ export async function POST(request: Request) {
             accountType: "free",
             subscriptionStatus: "canceled",
             plan: null,
+            subscriptionCancelAtPeriodEnd: false,
             updatedAt: new Date().toISOString(),
           });
 
@@ -229,6 +239,127 @@ export async function POST(request: Request) {
 
           console.log(`Subscription canceled for customer ${customerId}`);
         }
+        break;
+      }
+
+      case "charge.refunded": {
+        // Fires when a charge is refunded (full or partial). We only act on
+        // FULL refunds: partial refunds are typically prorations or goodwill
+        // credits where the subscription should stay active.
+        //
+        // On a full refund we:
+        //   1. Cancel the linked Stripe subscription (if still active).
+        //      This fires customer.subscription.deleted which the handler
+        //      above uses to downgrade the user in Firestore.
+        //   2. Also directly downgrade the Firestore user doc immediately,
+        //      as belt-and-braces in case the sub-deleted event is slow to
+        //      arrive or the subscription was already canceled.
+        //   3. Respect the duplicate-subscription edge case: if the same
+        //      customer still has another active subscription (e.g. they
+        //      accidentally had two and we're refunding one), keep them
+        //      marked as subscriber.
+        const charge = event.data.object as Stripe.Charge;
+
+        if (!charge.refunded) {
+          // Partial refund — leave the subscription alone.
+          console.log(
+            `[Stripe] Partial refund on charge ${charge.id}, subscription left intact`
+          );
+          break;
+        }
+
+        const stripe = getStripe();
+        const customerId = charge.customer as string | null;
+        // `charge.invoice` was removed from the Stripe SDK's Charge type in
+        // recent API versions, but the field is still present on the
+        // webhook payload at runtime — cast through unknown to read it.
+        const invoiceId =
+          (charge as unknown as { invoice?: string | null }).invoice ?? null;
+
+        // Step 1: cancel the subscription this charge paid for, if it's
+        // still active. Cancelling an already-canceled sub throws — catch
+        // and ignore.
+        if (invoiceId) {
+          try {
+            const invoice = await stripe.invoices.retrieve(invoiceId);
+            const subscriptionId =
+              (invoice as unknown as { subscription?: string | null }).subscription || null;
+            if (subscriptionId) {
+              try {
+                const sub = await stripe.subscriptions.retrieve(subscriptionId);
+                if (
+                  sub.status === "active" ||
+                  sub.status === "trialing" ||
+                  sub.status === "past_due"
+                ) {
+                  await stripe.subscriptions.cancel(subscriptionId);
+                  console.log(
+                    `[Stripe] Canceled subscription ${subscriptionId} after full refund of charge ${charge.id}`
+                  );
+                }
+              } catch (err) {
+                console.error(
+                  `[Stripe] Could not cancel subscription ${subscriptionId} after refund:`,
+                  err
+                );
+              }
+            }
+          } catch (err) {
+            console.error(
+              `[Stripe] Could not resolve invoice/subscription for refunded charge ${charge.id}:`,
+              err
+            );
+          }
+        }
+
+        // Step 2: downgrade the user in Firestore, but only if they have no
+        // other active subscriptions. This handles the duplicate-sub case
+        // where refunding one charge shouldn't touch another still-active
+        // sub for the same customer.
+        if (customerId) {
+          try {
+            const activeSubs = await stripe.subscriptions.list({
+              customer: customerId,
+              status: "active",
+              limit: 1,
+            });
+
+            if (activeSubs.data.length === 0) {
+              const snapshot = await db.collection("users")
+                .where("stripeCustomerId", "==", customerId)
+                .limit(1)
+                .get();
+
+              if (!snapshot.empty) {
+                await snapshot.docs[0].ref.update({
+                  accountType: "free",
+                  subscriptionStatus: "canceled",
+                  plan: null,
+                  subscriptionCancelAtPeriodEnd: false,
+                  updatedAt: new Date().toISOString(),
+                });
+                await promoteOrganizerListings(db, snapshot.docs[0].id, false);
+                console.log(
+                  `[Stripe] Downgraded user for customer ${customerId} to free after full refund`
+                );
+              } else {
+                console.error(
+                  `[Stripe] No Firestore user found for refunded customer ${customerId}`
+                );
+              }
+            } else {
+              console.log(
+                `[Stripe] Refund processed but customer ${customerId} still has ${activeSubs.data.length} active sub(s); not downgrading`
+              );
+            }
+          } catch (err) {
+            console.error(
+              `[Stripe] Error checking other subs / downgrading user after refund:`,
+              err
+            );
+          }
+        }
+
         break;
       }
 
