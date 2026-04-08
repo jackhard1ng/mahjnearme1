@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageViewTracker from "@/components/PageViewTracker";
 import PromoBanner from "@/components/PromoBanner";
 import InAppBrowserWarning from "@/components/InAppBrowserWarning";
+import { GOOGLE_ADS_ID } from "@/lib/gtag";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -79,6 +81,25 @@ export default function RootLayout({
         />
       </head>
       <body className="font-[family-name:var(--font-sans)] text-charcoal bg-softpink-200 antialiased">
+        {/* Google Ads (gtag.js) — loaded on every page so conversion events
+            and remarketing audiences are available site-wide. */}
+        {GOOGLE_ADS_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-ads-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                window.gtag = gtag;
+                gtag('js', new Date());
+                gtag('config', ${JSON.stringify(GOOGLE_ADS_ID)});
+              `}
+            </Script>
+          </>
+        )}
         <AuthProvider>
           <InAppBrowserWarning />
           <PromoBanner />

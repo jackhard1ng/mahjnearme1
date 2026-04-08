@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+// The proxy has to stay alive for as long as the downstream route it calls.
+// Bulk imports (e.g. /api/listings/import) can take tens of seconds for large
+// paste imports, so we request the max allowed duration here too.
+export const maxDuration = 60;
+
 /**
  * POST /api/admin-proxy
  * Proxies admin panel requests to protected API routes by adding the CRON_SECRET.
