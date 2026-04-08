@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+import type { DocumentSnapshot } from "firebase-admin/firestore";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { requireAdmin } from "@/lib/api-auth";
 import { clearListingsCache } from "@/lib/listings-firestore";
+
+export const runtime = "nodejs";
+// Allow long-running imports on Vercel (default is 10s on Hobby / 15s on Pro).
+// Without this, large paste imports (e.g. 700+ events) time out mid-write.
+export const maxDuration = 60;
 
 /**
  * POST /api/listings/import
@@ -34,6 +40,26 @@ export async function POST(request: NextRequest) {
     let skipped = 0;
     let duplicates = 0;
 
+    // Normalize incoming listings (fix skillLevels shape) and drop any without an id.
+    type RawListing = Record<string, unknown> & { id?: string };
+    const normalized: RawListing[] = [];
+    for (const rawListing of listings as RawListing[]) {
+      const listing = {
+        ...rawListing,
+        skillLevels: (() => {
+          const s = rawListing.skillLevels;
+          if (Array.isArray(s)) return s;
+          if (typeof s === "string" && s) return s.split("|").filter(Boolean);
+          return ["beginner", "intermediate"];
+        })(),
+      };
+      if (!listing.id) {
+        skipped++;
+        continue;
+      }
+      normalized.push(listing);
+    }
+
     // Build a name+city+state index of organizer-owned listings so we can
     // detect duplicates even when the AI generates a different doc ID.
     const orgOwnedSnap = await db.collection("listings")
@@ -47,39 +73,47 @@ export async function POST(request: NextRequest) {
       })
     );
 
-    // Process in batches of 450 (Firestore limit is 500 per batch)
-    const BATCH_SIZE = 450;
-    for (let i = 0; i < listings.length; i += BATCH_SIZE) {
-      const chunk = listings.slice(i, i + BATCH_SIZE);
+    // Filter out listings that collide with an organizer-owned listing by name+city+state.
+    const toWrite: RawListing[] = [];
+    for (const listing of normalized) {
+      const nameKey = `${(listing.name as string || "").toLowerCase().trim()}|${(listing.city as string || "").toLowerCase().trim()}|${(listing.state as string || "").toLowerCase().trim()}`;
+      if (orgOwnedKeys.has(nameKey)) {
+        duplicates++;
+        continue;
+      }
+      toWrite.push(listing);
+    }
+
+    // Batch-fetch existing docs in parallel using getAll() instead of one await per listing.
+    // The previous implementation did `await ref.get()` sequentially inside the write loop,
+    // which made large imports (e.g. 725 events) take ~30+ seconds and hit the function
+    // timeout — only the first few hundred events would actually get written before the
+    // process was killed.
+    const READ_CHUNK = 300;
+    const existingMap = new Map<string, DocumentSnapshot>();
+    for (let i = 0; i < toWrite.length; i += READ_CHUNK) {
+      const chunk = toWrite.slice(i, i + READ_CHUNK);
+      const refs = chunk.map((l) => db.collection("listings").doc(l.id as string));
+      if (refs.length === 0) continue;
+      const snaps = await db.getAll(...refs);
+      for (const snap of snaps) {
+        existingMap.set(snap.id, snap);
+      }
+    }
+
+    // Commit writes in batches of 450 (Firestore hard limit is 500 per batch).
+    const WRITE_BATCH = 450;
+    for (let i = 0; i < toWrite.length; i += WRITE_BATCH) {
+      const chunk = toWrite.slice(i, i + WRITE_BATCH);
       const batch = db.batch();
+      let writesInBatch = 0;
 
-      for (const rawListing of chunk) {
-        const listing = {
-          ...rawListing,
-          skillLevels: (() => {
-            const s = rawListing.skillLevels;
-            if (Array.isArray(s)) return s;
-            if (typeof s === "string" && s) return s.split("|").filter(Boolean);
-            return ["beginner", "intermediate"];
-          })(),
-        };
-        const docId = listing.id;
-        if (!docId) {
-          skipped++;
-          continue;
-        }
-
-        // Check if an organizer-owned listing with same name+city+state exists
-        const nameKey = `${(listing.name || "").toLowerCase().trim()}|${(listing.city || "").toLowerCase().trim()}|${(listing.state || "").toLowerCase().trim()}`;
-        if (orgOwnedKeys.has(nameKey)) {
-          duplicates++;
-          continue;
-        }
-
+      for (const listing of chunk) {
+        const docId = listing.id as string;
         const ref = db.collection("listings").doc(docId);
-        const existing = await ref.get();
+        const existing = existingMap.get(docId);
 
-        if (existing.exists) {
+        if (existing && existing.exists) {
           const data = existing.data();
           // Don't overwrite organizer-edited listings
           if (data?.organizerEdited === true) {
@@ -88,6 +122,7 @@ export async function POST(request: NextRequest) {
           }
           batch.update(ref, { ...listing, updatedAt: now });
           updated++;
+          writesInBatch++;
         } else {
           batch.set(ref, {
             ...listing,
@@ -97,10 +132,13 @@ export async function POST(request: NextRequest) {
             updatedAt: now,
           });
           added++;
+          writesInBatch++;
         }
       }
 
-      await batch.commit();
+      if (writesInBatch > 0) {
+        await batch.commit();
+      }
     }
 
     clearListingsCache();

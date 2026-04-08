@@ -732,7 +732,7 @@ export default function AdminGamesPage() {
       )}
 
       {/* Bulk Paste JSON View */}
-      {view === "bulk" && <BulkPasteView onImported={(count) => { showToast(`${count} events saved to Firestore.`); setView("list"); }} />}
+      {view === "bulk" && <BulkPasteView onImported={(count) => { showToast(`${count} events saved to Firestore.`); }} />}
 
       {/* Quick Add / Edit Form */}
       {view === "add" && (
@@ -1071,14 +1071,26 @@ export default function AdminGamesPage() {
  * Bulk Paste JSON view.
  * Paste JSON from Claude (extracted from screenshots/flyers) and import all at once.
  */
+type ImportResult = {
+  success: boolean;
+  added: number;
+  updated: number;
+  skipped: number;
+  duplicates: number;
+  total: number;
+  error?: string;
+};
+
 function BulkPasteView({ onImported }: { onImported: (count: number) => void }) {
   const [jsonText, setJsonText] = useState("");
   const [importing, setImporting] = useState(false);
   const [preview, setPreview] = useState<Record<string, unknown>[] | null>(null);
   const [error, setError] = useState("");
+  const [result, setResult] = useState<ImportResult | null>(null);
 
   function handlePreview() {
     setError("");
+    setResult(null);
     setPreview(null);
     try {
       const parsed = JSON.parse(jsonText);
@@ -1097,17 +1109,21 @@ function BulkPasteView({ onImported }: { onImported: (count: number) => void }) 
     if (!preview) return;
     setImporting(true);
     setError("");
+    setResult(null);
 
     try {
       const res = await adminFetch("/api/listings/import", "POST", { listings: preview });
-      const result = await res.json();
-      if (result.success) {
-        onImported(result.added + result.updated);
+      const data: ImportResult = await res.json();
+      if (data.success) {
+        setResult(data);
+        setPreview(null);
+        setJsonText("");
+        onImported(data.added + data.updated);
       } else {
-        setError(result.error || "Import failed");
+        setError(data.error || "Import failed");
       }
     } catch {
-      setError("Import failed.");
+      setError("Import failed — the request may have timed out. Try splitting into smaller batches.");
     }
     setImporting(false);
   }
@@ -1175,6 +1191,27 @@ function BulkPasteView({ onImported }: { onImported: (count: number) => void }) 
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">{error}</div>
       )}
+
+      {result && (() => {
+        const accounted = result.added + result.updated + result.skipped + result.duplicates;
+        const unaccounted = result.total - accounted;
+        return (
+          <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-sm text-green-800 space-y-1">
+            <p className="font-semibold">Import complete — {result.total} event{result.total !== 1 ? "s" : ""} submitted</p>
+            <ul className="text-xs space-y-0.5 ml-1">
+              <li>Added: <span className="font-mono">{result.added}</span></li>
+              <li>Updated: <span className="font-mono">{result.updated}</span></li>
+              <li>Skipped (missing id / organizer-edited): <span className="font-mono">{result.skipped}</span></li>
+              <li>Blocked duplicates (organizer-owned name+city+state match): <span className="font-mono">{result.duplicates}</span></li>
+            </ul>
+            {unaccounted > 0 && (
+              <p className="text-xs text-amber-700 mt-1">
+                Warning: {unaccounted} event{unaccounted !== 1 ? "s" : ""} unaccounted for — the server may have truncated the payload or errored mid-batch.
+              </p>
+            )}
+          </div>
+        );
+      })()}
 
       {preview && (
         <div className="border border-slate-200 rounded-lg overflow-hidden">
