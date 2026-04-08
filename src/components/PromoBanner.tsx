@@ -5,11 +5,16 @@ import Link from "next/link";
 import { X } from "lucide-react";
 
 /**
- * Site-wide promo banner. Edit this to change or remove the promotion.
- * Set enabled to false to hide the banner entirely.
+ * Site-wide promo banner. Edit this to change or bring back a promotion.
+ * Set `enabled` to true to show the banner site-wide.
+ *
+ * Note: disabling this banner does NOT disable the promo code itself — the
+ * LAUNCH code (and any other Stripe-side coupon) is still honored if a user
+ * enters it manually in the "Add promotion code" field on Stripe checkout,
+ * because `allow_promotion_codes: true` is set on our checkout sessions.
  */
 const PROMO = {
-  enabled: true,
+  enabled: false,
   code: "LAUNCH",
   text: "Launch deal: First month just $1.99",
   cta: "Subscribe now",
