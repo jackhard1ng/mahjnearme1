@@ -149,17 +149,21 @@ export async function GET(request: NextRequest) {
         return sum + (r.plan === "monthly" ? MONTHLY_REFERRAL_COMMISSION : ANNUAL_REFERRAL_COMMISSION / 12);
       }, 0);
 
-    // Payout history
+    // Payout history — sort in JS instead of using .orderBy() in Firestore,
+    // which would require a composite index (contributorId + createdAt) that
+    // may not exist and would cause a FAILED_PRECONDITION 500 on every call.
     const payoutsSnap = await db.collection("commissionPayouts")
       .where("contributorId", "==", contributorId)
-      .orderBy("createdAt", "desc")
-      .limit(12)
       .get();
 
-    const payouts = payoutsSnap.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const payouts = payoutsSnap.docs
+      .map((doc) => ({ id: doc.id, ...doc.data() }))
+      .sort((a: Record<string, unknown>, b: Record<string, unknown>) => {
+        const dateA = (a.createdAt as string) || "";
+        const dateB = (b.createdAt as string) || "";
+        return dateB.localeCompare(dateA); // descending
+      })
+      .slice(0, 12);
 
     const lifetimeEarnings = payouts
       .filter((p: Record<string, unknown>) => p.status === "paid")
