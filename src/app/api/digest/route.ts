@@ -154,6 +154,10 @@ function buildDigestEmail(opts: {
 }): string {
   const { name, newListings, totalListings, isPaid, isNewEvents } = opts;
 
+  /** Escape user-supplied values before embedding in HTML */
+  const esc = (s: string) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
   const typeLabels: Record<string, string> = {
     open_play: "Open Play",
     lesson: "Lesson",
@@ -172,8 +176,8 @@ function buildDigestEmail(opts: {
     listingsHtml += `
       <tr>
         <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
-          <strong style="color: #1a1a2e; font-size: 14px;">${listing.name}</strong><br/>
-          <span style="color: #64748b; font-size: 12px;">${listing.city}, ${listing.state} · ${typeLabel}${style}</span>
+          <strong style="color: #1a1a2e; font-size: 14px;">${esc(listing.name)}</strong><br/>
+          <span style="color: #64748b; font-size: 12px;">${esc(listing.city)}, ${esc(listing.state)} · ${typeLabel}${esc(style)}</span>
         </td>
       </tr>`;
   }
@@ -195,7 +199,7 @@ function buildDigestEmail(opts: {
         <h1 style="color: white; margin: 0; font-size: 22px;">${headerText}</h1>
       </div>
       <div style="background: white; padding: 28px; border: 1px solid #eee; border-radius: 0 0 12px 12px;">
-        <p style="color: #1a1a2e; font-size: 15px;">Hi ${name},</p>
+        <p style="color: #1a1a2e; font-size: 15px;">Hi ${esc(name)},</p>
 
         <p style="color: #64748b; font-size: 14px;">
           <strong style="color: #FF1493; font-size: 20px;">${newListings.length}</strong> new game${newListings.length !== 1 ? "s" : ""} ${timeText}. We now have <strong>${totalListings.toLocaleString()}</strong> listings across the country.

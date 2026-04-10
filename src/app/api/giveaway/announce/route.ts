@@ -155,6 +155,11 @@ function buildCaption({
   return `The MahjNearMe giveaway is live this month! They're giving away a ${prizeValue} ${prizeName} to one lucky member. Every paid subscriber is automatically entered. Use code ${referralCode} for 15% off your first month and you're in. ${baseUrl}/pricing?ref=${encodeURIComponent(referralCode)}`;
 }
 
+/** Escape user-supplied values before embedding in HTML */
+function escHtml(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
 function buildEmailTemplate({
   contributorName,
   prizeName,
@@ -174,6 +179,12 @@ function buildEmailTemplate({
   activeReferrals: number;
   monthlyEarnings: number;
 }) {
+  const eName = escHtml(contributorName);
+  const ePrize = escHtml(prizeName);
+  const eValue = escHtml(prizeValue);
+  const eCaption = escHtml(caption);
+  const eCode = escHtml(referralCode);
+  const eLink = escHtml(referralLink);
   return `
 <!DOCTYPE html>
 <html>
@@ -184,20 +195,20 @@ function buildEmailTemplate({
   <h1 style="color: #FF1493; font-size: 24px; margin: 0;">MahjNearMe Giveaway is Live!</h1>
 </div>
 
-<p>Hi ${contributorName},</p>
+<p>Hi ${eName},</p>
 
-<p>This month's giveaway is live! We're giving away a <strong>${prizeValue} ${prizeName}</strong> to one lucky member.</p>
+<p>This month's giveaway is live! We're giving away a <strong>${eValue} ${ePrize}</strong> to one lucky member.</p>
 
 <div style="background: #FFF0F5; border: 1px solid #FFB6C1; border-radius: 12px; padding: 20px; margin: 20px 0;">
   <h3 style="margin: 0 0 8px; color: #FF1493;">Ready-to-Post Caption</h3>
-  <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #555; background: white; padding: 12px; border-radius: 8px;">${caption}</p>
+  <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #555; background: white; padding: 12px; border-radius: 8px;">${eCaption}</p>
   <p style="margin: 8px 0 0; font-size: 12px; color: #888;">Copy and paste this to Instagram, Facebook, or anywhere your community gathers.</p>
 </div>
 
 <div style="background: #F0F8FF; border: 1px solid #87CEEB; border-radius: 12px; padding: 20px; margin: 20px 0;">
   <h3 style="margin: 0 0 12px; color: #1E2A3A;">Your Commission Dashboard</h3>
-  <p style="margin: 0 0 4px;"><strong>Your referral code:</strong> ${referralCode}</p>
-  <p style="margin: 0 0 4px;"><strong>Your referral link:</strong> <a href="${referralLink}" style="color: #FF1493;">${referralLink}</a></p>
+  <p style="margin: 0 0 4px;"><strong>Your referral code:</strong> ${eCode}</p>
+  <p style="margin: 0 0 4px;"><strong>Your referral link:</strong> <a href="${eLink}" style="color: #FF1493;">${eLink}</a></p>
   <p style="margin: 0 0 4px;"><strong>Active referrals:</strong> ${activeReferrals}</p>
   <p style="margin: 0;"><strong>Current monthly earnings:</strong> ${formatCurrency(monthlyEarnings)}</p>
 </div>

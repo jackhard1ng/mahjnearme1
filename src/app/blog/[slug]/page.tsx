@@ -4,6 +4,13 @@ import { getAllPosts, getPostBySlug } from "@/lib/blog";
 import { ChevronRight, ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 
+/** Strip dangerous HTML tags and event handlers from blog content (defense-in-depth) */
+function sanitizeHtml(html: string): string {
+  return html
+    .replace(/<\s*\/?\s*(script|iframe|object|embed|form|input|textarea|button|link|meta|base|applet)[\s>][^]*?>/gi, "")
+    .replace(/\s+on\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]*)/gi, "");
+}
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
@@ -69,7 +76,7 @@ export default async function BlogPostPage({ params }: Props) {
 
         <div
           className="prose prose-slate max-w-none prose-headings:font-[family-name:var(--font-heading)] prose-a:text-hotpink-500 prose-a:no-underline hover:prose-a:underline"
-          dangerouslySetInnerHTML={{ __html: post.body }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.body) }}
         />
       </article>
 

@@ -95,10 +95,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Quick notes have a 280 character limit
+    // Quick notes have a 280 character limit; full posts max 10,000
     if (isQuickNote && postBody.length > 280) {
       return NextResponse.json(
         { error: "Quick notes are limited to 280 characters." },
+        { status: 400 }
+      );
+    }
+
+    if (!isQuickNote && postBody.length > 10_000) {
+      return NextResponse.json(
+        { error: "Post body is too long (max 10,000 characters)." },
+        { status: 400 }
+      );
+    }
+
+    if (title && title.length > 200) {
+      return NextResponse.json(
+        { error: "Title is too long (max 200 characters)." },
         { status: 400 }
       );
     }
@@ -163,6 +177,13 @@ export async function PUT(request: NextRequest) {
     if (!postId || !authorId || !replyBody) {
       return NextResponse.json(
         { error: "Post ID and body are required." },
+        { status: 400 }
+      );
+    }
+
+    if (replyBody.length > 5_000) {
+      return NextResponse.json(
+        { error: "Reply is too long (max 5,000 characters)." },
         { status: 400 }
       );
     }
