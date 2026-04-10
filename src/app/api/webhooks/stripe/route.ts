@@ -30,9 +30,11 @@ async function promoteOrganizerListings(
     const orgDoc = orgSnap.docs[0];
     const orgId = orgDoc.id;
 
-    // Mark organizer as verified (they have an active account)
+    // Mark organizer as verified + featured (they have an active subscription)
     if (promoted) {
-      await orgDoc.ref.update({ verified: true, updatedAt: new Date().toISOString() });
+      await orgDoc.ref.update({ verified: true, featured: true, updatedAt: new Date().toISOString() });
+    } else {
+      await orgDoc.ref.update({ featured: false, updatedAt: new Date().toISOString() });
     }
 
     // Update all listings owned by this organizer
