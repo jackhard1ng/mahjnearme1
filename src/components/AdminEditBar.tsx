@@ -14,13 +14,7 @@ import {
   Trash2,
 } from "lucide-react";
 
-async function adminFetch(route: string, method = "GET", body?: unknown) {
-  return fetch("/api/admin-proxy", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ route, method, body }),
-  });
-}
+import { adminFetch } from "@/lib/admin-fetch";
 
 interface EditForm {
   name: string;

@@ -18,13 +18,7 @@ import {
 } from "lucide-react";
 import { Game, GameType, GameStyle, SkillLevel } from "@/types";
 
-async function adminFetch(route: string, method = "GET", body?: unknown) {
-  return fetch("/api/admin-proxy", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ route, method, body }),
-  });
-}
+import { adminFetch } from "@/lib/admin-fetch";
 
 // All editable fields for an event
 interface EditForm {

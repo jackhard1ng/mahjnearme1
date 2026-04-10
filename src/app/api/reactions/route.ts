@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { requireUser } from "@/lib/api-auth";
 
 // GET: Get reaction counts and user's reactions for a game
 export async function GET(request: NextRequest) {
@@ -52,6 +53,10 @@ export async function POST(request: NextRequest) {
     if (!gameId || !userId || !reactionType) {
       return NextResponse.json({ error: "gameId, userId, and reactionType required" }, { status: 400 });
     }
+
+    // Verify the caller owns this userId
+    const denied = await requireUser(request, userId);
+    if (denied) return denied;
 
     const validTypes = ["going", "been_here", "heads_up"];
     if (!validTypes.includes(reactionType)) {

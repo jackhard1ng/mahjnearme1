@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rate-limit";
 
 /**
  * Server-side geocoding endpoint using OpenStreetMap Nominatim.
@@ -12,6 +13,11 @@ const geocodeCache = new Map<string, { lat: number; lng: number; displayName: st
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 export async function GET(request: NextRequest) {
+  const { limited } = rateLimit(request, { key: "geocode", limit: 30, windowSeconds: 60 });
+  if (limited) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   const q = request.nextUrl.searchParams.get("q");
 
   if (!q || !q.trim()) {

@@ -3,6 +3,7 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef, useMemo } from "react";
+import { authedFetch } from "@/lib/authed-fetch";
 import Link from "next/link";
 import { getCitiesWithGames } from "@/lib/mock-data";
 import { getStateName } from "@/lib/utils";
@@ -727,7 +728,7 @@ export default function AccountPage() {
                     const code = input?.value?.trim();
                     if (!code) return;
                     try {
-                      const res = await fetch("/api/apply-code", {
+                      const res = await authedFetch("/api/apply-code", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ userId: user?.uid, code }),

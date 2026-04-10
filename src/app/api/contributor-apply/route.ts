@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { requireAdmin } from "@/lib/api-auth";
 import { findMetroForCity } from "@/lib/metro-regions";
 
 // GET: Look up the approved contributor for a given city (resolves to metro)
@@ -146,13 +147,7 @@ export async function POST(request: NextRequest) {
         { merge: true }
       );
 
-    console.log(`=== New Contributor Application ===`);
-    console.log(`User: ${name} <${email}>`);
-    console.log(`City: ${city}`);
-    console.log(`Metro Region: ${metroName || "Unknown"} (${metroRegion || "none"})`);
-    console.log(`Connections: ${connections.join(", ")}`);
-    console.log(`Story: ${story}`);
-    console.log(`===================================`);
+    console.log(`[Contributor] New application: city=${city}, metro=${metroRegion || "none"}`);
 
     return NextResponse.json({ success: true, metroRegion, metroName });
   } catch (err) {
@@ -168,6 +163,9 @@ export async function POST(request: NextRequest) {
 // When approved: set accountType to "contributor" (full paid access, permanently free)
 // When rejected: user stays on free tier (cannot re-apply)
 export async function PATCH(request: NextRequest) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
+
   try {
     const db = getAdminDb();
     const body = await request.json();

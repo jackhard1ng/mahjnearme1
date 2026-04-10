@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { getStripe } from "@/lib/stripe";
+import { requireUser } from "@/lib/api-auth";
 
 /**
  * POST /api/organizer-referral - Create or update a referral code for a paid organizer
@@ -26,6 +27,10 @@ export async function POST(request: NextRequest) {
     if (!userId || !code) {
       return NextResponse.json({ error: "userId and code are required" }, { status: 400 });
     }
+
+    // Verify the caller owns this userId
+    const denied = await requireUser(request, userId);
+    if (denied) return denied;
 
     // Validate code format: 3-20 chars, alphanumeric only
     const cleanCode = code.toUpperCase().replace(/[^A-Z0-9]/g, "");
@@ -246,6 +251,10 @@ export async function PUT(request: NextRequest) {
     if (!userId) {
       return NextResponse.json({ error: "userId required" }, { status: 400 });
     }
+
+    // Verify the caller owns this userId
+    const denied = await requireUser(request, userId);
+    if (denied) return denied;
 
     // Verify they have enough for payout
     const statsRes = await GET(new NextRequest(

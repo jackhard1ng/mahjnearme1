@@ -79,14 +79,7 @@ interface GiveawayData {
   winners: { id: string; month: string; winnerName: string; winnerCity: string; drawnAt: string }[];
 }
 
-// Helper to route admin API calls through the secure proxy
-async function adminFetch(route: string, method: string = "GET", body?: unknown): Promise<Response> {
-  return fetch("/api/admin-proxy", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ route, method, body }),
-  });
-}
+import { adminFetch } from "@/lib/admin-fetch";
 
 export default function AdminDashboardPage() {
   const games = useFirestoreListings();

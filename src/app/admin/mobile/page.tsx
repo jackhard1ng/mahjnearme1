@@ -68,13 +68,7 @@ interface BadGeoListing {
 // Helpers
 // ---------------------------------------------------------------------------
 
-async function adminFetch(route: string, method = "GET", body?: unknown) {
-  return fetch("/api/admin-proxy", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ route, method, body }),
-  });
-}
+import { adminFetch } from "@/lib/admin-fetch";
 
 function ago(iso: string) {
   const ms = Date.now() - new Date(iso).getTime();

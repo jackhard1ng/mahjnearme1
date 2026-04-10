@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { authedFetch } from "@/lib/authed-fetch";
 import { Game } from "@/types";
 import Link from "next/link";
 import {
@@ -1608,7 +1609,7 @@ function ReferralsTab({ userId }: { userId: string }) {
   async function fetchData() {
     setLoading(true);
     try {
-      const res = await fetch(`/api/organizer-referral?userId=${userId}`);
+      const res = await authedFetch(`/api/organizer-referral?userId=${userId}`);
       if (res.ok) {
         setData(await res.json());
       }
@@ -1621,7 +1622,7 @@ function ReferralsTab({ userId }: { userId: string }) {
     setCreating(true);
     setMessage("");
     try {
-      const res = await fetch("/api/organizer-referral", {
+      const res = await authedFetch("/api/organizer-referral", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, code: newCode }),
@@ -1643,7 +1644,7 @@ function ReferralsTab({ userId }: { userId: string }) {
     setRequesting(true);
     setMessage("");
     try {
-      const res = await fetch("/api/organizer-referral", {
+      const res = await authedFetch("/api/organizer-referral", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId }),

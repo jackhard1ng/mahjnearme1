@@ -6,14 +6,7 @@ import { GAME_TYPE_LABELS, GAME_STYLE_LABELS, SKILL_LEVEL_LABELS, DAYS_OF_WEEK }
 import { getVerificationStatus, getGameTypeLabel, formatSchedule } from "@/lib/utils";
 import { GameType, GameStyle, SkillLevel, Game } from "@/types";
 
-// Helper to route admin API calls through the secure proxy
-async function adminFetch(route: string, method: string = "GET", body?: unknown): Promise<Response> {
-  return fetch("/api/admin-proxy", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ route, method, body }),
-  });
-}
+import { adminFetch } from "@/lib/admin-fetch";
 
 import {
   Plus,

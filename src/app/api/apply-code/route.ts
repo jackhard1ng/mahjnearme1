@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { getStripe } from "@/lib/stripe";
+import { requireUser } from "@/lib/api-auth";
 
 /**
  * POST /api/apply-code
  * Apply a referral/promo code to an existing subscriber's subscription.
  * Replaces any existing coupon. Applied starting next billing cycle.
+ * Requires the caller to be the authenticated owner of the userId.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -16,6 +18,10 @@ export async function POST(request: NextRequest) {
     if (!userId || !code) {
       return NextResponse.json({ error: "userId and code are required" }, { status: 400 });
     }
+
+    // Verify the caller owns this userId
+    const denied = await requireUser(request, userId);
+    if (denied) return denied;
 
     const cleanCode = code.toUpperCase().trim();
 
