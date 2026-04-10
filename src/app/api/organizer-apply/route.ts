@@ -262,6 +262,35 @@ export async function PUT(request: NextRequest) {
         },
         { merge: true }
       );
+
+      // If the user already has an active subscription, auto-feature them
+      // now that they're approved. The Stripe webhook's promoteOrganizerListings
+      // only fires on subscription events, so it misses the case where someone
+      // subscribes FIRST and gets approved LATER.
+      const userDoc = await db.collection("users").doc(app.userId).get();
+      const userData = userDoc.data();
+      const isAlreadySubscriber =
+        userData?.accountType === "subscriber" ||
+        userData?.subscriptionStatus === "active";
+
+      if (isAlreadySubscriber) {
+        await db.collection("organizers").doc(organizerProfileId).update({
+          featured: true,
+          updatedAt: now,
+        });
+
+        // Also promote their listings
+        const listingsSnap = await db.collection("listings")
+          .where("organizerId", "==", organizerProfileId)
+          .get();
+        if (!listingsSnap.empty) {
+          const batch = db.batch();
+          for (const doc of listingsSnap.docs) {
+            batch.update(doc.ref, { promoted: true, updatedAt: now });
+          }
+          await batch.commit();
+        }
+      }
     }
 
     await appRef.update({
