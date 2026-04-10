@@ -559,17 +559,21 @@ export default function AdminEventsPage() {
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/listings?status=all");
+      // Cache-bust: the /api/listings endpoint has a 60-second CDN cache.
+      // Without a unique query param, a refresh after a delete/edit serves
+      // the stale CDN response and the change appears to be "undone".
+      const bust = `_t=${Date.now()}`;
+      const res = await fetch(`/api/listings?status=all&${bust}`);
       const data = await res.json();
       // /api/listings only returns active; also fetch pending via admin proxy
-      const adminRes = await adminFetch("/api/listings");
+      const adminRes = await adminFetch(`/api/listings?${bust}`);
       const adminData = await adminRes.json();
       // Merge: prefer admin data which may include pending
       const all = adminData.listings || data.listings || [];
       setGames(all as Game[]);
     } catch {
       // Fallback to public endpoint
-      fetch("/api/listings")
+      fetch(`/api/listings?_t=${Date.now()}`)
         .then((r) => r.json())
         .then((d) => setGames(d.listings || []))
         .catch(() => {})
