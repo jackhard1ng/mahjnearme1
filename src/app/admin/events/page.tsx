@@ -550,7 +550,7 @@ export default function AdminEventsPage() {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "pending" | "inactive">("all");
+  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "pending" | "inactive">("active");
   const [sourceFilter, setSourceFilter] = useState<"all" | "organizer" | "json">("all");
   const [missingCoordsOnly, setMissingCoordsOnly] = useState(false);
   const [geocoding, setGeocoding] = useState(false);
