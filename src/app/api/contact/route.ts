@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendContactNotification } from "@/lib/email";
+import { rateLimit } from "@/lib/rate-limit";
 
 // Minimum message/description length to reject single-char spam
 const MIN_MESSAGE_LENGTH = 10;
@@ -8,6 +9,11 @@ const MIN_MESSAGE_LENGTH = 10;
 const MIN_SUBMIT_TIME_MS = 2000;
 
 export async function POST(request: NextRequest) {
+  const { limited } = rateLimit(request, { key: "contact", limit: 5, windowSeconds: 300 });
+  if (limited) {
+    return NextResponse.json({ error: "Too many submissions. Please try again later." }, { status: 429 });
+  }
+
   try {
     const body = await request.json();
     const { name, email, description, message, formType, _hp_email, _ts, ...rest } = body;
@@ -43,10 +49,7 @@ export async function POST(request: NextRequest) {
 
     // --- Send email notification ---
 
-    console.log("[Contact] Submission received:", { name, email, formType: formType || "general", groupName: rest.groupName });
-    console.log("[Contact] SENDGRID_API_KEY set:", !!process.env.SENDGRID_API_KEY);
-    console.log("[Contact] FROM:", process.env.SENDGRID_FROM_EMAIL || "noreply@mahjnearme.com");
-    console.log("[Contact] TO:", process.env.CONTACT_EMAIL || "contact@mahjnearme.com");
+    console.log("[Contact] Submission received:", { formType: formType || "general" });
 
     const sent = await sendContactNotification({
       name,

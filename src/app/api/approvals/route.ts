@@ -9,6 +9,9 @@ import { requireAdmin } from "@/lib/api-auth";
  */
 
 export async function GET(request: NextRequest) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
+
   try {
     const db = getAdminDb();
     const { searchParams } = new URL(request.url);

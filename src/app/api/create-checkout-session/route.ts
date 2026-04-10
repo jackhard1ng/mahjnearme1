@@ -2,8 +2,14 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { getStripe, PRICE_IDS } from "@/lib/stripe";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
+  const { limited } = rateLimit(request, { key: "checkout", limit: 5, windowSeconds: 60 });
+  if (limited) {
+    return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
+  }
+
   try {
     const { plan, firebaseUid, email, referralCode } = await request.json();
 

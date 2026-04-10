@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { requireAdmin } from "@/lib/api-auth";
 import METRO_REGIONS from "@/lib/metro-regions";
 
 /**
@@ -9,7 +10,9 @@ import METRO_REGIONS from "@/lib/metro-regions";
  *
  * This is an admin-only endpoint. Call once to seed, safe to re-run.
  */
-export async function POST() {
+export async function POST(request: NextRequest) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
   try {
     const db = getAdminDb();
     let created = 0;

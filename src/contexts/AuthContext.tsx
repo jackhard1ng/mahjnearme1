@@ -112,14 +112,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               setDoc(doc(db, "users", firebaseUser.uid), { lastLoginAt: now }, { merge: true }).catch(() => {});
             } else {
               // First-time user, create their Firestore document
-              // Preserve admin status for known admin emails
-              const adminEmails = ["jack@fluttrr.com", "jack@mahjnearme.com"];
-              const isKnownAdmin = adminEmails.includes((firebaseUser.email || "").toLowerCase());
               await setDoc(doc(db, "users", firebaseUser.uid), {
                 email: defaultProfile.email,
                 displayName: defaultProfile.displayName,
-                accountType: isKnownAdmin ? "admin" : defaultProfile.accountType,
-                subscriptionStatus: isKnownAdmin ? "active" : defaultProfile.subscriptionStatus,
+                accountType: defaultProfile.accountType,
+                subscriptionStatus: defaultProfile.subscriptionStatus,
                 createdAt: defaultProfile.createdAt,
                 lastLoginAt: defaultProfile.lastLoginAt,
               });
@@ -197,8 +194,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const adminEmails = ["jack@fluttrr.com", "jack@mahjnearme.com"];
-  const isAdmin = userProfile?.accountType === "admin" || adminEmails.includes(userProfile?.email || "");
+  const isAdmin = userProfile?.accountType === "admin";
 
   const hasAccess =
     isAdmin ||

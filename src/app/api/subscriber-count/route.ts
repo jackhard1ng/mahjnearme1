@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { requireAdmin } from "@/lib/api-auth";
 
 /**
  * GET /api/subscriber-count
@@ -9,8 +10,11 @@ import { getAdminDb } from "@/lib/firebase-admin";
  *   free entries, and mail-in entries
  *
  * Uses Firestore as source of truth (same as admin giveaway view).
+ * Protected: admin-only.
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
   try {
     const db = getAdminDb();
     const now = new Date();

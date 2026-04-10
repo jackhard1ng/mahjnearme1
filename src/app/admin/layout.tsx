@@ -5,8 +5,6 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import Link from "next/link";
 
-const ADMIN_EMAILS = ["jack@fluttrr.com", "jack@mahjnearme.com"];
-
 const NAV_LINKS = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/events", label: "Events" },
@@ -19,8 +17,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const { user, userProfile, isAdmin, loading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
-  const emailIsAdmin = ADMIN_EMAILS.includes((user?.email || "").toLowerCase()) || ADMIN_EMAILS.includes((userProfile?.email || "").toLowerCase());
-  const hasAdmin = isAdmin || emailIsAdmin;
+  const hasAdmin = isAdmin;
 
   useEffect(() => {
     if (!loading && !user) {

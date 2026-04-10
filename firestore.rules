@@ -71,19 +71,25 @@ service cloud.firestore {
 
     // ----------------------------------------------------------------
     // analytics — any visitor can write page views; admin can read
-    // Intentionally permissive writes: analytics should never block UX
+    // Writes are limited to expected fields and capped size to prevent abuse
     // ----------------------------------------------------------------
     match /analytics/{document=**} {
       allow read: if isAdmin();
-      allow write: if true;
+      allow create: if request.resource.data.keys().hasOnly(
+        ['page', 'referrer', 'timestamp', 'sessionId', 'userAgent', 'userId']
+      ) && request.resource.data.page is string
+        && request.resource.data.page.size() < 500;
+      allow update, delete: if isAdmin();
     }
 
     // ----------------------------------------------------------------
     // forum — authenticated users can read/write posts
+    // Users can delete their own posts; admins can update/delete any
     // ----------------------------------------------------------------
     match /forum/{postId} {
       allow read: if true;
       allow create: if isAuthed() && request.resource.data.userId == request.auth.uid;
+      allow delete: if isAuthed() && resource.data.userId == request.auth.uid;
       allow update, delete: if isAdmin();
     }
 

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { requireAdmin } from "@/lib/api-auth";
 import { notifyAdmin } from "@/lib/admin-notify";
+import { rateLimit } from "@/lib/rate-limit";
 
 /**
  * POST /api/organizer-apply - Submit an organizer/instructor application
@@ -10,6 +11,11 @@ import { notifyAdmin } from "@/lib/admin-notify";
  */
 
 export async function POST(request: NextRequest) {
+  const { limited } = rateLimit(request, { key: "organizer-apply", limit: 3, windowSeconds: 300 });
+  if (limited) {
+    return NextResponse.json({ error: "Too many submissions. Please try again later." }, { status: 429 });
+  }
+
   try {
     const db = getAdminDb();
     const body = await request.json();
@@ -312,6 +318,11 @@ export async function PUT(request: NextRequest) {
           const apiKey = process.env.SENDGRID_API_KEY;
           const fromEmail = process.env.SENDGRID_FROM_EMAIL;
           if (apiKey && fromEmail) {
+            // Escape user-supplied values before embedding in HTML to prevent injection
+            const escHtml = (s: string) =>
+              s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+            const displayName = escHtml(app.organizerName || app.userName || "");
+            const plainName = app.organizerName || app.userName || "";
             await fetch("https://api.sendgrid.com/v3/mail/send", {
               method: "POST",
               headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
@@ -320,8 +331,8 @@ export async function PUT(request: NextRequest) {
                 from: { email: fromEmail, name: "MahjNearMe" },
                 subject: "Your MahjNearMe Organizer Account is Approved!",
                 content: [
-                  { type: "text/plain", value: `Hi ${app.organizerName || app.userName || ""}!\n\nGreat news - your organizer account on MahjNearMe has been approved!\n\nYou can now manage your events, update your profile, and add new listings. Just log in at mahjnearme.com and click "For Organizers" in the menu.\n\nWelcome aboard!\nJack @ MahjNearMe` },
-                  { type: "text/html", value: `<div style="font-family:sans-serif;font-size:14px;color:#333"><p>Hi ${app.organizerName || app.userName || ""}!</p><p>Great news - your organizer account on MahjNearMe has been approved!</p><p>You can now:</p><ul><li>Manage your events and listings</li><li>Update your public profile</li><li>Add new events</li></ul><p>Just log in at <a href="https://www.mahjnearme.com">mahjnearme.com</a> and click <strong>"For Organizers"</strong> in the menu to access your dashboard.</p><p>Welcome aboard!<br>Jack @ MahjNearMe</p></div>` },
+                  { type: "text/plain", value: `Hi ${plainName}!\n\nGreat news - your organizer account on MahjNearMe has been approved!\n\nYou can now manage your events, update your profile, and add new listings. Just log in at mahjnearme.com and click "For Organizers" in the menu.\n\nWelcome aboard!\nJack @ MahjNearMe` },
+                  { type: "text/html", value: `<div style="font-family:sans-serif;font-size:14px;color:#333"><p>Hi ${displayName}!</p><p>Great news - your organizer account on MahjNearMe has been approved!</p><p>You can now:</p><ul><li>Manage your events and listings</li><li>Update your public profile</li><li>Add new events</li></ul><p>Just log in at <a href="https://www.mahjnearme.com">mahjnearme.com</a> and click <strong>&quot;For Organizers&quot;</strong> in the menu to access your dashboard.</p><p>Welcome aboard!<br>Jack @ MahjNearMe</p></div>` },
                 ],
               }),
             });
