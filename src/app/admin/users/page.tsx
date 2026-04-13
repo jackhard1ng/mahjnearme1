@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Search, Users, Crown, Shield, Eye, X, Mail, Calendar, CreditCard, Gift, DollarSign, Link2, Copy, Check } from "lucide-react";
 import { getFirebaseDb } from "@/lib/firebase";
 import { isFirebaseConfigured } from "@/lib/firebase";
-import { collection, getDocs, query, orderBy, limit, doc, setDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, doc, setDoc, getDoc } from "firebase/firestore";
 
 interface UserRecord {
   id: string;
@@ -216,7 +216,7 @@ export default function AdminUsersPage() {
       try {
         const db = getFirebaseDb();
         const usersRef = collection(db, "users");
-        const q = query(usersRef, orderBy("createdAt", "desc"), limit(200));
+        const q = query(usersRef, orderBy("createdAt", "desc"));
         const snapshot = await getDocs(q);
         const fetched: UserRecord[] = snapshot.docs.map((d) => {
           const data = d.data();

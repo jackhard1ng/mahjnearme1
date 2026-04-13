@@ -186,6 +186,7 @@ export async function POST(request: Request) {
         }
 
         const userDoc = snapshot.docs[0];
+        const userData = userDoc.data();
         const priceId = subscription.items.data[0]?.price.id;
         const plan = getPlanFromPriceId(priceId);
 
@@ -197,19 +198,57 @@ export async function POST(request: Request) {
         // "Subscription ends on X" instead of silently waiting.
         const cancelAtPeriodEnd = subscription.cancel_at_period_end === true;
 
-        await userDoc.ref.update({
-          accountType: isActive ? "subscriber" : "free",
-          subscriptionStatus: isActive ? "active" : subscription.status,
-          plan: plan || userDoc.data().plan,
-          subscriptionCancelAtPeriodEnd: cancelAtPeriodEnd,
-          subscriptionEndsAt: subscription.items.data[0]?.current_period_end
-            ? new Date(subscription.items.data[0].current_period_end * 1000).toISOString()
-            : null,
-          updatedAt: new Date().toISOString(),
-        });
+        if (isActive) {
+          // Happy path: subscription is active — update normally
+          await userDoc.ref.update({
+            accountType: "subscriber",
+            subscriptionStatus: "active",
+            plan: plan || userData.plan,
+            subscriptionCancelAtPeriodEnd: cancelAtPeriodEnd,
+            subscriptionEndsAt: subscription.items.data[0]?.current_period_end
+              ? new Date(subscription.items.data[0].current_period_end * 1000).toISOString()
+              : null,
+            updatedAt: new Date().toISOString(),
+          });
+          await promoteOrganizerListings(db, userDoc.id, true);
+        } else {
+          // Non-active status — guard against stale subscription events
+          if (subscription.id !== userData.stripeSubscriptionId) {
+            console.log(
+              `[Stripe] Ignoring subscription.updated for old subscription ${subscription.id}; ` +
+              `user's current subscription is ${userData.stripeSubscriptionId}`
+            );
+            break;
+          }
 
-        // Sync promoted status on listings
-        await promoteOrganizerListings(db, userDoc.id, isActive);
+          // Belt-and-braces: check for any other active subscriptions
+          const activeSubs = await getStripe().subscriptions.list({
+            customer: customerId,
+            status: "active",
+            limit: 1,
+          });
+
+          if (activeSubs.data.length > 0) {
+            console.log(
+              `[Stripe] Subscription ${subscription.id} became ${subscription.status}, ` +
+              `but customer ${customerId} still has active sub(s); not downgrading`
+            );
+            break;
+          }
+
+          // No active subscriptions remain — downgrade
+          await userDoc.ref.update({
+            accountType: "free",
+            subscriptionStatus: subscription.status,
+            plan: plan || userData.plan,
+            subscriptionCancelAtPeriodEnd: cancelAtPeriodEnd,
+            subscriptionEndsAt: subscription.items.data[0]?.current_period_end
+              ? new Date(subscription.items.data[0].current_period_end * 1000).toISOString()
+              : null,
+            updatedAt: new Date().toISOString(),
+          });
+          await promoteOrganizerListings(db, userDoc.id, false);
+        }
 
         console.log(
           `Subscription updated for customer ${customerId}: status=${subscription.status}, cancelAtPeriodEnd=${cancelAtPeriodEnd}`
@@ -228,7 +267,35 @@ export async function POST(request: Request) {
           .get();
 
         if (!snapshot.empty) {
-          await snapshot.docs[0].ref.update({
+          const userDoc = snapshot.docs[0];
+          const userData = userDoc.data();
+
+          // Guard: ignore deletion events for old/replaced subscriptions
+          if (subscription.id !== userData.stripeSubscriptionId) {
+            console.log(
+              `[Stripe] Ignoring subscription.deleted for old subscription ${subscription.id}; ` +
+              `user's current subscription is ${userData.stripeSubscriptionId}`
+            );
+            break;
+          }
+
+          // Belt-and-braces: check for any other active subscriptions
+          const activeSubs = await getStripe().subscriptions.list({
+            customer: customerId,
+            status: "active",
+            limit: 1,
+          });
+
+          if (activeSubs.data.length > 0) {
+            console.log(
+              `[Stripe] Subscription ${subscription.id} deleted, but customer ${customerId} ` +
+              `still has active sub(s); not downgrading`
+            );
+            break;
+          }
+
+          // No active subscriptions remain — downgrade
+          await userDoc.ref.update({
             accountType: "free",
             subscriptionStatus: "canceled",
             plan: null,
@@ -237,7 +304,7 @@ export async function POST(request: Request) {
           });
 
           // Remove promoted status from their listings
-          await promoteOrganizerListings(db, snapshot.docs[0].id, false);
+          await promoteOrganizerListings(db, userDoc.id, false);
 
           console.log(`Subscription canceled for customer ${customerId}`);
         }
