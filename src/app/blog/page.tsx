@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getAllPosts } from "@/lib/blog";
 import { ArrowRight, BookOpen } from "lucide-react";
 import type { Metadata } from "next";
@@ -38,7 +39,14 @@ export default function BlogPage() {
             >
               <div className="flex items-start gap-4">
                 {post.image && (
-                  <img src={post.image} alt={post.title} className="w-24 h-24 rounded-lg object-cover shrink-0" loading="lazy" />
+                  <Image
+                    src={post.image}
+                    alt={post.title}
+                    width={96}
+                    height={96}
+                    sizes="96px"
+                    className="w-24 h-24 rounded-lg object-cover shrink-0"
+                  />
                 )}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import SearchBar from "@/components/SearchBar";
 import { mockGames } from "@/lib/mock-data";
 import { isEventExpired } from "@/lib/utils";
@@ -63,7 +64,14 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/c2d2c03301c201e23fd4816059b397c4.jpg" alt="" className="w-full h-full object-cover" />
+          <Image
+            src="/images/c2d2c03301c201e23fd4816059b397c4.jpg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-br from-[#FF1493]/85 via-[#FF69B4]/75 to-[#87CEEB]/80" />
         </div>
 
@@ -127,7 +135,13 @@ export default async function HomePage() {
       {/* How It Works */}
       <section className="py-16 sm:py-20 relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/40a8a8ed77d5469f174ff66a88f95aa5.jpg" alt="" className="w-full h-full object-cover opacity-[0.08]" loading="lazy" />
+          <Image
+            src="/images/40a8a8ed77d5469f174ff66a88f95aa5.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover opacity-[0.08]"
+          />
           <div className="absolute inset-0 bg-[#FFF0F5]/92" />
         </div>
         <div className="max-w-7xl mx-auto px-4 relative">
@@ -215,7 +229,13 @@ export default async function HomePage() {
       {/* CTA Section */}
       <section className="py-16 sm:py-24 relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/8f52f44ed05054e40828936a96d15b75.jpg" alt="" className="w-full h-full object-cover opacity-[0.10]" loading="lazy" />
+          <Image
+            src="/images/8f52f44ed05054e40828936a96d15b75.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover opacity-[0.10]"
+          />
           <div className="absolute inset-0 bg-[#FFF0F5]/90" />
         </div>
         <div className="max-w-7xl mx-auto px-4 relative">

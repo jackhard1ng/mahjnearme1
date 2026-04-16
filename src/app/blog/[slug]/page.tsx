@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { getAllPosts, getPostBySlug } from "@/lib/blog";
 import { ChevronRight, ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
@@ -111,7 +112,15 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
 
         {post.image && (
-          <img src={post.image} alt={post.title} className="w-full rounded-xl mb-8" />
+          <Image
+            src={post.image}
+            alt={post.title}
+            width={1200}
+            height={630}
+            priority
+            sizes="(max-width: 768px) 100vw, 768px"
+            className="w-full h-auto rounded-xl mb-8"
+          />
         )}
 
         <div
