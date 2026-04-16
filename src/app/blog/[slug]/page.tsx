@@ -48,6 +48,11 @@ export default async function BlogPostPage({ params }: Props) {
 
   if (!post) notFound();
 
+  const allPosts = getAllPosts();
+  const sameCategory = allPosts.filter((p) => p.slug !== post.slug && p.category === post.category);
+  const otherCategory = allPosts.filter((p) => p.slug !== post.slug && p.category !== post.category);
+  const relatedPosts = [...sameCategory, ...otherCategory].slice(0, 3);
+
   const canonicalUrl = `${SITE_URL}/blog/${post.slug}`;
   const articleSchema = {
     "@context": "https://schema.org",
@@ -128,6 +133,31 @@ export default async function BlogPostPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: post.body }}
         />
       </article>
+
+      {relatedPosts.length > 0 && (
+        <aside className="mt-16 pt-10 border-t border-slate-200">
+          <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl text-charcoal mb-6">
+            Keep reading
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedPosts.map((rp) => (
+              <Link
+                key={rp.slug}
+                href={`/blog/${rp.slug}`}
+                className="block bg-white border border-slate-200 rounded-xl p-5 hover:border-hotpink-300 hover:shadow-sm transition-all group"
+              >
+                <span className="text-xs font-semibold text-hotpink-500 uppercase tracking-wider">
+                  {rp.category}
+                </span>
+                <h3 className="font-semibold text-charcoal mt-1 mb-2 group-hover:text-hotpink-500 transition-colors leading-snug">
+                  {rp.title}
+                </h3>
+                <p className="text-sm text-slate-500 line-clamp-2">{rp.description}</p>
+              </Link>
+            ))}
+          </div>
+        </aside>
+      )}
 
       <div className="mt-12 pt-8 border-t border-slate-200">
         <Link href="/blog" className="inline-flex items-center gap-2 text-sm font-semibold text-hotpink-500 hover:text-hotpink-600">

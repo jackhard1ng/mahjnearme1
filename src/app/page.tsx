@@ -7,6 +7,7 @@ import { FEATURED_TILES } from "@/lib/featured-tiles";
 import { Search, MapPin, Sparkles, ArrowRight } from "lucide-react";
 import GamesToday from "@/components/GamesToday";
 import SeasonalEvents from "@/components/SeasonalEvents";
+import { getAllPosts } from "@/lib/blog";
 
 async function getLiveGameCount(): Promise<number> {
   try {
@@ -58,6 +59,7 @@ const tilesWithCounts = FEATURED_TILES.map((t) => {
 
 export default async function HomePage() {
   const liveGameCount = await getLiveGameCount();
+  const latestPosts = getAllPosts().slice(0, 3);
 
   return (
     <>
@@ -225,6 +227,58 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Latest from the Blog */}
+      {latestPosts.length > 0 && (
+        <section className="py-16 sm:py-20 bg-white/60">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl sm:text-3xl text-charcoal mb-2">
+                  Latest from the Blog
+                </h2>
+                <p className="text-slate-500 text-sm">
+                  Party ideas, city guides, and mahjong tips.
+                </p>
+              </div>
+              <Link
+                href="/blog"
+                className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-hotpink-500 hover:text-hotpink-600"
+              >
+                See all <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {latestPosts.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="block bg-white border border-slate-200 rounded-xl p-6 hover:border-hotpink-300 hover:shadow-md transition-all group"
+                >
+                  <span className="text-xs font-semibold text-hotpink-500 uppercase tracking-wider">
+                    {post.category}
+                  </span>
+                  <h3 className="font-semibold text-lg text-charcoal mt-1 mb-2 group-hover:text-hotpink-500 transition-colors leading-snug">
+                    {post.title}
+                  </h3>
+                  <p className="text-sm text-slate-500 line-clamp-3">{post.description}</p>
+                  <span className="inline-flex items-center gap-1 text-sm font-semibold text-hotpink-500 mt-4">
+                    Read more <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+            <div className="sm:hidden mt-6 text-center">
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-hotpink-500 hover:text-hotpink-600"
+              >
+                See all posts <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* CTA Section */}
       <section className="py-16 sm:py-24 relative overflow-hidden">
