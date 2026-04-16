@@ -9,6 +9,8 @@ import InAppBrowserWarning from "@/components/InAppBrowserWarning";
 import { GOOGLE_ADS_ID } from "@/lib/gtag";
 import "./globals.css";
 
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID;
+
 export const metadata: Metadata = {
   title: {
     default: "MahjNearMe | Find Mahjong Games Anywhere You Go",
@@ -96,6 +98,7 @@ export default function RootLayout({
                 window.gtag = gtag;
                 gtag('js', new Date());
                 gtag('config', ${JSON.stringify(GOOGLE_ADS_ID)});
+                ${GA_MEASUREMENT_ID ? `gtag('config', ${JSON.stringify(GA_MEASUREMENT_ID)}, { send_page_view: true });` : ""}
               `}
             </Script>
           </>
