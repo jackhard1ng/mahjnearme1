@@ -6,6 +6,13 @@ import { MONTHLY_PRICE, ANNUAL_PRICE } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "FAQ: Frequently Asked Questions",
   description: "Common questions about MahjNearMe. How to find games, subscription details, adding your group, and more.",
+  alternates: { canonical: "/faq" },
+  openGraph: {
+    title: "MahjNearMe FAQ",
+    description: "Common questions about finding mahjong games, subscriptions, and listing your group.",
+    url: "/faq",
+    type: "website",
+  },
 };
 
 const faqs = [
@@ -46,8 +53,24 @@ const faqs = [
 ];
 
 export default function FAQPage() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.flatMap((c) =>
+      c.questions.map((qa) => ({
+        "@type": "Question",
+        name: qa.q,
+        acceptedAnswer: { "@type": "Answer", text: qa.a },
+      }))
+    ),
+  };
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <h1 className="font-[family-name:var(--font-heading)] font-bold text-3xl sm:text-4xl text-charcoal mb-3">
         Frequently Asked Questions
       </h1>

@@ -35,6 +35,16 @@ export interface BlogPost {
 
 let _cachedPosts: BlogPost[] | null = null;
 
+// Defense-in-depth sanitizer for admin-authored HTML bodies. Strips
+// <script>/<style>/<iframe>, on* handlers, and javascript:/data: URLs.
+function sanitizeHtml(html: string): string {
+  return html
+    .replace(/<\s*(script|style|iframe|object|embed)[\s\S]*?<\s*\/\s*\1\s*>/gi, "")
+    .replace(/<\s*(script|style|iframe|object|embed)[^>]*\/?\s*>/gi, "")
+    .replace(/\son\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, "")
+    .replace(/(href|src)\s*=\s*(?:"\s*(?:javascript|data|vbscript):[^"]*"|'\s*(?:javascript|data|vbscript):[^']*')/gi, '$1="#"');
+}
+
 export function getAllPosts(): BlogPost[] {
   if (_cachedPosts) return _cachedPosts;
 
@@ -50,6 +60,7 @@ export function getAllPosts(): BlogPost[] {
       const raw = fs.readFileSync(path.join(BLOG_DIR, file), "utf-8");
       const post = JSON.parse(raw) as BlogPost;
       if (post.slug && post.title && post.body) {
+        post.body = sanitizeHtml(post.body);
         posts.push(post);
       }
     } catch {

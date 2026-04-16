@@ -262,7 +262,7 @@ export default function AccountPage() {
                 title="Change avatar"
               >
                 {userProfile.photoURL ? (
-                  <img src={userProfile.photoURL} alt="" className="w-16 h-16 rounded-full object-cover" />
+                  <img src={userProfile.photoURL} alt={`${userProfile.displayName || "Your"} profile photo`} className="w-16 h-16 rounded-full object-cover" />
                 ) : (
                   <div className={`w-16 h-16 rounded-full flex items-center justify-center ${userProfile.avatarColor ? getAvatarBg(userProfile.avatarColor) : "bg-hotpink-100"}`}>
                     <span className={`text-2xl font-bold ${userProfile.avatarColor ? "text-white" : "text-hotpink-600"}`}>

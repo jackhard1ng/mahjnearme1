@@ -41,8 +41,6 @@ async function getOrganizerBySlug(slug: string) {
   const withSpaces = slug.replace(/-/g, " ").toLowerCase().trim();
   const stripped = lowered.replace(/[^a-z0-9]/g, "");
 
-  console.log(`[Organizer Lookup] slug="${slug}" normalized="${normalized}" stripped="${stripped}"`);
-
   // Load all organizers once and match in code
   // With ~1,750 docs this is fast and avoids index/query issues
   const allSnap = await db.collection("organizers").get();

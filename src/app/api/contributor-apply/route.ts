@@ -146,14 +146,6 @@ export async function POST(request: NextRequest) {
         { merge: true }
       );
 
-    console.log(`=== New Contributor Application ===`);
-    console.log(`User: ${name} <${email}>`);
-    console.log(`City: ${city}`);
-    console.log(`Metro Region: ${metroName || "Unknown"} (${metroRegion || "none"})`);
-    console.log(`Connections: ${connections.join(", ")}`);
-    console.log(`Story: ${story}`);
-    console.log(`===================================`);
-
     return NextResponse.json({ success: true, metroRegion, metroName });
   } catch (err) {
     console.error("Contributor application error:", err);

@@ -38,7 +38,7 @@ export default function BlogPage() {
             >
               <div className="flex items-start gap-4">
                 {post.image && (
-                  <img src={post.image} alt="" className="w-24 h-24 rounded-lg object-cover shrink-0" loading="lazy" />
+                  <img src={post.image} alt={post.title} className="w-24 h-24 rounded-lg object-cover shrink-0" loading="lazy" />
                 )}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2">

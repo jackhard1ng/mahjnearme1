@@ -64,8 +64,23 @@ export default async function StatePage({ params }: Props) {
     (c) => stateAbbr ? c.state === stateAbbr : slugify(getStateName(c.state)) === state
   );
 
+  const siteUrl = process.env.NEXT_PUBLIC_URL || "https://www.mahjnearme.com";
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "Cities", item: `${siteUrl}/cities` },
+      { "@type": "ListItem", position: 3, name: stateName, item: `${siteUrl}/states/${state}` },
+    ],
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm text-slate-400 mb-6">
         <Link href="/" className="hover:text-hotpink-500">Home</Link>

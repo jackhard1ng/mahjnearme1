@@ -49,7 +49,7 @@ export default function CityContributor({ cityName }: { cityName: string }) {
         {contributor.photoURL ? (
           <img
             src={contributor.photoURL}
-            alt=""
+            alt={`${contributor.name} — local contributor`}
             className="w-8 h-8 rounded-full object-cover"
           />
         ) : (

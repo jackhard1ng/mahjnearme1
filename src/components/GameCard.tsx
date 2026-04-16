@@ -358,7 +358,7 @@ export default function GameCard({
               <div className="flex items-center gap-2 mb-3">
                 {game.imageUrl ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
-                  <img src={game.imageUrl} alt="" className={`rounded-full object-cover flex-shrink-0 ${game.promoted ? "w-8 h-8 border-2 border-amber-400" : "w-6 h-6 border border-slate-200"}`} />
+                  <img src={game.imageUrl} alt={`${game.organizerName || "Organizer"} photo`} className={`rounded-full object-cover flex-shrink-0 ${game.promoted ? "w-8 h-8 border-2 border-amber-400" : "w-6 h-6 border border-slate-200"}`} />
                 ) : null}
                 <div className="min-w-0">
                   <p className="text-xs text-slate-500 tile-engraved truncate">{game.organizerName}</p>

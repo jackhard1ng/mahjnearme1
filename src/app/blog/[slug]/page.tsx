@@ -20,16 +20,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.description,
+    alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       title: post.title,
       description: post.description,
+      url: `/blog/${post.slug}`,
       type: "article",
       publishedTime: post.date,
       authors: [post.author],
       ...(post.image ? { images: [post.image] } : {}),
     },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      ...(post.image ? { images: [post.image] } : {}),
+    },
   };
 }
+
+const SITE_URL = process.env.NEXT_PUBLIC_URL || "https://www.mahjnearme.com";
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
@@ -37,8 +47,45 @@ export default async function BlogPostPage({ params }: Props) {
 
   if (!post) notFound();
 
+  const canonicalUrl = `${SITE_URL}/blog/${post.slug}`;
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: { "@type": "Person", name: post.author },
+    publisher: {
+      "@type": "Organization",
+      name: "MahjNearMe",
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.png` },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+    articleSection: post.category,
+    ...(post.image ? { image: post.image.startsWith("http") ? post.image : `${SITE_URL}${post.image}` } : {}),
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+      { "@type": "ListItem", position: 3, name: post.title, item: canonicalUrl },
+    ],
+  };
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm text-slate-400 mb-6">
         <Link href="/" className="hover:text-hotpink-500">Home</Link>
@@ -64,7 +111,7 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
 
         {post.image && (
-          <img src={post.image} alt="" className="w-full rounded-xl mb-8" />
+          <img src={post.image} alt={post.title} className="w-full rounded-xl mb-8" />
         )}
 
         <div

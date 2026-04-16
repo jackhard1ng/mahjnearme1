@@ -323,7 +323,7 @@ export default function GiveawaysPage() {
                 <div key={winner.id} className="mahj-tile p-4 flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-hotpink-100 flex items-center justify-center shrink-0">
                     {winner.winnerPhotoURL && winner.displayPermission ? (
-                      <img src={winner.winnerPhotoURL} alt="" className="w-12 h-12 rounded-full object-cover" />
+                      <img src={winner.winnerPhotoURL} alt={`${winner.winnerName || "Winner"} photo`} className="w-12 h-12 rounded-full object-cover" />
                     ) : (
                       <Trophy className="w-6 h-6 text-hotpink-500" />
                     )}
