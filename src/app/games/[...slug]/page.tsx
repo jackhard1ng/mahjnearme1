@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams, useRouter, notFound } from "next/navigation";
 import Link from "next/link";
 import { Game } from "@/types";
 import { mockGames } from "@/lib/mock-data";
+import { useFirestoreListingsWithStatus } from "@/hooks/useFirestoreListings";
 import {
   slugify,
   formatSchedule,
@@ -56,27 +57,25 @@ function getGameSlug(game: Game): string {
   return slugify(`${game.city}-${game.state}`) + "/" + slugify(game.name);
 }
 
-function findGameBySlug(slug: string[]): Game | undefined {
+function findGameBySlug(games: readonly Game[], slug: string[]): Game | undefined {
   const joined = slug.join("/");
-  // Try slug match first
-  const bySlug = mockGames.find(
-    (g) => g.status === "active" && getGameSlug(g) === joined
-  );
+  // Admin-deleted listings keep their docs but with status="inactive".
+  // Anything else (active, pending, null) should still be findable by URL.
+  const isVisible = (g: Game) => g.status !== "inactive";
+
+  // Try composite city-state/name slug match first
+  const bySlug = games.find((g) => isVisible(g) && getGameSlug(g) === joined);
   if (bySlug) return bySlug;
 
-  // Fallback: try matching by game ID (last segment)
+  // Fallback: match by game ID as last segment (handles old URLs / bookmarks)
   const lastSegment = slug[slug.length - 1];
   if (lastSegment) {
-    const byId = mockGames.find(
-      (g) => g.status === "active" && g.id === lastSegment
-    );
+    const byId = games.find((g) => isVisible(g) && g.id === lastSegment);
     if (byId) return byId;
   }
 
-  // Fallback: try matching ID against full joined path
-  return mockGames.find(
-    (g) => g.status === "active" && g.id === joined
-  );
+  // Fallback: match ID against full joined path
+  return games.find((g) => isVisible(g) && g.id === joined);
 }
 
 function buildGoogleMapsUrl(address: string): string {
@@ -339,39 +338,26 @@ export default function GameDetailPage() {
       ? rawSlug.split("/")
       : [];
 
-  const localGame = findGameBySlug(slugSegments);
-  const [firestoreGame, setFirestoreGame] = useState<Game | null>(null);
-  const [fetchDone, setFetchDone] = useState(false);
+  // Use the same merged Firestore+JSON list the search/events pages use,
+  // so any URL they generate resolves here. Without this, Firestore-only
+  // listings (added via admin/organizer flows) 404 because the static
+  // `mockGames` JSON doesn't know about them.
+  const { games: allGames, loading: listingsLoading } = useFirestoreListingsWithStatus();
 
-  useEffect(() => {
-    if (localGame) return;
-    const lastSegment = slugSegments[slugSegments.length - 1] || "";
-    const fullSlug = slugSegments.join("/");
-    if (!lastSegment) { setFetchDone(true); return; }
+  // Call all remaining hooks unconditionally before any early returns to
+  // comply with the Rules of Hooks.
+  const { user, hasAccess, loading, userProfile, updateUserProfile } = useAuth();
 
-    // Try by ID first, then search by slug
-    fetch(`/api/listings?id=${encodeURIComponent(lastSegment)}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.listing) {
-          setFirestoreGame(data.listing as Game);
-          setFetchDone(true);
-        } else {
-          // Try searching by slug in name
-          return fetch(`/api/listings?search=${encodeURIComponent(lastSegment)}`)
-            .then((r) => r.json())
-            .then((data) => {
-              if (data.listing) setFirestoreGame(data.listing as Game);
-            });
-        }
-      })
-      .catch(() => {})
-      .finally(() => setFetchDone(true));
-  }, []);
+  // Fast path: try mockGames synchronously so the common case (event is in
+  // the static JSON) renders without a loading flash.
+  const localGame = findGameBySlug(mockGames, slugSegments);
+  const remoteGame = localGame ? undefined : findGameBySlug(allGames, slugSegments);
+  const game = localGame || remoteGame;
 
-  const game = (localGame || firestoreGame)!;
-
-  if (!localGame && !fetchDone) {
+  // Only show a loading state if we haven't found it locally AND the
+  // Firestore fetch is still in flight. Once it completes, we either have
+  // the game or we legitimately don't.
+  if (!localGame && listingsLoading) {
     return <div className="max-w-7xl mx-auto px-4 py-20 text-center"><p className="text-slate-400">Loading...</p></div>;
   }
 
@@ -383,8 +369,6 @@ export default function GameDetailPage() {
   // TypeScript: game is guaranteed non-undefined after notFound()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _game: Game = game;
-
-  const { user, hasAccess, loading, userProfile, updateUserProfile } = useAuth();
 
   // Derived values
   const verification = getVerificationStatus(game.verified);
@@ -398,13 +382,14 @@ export default function GameDetailPage() {
   const googleMapsUrl = buildGoogleMapsUrl(game.address);
   const isOnCalendar = (userProfile?.savedEvents || []).includes(game.id);
 
+  const gameId = game.id;
   function toggleCalendarEvent() {
     if (!userProfile || !user) return;
     const saved = userProfile.savedEvents || [];
-    if (saved.includes(game.id)) {
-      updateUserProfile({ savedEvents: saved.filter((id) => id !== game.id) });
+    if (saved.includes(gameId)) {
+      updateUserProfile({ savedEvents: saved.filter((id) => id !== gameId) });
     } else {
-      updateUserProfile({ savedEvents: [...saved, game.id] });
+      updateUserProfile({ savedEvents: [...saved, gameId] });
     }
   }
   const gameStyleLabel = GAME_STYLE_LABELS[game.gameStyle] || game.gameStyle;

@@ -58,3 +58,35 @@ export function useFirestoreListings(): Game[] {
 
   return games;
 }
+
+/**
+ * Same as `useFirestoreListings` but also returns a `loading` flag that
+ * stays true until the Firestore fetch has returned. Detail pages need
+ * this so they can show a loading state instead of rendering `notFound()`
+ * while the merged Firestore+JSON list is still arriving.
+ */
+export function useFirestoreListingsWithStatus(): { games: Game[]; loading: boolean } {
+  const [games, setGames] = useState<Game[]>(() => _cache ?? mockGames);
+  const [loading, setLoading] = useState<boolean>(_cache === null);
+
+  useEffect(() => {
+    if (_cache !== null) {
+      setGames(_cache);
+      setLoading(false);
+      return;
+    }
+
+    fetchListings();
+    const listener = (games: Game[]) => {
+      setGames(games);
+      setLoading(false);
+    };
+    _listeners.push(listener);
+
+    return () => {
+      _listeners = _listeners.filter((l) => l !== listener);
+    };
+  }, []);
+
+  return { games, loading };
+}
