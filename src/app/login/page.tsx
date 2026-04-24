@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent, Suspense } from "react";
+import { useState, useEffect, FormEvent, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
@@ -33,17 +33,17 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Redirect if already logged in
-  if (user && !authLoading) {
-    // If they came from /pricing with a plan choice, bounce them back to
-    // /pricing so they can click Subscribe again now that they're logged in.
+  // Redirect if already logged in. Must run in an effect — calling
+  // router.push during render throws a React warning and can race with
+  // Firebase's auth-state listener.
+  useEffect(() => {
+    if (authLoading || !user) return;
     if (planParam === "monthly" || planParam === "annual") {
       router.push("/pricing?from=signup");
-      return null;
+      return;
     }
     router.push(redirectTo);
-    return null;
-  }
+  }, [user, authLoading, planParam, redirectTo, router]);
 
   // After a successful login, send the user directly to Stripe checkout if
   // they came here with a plan choice. Without this, a user who clicked
@@ -129,7 +129,10 @@ function LoginPage() {
     }
   };
 
-  if (authLoading) {
+  // Show a spinner while auth is loading or while the redirect effect is
+  // about to fire — keeps the form from flashing into view for logged-in
+  // users.
+  if (authLoading || user) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-hotpink-500 animate-spin" />
@@ -229,7 +232,13 @@ function LoginPage() {
                   Password
                 </label>
                 <Link
-                  href="/forgot-password"
+                  href={(() => {
+                    const params = new URLSearchParams();
+                    if (planParam) params.set("plan", planParam);
+                    if (redirectParam) params.set("redirect", redirectParam);
+                    const qs = params.toString();
+                    return qs ? `/forgot-password?${qs}` : "/forgot-password";
+                  })()}
                   className="text-xs text-hotpink-500 hover:text-hotpink-600 font-medium"
                 >
                   Forgot password?
