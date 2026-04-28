@@ -101,11 +101,24 @@ function maskEmail(email: string): string {
   return `${visible}${"•".repeat(Math.max(3, user.length - visible.length))}@${domain}`;
 }
 
-// Helper to route admin API calls through the secure proxy
+// Helper to route admin API calls through the secure proxy.
+// Sends the current user's Firebase ID token so the proxy can verify
+// the caller is an admin before forwarding with CRON_SECRET attached.
 async function adminFetch(route: string, method: string = "GET", body?: unknown): Promise<Response> {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  try {
+    const { getFirebaseAuth } = await import("@/lib/firebase");
+    const user = getFirebaseAuth().currentUser;
+    if (user) {
+      const idToken = await user.getIdToken();
+      headers.Authorization = `Bearer ${idToken}`;
+    }
+  } catch (err) {
+    console.error("[adminFetch] Failed to get ID token:", err);
+  }
   return fetch("/api/admin-proxy", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify({ route, method, body }),
   });
 }

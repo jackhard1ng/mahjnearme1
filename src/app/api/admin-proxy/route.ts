@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requireAdminUser } from "@/lib/api-auth";
 
 export const runtime = "nodejs";
 // The proxy has to stay alive for as long as the downstream route it calls.
@@ -8,7 +9,12 @@ export const maxDuration = 60;
 
 /**
  * POST /api/admin-proxy
- * Proxies admin panel requests to protected API routes by adding the CRON_SECRET.
+ * Proxies admin panel requests to protected API routes.
+ *
+ * Auth: client must send Authorization: Bearer <Firebase ID token> for an
+ * admin-level user. The proxy verifies that, then forwards the request with
+ * CRON_SECRET attached so downstream routes' requireAdmin() check passes.
+ *
  * Body: { route: "/api/subscribers", method: "GET", body?: any }
  */
 export async function POST(req: Request) {
@@ -16,6 +22,10 @@ export async function POST(req: Request) {
   if (!cronSecret) {
     return NextResponse.json({ error: "Not configured" }, { status: 500 });
   }
+
+  // Verify the caller is an admin user (Firebase ID token in Authorization header)
+  const authResult = await requireAdminUser(req);
+  if (authResult instanceof NextResponse) return authResult;
 
   try {
     const { route, method, body } = await req.json();

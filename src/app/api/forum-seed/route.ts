@@ -1,15 +1,20 @@
 import { NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import METRO_REGIONS from "@/lib/metro-regions";
+import { requireAdminUser } from "@/lib/api-auth";
 
 /**
  * POST: Seed general discussion posts for all metro boards.
  * Creates a pinned "[City] General Discussion" post for each metro
  * that doesn't already have one.
  *
- * This is an admin-only endpoint. Call once to seed, safe to re-run.
+ * Auth: Authorization: Bearer <Firebase ID token> for an admin user.
+ * Safe to re-run.
  */
-export async function POST() {
+export async function POST(req: Request) {
+  const authResult = await requireAdminUser(req);
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
     const db = getAdminDb();
     let created = 0;
