@@ -263,17 +263,25 @@ export async function PUT(request: NextRequest) {
         { merge: true }
       );
 
-      // If the user already has an active subscription, auto-feature them
-      // now that they're approved. The Stripe webhook's promoteOrganizerListings
-      // only fires on subscription events, so it misses the case where someone
-      // subscribes FIRST and gets approved LATER.
+      // If the user already has paid access, auto-feature them now that
+      // they're approved. The Stripe webhook's promoteOrganizerListings
+      // only fires on subscription events, so it misses the case where
+      // someone subscribes FIRST and gets approved LATER.
+      //
+      // "Paid access" mirrors AuthContext.hasAccess: any subscriber-like
+      // accountType OR an active/trialing/past_due subscriptionStatus.
       const userDoc = await db.collection("users").doc(app.userId).get();
       const userData = userDoc.data();
-      const isAlreadySubscriber =
+      const hasPaidAccess =
         userData?.accountType === "subscriber" ||
-        userData?.subscriptionStatus === "active";
+        userData?.accountType === "contributor" ||
+        userData?.accountType === "admin" ||
+        userData?.accountType === "trial" ||
+        userData?.subscriptionStatus === "active" ||
+        userData?.subscriptionStatus === "trialing" ||
+        userData?.subscriptionStatus === "past_due";
 
-      if (isAlreadySubscriber) {
+      if (hasPaidAccess) {
         await db.collection("organizers").doc(organizerProfileId).update({
           featured: true,
           updatedAt: now,
@@ -290,6 +298,14 @@ export async function PUT(request: NextRequest) {
           }
           await batch.commit();
         }
+
+        console.log(
+          `[organizer-apply] Auto-featured organizer ${organizerProfileId} on approval (user ${app.userId} has paid access: accountType=${userData?.accountType}, subscriptionStatus=${userData?.subscriptionStatus})`
+        );
+      } else {
+        console.log(
+          `[organizer-apply] Approved organizer ${organizerProfileId} but user ${app.userId} is not paid yet (accountType=${userData?.accountType}, subscriptionStatus=${userData?.subscriptionStatus}). Stripe webhook will feature them when they subscribe.`
+        );
       }
     }
 

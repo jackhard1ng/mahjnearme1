@@ -196,6 +196,38 @@ export async function PUT(request: NextRequest) {
         reviewedAt: now,
       });
       await batch.commit();
+
+      // If the claimant already has paid access, auto-feature their
+      // organizer profile and promote their listings. Mirrors
+      // AuthContext.hasAccess so any paid state qualifies.
+      const userDoc = await db.collection("users").doc(claim.userId).get();
+      const userData = userDoc.data();
+      const hasPaidAccess =
+        userData?.accountType === "subscriber" ||
+        userData?.accountType === "contributor" ||
+        userData?.accountType === "admin" ||
+        userData?.accountType === "trial" ||
+        userData?.subscriptionStatus === "active" ||
+        userData?.subscriptionStatus === "trialing" ||
+        userData?.subscriptionStatus === "past_due";
+
+      if (hasPaidAccess) {
+        await db.collection("organizers").doc(organizerProfileId).update({
+          featured: true,
+          updatedAt: now,
+        });
+        const promoteBatch = db.batch();
+        for (const listingId of claim.listingIds) {
+          promoteBatch.update(db.collection("listings").doc(listingId), {
+            promoted: true,
+            updatedAt: now,
+          });
+        }
+        await promoteBatch.commit();
+        console.log(
+          `[claims] Auto-featured organizer ${organizerProfileId} on claim approval (user ${claim.userId} has paid access)`
+        );
+      }
     } else {
       // Rejected
       await claimRef.update({
