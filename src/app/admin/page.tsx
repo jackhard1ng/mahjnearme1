@@ -77,6 +77,28 @@ interface GiveawayData {
   totalEntries: number;
   totalParticipants: number;
   winners: { id: string; month: string; winnerName: string; winnerCity: string; drawnAt: string }[];
+  month?: string;
+  prizeName?: string;
+  prizeValue?: string | null;
+  prizePhoto?: string | null;
+  prizeDescription?: string | null;
+  prizeLink?: string | null;
+  numberOfWinners?: number;
+  drawDate?: string;
+}
+
+// Mask helpers for PII when admin is screen-recording the draw
+function maskName(name: string): string {
+  const parts = (name || "").trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "Entrant";
+  if (parts.length === 1) return parts[0];
+  return `${parts[0]} ${parts[parts.length - 1][0]}.`;
+}
+function maskEmail(email: string): string {
+  if (!email || !email.includes("@")) return "•••";
+  const [user, domain] = email.split("@");
+  const visible = user.slice(0, Math.min(2, user.length));
+  return `${visible}${"•".repeat(Math.max(3, user.length - visible.length))}@${domain}`;
 }
 
 // Helper to route admin API calls through the secure proxy
@@ -105,6 +127,20 @@ export default function AdminDashboardPage() {
   const [announcePrizeName, setAnnouncePrizeName] = useState("");
   const [announcePrizeValue, setAnnouncePrizeValue] = useState("");
   const [reactivating, setReactivating] = useState<string | null>(null);
+
+  // Editable prize config (saved to Firestore via /api/giveaway action=save_config)
+  const [cfgMonth, setCfgMonth] = useState("");
+  const [cfgPrizeName, setCfgPrizeName] = useState("");
+  const [cfgPrizeValue, setCfgPrizeValue] = useState("");
+  const [cfgPrizePhoto, setCfgPrizePhoto] = useState("");
+  const [cfgPrizeLink, setCfgPrizeLink] = useState("");
+  const [cfgPrizeDescription, setCfgPrizeDescription] = useState("");
+  const [cfgNumberOfWinners, setCfgNumberOfWinners] = useState(1);
+  const [cfgDrawDate, setCfgDrawDate] = useState("");
+  const [savingCfg, setSavingCfg] = useState(false);
+  const [cfgSaved, setCfgSaved] = useState(false);
+  // When recording the draw, hide full names and emails in the entry pool table
+  const [hidePII, setHidePII] = useState(false);
 
   const refreshAnalytics = useCallback(() => {
     getAnalytics(30).then(setAnalytics);
@@ -151,7 +187,17 @@ export default function AdminDashboardPage() {
     try {
       const res = await adminFetch("/api/giveaway?admin=true");
       if (res.ok) {
-        setGiveawayData(await res.json());
+        const data = await res.json();
+        setGiveawayData(data);
+        // Seed prize-config form with current values
+        setCfgMonth(data.month || "");
+        setCfgPrizeName(data.prizeName || "");
+        setCfgPrizeValue(data.prizeValue || "");
+        setCfgPrizePhoto(data.prizePhoto || "");
+        setCfgPrizeLink(data.prizeLink || "");
+        setCfgPrizeDescription(data.prizeDescription || "");
+        setCfgNumberOfWinners(data.numberOfWinners || 1);
+        setCfgDrawDate(data.drawDate || "");
       } else {
         const data = await res.json().catch(() => ({}));
         setGiveawayError(data.error || `Failed to load (${res.status})`);
@@ -697,13 +743,25 @@ export default function AdminDashboardPage() {
               <div className="bg-white border border-slate-200 rounded-xl p-6">
                 <h3 className="font-semibold text-charcoal mb-3">Open Monthly Giveaway</h3>
                 <p className="text-sm text-slate-500 mb-4">
-                  Set the prize details for this month&apos;s giveaway. These show on the public giveaways page.
+                  Set the prize details for this month&apos;s giveaway. These show on the public giveaways page immediately after saving.
                 </p>
                 <div className="grid sm:grid-cols-2 gap-3 mb-4">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1">Month Label</label>
+                    <input
+                      type="text"
+                      value={cfgMonth}
+                      onChange={(e) => setCfgMonth(e.target.value)}
+                      placeholder="e.g. April"
+                      className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
+                    />
+                  </div>
                   <div>
                     <label className="block text-xs font-medium text-slate-600 mb-1">Prize Name</label>
                     <input
                       type="text"
+                      value={cfgPrizeName}
+                      onChange={(e) => setCfgPrizeName(e.target.value)}
                       placeholder="e.g. American Mah Jongg Set"
                       className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
                     />
@@ -712,7 +770,9 @@ export default function AdminDashboardPage() {
                     <label className="block text-xs font-medium text-slate-600 mb-1">Prize Value</label>
                     <input
                       type="text"
-                      placeholder="e.g. $350"
+                      value={cfgPrizeValue}
+                      onChange={(e) => setCfgPrizeValue(e.target.value)}
+                      placeholder="e.g. $350 value"
                       className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
                     />
                   </div>
@@ -720,6 +780,18 @@ export default function AdminDashboardPage() {
                     <label className="block text-xs font-medium text-slate-600 mb-1">Prize Photo URL</label>
                     <input
                       type="text"
+                      value={cfgPrizePhoto}
+                      onChange={(e) => setCfgPrizePhoto(e.target.value)}
+                      placeholder="https://..."
+                      className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1">Prize Link</label>
+                    <input
+                      type="text"
+                      value={cfgPrizeLink}
+                      onChange={(e) => setCfgPrizeLink(e.target.value)}
                       placeholder="https://..."
                       className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
                     />
@@ -729,29 +801,83 @@ export default function AdminDashboardPage() {
                     <input
                       type="number"
                       min={1}
-                      defaultValue={1}
+                      value={cfgNumberOfWinners}
+                      onChange={(e) => setCfgNumberOfWinners(Math.max(1, parseInt(e.target.value) || 1))}
                       className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
                     />
                   </div>
-                  <div>
+                  <div className="sm:col-span-2">
                     <label className="block text-xs font-medium text-slate-600 mb-1">Draw Date</label>
                     <input
-                      type="date"
+                      type="text"
+                      value={cfgDrawDate}
+                      onChange={(e) => setCfgDrawDate(e.target.value)}
+                      placeholder="e.g. April 30, 2026 at 3:00 PM CT"
+                      className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
+                    />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-medium text-slate-600 mb-1">Prize Description (one-liner)</label>
+                    <input
+                      type="text"
+                      value={cfgPrizeDescription}
+                      onChange={(e) => setCfgPrizeDescription(e.target.value)}
+                      placeholder="Winner picks any set from..."
                       className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
                     />
                   </div>
                 </div>
                 <button
-                  className="flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
+                  onClick={async () => {
+                    if (!cfgPrizeName.trim()) { alert("Prize name is required."); return; }
+                    setSavingCfg(true);
+                    setCfgSaved(false);
+                    try {
+                      const res = await adminFetch("/api/giveaway", "POST", {
+                        action: "save_config",
+                        month: cfgMonth.trim() || null,
+                        prizeName: cfgPrizeName.trim(),
+                        prizeValue: cfgPrizeValue.trim() || null,
+                        prizePhoto: cfgPrizePhoto.trim() || null,
+                        prizeLink: cfgPrizeLink.trim() || null,
+                        prizeDescription: cfgPrizeDescription.trim() || null,
+                        numberOfWinners: cfgNumberOfWinners,
+                        drawDate: cfgDrawDate.trim() || null,
+                      });
+                      if (res.ok) {
+                        setCfgSaved(true);
+                        fetchGiveaway();
+                        setTimeout(() => setCfgSaved(false), 3000);
+                      } else {
+                        const d = await res.json().catch(() => ({}));
+                        alert(d.error || "Failed to save.");
+                      }
+                    } catch {
+                      alert("Failed to save prize details.");
+                    } finally {
+                      setSavingCfg(false);
+                    }
+                  }}
+                  disabled={savingCfg}
+                  className="flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors disabled:opacity-50"
                 >
-                  <Gift className="w-4 h-4" /> Save Giveaway Details
+                  {savingCfg ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : <><Gift className="w-4 h-4" /> {cfgSaved ? "Saved!" : "Save Giveaway Details"}</>}
                 </button>
               </div>
 
               {/* Entry Pool Table */}
               <div className="bg-white border border-slate-200 rounded-xl">
-                <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between flex-wrap gap-2">
                   <h3 className="font-semibold text-charcoal">Entry Pool ({giveawayData.totalEntries} entries from {giveawayData.totalParticipants} people)</h3>
+                  <label className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={hidePII}
+                      onChange={(e) => setHidePII(e.target.checked)}
+                      className="rounded text-hotpink-500"
+                    />
+                    Hide PII (safe for recording)
+                  </label>
                 </div>
                 <div className="max-h-72 overflow-y-auto divide-y divide-slate-50">
                   {giveawayData.eligibleEntries
@@ -760,8 +886,8 @@ export default function AdminDashboardPage() {
                     <div key={entry.userId} className="px-5 py-2.5 flex items-center justify-between hover:bg-slate-50">
                       <div className="flex items-center gap-3">
                         <div>
-                          <p className="text-sm font-medium text-charcoal">{entry.userName}</p>
-                          <p className="text-xs text-slate-500">{entry.email}</p>
+                          <p className="text-sm font-medium text-charcoal">{hidePII ? maskName(entry.userName) : entry.userName}</p>
+                          <p className="text-xs text-slate-500">{hidePII ? maskEmail(entry.email) : entry.email}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
@@ -969,13 +1095,24 @@ function GiveawayWheel({
   const [winner, setWinner] = useState<string | null>(null);
   const spinAngleRef = useRef(0);
 
-  // Build weighted segments (each entry count = 1 segment slice)
+  // Build weighted segments (each entry count = 1 segment slice).
+  // Public-safe label: first name + last initial only (matches sweepstakes
+  // rules §10 and avoids exposing full names if this is screen-recorded).
+  function publicLabel(name: string): string {
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return "Entrant";
+    if (parts.length === 1) return parts[0];
+    return `${parts[0]} ${parts[parts.length - 1][0]}.`;
+  }
   const segments = entries.flatMap((e) =>
-    Array.from({ length: e.entries }, () => ({
-      userId: e.userId,
-      label: e.userName.length > 15 ? e.userName.slice(0, 14) + "…" : e.userName,
-      fullName: e.userName,
-    }))
+    Array.from({ length: e.entries }, () => {
+      const label = publicLabel(e.userName);
+      return {
+        userId: e.userId,
+        label: label.length > 18 ? label.slice(0, 17) + "…" : label,
+        fullName: e.userName,
+      };
+    })
   );
 
   // Draw the wheel on canvas
@@ -1147,7 +1284,8 @@ function GiveawayWheel({
         {winner && (
           <div className="text-center bg-hotpink-50 border border-hotpink-200 rounded-xl px-6 py-4">
             <p className="text-sm text-slate-600 mb-1">Winner!</p>
-            <p className="text-xl font-bold text-hotpink-600">{winner}</p>
+            <p className="text-xl font-bold text-hotpink-600">{publicLabel(winner)}</p>
+            <p className="text-xs text-slate-400 mt-1">Full name visible in entry pool above</p>
           </div>
         )}
 
