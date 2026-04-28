@@ -243,9 +243,13 @@ export default function AdminDashboardPage() {
       const res = await adminFetch("/api/giveaway/announce", "POST", { prizeName: announcePrizeName, prizeValue: announcePrizeValue });
       const data = await res.json();
       if (data.success) {
-        alert(`Announcement sent to ${data.sent} contributor(s): ${data.recipients.join(", ")}`);
-        setAnnouncePrizeName("");
-        setAnnouncePrizeValue("");
+        const names = (data.recipients as { name: string; sent: boolean }[] | undefined)?.map((r) => `${r.name}${r.sent ? "" : " (FAILED)"}`).join(", ") || "";
+        const failedNote = data.failed > 0 ? `\n\n${data.failed} failed — check Vercel logs.` : "";
+        alert(`Announcement: ${data.sent}/${data.total} sent${failedNote}\n\n${names}`);
+        if (data.sent > 0) {
+          setAnnouncePrizeName("");
+          setAnnouncePrizeValue("");
+        }
       } else {
         alert(data.error || "Failed to send announcements");
       }

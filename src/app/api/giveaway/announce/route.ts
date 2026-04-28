@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { formatCurrency } from "@/lib/currency";
 import { requireAdmin } from "@/lib/api-auth";
+import { sendEmail } from "@/lib/email";
 import {
   MONTHLY_REFERRAL_COMMISSION,
   ANNUAL_REFERRAL_COMMISSION,
@@ -45,6 +46,7 @@ export async function POST(request: NextRequest) {
       referralCode: string;
       activeReferrals: number;
       monthlyEarnings: number;
+      sent: boolean;
     }[] = [];
 
     for (const doc of usersSnap.docs) {
@@ -95,24 +97,31 @@ export async function POST(request: NextRequest) {
         monthlyEarnings,
       });
 
+      // Send via SendGrid
+      let sent = false;
+      try {
+        sent = await sendEmail({
+          to: data.email,
+          subject: `${prizeName} giveaway is live — share your code`,
+          text: `Hi ${contributorName},\n\nThis month's MahjNearMe giveaway is live: ${prizeValue} ${prizeName}.\n\nReady-to-post caption:\n\n${caption}\n\nYour referral link: ${baseUrl}/pricing?ref=${encodeURIComponent(referralCode)}\n\nActive referrals: ${activeReferrals}\nCurrent monthly earnings: ${formatCurrency(monthlyEarnings)}\n\n- Jack @ MahjNearMe`,
+          html: emailHtml,
+        });
+      } catch (err) {
+        console.error(`[announce] Failed to send to ${data.email}:`, err);
+      }
+
       announcements.push({
         email: data.email,
         name: contributorName,
         referralCode,
         activeReferrals,
         monthlyEarnings,
+        sent,
       });
-
-      // TODO: Replace with actual email service (SendGrid, Resend, SES, etc.)
-      console.log(`=== Contributor Giveaway Announcement ===`);
-      console.log(`To: ${data.email} (${contributorName})`);
-      console.log(`Referral Code: ${referralCode}`);
-      console.log(`Active Referrals: ${activeReferrals}`);
-      console.log(`Monthly Earnings: ${formatCurrency(monthlyEarnings)}`);
-      console.log(`Caption:\n${caption}`);
-      console.log(`Email HTML length: ${emailHtml.length} chars`);
-      console.log(`=========================================`);
     }
+
+    const sentCount = announcements.filter((a) => a.sent).length;
+    const failedCount = announcements.length - sentCount;
 
     // Log the send event
     await db.collection("giveawayAnnouncements").add({
@@ -120,17 +129,22 @@ export async function POST(request: NextRequest) {
       prizeValue,
       sentAt: new Date().toISOString(),
       recipientCount: announcements.length,
+      sentCount,
+      failedCount,
       recipients: announcements.map((a) => ({
         email: a.email,
         name: a.name,
         referralCode: a.referralCode,
+        sent: a.sent,
       })),
     });
 
     return NextResponse.json({
       success: true,
-      sent: announcements.length,
-      recipients: announcements.map((a) => a.name),
+      sent: sentCount,
+      failed: failedCount,
+      total: announcements.length,
+      recipients: announcements.map((a) => ({ name: a.name, sent: a.sent })),
     });
   } catch (err) {
     console.error("Giveaway announcement error:", err);
