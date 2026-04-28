@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { getAllPosts } from "@/lib/blog";
 
 export default function Footer() {
+  const hasBlogPosts = getAllPosts().length > 0;
+
   return (
     <footer className="bg-navy text-white">
       {/* Decorative top border - pink to blue */}
@@ -63,11 +66,13 @@ export default function Footer() {
                   Mahj Gear
                 </Link>
               </li>
-              <li>
-                <Link href="/blog" className="text-sm text-slate-400 hover:text-hotpink-400 transition-colors">
-                  Blog
-                </Link>
-              </li>
+              {hasBlogPosts && (
+                <li>
+                  <Link href="/blog" className="text-sm text-slate-400 hover:text-hotpink-400 transition-colors">
+                    Blog
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link href="/pricing" className="text-sm text-slate-400 hover:text-hotpink-400 transition-colors">
                   Pricing
