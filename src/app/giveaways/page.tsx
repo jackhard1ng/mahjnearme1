@@ -25,9 +25,12 @@ interface Winner {
 interface GiveawayInfo {
   currentMonth: string;
   winners: Winner[];
+  month?: string;
   prizeName?: string;
   prizeValue?: string;
   prizePhoto?: string;
+  prizeDescription?: string;
+  prizeLink?: string;
   numberOfWinners?: number;
   drawDate?: string;
   entryCount?: number;
@@ -156,7 +159,7 @@ export default function GiveawaysPage() {
         <div className="max-w-5xl mx-auto px-4 pt-16 pb-12 sm:pt-20 sm:pb-14 text-center relative">
           <Gift className="w-12 h-12 text-skyblue-200 mx-auto mb-4" />
           <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-4xl sm:text-5xl text-white mb-3 tracking-tight drop-shadow-lg">
-            {CURRENT_GIVEAWAY.month} Mahjong{" "}
+            {data?.month || CURRENT_GIVEAWAY.month} Mahjong{" "}
             <span className="text-skyblue-200">Giveaway</span>
           </h1>
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
@@ -174,18 +177,23 @@ export default function GiveawaysPage() {
             <div className="text-center mb-6">
               <div className="inline-flex items-center gap-2 bg-hotpink-100 text-hotpink-600 px-4 py-1.5 rounded-full text-sm font-bold mb-3">
                 <Gift className="w-4 h-4" />
-                {CURRENT_GIVEAWAY.month} Giveaway
+                {data?.month || CURRENT_GIVEAWAY.month} Giveaway
               </div>
+              {(data?.prizePhoto) && (
+                <div className="mb-4 flex justify-center">
+                  <img src={data.prizePhoto} alt={data?.prizeName || CURRENT_GIVEAWAY.prizeName} className="max-h-56 rounded-lg object-contain" />
+                </div>
+              )}
               <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-1">
                 {data?.prizeName || CURRENT_GIVEAWAY.prizeName}
                 {(data?.prizeValue || CURRENT_GIVEAWAY.prizeValue) && (
                   <span className="text-hotpink-500 ml-2">({data?.prizeValue || CURRENT_GIVEAWAY.prizeValue})</span>
                 )}
               </h2>
-              <p className="text-sm text-slate-500">{CURRENT_GIVEAWAY.prizeDescription}</p>
-              {CURRENT_GIVEAWAY.prizeLink && (
+              <p className="text-sm text-slate-500">{data?.prizeDescription || CURRENT_GIVEAWAY.prizeDescription}</p>
+              {(data?.prizeLink || CURRENT_GIVEAWAY.prizeLink) && (
                 <a
-                  href={CURRENT_GIVEAWAY.prizeLink}
+                  href={data?.prizeLink || CURRENT_GIVEAWAY.prizeLink || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-sm text-hotpink-500 hover:text-hotpink-600 font-medium mt-2"

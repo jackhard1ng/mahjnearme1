@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { requireAdmin } from "@/lib/api-auth";
+import { sendEmail } from "@/lib/email";
+import { CURRENT_GIVEAWAY } from "@/lib/giveaway-config";
 
 // LEGAL NOTE: Sweepstakes laws vary by state. Have this reviewed by legal counsel before launch.
 
@@ -24,6 +26,20 @@ export async function GET(request: NextRequest) {
       id: doc.id,
       ...doc.data(),
     }));
+
+    // Live prize config (overrides file-based defaults). Falls back if doc missing.
+    const configDoc = await db.collection("siteConfig").doc("giveaway").get();
+    const liveConfig = configDoc.exists ? configDoc.data() : null;
+    const prize = {
+      prizeName: liveConfig?.prizeName ?? CURRENT_GIVEAWAY.prizeName,
+      prizeValue: liveConfig?.prizeValue ?? CURRENT_GIVEAWAY.prizeValue,
+      prizePhoto: liveConfig?.prizePhoto ?? null,
+      prizeDescription: liveConfig?.prizeDescription ?? CURRENT_GIVEAWAY.prizeDescription,
+      prizeLink: liveConfig?.prizeLink ?? CURRENT_GIVEAWAY.prizeLink,
+      numberOfWinners: liveConfig?.numberOfWinners ?? CURRENT_GIVEAWAY.numberOfWinners,
+      drawDate: liveConfig?.drawDate ?? CURRENT_GIVEAWAY.drawDate,
+      month: liveConfig?.month ?? CURRENT_GIVEAWAY.month,
+    };
 
     if (admin) {
       const denied = requireAdmin(request);
@@ -106,10 +122,11 @@ export async function GET(request: NextRequest) {
         eligibleEntries,
         totalEntries,
         totalParticipants: eligibleEntries.length,
+        ...prize,
       });
     }
 
-    return NextResponse.json({ currentMonth, winners });
+    return NextResponse.json({ currentMonth, winners, ...prize });
   } catch (err) {
     console.error("Giveaway GET error:", err);
     return NextResponse.json({ error: "Failed to load giveaway data" }, { status: 500 });
@@ -189,6 +206,33 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true, month: currentMonth });
     }
 
+    // Admin save prize config (overrides file-based defaults)
+    if (body.action === "save_config") {
+      const denied = requireAdmin(request);
+      if (denied) return denied;
+
+      const allowed = [
+        "month",
+        "prizeName",
+        "prizeValue",
+        "prizePhoto",
+        "prizeDescription",
+        "prizeLink",
+        "numberOfWinners",
+        "drawDate",
+      ] as const;
+      const update: Record<string, unknown> = { updatedAt: new Date().toISOString() };
+      for (const key of allowed) {
+        if (key in body) update[key] = body[key];
+      }
+      if (Object.keys(update).length === 1) {
+        return NextResponse.json({ error: "No fields to save" }, { status: 400 });
+      }
+
+      await db.collection("siteConfig").doc("giveaway").set(update, { merge: true });
+      return NextResponse.json({ success: true });
+    }
+
     // Admin draw winner
     if (body.action === "draw") {
       const denied = requireAdmin(request);
@@ -213,7 +257,7 @@ export async function POST(request: NextRequest) {
       const excludedUserIds = new Set(exclusionsSnap.docs.map((d) => d.data().userId));
 
       const usersSnap = await db.collection("users").get();
-      const pool: { userId: string; name: string; city: string; photoURL: string | null }[] = [];
+      const pool: { userId: string; name: string; email: string; city: string; photoURL: string | null; contactPhone: string | null }[] = [];
 
       for (const doc of usersSnap.docs) {
         const data = doc.data();
@@ -235,8 +279,10 @@ export async function POST(request: NextRequest) {
             pool.push({
               userId: doc.id,
               name: data.displayName || data.email || "Unknown",
+              email: data.email || "",
               city: data.homeCity || "Unknown",
               photoURL: data.photoURL || null,
+              contactPhone: data.contactPhone || null,
             });
           }
         }
@@ -252,8 +298,10 @@ export async function POST(request: NextRequest) {
         pool.push({
           userId: `free_${doc.id}`,
           name: data.name || data.email,
+          email: data.email || "",
           city: "Free Entry",
           photoURL: null,
+          contactPhone: null,
         });
       }
 
@@ -267,8 +315,10 @@ export async function POST(request: NextRequest) {
         pool.push({
           userId: `mailin_${doc.id}`,
           name: data.name || data.email,
+          email: data.email || "",
           city: data.city || "Mail-In Entry",
           photoURL: null,
+          contactPhone: null,
         });
       }
 
@@ -284,17 +334,40 @@ export async function POST(request: NextRequest) {
         month: currentMonth,
         winnerId: winner.userId,
         winnerName: winner.name,
+        winnerEmail: winner.email,
         winnerCity: winner.city,
         winnerPhotoURL: winner.photoURL,
+        winnerContactPhone: winner.contactPhone,
         drawnAt: now.toISOString(),
         notified: false,
         displayPermission: false,
         totalEntries: pool.length,
       };
 
-      await db.collection("giveawayDraws").add(drawData);
+      const drawRef = await db.collection("giveawayDraws").add(drawData);
 
-      return NextResponse.json({ success: true, winner: drawData });
+      // Send winner notification email (best-effort; failure does not roll back the draw)
+      let notified = false;
+      if (winner.email) {
+        try {
+          const sent = await sendWinnerEmail({
+            to: winner.email,
+            name: winner.name,
+            prizeName: CURRENT_GIVEAWAY.prizeName,
+            prizeValue: CURRENT_GIVEAWAY.prizeValue,
+            prizeLink: CURRENT_GIVEAWAY.prizeLink,
+            month: CURRENT_GIVEAWAY.month,
+          });
+          notified = sent;
+          if (sent) {
+            await drawRef.update({ notified: true, notifiedAt: now.toISOString() });
+          }
+        } catch (err) {
+          console.error("Winner notification email failed:", err);
+        }
+      }
+
+      return NextResponse.json({ success: true, winner: { ...drawData, notified } });
     }
 
     // Admin remove entry (for canceled/refunded subscribers or bad entries)
@@ -340,4 +413,65 @@ export async function POST(request: NextRequest) {
     console.error("Giveaway POST error:", err);
     return NextResponse.json({ error: "Failed to process giveaway action" }, { status: 500 });
   }
+}
+
+async function sendWinnerEmail(opts: {
+  to: string;
+  name: string;
+  prizeName: string;
+  prizeValue: string | null;
+  prizeLink: string | null;
+  month: string;
+}): Promise<boolean> {
+  const firstName = opts.name.split(/\s+/)[0] || "there";
+  const valueStr = opts.prizeValue ? ` (${opts.prizeValue})` : "";
+  const subject = `You won the ${opts.month} MahjNearMe giveaway!`;
+
+  const text = `Hi ${firstName},
+
+Congratulations — you were drawn as the winner of the ${opts.month} MahjNearMe giveaway!
+
+Prize: ${opts.prizeName}${valueStr}
+${opts.prizeLink ? `Browse the collection: ${opts.prizeLink}\n` : ""}
+To claim your prize, please reply to this email within 14 days with:
+  1) Your full shipping address (continental US)
+  2) Which set you'd like (if a choice applies)
+  3) Whether we have your permission to display your first name, last initial, and city on the MahjNearMe winners page
+
+If we don't hear back in 14 days, an alternate winner may be selected per the Official Rules.
+
+Thanks for being part of MahjNearMe!
+- Jack`;
+
+  const html = `<div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto">
+  <div style="background:#FF1493;padding:24px;text-align:center;border-radius:12px 12px 0 0">
+    <h1 style="color:white;margin:0;font-size:24px">You won! 🎉</h1>
+  </div>
+  <div style="background:white;padding:32px;border:1px solid #eee;border-radius:0 0 12px 12px">
+    <p>Hi ${escapeHtml(firstName)},</p>
+    <p>Congratulations — you were drawn as the winner of the <strong>${escapeHtml(opts.month)} MahjNearMe giveaway</strong>!</p>
+    <div style="background:#FFF0F5;border:1px solid #FFB6C1;border-radius:12px;padding:16px;margin:16px 0">
+      <p style="margin:0;font-weight:bold;color:#FF1493">${escapeHtml(opts.prizeName)}${escapeHtml(valueStr)}</p>
+      ${opts.prizeLink ? `<p style="margin:8px 0 0"><a href="${escapeAttr(opts.prizeLink)}" style="color:#FF1493">Browse the collection &rarr;</a></p>` : ""}
+    </div>
+    <p>To claim your prize, please reply to this email within <strong>14 days</strong> with:</p>
+    <ol>
+      <li>Your full shipping address (continental US)</li>
+      <li>Which set you'd like (if a choice applies)</li>
+      <li>Whether we have your permission to display your first name, last initial, and city on the MahjNearMe winners page</li>
+    </ol>
+    <p style="color:#888;font-size:13px">If we don't hear back in 14 days, an alternate winner may be selected per the <a href="https://www.mahjnearme.com/sweepstakes-rules" style="color:#888">Official Rules</a>.</p>
+    <p>Thanks for being part of MahjNearMe!<br/>- Jack</p>
+  </div>
+</div>`;
+
+  return sendEmail({ to: opts.to, subject, text, html });
+}
+
+function escapeHtml(s: string): string {
+  return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
+}
+
+function escapeAttr(s: string): string {
+  return escapeHtml(s);
 }
