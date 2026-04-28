@@ -1,19 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { requireUser } from "@/lib/api-auth";
 
 /**
  * PUT /api/organizer-profile
  * Self-service endpoint for organizers to update their own profile.
- * No admin auth needed - verifies userId matches the organizer's linked account.
+ *
+ * Auth: Authorization: Bearer <Firebase ID token>. The userId is taken
+ * from the verified token, NOT the request body, so callers cannot
+ * modify other organizers' profiles.
  */
 export async function PUT(request: NextRequest) {
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const userId = authResult.uid;
+
   try {
     const db = getAdminDb();
     const body = await request.json();
-    const { userId, updates } = body;
+    const { updates } = body;
 
-    if (!userId || !updates) {
-      return NextResponse.json({ error: "userId and updates are required" }, { status: 400 });
+    if (!updates) {
+      return NextResponse.json({ error: "updates are required" }, { status: 400 });
     }
 
     // Verify user is linked to an organizer profile

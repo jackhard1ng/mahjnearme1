@@ -139,35 +139,16 @@ export async function POST(request: NextRequest) {
     const db = getAdminDb();
     const body = await request.json();
 
-    // Free entry submission (no purchase necessary)
+    // Free entry submission via online form is intentionally disabled.
+    // The published Official Rules only document mail-in AMOE; allowing an
+    // unauthenticated online endpoint would let anyone stuff the entry pool
+    // with bogus emails. Mail-in entries are added by admin via the
+    // "manual_entry" action below.
     if (body.action === "free_entry") {
-      const { email, name } = body;
-      if (!email) {
-        return NextResponse.json({ error: "Email is required" }, { status: 400 });
-      }
-
-      const now = new Date();
-      const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-
-      // Check if already entered this month
-      const existingSnap = await db.collection("giveawayFreeEntries")
-        .where("email", "==", email.toLowerCase())
-        .where("month", "==", currentMonth)
-        .limit(1)
-        .get();
-
-      if (!existingSnap.empty) {
-        return NextResponse.json({ error: "You've already entered this month" }, { status: 409 });
-      }
-
-      await db.collection("giveawayFreeEntries").add({
-        email: email.toLowerCase(),
-        name: name || "",
-        month: currentMonth,
-        createdAt: now.toISOString(),
-      });
-
-      return NextResponse.json({ success: true, month: currentMonth });
+      return NextResponse.json(
+        { error: "Online free entry is not available. See Official Rules for the mail-in entry method." },
+        { status: 410 }
+      );
     }
 
     // Admin manual entry (mail-in AMOE)

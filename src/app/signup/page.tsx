@@ -153,11 +153,13 @@ function SignupPage() {
 
     try {
       await signUp(email, password, name);
-      // Send welcome email (fire-and-forget)
-      fetch("/api/welcome-email", {
+      // Send welcome email (fire-and-forget). userFetch attaches the
+      // newly-signed-in user's ID token; recipient is taken from the token
+      // server-side, so this can't be used as a spam relay.
+      const { userFetch } = await import("@/lib/firebase");
+      userFetch("/api/welcome-email", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name }),
+        body: JSON.stringify({ name }),
       }).catch(() => {});
       setIsRegistered(true);
     } catch (err: unknown) {

@@ -1,16 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendWelcomeEmail } from "@/lib/email";
+import { requireUser } from "@/lib/api-auth";
 
+/**
+ * POST /api/welcome-email — send the welcome email to the calling user.
+ *
+ * Auth: Authorization: Bearer <Firebase ID token>. The recipient email is
+ * taken from the verified token, NOT the request body, so this cannot be
+ * used as an open spam relay to send branded emails to arbitrary addresses.
+ */
 export async function POST(request: NextRequest) {
-  try {
-    const { email, name } = await request.json();
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
 
-    if (!email) {
-      return NextResponse.json({ error: "Email is required" }, { status: 400 });
+  try {
+    const { name } = (await request.json().catch(() => ({}))) as { name?: string };
+
+    if (!authResult.email) {
+      return NextResponse.json({ error: "Verified token has no email" }, { status: 400 });
     }
 
     await sendWelcomeEmail({
-      to: email,
+      to: authResult.email,
       name: name || "",
       isSubscriber: false,
     });

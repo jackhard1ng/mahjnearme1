@@ -46,3 +46,30 @@ export function getFirebaseDb(): Firestore {
   }
   return db;
 }
+
+/**
+ * fetch() wrapper that attaches the current user's Firebase ID token as
+ * `Authorization: Bearer <token>`. Use for any API route that needs to
+ * verify the caller's identity (replaces sending userId in the body).
+ *
+ * Returns 401 from the server if the user isn't logged in.
+ */
+export async function userFetch(
+  input: RequestInfo | URL,
+  init: RequestInit = {}
+): Promise<Response> {
+  const headers = new Headers(init.headers || {});
+  if (!headers.has("Content-Type") && init.body) {
+    headers.set("Content-Type", "application/json");
+  }
+  try {
+    const user = getFirebaseAuth().currentUser;
+    if (user) {
+      const idToken = await user.getIdToken();
+      headers.set("Authorization", `Bearer ${idToken}`);
+    }
+  } catch (err) {
+    console.error("[userFetch] Failed to get ID token:", err);
+  }
+  return fetch(input, { ...init, headers });
+}

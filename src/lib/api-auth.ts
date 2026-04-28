@@ -72,3 +72,29 @@ export async function requireAdminUser(
 
   return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 }
+
+/**
+ * Verify the request comes from any logged-in user.
+ * Returns the verified uid + email on success, or 401 NextResponse on failure.
+ *
+ * Use this on endpoints that previously trusted `userId` from the request body —
+ * always trust the token, never the body.
+ */
+export async function requireUser(
+  req: Request
+): Promise<{ uid: string; email: string } | NextResponse> {
+  const authHeader = req.headers.get("authorization") || "";
+  const match = authHeader.match(/^Bearer\s+(.+)$/i);
+  if (!match) {
+    return NextResponse.json({ error: "Missing auth token" }, { status: 401 });
+  }
+  const idToken = match[1].trim();
+
+  try {
+    const decoded = await getAdminAuth().verifyIdToken(idToken);
+    return { uid: decoded.uid, email: (decoded.email || "").toLowerCase() };
+  } catch (err) {
+    console.error("[requireUser] verifyIdToken failed:", err);
+    return NextResponse.json({ error: "Invalid auth token" }, { status: 401 });
+  }
+}

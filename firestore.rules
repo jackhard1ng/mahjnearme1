@@ -33,10 +33,30 @@ service cloud.firestore {
 
     // ----------------------------------------------------------------
     // users — each user can read/write their own profile; admin can read all
+    //
+    // Privileged fields (accountType, subscription status, organizer/contributor
+    // flags, billing data, referral code) are NEVER writable from the client.
+    // Those are owned by the server (Stripe webhook, admin endpoints, etc.)
+    // which uses the Admin SDK and bypasses these rules.
     // ----------------------------------------------------------------
+    function privilegedUserFields() {
+      return [
+        'accountType', 'plan', 'subscriptionStatus', 'subscriptionId',
+        'stripeCustomerId', 'stripePriceId', 'isContributor', 'isOrganizer',
+        'isAdmin', 'organizerProfileId', 'contributorStatus', 'referralCode',
+        'subscribedDate', 'billingDate', 'accessUntil', 'currentPeriodEnd',
+        'cancelAtPeriodEnd', 'canceledAt'
+      ];
+    }
     match /users/{userId} {
       allow read: if isAuthed() && (request.auth.uid == userId || isAdmin());
-      allow write: if isAuthed() && request.auth.uid == userId;
+      // Initial create: must be self, must not seed any privileged field
+      allow create: if isAuthed() && request.auth.uid == userId
+        && !request.resource.data.keys().hasAny(privilegedUserFields());
+      // Update: must be self, must not change any privileged field
+      allow update: if isAuthed() && request.auth.uid == userId
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(privilegedUserFields());
+      allow delete: if isAdmin();
     }
 
     // ----------------------------------------------------------------

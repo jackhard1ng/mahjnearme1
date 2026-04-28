@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { getStripe } from "@/lib/stripe";
+import { requireUser } from "@/lib/api-auth";
 
 /**
  * POST /api/organizer-referral - Create or update a referral code for a paid organizer
@@ -18,13 +19,17 @@ const VESTING_DAYS = 60;
 const COUPON_ID = "REFERRAL_15_OFF";
 
 export async function POST(request: NextRequest) {
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const userId = authResult.uid;
+
   try {
     const db = getAdminDb();
     const stripe = getStripe();
-    const { userId, code } = await request.json();
+    const { code } = await request.json();
 
-    if (!userId || !code) {
-      return NextResponse.json({ error: "userId and code are required" }, { status: 400 });
+    if (!code) {
+      return NextResponse.json({ error: "code is required" }, { status: 400 });
     }
 
     // Validate code format: 3-20 chars, alphanumeric only
@@ -120,10 +125,21 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  // Allow GET without auth ONLY when called server-to-server from PUT
+  // (which validates the requester first). External GET callers must
+  // authenticate so they can't enumerate other users' referral stats.
+  const internalCall = request.headers.get("x-internal-referral") === "1";
+  let userId: string | null;
+  if (internalCall) {
+    userId = new URL(request.url).searchParams.get("userId");
+  } else {
+    const authResult = await requireUser(request);
+    if (authResult instanceof NextResponse) return authResult;
+    userId = authResult.uid;
+  }
+
   try {
     const db = getAdminDb();
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
 
     if (!userId) {
       return NextResponse.json({ error: "userId required" }, { status: 400 });
@@ -239,17 +255,18 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const userId = authResult.uid;
+
   try {
     const db = getAdminDb();
-    const { userId } = await request.json();
 
-    if (!userId) {
-      return NextResponse.json({ error: "userId required" }, { status: 400 });
-    }
-
-    // Verify they have enough for payout
+    // Verify they have enough for payout — pass internal header so the
+    // GET handler trusts the userId we already verified.
     const statsRes = await GET(new NextRequest(
-      new URL(`/api/organizer-referral?userId=${userId}`, request.url)
+      new URL(`/api/organizer-referral?userId=${userId}`, request.url),
+      { headers: { "x-internal-referral": "1" } }
     ));
     const stats = await statsRes.json();
 
