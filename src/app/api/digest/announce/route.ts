@@ -40,7 +40,12 @@ export async function POST(req: Request) {
       if (audience === "paid" && !isPaid) { skipped++; continue; }
       if (audience === "free" && isPaid) { skipped++; continue; }
 
-      const displayName = user.displayName || "there";
+      const displayName = escapeHtml(user.displayName || "there");
+      // Escape the operator-supplied message before injecting into HTML so
+      // a typo or pasted angle bracket can't unintentionally render as
+      // markup, and a leaked CRON_SECRET can't be used to inject phishing
+      // links / tracking pixels into branded emails.
+      const safeMessage = escapeHtml(message).replace(/\n/g, "<br/>");
 
       const html = `
         <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 560px; margin: 0 auto;">
@@ -50,7 +55,7 @@ export async function POST(req: Request) {
           <div style="background: white; padding: 28px; border: 1px solid #eee; border-radius: 0 0 12px 12px;">
             <p style="color: #1a1a2e; font-size: 15px;">Hi ${displayName},</p>
             <div style="color: #475569; font-size: 14px; line-height: 1.6;">
-              ${message.replace(/\n/g, "<br/>")}
+              ${safeMessage}
             </div>
             <div style="text-align: center; margin-top: 24px;">
               <a href="https://www.mahjnearme.com/account" style="display: inline-block; background: #FF1493; color: white; padding: 12px 32px; border-radius: 10px; font-weight: 700; font-size: 14px; text-decoration: none;">
@@ -86,4 +91,8 @@ export async function POST(req: Request) {
     console.error("[Announce] Error:", err);
     return NextResponse.json({ error: "Internal error" }, { status: 500 });
   }
+}
+
+function escapeHtml(s: string): string {
+  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
 }

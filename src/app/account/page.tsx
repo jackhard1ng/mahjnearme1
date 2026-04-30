@@ -227,10 +227,10 @@ export default function AccountPage() {
     }
     setPortalLoading(true);
     try {
-      const res = await fetch("/api/create-portal-session", {
+      const { userFetch } = await import("@/lib/firebase");
+      const res = await userFetch("/api/create-portal-session", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ stripeCustomerId: userProfile.stripeCustomerId }),
+        body: JSON.stringify({}),
       });
       const data = await res.json();
       if (data.url) {

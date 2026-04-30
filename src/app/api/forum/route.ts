@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { requireUser } from "@/lib/api-auth";
 
 // GET: List posts (by metro or general) or get single post with replies
 export async function GET(request: NextRequest) {
@@ -71,24 +72,31 @@ export async function GET(request: NextRequest) {
 
 // POST: Create a new forum post
 export async function POST(request: NextRequest) {
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const authorId = authResult.uid;
+
   try {
     const db = getAdminDb();
     const body = await request.json();
     const {
       metroSlug,
-      authorId,
       authorName,
       authorPhotoURL,
-      authorIsContributor,
       title,
       body: postBody,
       linkedGameId,
       postType,
     } = body;
 
+    // authorIsContributor must come from the user record, not the request body
+    const userDoc = await db.collection("users").doc(authorId).get();
+    const userData = userDoc.data() || {};
+    const authorIsContributor = !!(userData.isContributor || userData.accountType === "contributor");
+
     const isQuickNote = postType === "quick_note";
 
-    if (!authorId || (!isQuickNote && !title) || !postBody) {
+    if ((!isQuickNote && !title) || !postBody) {
       return NextResponse.json(
         { error: isQuickNote ? "Body is required." : "Title and body are required." },
         { status: 400 }
@@ -126,14 +134,11 @@ export async function POST(request: NextRequest) {
     const ref = await db.collection("forumPosts").add(postData);
 
     // Track contributor activity when posting in their metro
-    if (authorIsContributor && metroSlug) {
-      const userDoc = await db.collection("users").doc(authorId).get();
-      if (userDoc.exists && userDoc.data()?.contributorMetro === metroSlug) {
-        await db.collection("users").doc(authorId).set(
-          { lastActivityDate: now, updatedAt: now },
-          { merge: true }
-        );
-      }
+    if (authorIsContributor && metroSlug && userData.contributorMetro === metroSlug) {
+      await db.collection("users").doc(authorId).set(
+        { lastActivityDate: now, updatedAt: now },
+        { merge: true }
+      );
     }
 
     return NextResponse.json({ id: ref.id, ...postData });
@@ -148,19 +153,25 @@ export async function POST(request: NextRequest) {
 
 // PUT: Create a reply to a post
 export async function PUT(request: NextRequest) {
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const authorId = authResult.uid;
+
   try {
     const db = getAdminDb();
     const body = await request.json();
     const {
       postId,
-      authorId,
       authorName,
       authorPhotoURL,
-      authorIsContributor,
       body: replyBody,
     } = body;
 
-    if (!postId || !authorId || !replyBody) {
+    const userDoc = await db.collection("users").doc(authorId).get();
+    const userData = userDoc.data() || {};
+    const authorIsContributor = !!(userData.isContributor || userData.accountType === "contributor");
+
+    if (!postId || !replyBody) {
       return NextResponse.json(
         { error: "Post ID and body are required." },
         { status: 400 }
@@ -196,12 +207,16 @@ export async function PUT(request: NextRequest) {
 
 // PATCH: Upvote or flag a post
 export async function PATCH(request: NextRequest) {
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const userId = authResult.uid;
+
   try {
     const db = getAdminDb();
     const body = await request.json();
-    const { postId, userId, action } = body;
+    const { postId, action } = body;
 
-    if (!postId || !userId || !action) {
+    if (!postId || !action) {
       return NextResponse.json(
         { error: "Missing required fields." },
         { status: 400 }

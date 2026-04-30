@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { requireUser } from "@/lib/api-auth";
 
 // GET: Get reaction counts and user's reactions for a game
 export async function GET(request: NextRequest) {
@@ -45,12 +46,16 @@ export async function GET(request: NextRequest) {
 
 // POST: Add or toggle a reaction
 export async function POST(request: NextRequest) {
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const userId = authResult.uid;
+
   try {
     const db = getAdminDb();
-    const { gameId, userId, reactionType, note } = await request.json();
+    const { gameId, reactionType, note } = await request.json();
 
-    if (!gameId || !userId || !reactionType) {
-      return NextResponse.json({ error: "gameId, userId, and reactionType required" }, { status: 400 });
+    if (!gameId || !reactionType) {
+      return NextResponse.json({ error: "gameId and reactionType required" }, { status: 400 });
     }
 
     const validTypes = ["going", "been_here", "heads_up"];

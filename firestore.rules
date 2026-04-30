@@ -99,12 +99,22 @@ service cloud.firestore {
     }
 
     // ----------------------------------------------------------------
-    // forum — authenticated users can read/write posts
+    // forum — public read; writes go through /api/forum (Admin SDK).
+    // The legacy /forum/{postId} rule below stays for back-compat, but
+    // the live collections are forumPosts and forumReplies.
     // ----------------------------------------------------------------
     match /forum/{postId} {
       allow read: if true;
       allow create: if isAuthed() && request.resource.data.userId == request.auth.uid;
       allow update, delete: if isAdmin();
+    }
+    match /forumPosts/{postId} {
+      allow read: if true;
+      allow write: if isAdmin(); // server-only via Admin SDK
+    }
+    match /forumReplies/{replyId} {
+      allow read: if true;
+      allow write: if isAdmin(); // server-only via Admin SDK
     }
 
     // ----------------------------------------------------------------
