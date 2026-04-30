@@ -13,6 +13,7 @@ interface Winner {
   month: string;
   winnerName: string;
   winnerCity: string;
+  winnerEmail?: string; // server-masked for public, e.g. "ja••••@gmail.com"
   winnerPhotoURL: string | null;
   prizeName?: string;
   prizeValue?: string;
@@ -217,6 +218,17 @@ export default function GiveawaysPage() {
               )}
             </div>
 
+            {/* Drawing complete badge — shown if this month's draw is done */}
+            {data?.winners?.some((w) => w.month === data.currentMonth) && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 flex items-center gap-3">
+                <Check className="w-5 h-5 text-green-600 shrink-0" />
+                <div>
+                  <p className="font-semibold text-green-700">This month&apos;s drawing is complete!</p>
+                  <p className="text-sm text-green-600">See the winner below. Next drawing announced soon.</p>
+                </div>
+              </div>
+            )}
+
             {/* Stats row — always visible, even logged out */}
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="bg-slate-50 rounded-lg p-3 text-center">
@@ -337,12 +349,22 @@ export default function GiveawaysPage() {
                     )}
                   </div>
                   <div className="flex-1">
-                    <p className="font-semibold text-charcoal">
-                      {winner.displayPermission ? winner.winnerName : "Winner"}
-                    </p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="font-semibold text-charcoal">
+                        {winner.displayPermission ? winner.winnerName : "Winner"}
+                      </p>
+                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                        <Check className="w-3 h-3" /> Drawing complete
+                      </span>
+                    </div>
                     <p className="text-sm text-slate-500">
-                      {winner.displayPermission ? `${winner.winnerCity}, ` : ""}{formatMonth(winner.month)}
+                      {winner.displayPermission && winner.winnerCity ? `${winner.winnerCity}, ` : ""}{formatMonth(winner.month)}
                     </p>
+                    {winner.winnerEmail && (
+                      <p className="text-xs text-slate-400 font-mono mt-0.5">
+                        {winner.winnerEmail}
+                      </p>
+                    )}
                   </div>
                   {winner.winnerSetPhoto && winner.displayPermission && (
                     <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0">

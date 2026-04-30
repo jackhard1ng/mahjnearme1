@@ -22,10 +22,23 @@ export async function GET(request: NextRequest) {
       .limit(24)
       .get();
 
-    const winners = winnersSnap.docs.map((doc) => ({
+    const rawWinners = winnersSnap.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
-    }));
+    })) as Array<Record<string, unknown> & { id: string }>;
+
+    // For admin: return raw winners (full email, phone, etc.)
+    // For public: strip phone, mask email so we can display it on the
+    // /giveaways page without leaking PII.
+    const winners = admin
+      ? rawWinners
+      : rawWinners.map((w) => {
+          const { winnerEmail, winnerContactPhone: _phone, winnerId: _id, ...rest } = w;
+          return {
+            ...rest,
+            winnerEmail: maskEmailForPublic(typeof winnerEmail === "string" ? winnerEmail : ""),
+          };
+        });
 
     // Live prize config (overrides file-based defaults). Falls back if doc missing.
     const configDoc = await db.collection("siteConfig").doc("giveaway").get();
@@ -455,4 +468,13 @@ function escapeHtml(s: string): string {
 
 function escapeAttr(s: string): string {
   return escapeHtml(s);
+}
+
+// Mask the winner's email for public display: show first 2 chars of the
+// local part + bullets + the domain. e.g. "ja••••@gmail.com".
+function maskEmailForPublic(email: string): string {
+  if (!email || !email.includes("@")) return "";
+  const [user, domain] = email.split("@");
+  const visible = user.slice(0, Math.min(2, user.length));
+  return `${visible}${"•".repeat(Math.max(3, user.length - visible.length))}@${domain}`;
 }
