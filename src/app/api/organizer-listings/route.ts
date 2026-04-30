@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { notifyAdmin } from "@/lib/admin-notify";
+import { requireUser } from "@/lib/api-auth";
 
 /**
  * API for organizers to manage their own listings.
@@ -48,14 +49,12 @@ function isSubscribed(userData: Record<string, unknown>): boolean {
 }
 
 export async function GET(request: NextRequest) {
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const userId = authResult.uid;
+
   try {
     const db = getAdminDb();
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
-
-    if (!userId) {
-      return NextResponse.json({ error: "userId required" }, { status: 400 });
-    }
 
     const profile = await getOrganizerProfile(db, userId);
     if (!profile) {
@@ -102,14 +101,18 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const userId = authResult.uid;
+
   try {
     const db = getAdminDb();
     const body = await request.json();
-    const { userId, listingId, updates } = body;
+    const { listingId, updates } = body;
 
-    if (!userId || !listingId || !updates) {
+    if (!listingId || !updates) {
       return NextResponse.json(
-        { error: "userId, listingId, and updates are required" },
+        { error: "listingId and updates are required" },
         { status: 400 }
       );
     }
@@ -188,14 +191,17 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const userId = authResult.uid;
+
   try {
     const db = getAdminDb();
     const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
     const listingId = searchParams.get("listingId");
 
-    if (!userId || !listingId) {
-      return NextResponse.json({ error: "userId and listingId required" }, { status: 400 });
+    if (!listingId) {
+      return NextResponse.json({ error: "listingId required" }, { status: 400 });
     }
 
     const profile = await getOrganizerProfile(db, userId);
@@ -251,14 +257,18 @@ export async function DELETE(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const userId = authResult.uid;
+
   try {
     const db = getAdminDb();
     const body = await request.json();
-    const { userId, listing } = body;
+    const { listing } = body;
 
-    if (!userId || !listing) {
+    if (!listing) {
       return NextResponse.json(
-        { error: "userId and listing are required" },
+        { error: "listing is required" },
         { status: 400 }
       );
     }

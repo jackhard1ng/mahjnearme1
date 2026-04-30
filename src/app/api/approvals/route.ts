@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
-import { requireAdmin } from "@/lib/api-auth";
+import { requireAdmin, requireUser } from "@/lib/api-auth";
 
 /**
  * GET /api/approvals - List pending approval requests
@@ -37,13 +37,16 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const userId = authResult.uid;
+  const userEmail = authResult.email;
+
   try {
     const db = getAdminDb();
     const body = await request.json();
     const {
       type,
-      userId,
-      userEmail,
       userName,
       organizerProfileId,
       listingId,
@@ -52,9 +55,9 @@ export async function POST(request: NextRequest) {
       newValues,
     } = body;
 
-    if (!type || !userId) {
+    if (!type) {
       return NextResponse.json(
-        { error: "type and userId are required" },
+        { error: "type is required" },
         { status: 400 }
       );
     }
@@ -63,7 +66,7 @@ export async function POST(request: NextRequest) {
     const approvalData = {
       type,
       userId,
-      userEmail: userEmail || "",
+      userEmail,
       userName: userName || "",
       organizerProfileId: organizerProfileId || null,
       listingId: listingId || null,

@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, FormEvent } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
+import { userFetch } from "@/lib/firebase";
 import { getCitiesWithGames } from "@/lib/mock-data";
 import { getMetrosWithGames, getMetroCitiesSubtitle, findMetroByAbbreviation, findMetroForCity } from "@/lib/metro-regions";
 import {
@@ -106,16 +107,13 @@ export default function CommunityPage() {
 
     setSubmitting(true);
     try {
-      const res = await fetch("/api/forum", {
+      const res = await userFetch("/api/forum", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           postType,
           metroSlug: selectedMetro || null,
-          authorId: user.uid,
           authorName: userProfile?.displayName || "Anonymous",
           authorPhotoURL: userProfile?.photoURL || null,
-          authorIsContributor: isContributor,
           title: isQuickNote ? "" : newPostTitle,
           body: newPostBody,
         }),
@@ -137,14 +135,9 @@ export default function CommunityPage() {
   async function handleUpvote(postId: string) {
     if (!user) return;
     try {
-      await fetch("/api/forum", {
+      await userFetch("/api/forum", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          postId,
-          userId: user.uid,
-          action: "upvote",
-        }),
+        body: JSON.stringify({ postId, action: "upvote" }),
       });
       loadPosts();
     } catch {
@@ -155,14 +148,9 @@ export default function CommunityPage() {
   async function handleFlag(postId: string) {
     if (!user) return;
     try {
-      await fetch("/api/forum", {
+      await userFetch("/api/forum", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          postId,
-          userId: user.uid,
-          action: "flag",
-        }),
+        body: JSON.stringify({ postId, action: "flag" }),
       });
       loadPosts();
     } catch {
@@ -621,13 +609,9 @@ function ContributorApplySection() {
     setSubmitting(true);
     setError("");
     try {
-      const res = await fetch("/api/contributor-apply", {
+      const res = await userFetch("/api/contributor-apply", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          userId: user.uid,
-        }),
+        body: JSON.stringify(form),
       });
       const data = await res.json();
       if (!res.ok) {

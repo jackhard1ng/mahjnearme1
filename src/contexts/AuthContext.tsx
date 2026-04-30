@@ -112,14 +112,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               setDoc(doc(db, "users", firebaseUser.uid), { lastLoginAt: now }, { merge: true }).catch(() => {});
             } else {
               // First-time user, create their Firestore document
-              // Preserve admin status for known admin emails
-              const adminEmails = ["jack@fluttrr.com", "jack@mahjnearme.com"];
-              const isKnownAdmin = adminEmails.includes((firebaseUser.email || "").toLowerCase());
+              // Initial seed of the user doc — NEVER write privileged fields
+              // from the client (accountType, subscriptionStatus, etc.).
+              // Those are owned by Firestore rules + the server.
+              // Admin status is determined at runtime by email match in
+              // ADMIN_EMAILS, not by a Firestore field, so admins still work.
               await setDoc(doc(db, "users", firebaseUser.uid), {
                 email: defaultProfile.email,
                 displayName: defaultProfile.displayName,
-                accountType: isKnownAdmin ? "admin" : defaultProfile.accountType,
-                subscriptionStatus: isKnownAdmin ? "active" : defaultProfile.subscriptionStatus,
                 createdAt: defaultProfile.createdAt,
                 lastLoginAt: defaultProfile.lastLoginAt,
               });

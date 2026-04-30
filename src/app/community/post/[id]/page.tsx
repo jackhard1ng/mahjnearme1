@@ -3,6 +3,7 @@
 import { useState, useEffect, FormEvent, use } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
+import { userFetch } from "@/lib/firebase";
 import {
   ArrowLeft,
   ThumbsUp,
@@ -53,15 +54,12 @@ export default function ForumPostPage({
 
     setSubmitting(true);
     try {
-      const res = await fetch("/api/forum", {
+      const res = await userFetch("/api/forum", {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           postId: id,
-          authorId: user.uid,
           authorName: userProfile?.displayName || "Anonymous",
           authorPhotoURL: userProfile?.photoURL || null,
-          authorIsContributor: isContributor,
           body: replyBody,
         }),
       });
@@ -79,14 +77,9 @@ export default function ForumPostPage({
   async function handleUpvote(postId: string) {
     if (!user) return;
     try {
-      await fetch("/api/forum", {
+      await userFetch("/api/forum", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          postId,
-          userId: user.uid,
-          action: "upvote",
-        }),
+        body: JSON.stringify({ postId, action: "upvote" }),
       });
       loadPost();
     } catch {
@@ -97,12 +90,10 @@ export default function ForumPostPage({
   async function handleFlag(postId: string) {
     if (!user) return;
     try {
-      await fetch("/api/forum", {
+      await userFetch("/api/forum", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           postId,
-          userId: user.uid,
           action: "flag",
         }),
       });

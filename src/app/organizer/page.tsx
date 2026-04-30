@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { userFetch } from "@/lib/firebase";
 import { Game } from "@/types";
 import Link from "next/link";
 import {
@@ -72,7 +73,7 @@ export default function OrganizerDashboardPage() {
   const fetchData = useCallback(async () => {
     if (!user) return;
     try {
-      const res = await fetch(`/api/organizer-listings?userId=${user.uid}`);
+      const res = await userFetch(`/api/organizer-listings`);
       if (!res.ok) {
         setLoading(false);
         return;
@@ -348,7 +349,7 @@ function ListingsTab({
   const deleteListing = async (listingId: string) => {
     setDeleting(true);
     try {
-      const res = await fetch(`/api/organizer-listings?userId=${userId}&listingId=${listingId}`, {
+      const res = await userFetch(`/api/organizer-listings?listingId=${listingId}`, {
         method: "DELETE",
       });
       const data = await res.json();
@@ -425,11 +426,9 @@ function ListingsTab({
         return;
       }
 
-      const res = await fetch("/api/organizer-listings", {
+      const res = await userFetch("/api/organizer-listings", {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId,
           listingId: editingListing.id,
           updates,
         }),
@@ -716,10 +715,9 @@ function AddListingTab({
         } : {}),
       };
 
-      const res = await fetch("/api/organizer-listings", {
+      const res = await userFetch("/api/organizer-listings", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, listing }),
+        body: JSON.stringify({ listing }),
       });
 
       const data = await res.json();
@@ -1019,10 +1017,9 @@ function ProfileTab({
     setSaving(true);
     setMessage("");
     try {
-      const res = await fetch("/api/organizer-profile", {
+      const res = await userFetch("/api/organizer-profile", {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, updates: form }),
+        body: JSON.stringify({ updates: form }),
       });
       if (res.ok) {
         setMessage("Profile updated!");
@@ -1052,11 +1049,9 @@ function ProfileTab({
       const url = await getDownloadURL(storageRef);
 
       // Update organizer profile with photo (self-service endpoint)
-      await fetch("/api/organizer-profile", {
+      await userFetch("/api/organizer-profile", {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId,
           updates: { photoURL: url, photos: [...(organizer.photos || []), url] },
         }),
       });
@@ -1158,11 +1153,9 @@ function ProfileTab({
                     onClick={async () => {
                       const newPhotos = (organizer.photos || []).filter((_, i) => i !== idx);
                       const newPhotoURL = newPhotos.length > 0 ? newPhotos[newPhotos.length - 1] : "";
-                      await fetch("/api/organizer-profile", {
+                      await userFetch("/api/organizer-profile", {
                         method: "PUT",
-                        headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
-                          userId,
                           updates: { photos: newPhotos, photoURL: newPhotoURL },
                         }),
                       });
@@ -1263,11 +1256,9 @@ function InstructorTab({
         instructorDetails: isInstructor ? details : null,
       };
 
-      const res = await fetch("/api/organizer-profile", {
+      const res = await userFetch("/api/organizer-profile", {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId,
           updates: { isInstructor, instructorDetails: isInstructor ? details : null },
         }),
       });
@@ -1608,7 +1599,7 @@ function ReferralsTab({ userId }: { userId: string }) {
   async function fetchData() {
     setLoading(true);
     try {
-      const res = await fetch(`/api/organizer-referral?userId=${userId}`);
+      const res = await userFetch(`/api/organizer-referral?userId=${userId}`);
       if (res.ok) {
         setData(await res.json());
       }
@@ -1621,10 +1612,9 @@ function ReferralsTab({ userId }: { userId: string }) {
     setCreating(true);
     setMessage("");
     try {
-      const res = await fetch("/api/organizer-referral", {
+      const res = await userFetch("/api/organizer-referral", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, code: newCode }),
+        body: JSON.stringify({ code: newCode }),
       });
       const result = await res.json();
       if (!res.ok) {
@@ -1643,10 +1633,9 @@ function ReferralsTab({ userId }: { userId: string }) {
     setRequesting(true);
     setMessage("");
     try {
-      const res = await fetch("/api/organizer-referral", {
+      const res = await userFetch("/api/organizer-referral", {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId }),
+        body: JSON.stringify({}),
       });
       const result = await res.json();
       if (!res.ok) {

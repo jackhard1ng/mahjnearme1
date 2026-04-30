@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { findMetroForCity } from "@/lib/metro-regions";
+import { requireUser } from "@/lib/api-auth";
 
 // GET: Look up the approved contributor for a given city (resolves to metro)
 export async function GET(request: NextRequest) {
@@ -76,11 +77,15 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const userId = authResult.uid;
+
   try {
     const body = await request.json();
-    const { userId, name, email, city, connections, story } = body;
+    const { name, email, city, connections, story } = body;
 
-    if (!userId || !name || !email || !city || !story) {
+    if (!name || !email || !city || !story) {
       return NextResponse.json(
         { error: "All fields are required." },
         { status: 400 }

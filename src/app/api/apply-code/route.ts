@@ -1,20 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { getStripe } from "@/lib/stripe";
+import { requireUser } from "@/lib/api-auth";
 
 /**
  * POST /api/apply-code
- * Apply a referral/promo code to an existing subscriber's subscription.
+ * Apply a referral/promo code to the calling user's own subscription.
  * Replaces any existing coupon. Applied starting next billing cycle.
+ *
+ * Auth: Authorization: Bearer <Firebase ID token>. The user is identified
+ * from the verified token, NOT the request body, so callers cannot apply
+ * codes to other users' subscriptions.
  */
 export async function POST(request: NextRequest) {
+  const authResult = await requireUser(request);
+  if (authResult instanceof NextResponse) return authResult;
+  const userId = authResult.uid;
+
   try {
     const db = getAdminDb();
     const stripe = getStripe();
-    const { userId, code } = await request.json();
+    const { code } = await request.json();
 
-    if (!userId || !code) {
-      return NextResponse.json({ error: "userId and code are required" }, { status: 400 });
+    if (!code) {
+      return NextResponse.json({ error: "code is required" }, { status: 400 });
     }
 
     const cleanCode = code.toUpperCase().trim();
