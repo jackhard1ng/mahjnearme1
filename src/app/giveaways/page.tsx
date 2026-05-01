@@ -171,6 +171,40 @@ export default function GiveawaysPage() {
 
       <div className="max-w-4xl mx-auto px-4 py-10">
 
+        {/* Most-recent completed drawing announcement */}
+        {(() => {
+          const lastWinner = data?.winners?.[0];
+          if (!lastWinner) return null;
+          const drawnDate = new Date(lastWinner.drawnAt);
+          const drawnLabel = drawnDate.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+          const monthLabel = formatMonth(lastWinner.month).split(" ")[0];
+          return (
+            <div className="mb-8 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-5 sm:p-6 flex items-start gap-4">
+              <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                <Trophy className="w-6 h-6 text-green-600" />
+              </div>
+              <div className="flex-1">
+                <p className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-1">
+                  The {monthLabel} drawing is complete! 🎉
+                </p>
+                <p className="text-sm text-slate-600 mb-2">
+                  Winner drawn {drawnLabel}. Congratulations to{" "}
+                  <span className="font-semibold text-charcoal">
+                    {lastWinner.displayPermission ? lastWinner.winnerName : "our winner"}
+                  </span>
+                  {lastWinner.winnerEmail && (
+                    <span className="text-slate-400"> ({lastWinner.winnerEmail})</span>
+                  )}
+                  !
+                </p>
+                <a href="#past-winners" className="inline-flex items-center gap-1 text-sm font-semibold text-green-700 hover:text-green-800">
+                  See past winners <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+          );
+        })()}
+
         {/* Current Giveaway */}
         <div className="mb-12">
           <div className="mahj-tile p-6 sm:p-8">
@@ -217,17 +251,6 @@ export default function GiveawaysPage() {
                 </div>
               )}
             </div>
-
-            {/* Drawing complete badge — shown if this month's draw is done */}
-            {data?.winners?.some((w) => w.month === data.currentMonth) && (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 flex items-center gap-3">
-                <Check className="w-5 h-5 text-green-600 shrink-0" />
-                <div>
-                  <p className="font-semibold text-green-700">This month&apos;s drawing is complete!</p>
-                  <p className="text-sm text-green-600">See the winner below. Next drawing announced soon.</p>
-                </div>
-              </div>
-            )}
 
             {/* Stats row — always visible, even logged out */}
             <div className="grid grid-cols-3 gap-4 mb-6">
@@ -322,7 +345,7 @@ export default function GiveawaysPage() {
         </div>
 
         {/* Past Winners */}
-        <div className="mb-12">
+        <div className="mb-12" id="past-winners">
           <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-6 text-center">
             Past Winners
           </h2>

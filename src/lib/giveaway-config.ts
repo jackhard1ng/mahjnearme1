@@ -7,19 +7,19 @@
 
 export const CURRENT_GIVEAWAY = {
   /** Month label shown in the hero. e.g. "April" */
-  month: "April",
+  month: "May",
 
   /** Prize name. Shown prominently. */
-  prizeName: "Charleston Mahjong Club Set",
+  prizeName: "3 Premium Mahjong Mats",
 
   /** Prize value. Shown in parentheses. Set to null to hide. */
-  prizeValue: "$400 value" as string | null,
+  prizeValue: "$270 value ($90 each)" as string | null,
 
   /** One-line description under the prize name. */
-  prizeDescription: "Winner picks any set from charlestonmahjongclub.com, shipped to your door",
+  prizeDescription: "Three winners each receive a premium mahjong mat. Free shipping in the continental US.",
 
   /** Link to the prize (optional). Set to null to hide. */
-  prizeLink: "https://www.charlestonmahjongclub.com/collections" as string | null,
+  prizeLink: null as string | null,
 
   /** Partner logo image path (optional). Only use if there's an actual partnership. Set to null to hide. */
   partnerLogo: null as string | null,
@@ -28,9 +28,9 @@ export const CURRENT_GIVEAWAY = {
   partnerName: null as string | null,
 
   /** Number of winners this month. */
-  numberOfWinners: 1,
+  numberOfWinners: 3,
 
   /** Draw date and time. */
-  drawDate: "April 30, 2026 at 3:00 PM CT",
+  drawDate: "May 31, 2026 at 3:00 PM CT",
 };
 
