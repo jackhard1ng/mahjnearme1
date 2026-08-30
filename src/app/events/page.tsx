@@ -279,7 +279,7 @@ function EventCard({ game: g, hasAccess }: { game: Game; hasAccess: boolean }) {
                             TBD
                           </div>
                           <div className="border border-t-0 border-slate-200 rounded-b-lg py-1">
-                            <p className="text-sm font-bold text-slate-400 leading-none">2026</p>
+                            <p className="text-sm font-bold text-slate-400 leading-none">&mdash;</p>
                           </div>
                         </div>
                       )}
