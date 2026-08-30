@@ -5,8 +5,9 @@
  *
  * This does not write anything. It produces:
  *   - corrections.json  — safe, mechanical fixes, ready to apply
- *   - review.json       — problems that need a human decision (duplicates,
- *                         dead links), never auto-applied
+ *   - dedupe.json       — duplicate merges, kept separate so they can be
+ *                         reviewed and applied independently
+ *   - review.json       — what needs a human decision, never auto-applied
  *
  * Usage:
  *   npx tsx scripts/audit-listing-data.ts
@@ -30,10 +31,23 @@
  *      it prevents any surface that reads `eventDate` directly from
  *      rendering a date that has already passed.
  *
+ *   3. Duplicate merges, written to a SEPARATE dedupe.json so they can be
+ *      reviewed and applied independently of the mechanical fixes.
+ *      Within a name+city+state group one record is kept and the rest are
+ *      set to status "inactive" — never deleted, so the decision is
+ *      reversible. The keeper is chosen by, in order: a human-owned record
+ *      (claimed or organizer-edited) > promoted > verified > most fields
+ *      filled > most recently verified > lowest id for determinism.
+ *      Before the losers are deactivated, any field the keeper is missing
+ *      is backfilled from them, so merging cannot drop a phone number,
+ *      website or address that only the duplicate had.
+ *
+ *      A group with two or more human-owned records is skipped entirely:
+ *      deactivating a listing an organizer claimed is not a call to make
+ *      automatically.
+ *
  * What is only reported, never auto-fixed:
  *
- *   - Duplicates. Merging means choosing which record's contact details,
- *     description and verification date survive. That is a human call.
  *   - Dead links. A 404 today may be a site reorganisation rather than a
  *     dead group, and removing a listing's only contact route is
  *     destructive. Verify before acting.
@@ -67,6 +81,53 @@ interface Listing {
   registrationLink?: string;
   lastVerified?: string;
   recurringSchedule?: { dayOfWeek?: string } | null;
+  claimedBy?: string | null;
+  organizerEdited?: boolean;
+  promoted?: boolean;
+  verified?: boolean;
+  [key: string]: unknown;
+}
+
+/**
+ * Fields worth carrying from a duplicate onto the keeper when the keeper has
+ * nothing in them. Deliberately excludes geopoint, eventDate,
+ * recurringSchedule, status, counts and flags — those describe *which*
+ * record this is, and mixing them across records would produce a listing
+ * that never existed.
+ */
+const BACKFILL_FIELDS = [
+  "website", "registrationLink", "contactEmail", "contactPhone", "contactName",
+  "organizerName", "address", "venueName", "description", "howToJoin",
+  "instagram", "facebookGroup", "costAmount", "whatToBring", "typicalGroupSize",
+  "generalArea", "metroRegion",
+] as const;
+
+function isEmpty(v: unknown): boolean {
+  return v === null || v === undefined || v === "" || (Array.isArray(v) && v.length === 0);
+}
+
+/** Human-owned records are maintained by a real person — never auto-deactivate one. */
+function isHumanOwned(g: Listing): boolean {
+  return Boolean(g.claimedBy) || Boolean(g.organizerEdited);
+}
+
+function filledCount(g: Listing): number {
+  return Object.keys(g).filter((k) => !isEmpty(g[k])).length;
+}
+
+/**
+ * Rank duplicates so the most authoritative, most complete record survives.
+ * Lower sorts first (= kept).
+ */
+function compareForKeep(a: Listing, b: Listing): number {
+  const score = (g: Listing) =>
+    (isHumanOwned(g) ? 8 : 0) + (g.promoted ? 4 : 0) + (g.verified ? 2 : 0);
+  if (score(a) !== score(b)) return score(b) - score(a);
+  const fa = filledCount(a), fb = filledCount(b);
+  if (fa !== fb) return fb - fa;
+  const va = a.lastVerified || "", vb = b.lastVerified || "";
+  if (va !== vb) return vb.localeCompare(va);
+  return a.id.localeCompare(b.id); // deterministic
 }
 
 interface Correction {
@@ -189,6 +250,55 @@ async function main() {
     .sort((a, b) => b.count - a.count);
   const redundant = duplicates.reduce((a, d) => a + d.count - 1, 0);
 
+  // --- 3b. Duplicate merges (separate file, opt-in via --dedupe) ---
+  const dedupe: Correction[] = [];
+  const dedupeSkipped: { key: string; reason: string; ids: string[] }[] = [];
+  let deactivated = 0;
+  let backfilled = 0;
+
+  for (const [key, members] of groups) {
+    if (members.length < 2) continue;
+
+    const owned = members.filter(isHumanOwned);
+    if (owned.length > 1) {
+      dedupeSkipped.push({
+        key,
+        reason: `${owned.length} records are claimed or organizer-edited — deactivating a listing a real organizer maintains needs a human decision`,
+        ids: members.map((m) => m.id),
+      });
+      continue;
+    }
+
+    const ranked = [...members].sort(compareForKeep);
+    const keeper = ranked[0];
+    const losers = ranked.slice(1);
+
+    // Backfill anything the keeper is missing, so merging loses no contact route.
+    const fill: Record<string, unknown> = {};
+    for (const f of BACKFILL_FIELDS) {
+      if (!isEmpty(keeper[f])) continue;
+      const donor = losers.find((l) => !isEmpty(l[f]));
+      if (donor) fill[f] = donor[f];
+    }
+    if (Object.keys(fill).length) {
+      dedupe.push({
+        id: keeper.id,
+        updates: fill,
+        reason: `Merge duplicates of "${keeper.name.trim()}" (${keeper.city.trim()}, ${keeper.state.trim()}): backfill ${Object.keys(fill).join(", ")} from ${losers.length} duplicate record(s) before deactivating them`,
+      });
+      backfilled++;
+    }
+
+    for (const l of losers) {
+      dedupe.push({
+        id: l.id,
+        updates: { status: "inactive" },
+        reason: `Duplicate of ${keeper.id} — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible.`,
+      });
+      deactivated++;
+    }
+  }
+
   // --- 4. Links (report only, opt-in) ---
   const urlMap = new Map<string, string[]>();
   for (const g of visible) {
@@ -227,6 +337,8 @@ async function main() {
   const reviewPath = path.join(OUT_DIR, "review.json");
 
   fs.writeFileSync(correctionsPath, JSON.stringify(corrections, null, 2));
+  const dedupePath = path.join(OUT_DIR, "dedupe.json");
+  fs.writeFileSync(dedupePath, JSON.stringify(dedupe, null, 2));
   fs.writeFileSync(
     reviewPath,
     JSON.stringify(
@@ -237,7 +349,7 @@ async function main() {
           visibleListings: visible.length,
           hiddenListings: all.length - visible.length,
         },
-        duplicates: { groups: duplicates.length, redundantListings: redundant, items: duplicates },
+        duplicates: { groups: duplicates.length, redundantListings: redundant, skippedForReview: dedupeSkipped, items: duplicates },
         recurringWithPastDateAndNoSchedule: staleNoSchedule.map((g) => ({
           id: g.id,
           name: g.name.trim(),
@@ -256,13 +368,19 @@ async function main() {
   console.log(`  whitespace fixes                 : ${wsCount}`);
   console.log(`  stale eventDate cleared          : ${staleCount}`);
   console.log(`  -> ${correctionsPath} (${corrections.length} corrections)\n`);
-  console.log("NEEDS REVIEW");
+  console.log("DUPLICATE MERGE (apply separately, after reviewing)");
   console.log(`  duplicate groups                 : ${duplicates.length} (${redundant} redundant listings)`);
+  console.log(`  listings deactivated             : ${deactivated}`);
+  console.log(`  keepers backfilled first         : ${backfilled}`);
+  console.log(`  groups skipped (multi-owner)     : ${dedupeSkipped.length}`);
+  console.log(`  -> ${dedupePath} (${dedupe.length} operations)\n`);
+  console.log("NEEDS REVIEW");
   console.log(`  recurring, past date, no schedule: ${staleNoSchedule.length}`);
   if (CHECK_LINKS) console.log(`  broken links                     : ${brokenLinks.length}`);
   console.log(`  -> ${reviewPath}\n`);
   console.log("Next:");
   console.log(`  ADMIN_KEY=... npx tsx scripts/apply-audit-corrections.ts ${correctionsPath} --dry-run`);
+  console.log(`  ADMIN_KEY=... npx tsx scripts/apply-audit-corrections.ts ${dedupePath} --dry-run`);
 }
 
 main().catch((err) => {
