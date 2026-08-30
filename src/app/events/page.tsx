@@ -8,6 +8,7 @@ import { Game } from "@/types";
 import { useFirestoreListings } from "@/hooks/useFirestoreListings";
 import { useEnrichedGames } from "@/hooks/useOrganizerOverrides";
 import { isEventExpired, slugify, formatTime, getStateName, getGameTypeColor, getGameTypeLabel } from "@/lib/utils";
+import { getEventTiming } from "@/lib/event-timing";
 import { MapPin, Lock, ArrowRight, Search, Plane, Star } from "lucide-react";
 
 const DestinationMap = dynamic(() => import("@/components/DestinationMap"), {
@@ -66,10 +67,15 @@ export default function EventsPage() {
         const aOrg = a.organizerEdited ? 1 : 0;
         const bOrg = b.organizerEdited ? 1 : 0;
         if (aOrg !== bOrg) return bOrg - aOrg;
-        // 3. Then by date ascending
-        if (a.eventDate && b.eventDate) return a.eventDate.localeCompare(b.eventDate);
-        if (a.eventDate) return -1;
-        if (b.eventDate) return 1;
+        // 3. Then by next real occurrence ascending. Sorting on the raw
+        // `eventDate` string ordered recurring listings by a date that may be
+        // months in the past, so a stale import outranked a genuine upcoming
+        // event. Listings with no computable next date sort last.
+        const aNext = getEventTiming(a).nextDate;
+        const bNext = getEventTiming(b).nextDate;
+        if (aNext && bNext) return aNext.getTime() - bNext.getTime();
+        if (aNext) return -1;
+        if (bNext) return 1;
         return a.name.localeCompare(b.name);
       });
   }, [enrichedGames]);
@@ -247,7 +253,15 @@ export default function EventsPage() {
 }
 
 function EventCard({ game: g, hasAccess }: { game: Game; hasAccess: boolean }) {
-              const eventDate = g.eventDate ? new Date(g.eventDate + "T00:00:00") : null;
+              // Use the computed next occurrence rather than the raw `eventDate`
+              // field. Recurring listings keep whatever one-off date they were
+              // imported with, and `isEventExpired` deliberately never expires a
+              // recurring listing — so reading `eventDate` directly renders a
+              // date that has long since passed (e.g. an annual retreat still
+              // showing "JUL 21" at the end of August). getEventTiming returns
+              // null here when there is no real upcoming date, which falls
+              // through to the TBD tile instead of asserting a stale one.
+              const eventDate = getEventTiming(g).nextDate;
 
               return (
                 <div className={`bg-white border rounded-xl overflow-hidden hover:shadow-md transition-all ${g.promoted ? "border-amber-300" : "border-slate-200"}`}>
