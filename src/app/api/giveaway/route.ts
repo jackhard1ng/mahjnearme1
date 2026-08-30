@@ -52,6 +52,10 @@ export async function GET(request: NextRequest) {
       numberOfWinners: liveConfig?.numberOfWinners ?? CURRENT_GIVEAWAY.numberOfWinners,
       drawDate: liveConfig?.drawDate ?? CURRENT_GIVEAWAY.drawDate,
       month: liveConfig?.month ?? CURRENT_GIVEAWAY.month,
+      // When paused there is no active drawing. The /giveaways page hides the
+      // prize and draw date rather than advertising a stale one.
+      paused: liveConfig?.paused ?? CURRENT_GIVEAWAY.paused,
+      pausedMessage: liveConfig?.pausedMessage ?? CURRENT_GIVEAWAY.pausedMessage,
     };
 
     if (admin) {
@@ -214,6 +218,8 @@ export async function POST(request: NextRequest) {
         "prizeLink",
         "numberOfWinners",
         "drawDate",
+        "paused",
+        "pausedMessage",
       ] as const;
       const update: Record<string, unknown> = { updatedAt: new Date().toISOString() };
       for (const key of allowed) {

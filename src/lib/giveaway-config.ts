@@ -3,9 +3,28 @@
  *
  * Jack: edit this file to update the current month's giveaway.
  * Change the prize name, value, and description before each draw.
+ *
+ * To PAUSE giveaways (no active drawing right now), set `paused: true`.
+ * The /giveaways page then stops advertising a prize and a draw date, and
+ * instead shows `pausedMessage`. Past winners, "How It Works" and the
+ * milestone section stay visible so the page is still worth landing on.
+ *
+ * `paused` can also be flipped from the admin panel without a deploy — the
+ * Firestore siteConfig/giveaway doc overrides this file. This value is the
+ * fallback used when that doc is missing or doesn't set `paused`.
  */
 
 export const CURRENT_GIVEAWAY = {
+  /**
+   * When true, no giveaway is currently running. Set to false and update
+   * the fields below when you start the next one.
+   */
+  paused: true,
+
+  /** Shown on /giveaways while `paused` is true. */
+  pausedMessage:
+    "Our monthly giveaway is on a short break. Paid members are automatically entered whenever a drawing is running — subscribe now and you'll be in for the next one.",
+
   /** Month label shown in the hero. e.g. "April" */
   month: "May",
 
@@ -33,4 +52,3 @@ export const CURRENT_GIVEAWAY = {
   /** Draw date and time. */
   drawDate: "May 31, 2026 at 3:00 PM CT",
 };
-

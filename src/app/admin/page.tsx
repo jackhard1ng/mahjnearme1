@@ -150,6 +150,7 @@ export default function AdminDashboardPage() {
   const [cfgPrizeDescription, setCfgPrizeDescription] = useState("");
   const [cfgNumberOfWinners, setCfgNumberOfWinners] = useState(1);
   const [cfgDrawDate, setCfgDrawDate] = useState("");
+  const [cfgPaused, setCfgPaused] = useState(false);
   const [savingCfg, setSavingCfg] = useState(false);
   const [cfgSaved, setCfgSaved] = useState(false);
   // When recording the draw, hide full names and emails in the entry pool table
@@ -211,6 +212,7 @@ export default function AdminDashboardPage() {
         setCfgPrizeDescription(data.prizeDescription || "");
         setCfgNumberOfWinners(data.numberOfWinners || 1);
         setCfgDrawDate(data.drawDate || "");
+        setCfgPaused(Boolean(data.paused));
       } else {
         const data = await res.json().catch(() => ({}));
         setGiveawayError(data.error || `Failed to load (${res.status})`);
@@ -762,7 +764,29 @@ export default function AdminDashboardPage() {
                 <p className="text-sm text-slate-500 mb-4">
                   Set the prize details for this month&apos;s giveaway. These show on the public giveaways page immediately after saving.
                 </p>
-                <div className="grid sm:grid-cols-2 gap-3 mb-4">
+
+                {/* Pause switch — when on, the public giveaways page hides the
+                    prize and draw date instead of advertising a stale one. */}
+                <label className="flex items-start gap-3 mb-4 p-3 rounded-lg border border-slate-200 bg-slate-50 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={cfgPaused}
+                    onChange={(e) => setCfgPaused(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 accent-hotpink-500"
+                  />
+                  <span>
+                    <span className="block text-sm font-medium text-charcoal">
+                      Pause giveaways (no drawing running)
+                    </span>
+                    <span className="block text-xs text-slate-500">
+                      The public page hides the prize, draw date and entry stats, and shows a
+                      &ldquo;no drawing running right now&rdquo; notice instead. Past winners stay
+                      visible. Uncheck and save when you open the next drawing.
+                    </span>
+                  </span>
+                </label>
+
+                <div className={`grid sm:grid-cols-2 gap-3 mb-4 ${cfgPaused ? "opacity-50" : ""}`}>
                   <div>
                     <label className="block text-xs font-medium text-slate-600 mb-1">Month Label</label>
                     <input
@@ -846,7 +870,9 @@ export default function AdminDashboardPage() {
                 </div>
                 <button
                   onClick={async () => {
-                    if (!cfgPrizeName.trim()) { alert("Prize name is required."); return; }
+                    // A prize is only required when a drawing is actually
+                    // running — you can save a paused state with no prize set.
+                    if (!cfgPaused && !cfgPrizeName.trim()) { alert("Prize name is required."); return; }
                     setSavingCfg(true);
                     setCfgSaved(false);
                     try {
@@ -860,6 +886,7 @@ export default function AdminDashboardPage() {
                         prizeDescription: cfgPrizeDescription.trim() || null,
                         numberOfWinners: cfgNumberOfWinners,
                         drawDate: cfgDrawDate.trim() || null,
+                        paused: cfgPaused,
                       });
                       if (res.ok) {
                         setCfgSaved(true);

@@ -36,6 +36,8 @@ interface GiveawayInfo {
   drawDate?: string;
   entryCount?: number;
   userEntries?: number;
+  paused?: boolean;
+  pausedMessage?: string;
 }
 
 const MILESTONES = [
@@ -114,6 +116,12 @@ export default function GiveawaysPage() {
     return CURRENT_GIVEAWAY.drawDate;
   }
 
+  // Whether a drawing is currently running. The API (Firestore siteConfig)
+  // wins so this can be toggled from admin without a deploy; the config file
+  // is the fallback, and also what's used before the fetch resolves.
+  const isPaused = data?.paused ?? CURRENT_GIVEAWAY.paused;
+  const pausedMessage = data?.pausedMessage ?? CURRENT_GIVEAWAY.pausedMessage;
+
   // Calculate user's accumulated entries (1 per 6 months subscribed, max 6)
   function getUserEntryInfo(): { entries: number; explanation: string } {
     if (!userProfile || !hasAccess) return { entries: 0, explanation: "" };
@@ -160,8 +168,8 @@ export default function GiveawaysPage() {
         <div className="max-w-5xl mx-auto px-4 pt-16 pb-12 sm:pt-20 sm:pb-14 text-center relative">
           <Gift className="w-12 h-12 text-skyblue-200 mx-auto mb-4" />
           <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-4xl sm:text-5xl text-white mb-3 tracking-tight drop-shadow-lg">
-            {data?.month || CURRENT_GIVEAWAY.month} Mahjong{" "}
-            <span className="text-skyblue-200">Giveaway</span>
+            {isPaused ? "Mahjong" : `${data?.month || CURRENT_GIVEAWAY.month} Mahjong`}{" "}
+            <span className="text-skyblue-200">{isPaused ? "Giveaways" : "Giveaway"}</span>
           </h1>
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
             Every month, we give away mahjong prizes to paid members. The prize changes month to month.
@@ -205,7 +213,34 @@ export default function GiveawaysPage() {
           );
         })()}
 
-        {/* Current Giveaway */}
+        {/* Current Giveaway — hidden while paused so we never advertise a
+            prize or a draw date for a drawing that isn't running. */}
+        {isPaused ? (
+          <div className="mb-12">
+            <div className="mahj-tile p-6 sm:p-8 text-center">
+              <div className="w-14 h-14 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4">
+                <Gift className="w-7 h-7 text-slate-400" />
+              </div>
+              <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-2">
+                No drawing running right now
+              </h2>
+              <p className="text-sm text-slate-500 max-w-md mx-auto mb-5">{pausedMessage}</p>
+              {hasAccess ? (
+                <p className="text-sm text-green-600 font-medium">
+                  <Check className="w-4 h-4 inline mr-1" />
+                  You&apos;re a paid member — you&apos;ll be entered automatically when the next drawing opens.
+                </p>
+              ) : (
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
+                >
+                  View Plans <ArrowRight className="w-4 h-4" />
+                </Link>
+              )}
+            </div>
+          </div>
+        ) : (
         <div className="mb-12">
           <div className="mahj-tile p-6 sm:p-8">
             {/* Prize headline */}
@@ -304,6 +339,7 @@ export default function GiveawaysPage() {
             )}
           </div>
         </div>
+        )}
 
         {/* How Entries Work */}
         <div className="mb-12">
@@ -335,7 +371,7 @@ export default function GiveawaysPage() {
               </div>
               <h3 className="font-semibold text-charcoal mb-2">Win!</h3>
               <p className="text-sm text-slate-500">
-                Winner drawn on the last day of each month. Prize delivered to your door.
+                When a drawing is running, the winner is drawn on the last day of the month. Prize delivered to your door.
               </p>
             </div>
           </div>
@@ -357,7 +393,9 @@ export default function GiveawaysPage() {
             <div className="mahj-tile p-8 text-center">
               <Trophy className="w-10 h-10 text-slate-300 mx-auto mb-3" />
               <p className="text-slate-500">
-                No winners yet. The first drawing is {FIRST_DRAW_DATE}!
+                {isPaused
+                  ? "No winners to show yet. Check back when the next drawing opens!"
+                  : `No winners yet. The first drawing is ${FIRST_DRAW_DATE}!`}
               </p>
             </div>
           ) : (
