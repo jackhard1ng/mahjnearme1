@@ -33,9 +33,11 @@
  *
  *   3. Duplicate merges, written to a SEPARATE dedupe.json so they can be
  *      reviewed and applied independently of the mechanical fixes.
- *      Within a name+city+state group one record is kept and the rest are
- *      set to status "inactive" — never deleted, so the decision is
- *      reversible. The keeper is chosen by, in order: a human-owned record
+ *      Records are grouped by name+city+state+day+startTime — NOT by name
+ *      alone. A club meeting several times a week files one listing per
+ *      session under one name, so a name-only key treats real sessions as
+ *      duplicates. One record per group is kept and the rest are set to
+ *      status "inactive" — never deleted, so the decision is reversible. The keeper is chosen by, in order: a human-owned record
  *      (claimed or organizer-edited) > promoted > verified > most fields
  *      filled > most recently verified > lowest id for determinism.
  *      Before the losers are deactivated, any field the keeper is missing
@@ -80,7 +82,7 @@ interface Listing {
   website?: string;
   registrationLink?: string;
   lastVerified?: string;
-  recurringSchedule?: { dayOfWeek?: string } | null;
+  recurringSchedule?: { dayOfWeek?: string; startTime?: string } | null;
   claimedBy?: string | null;
   organizerEdited?: boolean;
   promoted?: boolean;
@@ -146,10 +148,36 @@ function isExpired(g: Listing, today: Date): boolean {
   return new Date(y, m - 1, d) < today;
 }
 
-/** Normalised key for duplicate detection. */
+const DAY_NAMES = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+const ID_DAY_RE = new RegExp(`-(${DAY_NAMES.join("|")})(?:-|$)`);
+
+/**
+ * The day a listing actually runs, preferring the structured field and falling
+ * back to the day encoded in the id (ids were generated from structured data
+ * at import, so `...-huntersville-nc-tuesday-...` is trustworthy).
+ */
+function scheduleDay(g: Listing): string {
+  const s = (g.recurringSchedule?.dayOfWeek || "").trim().toLowerCase();
+  if (s) return s;
+  const m = g.id.match(ID_DAY_RE);
+  return m ? m[1] : "";
+}
+
+/**
+ * Normalised key for duplicate detection.
+ *
+ * The day and start time are part of the key, not just name+city+state. A club
+ * that meets several times a week files one listing per session under the same
+ * name — Huntersville NC has four separate "American Mahjong" sessions on
+ * Monday, Tuesday, Wednesday and Thursday. Keying on the name alone treats
+ * those as duplicates and would deactivate three real sessions, deleting
+ * inventory rather than cleaning it.
+ */
 function dupKey(g: Listing): string {
   const n = (s: string) => (s || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-  return `${n(g.name)}|${n(g.city)}|${(g.state || "").trim().toUpperCase()}`;
+  const day = scheduleDay(g);
+  const time = (g.recurringSchedule?.startTime || "").trim();
+  return `${n(g.name)}|${n(g.city)}|${(g.state || "").trim().toUpperCase()}|${day}|${time}`;
 }
 
 async function checkUrl(url: string): Promise<number> {
@@ -245,6 +273,7 @@ async function main() {
       city: v[0].city.trim(),
       state: v[0].state.trim(),
       name: v[0].name.trim(),
+      day: scheduleDay(v[0]) || "(unknown)",
       ids: v.map((x) => x.id),
     }))
     .sort((a, b) => b.count - a.count);
