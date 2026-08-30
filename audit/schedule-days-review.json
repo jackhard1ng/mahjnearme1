@@ -1,0 +1,96 @@
+{
+  "generatedAt": "2026-08-30T23:55:57.700Z",
+  "stats": {
+    "fromId": 469,
+    "fromName": 76,
+    "fromDescription": 90,
+    "timeAlsoRecovered": 224,
+    "monthly": 40,
+    "skippedAmbiguous": 9,
+    "skippedNegated": 0,
+    "skippedConflict": 1,
+    "noDay": 1225
+  },
+  "ambiguous": [
+    {
+      "id": "intermediate-mahjong-at-lewisboro-librar-south-salem-ny-tues-3a11f987",
+      "name": "Intermediate Mahjong at Lewisboro Library",
+      "days": [
+        "tuesday",
+        "thursday"
+      ]
+    },
+    {
+      "id": "lewisboro-ny-intermediate-mj-1",
+      "name": "Intermediate Mahjong at Lewisboro Library",
+      "days": [
+        "tuesday",
+        "thursday"
+      ]
+    },
+    {
+      "id": "mahjong-at-the-maidstone-east-hampton-east-hampton-new-york",
+      "name": "Mahjong at The Maidstone East Hampton",
+      "days": [
+        "monday",
+        "friday"
+      ]
+    },
+    {
+      "id": "mahjong-community-group-at-woodfin-ymca-asheville-nc-wednesd-2b73962d",
+      "name": "Mahjong Community Group at Woodfin YMCA",
+      "days": [
+        "monday",
+        "wednesday"
+      ]
+    },
+    {
+      "id": "sacramento-american-mahjongg-meetup-1",
+      "name": "Sacramento American Mah Jongg for Intermediate Players",
+      "days": [
+        "tuesday",
+        "sunday"
+      ]
+    },
+    {
+      "id": "temple-israel-tallahassee-mahjong-1",
+      "name": "Temple Israel Tallahassee — Mah Jongg",
+      "days": [
+        "monday",
+        "thursday"
+      ]
+    },
+    {
+      "id": "the-greenbrier-mahjong-tournament-charleston-west-virginia",
+      "name": "The Greenbrier Mahjong Tournament",
+      "days": [
+        "friday",
+        "saturday"
+      ]
+    },
+    {
+      "id": "washington-township-rec-center-mah-jongg-centerville-oh-thur-4629e7db",
+      "name": "Washington Township Rec Center Mah Jongg (Thu)",
+      "days": [
+        "tuesday",
+        "thursday"
+      ]
+    },
+    {
+      "id": "washington-township-rec-center-mah-jongg-centerville-oh-tues-0aad92f0",
+      "name": "Washington Township Rec Center Mah Jongg (Tue)",
+      "days": [
+        "tuesday",
+        "thursday"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "mah-jongg-at-brick-township-senior-cente-brick-nj-wednesday--10e6dcad",
+      "name": "Mah Jongg at Brick Township Senior Center",
+      "idDay": "wednesday",
+      "textDay": "thursday"
+    }
+  ]
+}

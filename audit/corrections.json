@@ -1,0 +1,2440 @@
+[
+  {
+    "id": "2Nj4XcjTYJF3tsHnnlaX",
+    "updates": {
+      "name": "Mahjong in the Mountains",
+      "city": "Red Feather Lakes"
+    },
+    "reason": "Trim whitespace in name, city — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "ARxo6Eo0uegVa9EBUeVF",
+    "updates": {
+      "name": "Mahjong 101: Beginner Mahjong Lessons",
+      "city": "Ottumwa",
+      "venueName": "American Legion OB Nelson"
+    },
+    "reason": "Trim whitespace in name, city, venueName — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "F22l5GArhjjoUKRX0Vxq",
+    "updates": {
+      "city": "Carlsbad"
+    },
+    "reason": "Trim whitespace in city — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "KqeNUI1tWOruX3zYBPjv",
+    "updates": {
+      "city": "Las Vegas",
+      "venueName": "103 Yoga"
+    },
+    "reason": "Trim whitespace in city, venueName — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "MX3aU6OpoDgibhAKWRiF",
+    "updates": {
+      "name": "Mahjong 102: Beginner Mahjong Lessons",
+      "city": "Ottumwa",
+      "venueName": "American Legion OB Nelson"
+    },
+    "reason": "Trim whitespace in name, city, venueName — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "NBUyJj9fGXeIONpSRrck",
+    "updates": {
+      "city": "Las Vegas"
+    },
+    "reason": "Trim whitespace in city — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "PvwkJ6NT0KZjCEIQVoEV",
+    "updates": {
+      "city": "Las Vegas",
+      "venueName": "For the Love"
+    },
+    "reason": "Trim whitespace in city, venueName — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "R4A87ShiiZfWh3MyXb5H",
+    "updates": {
+      "name": "Cinco de Mahjo",
+      "city": "Fort Collins",
+      "venueName": "Mas Fuegos Kitchen & tequila bar"
+    },
+    "reason": "Trim whitespace in name, city, venueName — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "RKkpoG0OSdtyJHvvfmBg",
+    "updates": {
+      "name": "Mahjong & Mingle",
+      "city": "Las Vegas"
+    },
+    "reason": "Trim whitespace in name, city — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "XGMtSTWbOiDniiMCn8IS",
+    "updates": {
+      "name": "Frankie’s Uptown"
+    },
+    "reason": "Trim whitespace in name — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "XzX2wTaqo6MpJUi2sEVR",
+    "updates": {
+      "venueName": "For the love, LV"
+    },
+    "reason": "Trim whitespace in venueName — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "ZqfVlERIeq1SUF3VPSmS",
+    "updates": {
+      "name": "Mahjong in the Mountains",
+      "city": "Red Feather Lakes"
+    },
+    "reason": "Trim whitespace in name, city — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "aBJuedl9tpYhWXIYvLpl",
+    "updates": {
+      "name": "Mahjong 102: Beginner Mahjong Lessons",
+      "city": "Oskaloosa",
+      "venueName": "The Bookvault"
+    },
+    "reason": "Trim whitespace in name, city, venueName — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "q42kQi4w0rzSfToWbrK0",
+    "updates": {
+      "name": "Mahjong 101: Beginner Mahjong Lessons",
+      "city": "Oskaloosa",
+      "venueName": "The Bookvault"
+    },
+    "reason": "Trim whitespace in name, city, venueName — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "qMPUL2IhQXwYtRHvxMh6",
+    "updates": {
+      "name": "Mahjong & Mingle",
+      "city": "Las Vegas"
+    },
+    "reason": "Trim whitespace in name, city — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "voxqsC0lyw6dV2HwjDVi",
+    "updates": {
+      "name": "Afternoon open play at the library"
+    },
+    "reason": "Trim whitespace in name — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "xJuY7XcUob7M4f0PMfH0",
+    "updates": {
+      "city": "Fort Collins"
+    },
+    "reason": "Trim whitespace in city — untrimmed values fragment city grouping and defeat duplicate detection"
+  },
+  {
+    "id": "13-orphans-mahjong-speakeasy-oakland-california-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday|thursday|friday|saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "14th-street-y-mah-jongg-club-open-play-new-york-new-york-630-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "2Nj4XcjTYJF3tsHnnlaX",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-07-21); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "4s-ranch-library-drop-in-mahjong-san-diego-california-200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "ZqfVlERIeq1SUF3VPSmS",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-07-21); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "aauw-mahjong-groups-walnut-creek-walnut-creek-california-930-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "acc-senior-services-mahjong-club-sacramento-california-900-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|wednesday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "addison-penzak-jcc-mah-jongg-drop-in-los-gatos-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "afvdEUPjRT3kqtPNpPQw",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-22); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "albany-jcc-learn-to-play-mah-jongg-beginner-series-albany-new-york-1100-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "albany-jcc-mah-jongg-open-play-albany-new-york",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "alpert-jcc-long-beach-drop-in-mah-jongg-long-beach-california-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "american-mah-jongg-at-south-bay-torrance-torrance-california-200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"sunday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "american-mahjong-at-beardall-senior-center-orlando-florida-1030-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "american-mahjong-in-palo-alto-weekly-group-palo-alto-california-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "amherst-center-for-senior-services-mahjong-club-amherst-new-york-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "asian-art-museum-mahjong-movement-sundays-san-francisco-california-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "austin-mahjong-social-league-spring-2026-austin-texas",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "austin-mahjong-social-mahjong-micheladas-at-vacancy-brewing-austin-texas-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "austin-mahjong-social-tuesday-intro-classes-austin-texas-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "austin-newcomers-club-monday-morning-mahjongg-austin-texas",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "austin-public-library-prime-timers-mah-jongg-austin-texas",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "bam-bird-boutique-open-play-monthufri-dallas-texas-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|thursday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "bam-bird-boutique-recurring-sunday-mahjong-101-private-lessons-dallas-texas",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "barshop-jcc-san-antonio-mahjong-san-antonio-texas-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "bay-area-mahjong-club-san-jose-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "beachside-mahj-santa-monica-santa-monica-california",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "bespoke-house-of-mahjong-monday-open-play-dallas-texas-1200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "blake-library-stuart-mahjong-stuart-florida-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "blumenthal-farms-weekly-mahjong-fredericksburg-fredericksburg-texas-1200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "board-game-x-mahjong-night-at-pinkfrog-brooklyn-new-york-1700",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "bon-mahj-raleigh-north-carolina",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "boulder-jcc-mahjong-canasta-open-play-denver-colorado-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "brentwood-mah-jongg-club-at-john-p-holt-library-nashville-tennessee-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "brighton-senior-center-mah-jongg-brighton-new-york-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "brotherhood-synagogue-mah-jongg-new-york-new-york",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "brunswick-senior-center-mahjong-wilmington-north-carolina-1300",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "bryant-park-mah-jongg-social-new-york-new-york-300-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "burlingame-mahjong-clubhouse-burlingame-california-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "campbell-community-center-mahjong-campbell-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "capital-region-mah-jongg-wednesday-open-play-glenmont-new-york-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "casual-dragon-games-chinese-mahjong-saturdays-amherst-new-york",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "casual-dragon-mahjong-club-lockport-new-york-1200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"saturday|tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "casual-dragon-mahjong-club-riichi-saturdays-teaching-sessions-lockport-new-york-1200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "ccm-spring-league-monday-sessions-winston-salem-north-carolina-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "ccm-spring-league-wednesday-sessions-winston-salem-north-carolina-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "chaotic-good-cafe-mahjong-lessons-new-york-new-york-1030-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "charlotte-riichi-mahjong-club-weekly-sessions-matthews-north-carolina-1200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "chinese-community-center-mahjong-workshops-houston-texas-200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "chinese-community-center-senior-mahjong-houston-texas-800-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|tuesday|wednesday|thursday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "chinese-mahjong-club-renner-frankford-branch-library-tuefri-dallas-texas-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "clearwater-beach-library-mahjong-mondays-clearwater-florida-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "clovis-civic-center-on-mondays-we-play-mahjong-clovis-california",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "clt-nag-learn-to-play-open-play-concord-concord-north-carolina-200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"saturday|thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "colonie-senior-citizens-club-weekly-mah-jongg-colonie-new-york-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "como-mahjong-spring-league-friday-midday-columbia-missouri-1200-2026-04-07",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-07); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "como-mahjong-spring-league-friday-morning-columbia-missouri-1000-2026-04-07",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-07); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "como-mahjong-spring-league-thursday-55-columbia-missouri-1300-2026-04-07",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-07); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "como-mahjong-spring-league-tuesday-columbia-missouri-1830-2026-04-07",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-07); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "como-mahjong-spring-league-wednesday-evening-columbia-missouri-1830-2026-04-07",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-07); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "como-mahjong-spring-league-wednesday-morning-columbia-missouri-1000-2026-04-07",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-07); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "congregation-beth-am-mah-jongg-san-diego-california-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "congregation-beth-elohim-cbe-mah-jongg-brooklyn-new-york-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "congregation-habonim-open-play-new-york-new-york",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday|thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "coronado-mahjong-club-coronado-california-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday|thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "cowtown-mahj-spring-league-fort-worth-texas-1830",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "cupertino-senior-center-mahjong-cupertino-california-900-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|wednesday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "davis-senior-center-american-mah-jong-davis-california-1200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "del-webb-orlando-mah-jongg-club-davenport-florida-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "denver-arapahoe-libraries-mahjong-open-play-centennial-denver-colorado-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "denver-mahjong-drop-in-at-clements-community-center-lakewood-denver-colorado-1215-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "denver-panera-bread-mahjong-westminsterbroomfield-denver-colorado-930-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "denver-peak-community-wellness-center-mahjong-littleton-denver-colorado-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday|thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "dfw-young-social-american-mahjong-social-1st-3rd-tuesdays-dallas-texas-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "dfw-young-social-club-american-mahjong-social-play-farmers-branch-texas-1800",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "dfw-young-social-club-intro-to-american-mahjong-farmers-branch-texas-1800",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "dragon-well-mahjong-lair-san-francisco-california-500-pm-1",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "dripping-springs-community-library-mah-jongg-dripping-springs-texas-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "dunwoody-mahj-co-mommy-me-mahjong-lesson-atlanta-georgia-1100-2026-04-26",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-26); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "dyker-library-bpl-mahjong-brooklyn-new-york-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "east-bay-lgb-mahjong-oakland-california-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "east-never-loses-los-angeles-california",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "eggertsville-snyder-library-mahjong-club-snyder-new-york-330-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "el-paso-public-library-main-branch-mahjong-friday-el-paso-texas-330-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "el-paso-public-library-main-branch-mahjong-tuesday-el-paso-texas-1030-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "ella-blu-boutique-mah-jongg-tuesday-nights-el-paso-texas",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "encinitas-senior-center-mahjong-encinitas-california-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "fallbrook-library-mah-jongg-mondays-fallbrook-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "ferry-building-marketplace-wednesday-mahjong-san-francisco-california-300-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "first-presbyterian-church-fw-mah-jong-lessons-2nd-4th-thursdays-fort-worth-texas-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "forest-hills-library-qpl-american-mahjong-queens-new-york-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "fort-lauderdale-lgbtq-mahjong-fort-lauderdale-florida-1200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "fort-lauderdale-vfw-mahjong-fort-lauderdale-florida-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "fort-myers-mahjong-club-fort-myers-florida-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|thursday|saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "franklin-riichi-mahjong-nashville-tennessee-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "fremont-senior-center-mahjong-fremont-california-900-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|wednesday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "frequent-flyers-league-tulsa-oklahoma-1800-2026-04-16",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-16); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "fruitland-park-library-mahjong-fruitland-park-florida-1100-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "fumc-denton-open-play-mahjong-denton-texas-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "fun-with-friends-mahjongg-various-pennsylvania-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "galway-senior-center-monday-mah-jongg-galway-new-york-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "gamelandia-mahjong-night-san-jose-california-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "gates-recreation-mah-jongg-gates-new-york-900-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "gilroy-senior-center-mahjong-gilroy-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "glendale-library-montrose-mahjong-montrose-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "golden-gate-park-senior-center-mah-jongg-san-francisco-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "grapevine-thursday-mahjong-fort-worth-texas-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "green-tile-social-club-new-york-new-york",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "griffin-club-la-mah-jongg-lessons-los-angeles-california-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "hearth-soul-mahjong-tallahassee-tallahassee-florida",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "hong-kong-mahjong-katy-katy-texas-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "hopstix-mahjong-mondays-tampa-florida-500-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "houston-congregation-for-reform-judaism-mahjong-houston-texas-630-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "houston-go-club-mahjong-practice-houston-texas-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "houston-mahjong-meetup-houston-texas-1300",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "j-mahj-competitive-league-mon-evenings-apr-13-may-18-2026-dallas-texas-evening-2026-04-13",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-13); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "j-mahj-get-your-mahjon-beginner-series-apr-28-2026-dallas-texas-2026-04-28",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-28); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "j-mahj-open-table-play-jcc-dallas-dallas-texas-630-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday|wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "jcc-buffalo-friday-morning-open-play-getzville-new-york-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "jcc-east-bay-beginner-mah-jongg-classes-berkeley-california-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "jcc-rochester-mahjong-club-rochester-new-york-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "jcc-rochester-mahjong-for-beginners-rochester-new-york-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "jccsf-weekly-mahjong-san-francisco-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "joslyn-center-mah-jongg-sacramento-california-900-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "jupiter-community-center-friday-mahjong-jupiter-florida-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "keller-public-library-mahjong-mondays-fort-worth-texas-1100-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "la-cañada-thursday-club-mahjong-la-cañada-flintridge-california-300-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "la-jolla-newcomers-club-friday-mahjong-la-jolla-california-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "lake-kennedy-community-center-mahjong-cape-coral-florida-1100-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "lake-worth-library-mahjong-lake-worth-florida-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "lancaster-public-library-mahjong-club-lancaster-new-york-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "lancaster-senior-center-monday-mahjong-lancaster-new-york-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "lapl-introduction-to-mah-jongg-classes-los-angeles-california",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "lapl-mah-jongg-open-play-los-angeles-california",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "learn-to-play-mahjong-minneapolis-minnesota-130-pm-2026-04-15",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-15); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "lets-learn-mahjong-beginner-meetup-series-nashville-metro-nashville-tennessee-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "lets-play-mahjong-westchester-hudson-valley-westchester-new-york",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "levis-jcc-beginner-mah-jongg-classes-boca-raton-florida-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "life-enrichment-center-tampa-open-play-tampa-florida-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "log-cabin-senior-center-jensen-beach-mahjong-jensen-beach-florida-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "lone-star-riichi-club-sunday-open-play-dub-tea-n-eats-dallas-texas",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "long-beach-library-dana-mahjong-club-long-beach-california-200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "longhorn-riichi-weekly-sunday-games-austin-texas-200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "macedon-public-library-mahjong-macedon-new-york-200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mah-jongg-game-day-northridge-california",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mah-jongg-morning-at-encino-farmers-market-van-nuys-california-900-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mah-jongg-social-club-mount-dora-mount-dora-florida-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahj-101-with-mahj-in-miami-miami-beach-florida-1130-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahj-in-the-city-bambird-scramble-league-charlotte-north-carolina",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahj-mingle-at-pour-décor-st-petersburg-florida-230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahj-mondays-tiles-and-taps-open-play-raleigh-north-carolina-1830",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahj-nolia-open-play-the-magnolia-wine-bar-biweekly-mondays-fort-worth-texas-500-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahj-on-main-hey-love-texas-boerne-boerne-texas-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahj-social-club-lessons-open-play-austin-texas-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday|thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-101-at-high-street-wine-co-san-antonio-texas-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-academy-san-jose-san-jose-california-230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|tuesday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-at-bartlett-senior-center-memphis-tennessee-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-at-chatsworth-branch-library-los-angeles-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-at-deenas-third-thursday-open-play-solana-beach-california-300-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-at-first-presbyterian-church-athens-athens-texas-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-at-garland-vfw-garland-texas-1200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-at-hammergirl-anime-rochester-new-york-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-at-ironside-miami-florida-1800",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-club-miami-tuesday-open-play-miami-florida-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-group-at-trinity-arlington-wednesday-play-fort-worth-texas-130-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-league-of-lakeland-lakeland-florida-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-mama-nwa-may-mahj-club-bentonville-arkansas-1730-2026-05-05",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-05-05); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-martini-mondays-catbird-thompson-hotel-dallas-texas-630-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-mingle-greensboro-greensboro-north-carolina-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-mingle-miami-florida-730-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-monday-open-play-oklahoma-city-oklahoma-monday-2026-04-13",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-13); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-mondays-at-marketstreet-lynnfield-4-class-series-boston-massachusetts-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-mondays-billet-room-bowie-house-hotel-fort-worth-texas-700-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-night-the-coupe-biweekly-thursdays-fort-worth-texas-500-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-nw-san-antonio-san-antonio-texas-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-open-play-rally-pickleball-charlotte-north-carolina-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-tea-social-hour-ritz-carlton-las-colinas-dallas-texas",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-underground-at-general-lees-los-angeles-california-800-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-underground-at-nicos-wine-bar-los-angeles-california-800-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-with-kim-chinatown-classes-san-francisco-california-300-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-with-kim-hong-kong-style-classes-san-francisco-california-300-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday|sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-with-lauren-lauren-levasseur-houston-texas-530-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday|thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mahjong-with-marci-tiles-and-tastings-league-austin-texas-600-pm-2026-04-01",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mama-mahjong-spring-lunch-league-at-chuys-brentwood-nashville-tennessee-1200",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mamahuhu-mahjong-mondays-noe-valley-san-francisco-california-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mamahuhu-mahjong-mondays-richmond-san-francisco-california-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mamahuhu-mill-valley-mahjong-mill-valley-california-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mamahuhu-palo-alto-mahjong-mondays-palo-alto-california-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mandel-jcc-beginner-mah-jongg-palm-beach-gardens-florida-900-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "manhattan-mah-jongg-club-new-york-new-york",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "marchesa-mahjong-houston-texas-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday|wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "marin-chinese-cultural-association-mahjong-san-rafael-california-130-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "marinwood-community-mah-jongg-san-rafael-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "marni-mahjong-april-group-beginner-lessons-boca-raton-florida-1830",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "matthews-united-methodist-church-mahjong-lessons-matthews-north-carolina-400-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "miami-mahjong-club-miami-florida",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "milpitas-senior-center-mahjong-milpitas-california-900-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|wednesday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mira-mesa-senior-center-mahjong-san-diego-california-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "miss-mini-mahjer-kids-mahjong-lessons-select-saturdays-dallas-texas-530-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mocha-mahj-houston-texas-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday|saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mocomahjong-spring-league-bethesda-maryland-2026-04-13",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-13); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "monthly-mahj-morning-open-play-houston-texas-saturday-2026-04-11",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-11); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "morgan-hill-community-center-mahjong-morgan-hill-california-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mountain-view-senior-center-mahjong-mountain-view-california-930-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday|thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mr-mahjongs-cocktail-bar-lounge-san-francisco-california-530-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday|saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mr-mahjongs-mahjong-nights-san-francisco-california-1730",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "mr-mahjongs-teaching-tuesday-san-francisco-california-530-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "nolensville-recreation-mah-jong-for-beginners-nashville-tennessee-900-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "north-hills-club-mahjong-raleigh-raleigh-north-carolina",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "north-regional-rec-center-mahjong-huntersville-huntersville-north-carolina-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|tuesday|wednesday|thursday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "northern-regional-recreation-center-american-mahjong-afternoon-cornelius-north-carolina-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|tuesday|wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "northern-regional-recreation-center-american-mahjong-thursday-morning-cornelius-north-carolina-900-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "northern-regional-recreation-center-chinese-mahjong-friday-cornelius-north-carolina-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "ocala-eighth-avenue-adult-activity-center-mahjong-ocala-florida-900-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "ok-lets-mahjong-nyc-mahj-socials-new-york-new-york-700-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "our-mahjong-of-north-austin-friday-chinese-austin-texas-130-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "our-mahjong-of-north-austin-thursday-american-austin-texas-130-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "pacific-mahjong-league-weekly-game-night-san-jose-california-700-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "palm-beach-mahjong-open-play-at-du-home-collection-palm-beach-gardens-florida-1100",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "palm-desert-library-american-mahjong-palm-desert-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "palm-harbor-library-mahjong-palm-harbor-florida-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "palm-springs-mahjong-the-rack-pack-palm-springs-california-400-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "palo-alto-elks-lodge-mahjong-madness-palo-alto-california-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "palo-alto-jewish-community-center-mah-jongg-palo-alto-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "pasadena-public-library-lamanda-park-american-mah-jongg-pasadena-california-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "pasadena-senior-center-american-mahjong-club-pasadena-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "patch-reef-park-mahjong-mondays-boca-raton-florida-1030-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "peace-love-mahjong-guided-play-wednesdays-dallas-texas-630-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "peace-love-mahjong-mahjong-101-class-tuesdays-dallas-texas-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "peninsula-jcc-california-mahjong-foster-city-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday|thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "pinecrest-community-center-mahjong-pinecrest-florida-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "poway-library-mahjong-poway-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "queen-city-mahjong-assisted-open-play-charlotte-north-carolina-630-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "rack-n-roll-mah-jongg-open-play-charlotte-north-carolina-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "raleigh-mahj-monthly-open-play-raleigh-north-carolina",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "rancho-bernardo-library-mahjong-san-diego-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "reedley-senior-center-hobby-time-reedley-california-1200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "richard-meg-weekley-community-center-mahjong-cypress-texas-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "riichi-nomi-nyc-sunday-meetup-new-york-new-york-1200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "rit-nine-gates-mahjong-club-rochester-new-york-500-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "rogers-adult-wellness-center-mah-jongg-mon-thu-fayetteville-arkansas-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "sacramento-mah-jong-club-citrus-heights-california-700-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "sacramento-mahjong-crew-hangouts-sacramento-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "sadelles-mahjong-social-biweekly-wednesdays-dallas-texas-300-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "salmagundi-club-mahjong-new-york-new-york",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-antonio-public-library-encino-branch-mahjong-san-antonio-texas-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-diego-american-mah-jongg-allied-gardens-san-diego-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-diego-american-mah-jongg-experienced-players-monthly-san-diego-california-1200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-diego-american-mah-jongg-newer-players-monthly-san-diego-california-1200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-diego-american-mah-jongg-tierrasanta-san-diego-california-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-diego-american-mah-jongg-utcnobel-san-diego-california-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-diego-mahjong-club-american-mah-jongg-mondays-san-diego-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-diego-mahjong-club-international-mcr-san-diego-california-1100-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-diego-mahjong-club-intro-to-mcr-class-san-diego-california-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-diego-mahjong-club-mid-week-wednesdays-san-diego-california-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-diego-mahjong-club-riichi-mahjong-san-diego-california-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-diego-mahjong-club-zung-jung-fridays-san-diego-california-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-diego-mahjong-club-zung-jung-weekly-san-diego-california",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-jose-chinese-cultural-center-mahjong-san-jose-california-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-jose-public-library-mahjong-at-berryessa-san-jose-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "san-jose-womans-club-mah-jong-group-san-jose-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "santa-barbara-newcomers-club-mah-jongg-santa-barbara-california-200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "santa-clara-city-library-mahjong-club-santa-clara-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "santa-clara-senior-center-mahjong-santa-clara-california-900-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday|thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "sarasota-temple-beth-sholom-mahjong-sarasota-florida-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "saratoga-area-senior-center-tuesday-mah-jongg-saratoga-springs-new-york-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "saratoga-senior-center-mahjong-saratoga-california-900-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "saratoga-springs-public-library-saturday-mah-jongg-saratoga-springs-new-york-200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "seymour-center-chapel-hill-mahjong-chapel-hill-north-carolina-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "sf-japanese-mahjong-meetup-san-francisco-california-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday|sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "shalom-austin-dell-jcc-learn-to-play-mahjong-austin-texas-630-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "sierra-2-center-mahjong-mondays-sacramento-california-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "sijcc-american-mahjong-beginners-course-los-angeles-california-700-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "sisterhood-mah-jongg-club-etz-hayim-flushing-new-york-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "siwei-board-games-mahjong-san-jose-california-1200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday|sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "solana-beach-senior-center-mahjong-solana-beach-california-930-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "south-austin-riichi-mahjong-sarm-buda-library-buda-texas-530-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "south-bay-mahjong-meetup-san-jose-california-200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "south-bay-riichi-mahjong-club-san-jose-california-300-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "south-pasadena-senior-center-mah-jong-south-pasadena-california-130-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "south-texas-mahj-bub-beck-mahjong-mondays-corpus-christi-texas",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "southwest-community-center-mah-jong-class-series-fort-worth-texas",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "sparrows-nest-studio-new-york-new-york-400-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday|friday|saturday|sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "spring-mahjong-league-afternoons-noblesville-indiana-1200-pm-2026-04-06",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-06); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "srq-mahjong-gathering-sarasota-florida-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "st-anastasia-church-mah-jongg-st-augustine-florida-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "st-john-the-divine-mahjong-group-houston-texas-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "st-pete-beach-library-mahjong-st-pete-beach-florida-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "st-petersburg-womans-club-mahjong-st-petersburg-florida-200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "stanford-womens-club-mah-jongg-stanford-california-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "sundale-golf-course-friday-mah-jongg-bakersfield-bakersfield-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "sunnyvale-senior-center-mahjong-sunnyvale-california-900-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|wednesday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "sunset-park-library-bpl-mahjong-club-brooklyn-new-york-200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "susi-q-community-center-mahjong-laguna-beach-laguna-beach-california-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "tampa-mahjong-club-open-play-tampa-florida-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "taps-tiles-mahjong-open-play-at-triple-c-brewing-charlotte-north-carolina-700-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "the-garage-mckinney-american-mahjong-mckinney-texas-400-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "the-jay-hotel-mahjong-martinis-san-francisco-california-430-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "the-mahjong-society-nyc-events-new-york-new-york-630-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday|wednesday|sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "the-portal-downtown-mahjong-program-panama-city-florida-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "the-traveling-mahjong-series-coppa-osteria-houston-texas-1130-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "the-traveling-mahjong-series-flora-mexican-kitchen-houston-texas-1130-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "the-woodlands-methodist-church-mahjong-the-woodlands-texas-200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "tierrasanta-library-mahjong-group-san-diego-california-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "tiles-teas-hotel-crescent-court-the-conservatory-dallas-texas-afternoon",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday|sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "town-of-huntington-senior-center-mahjong-huntington-new-york-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "troop-mahjong-society-open-play-san-antonio-texas-630-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday|thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "tuesday-tiles-beginner-mahjong-series-charlotte-north-carolina-600-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "ub-womens-club-wednesday-mahjong-williamsville-new-york",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "uc-berkeley-four-winds-mahjong-club-berkeley-california-700-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "ucf-womens-club-mah-jongg-1-evenings-orlando-florida-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "ucf-womens-club-mah-jongg-2-daytime-oviedo-florida-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "un-plaza-free-sunday-mahjong-san-francisco-california-1100-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-05); timing comes from recurringSchedule.dayOfWeek=\"sunday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "united-japanese-christian-church-mah-jongg-clovis-california-1000-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "university-club-of-winter-park-mahjong-winter-park-florida-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "uspml-nyc-riichi-meetup-new-york-new-york",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-04); timing comes from recurringSchedule.dayOfWeek=\"saturday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "uuslo-friday-mahjong-san-luis-obispo-san-luis-obispo-california-130-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "valley-jcc-northridge-mah-jongg-game-days-northridge-california-1030-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "vfw-mahjong-group-st-petersburg-florida-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "voxqsC0lyw6dV2HwjDVi",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-17); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "weinstein-jcc-drop-in-mahjong-new-york-new-york",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-02); timing comes from recurringSchedule.dayOfWeek=\"thursday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "west-tampa-branch-library-mahjong-tampa-florida-200-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "west-university-community-center-mahjong-west-university-place-texas-varies",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "whitestone-library-qpl-mahjong-cards-queens-new-york-100-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "wilshire-boulevard-temple-mahjongg-los-angeles-california-1100-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-31); timing comes from recurringSchedule.dayOfWeek=\"tuesday|wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "woodlands-mahjong-society-the-woodlands-texas-930-am",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"monday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "world-riichi-league-usa-april-2026-new-york-new-york",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-03); timing comes from recurringSchedule.dayOfWeek=\"friday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "ymca-buffalo-niagara-mahjong-club-west-seneca-new-york-1230-pm",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-04-01); timing comes from recurringSchedule.dayOfWeek=\"wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "ymca-of-western-nc-mahjong-asheville-north-carolina-1300",
+    "updates": {
+      "eventDate": null
+    },
+    "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  }
+]

@@ -1,0 +1,929 @@
+{
+  "generatedAt": "2026-08-30T23:57:01.947Z",
+  "totals": {
+    "allListings": 3801,
+    "visibleListings": 2297,
+    "hiddenListings": 1504
+  },
+  "duplicates": {
+    "groups": 71,
+    "redundantListings": 71,
+    "skippedForReview": [
+      {
+        "key": "mahjong in the mountains|red feather lakes|CO|tuesday|10:00",
+        "reason": "2 records are claimed or organizer-edited — deactivating a listing a real organizer maintains needs a human decision",
+        "ids": [
+          "2Nj4XcjTYJF3tsHnnlaX",
+          "ZqfVlERIeq1SUF3VPSmS"
+        ]
+      },
+      {
+        "key": "guided play lesson with kim|mobile|AL|friday|14:00",
+        "reason": "2 records are claimed or organizer-edited — deactivating a listing a real organizer maintains needs a human decision",
+        "ids": [
+          "KKrdkVjt1TiUMjVtIN31",
+          "ldExzb6sEGRYR7iFjGZo"
+        ]
+      }
+    ],
+    "items": [
+      {
+        "key": "mahjong in the mountains|red feather lakes|CO|tuesday|10:00",
+        "count": 2,
+        "city": "Red Feather Lakes",
+        "state": "CO",
+        "name": "Mahjong in the Mountains",
+        "day": "tuesday",
+        "ids": [
+          "2Nj4XcjTYJF3tsHnnlaX",
+          "ZqfVlERIeq1SUF3VPSmS"
+        ]
+      },
+      {
+        "key": "guided play lesson with kim|mobile|AL|friday|14:00",
+        "count": 2,
+        "city": "Mobile",
+        "state": "AL",
+        "name": "Guided Play Lesson with Kim",
+        "day": "friday",
+        "ids": [
+          "KKrdkVjt1TiUMjVtIN31",
+          "ldExzb6sEGRYR7iFjGZo"
+        ]
+      },
+      {
+        "key": "afternoon mahjong meetups at henry carter hull library|clinton|CT|monday|",
+        "count": 2,
+        "city": "Clinton",
+        "state": "CT",
+        "name": "Afternoon Mahjong Meetups at Henry Carter Hull Library",
+        "day": "monday",
+        "ids": [
+          "afternoon-mahjong-meetups-at-henry-carte-clinton-ct-monday-1-716e617f",
+          "clinton-ct-hch-mj-monday-afternoon-1"
+        ]
+      },
+      {
+        "key": "american mah jongg at panera bread torrance|torrance|CA||",
+        "count": 2,
+        "city": "Torrance",
+        "state": "CA",
+        "name": "American Mah Jongg at Panera Bread Torrance",
+        "day": "(unknown)",
+        "ids": [
+          "american-mah-jongg-at-panera-bread-torra-torrance-ca-thursda-d4073f3a",
+          "torrance-panera-mj-1"
+        ]
+      },
+      {
+        "key": "american mahjong at cooper city recreation center|cooper city|FL||",
+        "count": 2,
+        "city": "Cooper City",
+        "state": "FL",
+        "name": "American Mahjong at Cooper City Recreation Center",
+        "day": "(unknown)",
+        "ids": [
+          "american-mahjong-at-cooper-city-recreati-cooper-city-fl-wedn-7c183911",
+          "cooper-city-fl-rec-center-mj-1"
+        ]
+      },
+      {
+        "key": "american mahjong at hiawatha public library|hiawatha|IA||",
+        "count": 2,
+        "city": "Hiawatha",
+        "state": "IA",
+        "name": "American Mahjong at Hiawatha Public Library",
+        "day": "(unknown)",
+        "ids": [
+          "american-mahjong-at-hiawatha-public-libr-hiawatha-ia-wednesd-1e1214c2",
+          "hiawatha-ia-library-mj-1"
+        ]
+      },
+      {
+        "key": "ann arbor district library mahjong open play|ann arbor|MI||",
+        "count": 2,
+        "city": "Ann Arbor",
+        "state": "MI",
+        "name": "Ann Arbor District Library Mahjong Open Play",
+        "day": "(unknown)",
+        "ids": [
+          "ann-arbor-district-library-mahjong-open--ann-arbor-mi-saturd-0a1e8b36",
+          "ann-arbor-district-library-mahjong-open-play-ann-arbor-michigan"
+        ]
+      },
+      {
+        "key": "bay area mahjong meetup free open play at parkmerced|san francisco|CA||",
+        "count": 2,
+        "city": "San Francisco",
+        "state": "CA",
+        "name": "Bay Area Mahjong Meetup — Free Open Play at Parkmerced",
+        "day": "(unknown)",
+        "ids": [
+          "bay-area-mahjong-meetup-free-open-play-a-san-francisco-ca-tu-10c89a20",
+          "bay-area-mahjong-meetup-parkmerced-1"
+        ]
+      },
+      {
+        "key": "beginner mah jongg class at shames jcc on the hudson|tarrytown|NY||",
+        "count": 2,
+        "city": "Tarrytown",
+        "state": "NY",
+        "name": "Beginner Mah Jongg Class at Shames JCC on the Hudson",
+        "day": "(unknown)",
+        "ids": [
+          "beginner-mah-jongg-class-at-shames-jcc-o-tarrytown-ny-tuesda-9db7af3a",
+          "tarrytown-shames-jcc-1"
+        ]
+      },
+      {
+        "key": "mahjong at levis jcc sandler center mondays|boca raton|FL||",
+        "count": 2,
+        "city": "Boca Raton",
+        "state": "FL",
+        "name": "Mahjong at Levis JCC Sandler Center - Mondays",
+        "day": "(unknown)",
+        "ids": [
+          "boca-raton-fl-levis-jcc-mj-mon-1",
+          "mahjong-at-levis-jcc-sandler-center-mond-boca-raton-fl-monda-088266d1"
+        ]
+      },
+      {
+        "key": "mahjong at levis jcc sandler center wednesdays|boca raton|FL||",
+        "count": 2,
+        "city": "Boca Raton",
+        "state": "FL",
+        "name": "Mahjong at Levis JCC Sandler Center - Wednesdays",
+        "day": "(unknown)",
+        "ids": [
+          "boca-raton-fl-levis-jcc-mj-wed-1",
+          "mahjong-at-levis-jcc-sandler-center-wedn-boca-raton-fl-wedne-1142a14b"
+        ]
+      },
+      {
+        "key": "brandywine hundred library american mahjong|wilmington|DE||",
+        "count": 2,
+        "city": "Wilmington",
+        "state": "DE",
+        "name": "Brandywine Hundred Library — American Mahjong",
+        "day": "(unknown)",
+        "ids": [
+          "brandywine-hundred-library-american-mahj-wilmington-de-wedne-c02d7e0e",
+          "brandywine-hundred-library-american-mahjong-1"
+        ]
+      },
+      {
+        "key": "northshore mahjongg at dengeos buffalo grove|buffalo grove|IL||",
+        "count": 2,
+        "city": "Buffalo Grove",
+        "state": "IL",
+        "name": "NorthShore Mahjongg at Dengeos Buffalo Grove",
+        "day": "(unknown)",
+        "ids": [
+          "buffalogrove-northshore-dengeos-1",
+          "northshore-mahjongg-at-dengeos-buffalo-g-buffalo-grove-il-mo-b7ae58db"
+        ]
+      },
+      {
+        "key": "sunday mah jongg at wegmans burlington|burlington|MA|sunday|",
+        "count": 2,
+        "city": "Burlington",
+        "state": "MA",
+        "name": "Sunday Mah Jongg at Wegmans Burlington",
+        "day": "sunday",
+        "ids": [
+          "burlington-ma-wegmans-sunday-mj-1",
+          "sunday-mah-jongg-at-wegmans-burlington-burlington-ma-sunday--715268a0"
+        ]
+      },
+      {
+        "key": "mahjong open play at tye preston library|canyon lake|TX||",
+        "count": 2,
+        "city": "Canyon Lake",
+        "state": "TX",
+        "name": "Mahjong Open Play at Tye Preston Library",
+        "day": "(unknown)",
+        "ids": [
+          "canyon-lake-tx-tye-preston-mj-1",
+          "mahjong-open-play-at-tye-preston-library-canyon-lake-tx-tues-276beef9"
+        ]
+      },
+      {
+        "key": "cherry hill public library american mah jongg|cherry hill|NJ||",
+        "count": 2,
+        "city": "Cherry Hill",
+        "state": "NJ",
+        "name": "Cherry Hill Public Library American Mah Jongg",
+        "day": "(unknown)",
+        "ids": [
+          "cherry-hill-public-library-american-mah--cherry-hill-nj-tues-f39e15f2",
+          "cherry-hill-public-library-american-mah-jongg-cherry-hill-new-jersey"
+        ]
+      },
+      {
+        "key": "chicago area mahjong weekend riichi sessions|schaumburg|IL||",
+        "count": 2,
+        "city": "Schaumburg",
+        "state": "IL",
+        "name": "Chicago Area Mahjong — Weekend Riichi Sessions",
+        "day": "(unknown)",
+        "ids": [
+          "chicago-area-mahjong-weekend-riichi-sess-schaumburg-il-satur-b09154a6",
+          "schaumburg-chicago-area-mahjong-1"
+        ]
+      },
+      {
+        "key": "mah jongg at dripping springs library|dripping springs|TX||",
+        "count": 2,
+        "city": "Dripping Springs",
+        "state": "TX",
+        "name": "Mah-Jongg at Dripping Springs Library",
+        "day": "(unknown)",
+        "ids": [
+          "dripping-springs-tx-library-mj-1",
+          "mah-jongg-at-dripping-springs-library-dripping-springs-tx-tu-7dcca2a6"
+        ]
+      },
+      {
+        "key": "drop in american mahjong at blake library|stuart|FL|tuesday|",
+        "count": 2,
+        "city": "Stuart",
+        "state": "FL",
+        "name": "Drop-In American Mahjong at Blake Library",
+        "day": "tuesday",
+        "ids": [
+          "drop-in-american-mahjong-at-blake-librar-stuart-fl-tuesday-1-217d9229",
+          "drop-in-american-mahjong-at-blake-librar-stuart-fl-tuesday-1-dac2111d"
+        ]
+      },
+      {
+        "key": "enoch pratt free library mah jongg free play|baltimore|MD||",
+        "count": 2,
+        "city": "Baltimore",
+        "state": "MD",
+        "name": "Enoch Pratt Free Library Mah-Jongg Free Play",
+        "day": "(unknown)",
+        "ids": [
+          "enoch-pratt-free-library-mah-jongg-free--baltimore-md-61a02681",
+          "enoch-pratt-free-library-mah-jongg-free-play-baltimore-maryland"
+        ]
+      },
+      {
+        "key": "gotham go group mahjong jacx food hall sat|long island city|NY||",
+        "count": 2,
+        "city": "Long Island City",
+        "state": "NY",
+        "name": "Gotham Go Group Mahjong - JACX Food Hall (Sat)",
+        "day": "(unknown)",
+        "ids": [
+          "gotham-go-group-mahjong-jacx-food-hall-s-long-island-city-ny-e21b0288",
+          "queens-gotham-go-jacx-sat-1"
+        ]
+      },
+      {
+        "key": "gotham go group mahjong jacx food hall thu|long island city|NY||",
+        "count": 2,
+        "city": "Long Island City",
+        "state": "NY",
+        "name": "Gotham Go Group Mahjong - JACX Food Hall (Thu)",
+        "day": "(unknown)",
+        "ids": [
+          "gotham-go-group-mahjong-jacx-food-hall-t-long-island-city-ny-358672c4",
+          "queens-gotham-go-jacx-thu-1"
+        ]
+      },
+      {
+        "key": "gotham go group mahjong whole foods jersey city|jersey city|NJ||",
+        "count": 2,
+        "city": "Jersey City",
+        "state": "NJ",
+        "name": "Gotham Go Group Mahjong - Whole Foods Jersey City",
+        "day": "(unknown)",
+        "ids": [
+          "gotham-go-group-mahjong-whole-foods-jers-jersey-city-nj-wedn-81a2be25",
+          "jerseycity-gotham-go-wholefoods-1"
+        ]
+      },
+      {
+        "key": "gresham library mahjong club|gresham|OR||",
+        "count": 2,
+        "city": "Gresham",
+        "state": "OR",
+        "name": "Gresham Library — Mahjong Club",
+        "day": "(unknown)",
+        "ids": [
+          "gresham-library-mahjong-club-1",
+          "gresham-library-mahjong-club-gresham-or-c0a47b7a"
+        ]
+      },
+      {
+        "key": "gresham library mahjong club|gresham|OR|monday|",
+        "count": 2,
+        "city": "Gresham",
+        "state": "OR",
+        "name": "Gresham Library — Mahjong Club",
+        "day": "monday",
+        "ids": [
+          "gresham-library-mahjong-club-gresham-or-monday-1-00-pm-6a06fc6c",
+          "gresham-library-mahjong-club-gresham-or-monday-13-00-0c97c3b2"
+        ]
+      },
+      {
+        "key": "hiawatha public library mahjong|hiawatha|IA|wednesday|",
+        "count": 2,
+        "city": "Hiawatha",
+        "state": "IA",
+        "name": "Hiawatha Public Library Mahjong",
+        "day": "wednesday",
+        "ids": [
+          "hiawatha-public-library-mahjong-hiawatha-ia-wednesday-14-00-779471c0",
+          "hiawatha-public-library-mahjong-hiawatha-ia-wednesday-14-00-779471c0x"
+        ]
+      },
+      {
+        "key": "hussey mayfield library daytime american mahjong club|zionsville|IN||",
+        "count": 2,
+        "city": "Zionsville",
+        "state": "IN",
+        "name": "Hussey-Mayfield Library — Daytime American Mahjong Club",
+        "day": "(unknown)",
+        "ids": [
+          "hussey-mayfield-library-daytime-american-zionsville-in-monda-9f36173b",
+          "hussey-mayfield-zionsville-american-mahjong-1"
+        ]
+      },
+      {
+        "key": "intermediate mahjong at lewisboro library|south salem|NY||",
+        "count": 2,
+        "city": "South Salem",
+        "state": "NY",
+        "name": "Intermediate Mahjong at Lewisboro Library",
+        "day": "(unknown)",
+        "ids": [
+          "intermediate-mahjong-at-lewisboro-librar-south-salem-ny-tues-3a11f987",
+          "lewisboro-ny-intermediate-mj-1"
+        ]
+      },
+      {
+        "key": "introduction to american mah jongg at carver memorial library|searsport|ME|monday|",
+        "count": 2,
+        "city": "Searsport",
+        "state": "ME",
+        "name": "Introduction to American Mah Jongg at Carver Memorial Library",
+        "day": "monday",
+        "ids": [
+          "introduction-to-american-mah-jongg-at-ca-searsport-me-monday-46a344c2",
+          "introduction-to-american-mah-jongg-at-ca-searsport-me-monday-46a344c2x"
+        ]
+      },
+      {
+        "key": "mahjongg beginners at livingston senior center saturdays|livingston|NJ||",
+        "count": 2,
+        "city": "Livingston",
+        "state": "NJ",
+        "name": "Mahjongg Beginners at Livingston Senior Center - Saturdays",
+        "day": "(unknown)",
+        "ids": [
+          "livingston-nj-senior-mj-sat-1",
+          "mahjongg-beginners-at-livingston-senior--livingston-nj-satur-ad6ab238"
+        ]
+      },
+      {
+        "key": "mahjongg fun at livingston senior center thursdays|livingston|NJ||",
+        "count": 2,
+        "city": "Livingston",
+        "state": "NJ",
+        "name": "Mahjongg FUN at Livingston Senior Center - Thursdays",
+        "day": "(unknown)",
+        "ids": [
+          "livingston-nj-senior-mj-thu-1",
+          "mahjongg-fun-at-livingston-senior-center-livingston-nj-thurs-86912145"
+        ]
+      },
+      {
+        "key": "mahjongg beginners at livingston senior center tuesdays|livingston|NJ||",
+        "count": 2,
+        "city": "Livingston",
+        "state": "NJ",
+        "name": "Mahjongg Beginners at Livingston Senior Center - Tuesdays",
+        "day": "(unknown)",
+        "ids": [
+          "livingston-nj-senior-mj-tue-1",
+          "mahjongg-beginners-at-livingston-senior--livingston-nj-tuesd-d08de28a"
+        ]
+      },
+      {
+        "key": "mah jongg at cumberland county libraries learning center|mechanicsburg|PA||",
+        "count": 2,
+        "city": "Mechanicsburg",
+        "state": "PA",
+        "name": "Mah Jongg at Cumberland County Libraries Learning Center",
+        "day": "(unknown)",
+        "ids": [
+          "mah-jongg-at-cumberland-county-libraries-mechanicsburg-pa-th-8edf63e6",
+          "mechanicsburg-pa-cumberland-mj-1"
+        ]
+      },
+      {
+        "key": "mah jongg at dripping springs community library|dripping springs|TX||",
+        "count": 2,
+        "city": "Dripping Springs",
+        "state": "TX",
+        "name": "Mah-Jongg at Dripping Springs Community Library",
+        "day": "(unknown)",
+        "ids": [
+          "mah-jongg-at-dripping-springs-community--dripping-springs-tx-48283361",
+          "mah-jongg-at-dripping-springs-community--dripping-springs-tx-48283361x"
+        ]
+      },
+      {
+        "key": "mah jongg at livingston senior community center|livingston|NJ||",
+        "count": 2,
+        "city": "Livingston",
+        "state": "NJ",
+        "name": "Mah Jongg at Livingston Senior/Community Center",
+        "day": "(unknown)",
+        "ids": [
+          "mah-jongg-at-livingston-senior-community-livingston-nj-satur-27fd97e9",
+          "mah-jongg-at-livingston-senior-community-livingston-nj-tuesd-4e6d9f03"
+        ]
+      },
+      {
+        "key": "mah jongg at rocky hill senior center thursdays|rocky hill|CT||",
+        "count": 2,
+        "city": "Rocky Hill",
+        "state": "CT",
+        "name": "Mah Jongg at Rocky Hill Senior Center - Thursdays",
+        "day": "(unknown)",
+        "ids": [
+          "mah-jongg-at-rocky-hill-senior-center-th-rocky-hill-ct-thurs-f03bed58",
+          "rockyhill-ct-senior-mj-thu-1"
+        ]
+      },
+      {
+        "key": "mah jongg at rocky hill senior center tuesdays|rocky hill|CT||",
+        "count": 2,
+        "city": "Rocky Hill",
+        "state": "CT",
+        "name": "Mah Jongg at Rocky Hill Senior Center - Tuesdays",
+        "day": "(unknown)",
+        "ids": [
+          "mah-jongg-at-rocky-hill-senior-center-tu-rocky-hill-ct-tuesd-3cf8e545",
+          "rockyhill-ct-senior-mj-tue-1"
+        ]
+      },
+      {
+        "key": "mah jongg at rocky hill senior center wednesdays|rocky hill|CT||",
+        "count": 2,
+        "city": "Rocky Hill",
+        "state": "CT",
+        "name": "Mah Jongg at Rocky Hill Senior Center - Wednesdays",
+        "day": "(unknown)",
+        "ids": [
+          "mah-jongg-at-rocky-hill-senior-center-we-rocky-hill-ct-wedne-d0445f36",
+          "rockyhill-ct-senior-mj-wed-1"
+        ]
+      },
+      {
+        "key": "mah jongg at st john s lutheran church|des moines|IA|monday|",
+        "count": 2,
+        "city": "Des Moines",
+        "state": "IA",
+        "name": "Mah Jongg at St. John's Lutheran Church",
+        "day": "monday",
+        "ids": [
+          "mah-jongg-at-st-john-s-lutheran-church-des-moines-ia-monday--462fd752",
+          "mah-jongg-at-st-john-s-lutheran-church-des-moines-ia-monday--8cb5d541"
+        ]
+      },
+      {
+        "key": "mah jongg game day|northridge|CA|monday|",
+        "count": 2,
+        "city": "Northridge",
+        "state": "CA",
+        "name": "Mah Jongg Game Day",
+        "day": "monday",
+        "ids": [
+          "mah-jongg-game-day-northridge-ca-monday-10-00-94a0a7fd",
+          "mah-jongg-game-day-northridge-california"
+        ]
+      },
+      {
+        "key": "mah jongg open play at evelyn rubenstein jcc|houston|TX|monday|",
+        "count": 2,
+        "city": "Houston",
+        "state": "TX",
+        "name": "Mah Jongg Open Play at Evelyn Rubenstein JCC",
+        "day": "monday",
+        "ids": [
+          "mah-jongg-open-play-at-evelyn-rubenstein-houston-tx-monday-1-324a3161",
+          "mah-jongg-open-play-at-evelyn-rubenstein-houston-tx-monday-1-324a3161x"
+        ]
+      },
+      {
+        "key": "mahjong at dick eardley senior center|boise|ID|tuesday|",
+        "count": 2,
+        "city": "Boise",
+        "state": "ID",
+        "name": "Mahjong at Dick Eardley Senior Center",
+        "day": "tuesday",
+        "ids": [
+          "mahjong-at-dick-eardley-senior-center-boise-id-tuesday-13-00-3870351a",
+          "mahjong-at-dick-eardley-senior-center-boise-id-tuesday-13-00-3870351ax"
+        ]
+      },
+      {
+        "key": "mahjong canasta open play at boulder jcc|boulder|CO|monday|",
+        "count": 2,
+        "city": "Boulder",
+        "state": "CO",
+        "name": "Mahjong & Canasta Open Play at Boulder JCC",
+        "day": "monday",
+        "ids": [
+          "mahjong-canasta-open-play-at-boulder-jcc-boulder-co-monday-1-5e979a8e",
+          "mahjong-canasta-open-play-at-boulder-jcc-boulder-co-monday-1-5e979a8ex"
+        ]
+      },
+      {
+        "key": "mahjong club at north miami beach library|north miami beach|FL||",
+        "count": 2,
+        "city": "North Miami Beach",
+        "state": "FL",
+        "name": "Mahjong Club at North Miami Beach Library",
+        "day": "(unknown)",
+        "ids": [
+          "mahjong-club-at-north-miami-beach-librar-north-miami-beach-f-1f36f4f2",
+          "north-miami-beach-library-mj-1"
+        ]
+      },
+      {
+        "key": "mahjong players club at mountain view library|mountain view|HI||",
+        "count": 2,
+        "city": "Mountain View",
+        "state": "HI",
+        "name": "Mahjong Players Club at Mountain View Library",
+        "day": "(unknown)",
+        "ids": [
+          "mahjong-players-club-at-mountain-view-li-mountain-view-hi-fr-c8416882",
+          "mountain-view-hi-mj-players-club-1"
+        ]
+      },
+      {
+        "key": "mira mesa library mahjong club for adults|san diego|CA||",
+        "count": 2,
+        "city": "San Diego",
+        "state": "CA",
+        "name": "Mira Mesa Library — Mahjong Club for Adults",
+        "day": "(unknown)",
+        "ids": [
+          "mira-mesa-library-mahjong-club-for-adult-san-diego-ca-wednes-680e3543",
+          "san-diego-mira-mesa-mahjong-club-adults-1"
+        ]
+      },
+      {
+        "key": "mod mahj wichita guided play|wichita|KS||",
+        "count": 2,
+        "city": "Wichita",
+        "state": "KS",
+        "name": "MOD MAHJ — Wichita Guided Play",
+        "day": "(unknown)",
+        "ids": [
+          "mod-mahj-wichita-guided-play-wichita-kansas-1",
+          "mod-mahj-wichita-guided-play-wichita-kansas-2"
+        ]
+      },
+      {
+        "key": "my favorite things mahjong open play 3rd thursday|tallahassee|FL||",
+        "count": 2,
+        "city": "Tallahassee",
+        "state": "FL",
+        "name": "My Favorite Things — Mahjong Open Play (3rd Thursday)",
+        "day": "(unknown)",
+        "ids": [
+          "my-favorite-things-mahjong-open-play-3rd-tallahassee-fl-thur-8a12f625",
+          "my-favorite-things-tallahassee-mahjong-1"
+        ]
+      },
+      {
+        "key": "new orleans jcc mah jongg|new orleans|LA|tuesday|",
+        "count": 2,
+        "city": "New Orleans",
+        "state": "LA",
+        "name": "New Orleans JCC Mah Jongg",
+        "day": "tuesday",
+        "ids": [
+          "new-orleans-jcc-mah-jongg-new-orleans-la-tuesday-12-00-d62f8239",
+          "new-orleans-jcc-mah-jongg-new-orleans-la-tuesday-12-00-d62f8239x"
+        ]
+      },
+      {
+        "key": "newbridge madison mahjong|madison|WI|thursday|",
+        "count": 2,
+        "city": "Madison",
+        "state": "WI",
+        "name": "NewBridge Madison Mahjong",
+        "day": "thursday",
+        "ids": [
+          "newbridge-madison-mahjong-madison-wi-thursday-13-00-738f5773",
+          "newbridge-madison-mahjong-madison-wi-thursday-13-00-738f5773x"
+        ]
+      },
+      {
+        "key": "ocean springs library mahjong club|ocean springs|MS|thursday|",
+        "count": 2,
+        "city": "Ocean Springs",
+        "state": "MS",
+        "name": "Ocean Springs Library Mahjong Club",
+        "day": "thursday",
+        "ids": [
+          "ocean-springs-library-mahjong-club-ocean-springs-ms-thursday-a826e861",
+          "ocean-springs-library-mahjong-club-ocean-springs-ms-thursday-a826e861x"
+        ]
+      },
+      {
+        "key": "omaha american mah jongg mon eve|omaha|NE|monday|",
+        "count": 2,
+        "city": "Omaha",
+        "state": "NE",
+        "name": "Omaha American Mah Jongg (Mon Eve)",
+        "day": "monday",
+        "ids": [
+          "omaha-american-mah-jongg-mon-eve-omaha-ne-monday-18-30-275e9c71",
+          "omaha-american-mah-jongg-mon-eve-omaha-ne-monday-18-30-275e9c71x"
+        ]
+      },
+      {
+        "key": "park city newcomers mah jongg|park city|UT|tuesday|",
+        "count": 2,
+        "city": "Park City",
+        "state": "UT",
+        "name": "Park City Newcomers Mah Jongg",
+        "day": "tuesday",
+        "ids": [
+          "park-city-newcomers-mah-jongg-park-city-ut-tuesday-13-00-bae1db4a",
+          "park-city-newcomers-mah-jongg-park-city-ut-tuesday-13-00-bae1db4ax"
+        ]
+      },
+      {
+        "key": "park house dallas mahjong classes guided play with nicki farris|dallas|TX||",
+        "count": 2,
+        "city": "Dallas",
+        "state": "TX",
+        "name": "Park House Dallas — Mahjong Classes & Guided Play with Nicki Farris",
+        "day": "(unknown)",
+        "ids": [
+          "park-house-dallas-mahjong-classes-guided-dallas-tx-e78e1581",
+          "park-house-dallas-mahjong-nicki-farris-1"
+        ]
+      },
+      {
+        "key": "portsmouth public library mah jongg|portsmouth|NH|saturday|",
+        "count": 2,
+        "city": "Portsmouth",
+        "state": "NH",
+        "name": "Portsmouth Public Library Mah Jongg",
+        "day": "saturday",
+        "ids": [
+          "portsmouth-public-library-mah-jongg-portsmouth-nh-saturday-1-1de960b6",
+          "portsmouth-public-library-mah-jongg-portsmouth-nh-saturday-1-1de960b6x"
+        ]
+      },
+      {
+        "key": "salt lake mahjong club open play|salt lake city|UT||",
+        "count": 2,
+        "city": "Salt Lake City",
+        "state": "UT",
+        "name": "Salt Lake Mahjong Club Open Play",
+        "day": "(unknown)",
+        "ids": [
+          "salt-lake-mahjong-club-open-play-salt-lake-city-ut-7ac27487",
+          "salt-lake-mahjong-club-open-play-salt-lake-city-utah"
+        ]
+      },
+      {
+        "key": "seattle mahjong club mahjong for newbies fridays|seatac|WA|friday|",
+        "count": 2,
+        "city": "SeaTac",
+        "state": "WA",
+        "name": "Seattle Mahjong Club — Mahjong for Newbies (Fridays)",
+        "day": "friday",
+        "ids": [
+          "seattle-mahjong-club-mahjong-for-newbies-seatac-wa-friday-10-076d88d4",
+          "seattle-mahjong-club-newbies-friday-1"
+        ]
+      },
+      {
+        "key": "seattle mahjong club mahjong for newbies thursdays|seatac|WA|thursday|",
+        "count": 2,
+        "city": "SeaTac",
+        "state": "WA",
+        "name": "Seattle Mahjong Club — Mahjong for Newbies (Thursdays)",
+        "day": "thursday",
+        "ids": [
+          "seattle-mahjong-club-mahjong-for-newbies-seatac-wa-thursday--93e1141a",
+          "seattle-mahjong-club-newbies-thursday-1"
+        ]
+      },
+      {
+        "key": "seattle mahjong club mahjong for newbies tuesdays|seatac|WA|tuesday|",
+        "count": 2,
+        "city": "SeaTac",
+        "state": "WA",
+        "name": "Seattle Mahjong Club — Mahjong for Newbies (Tuesdays)",
+        "day": "tuesday",
+        "ids": [
+          "seattle-mahjong-club-mahjong-for-newbies-seatac-wa-tuesday-1-283786b1",
+          "seattle-mahjong-club-newbies-tuesday-1"
+        ]
+      },
+      {
+        "key": "seattle mahjong club mahjong for newbies wednesdays|seatac|WA|wednesday|",
+        "count": 2,
+        "city": "SeaTac",
+        "state": "WA",
+        "name": "Seattle Mahjong Club — Mahjong for Newbies (Wednesdays)",
+        "day": "wednesday",
+        "ids": [
+          "seattle-mahjong-club-mahjong-for-newbies-seatac-wa-wednesday-dbcf9c3a",
+          "seattle-mahjong-club-newbies-wednesday-1"
+        ]
+      },
+      {
+        "key": "senior game room mah jongg at memphis jcc|memphis|TN|thursday|",
+        "count": 2,
+        "city": "Memphis",
+        "state": "TN",
+        "name": "Senior Game Room Mah Jongg at Memphis JCC",
+        "day": "thursday",
+        "ids": [
+          "senior-game-room-mah-jongg-at-memphis-jc-memphis-tn-thursday-4606f4e2",
+          "senior-game-room-mah-jongg-at-memphis-jc-memphis-tn-thursday-4606f4e2x"
+        ]
+      },
+      {
+        "key": "social mahjong club at sunset branch|san francisco|CA||",
+        "count": 2,
+        "city": "San Francisco",
+        "state": "CA",
+        "name": "Social Mahjong Club at Sunset Branch",
+        "day": "(unknown)",
+        "ids": [
+          "sf-sunset-branch-social-mahjong-1",
+          "social-mahjong-club-at-sunset-branch-san-francisco-ca-saturd-6e118549"
+        ]
+      },
+      {
+        "key": "spokane valley senior center mah jongg|spokane valley|WA||",
+        "count": 2,
+        "city": "Spokane Valley",
+        "state": "WA",
+        "name": "Spokane Valley Senior Center Mah Jongg",
+        "day": "(unknown)",
+        "ids": [
+          "spokane-valley-senior-center-mah-jongg-spokane-valley-wa-e08a26ae",
+          "spokane-valley-senior-center-mah-jongg-spokane-valley-wa-e08a26aex"
+        ]
+      },
+      {
+        "key": "st john s lutheran mah jongg|des moines|IA|monday|",
+        "count": 2,
+        "city": "Des Moines",
+        "state": "IA",
+        "name": "St John's Lutheran Mah Jongg",
+        "day": "monday",
+        "ids": [
+          "st-john-s-lutheran-mah-jongg-des-moines-ia-monday-12-00-7b9cb56d",
+          "st-john-s-lutheran-mah-jongg-des-moines-ia-monday-12-00-7b9cb56dx"
+        ]
+      },
+      {
+        "key": "sunday mahj at wegmans burlington|burlington|VT|sunday|",
+        "count": 2,
+        "city": "Burlington",
+        "state": "VT",
+        "name": "Sunday Mahj at Wegmans Burlington",
+        "day": "sunday",
+        "ids": [
+          "sunday-mahj-at-wegmans-burlington-burlington-vt-sunday-10-00-9b1bd17b",
+          "sunday-mahj-at-wegmans-burlington-burlington-vt-sunday-449ce5cf"
+        ]
+      },
+      {
+        "key": "the tallahassee mahjong league|tallahassee|FL||",
+        "count": 2,
+        "city": "Tallahassee",
+        "state": "FL",
+        "name": "The Tallahassee Mahjong League",
+        "day": "(unknown)",
+        "ids": [
+          "tallahassee-mahjong-league-tallytiletribe-1",
+          "the-tallahassee-mahjong-league-tallahassee-fl-dde85a9b"
+        ]
+      },
+      {
+        "key": "tallahassee senior center mah jongg|tallahassee|FL||",
+        "count": 2,
+        "city": "Tallahassee",
+        "state": "FL",
+        "name": "Tallahassee Senior Center — Mah Jongg",
+        "day": "(unknown)",
+        "ids": [
+          "tallahassee-senior-center-mah-jongg-tallahassee-fl-d495bac5",
+          "tallahassee-senior-center-mahjong-1"
+        ]
+      },
+      {
+        "key": "the center charlottesville american mah jongg wednesdays|charlottesville|VA||",
+        "count": 2,
+        "city": "Charlottesville",
+        "state": "VA",
+        "name": "The Center Charlottesville — American Mah Jongg (Wednesdays)",
+        "day": "(unknown)",
+        "ids": [
+          "the-center-charlottesville-american-mah--charlottesville-va--11e398ae",
+          "the-center-charlottesville-american-mah-jongg-wed-1"
+        ]
+      },
+      {
+        "key": "the center charlottesville american mah jongg thursdays|charlottesville|VA||",
+        "count": 2,
+        "city": "Charlottesville",
+        "state": "VA",
+        "name": "The Center Charlottesville — American Mah Jongg (Thursdays)",
+        "day": "(unknown)",
+        "ids": [
+          "the-center-charlottesville-american-mah--charlottesville-va--2f21a273",
+          "the-center-charlottesville-american-mah-jongg-thu-1"
+        ]
+      },
+      {
+        "key": "tile tuesday american mah jongg open play|yountville|CA|tuesday|",
+        "count": 2,
+        "city": "Yountville",
+        "state": "CA",
+        "name": "Tile Tuesday: American Mah Jongg Open Play",
+        "day": "tuesday",
+        "ids": [
+          "tile-tuesday-american-mah-jongg-open-pla-yountville-ca-tuesd-62726f1a",
+          "yountville-library-tile-tuesday-1"
+        ]
+      },
+      {
+        "key": "windward mahjong night|kailua|HI|monday|",
+        "count": 2,
+        "city": "Kailua",
+        "state": "HI",
+        "name": "Windward Mahjong Night",
+        "day": "monday",
+        "ids": [
+          "windward-mahjong-night-kailua-hi-monday-18-00-e09e8a7a",
+          "windward-mahjong-night-kailua-hi-monday-18-00-e09e8a7ax"
+        ]
+      }
+    ]
+  },
+  "recurringWithPastDateAndNoSchedule": [
+    {
+      "id": "beginner-s-mah-jongg-at-marcus-jcc-atlan-dunwoody-ga-wednesd-9eb7a576",
+      "name": "Beginner's Mah Jongg at Marcus JCC Atlanta",
+      "city": "Dunwoody",
+      "state": "GA",
+      "eventDate": "2026-02-04"
+    },
+    {
+      "id": "green-tile-social-club-intro-to-mahjong-new-york-new-york-2026-03-27",
+      "name": "Green Tile Social Club - Intro to Mahjong",
+      "city": "New York",
+      "state": "NY",
+      "eventDate": "2026-03-27"
+    },
+    {
+      "id": "green-tile-social-club-mahjong-after-hours-new-york-new-york-2026-03-29",
+      "name": "Green Tile Social Club - Mahjong After Hours",
+      "city": "New York",
+      "state": "NY",
+      "eventDate": "2026-03-29"
+    },
+    {
+      "id": "mah-jongg-at-mid-island-y-jcc-plainview-ny-tuesday-10-30-51b853d5",
+      "name": "Mah Jongg at Mid-Island Y JCC",
+      "city": "Plainview",
+      "state": "NY",
+      "eventDate": "2026-04-14"
+    },
+    {
+      "id": "mah-jongg-class-at-gordon-jcc-nashville-tn-tuesday-13-00-ce8fbdfe",
+      "name": "Mah Jongg Class at Gordon JCC",
+      "city": "Nashville",
+      "state": "TN",
+      "eventDate": "2026-06-09"
+    },
+    {
+      "id": "slightly-classy-mahj-society-april-open-play-joshua-texas-1500-2026-04-12",
+      "name": "Slightly Classy Mahj Society - April Open Play",
+      "city": "Joshua",
+      "state": "TX",
+      "eventDate": "2026-04-12"
+    }
+  ],
+  "brokenLinks": "not checked — rerun with --check-links"
+}
