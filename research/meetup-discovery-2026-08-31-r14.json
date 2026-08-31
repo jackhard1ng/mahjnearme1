@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T15:34:40.885Z",
+  "generatedAt": "2026-08-31T15:40:32.072Z",
   "citiesSearched": 20,
   "citiesFailed": [],
   "note": "Candidates only. Every group here has at least one upcoming event whose TITLE mentions mahjong, a venue with a street address, and a venue+city not already in the directory. Confirm before importing — a venue can be right while the session details are not.",
@@ -154,7 +154,7 @@
       "address": "",
       "city": "Shingle Springs",
       "state": "CA",
-      "dayOfWeek": "monday",
+      "dayOfWeek": "monday|tuesday",
       "startTime": "10:00 AM",
       "endTime": "12:00 PM",
       "upcomingCount": 7,
@@ -170,7 +170,7 @@
       "reviewFlags": [],
       "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
       "meetupRecurrence": "Every week on Monday until August 31, 2026",
-      "dayNote": "Meetup states \"Every week on Monday until August 31, 2026\"; dates also fall on tuesday, treated as one-off moves."
+      "meetupRecurrenceExpired": true
     }
   ],
   "rejectedGroups": [

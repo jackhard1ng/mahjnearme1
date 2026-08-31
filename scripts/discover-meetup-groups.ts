@@ -75,6 +75,7 @@ const CITIES = args.includes("--cities")
 const UA =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36";
 const MAHJONG = /mahjong|mah jongg|mah-jongg|mahjongg|riichi/i;
+const MONTHS = ["january","february","march","april","may","june","july","august","september","october","november","december"];
 /**
  * Venue names that mean "a private home", not a public place.
  *
@@ -519,7 +520,27 @@ async function main() {
       // session on the wrong day of every other month.
       const stated = DAYS.filter((d) => new RegExp(`\\b${d}s?\\b`, "i").test(rec));
       const inferred = String(c.dayOfWeek || "").split("|").filter(Boolean);
-      if (stated.length === 1 && inferred.length > 1 && inferred.includes(stated[0])) {
+      // An expired series describes what the group used to do. Cameron Park's
+      // says "Every week on Monday until August 31, 2026" while the group is
+      // posting Mondays AND Tuesdays into September: narrowing to Monday there
+      // would drop half its sessions on the authority of a record that has run
+      // out. The posted dates are the better evidence once the series has.
+      // "until August 31, 2026" read on 31 August is already spent: that date
+      // is the last session, so the series describes nothing still to come.
+      // Compared as YYYY-MM-DD strings to keep timezones out of it — parsing
+      // both sides as Date puts "August 31, 2026" at local midnight and
+      // "2026-08-31" at UTC midnight, which differ by the offset.
+      const until = rec.match(/until\s+([A-Z][a-z]+)\s+(\d{1,2}),\s*(\d{4})/);
+      let expired = false;
+      if (until) {
+        const mi = MONTHS.indexOf(until[1].toLowerCase());
+        if (mi >= 0) {
+          const iso = `${until[3]}-${String(mi + 1).padStart(2, "0")}-${until[2].padStart(2, "0")}`;
+          expired = iso <= TODAY;
+        }
+      }
+      if (expired && rec) c.meetupRecurrenceExpired = true;
+      if (!expired && stated.length === 1 && inferred.length > 1 && inferred.includes(stated[0])) {
         c.dayOfWeek = stated[0];
         c.dayNote = `Meetup states "${rec}"; dates also fall on ${inferred
           .filter((d) => d !== stated[0])
