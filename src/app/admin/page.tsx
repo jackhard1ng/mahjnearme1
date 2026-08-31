@@ -1737,7 +1737,7 @@ function AdminOrganizersPanel() {
       ) : organizers.length === 0 ? (
         <div className="bg-white border border-slate-200 rounded-xl p-8 text-center">
           <p className="text-slate-500 mb-3">No organizers in the directory yet.</p>
-          <p className="text-xs text-slate-400">Click "Populate from Listings" to auto-create profiles from your existing listings data.</p>
+          <p className="text-xs text-slate-400">Click &quot;Populate from Listings&quot; to auto-create profiles from your existing listings data.</p>
         </div>
       ) : (
         <div className="space-y-2">
@@ -2512,7 +2512,7 @@ function AdminNotificationsPanel() {
             New Events Alert
           </h3>
           <p className="text-xs text-slate-400 mb-3">
-            Send to users with "New events in my area" on. Use after updating the JSON.
+            Send to users with &quot;New events in my area&quot; on. Use after updating the JSON.
           </p>
 
           {lastNewEvents && (
@@ -2538,7 +2538,7 @@ function AdminNotificationsPanel() {
             Weekly Digest
           </h3>
           <p className="text-xs text-slate-400 mb-3">
-            Send to users with "Weekly digest" on. Runs automatically every Monday.
+            Send to users with &quot;Weekly digest&quot; on. Runs automatically every Monday.
           </p>
 
           {lastDigest && (

@@ -2,6 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import type { UserProfile } from "@/types";
+
+/**
+ * The two switches this component owns. Typing the key against the profile
+ * shape means a typo is a compile error rather than a silently ignored write.
+ */
+type NotificationKey = keyof NonNullable<UserProfile["emailNotifications"]>;
 
 export default function NotificationPreferences() {
   const { userProfile, updateUserProfile } = useAuth();
@@ -33,9 +40,9 @@ export default function NotificationPreferences() {
     VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming",
   };
 
-  async function toggleNotif(key: string) {
-    const updated = { ...notifs, [key]: !(notifs as Record<string, boolean>)[key] };
-    await updateUserProfile({ emailNotifications: updated } as any);
+  async function toggleNotif(key: NotificationKey) {
+    const updated = { ...notifs, [key]: !notifs[key] };
+    await updateUserProfile({ emailNotifications: updated });
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   }

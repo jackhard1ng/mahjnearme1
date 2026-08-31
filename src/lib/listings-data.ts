@@ -285,7 +285,6 @@ let _cachedRawData: ListingsJSON | null = null;
 
 function loadRawData(): ListingsJSON {
   if (_cachedRawData) return _cachedRawData;
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
   _cachedRawData = require("../../public/listings.json") as ListingsJSON;
   return _cachedRawData;
 }
@@ -338,7 +337,6 @@ export function getCitiesWithGames(): { city: string; state: string; count: numb
 
 export function getStatesWithGames(): { state: string; stateName: string; count: number; gameCount: number; cityCount: number }[] {
   const { isEventExpired } = require("@/lib/utils");
-  const { US_STATES } = require("@/lib/constants");
   const stateMap = new Map<string, { cities: Set<string>; count: number }>();
   for (const g of loadListings()) {
     if (g.status !== "active" || isEventExpired(g)) continue;

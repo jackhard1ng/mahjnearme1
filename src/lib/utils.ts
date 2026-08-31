@@ -1,3 +1,4 @@
+import { US_STATES } from "@/lib/constants";
 export function formatTime(time24: string): string {
   if (!time24 || !time24.includes(":")) return time24 || "";
   const [hours, minutes] = time24.split(":").map(Number);
@@ -80,7 +81,6 @@ export function capitalize(str: string): string {
 
 export function getStateName(abbr: string): string {
   if (!abbr) return "";
-  const { US_STATES } = require("@/lib/constants");
   return US_STATES[abbr.toUpperCase()] || abbr;
 }
 
