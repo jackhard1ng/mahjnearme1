@@ -50,17 +50,24 @@ const CONCURRENCY = args.includes("--concurrency")
   ? Number(args[args.indexOf("--concurrency") + 1])
   : 6;
 
-/** Meetup's own city slugs. */
+/**
+ * Meetup location values, `country--state--City`.
+ *
+ * The City component is passed to Meetup verbatim and IS case-sensitive:
+ * `us--mi--Detroit` returns 11 groups, `us--mi--detroit` returns none. Write
+ * them capitalised as the city is normally spelled ("Salt Lake City").
+ */
 const DEFAULT_CITIES = [
-  "us--tx--austin", "us--tx--houston", "us--tx--dallas",
-  "us--ca--los-angeles", "us--ca--san-francisco", "us--ca--san-diego",
-  "us--ny--new-york", "us--il--chicago",
-  "us--fl--miami", "us--fl--orlando",
-  "us--ga--atlanta", "us--wa--seattle", "us--ma--boston",
-  "us--pa--philadelphia", "us--az--phoenix", "us--co--denver",
-  "us--nv--las-vegas", "us--or--portland", "us--nc--charlotte",
-  "us--dc--washington",
+  "us--tx--Austin", "us--tx--Houston", "us--tx--Dallas",
+  "us--ca--Los Angeles", "us--ca--San Francisco", "us--ca--San Diego",
+  "us--ny--New York", "us--il--Chicago",
+  "us--fl--Miami", "us--fl--Orlando",
+  "us--ga--Atlanta", "us--wa--Seattle", "us--ma--Boston",
+  "us--pa--Philadelphia", "us--az--Phoenix", "us--co--Denver",
+  "us--nv--Las Vegas", "us--or--Portland", "us--nc--Charlotte",
+  "us--dc--Washington",
 ];
+
 const CITIES = args.includes("--cities")
   ? args[args.indexOf("--cities") + 1].split(",").map((s) => s.trim()).filter(Boolean)
   : DEFAULT_CITIES;
@@ -81,6 +88,19 @@ const unescape_ = (s: string) =>
     .replace(/\\u([\da-f]{4})/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
     .replace(/\\"/g, '"')
     .replace(/\\\//g, "/");
+
+/**
+ * Meetup's search URL for one city.
+ *
+ * The path form (`/find/<location>/mahjong/`) only resolves for a subset of
+ * cities — it 404s on Detroit, Columbus and Nashville while working for
+ * Austin and Albuquerque — and a 404 body yields no group links, so a run
+ * using it reports "0 groups found" for a city that in fact has eleven. The
+ * query form resolves for every city tried.
+ */
+function searchUrl(city: string): string {
+  return `https://www.meetup.com/find/?keywords=mahjong&location=${encodeURIComponent(city)}`;
+}
 
 async function get(url: string): Promise<{ status: number | null; html: string }> {
   const ctl = new AbortController();
@@ -127,6 +147,57 @@ function parseEvents(html: string): MEvent[] {
   return out;
 }
 
+/** `2026-08-31`, then `2026-08-31-2`, `-3` ... — the first not already on disk. */
+function nextFreeStamp(dir: string, today: string): string {
+  const taken = (n: string) => fs.existsSync(path.join(dir, `meetup-discovery-${n}.json`));
+  if (!taken(today)) return today;
+  for (let i = 2; i < 100; i++) if (!taken(`${today}-${i}`)) return `${today}-${i}`;
+  return `${today}-${Date.now()}`;
+}
+
+/**
+ * The group's own city and state, from the Group object in the Apollo cache.
+ *
+ * Needed because a fair number of organisers publish no venue at all: the
+ * event carries `"venue":null` with `eventType:"PHYSICAL"`, and the address is
+ * given to members after they RSVP. Mahjong With Friends (Greenbrier TN) and
+ * West County Singles (Ballwin MO) both run weekly mahjong that way. Those are
+ * real sessions in real cities, so they are reported as a city-level tier
+ * rather than dropped — but never with an invented street address.
+ */
+function parseGroupLocation(html: string): { city: string; state: string } | null {
+  // The Group object writes these three adjacent and only once per page:
+  //   "city":"Greenbrier","state":"TN","country":"us"
+  // Anchoring on the triple keeps it from picking up an event venue's city.
+  const m = html.match(/"city":"((?:[^"\\]|\\.)*)","state":"([A-Za-z]{2})","country":"[a-z]{2}"/);
+  if (!m) return null;
+  const city = unescape_(m[1]);
+  const state = m[2].toUpperCase();
+  return city && state ? { city, state } : null;
+}
+
+/**
+ * Meetup's own words for how a series repeats, e.g.
+ * "Every 2 weeks on Friday until November 12, 2026".
+ *
+ * Worth one extra request per candidate because it is authoritative where
+ * reading the pattern off a handful of dates is not. West County Singles'
+ * Friday session looks like "1st, 3rd and 5th Friday" from its dates and from
+ * its own title, but Meetup records it as every two weeks — and, more usefully,
+ * records that it stops on 12 November. Nothing in the dates says that, so a
+ * listing built from dates alone would keep advertising it into next year.
+ *
+ * The group's events page is no help here: it reports `"series":null` for
+ * every event, including ones that do have a series on their own page.
+ */
+async function seriesDescription(eventUrl: string): Promise<string> {
+  if (!eventUrl) return "";
+  const { status, html } = await get(eventUrl);
+  if (status !== 200) return "";
+  const m = html.match(/"series":\{"__typename":"Series","description":"((?:[^"\\]|\\.)*)"/);
+  return m ? unescape_(m[1]) : "";
+}
+
 const norm = (s: string) => (s || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
 
 async function main() {
@@ -150,22 +221,25 @@ async function main() {
   }
   console.log(`  ${live.length} listings, ${knownGroups.size} Meetup groups already referenced\n`);
 
-  const searched: { city: string; slugs: number; newSlugs: number }[] = [];
+  const searched: { city: string; status: number | null; slugs: number; newSlugs: number }[] = [];
+  const failedCities: { city: string; status: number | null }[] = [];
   const candidateGroups = new Set<string>();
 
   console.log(`Searching ${CITIES.length} cities ...`);
   for (let i = 0; i < CITIES.length; i += CONCURRENCY) {
     const batch = CITIES.slice(i, i + CONCURRENCY);
-    const pages = await Promise.all(
-      batch.map((c) => get(`https://www.meetup.com/find/${c}/mahjong/`))
-    );
+    const pages = await Promise.all(batch.map((c) => get(searchUrl(c))));
     batch.forEach((city, j) => {
       const slugs = [...new Set(
         [...pages[j].html.matchAll(/meetup\.com\/([a-z0-9][a-z0-9-]{3,60})\/events\//g)].map((m) => m[1].toLowerCase())
       )];
       const fresh = slugs.filter((s) => !knownGroups.has(s));
       fresh.forEach((s) => candidateGroups.add(s));
-      searched.push({ city, slugs: slugs.length, newSlugs: fresh.length });
+      searched.push({ city, status: pages[j].status, slugs: slugs.length, newSlugs: fresh.length });
+      // A city that did not return 200 was not searched. Without this the run
+      // reports it as "no mahjong groups here", which is a false negative that
+      // looks exactly like a true one.
+      if (pages[j].status !== 200) failedCities.push({ city, status: pages[j].status });
     });
     process.stdout.write(`  ${Math.min(i + CONCURRENCY, CITIES.length)}/${CITIES.length}\r`);
   }
@@ -174,7 +248,7 @@ async function main() {
 
   // A group appearing in a mahjong search proves nothing — check its events.
   const groups = [...candidateGroups];
-  const kept: { group: string; events: MEvent[] }[] = [];
+  const kept: { group: string; events: MEvent[]; loc: { city: string; state: string } | null }[] = [];
   const rejected: { group: string; reason: string }[] = [];
 
   console.log(`Checking ${groups.length} groups for actual mahjong events ...`);
@@ -193,7 +267,7 @@ async function main() {
         .filter((e) => e.date >= TODAY && e.status !== "PAST" && e.status !== "CANCELLED")
         .filter((e) => MAHJONG.test(e.title));
       if (!evs.length) { rejected.push({ group: slug, reason: "no upcoming event whose title mentions mahjong" }); return; }
-      kept.push({ group: slug, events: evs });
+      kept.push({ group: slug, events: evs, loc: parseGroupLocation(html) });
     });
     process.stdout.write(`  ${Math.min(i + CONCURRENCY, groups.length)}/${groups.length}\r`);
   }
@@ -208,21 +282,30 @@ async function main() {
   };
   const candidates: Record<string, unknown>[] = [];
   const skippedVenues: { group: string; venue: string; reason: string }[] = [];
+  const cityLevel: Record<string, unknown>[] = [];
 
-  for (const { group, events } of kept) {
+  for (const { group, events, loc } of kept) {
     const byVenue = new Map<string, MEvent[]>();
+    const venueless: MEvent[] = [];
     for (const e of events) {
-      if (!e.venue?.city || !e.venue.state) { skippedVenues.push({ group, venue: e.venue?.name || "(none)", reason: "no city/state" }); continue; }
-      const k = norm(e.venue.name) + "|" + norm(e.venue.city);
+      if (!e.venue?.city || !e.venue.state) { venueless.push(e); continue; }
+      // Keyed on start time as well as place, because one venue routinely
+      // hosts more than one series. West County Singles runs "Mah Jongg and
+      // Dinner" on Tuesdays at 16:00 and "Play Mah Jongg — Daytime" on
+      // Fridays at 12:30; keyed on the venue alone those collapse into a
+      // single candidate reading "tuesday|friday, 4:00 PM", which states the
+      // wrong time for every Friday session.
+      const k = norm(e.venue.name) + "|" + norm(e.venue.city) + "|" + e.startTime;
       if (!byVenue.has(k)) byVenue.set(k, []);
       byVenue.get(k)!.push(e);
     }
-    for (const [k, evs] of byVenue) {
+    for (const evs of byVenue.values()) {
       const v = evs[0].venue!;
       if (!v.name || !v.address || /\bTBD\b|^somewhere\b/i.test(v.name + " " + v.address)) {
         skippedVenues.push({ group, venue: v.name || "(none)", reason: "no usable venue name or street address" }); continue;
       }
-      if (knownVenues.has(k)) { skippedVenues.push({ group, venue: v.name, reason: "venue already in the directory" }); continue; }
+      const venueKey = norm(v.name) + "|" + norm(v.city);
+      if (knownVenues.has(venueKey)) { skippedVenues.push({ group, venue: v.name, reason: "venue already in the directory" }); continue; }
       const days = [...new Set(evs.map((e) => DAYS[new Date(e.date + "T12:00:00").getDay()]))];
       candidates.push({
         group: `https://www.meetup.com/${group}`,
@@ -233,28 +316,82 @@ async function main() {
         upcomingCount: evs.length,
         sampleTitles: [...new Set(evs.map((e) => e.title))].slice(0, 3),
         nextDates: evs.map((e) => e.date).sort().slice(0, 4),
+        sampleEventUrl: evs[0].url,
       });
+    }
+
+    // Every mahjong event in this group lacked a venue. If Meetup at least
+    // knows where the group is, that is still a usable city-level listing;
+    // if it does not, there is nothing to report and it is recorded as a skip.
+    if (venueless.length && byVenue.size === 0) {
+      if (loc) {
+        const bySeries = new Map<string, MEvent[]>();
+        for (const e of venueless) {
+          if (!bySeries.has(e.startTime)) bySeries.set(e.startTime, []);
+          bySeries.get(e.startTime)!.push(e);
+        }
+        for (const evs of bySeries.values()) {
+          const days = [...new Set(evs.map((e) => DAYS[new Date(e.date + "T12:00:00").getDay()]))];
+          cityLevel.push({
+            group: `https://www.meetup.com/${group}`,
+            sourceURL: `https://www.meetup.com/${group}/events/`,
+            venueName: "", address: "", city: loc.city, state: loc.state,
+            dayOfWeek: days.join("|"),
+            startTime: to12(evs[0].startTime), endTime: to12(evs[0].endTime),
+            upcomingCount: evs.length,
+            sampleTitles: [...new Set(evs.map((e) => e.title))].slice(0, 3),
+            nextDates: evs.map((e) => e.date).sort().slice(0, 4),
+            sampleEventUrl: evs[0].url,
+            note: "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
+          });
+        }
+      } else {
+        skippedVenues.push({ group, venue: "(none)", reason: "no venue on the events, and no city on the group" });
+      }
+    }
+  }
+
+  // One request per surviving candidate to get Meetup's own recurrence text.
+  const all = [...candidates, ...cityLevel];
+  if (all.length) {
+    console.log(`Reading the recurrence Meetup records for ${all.length} candidates ...`);
+    for (const c of all) {
+      c.meetupRecurrence = await seriesDescription(String(c.sampleEventUrl || ""));
+      delete c.sampleEventUrl;
     }
   }
 
   fs.mkdirSync(OUT_DIR, { recursive: true });
-  const stamp = TODAY;
+  // Two runs on the same day must not share a filename. The first pass of
+  // this script overwrote an already-committed output when a second batch of
+  // cities was searched an hour later, so the stamp gains a suffix rather
+  // than silently replacing a file that is someone's record of a run.
+  const stamp = args.includes("--tag")
+    ? `${TODAY}-${args[args.indexOf("--tag") + 1]}`
+    : nextFreeStamp(OUT_DIR, TODAY);
   const jsonPath = path.join(OUT_DIR, `meetup-discovery-${stamp}.json`);
   fs.writeFileSync(jsonPath, JSON.stringify({
     generatedAt: new Date().toISOString(),
     citiesSearched: CITIES.length,
+    citiesFailed: failedCities,
     note: "Candidates only. Every group here has at least one upcoming event whose TITLE mentions mahjong, a venue with a street address, and a venue+city not already in the directory. Confirm before importing — a venue can be right while the session details are not.",
-    searched, candidates, rejectedGroups: rejected, skippedVenues,
+    searched, candidates, cityLevelCandidates: cityLevel, rejectedGroups: rejected, skippedVenues,
   }, null, 2));
 
   console.log("RESULT");
-  console.log(`  cities searched            : ${CITIES.length}`);
+  console.log(`  cities searched            : ${CITIES.length - failedCities.length}/${CITIES.length}`);
   console.log(`  new groups examined        : ${groups.length}`);
   console.log(`  groups with mahjong events : ${kept.length}`);
   console.log(`  rejected                   : ${rejected.length}`);
   console.log(`  venue candidates           : ${candidates.length}`);
+  console.log(`  city-level candidates      : ${cityLevel.length}`);
   console.log(`  venues skipped             : ${skippedVenues.length}`);
   console.log(`\n  -> ${jsonPath}`);
+  if (failedCities.length) {
+    console.log(`\n  ${failedCities.length} cities did NOT return a search page and were not really searched:`);
+    for (const f of failedCities) console.log(`    ${f.city}  (HTTP ${f.status ?? "no response"})`);
+    console.log("  A zero for these means the request failed, not that the city has no mahjong.");
+  }
   for (const c of candidates.slice(0, 25)) {
     console.log(`   ${String(c.city).slice(0, 16).padEnd(17)} ${String(c.state)}  ${String(c.venueName).slice(0, 30).padEnd(32)} ${String(c.dayOfWeek).slice(0, 22)}`);
   }
