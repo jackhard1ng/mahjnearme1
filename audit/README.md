@@ -145,3 +145,20 @@ case an organiser re-dates them, and 3 whose name or description says
 "annual".
 
 Nothing is deleted; every op is `status: inactive` and reversible.
+
+### `linktree-owner-sites.json` — 18 ops, website only
+
+`npx tsx scripts/harvest-link-in-bio.ts`
+
+Sets `website` to the organiser's own domain, read from the Linktree the
+listing already points at. Every one of these listings previously had either
+nothing or the Linktree itself in that field.
+
+The match rule is an exact stem: `atlmahjong.com` for `linktr.ee/atlmahjong`.
+That is what separates the organiser's site from the shops, checkouts and
+booking third parties sitting beside it — `linktr.ee/Mahjsquad` lists
+mahjsquad.com, mahjsquadretreats.com and a Mailchimp host, and only the first
+has a stem equal to the slug.
+
+All 18 domains were requested before this file was written; a nineteenth op
+for `mahjandmiami.com` was dropped because it returns 404.
