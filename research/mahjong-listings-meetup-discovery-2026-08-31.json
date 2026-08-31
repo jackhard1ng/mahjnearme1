@@ -149,7 +149,7 @@
       "state": "CA",
       "generalArea": "",
       "venueName": "Pacific Highlands Ranch Library",
-      "address": "12911 Pacific Point Pl, San Diego, CA 92130",
+      "address": "12911 Pacific Point Pl",
       "isRecurring": true,
       "dayOfWeek": "wednesday",
       "startTime": "3:00 PM",
@@ -173,7 +173,7 @@
       "typicalGroupSize": "",
       "source": "manual",
       "sourceURL": "https://www.meetup.com/pacific-highlands-ranch-library/events/",
-      "notes": "Discovered 2026-08-31 via Meetup city search, then verified on the group's own events page: 4 upcoming session(s) whose titles mention mahjong. Day and time derived from those dates. Sample title: \"Mahjong Social\"."
+      "notes": "Discovered 2026-08-31 via Meetup city search, then verified on the group's own events page: 4 upcoming session(s) whose titles mention mahjong. Day and time derived from those dates. Sample title: \"Mahjong Social\". Address trimmed to the street component: Meetup stored it as \"12911 Pacific Point Pl, San Diego, CA 92130\", and the event JSON-LD emits streetAddress next to addressLocality and addressRegion, so leaving the city, state and ZIP in the street field produces a PostalAddress that repeats the locality inside it."
     },
     {
       "id": "wilmette-panera-bread-wilmette-1",

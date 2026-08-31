@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T08:11:50.815Z",
+  "generatedAt": "2026-08-31T08:17:01.071Z",
   "citiesSearched": 20,
   "citiesFailed": [],
   "note": "Candidates only. Every group here has at least one upcoming event whose TITLE mentions mahjong, a venue with a street address, and a venue+city not already in the directory. Confirm before importing — a venue can be right while the session details are not.",
@@ -44,7 +44,7 @@
       "city": "us--tx--Fort Worth",
       "status": 200,
       "slugs": 12,
-      "newSlugs": 12
+      "newSlugs": 11
     },
     {
       "city": "us--az--Tucson",
@@ -149,28 +149,6 @@
       "meetupRecurrence": "Every 2 weeks on Monday until November 17, 2026"
     },
     {
-      "group": "https://www.meetup.com/bams-cracks-dots-naplesmahjong",
-      "sourceURL": "https://www.meetup.com/bams-cracks-dots-naplesmahjong/events/",
-      "venueName": "My home",
-      "address": "5784 Deauville Cir Apt B105",
-      "city": "Naples",
-      "state": "FL",
-      "dayOfWeek": "thursday",
-      "startTime": "2:00 PM",
-      "endTime": "4:00 PM",
-      "upcomingCount": 6,
-      "sampleTitles": [
-        "Just for Fun Mahjong 🀄"
-      ],
-      "nextDates": [
-        "2026-09-10",
-        "2026-09-17",
-        "2026-10-01",
-        "2026-10-08"
-      ],
-      "meetupRecurrence": "Every week on Thursday until November 27, 2026"
-    },
-    {
       "group": "https://www.meetup.com/mahjong-cafe-naples",
       "sourceURL": "https://www.meetup.com/mahjong-cafe-naples/events/",
       "venueName": "Golden Grove Kitchen",
@@ -189,25 +167,6 @@
         "2026-09-08"
       ],
       "meetupRecurrence": "Every week on Tuesday until November 12, 2026"
-    },
-    {
-      "group": "https://www.meetup.com/mahjong-classes",
-      "sourceURL": "https://www.meetup.com/mahjong-classes/events/",
-      "venueName": "Grapevine Masonic Lodge",
-      "address": "403 E Main Street",
-      "city": "Grapevine",
-      "state": "TX",
-      "dayOfWeek": "sunday",
-      "startTime": "1:00 PM",
-      "endTime": "3:00 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "Mahjong Learning Series in Grapevine"
-      ],
-      "nextDates": [
-        "2026-10-04"
-      ],
-      "meetupRecurrence": "Every week on Sunday until October 18, 2026"
     },
     {
       "group": "https://www.meetup.com/cary-mah-jongg-meetup-group",
@@ -356,6 +315,29 @@
       "meetupRecurrence": "Every week on Monday until October 19, 2026"
     },
     {
+      "group": "https://www.meetup.com/bams-cracks-dots-naplesmahjong",
+      "sourceURL": "https://www.meetup.com/bams-cracks-dots-naplesmahjong/events/",
+      "venueName": "",
+      "address": "",
+      "city": "Naples",
+      "state": "FL",
+      "dayOfWeek": "thursday",
+      "startTime": "2:00 PM",
+      "endTime": "4:00 PM",
+      "upcomingCount": 6,
+      "sampleTitles": [
+        "Just for Fun Mahjong 🀄"
+      ],
+      "nextDates": [
+        "2026-09-10",
+        "2026-09-17",
+        "2026-10-01",
+        "2026-10-08"
+      ],
+      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
+      "meetupRecurrence": "Every week on Thursday until November 27, 2026"
+    },
+    {
       "group": "https://www.meetup.com/the-ultimate-girlfriends-group",
       "sourceURL": "https://www.meetup.com/the-ultimate-girlfriends-group/events/",
       "venueName": "",
@@ -387,7 +369,7 @@
       "address": "",
       "city": "North Richland Hills",
       "state": "TX",
-      "dayOfWeek": "tuesday|monday",
+      "dayOfWeek": "tuesday",
       "startTime": "10:30 AM",
       "endTime": "12:30 PM",
       "upcomingCount": 3,
@@ -400,7 +382,8 @@
         "2026-11-23"
       ],
       "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": "Every 3rd Tuesday of the month until December 15, 2026"
+      "meetupRecurrence": "Every 3rd Tuesday of the month until December 15, 2026",
+      "dayNote": "Meetup states \"Every 3rd Tuesday of the month until December 15, 2026\"; dates also fall on monday, treated as one-off moves."
     },
     {
       "group": "https://www.meetup.com/northtexastravelandevents",
@@ -1147,6 +1130,11 @@
       "group": "lectampa",
       "venue": "Life Enrichment Center",
       "reason": "venue already in the directory"
+    },
+    {
+      "group": "bams-cracks-dots-naplesmahjong",
+      "venue": "My home",
+      "reason": "private residence — address withheld, reported city-level"
     }
   ]
 }

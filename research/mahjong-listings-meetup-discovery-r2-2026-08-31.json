@@ -227,7 +227,7 @@
       "dayOfWeek": "",
       "startTime": "5:30 PM",
       "endTime": "10:00 PM",
-      "frequency": "weekly",
+      "frequency": "",
       "eventDate": "2026-09-10",
       "cost": "",
       "costAmount": null,

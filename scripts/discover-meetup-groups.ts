@@ -75,6 +75,8 @@ const CITIES = args.includes("--cities")
 const UA =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36";
 const MAHJONG = /mahjong|mah jongg|mah-jongg|mahjongg|riichi/i;
+/** Venue names that mean "a private home", not a public place. */
+const PRIVATE_HOME = /^\s*(my|our|her|his|their)\s+(home|house|place|apartment|apt|condo)\b|^\s*(home|private residence)\s*$/i;
 const TODAY = new Date().toISOString().slice(0, 10);
 
 interface Venue { name: string; address: string; city: string; state: string }
@@ -225,6 +227,30 @@ async function main() {
   const failedCities: { city: string; status: number | null }[] = [];
   const candidateGroups = new Set<string>();
 
+  // Also exclude anything an earlier batch already produced. Those listings
+  // are not in Firestore yet — they are review files — so the live API cannot
+  // see them, and without this a later run rediscovers them. Round 3 turned up
+  // the Grapevine Masonic Lodge Sunday class that round 2 hours earlier had
+  // already written up, identical group, venue, day and time.
+  let priorCount = 0;
+  for (const f of fs.existsSync(OUT_DIR) ? fs.readdirSync(OUT_DIR) : []) {
+    if (!/^mahjong-listings-.*\.json$/.test(f)) continue;
+    try {
+      const prior = JSON.parse(fs.readFileSync(path.join(OUT_DIR, f), "utf8"));
+      for (const l of (prior.listings || []) as Record<string, unknown>[]) {
+        priorCount++;
+        for (const k of ["website", "registrationLink", "sourceURL"] as const) {
+          const m = String(l[k] || "").match(/meetup\.com\/([a-z0-9][a-z0-9-]{2,60})/i);
+          if (m) knownGroups.add(m[1].toLowerCase());
+        }
+        if (l.venueName) knownVenues.add(norm(String(l.venueName)) + "|" + norm(String(l.city || "")));
+      }
+    } catch {
+      console.warn(`  could not read ${f} — ignoring it`);
+    }
+  }
+  if (priorCount) console.log(`  plus ${priorCount} listings from earlier batches in ${OUT_DIR}/`);
+
   console.log(`Searching ${CITIES.length} cities ...`);
   for (let i = 0; i < CITIES.length; i += CONCURRENCY) {
     const batch = CITIES.slice(i, i + CONCURRENCY);
@@ -287,6 +313,7 @@ async function main() {
   for (const { group, events, loc } of kept) {
     const byVenue = new Map<string, MEvent[]>();
     const venueless: MEvent[] = [];
+    let candidatesFromThisGroup = 0;
     for (const e of events) {
       if (!e.venue?.city || !e.venue.state) { venueless.push(e); continue; }
       // Keyed on start time as well as place, because one venue routinely
@@ -304,6 +331,17 @@ async function main() {
       if (!v.name || !v.address || /\bTBD\b|^somewhere\b/i.test(v.name + " " + v.address)) {
         skippedVenues.push({ group, venue: v.name || "(none)", reason: "no usable venue name or street address" }); continue;
       }
+      // A venue called "My home" is somebody's flat, and Meetup shows that
+      // address only to members who joined the group. Naples' Bams Cracks &
+      // Dots publishes "My home / 5784 Deauville Cir Apt B105" that way.
+      // Republishing a private address on a public directory is not something
+      // the organiser agreed to, so these fall back to the city-level tier and
+      // the address is dropped rather than the group.
+      if (PRIVATE_HOME.test(v.name)) {
+        skippedVenues.push({ group, venue: v.name, reason: "private residence — address withheld, reported city-level" });
+        venueless.push(...evs);
+        continue;
+      }
       const venueKey = norm(v.name) + "|" + norm(v.city);
       if (knownVenues.has(venueKey)) { skippedVenues.push({ group, venue: v.name, reason: "venue already in the directory" }); continue; }
       const days = [...new Set(evs.map((e) => DAYS[new Date(e.date + "T12:00:00").getDay()]))];
@@ -318,12 +356,14 @@ async function main() {
         nextDates: evs.map((e) => e.date).sort().slice(0, 4),
         sampleEventUrl: evs[0].url,
       });
+      candidatesFromThisGroup++;
     }
 
-    // Every mahjong event in this group lacked a venue. If Meetup at least
+    // No usable venue came out of this group — either every mahjong event
+    // lacked one, or the only venue was a private home. If Meetup at least
     // knows where the group is, that is still a usable city-level listing;
     // if it does not, there is nothing to report and it is recorded as a skip.
-    if (venueless.length && byVenue.size === 0) {
+    if (venueless.length && candidatesFromThisGroup === 0) {
       if (loc) {
         const bySeries = new Map<string, MEvent[]>();
         for (const e of venueless) {
@@ -356,8 +396,24 @@ async function main() {
   if (all.length) {
     console.log(`Reading the recurrence Meetup records for ${all.length} candidates ...`);
     for (const c of all) {
-      c.meetupRecurrence = await seriesDescription(String(c.sampleEventUrl || ""));
+      const rec = await seriesDescription(String(c.sampleEventUrl || ""));
+      c.meetupRecurrence = rec;
       delete c.sampleEventUrl;
+
+      // When Meetup states the series weekday, it beats a day inferred from
+      // dates. The Fun Bunch Lunch Group's American Mah Jongg is "Every 3rd
+      // Tuesday of the month", and its next three dates are two Tuesdays and
+      // one Monday — the organiser moved November off pattern. Read from the
+      // dates alone the candidate says "tuesday|monday", which would put the
+      // session on the wrong day of every other month.
+      const stated = DAYS.filter((d) => new RegExp(`\\b${d}s?\\b`, "i").test(rec));
+      const inferred = String(c.dayOfWeek || "").split("|").filter(Boolean);
+      if (stated.length === 1 && inferred.length > 1 && inferred.includes(stated[0])) {
+        c.dayOfWeek = stated[0];
+        c.dayNote = `Meetup states "${rec}"; dates also fall on ${inferred
+          .filter((d) => d !== stated[0])
+          .join(", ")}, treated as one-off moves.`;
+      }
     }
   }
 
