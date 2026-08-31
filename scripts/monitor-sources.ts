@@ -249,7 +249,8 @@ async function main() {
       | "recovered"
       | "new"
       | "moved_domain"
-      | "meetup_group_gone";
+      | "meetup_group_gone"
+      | "expired_occurrence";
     detail: string;
     listingIds: string[];
   }[] = [];
@@ -276,6 +277,24 @@ async function main() {
         lastSeen: new Date().toISOString(),
       };
       snapshots[url] = snap;
+
+      // A library-calendar URL pointing at ONE occurrence (…/event/12345)
+      // keeps returning 200 forever, long after that occurrence happened. 18
+      // listings link to one, two of them to events from 2022. The page still
+      // mentions mahjong, so a keyword check passes; the giveaway is that
+      // every date on it is in the past.
+      if (/\/event\/\d+/.test(url) && status !== null && status < 400) {
+        const dates = [...new Set(html.match(/20\d\d-\d\d-\d\d/g) || [])].sort();
+        const todayIso = new Date().toISOString().slice(0, 10);
+        if (dates.length && dates.every((d) => d < todayIso) && !previous[url]?.redirectsTo) {
+          changes.push({
+            url,
+            kind: "expired_occurrence",
+            detail: `links to a single occurrence whose latest date is ${dates[dates.length - 1]} — already past`,
+            listingIds: ids,
+          });
+        }
+      }
 
       // Meetup answers 200 with a normal-looking page for a group that no
       // longer exists, so a status check alone reads it as healthy. 26 of the
