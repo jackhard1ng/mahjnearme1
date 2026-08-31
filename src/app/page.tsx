@@ -10,19 +10,31 @@ import SeasonalEvents from "@/components/SeasonalEvents";
 async function getLiveGameCount(): Promise<number> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_URL || "https://www.mahjnearme.com";
-    const res = await fetch(`${baseUrl}/api/listings`, {
+    // ?count=1 returns the number alone. Fetching the full collection for it
+    // pulled megabytes past the Next.js data-cache limit on every
+    // regeneration, so nothing here was ever actually cached.
+    const res = await fetch(`${baseUrl}/api/listings?count=1`, {
       next: { revalidate: 300 },
     });
     if (res.ok) {
       const data = await res.json();
-      const now = new Date();
-      return (data.listings || []).filter((g: { status: string; isRecurring: boolean; eventDate: string | null }) => {
-        if (g.status !== "active") return false;
-        if (!g.isRecurring && g.eventDate) {
-          return new Date(g.eventDate + "T23:59:59") >= now;
-        }
-        return true;
-      }).length;
+      // Only trust `count` when the response says it is a count. A deploy
+      // fetches the currently-live API, not itself, so during the rollout of
+      // ?count=1 this call still reaches the old route — which ignores the
+      // parameter and returns every row with `count` meaning the number of
+      // rows, expired and inactive included. Falling back to counting them
+      // keeps the number right through the transition.
+      if (data.mode === "count" && typeof data.count === "number" && data.count > 0) {
+        return data.count;
+      }
+      if (Array.isArray(data.listings)) {
+        const now = new Date();
+        return data.listings.filter((g: { status: string; isRecurring: boolean; eventDate: string | null }) => {
+          if (g.status !== "active") return false;
+          if (!g.isRecurring && g.eventDate) return new Date(g.eventDate + "T23:59:59") >= now;
+          return true;
+        }).length;
+      }
     }
   } catch {
     // fall through to mock count

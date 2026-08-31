@@ -102,6 +102,33 @@ export async function GET(request: NextRequest) {
       .map((doc) => docToGame(doc.data() as Record<string, unknown>, doc.id))
       .filter((g) => statusParam === "all" || g.status === statusParam);
 
+    // ?count=1 — how many listings are live, and nothing else.
+    //
+    // The homepage renders a single number, and was fetching the entire
+    // collection to work it out. That response is far past the 2MB Next.js
+    // data-cache limit, so it could not be cached: the build log says
+    // "Failed to set Next.js data cache for /api/listings, items over 2MB can
+    // not be cached (7645179 bytes)", and every ISR regeneration re-fetched
+    // all of it for one integer.
+    //
+    // Expired one-off events are excluded here, because "live" is the only
+    // thing a count is ever wanted for, and the caller would otherwise have to
+    // download the rows to subtract them — which is the problem being solved.
+    if (searchParams.get("count")) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const live = listings.filter((g) => {
+        if (g.isRecurring || !g.eventDate) return true;
+        const [y, m, d] = g.eventDate.split("-").map(Number);
+        return new Date(y, m - 1, d) >= today;
+      });
+      // `mode` lets a caller tell this response apart from the full one, whose
+      // `count` means something different (every row returned, expired included).
+      const res = NextResponse.json({ mode: "count", count: live.length, source: "firestore" });
+      res.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
+      return res;
+    }
+
     const res = NextResponse.json({ listings, count: listings.length, source: "firestore" });
     res.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
     return res;
