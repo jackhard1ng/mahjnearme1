@@ -88,11 +88,44 @@ export function getDayLabel(day: string): string {
   return capitalize(day) + "s";
 }
 
+/**
+ * The individual days a schedule covers.
+ *
+ * `dayOfWeek` stores multiple days pipe-separated ("monday|wednesday|friday"),
+ * so any code that treats the field as a single day silently drops every
+ * multi-day listing. Use this anywhere the days are compared rather than shown.
+ */
+export function scheduleDays(dayOfWeek: string | null | undefined): string[] {
+  return (dayOfWeek || "")
+    .split("|")
+    .map((d) => d.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+/**
+ * Render a schedule's dayOfWeek for display.
+ *
+ * The field stores multiple days pipe-separated ("monday|wednesday|friday"),
+ * which capitalize() alone renders as "Monday|wednesday|friday" — the raw
+ * storage format, leaking onto the card.
+ */
+export function formatDayOfWeek(dayOfWeek: string): string {
+  const days = (dayOfWeek || "")
+    .split("|")
+    .map((d) => d.trim())
+    .filter(Boolean)
+    .map(capitalize);
+  if (days.length === 0) return "";
+  if (days.length === 1) return days[0];
+  if (days.length === 2) return `${days[0]} & ${days[1]}`;
+  return `${days.slice(0, -1).join(", ")} & ${days[days.length - 1]}`;
+}
+
 export function formatSchedule(game: { isRecurring: boolean; recurringSchedule: { dayOfWeek: string; startTime: string; endTime: string; frequency: string } | null; eventDate: string | null; eventStartTime: string | null; eventEndTime: string | null }): string {
   if (game.isRecurring && game.recurringSchedule) {
     const { dayOfWeek, startTime, endTime, frequency } = game.recurringSchedule;
     const freqLabel = frequency === "weekly" ? "Every" : frequency === "biweekly" ? "Every other" : frequency === "monthly" ? "Monthly," : "";
-    const dayStr = dayOfWeek ? capitalize(dayOfWeek) : "";
+    const dayStr = formatDayOfWeek(dayOfWeek);
     const timeStr = startTime && endTime
       ? `, ${formatTime(startTime)} - ${formatTime(endTime)}`
       : startTime

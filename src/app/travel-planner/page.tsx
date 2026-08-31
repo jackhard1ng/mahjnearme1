@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { mockGames } from "@/lib/mock-data";
-import { isEventExpired } from "@/lib/utils";
+import { isEventExpired, scheduleDays } from "@/lib/utils";
 import GameCard from "@/components/GameCard";
 import Link from "next/link";
 import { Plane, MapPin, Calendar, Lock, Search } from "lucide-react";
@@ -31,7 +31,11 @@ export default function TravelPlannerPage() {
         daysInRange.add(dayNames[d.getDay()]);
       }
       games = games.filter(
-        (g) => g.isRecurring && g.recurringSchedule && daysInRange.has(g.recurringSchedule.dayOfWeek)
+        (g) =>
+          g.isRecurring &&
+          g.recurringSchedule &&
+          // Multi-day schedules are stored pipe-separated; check each day.
+          scheduleDays(g.recurringSchedule.dayOfWeek).some((d) => daysInRange.has(d))
       );
     }
 

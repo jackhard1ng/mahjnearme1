@@ -20,7 +20,7 @@ import { useFirestoreListings } from "@/hooks/useFirestoreListings";
 import { useEnrichedGames } from "@/hooks/useOrganizerOverrides";
 import { useAuth } from "@/contexts/AuthContext";
 import { SearchFilters, Game } from "@/types";
-import { isEventExpired } from "@/lib/utils";
+import { isEventExpired, scheduleDays } from "@/lib/utils";
 import { haversineDistance, formatDistance } from "@/lib/distance";
 import { geocodeSearchQuery } from "@/lib/geocode";
 import { getEventTiming, computePriorityScore, EventTiming } from "@/lib/event-timing";
@@ -207,7 +207,12 @@ function SearchContent() {
         (g) =>
           g.isRecurring &&
           g.recurringSchedule &&
-          filters.daysOfWeek.includes(g.recurringSchedule.dayOfWeek)
+          // A listing that runs several days stores them pipe-separated, so
+          // match on any of its days rather than the whole raw string — which
+          // never equalled a single day and hid every multi-day game.
+          scheduleDays(g.recurringSchedule.dayOfWeek).some((d) =>
+            filters.daysOfWeek.includes(d)
+          )
       );
     }
     if (filters.gameStyle !== "all") {
