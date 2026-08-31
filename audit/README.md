@@ -126,3 +126,22 @@ Supersedes `meetup-moved-groups-2.json`, which only fixed the URL and has been
 removed.
 
 Nothing is deleted; every deactivation is reversible.
+
+### `expired-one-off-events.json` — 558 ops, all deactivations
+
+`npx tsx scripts/audit-live-quality.ts --json audit/live-quality.json`
+
+582 active listings are one-off events whose date has passed — 20% of the
+active set. 473 of them are dated April 2026 and 436 were created in January:
+one bulk CSV import of dated events that all lapsed together.
+
+The site already hides them. `isEventExpired` filters them out of search, city
+pages and the homepage count, so this only makes the stored status match what
+visitors actually see, and takes roughly 600KB out of the response every
+visitor downloads.
+
+24 of the 582 are deliberately left alone: 21 whose date is within 90 days, in
+case an organiser re-dates them, and 3 whose name or description says
+"annual".
+
+Nothing is deleted; every op is `status: inactive` and reversible.

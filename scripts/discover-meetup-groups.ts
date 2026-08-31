@@ -75,8 +75,20 @@ const CITIES = args.includes("--cities")
 const UA =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36";
 const MAHJONG = /mahjong|mah jongg|mah-jongg|mahjongg|riichi/i;
-/** Venue names that mean "a private home", not a public place. */
-const PRIVATE_HOME = /^\s*(my|our|her|his|their)\s+(home|house|place|apartment|apt|condo)\b|^\s*(home|private residence)\s*$/i;
+/**
+ * Venue names that mean "a private home", not a public place.
+ *
+ * Two shapes, both seen in live Meetup data. "My home" (Naples), and a
+ * person's name followed by their home — "Alison's House" in Glendora, which
+ * came with a full street address attached. Meetup shows that only to people
+ * who have joined the group; a public directory must not republish it.
+ *
+ * Anchored to the whole value, so a real venue that merely contains a
+ * possessive — "Annie O'Love's Cookie Cafe", "Seamus McDaniel's" — is not
+ * caught: those do not END in home/house/place.
+ */
+const PRIVATE_HOME =
+  /^\s*(my|our|her|his|their)\s+(home|house|place|apartment|apt|condo)\b|^\s*(home|private residence)\s*$|^\s*[A-Z][\w.'\u2019-]*(\s+[A-Z][\w.'\u2019-]*)?['\u2019]s\s+(home|house|place|apartment|apt|condo)\s*$/i;
 const TODAY = new Date().toISOString().slice(0, 10);
 
 interface Venue { name: string; address: string; city: string; state: string }
