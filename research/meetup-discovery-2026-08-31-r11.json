@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T15:29:55.678Z",
+  "generatedAt": "2026-08-31T15:34:51.226Z",
   "citiesSearched": 20,
   "citiesFailed": [],
   "note": "Candidates only. Every group here has at least one upcoming event whose TITLE mentions mahjong, a venue with a street address, and a venue+city not already in the directory. Confirm before importing — a venue can be right while the session details are not.",
@@ -26,7 +26,7 @@
       "city": "us--nj--Cherry Hill",
       "status": 200,
       "slugs": 13,
-      "newSlugs": 9
+      "newSlugs": 7
     },
     {
       "city": "us--nj--Morristown",
@@ -44,7 +44,7 @@
       "city": "us--pa--Doylestown",
       "status": 200,
       "slugs": 8,
-      "newSlugs": 5
+      "newSlugs": 4
     },
     {
       "city": "us--md--Columbia",
@@ -80,7 +80,7 @@
       "city": "us--ga--Marietta",
       "status": 200,
       "slugs": 10,
-      "newSlugs": 9
+      "newSlugs": 7
     },
     {
       "city": "us--fl--Palm Beach Gardens",
@@ -169,48 +169,6 @@
   ],
   "cityLevelCandidates": [
     {
-      "group": "https://www.meetup.com/moms-of-adult-children-south-jersey-moac",
-      "sourceURL": "https://www.meetup.com/moms-of-adult-children-south-jersey-moac/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Cherry Hill",
-      "state": "NJ",
-      "dayOfWeek": "tuesday",
-      "startTime": "6:00 PM",
-      "endTime": "8:00 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "Mahjong Workshop"
-      ],
-      "nextDates": [
-        "2026-09-08"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": "Every 2nd Tuesday of the month"
-    },
-    {
-      "group": "https://www.meetup.com/moms-of-adult-children-south-jersey-moac",
-      "sourceURL": "https://www.meetup.com/moms-of-adult-children-south-jersey-moac/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Cherry Hill",
-      "state": "NJ",
-      "dayOfWeek": "tuesday",
-      "startTime": "6:30 PM",
-      "endTime": "8:30 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "Mahjong Workshop"
-      ],
-      "nextDates": [
-        "2026-09-08"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": ""
-    },
-    {
       "group": "https://www.meetup.com/moorestown-womens-social-meetup",
       "sourceURL": "https://www.meetup.com/moorestown-womens-social-meetup/events/",
       "venueName": "",
@@ -246,116 +204,6 @@
         "Chinese Mah Jongg at the Mall"
       ],
       "nextDates": [
-        "2026-09-23"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": ""
-    },
-    {
-      "group": "https://www.meetup.com/american-mahjong-league",
-      "sourceURL": "https://www.meetup.com/american-mahjong-league/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Cherry Hill",
-      "state": "NJ",
-      "dayOfWeek": "monday",
-      "startTime": "5:30 PM",
-      "endTime": "8:30 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "Mahjong League Kickoff Event"
-      ],
-      "nextDates": [
-        "2026-09-14"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": ""
-    },
-    {
-      "group": "https://www.meetup.com/meetup-group-ftwtfpis",
-      "sourceURL": "https://www.meetup.com/meetup-group-ftwtfpis/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Lansdale",
-      "state": "PA",
-      "dayOfWeek": "thursday",
-      "startTime": "12:00 PM",
-      "endTime": "2:30 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "🀄Let's Play MahJongg. Time changed to 12:00-2:30"
-      ],
-      "nextDates": [
-        "2026-09-10"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": ""
-    },
-    {
-      "group": "https://www.meetup.com/meetup-group-ftwtfpis",
-      "sourceURL": "https://www.meetup.com/meetup-group-ftwtfpis/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Lansdale",
-      "state": "PA",
-      "dayOfWeek": "tuesday",
-      "startTime": "1:00 PM",
-      "endTime": "3:30 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "🀄Let's Play MahJongg"
-      ],
-      "nextDates": [
-        "2026-09-22"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": ""
-    },
-    {
-      "group": "https://www.meetup.com/sassyladies-up-to-something",
-      "sourceURL": "https://www.meetup.com/sassyladies-up-to-something/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Kennesaw",
-      "state": "GA",
-      "dayOfWeek": "friday",
-      "startTime": "11:30 AM",
-      "endTime": "2:30 PM",
-      "upcomingCount": 3,
-      "sampleTitles": [
-        "MAHJONGG"
-      ],
-      "nextDates": [
-        "2026-09-11",
-        "2026-09-25",
-        "2026-10-09"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": ""
-    },
-    {
-      "group": "https://www.meetup.com/atlanta-socializing-women-60-meetup",
-      "sourceURL": "https://www.meetup.com/atlanta-socializing-women-60-meetup/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Atlanta",
-      "state": "GA",
-      "dayOfWeek": "wednesday",
-      "startTime": "10:00 AM",
-      "endTime": "12:00 PM",
-      "upcomingCount": 5,
-      "sampleTitles": [
-        "Who wants to play Mahjong?"
-      ],
-      "nextDates": [
-        "2026-09-02",
-        "2026-09-09",
-        "2026-09-16",
         "2026-09-23"
       ],
       "reviewFlags": [],

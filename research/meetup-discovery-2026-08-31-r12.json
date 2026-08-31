@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T15:32:12.646Z",
+  "generatedAt": "2026-08-31T15:34:57.381Z",
   "citiesSearched": 20,
   "citiesFailed": [],
   "note": "Candidates only. Every group here has at least one upcoming event whose TITLE mentions mahjong, a venue with a street address, and a venue+city not already in the directory. Confirm before importing — a venue can be right while the session details are not.",
@@ -20,7 +20,7 @@
       "city": "us--ca--Rancho Mirage",
       "status": 200,
       "slugs": 7,
-      "newSlugs": 7
+      "newSlugs": 6
     },
     {
       "city": "us--ca--Carlsbad",
@@ -68,7 +68,7 @@
       "city": "us--az--Peoria",
       "status": 200,
       "slugs": 10,
-      "newSlugs": 8
+      "newSlugs": 7
     },
     {
       "city": "us--nv--Reno",
@@ -128,112 +128,6 @@
   "candidates": [],
   "cityLevelCandidates": [
     {
-      "group": "https://www.meetup.com/palmspringssunshinesisters-com",
-      "sourceURL": "https://www.meetup.com/palmspringssunshinesisters-com/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Palm Springs",
-      "state": "CA",
-      "dayOfWeek": "saturday",
-      "startTime": "1:00 PM",
-      "endTime": "3:00 PM",
-      "upcomingCount": 2,
-      "sampleTitles": [
-        "Saturday Chinese MahJongg"
-      ],
-      "nextDates": [
-        "2026-09-05",
-        "2026-09-12"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": ""
-    },
-    {
-      "group": "https://www.meetup.com/palmspringssunshinesisters-com",
-      "sourceURL": "https://www.meetup.com/palmspringssunshinesisters-com/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Palm Springs",
-      "state": "CA",
-      "dayOfWeek": "thursday",
-      "startTime": "1:00 PM",
-      "endTime": "3:00 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "One-Table Chinese Mahjong with a Mentor - Level 2 Scoring"
-      ],
-      "nextDates": [
-        "2026-09-17"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": ""
-    },
-    {
-      "group": "https://www.meetup.com/palmspringssunshinesisters-com",
-      "sourceURL": "https://www.meetup.com/palmspringssunshinesisters-com/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Palm Springs",
-      "state": "CA",
-      "dayOfWeek": "monday",
-      "startTime": "9:00 AM",
-      "endTime": "11:00 AM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "One-Table Chinese Mahjong with a Mentor - Level 2 Scoring"
-      ],
-      "nextDates": [
-        "2026-09-21"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": ""
-    },
-    {
-      "group": "https://www.meetup.com/palmspringssunshinesisters-com",
-      "sourceURL": "https://www.meetup.com/palmspringssunshinesisters-com/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Palm Springs",
-      "state": "CA",
-      "dayOfWeek": "tuesday",
-      "startTime": "11:10 AM",
-      "endTime": "2:00 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "Backstory Mahjongg"
-      ],
-      "nextDates": [
-        "2026-09-22"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": ""
-    },
-    {
-      "group": "https://www.meetup.com/palmspringssunshinesisters-com",
-      "sourceURL": "https://www.meetup.com/palmspringssunshinesisters-com/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Palm Springs",
-      "state": "CA",
-      "dayOfWeek": "wednesday",
-      "startTime": "10:00 AM",
-      "endTime": "12:30 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "Learn American MahJongg"
-      ],
-      "nextDates": [
-        "2026-09-23"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": ""
-    },
-    {
       "group": "https://www.meetup.com/meetup-group-xctnbiow",
       "sourceURL": "https://www.meetup.com/meetup-group-xctnbiow/events/",
       "venueName": "",
@@ -256,27 +150,6 @@
       "reviewFlags": [],
       "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
       "meetupRecurrence": "Every week on Tuesday"
-    },
-    {
-      "group": "https://www.meetup.com/sun-city-new-friends-group",
-      "sourceURL": "https://www.meetup.com/sun-city-new-friends-group/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Peoria",
-      "state": "AZ",
-      "dayOfWeek": "wednesday",
-      "startTime": "1:00 PM",
-      "endTime": "4:00 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "MAHJONG + a Game or 2 @ Harriet's "
-      ],
-      "nextDates": [
-        "2026-09-02"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": ""
     }
   ],
   "rejectedGroups": [
