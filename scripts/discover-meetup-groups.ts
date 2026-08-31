@@ -200,6 +200,52 @@ async function seriesDescription(eventUrl: string): Promise<string> {
   return m ? unescape_(m[1]) : "";
 }
 
+/**
+ * A key for "which series is this event part of", from its title.
+ *
+ * Start time alone is not enough. Collin County Sisters runs "Advanced
+ * American Mah Jongg at Jacquie's" and "Beginners American Mah Jongg FOR THOSE
+ * WHO..." at the same time on the same Tuesdays — two sessions for different
+ * players, which keyed on time alone became one listing that told beginners to
+ * turn up to the advanced table.
+ *
+ * The host's name is stripped first, because the same series rotates between
+ * homes: "at Jacquie's", "at Mary's", "at Barbara's" are one series, not
+ * three. What is left is reduced to its first three words, which keeps Cary's
+ * "Mah Jongg Monday - Play only" and "- Learn and play" together, as one
+ * session run in two modes.
+ */
+function seriesStem(title: string): string {
+  return (title || "")
+    .toLowerCase()
+    .replace(/\bat\s+[a-z]+['\u2019]s\b.*$/i, "")
+    .replace(/[^a-z0-9 ]+/g, " ")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 3)
+    .join(" ");
+}
+
+/**
+ * Titles that look like they carry the place the venue field is missing.
+ *
+ * Reported for review, never acted on: Wilmington Women post "Let's Play Mah
+ * Jongg!  PANERA 3506 Oleander Drive" with venue null, and Eat Play Travel
+ * post "Beginners Mahjong Game in Orange" from a group registered in Sunset
+ * Beach. Both are city-level candidates whose own title contradicts them.
+ */
+function placeHints(titles: string[]): string[] {
+  const hints: string[] = [];
+  for (const t of titles) {
+    if (/\d{2,6}\s+[A-Z][a-z]+(\s+[A-Z][a-z]+)*\s*(St|Street|Ave|Avenue|Rd|Road|Blvd|Dr|Drive|Ln|Lane|Way|Pl|Place)\b/.test(t)) {
+      hints.push(`title names a street address: "${t.trim()}"`);
+    }
+    const inCity = t.match(/\bin\s+([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)?)\b/);
+    if (inCity) hints.push(`title names a place: "${inCity[1]}" (in "${t.trim()}")`);
+  }
+  return [...new Set(hints)];
+}
+
 const norm = (s: string) => (s || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
 
 async function main() {
@@ -262,6 +308,7 @@ async function main() {
   // the Grapevine Masonic Lodge Sunday class that round 2 hours earlier had
   // already written up, identical group, venue, day and time.
   let priorCount = 0;
+  let excludedCount = 0;
   for (const f of fs.existsSync(OUT_DIR) ? fs.readdirSync(OUT_DIR) : []) {
     if (!/^mahjong-listings-.*\.json$/.test(f)) continue;
     try {
@@ -274,11 +321,21 @@ async function main() {
         }
         if (l.venueName) knownVenues.add(norm(String(l.venueName)) + "|" + norm(String(l.city || "")));
       }
+      // Candidates an earlier batch looked at and deliberately rejected. Round
+      // 5 re-surfaced the Galveston mahjong cruise that round 3 had already
+      // excluded, because only accepted listings were being remembered. A
+      // decision not to list something is as much a result as a listing.
+      for (const x of (prior.excluded || []) as Record<string, unknown>[]) {
+        const text = `${x.group || ""} ${x.candidate || ""} ${x.event || ""}`;
+        const m = text.match(/meetup\.com\/([a-z0-9][a-z0-9-]{2,60})/i);
+        if (m) { knownGroups.add(m[1].toLowerCase()); excludedCount++; }
+      }
     } catch {
       console.warn(`  could not read ${f} — ignoring it`);
     }
   }
   if (priorCount) console.log(`  plus ${priorCount} listings from earlier batches in ${OUT_DIR}/`);
+  if (excludedCount) console.log(`  plus ${excludedCount} group(s) an earlier batch deliberately excluded`);
 
   console.log(`Searching ${CITIES.length} cities ...`);
   for (let i = 0; i < CITIES.length; i += CONCURRENCY) {
@@ -351,7 +408,7 @@ async function main() {
       // Fridays at 12:30; keyed on the venue alone those collapse into a
       // single candidate reading "tuesday|friday, 4:00 PM", which states the
       // wrong time for every Friday session.
-      const k = norm(e.venue.name) + "|" + norm(e.venue.city) + "|" + e.startTime;
+      const k = norm(e.venue.name) + "|" + norm(e.venue.city) + "|" + e.startTime + "|" + seriesStem(e.title);
       if (!byVenue.has(k)) byVenue.set(k, []);
       byVenue.get(k)!.push(e);
     }
@@ -371,7 +428,11 @@ async function main() {
         venueless.push(...evs);
         continue;
       }
-      if (venueIsKnown(v.name, v.city)) { skippedVenues.push({ group, venue: v.name, reason: "venue already in the directory" }); continue; }
+      // "already known" covers both the live directory and earlier research
+      // batches. Saying "already in the directory" cost me a diversion chasing
+      // a Treehouse Cafe that was not in the directory at all — it was in an
+      // earlier batch's listings file, which is just as good a reason to skip.
+      if (venueIsKnown(v.name, v.city)) { skippedVenues.push({ group, venue: v.name, reason: "venue already known (live directory or an earlier batch)" }); continue; }
       const days = [...new Set(evs.map((e) => DAYS[new Date(e.date + "T12:00:00").getDay()]))];
       candidates.push({
         group: `https://www.meetup.com/${group}`,
@@ -395,8 +456,9 @@ async function main() {
       if (loc) {
         const bySeries = new Map<string, MEvent[]>();
         for (const e of venueless) {
-          if (!bySeries.has(e.startTime)) bySeries.set(e.startTime, []);
-          bySeries.get(e.startTime)!.push(e);
+          const k = e.startTime + "|" + seriesStem(e.title);
+          if (!bySeries.has(k)) bySeries.set(k, []);
+          bySeries.get(k)!.push(e);
         }
         for (const evs of bySeries.values()) {
           const days = [...new Set(evs.map((e) => DAYS[new Date(e.date + "T12:00:00").getDay()]))];
@@ -410,6 +472,7 @@ async function main() {
             sampleTitles: [...new Set(evs.map((e) => e.title))].slice(0, 3),
             nextDates: evs.map((e) => e.date).sort().slice(0, 4),
             sampleEventUrl: evs[0].url,
+            reviewFlags: placeHints(evs.map((e) => e.title)),
             note: "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
           });
         }
