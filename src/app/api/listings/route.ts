@@ -24,10 +24,21 @@ export async function GET(request: NextRequest) {
       if (!doc.exists) {
         return NextResponse.json({ listing: null });
       }
-      return NextResponse.json({ listing: { id: doc.id, ...doc.data() } });
+      // Normalized, like the list branch below. Returning the raw document
+      // here hands back a different shape from the same endpoint: no
+      // metroRegion, skillLevels still an array or a pipe-string depending on
+      // how the row was imported, and no defaults for the fields Game requires.
+      // A single listing asked for by id is returned whatever its status —
+      // you named it, so the status filter does not apply.
+      return NextResponse.json({ listing: docToGame(doc.data() as Record<string, unknown>, doc.id) });
     }
 
-    // Search by slug/name - used when game detail page can't find by ID
+    // Search by slug/name - used when game detail page can't find by ID.
+    // Note this reads the whole collection and scans it linearly on every
+    // request, with no cache header on the response. Nothing in the app calls
+    // it any more — the detail page resolves slugs from the list the client
+    // already has — so it is left in place for external callers rather than
+    // optimised, but it should not gain new ones.
     if (search) {
       const slugToMatch = search.toLowerCase().replace(/[^a-z0-9]+/g, "-");
       const allSnap = await db.collection("listings").get();
@@ -35,7 +46,7 @@ export async function GET(request: NextRequest) {
         const data = doc.data();
         const nameSlug = ((data.name as string) || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
         if (nameSlug === slugToMatch || nameSlug.includes(slugToMatch) || doc.id.includes(slugToMatch)) {
-          return NextResponse.json({ listing: { id: doc.id, ...data } });
+          return NextResponse.json({ listing: docToGame(data, doc.id) });
         }
       }
       return NextResponse.json({ listing: null });

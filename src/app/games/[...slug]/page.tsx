@@ -17,7 +17,7 @@ import {
   isEventExpired,
   streetAddressOnly,
   normalizeWebsiteUrl,
-  instagramUrl,
+  resolvedInstagramUrl,
 } from "@/lib/utils";
 import { SKILL_LEVEL_COLORS, SKILL_LEVEL_LABELS } from "@/lib/constants";
 import { SITE_NAME, SITE_URL, GAME_STYLE_LABELS } from "@/lib/constants";
@@ -711,9 +711,18 @@ export default function GameDetailPage() {
                 <p className="text-slate-600 leading-relaxed">
                   {game.howToJoin}
                 </p>
-                {game.registrationLink && canSeeDetails && (
+                {/* Normalised, because 107 active listings store a registration
+                    value with no scheme. Rendered raw, "mahjonthebeach.com/
+                    book-a-class" resolves against the current page and the
+                    button lands on /games/<slug>/mahjonthebeach.com/... .
+                    normalizeWebsiteUrl also returns null for the values that
+                    are not links at all — "link in bio", "Eventbrite",
+                    "venmo: morgan-Derrick-5" — so no button is offered where
+                    there is nowhere to go. Handles among them still reach the
+                    organiser through the Instagram link above. */}
+                {normalizeWebsiteUrl(game.registrationLink) && canSeeDetails && (
                   <a
-                    href={game.registrationLink}
+                    href={normalizeWebsiteUrl(game.registrationLink)!}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 mt-4 text-hotpink-500 hover:text-hotpink-600 font-medium text-sm transition-colors"
@@ -722,7 +731,7 @@ export default function GameDetailPage() {
                     Register Online
                   </a>
                 )}
-                {game.registrationLink && !canSeeDetails && !loading && (
+                {normalizeWebsiteUrl(game.registrationLink) && !canSeeDetails && !loading && (
                   <div className="mt-3 flex items-center gap-2 text-sm text-slate-400 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
                     <Lock className="w-3.5 h-3.5 shrink-0" />
                     <span>Registration link: <Link href="/pricing" className="font-medium text-hotpink-500 hover:text-hotpink-600">upgrade to access</Link></span>
@@ -789,9 +798,9 @@ export default function GameDetailPage() {
                       {game.website}
                     </a>
                   )}
-                  {instagramUrl(game.instagram) && (
+                  {resolvedInstagramUrl(game) && (
                     <a
-                      href={instagramUrl(game.instagram)!}
+                      href={resolvedInstagramUrl(game)!}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 text-hotpink-500 hover:text-hotpink-600 transition-colors"

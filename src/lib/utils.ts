@@ -223,9 +223,46 @@ export function normalizeWebsiteUrl(raw: string | null | undefined): string | nu
   if (v.startsWith("@")) return null; // a handle, not a site
   if (/^https?:\/\//i.test(v)) return v;
   // Require something that at least looks like a hostname before prefixing.
-  if (!/^[\w-]+(\.[\w-]+)+/.test(v)) return null;
+  const m = v.match(/^[\w-]+(\.[\w-]+)+/);
+  if (!m) return null;
+  // ...and require the last label to be a real TLD. Without this, an Instagram
+  // handle that happens to contain a dot is linkified as a domain: the live
+  // data holds "allaboutmahj.bhm", "thismahjongmoment.chicago" and
+  // "little.palmetto.mahjong" in website/registrationLink, each of which
+  // became https://allaboutmahj.bhm and friends — links that resolve nowhere.
+  // Returning null instead lets the caller fall through to the Instagram link,
+  // which is what those values actually are. It also drops the one stored
+  // value that is prose with a domain in front of it, "linktr.ee or similar".
+  // Prose after a domain is not a URL: one stored registrationLink reads
+  // "linktr.ee or similar", whose first token is a perfectly good hostname.
+  if (/\s/.test(v)) return null;
+  const tld = m[0].split(".").pop()!.toLowerCase();
+  if (!KNOWN_TLDS.has(tld)) return null;
   return `https://${v}`;
 }
+
+/**
+ * TLDs allowed by normalizeWebsiteUrl.
+ *
+ * Deliberately a list rather than a pattern: every plausible pattern also
+ * matches an Instagram handle's last segment. Covers every TLD present in the
+ * live data plus the common ones, and an unrecognised TLD fails safe — the
+ * site simply does not render a website link for that listing.
+ */
+const KNOWN_TLDS = new Set([
+  "com", "org", "net", "edu", "gov", "mil", "int", "info", "biz", "name",
+  "co", "io", "ai", "app", "dev", "me", "tv", "cc", "ly", "gle", "gl", "se",
+  // "ee" is Estonia, and it is here because linktr.ee is the single most
+  // common link host in this dataset — 28 listings. Leaving it out silently
+  // unlinked all of them.
+  "ee",
+  "us", "uk", "ca", "au", "nz", "de", "fr", "es", "it", "nl", "jp", "cn",
+  "blog", "club", "site", "online", "store", "shop", "xyz", "fun", "life",
+  "live", "page", "group", "team", "digital", "studio", "events", "email",
+  "health", "care", "house", "world", "today", "space", "website", "wiki",
+  "art", "design", "media", "network", "social", "community", "church",
+  "center", "city", "cafe", "club",
+]);
 
 /**
  * Extract a bare Instagram handle (no @) from whatever ended up in the field,
@@ -260,6 +297,41 @@ export function instagramHandle(raw: string | null | undefined): string | null {
 export function instagramUrl(raw: string | null | undefined): string | null {
   const handle = instagramHandle(raw);
   return handle ? `https://instagram.com/${handle}` : null;
+}
+
+/**
+ * The Instagram profile for a listing, looking beyond the `instagram` field.
+ *
+ * Six live listings hold an Instagram handle in `website` or
+ * `registrationLink` and nothing in `instagram`: "allaboutmahj.bhm",
+ * "thismahjongmoment.chicago", "little.palmetto.mahjong". Because those
+ * contain dots they used to be linkified as domains, producing
+ * https://allaboutmahj.bhm — a link to nowhere. Rejecting them as websites is
+ * right, but on its own it would leave those listings with no link at all,
+ * which is a worse page than the one with the broken link.
+ *
+ * All three are confirmed handles by the directory's own data: each appears
+ * as an "@handle" in the `instagram` field of a sibling listing for the same
+ * organiser. So a value that is not a usable website but is a well-formed
+ * handle is treated as one.
+ *
+ * Only consulted when `instagram` itself is empty, so a real Instagram value
+ * always wins.
+ */
+export function resolvedInstagramUrl(game: {
+  instagram?: string | null;
+  website?: string | null;
+  registrationLink?: string | null;
+}): string | null {
+  const direct = instagramUrl(game.instagram);
+  if (direct) return direct;
+  for (const raw of [game.website, game.registrationLink]) {
+    const v = (raw || "").trim();
+    if (!v || normalizeWebsiteUrl(v)) continue; // a working website stays a website
+    const url = instagramUrl(v);
+    if (url) return url;
+  }
+  return null;
 }
 
 /**

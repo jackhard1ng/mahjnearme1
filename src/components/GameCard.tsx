@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Game } from "@/types";
-import { getGameTypeColor, getGameTypeLabel, getVerificationStatus, formatSchedule, slugify, daysSinceVerified, STALE_THRESHOLD_DAYS, normalizeWebsiteUrl, instagramUrl, instagramHandle } from "@/lib/utils";
+import { getGameTypeColor, getGameTypeLabel, getVerificationStatus, formatSchedule, slugify, daysSinceVerified, STALE_THRESHOLD_DAYS, normalizeWebsiteUrl, resolvedInstagramUrl } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
 import { SKILL_LEVEL_LABELS } from "@/lib/constants";
 import { useAuth } from "@/contexts/AuthContext";
@@ -175,7 +175,15 @@ export default function GameCard({
   // pasted onto instagram.com/. Both return null when the value is not
   // actually a link of that kind, which also hides the chip.
   const websiteUrl = normalizeWebsiteUrl(game.website);
-  const igUrl = instagramUrl(game.instagram);
+  const igUrl = resolvedInstagramUrl(game);
+  // The handle to show beside the icon. Taken from igUrl rather than from
+  // game.instagram, because igUrl may have been resolved out of the website or
+  // registration field on a listing whose instagram field is empty — reading
+  // the field directly would render a bare "@".
+  const igLabel = igUrl ? igUrl.replace(/^https:\/\/instagram\.com\//, "") : "";
+  // See the note on the detail page: a registration value stored without a
+  // scheme resolves relative to the current page, and several are not links.
+  const regUrl = normalizeWebsiteUrl(game.registrationLink);
   const isGreatForUser = userSkillLevel && game.skillLevels.includes(userSkillLevel as "beginner" | "intermediate" | "advanced");
   const suit = getTileSuit(game.id);
   const tileNumber = getTileNumber(game.id);
@@ -463,7 +471,7 @@ export default function GameCard({
                   )}
                   {igUrl && (
                     <a href={igUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
-                      <Instagram className="w-3 h-3" /> @{instagramHandle(game.instagram)}
+                      <Instagram className="w-3 h-3" /> @{igLabel}
                     </a>
                   )}
                   {game.facebookGroup && (
@@ -471,8 +479,8 @@ export default function GameCard({
                       <Globe className="w-3 h-3" /> Facebook
                     </a>
                   )}
-                  {game.registrationLink && (
-                    <a href={game.registrationLink} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-100 px-2 py-1 rounded-full font-medium transition-colors">
+                  {regUrl && (
+                    <a href={regUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-100 px-2 py-1 rounded-full font-medium transition-colors">
                       <ExternalLink className="w-3 h-3" /> Register
                     </a>
                   )}
