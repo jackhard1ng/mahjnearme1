@@ -20,8 +20,22 @@ function isCacheValid(): boolean {
  * Convert a Firestore listing document to a Game object.
  * Ensures all required fields have defaults.
  */
+/**
+ * Trim a stored string field.
+ *
+ * A handful of records carry padded values (" Red Feather Lakes ", "Carlsbad ",
+ * "Mahjong in the Mountains "). City *pages* are unaffected — slugify() already
+ * collapses the trailing space — but the raw value is rendered on the card and
+ * in headings, and exact-match grouping on name or venue treats the padded and
+ * unpadded forms as different records. Normalising on read fixes every consumer
+ * at once instead of each of them remembering to trim.
+ */
+function str(v: unknown): string {
+  return typeof v === "string" ? v.trim() : "";
+}
+
 function docToGame(data: Record<string, unknown>, id: string): Game {
-  const cityName = (data.city as string) || "";
+  const cityName = str(data.city);
   let metroRegion = data.metroRegion as string | null;
   if (!metroRegion && cityName) {
     const metro = findMetroForCity(cityName);
@@ -30,16 +44,16 @@ function docToGame(data: Record<string, unknown>, id: string): Game {
 
   return {
     id,
-    name: (data.name as string) || "Untitled Game",
-    organizerName: (data.organizerName as string) || (data.contactName as string) || "",
+    name: str(data.name) || "Untitled Game",
+    organizerName: str(data.organizerName) || str(data.contactName) || "",
     organizerId: (data.organizerId as string) || null,
     type: (data.type as Game["type"]) || "open_play",
     gameStyle: (data.gameStyle as Game["gameStyle"]) || "american",
     city: cityName,
-    state: (data.state as string) || "",
-    generalArea: (data.generalArea as string) || "",
-    venueName: (data.venueName as string) || "",
-    address: (data.address as string) || "",
+    state: str(data.state) || "",
+    generalArea: str(data.generalArea) || "",
+    venueName: str(data.venueName) || "",
+    address: str(data.address) || "",
     geopoint: (data.geopoint as Game["geopoint"]) || { lat: 0, lng: 0 },
     metroRegion,
     isRecurring: (data.isRecurring as boolean) ?? false,
@@ -47,17 +61,17 @@ function docToGame(data: Record<string, unknown>, id: string): Game {
     eventDate: (data.eventDate as string) || null,
     eventStartTime: (data.eventStartTime as string) || null,
     eventEndTime: (data.eventEndTime as string) || null,
-    cost: (data.cost as string) || "Contact for price",
+    cost: str(data.cost) || "Contact for price",
     costAmount: (data.costAmount as number) ?? null,
-    contactName: (data.contactName as string) || "",
-    contactEmail: (data.contactEmail as string) || "",
-    contactPhone: (data.contactPhone as string) || "",
-    website: (data.website as string) || "",
-    instagram: (data.instagram as string) || "",
-    facebookGroup: (data.facebookGroup as string) || "",
-    registrationLink: (data.registrationLink as string) || "",
-    description: (data.description as string) || "",
-    howToJoin: (data.howToJoin as string) || "",
+    contactName: str(data.contactName) || "",
+    contactEmail: str(data.contactEmail) || "",
+    contactPhone: str(data.contactPhone) || "",
+    website: str(data.website) || "",
+    instagram: str(data.instagram) || "",
+    facebookGroup: str(data.facebookGroup) || "",
+    registrationLink: str(data.registrationLink) || "",
+    description: str(data.description) || "",
+    howToJoin: str(data.howToJoin) || "",
     whatToBring: (data.whatToBring as string) || "",
     skillLevels: (() => {
       const raw = data.skillLevels;

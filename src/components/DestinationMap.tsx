@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Game } from "@/types";
 import { slugify } from "@/lib/utils";
+import { getEventTiming } from "@/lib/event-timing";
 import type L from "leaflet";
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -96,12 +97,18 @@ export default function DestinationMap({ games, hasAccess }: DestinationMapProps
         if (hasAccess) {
           const gameUrl = `/games/${slugify(game.city + "-" + game.state)}/${slugify(game.name)}`;
           const catLabel = getCategoryLabel(category);
+          const nextDate = getEventTiming(game).nextDate;
           marker.bindPopup(
+            // Next real occurrence, not the raw eventDate. A recurring listing
+            // keeps whatever one-off date it was imported with, so reading the
+            // field directly put a date months in the past in the popup — while
+            // the card beside it, which already uses this helper, showed the
+            // correct one.
             `<div style="font-family: system-ui, sans-serif; min-width: 200px;">
               <span style="display:inline-block; background:${color}; color:#fff; font-size:10px; font-weight:700; padding:1px 6px; border-radius:8px; margin-bottom:4px;">${catLabel}</span><br/>
               <strong style="font-size: 14px; color: #1a1a2e;">${game.name}</strong><br/>
               <span style="color: #64748b; font-size: 12px;">${game.city}, ${game.state}</span><br/>
-              ${game.eventDate ? `<span style="color: #D97706; font-size: 11px; font-weight: 600;">${new Date(game.eventDate + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span><br/>` : ""}
+              ${nextDate ? `<span style="color: #D97706; font-size: 11px; font-weight: 600;">${nextDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span><br/>` : ""}
               ${game.cost && game.cost !== "Contact for price" ? `<span style="color: #64748b; font-size: 11px;">${game.cost}</span><br/>` : ""}
               <a href="${gameUrl}" style="color: #FF1493; font-size: 12px; font-weight: 600; text-decoration: none; margin-top: 4px; display: inline-block;">View Details &rarr;</a>
             </div>`,
