@@ -116,6 +116,63 @@ export function formatSchedule(game: { isRecurring: boolean; recurringSchedule: 
 }
 
 /**
+ * Reduce a stored address to just the street part.
+ *
+ * Around 90% of listings were imported with the city, state and ZIP baked
+ * into `address` ("410 15th Street, Oakland, CA 94612"). That matters beyond
+ * tidiness: the event JSON-LD emits `streetAddress: game.address` next to
+ * `addressLocality: game.city` and `addressRegion: game.state`, so the
+ * structured data search engines read repeats the locality inside the street
+ * field. For a directory that lives or dies on local search, malformed
+ * PostalAddress markup is worth fixing at render time as well as in the data.
+ *
+ * Only trailing components that actually match the listing's own city or
+ * state are removed, so an address is never truncated on a guess. Where the
+ * stored value is nothing but the city and state ("San Antonio, TX"), there
+ * is no street to keep and the result is empty — which is correct, since
+ * `addressLocality` already carries it.
+ */
+export function streetAddressOnly(
+  address: string | null | undefined,
+  city: string,
+  state: string
+): string {
+  let out = (address || "").trim();
+  if (!out) return "";
+
+  const cityNorm = (city || "").trim().toLowerCase();
+  const stateNorm = (state || "").trim().toUpperCase();
+
+  // Trailing ZIP, with or without the +4.
+  out = out.replace(/[,\s]+\d{5}(?:-\d{4})?\s*$/, "").trim();
+
+  // Trailing state, comma-separated or not ("…, CA" and "… Carlsbad CA").
+  if (stateNorm) {
+    out = out.replace(new RegExp(`[,\\s]+${stateNorm}\\s*$`, "i"), "").trim();
+  }
+
+  // Trailing city. At a comma this is always a separate component. At a bare
+  // space it is only safe when the value actually starts with a street number
+  // ("28981 Gosling Rd #300 Spring" -> "28981 Gosling Rd #300"); without that
+  // test, a listing in Boston whose address reads "Greater Boston" would be
+  // truncated to "Greater", since there the city name is part of one place
+  // name rather than a locality appended to a street.
+  if (cityNorm) {
+    const escaped = cityNorm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    out = out.replace(new RegExp(`,\\s*${escaped}\\s*$`, "i"), "").trim();
+    if (/^\d/.test(out)) {
+      out = out.replace(new RegExp(`\\s+${escaped}\\s*$`, "i"), "").trim();
+    }
+  }
+
+  out = out.replace(/[,\s]+$/, "").trim();
+
+  // Nothing but the locality was stored — no street to report.
+  if (!out || out.toLowerCase() === cityNorm) return "";
+  return out;
+}
+
+/**
  * Returns true if a one-time event's date is in the past.
  * Recurring events never expire via this check.
  */

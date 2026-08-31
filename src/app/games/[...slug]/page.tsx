@@ -15,6 +15,7 @@ import {
   getVerificationStatus,
   getStateName,
   isEventExpired,
+  streetAddressOnly,
 } from "@/lib/utils";
 import { SKILL_LEVEL_COLORS, SKILL_LEVEL_LABELS } from "@/lib/constants";
 import { SITE_NAME, SITE_URL, GAME_STYLE_LABELS } from "@/lib/constants";
@@ -137,7 +138,10 @@ function GameJsonLd({ game }: { game: Game }) {
       name: game.venueName || `${game.city}, ${game.state}`,
       address: {
         "@type": "PostalAddress",
-        streetAddress: game.address,
+        // Street only. ~90% of imported addresses embed the city, state and
+        // ZIP, which would otherwise repeat addressLocality/addressRegion
+        // inside streetAddress and hand search engines malformed markup.
+        streetAddress: streetAddressOnly(game.address, game.city, game.state),
         addressLocality: game.city,
         addressRegion: game.state,
         addressCountry: "US",

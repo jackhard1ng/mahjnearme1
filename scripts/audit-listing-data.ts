@@ -61,6 +61,7 @@
 
 import fs from "fs";
 import path from "path";
+import { streetAddressOnly } from "../src/lib/utils";
 
 const args = process.argv.slice(2);
 const BASE_URL = args.includes("--url")
@@ -75,6 +76,7 @@ interface Listing {
   city: string;
   state: string;
   venueName?: string;
+  address?: string;
   type: string;
   status: string;
   isRecurring: boolean;
@@ -233,6 +235,32 @@ async function main() {
       });
       wsCount++;
     }
+  }
+
+  // --- 1b. Addresses with the locality baked in ---
+  // The event JSON-LD sets streetAddress from this field while also emitting
+  // addressLocality and addressRegion, so a stored "410 15th Street, Oakland,
+  // CA 94612" hands search engines a PostalAddress that repeats the city and
+  // state inside the street. For a directory that depends on local search,
+  // that is worth correcting in the data as well as at render time.
+  let addrCount = 0;
+  let addrCleared = 0;
+  for (const g of all) {
+    if (g.status !== "active") continue;
+    const current = (g.address || "").trim();
+    if (!current) continue;
+    const street = streetAddressOnly(current, g.city, g.state);
+    if (street === current) continue;
+    if (street === "") addrCleared++;
+    corrections.push({
+      id: g.id,
+      updates: { address: street },
+      reason:
+        street === ""
+          ? `Address held only the locality ("${current}"), which addressLocality/addressRegion already carry — cleared so streetAddress is not populated with a city`
+          : `Strip locality from address: "${current}" -> "${street}". The schema and the JSON-LD both expect street-only`,
+    });
+    addrCount++;
   }
 
   // --- 2. Stale eventDate on scheduled recurring listings ---
@@ -396,6 +424,8 @@ async function main() {
   console.log("AUTO-CORRECTABLE");
   console.log(`  whitespace fixes                 : ${wsCount}`);
   console.log(`  stale eventDate cleared          : ${staleCount}`);
+  console.log(`  addresses reduced to street only : ${addrCount}`);
+  console.log(`    ...of which cleared entirely   : ${addrCleared}`);
   console.log(`  -> ${correctionsPath} (${corrections.length} corrections)\n`);
   console.log("DUPLICATE MERGE (apply separately, after reviewing)");
   console.log(`  duplicate groups                 : ${duplicates.length} (${redundant} redundant listings)`);
