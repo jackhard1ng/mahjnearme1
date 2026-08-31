@@ -229,7 +229,7 @@ async function seriesDescription(eventUrl: string): Promise<string> {
  * session run in two modes.
  */
 function seriesStem(title: string): string {
-  return (title || "")
+  const words = (title || "")
     .toLowerCase()
     .replace(/\bat\s+[a-z]+['\u2019]s\b.*$/i, "")
     // Strip the month, and anything after it. West Chester Girlfriends title
@@ -242,9 +242,22 @@ function seriesStem(title: string): string {
     .replace(/\b(time changed|rescheduled|new time|note|cancelled|canceled)\b.*$/i, "")
     .replace(/[^a-z0-9 ]+/g, " ")
     .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 3)
-    .join(" ");
+    .filter(Boolean);
+  // A title that OPENS with the game name is labelling the instance after it,
+  // not naming a different session. Charlotte's group runs one Thursday-noon
+  // game that rotates venues and titles each week for the venue — "MahJongg
+  // THE CLUBHOUSE", "MahJongg AMELIE'S", "MahJongg HAWTHORNES" — which as
+  // three-word stems became nine candidates for one weekly session.
+  //
+  // Collapsing to the leading game word is safe because it only applies when
+  // the game word comes FIRST. "Advanced American Mah Jongg" and "Beginners
+  // American Mah Jongg" open with Advanced and Beginners, so they stay apart,
+  // as do "Saturday Chinese MahJongg" and "Learn American MahJongg". And the
+  // start time is still part of the key, so two genuinely different sessions
+  // that both open with the game name only merge if they also share an hour.
+  const first = words[0] || "";
+  if (/^(mahjong|mahjongg|mah|majong|riichi)$/.test(first)) return first;
+  return words.slice(0, 3).join(" ");
 }
 
 /**

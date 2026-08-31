@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T16:04:57.981Z",
+  "generatedAt": "2026-08-31T16:31:04.532Z",
   "citiesSearched": 20,
   "citiesFailed": [],
   "note": "Candidates only. Every group here has at least one upcoming event whose TITLE mentions mahjong, a venue with a street address, and a venue+city not already in the directory. Confirm before importing — a venue can be right while the session details are not.",
@@ -91,8 +91,8 @@
     {
       "city": "us--ca--Coronado",
       "status": 200,
-      "slugs": 10,
-      "newSlugs": 6
+      "slugs": 9,
+      "newSlugs": 5
     },
     {
       "city": "us--ca--Laguna Niguel",
@@ -115,8 +115,8 @@
     {
       "city": "us--il--Northbrook",
       "status": 200,
-      "slugs": 16,
-      "newSlugs": 10
+      "slugs": 15,
+      "newSlugs": 9
     },
     {
       "city": "us--nj--Westfield",
@@ -160,180 +160,17 @@
       "dayOfWeek": "thursday",
       "startTime": "12:00 PM",
       "endTime": "3:00 PM",
-      "upcomingCount": 1,
+      "upcomingCount": 9,
       "sampleTitles": [
-        "MahJongg THE CLUBHOUSE "
-      ],
-      "nextDates": [
-        "2026-09-03"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": "Every week on Thursday"
-    },
-    {
-      "group": "https://www.meetup.com/50-shades-of-menopause",
-      "sourceURL": "https://www.meetup.com/50-shades-of-menopause/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Charlotte",
-      "state": "NC",
-      "dayOfWeek": "thursday",
-      "startTime": "12:00 PM",
-      "endTime": "3:00 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "MahJongg AMELIE’S"
-      ],
-      "nextDates": [
-        "2026-09-10"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": "Every week on Thursday"
-    },
-    {
-      "group": "https://www.meetup.com/50-shades-of-menopause",
-      "sourceURL": "https://www.meetup.com/50-shades-of-menopause/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Charlotte",
-      "state": "NC",
-      "dayOfWeek": "thursday",
-      "startTime": "12:00 PM",
-      "endTime": "3:00 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
+        "MahJongg THE CLUBHOUSE ",
+        "MahJongg AMELIE’S",
         "MahJongg HAWTHORNES"
       ],
       "nextDates": [
-        "2026-09-17"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": "Every week on Thursday"
-    },
-    {
-      "group": "https://www.meetup.com/50-shades-of-menopause",
-      "sourceURL": "https://www.meetup.com/50-shades-of-menopause/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Charlotte",
-      "state": "NC",
-      "dayOfWeek": "thursday",
-      "startTime": "12:00 PM",
-      "endTime": "3:00 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "MahJongg RUSTY ONION"
-      ],
-      "nextDates": [
+        "2026-09-03",
+        "2026-09-10",
+        "2026-09-17",
         "2026-09-24"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": "Every week on Thursday"
-    },
-    {
-      "group": "https://www.meetup.com/50-shades-of-menopause",
-      "sourceURL": "https://www.meetup.com/50-shades-of-menopause/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Charlotte",
-      "state": "NC",
-      "dayOfWeek": "thursday",
-      "startTime": "12:00 PM",
-      "endTime": "3:00 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "MahJongg LOCAL DRAFT"
-      ],
-      "nextDates": [
-        "2026-10-01"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": "Every week on Thursday"
-    },
-    {
-      "group": "https://www.meetup.com/50-shades-of-menopause",
-      "sourceURL": "https://www.meetup.com/50-shades-of-menopause/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Charlotte",
-      "state": "NC",
-      "dayOfWeek": "thursday",
-      "startTime": "12:00 PM",
-      "endTime": "3:00 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "MahJongg CROSSRIDGE CAFE"
-      ],
-      "nextDates": [
-        "2026-10-08"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": "Every week on Thursday"
-    },
-    {
-      "group": "https://www.meetup.com/50-shades-of-menopause",
-      "sourceURL": "https://www.meetup.com/50-shades-of-menopause/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Charlotte",
-      "state": "NC",
-      "dayOfWeek": "thursday",
-      "startTime": "12:00 PM",
-      "endTime": "3:00 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "MahJongg THE CRAIC"
-      ],
-      "nextDates": [
-        "2026-10-15"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": "Every week on Thursday"
-    },
-    {
-      "group": "https://www.meetup.com/50-shades-of-menopause",
-      "sourceURL": "https://www.meetup.com/50-shades-of-menopause/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Charlotte",
-      "state": "NC",
-      "dayOfWeek": "thursday",
-      "startTime": "12:00 PM",
-      "endTime": "3:00 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "MahJongg McALISTERS BLAKENEY"
-      ],
-      "nextDates": [
-        "2026-10-22"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": "Every week on Thursday"
-    },
-    {
-      "group": "https://www.meetup.com/50-shades-of-menopause",
-      "sourceURL": "https://www.meetup.com/50-shades-of-menopause/events/",
-      "venueName": "",
-      "address": "",
-      "city": "Charlotte",
-      "state": "NC",
-      "dayOfWeek": "thursday",
-      "startTime": "12:00 PM",
-      "endTime": "3:00 PM",
-      "upcomingCount": 1,
-      "sampleTitles": [
-        "MahJongg COSTUMES! "
-      ],
-      "nextDates": [
-        "2026-10-29"
       ],
       "reviewFlags": [],
       "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
@@ -770,10 +607,6 @@
       "reason": "no upcoming event whose title mentions mahjong"
     },
     {
-      "group": "san-diego-social-chess-club",
-      "reason": "no upcoming event whose title mentions mahjong"
-    },
-    {
       "group": "the-mission-viejo-volleyball-meetup-group",
       "reason": "no upcoming event whose title mentions mahjong"
     },
@@ -879,10 +712,6 @@
     },
     {
       "group": "glenview-game-on",
-      "reason": "no upcoming event whose title mentions mahjong"
-    },
-    {
-      "group": "game-night-mcf-meetup",
       "reason": "no upcoming event whose title mentions mahjong"
     },
     {
