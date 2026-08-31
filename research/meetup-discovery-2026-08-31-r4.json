@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T08:25:14.144Z",
+  "generatedAt": "2026-08-31T08:38:58.201Z",
   "citiesSearched": 20,
   "citiesFailed": [],
   "note": "Candidates only. Every group here has at least one upcoming event whose TITLE mentions mahjong, a venue with a street address, and a venue+city not already in the directory. Confirm before importing — a venue can be right while the session details are not.",
@@ -55,8 +55,8 @@
     {
       "city": "us--va--Arlington",
       "status": 200,
-      "slugs": 9,
-      "newSlugs": 7
+      "slugs": 10,
+      "newSlugs": 8
     },
     {
       "city": "us--de--Wilmington",
@@ -127,28 +127,6 @@
   ],
   "candidates": [
     {
-      "group": "https://www.meetup.com/american-mah-jongg-sun-wed",
-      "sourceURL": "https://www.meetup.com/american-mah-jongg-sun-wed/events/",
-      "venueName": "Wegmans",
-      "address": "53 3rd Ave",
-      "city": "Burlington",
-      "state": "MA",
-      "dayOfWeek": "sunday",
-      "startTime": "10:00 AM",
-      "endTime": "12:00 PM",
-      "upcomingCount": 17,
-      "sampleTitles": [
-        "Sunday Mah Jongg in Burlington"
-      ],
-      "nextDates": [
-        "2026-09-06",
-        "2026-09-13",
-        "2026-09-20",
-        "2026-09-27"
-      ],
-      "meetupRecurrence": ""
-    },
-    {
       "group": "https://www.meetup.com/iwantto",
       "sourceURL": "https://www.meetup.com/iwantto/events/",
       "venueName": "Element Eatery",
@@ -188,49 +166,6 @@
         "2026-09-15"
       ],
       "meetupRecurrence": "Every week on Tuesday until December 29, 2026"
-    },
-    {
-      "group": "https://www.meetup.com/northshore-mahjongg-meetup-group",
-      "sourceURL": "https://www.meetup.com/northshore-mahjongg-meetup-group/events/",
-      "venueName": "Dengeos - Buffalo Grove",
-      "address": "195 W Dundee Rd",
-      "city": "Buffalo Grove",
-      "state": "IL",
-      "dayOfWeek": "monday",
-      "startTime": "6:00 PM",
-      "endTime": "9:00 PM",
-      "upcomingCount": 5,
-      "sampleTitles": [
-        "NorthShore Mahjongg Monday's"
-      ],
-      "nextDates": [
-        "2026-08-31",
-        "2026-09-07",
-        "2026-09-14",
-        "2026-09-21"
-      ],
-      "meetupRecurrence": "Every week on Monday"
-    },
-    {
-      "group": "https://www.meetup.com/northshore-mahjongg-meetup-group",
-      "sourceURL": "https://www.meetup.com/northshore-mahjongg-meetup-group/events/",
-      "venueName": "Dengeos Glenview",
-      "address": "2131 Willow Rd",
-      "city": "Glenview",
-      "state": "IL",
-      "dayOfWeek": "thursday",
-      "startTime": "1:30 PM",
-      "endTime": "4:30 PM",
-      "upcomingCount": 3,
-      "sampleTitles": [
-        "NorthShore Mahjongg Thursday's"
-      ],
-      "nextDates": [
-        "2026-09-03",
-        "2026-09-10",
-        "2026-09-17"
-      ],
-      "meetupRecurrence": "Every week on Thursday"
     },
     {
       "group": "https://www.meetup.com/ada-community-library",
@@ -921,5 +856,21 @@
       "reason": "no upcoming event whose title mentions mahjong"
     }
   ],
-  "skippedVenues": []
+  "skippedVenues": [
+    {
+      "group": "american-mah-jongg-sun-wed",
+      "venue": "Wegmans",
+      "reason": "venue already in the directory"
+    },
+    {
+      "group": "northshore-mahjongg-meetup-group",
+      "venue": "Dengeos - Buffalo Grove",
+      "reason": "venue already in the directory"
+    },
+    {
+      "group": "northshore-mahjongg-meetup-group",
+      "venue": "Dengeos Glenview",
+      "reason": "venue already in the directory"
+    }
+  ]
 }

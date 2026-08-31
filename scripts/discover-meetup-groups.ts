@@ -227,6 +227,35 @@ async function main() {
   const failedCities: { city: string; status: number | null }[] = [];
   const candidateGroups = new Set<string>();
 
+  /**
+   * Whether this venue is already in the directory, allowing for the fact that
+   * a venue is rarely written the same way twice.
+   *
+   * Exact matching missed all four of round 4's biggest finds. Meetup calls
+   * them "Dengeos - Buffalo Grove" and "Dengeos Glenview"; the directory calls
+   * both "Dengeos". Meetup says "Wegmans"; the directory says "Wegmans
+   * Burlington". Each came through as a brand-new venue, and each was in fact
+   * an existing record — in the Wegmans case, four existing records.
+   *
+   * So within the same city, one name containing the other counts as the same
+   * place. The city has to match exactly, which is what keeps this from
+   * merging every Panera in the country.
+   */
+  const knownByCity = new Map<string, string[]>();
+  for (const key of knownVenues) {
+    const [v, c] = key.split("|");
+    if (!v || !c) continue;
+    if (!knownByCity.has(c)) knownByCity.set(c, []);
+    knownByCity.get(c)!.push(v);
+  }
+  const venueIsKnown = (name: string, city: string) => {
+    const v = norm(name);
+    const c = norm(city);
+    if (!v || !c) return false;
+    if (knownVenues.has(v + "|" + c)) return true;
+    return (knownByCity.get(c) || []).some((k) => k.length > 3 && v.length > 3 && (k.includes(v) || v.includes(k)));
+  };
+
   // Also exclude anything an earlier batch already produced. Those listings
   // are not in Firestore yet — they are review files — so the live API cannot
   // see them, and without this a later run rediscovers them. Round 3 turned up
@@ -342,8 +371,7 @@ async function main() {
         venueless.push(...evs);
         continue;
       }
-      const venueKey = norm(v.name) + "|" + norm(v.city);
-      if (knownVenues.has(venueKey)) { skippedVenues.push({ group, venue: v.name, reason: "venue already in the directory" }); continue; }
+      if (venueIsKnown(v.name, v.city)) { skippedVenues.push({ group, venue: v.name, reason: "venue already in the directory" }); continue; }
       const days = [...new Set(evs.map((e) => DAYS[new Date(e.date + "T12:00:00").getDay()]))];
       candidates.push({
         group: `https://www.meetup.com/${group}`,

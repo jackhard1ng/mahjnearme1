@@ -103,3 +103,26 @@ which is exactly why no script here stamps `lastVerified`.
 **875 live listings carry no source URL at all.** They can never be re-verified
 by any automated pass, and they are 38% of the live inventory. Getting a source
 onto those is the structural fix behind the "Not recently verified" badge.
+
+### `burlington-and-dengeos.json` — 8 ops, 3 updates + 5 deactivations
+
+Hand-built from Meetup verification on 2026-08-31, not generated. Two clusters
+where the directory holds several records for one session.
+
+**Burlington** — four active records, one session. It runs at Wegmans,
+53 3rd Ave, Burlington **MA**, Sundays 10:00–12:00. Two of the four are filed
+in Burlington **Vermont** with Vermont coordinates, while citing a group whose
+every event is in Massachusetts; Wegmans has no Vermont store and exactly one
+Burlington. Two records cite `sunday-mah-jongg-burlington`, which returns
+"Group not found". `burlington-ma-wegmans-sunday-mj-1` is kept and gains the
+schedule and the live group URL; the other three go inactive.
+
+**Dengeos** — four active records, two sessions, in identical pairs that share
+a name and therefore a detail-page slug. The kept records gain schedules they
+never had (Buffalo Grove Mondays 18:00–21:00, Glenview Thursdays 13:30–16:30)
+and the live group URL, since `northshore-mahjongg` is also "Group not found".
+
+Supersedes `meetup-moved-groups-2.json`, which only fixed the URL and has been
+removed.
+
+Nothing is deleted; every deactivation is reversible.

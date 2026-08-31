@@ -47,11 +47,49 @@ const esc = (v: string) => v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 type Listing = Record<string, unknown>;
 
+/**
+ * Venue -> address as the discovery runs actually recorded it.
+ *
+ * The listing JSONs are written by hand from those runs, and a hand-written
+ * address can be wrong in a way nothing else catches: this batch shipped
+ * Element Eatery at "3729 Spring Grove Ave" when its Meetup venue record says
+ * 5350 Medpace Way. An address that looks plausible and is not the one in the
+ * source is worse than a missing one, because nothing about it reads as wrong.
+ */
+/** Case, whitespace and trailing punctuation are not differences worth failing on. */
+function normAddr(v: string): string {
+  return v.toLowerCase().replace(/\s+/g, " ").replace(/[.,\s]+$/, "").trim();
+}
+
+function discoveredAddresses(dir: string): Map<string, Set<string>> {
+  const out = new Map<string, Set<string>>();
+  for (const f of fs.readdirSync(dir)) {
+    if (!/^meetup-discovery-.*\.json$/.test(f)) continue;
+    let run: { candidates?: { venueName?: string; address?: string; city?: string }[] };
+    try {
+      run = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
+    } catch {
+      continue;
+    }
+    for (const c of run.candidates || []) {
+      const v = s(c.venueName);
+      const a = s(c.address);
+      if (!v || !a) continue;
+      const key = `${v.toLowerCase()}|${s(c.city).toLowerCase()}`;
+      if (!out.has(key)) out.set(key, new Set());
+      out.get(key)!.add(a);
+    }
+  }
+  return out;
+}
+
 const problems: string[] = [];
 const warnings: string[] = [];
 const ids = new Map<string, string>();
 const sessions = new Map<string, string>();
 let total = 0;
+
+const discovered = discoveredAddresses(DIR);
 
 const files = fs
   .readdirSync(DIR)
@@ -102,6 +140,30 @@ for (const file of files) {
     }
     if (addr && state && new RegExp(`,\\s*${esc(state)}\\b`, "i").test(addr)) {
       problems.push(`${at}  address repeats the state: "${addr}"`);
+    }
+    // Cross-check the address against what the discovery run recorded. Venue
+    // names differ slightly between a run and a write-up ("Dengeos" vs
+    // "Dengeos - Buffalo Grove"), so match either direction of containment.
+    if (addr && s(l.venueName)) {
+      const vn = s(l.venueName).toLowerCase();
+      const cy = city.toLowerCase();
+      for (const [key, addrs] of discovered) {
+        const [dv, dc] = key.split("|");
+        if (dc !== cy) continue;
+        if (!dv.startsWith(vn) && !vn.startsWith(dv)) continue;
+        // Compare normalised: the write-up legitimately trims the locality out
+        // of the street field and drops trailing punctuation, so the listing
+        // value being a prefix of the recorded one is correct, not a defect.
+        const na = normAddr(addr);
+        const okAddr = [...addrs].some((x) => {
+          const nx = normAddr(x);
+          return nx === na || nx.startsWith(na + ",") || nx.startsWith(na + " ");
+        });
+        if (!okAddr) {
+          problems.push(`${at}  address "${addr}" is not what discovery recorded for ${s(l.venueName)} in ${city} (${[...addrs].map((x) => `"${x}"`).join(", ")})`);
+        }
+        break;
+      }
     }
     if (addr && !s(l.venueName)) {
       // Real, and sometimes correct: a couple of Meetup organisers type the
