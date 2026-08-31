@@ -1,5 +1,10 @@
 /**
- * Loads and normalizes the real listings data from /public/listings.json.
+ * Loads and normalizes the real listings data from /data/listings.json.
+ *
+ * Deliberately NOT under public/. The file carries organiser emails, phone
+ * numbers and street addresses, which the site paywalls behind
+ * `canSeeDetails`; served statically it handed the whole paywalled dataset to
+ * anyone who guessed the filename.
  * This replaces mock-data.ts as the primary data source.
  *
  * Handles all the messy real-world data: inconsistent type names,
@@ -285,7 +290,7 @@ let _cachedRawData: ListingsJSON | null = null;
 
 function loadRawData(): ListingsJSON {
   if (_cachedRawData) return _cachedRawData;
-  _cachedRawData = require("../../public/listings.json") as ListingsJSON;
+  _cachedRawData = require("../../data/listings.json") as ListingsJSON;
   return _cachedRawData;
 }
 

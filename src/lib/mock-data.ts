@@ -1,5 +1,5 @@
 /**
- * Data access layer -- backed by /public/listings.json as a synchronous fallback.
+ * Data access layer -- backed by /data/listings.json as a synchronous fallback.
  *
  * This file re-exports the normalized data under the same names that the rest of the
  * codebase expects (mockGames, getCitiesWithGames, etc.) so no import changes are needed

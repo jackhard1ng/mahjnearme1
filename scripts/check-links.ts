@@ -15,7 +15,7 @@
 import * as fs from "fs";
 import * as path from "path";
 
-const LISTINGS_PATH = path.join(process.cwd(), "public", "listings.json");
+const LISTINGS_PATH = path.join(process.cwd(), "data", "listings.json");
 const TIMEOUT_MS = 10_000;
 const RATE_LIMIT_MS = 200; // 5 req/sec
 const URL_FIELDS = ["website", "sourceURL", "registrationLink", "facebookGroup", "instagram"] as const;
