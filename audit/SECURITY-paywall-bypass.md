@@ -2,6 +2,22 @@
 
 Found 2026-08-31. **Not fixed, deliberately.** See "Why this is a note" below.
 
+## Update, later the same day: this matters more than first written
+
+The original note was written believing the site had a handful of subscribers.
+It has **88 active paid accounts** (`/api/subscriber-count`, 2026-08-31).
+
+That changes the character of the problem. This is no longer a leak of data
+nobody is paying for. 88 people are paying $4.99 a month for addresses, phone
+numbers and registration links that anyone can fetch with one unauthenticated
+curl. The fix should be scheduled, not filed.
+
+The reason it is still not fixed here is unchanged and still holds: closing it
+needs a Firebase token check that cannot be tested in this environment, and a
+broken entitlement check would silently strip every address and phone number
+from those same 88 paying accounts. That is a worse outcome than the leak and
+far harder to notice. It needs one session with a real subscriber login.
+
 ## What it is
 
 `GET /api/listings` requires no authentication and returns every field of

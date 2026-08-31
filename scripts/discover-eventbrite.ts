@@ -181,6 +181,26 @@ function styleOf(text: string): [string, string] {
   return ["american", "STYLE NOT STATED — recorded as american on the base rate for US social play"];
 }
 
+/**
+ * Strip a date qualifier off a recurring session's name.
+ *
+ * Organisers title each instance with its date — "Mah Jongg Open Play Happy
+ * Hour - Sept 14", "Level Up your Mah Jongg Strategy - Sept '26", "Rise and
+ * Shine! August 31st". On a one-off that is accurate. On a recurring listing
+ * it is wrong the day after, and a card reading "Sept 14" in November is worse
+ * than one with no date at all.
+ *
+ * Only applied to recurring listings; a dated event keeps its full title.
+ */
+function nameWithoutDate(title: string): string {
+  return title
+    .replace(/[\s\-–—,:]+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s*\d{0,2}(?:st|nd|rd|th)?(?:\s*[,'’]?\s*\d{2,4})?\s*$/i, "")
+    .replace(/[\s\-–—,:]+\d{1,2}\/\d{1,2}(?:\/\d{2,4})?\s*$/, "")
+    .replace(/[\s\-–—,:]+(?:20\d\d)\s*$/, "")
+    .replace(/[\s\-–—,:]+$/, "")
+    .trim() || title.trim();
+}
+
 function typeOf(title: string): string {
   if (LEAGUE.test(title)) return "league";
   return LESSON.test(title) ? "lesson" : "open_play";
@@ -240,15 +260,16 @@ function toListings(cands: Record<string, unknown>[], passNote: string): Record<
         "a look before featuring it.";
     }
 
+    const isRecurring = occurrences >= 2 && days.length > 0;
     out.push({
-      id, name: title.slice(0, 110), type, gameStyle,
+      id, name: (isRecurring ? nameWithoutDate(title) : title).slice(0, 110), type, gameStyle,
       city: c.city, state: c.state, generalArea: "",
       venueName: bare ? "" : venue, address: addressIsJustTheCity ? "" : address,
-      isRecurring: occurrences >= 2 && days.length > 0,
-      dayOfWeek: occurrences >= 2 && days.length > 0 ? days.join("|") : "",
+      isRecurring,
+      dayOfWeek: isRecurring ? days.join("|") : "",
       startTime: c.startTime, endTime: c.endTime,
-      frequency: occurrences >= 2 && days.length > 0 ? frequencyOf(dates) : "",
-      eventDate: occurrences >= 2 && days.length > 0 ? null : dates[0],
+      frequency: isRecurring ? frequencyOf(dates) : "",
+      eventDate: isRecurring ? null : dates[0],
       cost: "", costAmount: null,
       contactName: "", contactEmail: "", contactPhone: "",
       website: c.url, instagram: "", facebookGroup: "", registrationLink: c.url,
