@@ -231,6 +231,14 @@ function seriesStem(title: string): string {
   return (title || "")
     .toLowerCase()
     .replace(/\bat\s+[a-z]+['\u2019]s\b.*$/i, "")
+    // Strip the month, and anything after it. West Chester Girlfriends title
+    // one weekly Monday series "Mah Jongg- August", "- October", "- November",
+    // "- December"; keyed on the raw title that is five separate sessions on
+    // the same night. A month in a title labels an instance, not a series.
+    .replace(/\b(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sept?|oct|nov|dec)\b.*$/i, "")
+    // Likewise a date, a year, or a note about this instance.
+    .replace(/\b(20\d\d)\b.*$/, "")
+    .replace(/\b(time changed|rescheduled|new time|note|cancelled|canceled)\b.*$/i, "")
     .replace(/[^a-z0-9 ]+/g, " ")
     .split(/\s+/)
     .filter(Boolean)

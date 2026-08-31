@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T15:22:20.718Z",
+  "generatedAt": "2026-08-31T15:30:02.068Z",
   "citiesSearched": 20,
   "citiesFailed": [],
   "note": "Candidates only. Every group here has at least one upcoming event whose TITLE mentions mahjong, a venue with a street address, and a venue+city not already in the directory. Confirm before importing — a venue can be right while the session details are not.",
@@ -137,111 +137,21 @@
       "dayOfWeek": "monday",
       "startTime": "6:00 PM",
       "endTime": "8:00 PM",
-      "upcomingCount": 1,
+      "upcomingCount": 16,
       "sampleTitles": [
-        "Mah Jongg- August"
-      ],
-      "nextDates": [
-        "2026-08-31"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": ""
-    },
-    {
-      "group": "https://www.meetup.com/west-chester-girlfriends-meetup-group",
-      "sourceURL": "https://www.meetup.com/west-chester-girlfriends-meetup-group/events/",
-      "venueName": "",
-      "address": "",
-      "city": "King of Prussia",
-      "state": "PA",
-      "dayOfWeek": "monday",
-      "startTime": "6:00 PM",
-      "endTime": "8:00 PM",
-      "upcomingCount": 2,
-      "sampleTitles": [
-        "Mah Jongg"
-      ],
-      "nextDates": [
-        "2026-09-14",
-        "2026-09-21"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": ""
-    },
-    {
-      "group": "https://www.meetup.com/west-chester-girlfriends-meetup-group",
-      "sourceURL": "https://www.meetup.com/west-chester-girlfriends-meetup-group/events/",
-      "venueName": "",
-      "address": "",
-      "city": "King of Prussia",
-      "state": "PA",
-      "dayOfWeek": "monday",
-      "startTime": "6:00 PM",
-      "endTime": "8:00 PM",
-      "upcomingCount": 4,
-      "sampleTitles": [
+        "Mah Jongg- August",
+        "Mah Jongg",
         "Mah Jongg- October"
       ],
       "nextDates": [
-        "2026-10-05",
-        "2026-10-12",
-        "2026-10-19",
-        "2026-10-26"
+        "2026-08-31",
+        "2026-09-14",
+        "2026-09-21",
+        "2026-10-05"
       ],
       "reviewFlags": [],
       "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": "Every week on Monday until December 28, 2026"
-    },
-    {
-      "group": "https://www.meetup.com/west-chester-girlfriends-meetup-group",
-      "sourceURL": "https://www.meetup.com/west-chester-girlfriends-meetup-group/events/",
-      "venueName": "",
-      "address": "",
-      "city": "King of Prussia",
-      "state": "PA",
-      "dayOfWeek": "monday",
-      "startTime": "6:00 PM",
-      "endTime": "8:00 PM",
-      "upcomingCount": 5,
-      "sampleTitles": [
-        "Mah Jongg- November",
-        "Mah Jongg-November"
-      ],
-      "nextDates": [
-        "2026-11-02",
-        "2026-11-09",
-        "2026-11-16",
-        "2026-11-23"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": "Every week on Monday until December 28, 2026"
-    },
-    {
-      "group": "https://www.meetup.com/west-chester-girlfriends-meetup-group",
-      "sourceURL": "https://www.meetup.com/west-chester-girlfriends-meetup-group/events/",
-      "venueName": "",
-      "address": "",
-      "city": "King of Prussia",
-      "state": "PA",
-      "dayOfWeek": "monday",
-      "startTime": "6:00 PM",
-      "endTime": "8:00 PM",
-      "upcomingCount": 4,
-      "sampleTitles": [
-        "Mah Jongg- December"
-      ],
-      "nextDates": [
-        "2026-12-07",
-        "2026-12-14",
-        "2026-12-21",
-        "2026-12-28"
-      ],
-      "reviewFlags": [],
-      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
-      "meetupRecurrence": "Every week on Monday until December 28, 2026"
+      "meetupRecurrence": ""
     },
     {
       "group": "https://www.meetup.com/meetup-group-ftwtfpis",
@@ -746,7 +656,7 @@
       "reason": "no upcoming event whose title mentions mahjong"
     },
     {
-      "group": "the-pool-turtle",
+      "group": "super-samba-sisters-of-woodstock",
       "reason": "no upcoming event whose title mentions mahjong"
     },
     {
@@ -754,7 +664,7 @@
       "reason": "no upcoming event whose title mentions mahjong"
     },
     {
-      "group": "super-samba-sisters-of-woodstock",
+      "group": "the-pool-turtle",
       "reason": "no upcoming event whose title mentions mahjong"
     },
     {
