@@ -1,15 +1,19 @@
 {
-  "generatedAt": "2026-08-30T23:55:57.700Z",
+  "generatedAt": "2026-08-31T00:13:55.164Z",
   "stats": {
-    "fromId": 469,
-    "fromName": 76,
-    "fromDescription": 90,
-    "timeAlsoRecovered": 224,
+    "dayFromId": 469,
+    "dayFromName": 106,
+    "dayFromDescription": 83,
+    "dayFromRange": 1,
+    "timeFromId": 224,
+    "timeFromText": 183,
+    "endTimeRecovered": 206,
     "monthly": 40,
-    "skippedAmbiguous": 9,
-    "skippedNegated": 0,
+    "skippedAmbiguous": 7,
     "skippedConflict": 1,
-    "noDay": 1225
+    "skippedNegated": 0,
+    "alreadyComplete": 256,
+    "nothingFound": 1297
   },
   "ambiguous": [
     {
@@ -66,22 +70,6 @@
       "days": [
         "friday",
         "saturday"
-      ]
-    },
-    {
-      "id": "washington-township-rec-center-mah-jongg-centerville-oh-thur-4629e7db",
-      "name": "Washington Township Rec Center Mah Jongg (Thu)",
-      "days": [
-        "tuesday",
-        "thursday"
-      ]
-    },
-    {
-      "id": "washington-township-rec-center-mah-jongg-centerville-oh-tues-0aad92f0",
-      "name": "Washington Township Rec Center Mah Jongg (Tue)",
-      "days": [
-        "tuesday",
-        "thursday"
       ]
     }
   ],

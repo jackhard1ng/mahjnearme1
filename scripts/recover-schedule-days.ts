@@ -1,24 +1,24 @@
 #!/usr/bin/env npx tsx
 /**
- * Recover the missing `recurringSchedule.dayOfWeek` on recurring listings by
- * reading the day out of the listing's own name and description.
+ * Fill in missing `recurringSchedule` day and time on recurring listings by
+ * reading them out of the listing's own id, name and description.
  *
  * Why this matters more than it looks. Of 2,253 visible recurring listings,
  * 1,870 (83%) carry no day of week — either `recurringSchedule` is null or its
  * `dayOfWeek` is an empty string. getEventTiming cannot compute a next
  * occurrence without a weekday, so every one of those listings:
  *
- *   - renders a bare "Recurring" label instead of a real next date,
+ *   - renders a bare "Schedule TBD" instead of a real next date,
  *   - sorts last wherever the site orders by soonest,
  *   - and never appears in the homepage carousels or any "what's on this week"
  *     surface, all of which filter on a non-null nextDate.
  *
  * For a directory whose whole promise is "find a game near you", 83% of the
- * inventory currently cannot answer "when".
+ * inventory could not answer "when".
  *
- * The day is very often already written in the listing text — "Thursday Social
- * Play", "Weekly Monday afternoon mahjong meetup at the Davis Senior Center".
- * This extracts it into the structured field so the timing helper can use it.
+ * Times matter too, if less dramatically: "Thursday" is a much weaker card
+ * than "Thursday at 3:00 PM", and the timing helper needs a start time to work
+ * out whether a game is happening right now.
  *
  * Usage:
  *   npx tsx scripts/recover-schedule-days.ts
@@ -27,33 +27,40 @@
  * Then review and apply:
  *   ADMIN_KEY=... npx tsx scripts/apply-audit-corrections.ts audit/schedule-days.json --dry-run
  *
- * Guards, each of which exists because the naive version got it wrong on real
- * data:
+ * SOURCES, most trustworthy first:
  *
- *   Negation. "(Skipped on Tuesdays the AAUW Travel Group meets.)" names the
- *   day the group does NOT meet. Matching that would schedule the listing on
- *   precisely the wrong day, so a day preceded by skip/except/closed/no/
- *   excluding within a short window is discarded.
+ *   1. The id. Ids were generated from structured data at import
+ *      (`...-prescott-az-tuesday-13-00-0312a13c`), so the day — and often the
+ *      start time — was known and simply lost on the way into
+ *      recurringSchedule. Machine-written, not prose.
+ *   2. The name. "Thursday Social Play".
+ *   3. The description. "Weekly Monday afternoon mahjong at the Davis Senior
+ *      Center, 12-4 PM."
  *
- *   Ordinals. "on the 3rd Tuesday at 6pm" and "first and third Wednesdays" are
- *   monthly, not weekly. Those set frequency "monthly" rather than inheriting
- *   the "weekly" default, which would otherwise promise a game every week that
- *   does not happen.
+ * GUARDS, each added because real data broke the naive version:
  *
- *   Ambiguity. If more than one distinct weekday survives, the listing is
- *   skipped rather than guessed at. Multi-day sessions do exist and the schema
- *   supports "tuesday|thursday", but a description that merely mentions two
- *   days is not evidence of one.
+ *   Negation. "Tuesdays 1-3pm. (Skipped on Tuesdays the Travel Group meets.)"
+ *   states a schedule AND an exception to it, so a day is only discarded when
+ *   EVERY mention of it is negated — not merely when one is.
  *
- *   Name beats description. A day in the title is far more likely to be the
- *   schedule than one buried in prose.
+ *   Ordinals. "on the 3rd Tuesday at 6pm", "first and third Wednesdays" are
+ *   monthly. Those set frequency "monthly" rather than inheriting the "weekly"
+ *   default, which would promise a weekly game that does not happen.
  *
- * This only ever fills a field that is currently empty. It never overwrites an
- * existing dayOfWeek.
+ *   Conflict. Where the id and the text disagree on the day, the listing goes
+ *   to review. There is no way to tell which is right.
+ *
+ *   Ambiguity. Two or more distinct weekdays with no explicit range goes to
+ *   review rather than a guess. An explicit range ("Mon-Fri") is different —
+ *   that IS a statement about multiple days, and the schema supports
+ *   "monday|tuesday|...".
+ *
+ * Existing values are never overwritten. This only fills empty fields.
  */
 
 import fs from "fs";
 import path from "path";
+import { parseDayRange, parseTimeRange } from "./lib/parse-schedule-text";
 
 const args = process.argv.slice(2);
 const BASE_URL = args.includes("--url")
@@ -62,21 +69,12 @@ const BASE_URL = args.includes("--url")
 const OUT_DIR = args.includes("--out") ? args[args.indexOf("--out") + 1] : "audit";
 
 const DAYS = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-const DAY_RE = new RegExp(`\\b(${DAYS.join("|")})s?\\b`, "gi");
 
 /** Words that mean "not this day" when they appear just before it. */
 const NEGATION = /\b(skip(?:ped|ping)?|except|excluding|closed|cancell?ed|no|not|other than)\b/i;
 /** Ordinal qualifiers that make a weekday monthly rather than weekly. */
 const ORDINAL = /\b(1st|2nd|3rd|4th|5th|first|second|third|fourth|last)\b/i;
 
-/**
- * Many ids encode the day, and often the start time, directly:
- *   aauw-prescott-mah-jongg-prescott-az-tuesday-13-00-0312a13c
- * These ids were generated from structured data at import time, which means
- * the day WAS known and was simply lost on the way into recurringSchedule.
- * That makes the id the most reliable source available — it is machine
- * written, not prose — so it is tried before the name or description.
- */
 const ID_DAY_TIME = new RegExp(`-(${DAYS.join("|")})-(\\d{1,2})-(\\d{2})(?:-|$)`);
 const ID_DAY = new RegExp(`-(${DAYS.join("|")})(?:-|$)`);
 
@@ -93,6 +91,13 @@ function fromId(id: string): { day: string; startTime: string } | null {
   return dayOnly ? { day: dayOnly[1], startTime: "" } : null;
 }
 
+interface Schedule {
+  dayOfWeek?: string;
+  startTime?: string;
+  endTime?: string;
+  frequency?: string;
+}
+
 interface Listing {
   id: string;
   name: string;
@@ -103,7 +108,7 @@ interface Listing {
   eventDate: string | null;
   description?: string;
   howToJoin?: string;
-  recurringSchedule?: { dayOfWeek?: string; startTime?: string; endTime?: string; frequency?: string } | null;
+  recurringSchedule?: Schedule | null;
 }
 
 interface Correction {
@@ -119,40 +124,85 @@ function isExpired(g: Listing, today: Date): boolean {
   return new Date(y, m - 1, d) < today;
 }
 
-interface Extraction {
-  days: string[];
-  monthly: boolean;
-  negatedDays: string[];
+/**
+ * Weekday mentions in a blob, with the negation and ordinal guards applied.
+ * `days` excludes any day whose every mention was negated.
+ */
+/** Unambiguous full-word forms. Always trusted. */
+const DAY_FULL: Record<string, RegExp> = {
+  monday: /\bmondays?\b/gi,
+  tuesday: /\btuesdays?\b/gi,
+  wednesday: /\bwednesdays?\b/gi,
+  thursday: /\bthursdays?\b/gi,
+  friday: /\bfridays?\b/gi,
+  saturday: /\bsaturdays?\b/gi,
+  sunday: /\bsundays?\b/gi,
+};
+
+/**
+ * Three-letter forms. These collide with ordinary words and proper nouns —
+ * real listings contain "Valley of the Sun JCC", "Neon Sun Cafe" and "Rising
+ * Sun Games", every one of which would otherwise register as a Sunday game.
+ * So an abbreviation only counts inside an obvious schedule context: wrapped
+ * in parentheses ("Mah Jongg (Thu)"), joined to another day ("Mon-Fri",
+ * "Wed & Fri"), or immediately followed by a time ("Thu 9 AM").
+ *
+ * "sun" is omitted entirely. It is by far the most collision-prone of the
+ * seven and the handful of listings it would win are not worth the false
+ * positives; a genuine Sunday game almost always writes "Sunday" in full.
+ */
+const DAY_ABBR: Record<string, RegExp> = {
+  monday: /\bmon\b\.?/gi,
+  tuesday: /\btues?\b\.?/gi,
+  wednesday: /\bweds?\b\.?/gi,
+  thursday: /\bthur?s?\b\.?/gi,
+  friday: /\bfri\b\.?/gi,
+  saturday: /\bsat\b\.?/gi,
+};
+
+const OTHER_DAY_TOKEN =
+  "mon|tues?|weds?|thur?s?|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday";
+
+/** Does this abbreviation sit somewhere that actually reads as a schedule? */
+function inScheduleContext(text: string, start: number, end: number): boolean {
+  const before = text.slice(Math.max(0, start - 3), start);
+  const after = text.slice(end, end + 16);
+  if (/\($/.test(before) && /^\s*\)/.test(after)) return true; // "(Thu)"
+  if (new RegExp(`^\\s*[-–—&,/]\\s*(${OTHER_DAY_TOKEN})\\b`, "i").test(after)) return true; // "Mon-Fri"
+  if (new RegExp(`(${OTHER_DAY_TOKEN})\\s*[-–—&,/]\\s*$`, "i").test(before)) return true;
+  if (/^\.?\s*\d{1,2}(:\d{2})?\s*(a\.?m|p\.?m|[-–—])/i.test(after)) return true; // "Thu 9 AM"
+  return false;
 }
 
-/** Pull weekday mentions out of a blob, applying the negation and ordinal guards. */
-function extract(text: string): Extraction {
-  // Count positive and negated mentions separately per day. A day is only
-  // discarded when EVERY mention of it is negated.
-  const positive = new Map<string, number>();
-  const negatedCount = new Map<string, number>();
+function extractDays(text: string): { days: string[]; monthly: boolean; negatedOnly: string[] } {
+  const positive = new Set<string>();
+  const negated = new Set<string>();
   let monthly = false;
 
-  for (const m of text.matchAll(DAY_RE)) {
-    const day = m[0].toLowerCase().replace(/s$/, "");
-    const idx = m.index ?? 0;
-    // Look back far enough to catch "skipped on Tuesdays" / "closed Mondays"
-    // but not so far that an unrelated earlier clause poisons the match.
+  const record = (day: string, idx: number) => {
     const before = text.slice(Math.max(0, idx - 30), idx);
-
     if (NEGATION.test(before)) {
-      negatedCount.set(day, (negatedCount.get(day) || 0) + 1);
-      continue;
+      negated.add(day);
+      return;
     }
     if (ORDINAL.test(before)) monthly = true;
-    positive.set(day, (positive.get(day) || 0) + 1);
+    positive.add(day);
+  };
+
+  for (const [day, re] of Object.entries(DAY_FULL)) {
+    re.lastIndex = 0;
+    for (const m of text.matchAll(re)) record(day, m.index ?? 0);
+  }
+  for (const [day, re] of Object.entries(DAY_ABBR)) {
+    re.lastIndex = 0;
+    for (const m of text.matchAll(re)) {
+      const i = m.index ?? 0;
+      if (inScheduleContext(text, i, i + m[0].length)) record(day, i);
+    }
   }
 
-  // "Weekly mah jongg ... Tuesdays 1-3pm. (Skipped on Tuesdays the Travel
-  // Group meets.)" states the schedule AND an exception to it. Tuesday is
-  // still the day, so only drop a day with no positive mention at all.
-  const negatedOnly = [...negatedCount.keys()].filter((d) => !positive.has(d));
-  return { days: [...positive.keys()], monthly, negatedDays: negatedOnly };
+  const negatedOnly = [...negated].filter((d) => !positive.has(d));
+  return { days: [...positive], monthly, negatedOnly };
 }
 
 async function main() {
@@ -166,87 +216,134 @@ async function main() {
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-
   const recurring = all.filter((g) => g.status === "active" && !isExpired(g, today) && g.isRecurring);
-  const missing = recurring.filter(
-    (g) => !g.recurringSchedule || !(g.recurringSchedule.dayOfWeek || "").trim()
-  );
-
-  console.log(`\n  visible recurring        : ${recurring.length}`);
-  console.log(`  already have a dayOfWeek : ${recurring.length - missing.length}`);
-  console.log(`  missing a dayOfWeek      : ${missing.length}\n`);
 
   const corrections: Correction[] = [];
   const stats = {
-    fromId: 0, fromName: 0, fromDescription: 0, timeAlsoRecovered: 0, monthly: 0,
-    skippedAmbiguous: 0, skippedNegated: 0, skippedConflict: 0, noDay: 0,
+    dayFromId: 0, dayFromName: 0, dayFromDescription: 0, dayFromRange: 0,
+    timeFromId: 0, timeFromText: 0, endTimeRecovered: 0,
+    monthly: 0, skippedAmbiguous: 0, skippedConflict: 0, skippedNegated: 0,
+    alreadyComplete: 0, nothingFound: 0,
   };
   const ambiguous: { id: string; name: string; days: string[] }[] = [];
   const conflicts: { id: string; name: string; idDay: string; textDay: string }[] = [];
 
-  for (const g of missing) {
-    const idHit = fromId(g.id);
-    const nameHit = extract(g.name);
-    const descHit = extract(`${g.description || ""} ${g.howToJoin || ""}`);
-    const textHit = nameHit.days.length ? nameHit : descHit;
+  for (const g of recurring) {
+    const cur: Schedule = g.recurringSchedule || {};
+    const curDay = (cur.dayOfWeek || "").trim();
+    const curStart = (cur.startTime || "").trim();
+    const curEnd = (cur.endTime || "").trim();
 
-    let day: string | null = null;
-    let via = "";
-    let startTime = g.recurringSchedule?.startTime || "";
-    let monthly = false;
-
-    if (idHit) {
-      // Where the text also names a single day, it must agree. A disagreement
-      // means one of the two is wrong and there is no way to tell which, so
-      // the listing goes to review rather than being guessed at.
-      if (textHit.days.length === 1 && textHit.days[0] !== idHit.day) {
-        stats.skippedConflict++;
-        conflicts.push({ id: g.id, name: g.name.trim(), idDay: idHit.day, textDay: textHit.days[0] });
-        continue;
-      }
-      day = idHit.day;
-      via = "id";
-      if (!startTime && idHit.startTime) {
-        startTime = idHit.startTime;
-        stats.timeAlsoRecovered++;
-      }
-      monthly = textHit.days.length === 1 && textHit.monthly;
-      stats.fromId++;
-    } else {
-      if (!textHit.days.length) {
-        if (nameHit.negatedDays.length || descHit.negatedDays.length) stats.skippedNegated++;
-        else stats.noDay++;
-        continue;
-      }
-      if (textHit.days.length > 1) {
-        stats.skippedAmbiguous++;
-        ambiguous.push({ id: g.id, name: g.name.trim(), days: textHit.days });
-        continue;
-      }
-      day = textHit.days[0];
-      via = nameHit.days.length ? "name" : "description";
-      monthly = textHit.monthly;
-      if (via === "name") stats.fromName++;
-      else stats.fromDescription++;
+    if (curDay && curStart && curEnd) {
+      stats.alreadyComplete++;
+      continue;
     }
 
-    const frequency = monthly ? "monthly" : g.recurringSchedule?.frequency || "weekly";
+    const text = `${g.name} ${g.description || ""} ${g.howToJoin || ""}`;
+    const idHit = fromId(g.id);
+    const nameHit = extractDays(g.name);
+    const descHit = extractDays(`${g.description || ""} ${g.howToJoin || ""}`);
+    const textHit = nameHit.days.length ? nameHit : descHit;
+    const via = nameHit.days.length ? "name" : "description";
+
+    // ---- day ----
+    let day = curDay;
+    let daySource = "";
+    let monthly = false;
+
+    if (!day) {
+      if (idHit) {
+        if (textHit.days.length === 1 && textHit.days[0] !== idHit.day) {
+          stats.skippedConflict++;
+          conflicts.push({ id: g.id, name: g.name.trim(), idDay: idHit.day, textDay: textHit.days[0] });
+          continue;
+        }
+        day = idHit.day;
+        daySource = "id";
+        monthly = textHit.days.length === 1 && textHit.monthly;
+        stats.dayFromId++;
+      } else if (textHit.days.length === 1) {
+        day = textHit.days[0];
+        daySource = via;
+        monthly = textHit.monthly;
+        if (via === "name") stats.dayFromName++;
+        else stats.dayFromDescription++;
+      } else if (textHit.days.length > 1) {
+        // An explicit range IS a statement about several days; a bare mention
+        // of two days is not.
+        const range = parseDayRange(text);
+        if (range.length > 1) {
+          day = range.join("|");
+          daySource = "day range";
+          stats.dayFromRange++;
+        } else {
+          stats.skippedAmbiguous++;
+          ambiguous.push({ id: g.id, name: g.name.trim(), days: textHit.days });
+          continue;
+        }
+      } else if (nameHit.negatedOnly.length || descHit.negatedOnly.length) {
+        stats.skippedNegated++;
+        continue;
+      }
+    }
+
+    // ---- times ----
+    let startTime = curStart;
+    let endTime = curEnd;
+    let timeSource = "";
+
+    if (!startTime && idHit?.startTime) {
+      startTime = idHit.startTime;
+      timeSource = "id";
+      stats.timeFromId++;
+    }
+    if (!startTime || !endTime) {
+      const t = parseTimeRange(text);
+      if (t) {
+        if (!startTime) {
+          startTime = t.startTime;
+          timeSource = timeSource || "text";
+          stats.timeFromText++;
+        }
+        // The start may have come from the id and the end from prose. Those
+        // are different sources, so they can contradict — only accept an end
+        // that actually sits after the start we already have.
+        if (!endTime && t.endTime && (!startTime || t.endTime > startTime)) {
+          endTime = t.endTime;
+          timeSource = timeSource || "text";
+          stats.endTimeRecovered++;
+        }
+      }
+    }
+
+    const changedDay = day !== curDay;
+    const changedTime = startTime !== curStart || endTime !== curEnd;
+    if (!changedDay && !changedTime) {
+      stats.nothingFound++;
+      continue;
+    }
     if (monthly) stats.monthly++;
 
-    const sched = {
-      dayOfWeek: day,
-      startTime,
-      endTime: g.recurringSchedule?.endTime || "",
-      frequency,
-    };
+    const parts: string[] = [];
+    if (changedDay) parts.push(`dayOfWeek "${day}" from the ${daySource}`);
+    if (startTime !== curStart) parts.push(`startTime ${startTime} from the ${timeSource}`);
+    if (endTime !== curEnd) parts.push(`endTime ${endTime} from the ${timeSource}`);
 
     corrections.push({
       id: g.id,
-      updates: { recurringSchedule: sched },
+      updates: {
+        recurringSchedule: {
+          dayOfWeek: day,
+          startTime,
+          endTime,
+          frequency: monthly ? "monthly" : cur.frequency || "weekly",
+        },
+      },
       reason:
-        `Recovered dayOfWeek "${day}"${monthly ? " (monthly — ordinal qualifier present)" : ""} from the listing ${via}` +
-        `${via === "id" && idHit?.startTime ? `, along with startTime ${idHit.startTime}` : ""}. ` +
-        `Was empty, so the card could not show a next date and never appeared in any "what's on" surface.`,
+        `Recovered ${parts.join(", ")}${monthly ? " (monthly — ordinal qualifier present)" : ""}. ` +
+        (changedDay
+          ? `Day was empty, so the card could not show a next date and never appeared in any "what's on" surface.`
+          : `Day was already set; this fills in the missing time.`),
     });
   }
 
@@ -259,25 +356,29 @@ async function main() {
     JSON.stringify({ generatedAt: new Date().toISOString(), stats, ambiguous, conflicts }, null, 2)
   );
 
-  const recovered = corrections.length;
-  console.log("RECOVERED");
-  console.log(`  from the listing id          : ${stats.fromId}`);
-  console.log(`    ...with a start time too   : ${stats.timeAlsoRecovered}`);
-  console.log(`  from the listing name        : ${stats.fromName}`);
-  console.log(`  from the description         : ${stats.fromDescription}`);
-  console.log(`  of which monthly, not weekly : ${stats.monthly}`);
-  console.log(`  -> ${outPath} (${recovered} corrections)\n`);
+  const dayRecovered =
+    stats.dayFromId + stats.dayFromName + stats.dayFromDescription + stats.dayFromRange;
+
+  console.log(`\n  visible recurring : ${recurring.length}\n`);
+  console.log("DAY RECOVERED");
+  console.log(`  from the id            : ${stats.dayFromId}`);
+  console.log(`  from the name          : ${stats.dayFromName}`);
+  console.log(`  from the description   : ${stats.dayFromDescription}`);
+  console.log(`  from a day range       : ${stats.dayFromRange}`);
+  console.log(`  monthly, not weekly    : ${stats.monthly}`);
+  console.log(`  total                  : ${dayRecovered}\n`);
+  console.log("TIME RECOVERED");
+  console.log(`  start time from the id : ${stats.timeFromId}`);
+  console.log(`  start time from text   : ${stats.timeFromText}`);
+  console.log(`  end time from text     : ${stats.endTimeRecovered}\n`);
   console.log("SKIPPED");
-  console.log(`  ambiguous (2+ distinct days) : ${stats.skippedAmbiguous}`);
-  console.log(`  id and text disagree         : ${stats.skippedConflict}`);
-  console.log(`  only a negated day present   : ${stats.skippedNegated}`);
-  console.log(`  no weekday in the text       : ${stats.noDay}`);
-  console.log(`  -> ${reviewPath}\n`);
-  const before = recurring.length - missing.length;
-  console.log(
-    `Listings able to show a real next date: ${before} -> ${before + recovered} ` +
-      `(+${((recovered / Math.max(before, 1)) * 100).toFixed(0)}%)`
-  );
+  console.log(`  ambiguous (2+ days, no range) : ${stats.skippedAmbiguous}`);
+  console.log(`  id and text disagree          : ${stats.skippedConflict}`);
+  console.log(`  only a negated day present    : ${stats.skippedNegated}`);
+  console.log(`  nothing found in the text     : ${stats.nothingFound}`);
+  console.log(`  already complete              : ${stats.alreadyComplete}\n`);
+  console.log(`  -> ${outPath} (${corrections.length} corrections)`);
+  console.log(`  -> ${reviewPath}`);
 }
 
 main().catch((err) => {
