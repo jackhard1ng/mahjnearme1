@@ -82,6 +82,8 @@ interface Snapshot {
   /** Distinct date/time tokens found near mahjong content. */
   when: string[];
   mentions: number;
+  /** Where the URL actually lands, when that is a different host. */
+  redirectsTo?: string;
   listingIds: string[];
   lastSeen: string;
 }
@@ -121,7 +123,11 @@ function extractSignal(html: string): { hash: string; when: string[]; mentions: 
   };
 }
 
-async function fetchPage(url: string): Promise<{ status: number | null; html: string }> {
+function hostOf(u: string): string {
+  try { return new URL(u).hostname.replace(/^www\./, "").toLowerCase(); } catch { return ""; }
+}
+
+async function fetchPage(url: string): Promise<{ status: number | null; html: string; finalUrl: string }> {
   const ctl = new AbortController();
   const timer = setTimeout(() => ctl.abort(), 25000);
   try {
@@ -136,9 +142,9 @@ async function fetchPage(url: string): Promise<{ status: number | null; html: st
     });
     const ct = res.headers.get("content-type") || "";
     const html = ct.includes("html") || ct.includes("text") ? (await res.text()).slice(0, 500000) : "";
-    return { status: res.status, html };
+    return { status: res.status, html, finalUrl: res.url || url };
   } catch {
-    return { status: null, html: "" };
+    return { status: null, html: "", finalUrl: "" };
   } finally {
     clearTimeout(timer);
   }
@@ -236,7 +242,7 @@ async function main() {
   const snapshots: Record<string, Snapshot> = { ...previous };
   const changes: {
     url: string;
-    kind: "content_changed" | "schedule_changed" | "went_dead" | "recovered" | "new";
+    kind: "content_changed" | "schedule_changed" | "went_dead" | "recovered" | "new" | "moved_domain";
     detail: string;
     listingIds: string[];
   }[] = [];
@@ -247,7 +253,7 @@ async function main() {
     const results = await Promise.all(batch.map((u) => fetchPage(u)));
 
     batch.forEach((url, j) => {
-      const { status, html } = results[j];
+      const { status, html, finalUrl } = results[j];
       const sig = html ? extractSignal(html) : { hash: "", when: [], mentions: 0 };
       const ids = byUrl.get(url)!.map((g) => g.id);
       const snap: Snapshot = {
@@ -256,10 +262,27 @@ async function main() {
         signalHash: sig.hash,
         when: sig.when,
         mentions: sig.mentions,
+        ...(finalUrl && hostOf(finalUrl) && hostOf(finalUrl) !== hostOf(url)
+          ? { redirectsTo: finalUrl }
+          : {}),
         listingIds: ids,
         lastSeen: new Date().toISOString(),
       };
       snapshots[url] = snap;
+
+      // An organiser who rebrands leaves a redirect that works until it does
+      // not. troopmahjong.com now lands on stylinbrunette.com, and
+      // chicitymahjong.com on missymahjong.com — both still resolve today, but
+      // the stored URL is one DNS lapse from being dead, and the listing looks
+      // wrong to anyone reading it.
+      if (snap.redirectsTo && !previous[url]?.redirectsTo) {
+        changes.push({
+          url,
+          kind: "moved_domain",
+          detail: `now redirects to a different host: ${snap.redirectsTo}`,
+          listingIds: ids,
+        });
+      }
 
       const prev = previous[url];
       if (!prev) {
