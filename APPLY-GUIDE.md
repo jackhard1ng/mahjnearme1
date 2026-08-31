@@ -8,7 +8,7 @@ merge and need nothing from you.
 
 ---
 
-## 1. Corrections — 3,812 operations across nine files
+## 1. Corrections — 3,878 operations across 10 files
 
     ADMIN_KEY=… npx tsx scripts/apply-audit-corrections.ts audit/<file>.json --dry-run
     ADMIN_KEY=… npx tsx scripts/apply-audit-corrections.ts audit/<file>.json
@@ -29,7 +29,8 @@ the riskier files run.
 | 6 | `linktree-owner-sites.json` | 18 | Set `website` to the organiser's real domain |
 | 7 | `miscategorized-go-clubs.json` | 13 | Deactivate 13 listings that play **Go**, not mahjong |
 | 8 | `burlington-and-dengeos.json` | 8 | Fix two clusters of duplicate/mis-stated records |
-| 9 | `meetup-moved-groups.json` | 6 | Point dead Meetup URLs at the live groups |
+| 9 | `dead-links.json` | 66 | Repoint or clear 404/410 website and registration links |
+| 10 | `meetup-moved-groups.json` | 6 | Point dead Meetup URLs at the live groups |
 
 **The two with the most visible effect are 2 and 3.** `schedule-days.json`
 turns 692 cards from "Schedule TBD" into a real next date, which is what puts
@@ -45,6 +46,11 @@ about up front:
   Wegmans publishes 115 stores and none in Vermont.
 - `miscategorized-go-clubs.json` removes Gotham Go Group and Houston Go Club.
   They play Go. Verified two independent ways.
+- `dead-links.json` mostly *repoints* rather than clears. 65 of its 73 fields
+  become the organisation's domain root, because the dead URL was an event page
+  that aged out while the site itself is fine — a JCC calendar entry dated
+  February, a library event permalink. Only 8 are emptied, where the domain is
+  gone too.
 
 ---
 
@@ -52,14 +58,14 @@ about up front:
 
     npx tsx scripts/validate-research-listings.ts     # run this before importing anything
 
-Thirteen batch files in `research/`, each with a matching
+Fourteen batch files in `research/`, each with a matching
 `research-report-*.md` explaining what was found, what was rejected and why.
 
 | | |
 |---|---|
-| total listings | **134** |
+| total listings | **136** |
 | with a street address | 72 |
-| city-level, no address | 62 |
+| city-level, no address | 64 |
 
 **The 62 without an address are correct as they are.** Those organisers
 publish no venue — the events carry `"venue": null` — and give the address out
@@ -101,13 +107,14 @@ bio is the machine-readable route to a real website.
 
 ## Where the coverage now stands
 
-Nineteen discovery rounds, roughly 380 cities. The yield tracks city type
+Twenty-one discovery rounds, roughly 420 cities. The yield tracks city type
 sharply:
 
 - **Big metros and affluent suburbs** produced 14–19 listings a round.
 - **Small towns** (round 6) produced 1 from 143 groups.
-- **Metro suburb rings** (rounds 17–18) produced **zero** — every group they
-  returned was already known. The metros are done.
+- **Metro suburb rings and wealthy suburbs** (rounds 17, 18, 21) produced
+  **zero** — every group they returned was already known. Four consecutive
+  sweeps of that tier came back empty. The metros and their suburbs are done.
 
 Two patterns worth acting on:
 
