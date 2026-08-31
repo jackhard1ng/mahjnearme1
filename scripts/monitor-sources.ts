@@ -242,7 +242,14 @@ async function main() {
   const snapshots: Record<string, Snapshot> = { ...previous };
   const changes: {
     url: string;
-    kind: "content_changed" | "schedule_changed" | "went_dead" | "recovered" | "new" | "moved_domain";
+    kind:
+      | "content_changed"
+      | "schedule_changed"
+      | "went_dead"
+      | "recovered"
+      | "new"
+      | "moved_domain"
+      | "meetup_group_gone";
     detail: string;
     listingIds: string[];
   }[] = [];
@@ -269,6 +276,19 @@ async function main() {
         lastSeen: new Date().toISOString(),
       };
       snapshots[url] = snap;
+
+      // Meetup answers 200 with a normal-looking page for a group that no
+      // longer exists, so a status check alone reads it as healthy. 26 of the
+      // 57 Meetup groups referenced by live listings are already gone this
+      // way, and Meetup was the only contact route on every affected listing.
+      if (/meetup\.com/i.test(url) && /group not found|group you.{0,3}re looking for doesn.{0,3}t exist/i.test(visibleText(html))) {
+        changes.push({
+          url,
+          kind: "meetup_group_gone",
+          detail: 'Meetup returns "Group not found" — the group has been deleted or unpublished',
+          listingIds: ids,
+        });
+      }
 
       // An organiser who rebrands leaves a redirect that works until it does
       // not. troopmahjong.com now lands on stylinbrunette.com, and

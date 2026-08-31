@@ -1,0 +1,271 @@
+{
+  "generatedAt": "2026-08-31T07:14:41.155Z",
+  "summary": {
+    "meetupUrlsChecked": 57,
+    "deadGroups": 26,
+    "liveGroups": 31,
+    "listingsAffected": 50
+  },
+  "note": "26 of 57 Meetup groups referenced by live listings return \"Group not found\". Every affected listing had Meetup as its ONLY contact route, so clearing the URL would leave nothing to click. A dead Meetup group often means the organiser stopped paying for Meetup rather than that the game ended, so these need a human check rather than an automatic deactivation.",
+  "listings": [
+    {
+      "id": "american-mah-jongg-at-el-camino-college-torrance-ca-friday-4-862a90ad",
+      "name": "American Mah Jongg at El Camino College",
+      "city": "Torrance, CA",
+      "deadUrl": "https://www.meetup.com/american-mah-jongg-south-bay/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "american-mah-jongg-at-neon-sun-cafe-los-angeles-ca-sunday-2--9fc25a23",
+      "name": "American Mah Jongg at Neon Sun Cafe",
+      "city": "Los Angeles, CA",
+      "deadUrl": "https://www.meetup.com/american-mah-jongg-south-bay/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "american-mah-jongg-at-panera-bread-torra-torrance-ca-thursda-d4073f3a",
+      "name": "American Mah Jongg at Panera Bread Torrance",
+      "city": "Torrance, CA",
+      "deadUrl": "https://www.meetup.com/american-mah-jongg-south-bay/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "american-mahjongg-meetup-brickell-miami-florida",
+      "name": "American Mahjongg Meetup Brickell",
+      "city": "Miami, FL",
+      "deadUrl": "https://www.meetup.com/american-mahjongg-meetup-group-in-brickell-miami",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "buffalogrove-northshore-dengeos-1",
+      "name": "NorthShore Mahjongg at Dengeos Buffalo Grove",
+      "city": "Buffalo Grove, IL",
+      "deadUrl": "https://www.meetup.com/northshore-mahjongg/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "burlington-ma-wegmans-sunday-mj-1",
+      "name": "Sunday Mah Jongg at Wegmans Burlington",
+      "city": "Burlington, MA",
+      "deadUrl": "https://www.meetup.com/sunday-mah-jongg-burlington/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "decatur-mahjong-social-club-at-bench-war-decatur-ga-wednesda-749ca858",
+      "name": "Decatur Mahjong Social Club at Bench Warmers",
+      "city": "Decatur, GA",
+      "deadUrl": "https://www.meetup.com/downtown-decatur-game-and-mahjong-events/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "decatur-mahjong-social-club-at-cafe-lily-decatur-ga-friday-1-c982cd8c",
+      "name": "Decatur Mahjong Social Club at Cafe Lily",
+      "city": "Decatur, GA",
+      "deadUrl": "https://www.meetup.com/downtown-decatur-game-and-mahjong-events/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "decatur-mahjong-social-club-at-the-pool--decatur-ga-sunday-1-d5cb7865",
+      "name": "Decatur Mahjong Social Club at The Pool Turtle",
+      "city": "Decatur, GA",
+      "deadUrl": "https://www.meetup.com/downtown-decatur-game-and-mahjong-events/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "east-bay-lgb-mahjong-oakland-california-varies",
+      "name": "East Bay LGB+ Mahjong",
+      "city": "Oakland, CA",
+      "deadUrl": "https://www.meetup.com/east-bay-lgb-mahjong/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "fun-with-friends-mahjongg-various-pennsylvania-100-pm",
+      "name": "Fun With Friends MahJongg",
+      "city": "Various, PA",
+      "deadUrl": "https://www.meetup.com/fun-with-friends-women-60-plus",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "gildas-club-wisconsin-mahjong-milwaukee-wisconsin",
+      "name": "Gilda's Club Wisconsin – Mahjong",
+      "city": "Milwaukee, WI",
+      "deadUrl": "https://www.meetup.com/madison-mahjong/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "glenview-northshore-dengeos-1",
+      "name": "NorthShore Mahjongg at Dengeos Glenview",
+      "city": "Glenview, IL",
+      "deadUrl": "https://www.meetup.com/northshore-mahjongg/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "hanover-morris-county-wegmans-1",
+      "name": "Morris County Mahjongg at Wegmans",
+      "city": "Hanover, NJ",
+      "deadUrl": "https://www.meetup.com/morris-county-mahjongg-meetup/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "hawaii-kai-mahjong-honolulu-hawaii",
+      "name": "Hawaii Kai Mahjong",
+      "city": "Honolulu, HI",
+      "deadUrl": "https://www.meetup.com/hawaii-kai-mahjong/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "hong-kong-mahjong-katy-katy-texas-varies",
+      "name": "Hong Kong Mahjong Katy",
+      "city": "Katy, TX",
+      "deadUrl": "https://www.meetup.com/hong-kong-mahjong-katy/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "la-lucky-bamboo-studious-1",
+      "name": "Lucky Bamboo Mahjong Club",
+      "city": "Los Angeles, CA",
+      "deadUrl": "https://www.meetup.com/lucky-bamboo-mahjong-club/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "la-neon-sun-cafe-mj-1",
+      "name": "American Mah Jongg at Neon Sun Cafe",
+      "city": "Los Angeles, CA",
+      "deadUrl": "https://www.meetup.com/american-mah-jongg-south-bay/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "lucky-bamboo-mahjong-club-los-angeles-ca-friday-6-30-pm-92337ce7",
+      "name": "Lucky Bamboo Mahjong Club",
+      "city": "Los Angeles, CA",
+      "deadUrl": "https://www.meetup.com/lucky-bamboo-mahjong-club/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "mahjong-academy-san-jose-san-jose-california-230-pm",
+      "name": "Mahjong Academy — San Jose",
+      "city": "San Jose, CA",
+      "deadUrl": "https://www.meetup.com/mahjong-academy-san-jose/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "morris-county-mahjongg-at-wegmans-hanover-nj-monday-6-00-pm-02ea533c",
+      "name": "Morris County Mahjongg at Wegmans",
+      "city": "Hanover, NJ",
+      "deadUrl": "https://www.meetup.com/morris-county-mahjongg-meetup/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "new-american-mahjong-brickell-women-miami-florida",
+      "name": "New American Mahjong Brickell Women",
+      "city": "Miami, FL",
+      "deadUrl": "https://www.meetup.com/new-american-mahjong-game-in-brickell-miami",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "new-orleans-meetup-mah-jongg-group-new-orleans-louisiana",
+      "name": "New Orleans Meetup Mah-Jongg Group",
+      "city": "New Orleans, LA",
+      "deadUrl": "https://www.meetup.com/New-Orleans-Mah-Jongg-American-Style-Meetup/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "northshore-mahjongg-at-dengeos-buffalo-g-buffalo-grove-il-mo-b7ae58db",
+      "name": "NorthShore Mahjongg at Dengeos Buffalo Grove",
+      "city": "Buffalo Grove, IL",
+      "deadUrl": "https://www.meetup.com/northshore-mahjongg/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "northshore-mahjongg-at-dengeos-glenview-glenview-il-thursday-d1cca7f6",
+      "name": "NorthShore Mahjongg at Dengeos Glenview",
+      "city": "Glenview, IL",
+      "deadUrl": "https://www.meetup.com/northshore-mahjongg/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "our-mahjong-of-north-austin-friday-chinese-austin-texas-130-pm",
+      "name": "Our Mahjong of North Austin — Friday Chinese",
+      "city": "Austin, TX",
+      "deadUrl": "https://www.meetup.com/austin-chinese-mahjong-group/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "our-mahjong-of-north-austin-thursday-american-austin-texas-130-pm",
+      "name": "Our Mahjong of North Austin (alternates American & Chinese)",
+      "city": "Austin, TX",
+      "deadUrl": "https://www.meetup.com/ourmahjonginaustin/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "pacific-mahjong-league-weekly-game-night-san-jose-california-700-pm",
+      "name": "Pacific Mahjong League — Weekly Game Night",
+      "city": "San Jose, CA",
+      "deadUrl": "https://www.meetup.com/pacific-mahjong-league/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "pittsburgh-meetup-mah-jongg-group-pittsburgh-pennsylvania",
+      "name": "Pittsburgh Meetup Mah Jongg Group",
+      "city": "Pittsburgh, PA",
+      "deadUrl": "https://www.meetup.com/Pittsburgh-Mah-Jongg/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "south-bay-mahjong-meetup-san-jose-california-200-pm",
+      "name": "South Bay Mahjong Meetup",
+      "city": "San Jose, CA",
+      "deadUrl": "https://www.meetup.com/south-bay-mahjong/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "south-bay-riichi-mahjong-club-san-jose-california-300-pm",
+      "name": "South Bay Riichi Mahjong Club",
+      "city": "San Jose, CA",
+      "deadUrl": "https://www.meetup.com/south-bay-riichi-mahjong/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "southwest-houston-mah-jongg-houston-texas-varies",
+      "name": "Southwest Houston Mah Jongg",
+      "city": "Houston, TX",
+      "deadUrl": "https://www.meetup.com/southwest-houston-mah-jongg-meetup-com/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "srq-mahjong-gathering-sarasota-florida-1000-am",
+      "name": "SRQ Mahjong Gathering",
+      "city": "Sarasota, FL",
+      "deadUrl": "https://www.meetup.com/srq-newbie-mahjong-gathering",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "sunday-mah-jongg-at-wegmans-burlington-burlington-ma-sunday--715268a0",
+      "name": "Sunday Mah Jongg at Wegmans Burlington",
+      "city": "Burlington, MA",
+      "deadUrl": "https://www.meetup.com/sunday-mah-jongg-burlington/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "torrance-el-camino-college-mj-1",
+      "name": "American Mah Jongg at El Camino College",
+      "city": "Torrance, CA",
+      "deadUrl": "https://www.meetup.com/american-mah-jongg-south-bay/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "torrance-panera-mj-1",
+      "name": "American Mah Jongg at Panera Bread Torrance",
+      "city": "Torrance, CA",
+      "deadUrl": "https://www.meetup.com/american-mah-jongg-south-bay/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    },
+    {
+      "id": "traveling-with-tiles-american-mahjong-meetup-indianapolis-indiana",
+      "name": "Traveling With Tiles - American Mahjong Meetup",
+      "city": "Indianapolis, IN",
+      "deadUrl": "https://www.meetup.com/traveling-with-tiles-american-mahjong/",
+      "note": "Meetup group no longer exists (\"Group not found\"). This was the listing's only contact route, so the URL is NOT cleared automatically — the game may still run at the venue while the organiser has left Meetup. Needs a person to find where it went or confirm it ended."
+    }
+  ]
+}
