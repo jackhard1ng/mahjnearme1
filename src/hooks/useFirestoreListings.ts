@@ -9,27 +9,45 @@ let _cache: Game[] | null = null;
 let _fetching = false;
 let _listeners: ((games: Game[]) => void)[] = [];
 
-function fetchListings() {
-  if (_cache !== null || _fetching) return;
-  _fetching = true;
-  fetch("/api/listings")
+// The same, for the admin variant that also wants inactive and pending
+// listings. Kept as a separate cache rather than a flag on the one above:
+// with a single cache, whichever surface mounted first would decide what
+// every other surface saw for the rest of the session — an admin landing on
+// a public page first would lose the inactive rows, and a visitor who passed
+// through an admin route would be handed 922 listings the site never shows.
+let _cacheAll: Game[] | null = null;
+let _fetchingAll = false;
+let _listenersAll: ((games: Game[]) => void)[] = [];
+
+function fetchListings(includeInactive = false) {
+  if (includeInactive) {
+    if (_cacheAll !== null || _fetchingAll) return;
+    _fetchingAll = true;
+  } else {
+    if (_cache !== null || _fetching) return;
+    _fetching = true;
+  }
+
+  const settle = (games: Game[]) => {
+    if (includeInactive) {
+      _cacheAll = games;
+      _fetchingAll = false;
+      _listenersAll.forEach((cb) => cb(games));
+      _listenersAll = [];
+    } else {
+      _cache = games;
+      _fetching = false;
+      _listeners.forEach((cb) => cb(games));
+      _listeners = [];
+    }
+  };
+
+  fetch(includeInactive ? "/api/listings?status=all" : "/api/listings")
     .then((r) => r.json())
     .then((data) => {
-      if (data.listings && data.listings.length > 0) {
-        _cache = data.listings as Game[];
-      } else {
-        _cache = mockGames;
-      }
-      _fetching = false;
-      _listeners.forEach((cb) => cb(_cache!));
-      _listeners = [];
+      settle(data.listings && data.listings.length > 0 ? (data.listings as Game[]) : mockGames);
     })
-    .catch(() => {
-      _cache = mockGames;
-      _fetching = false;
-      _listeners.forEach((cb) => cb(_cache!));
-      _listeners = [];
-    });
+    .catch(() => settle(mockGames));
 }
 
 /**
@@ -37,24 +55,30 @@ function fetchListings() {
  * Starts with mockGames for immediate render (no loading flash),
  * then updates with live Firestore data once loaded.
  * Includes new organizer-submitted events that don't exist in the static JSON.
+ *
+ * Returns active listings only. Admin screens that need to see inactive and
+ * pending rows pass `true`; nothing public should.
  */
-export function useFirestoreListings(): Game[] {
+export function useFirestoreListings(includeInactive = false): Game[] {
   const [games, setGames] = useState<Game[]>(mockGames);
 
   useEffect(() => {
-    if (_cache !== null) {
-      setGames(_cache);
+    const cached = includeInactive ? _cacheAll : _cache;
+    if (cached !== null) {
+      setGames(cached);
       return;
     }
 
-    fetchListings();
+    fetchListings(includeInactive);
     const listener = (games: Game[]) => setGames(games);
-    _listeners.push(listener);
+    if (includeInactive) _listenersAll.push(listener);
+    else _listeners.push(listener);
 
     return () => {
-      _listeners = _listeners.filter((l) => l !== listener);
+      if (includeInactive) _listenersAll = _listenersAll.filter((l) => l !== listener);
+      else _listeners = _listeners.filter((l) => l !== listener);
     };
-  }, []);
+  }, [includeInactive]);
 
   return games;
 }

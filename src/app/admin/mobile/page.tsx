@@ -422,7 +422,9 @@ function GeoTab() {
   const [toast, setToast] = useState("");
 
   useEffect(() => {
-    fetch("/api/listings")
+    // status=all: this screen fixes missing coordinates, and an inactive
+    // listing with a 0/0 geopoint still needs fixing before it goes live.
+    fetch("/api/listings?status=all")
       .then((r) => r.json())
       .then((data) => {
         const bad = (data.listings || []).filter(

@@ -565,15 +565,17 @@ export default function AdminEventsPage() {
       const bust = `_t=${Date.now()}`;
       const res = await fetch(`/api/listings?status=all&${bust}`);
       const data = await res.json();
-      // /api/listings only returns active; also fetch pending via admin proxy
-      const adminRes = await adminFetch(`/api/listings?${bust}`);
+      // status=all on both: the endpoint returns active listings by default,
+      // and the merge below prefers the admin response, so without it here the
+      // inactive and pending rows this screen exists to manage are dropped.
+      const adminRes = await adminFetch(`/api/listings?status=all&${bust}`);
       const adminData = await adminRes.json();
       // Merge: prefer admin data which may include pending
       const all = adminData.listings || data.listings || [];
       setGames(all as Game[]);
     } catch {
       // Fallback to public endpoint
-      fetch(`/api/listings?_t=${Date.now()}`)
+      fetch(`/api/listings?status=all&_t=${Date.now()}`)
         .then((r) => r.json())
         .then((d) => setGames(d.listings || []))
         .catch(() => {})

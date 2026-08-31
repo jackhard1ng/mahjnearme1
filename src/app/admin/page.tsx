@@ -124,7 +124,9 @@ async function adminFetch(route: string, method: string = "GET", body?: unknown)
 }
 
 export default function AdminDashboardPage() {
-  const games = useFirestoreListings();
+  // true: the dashboard shows a status badge per listing, so it needs the
+  // inactive and pending rows the public endpoint no longer returns.
+  const games = useFirestoreListings(true);
   const [activeTab, setActiveTab] = useState<"overview" | "subscribers" | "referrals" | "giveaways" | "organizers" | "approvals" | "notifications">("overview");
   const [analytics, setAnalytics] = useState<{
     totalViews: number;

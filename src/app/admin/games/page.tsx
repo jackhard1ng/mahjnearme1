@@ -71,7 +71,9 @@ export default function AdminGamesPage() {
 
   // Load listings from Firestore on mount
   useEffect(() => {
-    fetch("/api/listings")
+    // status=all: this screen edits and deletes listings, so it has to be able
+    // to see the inactive and pending ones the public endpoint filters out.
+    fetch("/api/listings?status=all")
       .then((r) => r.json())
       .then((data) => {
         if (data.listings && data.listings.length > 0) {

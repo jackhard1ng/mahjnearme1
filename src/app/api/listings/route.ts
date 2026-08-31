@@ -16,6 +16,8 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get("search");
     const state = searchParams.get("state");
     const city = searchParams.get("city");
+    // "active" unless the caller asks otherwise; "all" returns every status.
+    const statusParam = (searchParams.get("status") || "active").toLowerCase();
 
     if (id) {
       const doc = await db.collection("listings").doc(id).get();
@@ -49,7 +51,11 @@ export async function GET(request: NextRequest) {
       if (!seeded) {
         // Seeding failed — return JSON directly as fallback
         const { loadListings } = require("@/lib/listings-data");
-        const games = loadListings();
+        // Same status rule as the Firestore path below — otherwise a failed
+        // seed silently changes what the endpoint returns.
+        const games = (loadListings() as { status: string }[]).filter(
+          (g) => statusParam === "all" || g.status === statusParam
+        );
         const res = NextResponse.json({ listings: games, count: games.length, source: "json" });
         res.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
         return res;
@@ -67,12 +73,23 @@ export async function GET(request: NextRequest) {
     }
 
     const snap = await query.get();
-    // Normalize all fields. Do NOT filter by status here — the search page
-    // already filters client-side (status === "active" && !isEventExpired),
-    // and the admin needs to see pending/inactive events too.
-    const listings = snap.docs.map((doc) =>
-      docToGame(doc.data() as Record<string, unknown>, doc.id)
-    );
+    // Normalize all fields, then drop anything the caller did not ask for.
+    //
+    // This used to return every document regardless of status, so that the
+    // admin screens could see inactive and pending ones. The cost of that fell
+    // on everybody else: 922 of the 3,801 documents are inactive, and shipping
+    // them added ~1.5 MB to a 5.7 MB response that every visitor downloads in
+    // full on their first page view. No public surface ever showed them —
+    // the homepage, search, city pages, events, seasonal and the organizer
+    // dashboard each re-filter on `status === "active"` after the fetch.
+    //
+    // `?status=all` returns everything, which is what the admin screens
+    // already asked for: admin/events has sent that parameter, with a comment
+    // reading "/api/listings only returns active", since before the filter was
+    // removed here. The client and this route had simply drifted apart.
+    const listings = snap.docs
+      .map((doc) => docToGame(doc.data() as Record<string, unknown>, doc.id))
+      .filter((g) => statusParam === "all" || g.status === statusParam);
 
     const res = NextResponse.json({ listings, count: listings.length, source: "firestore" });
     res.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
