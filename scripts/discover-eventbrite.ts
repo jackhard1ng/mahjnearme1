@@ -155,8 +155,16 @@ async function main() {
 
   const knownVenues = new Set<string>();
   const knownUrls = new Set<string>();
+  /** venue key -> the live listings at that venue, and whether each has a link. */
+  const liveByVenue = new Map<string, { id: string; hasUrl: boolean }[]>();
   for (const g of live) {
-    if (g.status === "active" && g.venueName) knownVenues.add(norm(String(g.venueName)) + "|" + norm(String(g.city || "")));
+    if (g.status === "active" && g.venueName) {
+      const k = norm(String(g.venueName)) + "|" + norm(String(g.city || ""));
+      knownVenues.add(k);
+      const hasUrl = ["website", "registrationLink", "sourceURL"].some((f) => String(g[f] || "").trim());
+      if (!liveByVenue.has(k)) liveByVenue.set(k, []);
+      liveByVenue.get(k)!.push({ id: String(g.id), hasUrl });
+    }
     for (const f of ["website", "registrationLink", "sourceURL"] as const) {
       const v = String(g[f] || "");
       const m = v.match(/eventbrite\.[a-z.]+\/e\/([a-z0-9-]+)/i);
@@ -171,7 +179,14 @@ async function main() {
     try {
       for (const l of (JSON.parse(fs.readFileSync(path.join(OUT_DIR, f), "utf8")).listings || []) as Record<string, unknown>[]) {
         prior++;
-        if (l.venueName) knownVenues.add(norm(String(l.venueName)) + "|" + norm(String(l.city || "")));
+        const city = norm(String(l.city || ""));
+        if (l.venueName) knownVenues.add(norm(String(l.venueName)) + "|" + city);
+        // Also key on the address. A batch may deliberately carry no venue
+        // name — this pipeline blanks it where Eventbrite's "venue" is really
+        // a bare street address — and keying on the name alone loses those,
+        // so the next run rediscovers them as new. That is how eb2 turned up
+        // 525 Cortland Ave again an hour after eb1 wrote it up.
+        if (l.address) knownVenues.add(norm(String(l.address)) + "|" + city);
       }
     } catch { /* a batch that will not parse is not a reason to stop */ }
   }
@@ -224,11 +239,27 @@ async function main() {
   }
 
   const candidates: Record<string, unknown>[] = [];
-  const alreadyKnown: { venue: string; city: string }[] = [];
+  const alreadyKnown: Record<string, unknown>[] = [];
   for (const { venue, events } of sessions.values()) {
     const a = venue.address!;
     const vkey = norm(venue.name!) + "|" + norm(a.city!);
-    if (knownVenues.has(vkey)) { alreadyKnown.push({ venue: venue.name!, city: a.city! }); continue; }
+    const akey = norm(a.address_1!) + "|" + norm(a.city!);
+    if (knownVenues.has(vkey) || knownVenues.has(akey)) {
+      // Not a find, but not nothing either. A venue the directory already has,
+      // running a mahjong event on Eventbrite right now, is independent
+      // confirmation that the listing is still real — and where that listing
+      // carries no URL at all (1,000 of them do), this is one it could have.
+      const owners = liveByVenue.get(vkey) ?? [];
+      alreadyKnown.push({
+        venue: venue.name, city: a.city, state: (a.region || "").toUpperCase(),
+        eventbriteUrl: events[0].url,
+        eventTitle: events[0].name,
+        nextDate: [...new Set(events.map((e) => String(e.start_date)))].sort()[0],
+        matchedListings: owners.map((o) => ({ id: o.id, hasUrl: o.hasUrl })),
+        listingsWithoutAnyUrl: owners.filter((o) => !o.hasUrl).map((o) => o.id),
+      });
+      continue;
+    }
     const dates = [...new Set(events.map((e) => String(e.start_date)))].sort();
     const days = [...new Set(dates.map((d) => DAYS[new Date(d + "T12:00:00").getDay()]))];
     candidates.push({
@@ -259,7 +290,8 @@ async function main() {
   console.log(`  dropped, online only     : ${online.length}`);
   console.log(`  dropped, already past    : ${past.length}`);
   console.log(`  dropped, no usable venue : ${noVenue.length}`);
-  console.log(`  venue already known      : ${alreadyKnown.length}`);
+  const confirmable = alreadyKnown.filter((k) => (k.listingsWithoutAnyUrl as string[]).length > 0);
+  console.log(`  venue already known      : ${alreadyKnown.length}  (${confirmable.length} match a listing with no URL at all)`);
   console.log(`  NEW venue candidates     : ${candidates.length}`);
 
   fs.mkdirSync(OUT_DIR, { recursive: true });

@@ -1,0 +1,3328 @@
+{
+  "generatedAt": "2026-08-31T17:14:01.364Z",
+  "places": [
+    "ca--sacramento",
+    "ca--san-jose",
+    "ca--long-beach",
+    "ca--irvine",
+    "ca--pasadena",
+    "ca--oakland",
+    "fl--tampa",
+    "fl--jacksonville",
+    "fl--naples",
+    "fl--fort-lauderdale",
+    "fl--sarasota",
+    "tx--san-antonio",
+    "tx--fort-worth",
+    "tx--plano",
+    "az--tucson",
+    "az--scottsdale",
+    "nv--reno",
+    "nc--raleigh",
+    "nc--durham",
+    "sc--charleston",
+    "va--richmond",
+    "va--arlington",
+    "md--baltimore",
+    "ct--hartford",
+    "nj--newark",
+    "nj--jersey-city",
+    "ny--brooklyn",
+    "ny--buffalo",
+    "ny--rochester",
+    "pa--pittsburgh",
+    "oh--columbus",
+    "oh--cleveland",
+    "oh--cincinnati",
+    "mi--detroit",
+    "il--naperville",
+    "wi--milwaukee",
+    "mn--minneapolis",
+    "mo--st-louis",
+    "mo--kansas-city",
+    "tn--nashville"
+  ],
+  "pagesPerPlace": 3,
+  "failedPages": [
+    "https://www.eventbrite.com/d/ca--sacramento/mahjong/?page=1",
+    "https://www.eventbrite.com/d/ca--sacramento/mahjong/?page=2",
+    "https://www.eventbrite.com/d/ca--sacramento/mahjong/?page=3",
+    "https://www.eventbrite.com/d/ca--san-jose/mahjong/?page=2",
+    "https://www.eventbrite.com/d/ca--long-beach/mahjong/?page=2",
+    "https://www.eventbrite.com/d/ca--irvine/mahjong/?page=2",
+    "https://www.eventbrite.com/d/fl--jacksonville/mahjong/?page=3",
+    "https://www.eventbrite.com/d/fl--sarasota/mahjong/?page=2",
+    "https://www.eventbrite.com/d/tx--fort-worth/mahjong/?page=3",
+    "https://www.eventbrite.com/d/tx--plano/mahjong/?page=2",
+    "https://www.eventbrite.com/d/az--tucson/mahjong/?page=2",
+    "https://www.eventbrite.com/d/az--scottsdale/mahjong/?page=3",
+    "https://www.eventbrite.com/d/nv--reno/mahjong/?page=1",
+    "https://www.eventbrite.com/d/nv--reno/mahjong/?page=3",
+    "https://www.eventbrite.com/d/nc--durham/mahjong/?page=1",
+    "https://www.eventbrite.com/d/nc--durham/mahjong/?page=2",
+    "https://www.eventbrite.com/d/va--richmond/mahjong/?page=1",
+    "https://www.eventbrite.com/d/va--richmond/mahjong/?page=2",
+    "https://www.eventbrite.com/d/va--arlington/mahjong/?page=1",
+    "https://www.eventbrite.com/d/va--arlington/mahjong/?page=2",
+    "https://www.eventbrite.com/d/ct--hartford/mahjong/?page=1",
+    "https://www.eventbrite.com/d/ct--hartford/mahjong/?page=3",
+    "https://www.eventbrite.com/d/nj--newark/mahjong/?page=1",
+    "https://www.eventbrite.com/d/nj--newark/mahjong/?page=2",
+    "https://www.eventbrite.com/d/nj--jersey-city/mahjong/?page=1",
+    "https://www.eventbrite.com/d/nj--jersey-city/mahjong/?page=3",
+    "https://www.eventbrite.com/d/ny--brooklyn/mahjong/?page=1",
+    "https://www.eventbrite.com/d/ny--brooklyn/mahjong/?page=3",
+    "https://www.eventbrite.com/d/ny--buffalo/mahjong/?page=1",
+    "https://www.eventbrite.com/d/ny--buffalo/mahjong/?page=2",
+    "https://www.eventbrite.com/d/ny--buffalo/mahjong/?page=3",
+    "https://www.eventbrite.com/d/ny--rochester/mahjong/?page=1",
+    "https://www.eventbrite.com/d/ny--rochester/mahjong/?page=3",
+    "https://www.eventbrite.com/d/pa--pittsburgh/mahjong/?page=1",
+    "https://www.eventbrite.com/d/pa--pittsburgh/mahjong/?page=3",
+    "https://www.eventbrite.com/d/oh--columbus/mahjong/?page=1",
+    "https://www.eventbrite.com/d/oh--columbus/mahjong/?page=2",
+    "https://www.eventbrite.com/d/oh--columbus/mahjong/?page=3",
+    "https://www.eventbrite.com/d/oh--cleveland/mahjong/?page=1",
+    "https://www.eventbrite.com/d/oh--cleveland/mahjong/?page=2",
+    "https://www.eventbrite.com/d/oh--cleveland/mahjong/?page=3",
+    "https://www.eventbrite.com/d/mi--detroit/mahjong/?page=2",
+    "https://www.eventbrite.com/d/mi--detroit/mahjong/?page=3",
+    "https://www.eventbrite.com/d/il--naperville/mahjong/?page=2",
+    "https://www.eventbrite.com/d/wi--milwaukee/mahjong/?page=1",
+    "https://www.eventbrite.com/d/mn--minneapolis/mahjong/?page=1",
+    "https://www.eventbrite.com/d/mn--minneapolis/mahjong/?page=3",
+    "https://www.eventbrite.com/d/mo--st-louis/mahjong/?page=3",
+    "https://www.eventbrite.com/d/mo--kansas-city/mahjong/?page=1",
+    "https://www.eventbrite.com/d/mo--kansas-city/mahjong/?page=2",
+    "https://www.eventbrite.com/d/mo--kansas-city/mahjong/?page=3",
+    "https://www.eventbrite.com/d/tn--nashville/mahjong/?page=2"
+  ],
+  "note": "Candidates only. Every one is an Eventbrite listing whose own title names mahjong, at a physical venue with a street address, on a date not yet past, at a venue the directory does not already have.",
+  "candidates": [
+    {
+      "name": "Summer Mahjong Series - Hong Kong Dim Sum Night",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/summer-mahjong-series-hong-kong-dim-sum-night-tickets-1996899173182",
+      "venueName": "46551 Mission Blvd",
+      "address": "46551 Mission Boulevard",
+      "city": "Fremont",
+      "state": "CA",
+      "postalCode": "94539",
+      "lat": "37.4920422",
+      "lng": "-121.9294998",
+      "dayOfWeek": "saturday",
+      "startTime": "5:00 PM",
+      "endTime": "9:00 PM",
+      "occurrences": 3,
+      "dates": [
+        "2026-09-12",
+        "2026-09-19",
+        "2026-09-26"
+      ],
+      "titles": [
+        "Summer Mahjong Series - Hong Kong Dim Sum Night",
+        "Summer Mahjong Series - Asian Fried Food Night",
+        "Summer Mahjong Series - Southeast Asian Street Food Night"
+      ],
+      "summary": "Bring your best game face and get ready for a tile-tastic afternoon of learning and fun! Space is limited, so secure your spot today!"
+    },
+    {
+      "name": "Advanced Mahjong Class - Strategy + Fans in SF Bay Area, Central Valley",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/advanced-mahjong-class-strategy-fans-in-sf-bay-area-central-valley-tickets-1983846861366",
+      "venueName": "Private Residence",
+      "address": "San Jose",
+      "city": "San Jose",
+      "state": "CA",
+      "postalCode": "95130",
+      "lat": "37.2876164",
+      "lng": "-121.9857002",
+      "dayOfWeek": "tuesday|friday",
+      "startTime": "3:00 PM",
+      "endTime": "5:00 PM",
+      "occurrences": 2,
+      "dates": [
+        "2026-09-01",
+        "2026-09-04"
+      ],
+      "titles": [
+        "Advanced Mahjong Class - Strategy + Fans in SF Bay Area, Central Valley",
+        "Mahjong Class for Beginners in SF Bay Area, Central Valley or Online"
+      ],
+      "summary": "Hands-on Mahjong class with Mahjong Academy and free practice with the world’s first AI Coach for real players"
+    },
+    {
+      "name": "Mahjong Social — Every Tuesday @United Dumplings San Francisco",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-social-every-tuesday-united-dumplings-san-francisco-tickets-1996759235625",
+      "venueName": "525 Cortland Ave",
+      "address": "525 Cortland Avenue",
+      "city": "San Francisco",
+      "state": "CA",
+      "postalCode": "94110",
+      "lat": "37.7392364",
+      "lng": "-122.4160436",
+      "dayOfWeek": "tuesday",
+      "startTime": "5:30 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 2,
+      "dates": [
+        "2026-09-01",
+        "2026-09-15"
+      ],
+      "titles": [
+        "Mahjong Social — Every Tuesday @United Dumplings San Francisco",
+        "Mahjong Learning Night — Every Other Tuesday@United Dumplings San Francisco"
+      ],
+      "summary": "Cozy community Mahjong night for all levels. Friendly tables, optional guidance, relaxed vibe. No experience needed—just come play!"
+    },
+    {
+      "name": "Beginner Mahjong Lesson - Sept. 2",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/beginner-mahjong-lesson-sept-2-tickets-1996446097019",
+      "venueName": "Hostess",
+      "address": "2635 Central Avenue",
+      "city": "St. Petersburg",
+      "state": "FL",
+      "postalCode": "33713",
+      "lat": "27.7712404",
+      "lng": "-82.66929309999999",
+      "dayOfWeek": "wednesday",
+      "startTime": "6:00 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 2,
+      "dates": [
+        "2026-09-02",
+        "2026-09-16"
+      ],
+      "titles": [
+        "Beginner Mahjong Lesson - Sept. 2",
+        "Beginner 2 - Mahjong Refresher - Sept. 16"
+      ],
+      "summary": "Curious about Mahjong but not sure where to start?\nJoin Shannon (@MrsMahjongMadness) for a fun and relaxed beginner lesson."
+    },
+    {
+      "name": "Monthly Mahjong @DSSOLVR(Beginner Lessons & Guided Play Every 2nd Thursday)",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/monthly-mahjong-dssolvrbeginner-lessons-guided-play-every-2nd-thursday-tickets-1994309153363",
+      "venueName": "DSSOLVR Durham",
+      "address": "630 Rigsbee Avenue",
+      "city": "Durham",
+      "state": "NC",
+      "postalCode": "27701",
+      "lat": "36.0018623",
+      "lng": "-78.8997983",
+      "dayOfWeek": "thursday",
+      "startTime": "6:30 PM",
+      "endTime": "9:30 PM",
+      "occurrences": 2,
+      "dates": [
+        "2026-09-10",
+        "2026-09-24"
+      ],
+      "titles": [
+        "Monthly Mahjong @DSSOLVR(Beginner Lessons & Guided Play Every 2nd Thursday)",
+        "Monthly Mahjong @DSSOLVR (Free Play Every 4th Thursday)"
+      ],
+      "summary": "Want to try a fun, strategic game that's sure to challenge your brain? Join us for mahjong!"
+    },
+    {
+      "name": "Morning Mahjong at Tin & Tallow, Sept.11th",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/morning-mahjong-at-tin-tallow-sept11th-tickets-1998907960519",
+      "venueName": "Tin & Tallow",
+      "address": "2 Spanish Wells Road",
+      "city": "Hilton Head Island",
+      "state": "SC",
+      "postalCode": "29926",
+      "lat": "32.2152069",
+      "lng": "-80.7479646",
+      "dayOfWeek": "friday",
+      "startTime": "9:30 AM",
+      "endTime": "11:30 AM",
+      "occurrences": 2,
+      "dates": [
+        "2026-09-11",
+        "2026-09-25"
+      ],
+      "titles": [
+        "Morning Mahjong at Tin & Tallow, Sept.11th",
+        "Morning Mahjong at Tin & Tallow, Sept.25th"
+      ],
+      "summary": "Come play with us, all levels welcome from beginners to advanced"
+    },
+    {
+      "name": "Mahjong 101 with sotrudles",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-101-with-sotrudles-tickets-1997601944189",
+      "venueName": "Lemons and Limes Boutique: Downtown Loveland",
+      "address": "301 West Loveland Avenue",
+      "city": "Loveland",
+      "state": "OH",
+      "postalCode": "45140",
+      "lat": "39.2681468",
+      "lng": "-84.2594005",
+      "dayOfWeek": "thursday",
+      "startTime": "6:00 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 2,
+      "dates": [
+        "2026-09-10",
+        "2026-09-24"
+      ],
+      "titles": [
+        "Mahjong 101 with sotrudles",
+        "Back to School - Mahjong Guided Play with sotrudles"
+      ],
+      "summary": "Join us for Mahjong 101, a fun in-person session to learn the basics and enjoy some friendly games!"
+    },
+    {
+      "name": "Mahjong Brunch and Open Play-Saturdays",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-brunch-and-open-play-saturdays-tickets-1997505582970",
+      "venueName": "36 W Lockwood Ave",
+      "address": "36 West Lockwood Avenue",
+      "city": "Webster Groves",
+      "state": "MO",
+      "postalCode": "63119",
+      "lat": "38.5927304",
+      "lng": "-90.3583242",
+      "dayOfWeek": "monday|saturday",
+      "startTime": "10:30 AM",
+      "endTime": "1:30 PM",
+      "occurrences": 2,
+      "dates": [
+        "2026-08-31",
+        "2026-09-05"
+      ],
+      "titles": [
+        "Mahjong Brunch and Open Play-Saturdays",
+        "Mahjong 102 and Guided Play"
+      ],
+      "summary": "Enjoy a relaxing morning of Mahjong, brunch bites and complimentary morning cocktails at Paisley!"
+    },
+    {
+      "name": "Learn to Play Mahjong: 101 Class",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/learn-to-play-mahjong-101-class-tickets-1996425431207",
+      "venueName": "36 W Lockwood Ave",
+      "address": "36 West Lockwood Avenue",
+      "city": "Webster Groves",
+      "state": "MO",
+      "postalCode": "63119",
+      "lat": "38.5927304",
+      "lng": "-90.3583242",
+      "dayOfWeek": "monday|friday",
+      "startTime": "5:30 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 2,
+      "dates": [
+        "2026-09-07",
+        "2026-09-25"
+      ],
+      "titles": [
+        "Learn to Play Mahjong: 101 Class",
+        "Couples Mahjong Night at Paisley"
+      ],
+      "summary": "Enjoy a night of FUN learning the basics of the game to get you up and going! Lite Bites and Wine will be provided."
+    },
+    {
+      "name": "Magpies Mahjong 101",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/magpies-mahjong-101-tickets-1998129995605",
+      "venueName": "Magpie's Restaurant",
+      "address": "903 South Main Street",
+      "city": "Saint Charles",
+      "state": "MO",
+      "postalCode": "63301",
+      "lat": "38.7748222",
+      "lng": "-90.4847917",
+      "dayOfWeek": "wednesday",
+      "startTime": "5:00 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 2,
+      "dates": [
+        "2026-09-02",
+        "2026-09-16"
+      ],
+      "titles": [
+        "Magpies Mahjong 101",
+        "Mahjong 102 at Magpies"
+      ],
+      "summary": "Join us in person for Magpies Mahjong 101 and learn the game basics with fun and friendly vibes!"
+    },
+    {
+      "name": "Jake's On Main Presents Oktoberfest Mahjong!  Guided Mahjong Play Event",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/jakes-on-main-presents-oktoberfest-mahjong-guided-mahjong-play-event-tickets-1994911922261",
+      "venueName": "Jake's on Main",
+      "address": "136 South Main Street",
+      "city": "Saint Charles",
+      "state": "MO",
+      "postalCode": "63301",
+      "lat": "38.7804189",
+      "lng": "-90.48164919999999",
+      "dayOfWeek": "tuesday|friday",
+      "startTime": "6:00 PM",
+      "endTime": "9:00 PM",
+      "occurrences": 2,
+      "dates": [
+        "2026-09-08",
+        "2026-09-18"
+      ],
+      "titles": [
+        "Jake's On Main Presents Oktoberfest Mahjong!  Guided Mahjong Play Event",
+        "Jake's On Main Presents Couple's Mahjong 101 & 102-Sept Tues/Thurs Nights"
+      ],
+      "summary": "Join us at Jake's On Main for an Oktoberfest themed Mahjong Guided Play Event–   Some knowledge needed-Play without pressure!"
+    },
+    {
+      "name": "Mahjong 101 hosted by Mahjong with Amy x Hyatt Regency Sonoma Wine Country",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-101-hosted-by-mahjong-with-amy-x-hyatt-regency-sonoma-wine-country-tickets-1994949652112",
+      "venueName": "Hyatt Regency Sonoma Wine Country",
+      "address": "170 Railroad Street",
+      "city": "Santa Rosa",
+      "state": "CA",
+      "postalCode": "95401",
+      "lat": "38.435579",
+      "lng": "-122.7190303",
+      "dayOfWeek": "wednesday",
+      "startTime": "6:00 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-16"
+      ],
+      "titles": [
+        "Mahjong 101 hosted by Mahjong with Amy x Hyatt Regency Sonoma Wine Country"
+      ],
+      "summary": "Learn to play Mahjong with Mahjong with Amy at the Hyatt Regency Sonoma Wine Country"
+    },
+    {
+      "name": "Mahjong @ the Library",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-the-library-tickets-1997981776277",
+      "venueName": "San Leandro Public Library",
+      "address": "300 Estudillo Avenue",
+      "city": "San Leandro",
+      "state": "CA",
+      "postalCode": "94577",
+      "lat": "37.72603",
+      "lng": "-122.1540461",
+      "dayOfWeek": "tuesday",
+      "startTime": "5:30 PM",
+      "endTime": "7:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-01"
+      ],
+      "titles": [
+        "Mahjong @ the Library"
+      ],
+      "summary": "Join us for mahjong at the San Leandro Main Library on Tues Sept 1, 2026 from 5:30PM - 7:30PM as part of their Game Night!"
+    },
+    {
+      "name": "Mahjong Lesson for Beginners in  Central Valley, SF Bay Area or Online",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-lesson-for-beginners-in-central-valley-sf-bay-area-or-online-tickets-1982932603797",
+      "venueName": "Cipponeri Road",
+      "address": "Cipponeri Road",
+      "city": "Riverbank",
+      "state": "CA",
+      "postalCode": "95367",
+      "lat": "37.7350442",
+      "lng": "-120.9624472",
+      "dayOfWeek": "monday",
+      "startTime": "3:00 PM",
+      "endTime": "5:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-08-31"
+      ],
+      "titles": [
+        "Mahjong Lesson for Beginners in  Central Valley, SF Bay Area or Online"
+      ],
+      "summary": "Hands-on Mahjong class with Mahjong Academy and free practice with the world’s first AI Coach for real players"
+    },
+    {
+      "name": "American Mah Jongg: Beginners Class",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/american-mah-jongg-beginners-class-tickets-1998287683253",
+      "venueName": "Marin Art and Garden Center, Sir Francis Drake Boulevard, Ross, CA, USA",
+      "address": "30 Sir Francis Drake Boulevard",
+      "city": "Ross",
+      "state": "CA",
+      "postalCode": "94957",
+      "lat": "37.9634413",
+      "lng": "-122.5556122",
+      "dayOfWeek": "tuesday",
+      "startTime": "10:30 AM",
+      "endTime": "1:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-15"
+      ],
+      "titles": [
+        "American Mah Jongg: Beginners Class"
+      ],
+      "summary": "This introductory class meets on two Tuesdays, September 15 and 22, 10:30 am to 1 pm — you must attend both sessions."
+    },
+    {
+      "name": "Mahjong Monday",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-monday-tickets-1998642622887",
+      "venueName": "2057 N Los Robles Ave",
+      "address": "2057 North Los Robles Avenue",
+      "city": "Pasadena",
+      "state": "CA",
+      "postalCode": "91104",
+      "lat": "34.1811359",
+      "lng": "-118.1422548",
+      "dayOfWeek": "monday",
+      "startTime": "6:30 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-07"
+      ],
+      "titles": [
+        "Mahjong Monday"
+      ],
+      "summary": "Join your community for a fun evening of beginner-friendly, open mahjong play. Hosted by a book and boba cafe."
+    },
+    {
+      "name": "Mahjong Madness",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-madness-tickets-1998658960754",
+      "venueName": "648 S Broadway",
+      "address": "648 South Broadway",
+      "city": "Los Angeles",
+      "state": "CA",
+      "postalCode": "90014",
+      "lat": "34.0453504",
+      "lng": "-118.2529238",
+      "dayOfWeek": "sunday",
+      "startTime": "12:00 PM",
+      "endTime": "7:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-06"
+      ],
+      "titles": [
+        "Mahjong Madness"
+      ],
+      "summary": "Gather your tile-clackers at The Sanctuary at Clifton's for Mahjong Madness!"
+    },
+    {
+      "name": "Mahjong Social — Every Friday @ United Dumplings Rockridge",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-social-every-friday-united-dumplings-rockridge-tickets-1996760136319",
+      "venueName": "6247 College Ave",
+      "address": "6247 College Avenue",
+      "city": "Oakland",
+      "state": "CA",
+      "postalCode": "94618",
+      "lat": "37.8500559",
+      "lng": "-122.2525653",
+      "dayOfWeek": "friday",
+      "startTime": "5:30 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-04"
+      ],
+      "titles": [
+        "Mahjong Social — Every Friday @ United Dumplings Rockridge",
+        "Mahjong Learning Night — Every Other Friday @ United Dumplings Rockridge"
+      ],
+      "summary": "Cozy community Mahjong night for all levels. Friendly tables, optional guidance, relaxed vibe. No experience needed—just come play!"
+    },
+    {
+      "name": "Mahjong Happy Hour",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-happy-hour-tickets-1997980828442",
+      "venueName": "Naan Soju Bang",
+      "address": "1865 Orchard Avenue",
+      "city": "San Leandro",
+      "state": "CA",
+      "postalCode": "94577",
+      "lat": "37.716106",
+      "lng": "-122.1622383",
+      "dayOfWeek": "thursday",
+      "startTime": "5:30 PM",
+      "endTime": "9:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-03"
+      ],
+      "titles": [
+        "Mahjong Happy Hour"
+      ],
+      "summary": "Mahjong 5:30PM - 9:00PM every 1st & 3rd Thursday monthly.  Free lessons and Open Play."
+    },
+    {
+      "name": "Bay to Bay Mahj Co Mahjong Open Play",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/bay-to-bay-mahj-co-mahjong-open-play-tickets-1996982648860",
+      "venueName": "Good Fortune St. Pete",
+      "address": "260 1st Avenue South",
+      "city": "St. Petersburg",
+      "state": "FL",
+      "postalCode": "33701",
+      "lat": "27.7700657",
+      "lng": "-82.6364851",
+      "dayOfWeek": "wednesday",
+      "startTime": "6:00 PM",
+      "endTime": "9:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-02"
+      ],
+      "titles": [
+        "Bay to Bay Mahj Co Mahjong Open Play"
+      ],
+      "summary": "Join us for Mahjong open play—Good Tiles, Good Food, & Good Fortune!"
+    },
+    {
+      "name": "Mahjong 101- Intro to American Mahjong",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-101-intro-to-american-mahjong-registration-1998917833048",
+      "venueName": "Naked Farmer",
+      "address": "200 Central Avenue",
+      "city": "St. Petersburg",
+      "state": "FL",
+      "postalCode": "33701",
+      "lat": "27.7709248",
+      "lng": "-82.6362027",
+      "dayOfWeek": "sunday",
+      "startTime": "2:00 PM",
+      "endTime": "4:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-11-15"
+      ],
+      "titles": [
+        "Mahjong 101- Intro to American Mahjong"
+      ],
+      "summary": "This is a personalized small-group class.  Learn all the rules and feel confident playing with friends."
+    },
+    {
+      "name": "Open Play Mahjong (Beginners to Advanced) Free to attend",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/open-play-mahjong-beginners-to-advanced-free-to-attend-tickets-1996420877587",
+      "venueName": "Georgies UTC Restaurant & Bar",
+      "address": "229 North Cattlemen Road",
+      "city": "Sarasota",
+      "state": "FL",
+      "postalCode": "34243",
+      "lat": "27.3848645",
+      "lng": "-82.4568414",
+      "dayOfWeek": "wednesday",
+      "startTime": "6:30 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-16"
+      ],
+      "titles": [
+        "Open Play Mahjong (Beginners to Advanced) Free to attend"
+      ],
+      "summary": "Come hang out and sharpen your mahjong skills, whether you’re just starting out or a total pro, all for free!"
+    },
+    {
+      "name": "Mahjong Monday",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-monday-tickets-1998378887046",
+      "venueName": "Bayboro Brewing Co",
+      "address": "2390 5th Avenue South",
+      "city": "St. Petersburg",
+      "state": "FL",
+      "postalCode": "33712",
+      "lat": "27.7663058",
+      "lng": "-82.6655627",
+      "dayOfWeek": "monday",
+      "startTime": "7:00 PM",
+      "endTime": "10:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-07"
+      ],
+      "titles": [
+        "Mahjong Monday"
+      ],
+      "summary": "Mahjong Mondays \n\nCome hang out, grab a drink, and learn or play the classic game of Mahjong! Whether you're a seasoned player or complete"
+    },
+    {
+      "name": "Mah Jong",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mah-jong-tickets-1998956551857",
+      "venueName": "Art Ovation Hotel, Autograph Collection",
+      "address": "1255 North Palm Avenue",
+      "city": "Sarasota",
+      "state": "FL",
+      "postalCode": "34236",
+      "lat": "27.336606",
+      "lng": "-82.54488099999999",
+      "dayOfWeek": "saturday",
+      "startTime": "1:00 PM",
+      "endTime": "4:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-19"
+      ],
+      "titles": [
+        "Mah Jong"
+      ],
+      "summary": "Learn the game, test your skills and raise a glass during an instructor-led afternoon of tiles and spirited fun."
+    },
+    {
+      "name": "MahJongg for Beginners",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjongg-for-beginners-tickets-1998930904144",
+      "venueName": "One Health Center at 1714 SW 17th Street, Ocala, FL  34471",
+      "address": "1714 Southwest 17th Street",
+      "city": "Ocala",
+      "state": "FL",
+      "postalCode": "34471",
+      "lat": "29.1701874",
+      "lng": "-82.1546201",
+      "dayOfWeek": "friday",
+      "startTime": "1:00 PM",
+      "endTime": "3:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-04"
+      ],
+      "titles": [
+        "MahJongg for Beginners"
+      ],
+      "summary": "Jump into the fun world of MahJongg with easy tips and tricks perfect for total newbies."
+    },
+    {
+      "name": "Mimosas & Mahjong",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mimosas-mahjong-tickets-1997092527510",
+      "venueName": "San Jose Country Club",
+      "address": "7529 San Jose Boulevard",
+      "city": "Jacksonville",
+      "state": "FL",
+      "postalCode": "32217",
+      "lat": "30.242013",
+      "lng": "-81.6243021",
+      "dayOfWeek": "sunday",
+      "startTime": "11:00 AM",
+      "endTime": "2:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-27"
+      ],
+      "titles": [
+        "Mimosas & Mahjong"
+      ],
+      "summary": "Brunch. Bubbles. Mahjong. ✨ Join us for an afternoon of play, cocktails & fun, all benefiting Once Upon a Room Jax."
+    },
+    {
+      "name": "Morning Mahjong at K&A Coastal",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/morning-mahjong-at-ka-coastal-tickets-1998780857350",
+      "venueName": "K&A Coastal Design",
+      "address": "4910 Tamiami Trail North",
+      "city": "Naples",
+      "state": "FL",
+      "postalCode": "34103",
+      "lat": "26.206988",
+      "lng": "-81.7994847",
+      "dayOfWeek": "thursday",
+      "startTime": "9:30 AM",
+      "endTime": "12:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-10-15"
+      ],
+      "titles": [
+        "Morning Mahjong at K&A Coastal"
+      ],
+      "summary": "Join us for a morning of Mahjong at K&A Coastal in Naples!"
+    },
+    {
+      "name": "SWFL Mahjong League KickOff Event",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/swfl-mahjong-league-kickoff-event-tickets-1997723792641",
+      "venueName": "Clive Daniel Home",
+      "address": "2777 Tamiami Trail North",
+      "city": "Naples",
+      "state": "FL",
+      "postalCode": "34103",
+      "lat": "26.1796803",
+      "lng": "-81.80032120000001",
+      "dayOfWeek": "sunday",
+      "startTime": "1:00 PM",
+      "endTime": "4:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-20"
+      ],
+      "titles": [
+        "SWFL Mahjong League KickOff Event"
+      ],
+      "summary": "Kickoff for our Naples Fall League Season"
+    },
+    {
+      "name": "Lola 41 x SWFL Mahjong Open Play",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/lola-41-x-swfl-mahjong-open-play-tickets-1997771474258",
+      "venueName": "LoLa 41 Naples",
+      "address": "560 9th Street South",
+      "city": "Naples",
+      "state": "FL",
+      "postalCode": "34102",
+      "lat": "26.1412322",
+      "lng": "-81.7948916",
+      "dayOfWeek": "wednesday",
+      "startTime": "3:00 PM",
+      "endTime": "5:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-30"
+      ],
+      "titles": [
+        "Lola 41 x SWFL Mahjong Open Play"
+      ],
+      "summary": "Whether you’re brand new to mahjong or looking for more time at the table this your event!"
+    },
+    {
+      "name": "Mahjong Club - September",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-club-september-tickets-1999025685638",
+      "venueName": "2173 Periwinkle Way",
+      "address": "2173 Periwinkle Way",
+      "city": "Sanibel",
+      "state": "FL",
+      "postalCode": "33957",
+      "lat": "26.4372701",
+      "lng": "-82.0723494",
+      "dayOfWeek": "thursday",
+      "startTime": "5:30 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-24"
+      ],
+      "titles": [
+        "Mahjong Club - September"
+      ],
+      "summary": "Join us at the Community House for our monthly mahjong club led by Bubbly Latitude's very own Sarah and Kate!"
+    },
+    {
+      "name": "Chocolattes x SWFL Mahjong Open Play",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/chocolattes-x-swfl-mahjong-open-play-tickets-1997926237158",
+      "venueName": "Chocolattés Downtown",
+      "address": "2180 West First Street",
+      "city": "Fort Myers",
+      "state": "FL",
+      "postalCode": "33901",
+      "lat": "26.638604",
+      "lng": "-81.8781336",
+      "dayOfWeek": "thursday",
+      "startTime": "10:00 AM",
+      "endTime": "12:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-10"
+      ],
+      "titles": [
+        "Chocolattes x SWFL Mahjong Open Play"
+      ],
+      "summary": "Join us for a morning of mahjong at Chocolattes! ☕"
+    },
+    {
+      "name": "Martini Mahjong Mondays  @ 55 Seventy",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/martini-mahjong-mondays-55-seventy-tickets-1998137200154",
+      "venueName": "55 Seventy Private Members Club",
+      "address": "6130 Berkshire Lane",
+      "city": "Dallas",
+      "state": "TX",
+      "postalCode": "75225",
+      "lat": "32.8642604",
+      "lng": "-96.8048743",
+      "dayOfWeek": "monday",
+      "startTime": "6:30 PM",
+      "endTime": "9:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-21"
+      ],
+      "titles": [
+        "Martini Mahjong Mondays  @ 55 Seventy"
+      ],
+      "summary": "Where Mondays Become Your Favorite Night of the Week"
+    },
+    {
+      "name": "The Mahjong Lunch Club: Labor Day Edition at 55 Seventy",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/the-mahjong-lunch-club-labor-day-edition-at-55-seventy-tickets-1998936337395",
+      "venueName": "55 Seventy Private Members Club",
+      "address": "6130 Berkshire Lane",
+      "city": "Dallas",
+      "state": "TX",
+      "postalCode": "75225",
+      "lat": "32.8642604",
+      "lng": "-96.8048743",
+      "dayOfWeek": "monday",
+      "startTime": "11:30 AM",
+      "endTime": "2:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-07"
+      ],
+      "titles": [
+        "The Mahjong Lunch Club: Labor Day Edition at 55 Seventy"
+      ],
+      "summary": "Lunch. Laughs. Mahj. Spend your Labor Day with good friends, good tiles & great times at 55 Seventy."
+    },
+    {
+      "name": "MAHJONG AT LOCALPRO REALTY",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-at-localpro-realty-tickets-1998989737115",
+      "venueName": "5801 Headquarters Dr suite 775",
+      "address": "5801 Headquarters Drive",
+      "city": "Plano",
+      "state": "TX",
+      "postalCode": "75024",
+      "lat": "33.0845825",
+      "lng": "-96.8222251",
+      "dayOfWeek": "friday",
+      "startTime": "1:00 PM",
+      "endTime": "3:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-25"
+      ],
+      "titles": [
+        "MAHJONG AT LOCALPRO REALTY"
+      ],
+      "summary": "Get ready to test your tile skills and have a blast with friends over some Mahjong fun!  Instruction available for beginners."
+    },
+    {
+      "name": "Morrison Ranch Mahjong 101",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/morrison-ranch-mahjong-101-tickets-1998092410186",
+      "venueName": "2957 E Pinto Dr",
+      "address": "2957 East Pinto Drive",
+      "city": "Gilbert",
+      "state": "AZ",
+      "postalCode": "85296",
+      "lat": "33.3375772",
+      "lng": "-111.7265709",
+      "dayOfWeek": "thursday",
+      "startTime": "5:00 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-17"
+      ],
+      "titles": [
+        "Morrison Ranch Mahjong 101"
+      ],
+      "summary": "I'm teaching the basics from square one — how the tiles work, how a hand comes together, and the little tips that make it click."
+    },
+    {
+      "name": "Sept 20 -  Shopping & Mahjong at LILYMAES",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/sept-20-shopping-mahjong-at-lilymaes-tickets-1996243468953",
+      "venueName": "Lily Mae's",
+      "address": "2812 Rogers Road",
+      "city": "Wake Forest",
+      "state": "NC",
+      "postalCode": "27587",
+      "lat": "35.9523987",
+      "lng": "-78.5263118",
+      "dayOfWeek": "sunday",
+      "startTime": "6:30 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-20"
+      ],
+      "titles": [
+        "Sept 20 -  Shopping & Mahjong at LILYMAES"
+      ],
+      "summary": "Join us at Lilymaes for a fun night of play, browsing, and if you spend $25 you can enter to win a special gift basket!"
+    },
+    {
+      "name": "Mahjong 101",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-101-tickets-1993934631157",
+      "venueName": "The Chapel at Dix Park",
+      "address": "1030 Richardson Drive",
+      "city": "Raleigh",
+      "state": "NC",
+      "postalCode": "27603",
+      "lat": "35.77039409999999",
+      "lng": "-78.6568783",
+      "dayOfWeek": "saturday",
+      "startTime": "1:00 PM",
+      "endTime": "3:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-05"
+      ],
+      "titles": [
+        "Mahjong 101"
+      ],
+      "summary": "American Mahjong Beginner Lesson"
+    },
+    {
+      "name": "Raleigh Founded Beginner Mahjong Lesson",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/raleigh-founded-beginner-mahjong-lesson-tickets-1998562397932",
+      "venueName": "Raleigh Founded - North Street",
+      "address": "509 West North Street",
+      "city": "Raleigh",
+      "state": "NC",
+      "postalCode": "27603",
+      "lat": "35.7847774",
+      "lng": "-78.64671539999999",
+      "dayOfWeek": "monday",
+      "startTime": "6:00 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-21"
+      ],
+      "titles": [
+        "Raleigh Founded Beginner Mahjong Lesson"
+      ],
+      "summary": "Join us in Raleigh for a fun, beginner-friendly Mahjong lesson—no experience needed, just good vibes!"
+    },
+    {
+      "name": "Tea with M.E & Mahjong Melange",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/tea-with-me-mahjong-melange-tickets-1998378311324",
+      "venueName": "3500 Westgate Dr",
+      "address": "3500 Westgate Drive",
+      "city": "Durham",
+      "state": "NC",
+      "postalCode": "27707",
+      "lat": "35.96413039999999",
+      "lng": "-78.9615783",
+      "dayOfWeek": "thursday",
+      "startTime": "6:00 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-10"
+      ],
+      "titles": [
+        "Tea with M.E & Mahjong Melange"
+      ],
+      "summary": "Whether you're a Mahjong master or have never touched a tile before, we'll welcome you with open arms, tasty treats, and a warm cup of tea!"
+    },
+    {
+      "name": "Stephen’s Glen Mahjong Social Club",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/stephens-glen-mahjong-social-club-tickets-1998744586864",
+      "venueName": "85 Stephens Way",
+      "address": "85 Stephens Way",
+      "city": "Youngsville",
+      "state": "NC",
+      "postalCode": "27596",
+      "lat": "36.040895",
+      "lng": "-78.4567417",
+      "dayOfWeek": "sunday",
+      "startTime": "2:30 PM",
+      "endTime": "4:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-13"
+      ],
+      "titles": [
+        "Stephen’s Glen Mahjong Social Club"
+      ],
+      "summary": "Join us for fun and laughs at Stephen’s Glen Mahjong Social Club, where tiles and good vibes meet in person! New learners welcome."
+    },
+    {
+      "name": "Mahjong for Missions",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-for-missions-tickets-1993883806138",
+      "venueName": "First Presbyterian Church",
+      "address": "520 Washington Avenue",
+      "city": "Savannah",
+      "state": "GA",
+      "postalCode": "31405",
+      "lat": "32.0468644",
+      "lng": "-81.0907168",
+      "dayOfWeek": "saturday",
+      "startTime": "9:00 AM",
+      "endTime": "1:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-19"
+      ],
+      "titles": [
+        "Mahjong for Missions"
+      ],
+      "summary": "Benefitting the Missions of First Presbyterian Church"
+    },
+    {
+      "name": "Two Part Mahjong Class at Gifted Hilton Head",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/two-part-mahjong-class-at-gifted-hilton-head-tickets-1998273227014",
+      "venueName": "Gifted Hilton Head",
+      "address": "1000 William Hilton Parkway",
+      "city": "Hilton Head Island",
+      "state": "SC",
+      "postalCode": "29928",
+      "lat": "32.1603217",
+      "lng": "-80.75411749999999",
+      "dayOfWeek": "thursday",
+      "startTime": "5:30 PM",
+      "endTime": "7:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-10"
+      ],
+      "titles": [
+        "Two Part Mahjong Class at Gifted Hilton Head"
+      ],
+      "summary": "Two classes designed to teach you the game at a great pace. Thurs., Sept. 10th - Introduction to Mahjong. Thurs., Sept. 17th Mahjong 101"
+    },
+    {
+      "name": "Bluffton Mahjong 3 Part Lesson - May",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/bluffton-mahjong-3-part-lesson-may-tickets-1998385543957",
+      "venueName": "The Bluffton Bookshop",
+      "address": "89 Bridge Street",
+      "city": "Bluffton",
+      "state": "SC",
+      "postalCode": "29910",
+      "lat": "32.233237",
+      "lng": "-80.86631190000001",
+      "dayOfWeek": "wednesday",
+      "startTime": "5:30 PM",
+      "endTime": "7:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-09"
+      ],
+      "titles": [
+        "Bluffton Mahjong 3 Part Lesson - May"
+      ],
+      "summary": "Learn to play Mahjong in this leisurely paced three-part series."
+    },
+    {
+      "name": "Mahjongg with Dragon 152 Club and  City Vino",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjongg-with-dragon-152-club-and-city-vino-tickets-1998111250538",
+      "venueName": "City Vino",
+      "address": "100 Hanover Street",
+      "city": "Fredericksburg",
+      "state": "VA",
+      "postalCode": "22401",
+      "lat": "38.301778",
+      "lng": "-77.45749800000002",
+      "dayOfWeek": "sunday",
+      "startTime": "2:00 PM",
+      "endTime": "4:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-20"
+      ],
+      "titles": [
+        "Mahjongg with Dragon 152 Club and  City Vino"
+      ],
+      "summary": "Afternoon of Guided and Social Play, come early for lunch."
+    },
+    {
+      "name": "Mahjong & Mingle with the Jess Young Team",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-mingle-with-the-jess-young-team-tickets-1998437186421",
+      "venueName": "8151 Bell Tower Crossing",
+      "address": "8151 Bell Tower Crossing",
+      "city": "Pasadena",
+      "state": "MD",
+      "postalCode": "21122",
+      "lat": "39.1248121",
+      "lng": "-76.5523608",
+      "dayOfWeek": "monday",
+      "startTime": "4:00 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-28"
+      ],
+      "titles": [
+        "Mahjong & Mingle with the Jess Young Team"
+      ],
+      "summary": "Connect, learn and play Mahjong with the Jess Young Team. Players of all levels welcome. We will have an instructor, lite bites and prizes."
+    },
+    {
+      "name": "Introduction to Mah Jongg (two sessions) in Montgomery County, Md.",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/introduction-to-mah-jongg-two-sessions-in-montgomery-county-md-tickets-1994476089674",
+      "venueName": "Locally Crafted Workshop",
+      "address": "35 Grand Corner Avenue",
+      "city": "Gaithersburg",
+      "state": "MD",
+      "postalCode": "20878",
+      "lat": "39.118428",
+      "lng": "-77.203451",
+      "dayOfWeek": "tuesday",
+      "startTime": "6:30 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-15"
+      ],
+      "titles": [
+        "Introduction to Mah Jongg (two sessions) in Montgomery County, Md."
+      ],
+      "summary": "Learn the game of Mah Jongg (American style). This two-evening workshop introduces beginners to the basic rules and simple strategies."
+    },
+    {
+      "name": "Mahjong Open Play at Doubles with Montauk Mahj.",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-open-play-at-doubles-with-montauk-mahj-tickets-1998836748522",
+      "venueName": "Doubles Amagansett",
+      "address": "12 Amagansett Square",
+      "city": "Amagansett",
+      "state": "NY",
+      "postalCode": "11930",
+      "lat": "40.9741931",
+      "lng": "-72.1409901",
+      "dayOfWeek": "tuesday",
+      "startTime": "11:00 AM",
+      "endTime": "1:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-01"
+      ],
+      "titles": [
+        "Mahjong Open Play at Doubles with Montauk Mahj."
+      ],
+      "summary": "Relaxed Open Play Mahjong at Doubles in Amagansett.  All levels welcome. Event times may vary by date."
+    },
+    {
+      "name": "Mahjong at The Mansion",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-at-the-mansion-tickets-1999170685336",
+      "venueName": "The Mansion at Glen Cove",
+      "address": "200 Dosoris Lane",
+      "city": "Glen Cove",
+      "state": "NY",
+      "postalCode": "11542",
+      "lat": "40.8856178",
+      "lng": "-73.62890419999997",
+      "dayOfWeek": "wednesday",
+      "startTime": "6:00 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-30"
+      ],
+      "titles": [
+        "Mahjong at The Mansion"
+      ],
+      "summary": "Join us for Mahjong at The Mansion, an elevated evening of play, connection, and indulgence presented in collaboration with Mahjong Living."
+    },
+    {
+      "name": "Mahjong Lesson + Open Play",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-lesson-open-play-tickets-1997641780340",
+      "venueName": "Twisted Cow Distillery",
+      "address": "13 Hewitt Square",
+      "city": "East Northport",
+      "state": "NY",
+      "postalCode": "11731",
+      "lat": "40.8765858",
+      "lng": "-73.3235698",
+      "dayOfWeek": "tuesday",
+      "startTime": "6:30 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-01"
+      ],
+      "titles": [
+        "Mahjong Lesson + Open Play"
+      ],
+      "summary": "Ready to learn something new? Join our Mahjong 101 event for a fun, beginner friendly intro to the game."
+    },
+    {
+      "name": "Mahjong Midsummer Classic",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-midsummer-classic-tickets-1998251537139",
+      "venueName": "210 Rowayton Ave",
+      "address": "210 Rowayton Avenue",
+      "city": "Norwalk",
+      "state": "CT",
+      "postalCode": "06853",
+      "lat": "41.0717379",
+      "lng": "-73.4440719",
+      "dayOfWeek": "saturday",
+      "startTime": "11:00 AM",
+      "endTime": "2:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-19"
+      ],
+      "titles": [
+        "Mahjong Midsummer Classic"
+      ],
+      "summary": "Join us for an afternoon of Mahjong, friendly competition, and community in support of Shakespeare on the Sound’s Year-End Giving Campaign."
+    },
+    {
+      "name": "MAH JONGG FOR THE RACKS",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mah-jongg-for-the-racks-tickets-1997184780441",
+      "venueName": "William J. Vescio Community Center",
+      "address": "3 Library Road",
+      "city": "Briarcliff Manor",
+      "state": "NY",
+      "postalCode": "10510",
+      "lat": "41.14667499999999",
+      "lng": "-73.8245202",
+      "dayOfWeek": "sunday",
+      "startTime": "12:30 PM",
+      "endTime": "4:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-10-04"
+      ],
+      "titles": [
+        "MAH JONGG FOR THE RACKS"
+      ],
+      "summary": "Play your jokers for a cure—Support the Fight Against Breast Cancer!"
+    },
+    {
+      "name": "Mahjong @ TwinsBBQCo",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-twinsbbqco-tickets-1993469475865",
+      "venueName": "Twins BBQ Co",
+      "address": "401 Federal Road",
+      "city": "Brookfield",
+      "state": "CT",
+      "postalCode": "06804",
+      "lat": "41.4562985",
+      "lng": "-73.3993837",
+      "dayOfWeek": "thursday",
+      "startTime": "6:00 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-03"
+      ],
+      "titles": [
+        "Mahjong @ TwinsBBQCo"
+      ],
+      "summary": "Join us for a fun night filled with Mahjong, drinks & tasty eats at Twins BBQ Co. - good vibes & great company - All levels"
+    },
+    {
+      "name": "Mahjong Thursdays",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-thursdays-tickets-1997774307733",
+      "venueName": "Twins BBQ Co",
+      "address": "401 Federal Road",
+      "city": "Brookfield",
+      "state": "CT",
+      "postalCode": "06804",
+      "lat": "41.4562985",
+      "lng": "-73.3993837",
+      "dayOfWeek": "thursday",
+      "startTime": "5:00 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-03"
+      ],
+      "titles": [
+        "Mahjong Thursdays"
+      ],
+      "summary": "Join us for a fun night filled with Mahjong, drinks & tasty eats at Twins BBQ Co. - good vibes & great company"
+    },
+    {
+      "name": "Mahjong 101 with sotrudles at Jackie O's",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-101-with-sotrudles-at-jackie-os-tickets-1995462487015",
+      "venueName": "Jackie O's Needlepoint",
+      "address": "3914 Oak Street",
+      "city": "Cincinnati",
+      "state": "OH",
+      "postalCode": "45227",
+      "lat": "39.1471418",
+      "lng": "-84.38178219999999",
+      "dayOfWeek": "saturday",
+      "startTime": "12:00 PM",
+      "endTime": "2:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-26"
+      ],
+      "titles": [
+        "Mahjong 101 with sotrudles at Jackie O's"
+      ],
+      "summary": "Join us for Mahjong 101, a fun in-person session to learn the basics and enjoy some friendly games!"
+    },
+    {
+      "name": "Mahjong Continuation Class at Slatt's Bar & Grill",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-continuation-class-at-slatts-bar-grill-tickets-1998836755543",
+      "venueName": "Slatts Pub & Grill",
+      "address": "4858 Cooper Road",
+      "city": "Cincinnati",
+      "state": "OH",
+      "postalCode": "45242",
+      "lat": "39.2311093",
+      "lng": "-84.3755783",
+      "dayOfWeek": "wednesday",
+      "startTime": "11:00 AM",
+      "endTime": "1:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-02"
+      ],
+      "titles": [
+        "Mahjong Continuation Class at Slatt's Bar & Grill"
+      ],
+      "summary": "Join us for a part two mahjong class at Slatt's Bar & Grill! ! A mahjong card is needed to play."
+    },
+    {
+      "name": "Mahjong Beginner Class at Slatt's Pub & Grill (Blue Ash)",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-beginner-class-at-slatts-pub-grill-blue-ash-tickets-1995699890094",
+      "venueName": "Slatts Pub & Grill",
+      "address": "4858 Cooper Road",
+      "city": "Cincinnati",
+      "state": "OH",
+      "postalCode": "45242",
+      "lat": "39.2311093",
+      "lng": "-84.3755783",
+      "dayOfWeek": "monday",
+      "startTime": "6:00 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-08-31"
+      ],
+      "titles": [
+        "Mahjong Beginner Class at Slatt's Pub & Grill (Blue Ash)"
+      ],
+      "summary": "Join us for a beginner-friendly Mahjong class at Slatt's! Choose either date to attend. A mahjong card is needed to play."
+    },
+    {
+      "name": "Mahjong Continuation Class at Rusty Bucket",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-continuation-class-at-rusty-bucket-tickets-1997426592708",
+      "venueName": "Rusty Bucket Restaurant and Tavern",
+      "address": "5035 Deerfield Boulevard",
+      "city": "Mason",
+      "state": "OH",
+      "postalCode": "45040",
+      "lat": "39.3071294",
+      "lng": "-84.3150649",
+      "dayOfWeek": "thursday",
+      "startTime": "6:00 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-10"
+      ],
+      "titles": [
+        "Mahjong Continuation Class at Rusty Bucket"
+      ],
+      "summary": "Join us for a part two mahjong class at Rusty Bucket! A mahjong card is needed to play."
+    },
+    {
+      "name": "Mahjong Beginner Class at Rusty Bucket  (Mason)",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-beginner-class-at-rusty-bucket-mason-tickets-1995156966194",
+      "venueName": "Rusty Bucket Restaurant and Tavern",
+      "address": "5035 Deerfield Boulevard",
+      "city": "Mason",
+      "state": "OH",
+      "postalCode": "45040",
+      "lat": "39.3071294",
+      "lng": "-84.3150649",
+      "dayOfWeek": "sunday",
+      "startTime": "2:00 PM",
+      "endTime": "4:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-13"
+      ],
+      "titles": [
+        "Mahjong Beginner Class at Rusty Bucket  (Mason)"
+      ],
+      "summary": "Join us for a beginner-friendly Mahjong class at Rusty Bucket! Choose either date to attend. A mahjong card is needed to play."
+    },
+    {
+      "name": "Mahjong 101 Beginner Class at Sonder Brewing Mason",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-101-beginner-class-at-sonder-brewing-mason-tickets-1997693927313",
+      "venueName": "Sonder Brewing",
+      "address": "8584 Duke Boulevard",
+      "city": "Mason",
+      "state": "OH",
+      "postalCode": "45040",
+      "lat": "39.3132684",
+      "lng": "-84.3018774",
+      "dayOfWeek": "tuesday",
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-15"
+      ],
+      "titles": [
+        "Mahjong 101 Beginner Class at Sonder Brewing Mason"
+      ],
+      "summary": "Join us for a Free Mahjong 101 Beginner's Class on Tuesday, Sept 15th 11:30am-1:30pm at Sonder Brewing Mason in a fun, relaxing atmosphere!"
+    },
+    {
+      "name": "Free Mahjong Open Play at Sonder Brewing Mason",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/free-mahjong-open-play-at-sonder-brewing-mason-tickets-1998637695148",
+      "venueName": "Sonder Brewing",
+      "address": "8584 Duke Boulevard",
+      "city": "Mason",
+      "state": "OH",
+      "postalCode": "45040",
+      "lat": "39.3132684",
+      "lng": "-84.3018774",
+      "dayOfWeek": "friday",
+      "startTime": "11:00 AM",
+      "endTime": "2:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-18"
+      ],
+      "titles": [
+        "Free Mahjong Open Play at Sonder Brewing Mason"
+      ],
+      "summary": "Free Mahjong Open Play at 4-person tables. Great lunch special & drinks. Sets provided. Prizes! Don't miss out on this free, fun Mahj day‼️"
+    },
+    {
+      "name": "Free Mahjong Open Play at Cartridge Brewing",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/free-mahjong-open-play-at-cartridge-brewing-tickets-1996800730738",
+      "venueName": "Cartridge Brewing",
+      "address": "1411 Grandin Road",
+      "city": "Maineville",
+      "state": "OH",
+      "postalCode": "45039",
+      "lat": "39.3507938",
+      "lng": "-84.24146259999999",
+      "dayOfWeek": "thursday",
+      "startTime": "11:00 AM",
+      "endTime": "2:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-03"
+      ],
+      "titles": [
+        "Free Mahjong Open Play at Cartridge Brewing"
+      ],
+      "summary": "Free Mahjong Open Play at 4-person tables. Great lunch special, food and drink. Sets provided. Don't miss out on this free, fun Mahj day‼️"
+    },
+    {
+      "name": "Learn Mahjong Beautifully",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/learn-mahjong-beautifully-registration-1993890108990",
+      "venueName": "Beyond the Brow",
+      "address": "37160 Six Mile Road",
+      "city": "Livonia",
+      "state": "MI",
+      "postalCode": "48152",
+      "lat": "42.4123438",
+      "lng": "-83.4109594",
+      "dayOfWeek": "monday",
+      "startTime": "6:00 PM",
+      "endTime": "9:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-28"
+      ],
+      "titles": [
+        "Learn Mahjong Beautifully"
+      ],
+      "summary": "Learn the fundamentals of American Mahjong in a 2 -day  fun, beginner-friendly class. Just bring your curiosity. We'll provide the rest."
+    },
+    {
+      "name": "Mahjong Open Play",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-open-play-registration-1997615355302",
+      "venueName": "Pin High",
+      "address": "27229 Wolf Rd",
+      "city": "Bay Village",
+      "state": "OH",
+      "postalCode": "44140",
+      "lat": "41.484196",
+      "lng": "-81.92170899999999",
+      "dayOfWeek": "monday",
+      "startTime": "5:30 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-10-19"
+      ],
+      "titles": [
+        "Mahjong Open Play"
+      ],
+      "summary": "Bring your 2026 NMJL card and a friend (or make some new ones!) and join us for a relaxed night of open play.  Wolf & Co pizza provided!"
+    },
+    {
+      "name": "Mahjong at Meraki House",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-at-meraki-house-tickets-1999003608605",
+      "venueName": "Little Meraki Market",
+      "address": "34970 Detroit Road",
+      "city": "Avon",
+      "state": "OH",
+      "postalCode": "44011",
+      "lat": "41.4537665",
+      "lng": "-81.9996199",
+      "dayOfWeek": "sunday",
+      "startTime": "2:00 PM",
+      "endTime": "5:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-06"
+      ],
+      "titles": [
+        "Mahjong at Meraki House"
+      ],
+      "summary": "Grab a glass of wine and a game of Mahjong with Cleveland Mahjong at Meraki House Wine Bar & Market in Avon, Ohio"
+    },
+    {
+      "name": "Mahjong at Meraki? Let's bet on it!",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-at-meraki-lets-bet-on-it-tickets-1997909594379",
+      "venueName": "Little Meraki Market",
+      "address": "34970 Detroit Road",
+      "city": "Avon",
+      "state": "OH",
+      "postalCode": "44011",
+      "lat": "41.4537665",
+      "lng": "-81.9996199",
+      "dayOfWeek": "thursday",
+      "startTime": "6:00 PM",
+      "endTime": "9:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-10"
+      ],
+      "titles": [
+        "Mahjong at Meraki? Let's bet on it!"
+      ],
+      "summary": "Think you know Mahjong? Let's bet on it! Join Cleveland Mahjong for a low-stakes, high-fun introduction to American Mahjong scoring."
+    },
+    {
+      "name": "Martinis and Mahjong:  Beginner Lesson",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/martinis-and-mahjong-beginner-lesson-tickets-1996164462643",
+      "venueName": "Trust Coffee Co",
+      "address": "27225 Wolf Road",
+      "city": "Bay Village",
+      "state": "OH",
+      "postalCode": "44140",
+      "lat": "41.4845057",
+      "lng": "-81.92163339999999",
+      "dayOfWeek": "tuesday",
+      "startTime": "6:00 PM",
+      "endTime": "9:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-08"
+      ],
+      "titles": [
+        "Martinis and Mahjong:  Beginner Lesson"
+      ],
+      "summary": "Joins us for a beautiful night to learn mahjong.  Never played or need a refresher lesson?  We’ll meet you where you are!"
+    },
+    {
+      "name": "Mahjong Guided Play at Avon Wine Room",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-guided-play-at-avon-wine-room-tickets-1998839175782",
+      "venueName": "The Wine Room & Tavern",
+      "address": "35840 Chester Road",
+      "city": "Avon",
+      "state": "OH",
+      "postalCode": "44011",
+      "lat": "41.4683247",
+      "lng": "-82.0156247",
+      "dayOfWeek": "tuesday",
+      "startTime": "6:00 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-15"
+      ],
+      "titles": [
+        "Mahjong Guided Play at Avon Wine Room"
+      ],
+      "summary": "Join us for an evening of Guided Play, American Mahjong style — good tiles, good wine, good company."
+    },
+    {
+      "name": "Mahjong Open Play at Fiamma",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-open-play-at-fiamma-registration-1994591686427",
+      "venueName": "Fiamma Grill and Bar",
+      "address": "380 South Main Street",
+      "city": "Plymouth",
+      "state": "MI",
+      "postalCode": "48170",
+      "lat": "42.3701807",
+      "lng": "-83.46973969999999",
+      "dayOfWeek": "monday",
+      "startTime": "6:30 PM",
+      "endTime": "9:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-21"
+      ],
+      "titles": [
+        "Mahjong Open Play at Fiamma"
+      ],
+      "summary": "Open Play Mahjong with optional coaching, strategy tips and plenty of good times."
+    },
+    {
+      "name": "Mahjong 101 + Open Play at Wild Iris Home",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-101-open-play-at-wild-iris-home-tickets-1996233808057",
+      "venueName": "Wild Iris Home",
+      "address": "36840 Detroit Road",
+      "city": "Avon",
+      "state": "OH",
+      "postalCode": "44011",
+      "lat": "41.4542312",
+      "lng": "-82.0334309",
+      "dayOfWeek": "thursday",
+      "startTime": "6:00 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-10"
+      ],
+      "titles": [
+        "Mahjong 101 + Open Play at Wild Iris Home"
+      ],
+      "summary": "Join us for an evening of American Mahjong. Learn the basics or join a small group for open play!"
+    },
+    {
+      "name": "Learn Mahjong at Clover and Canvas Needlepoint",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/learn-mahjong-at-clover-and-canvas-needlepoint-tickets-1999044657383",
+      "venueName": "Clover and Canvas Needlepoint",
+      "address": "36840 Detroit Road",
+      "city": "Avon",
+      "state": "OH",
+      "postalCode": "44011",
+      "lat": "41.4543958",
+      "lng": "-82.0334357",
+      "dayOfWeek": "monday",
+      "startTime": "11:00 AM",
+      "endTime": "1:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-28"
+      ],
+      "titles": [
+        "Learn Mahjong at Clover and Canvas Needlepoint"
+      ],
+      "summary": "A beginner friendly Mahjong 101 class hosted inside Clover and Canvas Needlepoint in Avon, Ohio."
+    },
+    {
+      "name": "Mahjong League of Auburn Hills",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-league-of-auburn-hills-tickets-1998700396690",
+      "venueName": "Greystone Pickleball Club",
+      "address": "900 North Opdyke Road",
+      "city": "Auburn Hills",
+      "state": "MI",
+      "postalCode": "48326",
+      "lat": "42.6511351",
+      "lng": "-83.2473065",
+      "dayOfWeek": "thursday",
+      "startTime": "6:30 PM",
+      "endTime": "9:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-03"
+      ],
+      "titles": [
+        "Mahjong League of Auburn Hills"
+      ],
+      "summary": "Mahjong league is coming to Auburn Hills! Join us at Greystone for themed nights, friendly competition, prizes and plenty of fun."
+    },
+    {
+      "name": "Beginner Mahjong 101 at Harvey's Tales",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/beginner-mahjong-101-at-harveys-tales-tickets-1995955570842",
+      "venueName": "Harvey's Tales",
+      "address": "216 James Street",
+      "city": "Geneva",
+      "state": "IL",
+      "postalCode": "60134",
+      "lat": "41.8866271",
+      "lng": "-88.3076821",
+      "dayOfWeek": "thursday",
+      "startTime": "11:00 AM",
+      "endTime": "2:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-17"
+      ],
+      "titles": [
+        "Beginner Mahjong 101 at Harvey's Tales"
+      ],
+      "summary": "Are you a complete beginner and ready to dive in?  Come learn this fascinating tile game in a small group setting.   Join us!"
+    },
+    {
+      "name": "Mahjong Fundraiser to Benefit Lynn Sage Breast Cancer Foundation",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-fundraiser-to-benefit-lynn-sage-breast-cancer-foundation-tickets-1994718723398",
+      "venueName": "Arrowhead Golf Club",
+      "address": "26W151 Butterfield Road",
+      "city": "Wheaton",
+      "state": "IL",
+      "postalCode": "60189",
+      "lat": "41.82897",
+      "lng": "-88.133915",
+      "dayOfWeek": "sunday",
+      "startTime": "12:30 PM",
+      "endTime": "4:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-10-04"
+      ],
+      "titles": [
+        "Mahjong Fundraiser to Benefit Lynn Sage Breast Cancer Foundation"
+      ],
+      "summary": "Join us for our Tiles of Hope mahjong fundraiser to  benefit Lynn Sage Breast Cancer Foundation and breast cancer research!"
+    },
+    {
+      "name": "Mahjong 102 & Guided Play at Maple Leaf Coffee House",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-102-guided-play-at-maple-leaf-coffee-house-tickets-1996816216055",
+      "venueName": "Maple Leaf Roasters Coffee House (Cafe Location)",
+      "address": "1 Illinois Street",
+      "city": "St. Charles",
+      "state": "IL",
+      "postalCode": "60174",
+      "lat": "41.9118038",
+      "lng": "-88.3130139",
+      "dayOfWeek": "thursday",
+      "startTime": "10:00 AM",
+      "endTime": "12:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-24"
+      ],
+      "titles": [
+        "Mahjong 102 & Guided Play at Maple Leaf Coffee House"
+      ],
+      "summary": "Come play, ask your questions, and become a stronger mahjong player - all while meeting other players over coffee and treats!  Let's play!"
+    },
+    {
+      "name": "Rustic Fox Mahjong 101 After Party",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/rustic-fox-mahjong-101-after-party-tickets-1998645182543",
+      "venueName": "The Rustic Fox - Furniture & Decor",
+      "address": "1790 Towne Center Drive",
+      "city": "North Aurora",
+      "state": "IL",
+      "postalCode": "60542",
+      "lat": "41.7956571",
+      "lng": "-88.3639729",
+      "dayOfWeek": "monday",
+      "startTime": "6:00 PM",
+      "endTime": "9:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-14"
+      ],
+      "titles": [
+        "Rustic Fox Mahjong 101 After Party"
+      ],
+      "summary": "Join The Mahjong Ensemble to learn and explore the game of American Mahjong, because making time for ME matters!"
+    },
+    {
+      "name": "Mahjong 101 in Bartlett",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-101-in-bartlett-tickets-1993959714181",
+      "venueName": "Second Chances Curated Living",
+      "address": "336 S Main Street",
+      "city": "Bartlett",
+      "state": "IL",
+      "postalCode": "60103",
+      "lat": "41.989433",
+      "lng": "-88.1850269",
+      "dayOfWeek": "sunday",
+      "startTime": "1:00 PM",
+      "endTime": "4:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-20"
+      ],
+      "titles": [
+        "Mahjong 101 in Bartlett"
+      ],
+      "summary": "Join us in person to learn Mahjong basics in a unique boutique setting — fun vibes guaranteed!"
+    },
+    {
+      "name": "Mahjong: Guided and Open Play",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-guided-and-open-play-tickets-1993982267639",
+      "venueName": "Second Chances Curated Living",
+      "address": "336 S Main Street",
+      "city": "Bartlett",
+      "state": "IL",
+      "postalCode": "60103",
+      "lat": "41.989433",
+      "lng": "-88.1850269",
+      "dayOfWeek": "monday",
+      "startTime": "5:30 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-21"
+      ],
+      "titles": [
+        "Mahjong: Guided and Open Play"
+      ],
+      "summary": "Join us in person to play Mahjong in a unique boutique setting — fun vibes guaranteed!"
+    },
+    {
+      "name": "Mahjong Brunch and Open Play- Sundays",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-brunch-and-open-play-sundays-tickets-1997647922712",
+      "venueName": "Paisley Boutique",
+      "address": "36 West Lockwood Avenue",
+      "city": "St. Louis",
+      "state": "MO",
+      "postalCode": "63119",
+      "lat": "38.592689",
+      "lng": "-90.3583506",
+      "dayOfWeek": "sunday",
+      "startTime": "11:30 AM",
+      "endTime": "2:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-06"
+      ],
+      "titles": [
+        "Mahjong Brunch and Open Play- Sundays"
+      ],
+      "summary": "Enjoy a relaxing morning of Mahjong, brunch bites and complimentary morning cocktails at Paisley!"
+    },
+    {
+      "name": "A Charming Mahjong League: Wednesday Nights",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/a-charming-mahjong-league-wednesday-nights-tickets-1997335468152",
+      "venueName": "36 W Lockwood Ave",
+      "address": "36 West Lockwood Avenue",
+      "city": "Webster Groves",
+      "state": "MO",
+      "postalCode": "63119",
+      "lat": "38.5927304",
+      "lng": "-90.3583242",
+      "dayOfWeek": "wednesday",
+      "startTime": "6:00 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-02"
+      ],
+      "titles": [
+        "A Charming Mahjong League: Wednesday Nights"
+      ],
+      "summary": "Join Paisley and Collections by Joya for an 8-week Mahjong League filled with Mahjong, cocktails, light bites, charms and competitive play"
+    },
+    {
+      "name": "Mahjong Brunch and Open Play: Sunday",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-brunch-and-open-play-sunday-tickets-1997647896634",
+      "venueName": "36 W Lockwood Ave",
+      "address": "36 West Lockwood Avenue",
+      "city": "Webster Groves",
+      "state": "MO",
+      "postalCode": "63119",
+      "lat": "38.5927304",
+      "lng": "-90.3583242",
+      "dayOfWeek": "sunday",
+      "startTime": "11:30 AM",
+      "endTime": "2:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-13"
+      ],
+      "titles": [
+        "Mahjong Brunch and Open Play: Sunday"
+      ],
+      "summary": "Enjoy a relaxing morning of Mahjong, brunch bites and complimentary morning cocktails at Paisley!"
+    },
+    {
+      "name": "Mahjong 101 on 9/20 at The Golden Hoosier with Mahj Podge",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-101-on-920-at-the-golden-hoosier-with-mahj-podge-tickets-1998695392723",
+      "venueName": "The Golden Hoosier",
+      "address": "3707 South Kingshighway Boulevard",
+      "city": "St. Louis",
+      "state": "MO",
+      "postalCode": "63109",
+      "lat": "38.592924",
+      "lng": "-90.2726143",
+      "dayOfWeek": "sunday",
+      "startTime": "1:00 PM",
+      "endTime": "4:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-20"
+      ],
+      "titles": [
+        "Mahjong 101 on 9/20 at The Golden Hoosier with Mahj Podge"
+      ],
+      "summary": "Ready to learn American Mahjong? Join us for a fun, welcoming beginner class perfect for anyone new to the game or looking for a refresher."
+    },
+    {
+      "name": "The Paisley Mahjong Tournament",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/the-paisley-mahjong-tournament-tickets-1997720904001",
+      "venueName": "36 W Lockwood Ave",
+      "address": "36 West Lockwood Avenue",
+      "city": "Webster Groves",
+      "state": "MO",
+      "postalCode": "63119",
+      "lat": "38.592689",
+      "lng": "-90.3583506",
+      "dayOfWeek": "sunday",
+      "startTime": "4:00 PM",
+      "endTime": "7:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-11-15"
+      ],
+      "titles": [
+        "The Paisley Mahjong Tournament"
+      ],
+      "summary": "Mahjong Tournament at Paisley with Cocktails, Bites, and Prizes! 1st place winner receives $250 giftcard and a box of Oh My Mahjong Tiles"
+    },
+    {
+      "name": "Mahjong 101 on 9/17 at Blush Home Decor in Belleville with Mahj Podge",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-101-on-917-at-blush-home-decor-in-belleville-with-mahj-podge-tickets-1998930260218",
+      "venueName": "Blush Home Decor by JSB Designs",
+      "address": "132 West Main Street",
+      "city": "Belleville",
+      "state": "IL",
+      "postalCode": "62220",
+      "lat": "38.5134441",
+      "lng": "-89.9867745",
+      "dayOfWeek": "thursday",
+      "startTime": "6:00 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-17"
+      ],
+      "titles": [
+        "Mahjong 101 on 9/17 at Blush Home Decor in Belleville with Mahj Podge"
+      ],
+      "summary": "Ready to learn American Mahjong? Join us for a fun, welcoming beginner class perfect for anyone new to the game or looking for a refresher."
+    },
+    {
+      "name": "Mahjong Open Play at Magpies",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-open-play-at-magpies-tickets-1998130164109",
+      "venueName": "Magpie's Restaurant",
+      "address": "903 South Main Street",
+      "city": "Saint Charles",
+      "state": "MO",
+      "postalCode": "63301",
+      "lat": "38.7748222",
+      "lng": "-90.4847917",
+      "dayOfWeek": "wednesday",
+      "startTime": "6:00 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-30"
+      ],
+      "titles": [
+        "Mahjong Open Play at Magpies"
+      ],
+      "summary": "Come join us for some fun Mahjong Open Play at Magpies—bring your skills and meet new friends!"
+    },
+    {
+      "name": "Free Mahjong Open Play at Cork & Rind",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/free-mahjong-open-play-at-cork-rind-tickets-1997613960129",
+      "venueName": "Cork & Rind",
+      "address": "555 First Capitol Drive",
+      "city": "Saint Charles",
+      "state": "MO",
+      "postalCode": "63301",
+      "lat": "38.7815074",
+      "lng": "-90.4887341",
+      "dayOfWeek": "thursday",
+      "startTime": "6:30 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-03"
+      ],
+      "titles": [
+        "Free Mahjong Open Play at Cork & Rind"
+      ],
+      "summary": "Free, casual mahjong open play at a St. Charles wine bar. Evenings and weekends."
+    },
+    {
+      "name": "Mahjongg 101 at Lieferbrau Brewery",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjongg-101-at-lieferbrau-brewery-tickets-1998160199947",
+      "venueName": "Lieferbrau Brewery",
+      "address": "118 East Market Street",
+      "city": "Red Bud",
+      "state": "IL",
+      "postalCode": "62278",
+      "lat": "38.2116475",
+      "lng": "-89.99355890000001",
+      "dayOfWeek": "thursday",
+      "startTime": "6:30 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-10"
+      ],
+      "titles": [
+        "Mahjongg 101 at Lieferbrau Brewery"
+      ],
+      "summary": "Ready to dive into the basics of Mahjongg and have a blast learning the game with friends?"
+    },
+    {
+      "name": "Mahjong 101",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-101-tickets-1997645788328",
+      "venueName": "Ace Coffee Co",
+      "address": "203 Broadway Street",
+      "city": "Cave City",
+      "state": "KY",
+      "postalCode": "42127",
+      "lat": "37.1379066",
+      "lng": "-85.9580357",
+      "dayOfWeek": "thursday",
+      "startTime": "6:00 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-10-08"
+      ],
+      "titles": [
+        "Mahjong 101"
+      ],
+      "summary": "Mahjong 101 at Ace Coffee! Learn to play, keep your playing card & enjoy a fun night out. $25 per person + optional $5 wine ticket."
+    },
+    {
+      "name": "Mah Jongg: Learn & Play Series",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mah-jongg-learn-play-series-tickets-1997921971399",
+      "venueName": "Tempo by Hilton Nashville Downtown",
+      "address": "127 Rosa L Parks Boulevard",
+      "city": "Nashville",
+      "state": "TN",
+      "postalCode": "37203",
+      "lat": "36.1597175",
+      "lng": "-86.7830542",
+      "dayOfWeek": "monday",
+      "startTime": "6:00 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-14"
+      ],
+      "titles": [
+        "Mah Jongg: Learn & Play Series"
+      ],
+      "summary": "Tiles & Tempo is a Mah Jongg series for beginners and experienced players. Learn the game, or come to play."
+    },
+    {
+      "name": "Mahjong Guided Play with Charleston Social at Black Dog Pub",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-guided-play-with-charleston-social-at-black-dog-pub-registration-1997207416145",
+      "venueName": "Black Dog Pub & Music Lounge",
+      "address": "1331 West Main Street",
+      "city": "Franklin",
+      "state": "TN",
+      "postalCode": "37064",
+      "lat": "35.9141014",
+      "lng": "-86.8845985",
+      "dayOfWeek": "thursday",
+      "startTime": "4:00 PM",
+      "endTime": "6:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-24"
+      ],
+      "titles": [
+        "Mahjong Guided Play with Charleston Social at Black Dog Pub"
+      ],
+      "summary": "Recently learned to play mahjong? This is a great next step for playing in a beginner-friendly space. Come for a fun afternoon with us!"
+    },
+    {
+      "name": "Mahjong Monday at Fork of the South",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-monday-at-fork-of-the-south-tickets-1988759972614",
+      "venueName": "The Southern Tea Room",
+      "address": "230 Franklin Road",
+      "city": "Franklin",
+      "state": "TN",
+      "postalCode": "37064",
+      "lat": "35.9321735",
+      "lng": "-86.8601394",
+      "dayOfWeek": "monday",
+      "startTime": "5:00 PM",
+      "endTime": "7:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-08-31"
+      ],
+      "titles": [
+        "Mahjong Monday at Fork of the South"
+      ],
+      "summary": "Mahjong Open Play at Mahj House Society—a relaxed, welcoming gathering designed for connection, conversation, and time well spent."
+    },
+    {
+      "name": "Open Play Mahjong",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/open-play-mahjong-tickets-1999157917146",
+      "venueName": "BS Brew Works",
+      "address": "1010 South Main Street",
+      "city": "Springfield",
+      "state": "TN",
+      "postalCode": "37172",
+      "lat": "36.5039522",
+      "lng": "-86.8856526",
+      "dayOfWeek": "thursday",
+      "startTime": "6:00 PM",
+      "endTime": "9:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-03"
+      ],
+      "titles": [
+        "Open Play Mahjong"
+      ],
+      "summary": "Open Play Mahjong event for those who have already taken our 101 class or are familiar with the game."
+    },
+    {
+      "name": "Mid-Day Mahjong Monday at Fork of the South",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mid-day-mahjong-monday-at-fork-of-the-south-tickets-1989826395313",
+      "venueName": "The Southern Tea Room",
+      "address": "230 Franklin Road",
+      "city": "Franklin",
+      "state": "TN",
+      "postalCode": "37064",
+      "lat": "35.9321735",
+      "lng": "-86.8601394",
+      "dayOfWeek": "monday",
+      "startTime": "2:00 PM",
+      "endTime": "4:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-08-31"
+      ],
+      "titles": [
+        "Mid-Day Mahjong Monday at Fork of the South"
+      ],
+      "summary": "Mahjong Open Play at Mahj House Society—a relaxed, welcoming gathering designed for connection, conversation, and time well spent."
+    }
+  ],
+  "alreadyKnown": [
+    {
+      "venue": "The Jay, Autograph Collection",
+      "city": "San Francisco",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/martinis-mahjong-at-the-jay-autograph-collection-tickets-1997503961119",
+      "eventTitle": "Martinis & Mahjong at The Jay Autograph Collection",
+      "nextDate": "2026-09-02",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Marin Country Mart",
+      "city": "Larkspur",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-at-the-mart-tickets-1990284851568",
+      "eventTitle": "Mahjong at the Mart!",
+      "nextDate": "2026-09-06",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "The Corner and Meeting House of Wake Forest",
+      "city": "Wake Forest",
+      "state": "NC",
+      "eventbriteUrl": "https://www.eventbrite.com/e/sept-17-beginner-mahjong-tickets-1998419044157",
+      "eventTitle": "Sept 17- Beginner Mahjong",
+      "nextDate": "2026-09-17",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Bar 888 & Bistro 888",
+      "city": "San Francisco",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-at-bistro-888-featuring-san-franciscos-own-mr-mahjong-tickets-1998027535143",
+      "eventTitle": "Mahjong at Bistro 888 featuring San Francisco's own Mr. Mahjong!",
+      "nextDate": "2026-09-10",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Jewish Community Center of San Francisco",
+      "city": "San Francisco",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-at-the-jccsf-tickets-1997898839210",
+      "eventTitle": "Mahjong at the JCCSF",
+      "nextDate": "2026-09-23",
+      "matchedListings": [
+        {
+          "id": "jccsf-weekly-mahjong-san-francisco-california-100-pm",
+          "hasUrl": true
+        }
+      ],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Mr. Mahjong’s",
+      "city": "San Francisco",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/teaching-tuesdays-mahjong-night-tickets-1988350234075",
+      "eventTitle": "Teaching Tuesdays - Mahjong Night",
+      "nextDate": "2026-12-01",
+      "matchedListings": [
+        {
+          "id": "mr-mahjongs-cocktail-bar-lounge-san-francisco-california-530-pm",
+          "hasUrl": true
+        },
+        {
+          "id": "mr-mahjongs-mahjong-nights-san-francisco-california-1730",
+          "hasUrl": true
+        },
+        {
+          "id": "mr-mahjongs-teaching-tuesday-san-francisco-california-530-pm",
+          "hasUrl": false
+        }
+      ],
+      "listingsWithoutAnyUrl": [
+        "mr-mahjongs-teaching-tuesday-san-francisco-california-530-pm"
+      ]
+    },
+    {
+      "venue": "Edmond Unplugged",
+      "city": "Edmond",
+      "state": "OK",
+      "eventbriteUrl": "https://www.eventbrite.com/e/gather-grow-play-mahjong-5-voices-tickets-1995506427442",
+      "eventTitle": "Gather, Grow & Play: Mahjong + 5 Voices",
+      "nextDate": "2026-09-01",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Pier 23 Cafe Restaurant & Bar",
+      "city": "San Francisco",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-mondays-at-pier-23-cafe-tickets-1641622439909",
+      "eventTitle": "Mahjong Mondays at Pier 23 Cafe",
+      "nextDate": "2026-08-31",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Lafayette Square",
+      "city": "Los Angeles",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/american-mahjong-101-beginner-102-guided-play-bundle-with-la-la-mahjong-tickets-1998391282120",
+      "eventTitle": "American Mahjong 101 Beginner &  102 Guided Play Bundle with LA LA Mahjong",
+      "nextDate": "2026-09-12",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Lafayette Square",
+      "city": "Los Angeles",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/american-mahjong-refreshguided-play-class-102-with-la-la-mahjong-tickets-1998457276511",
+      "eventTitle": "American Mahjong Refresh/Guided Play Class 102 with LA LA Mahjong",
+      "nextDate": "2026-09-09",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "HomeState",
+      "city": "Santa Monica",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-open-play-at-homestate-santa-monica-x-mahjong-los-angeles-tickets-1991873550409",
+      "eventTitle": "Mahjong Open Play at HomeState Santa Monica  x Mahjong Los Angeles",
+      "nextDate": "2026-09-09",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "BLANKSPACES Santa Monica Downtown",
+      "city": "Santa Monica",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/full-moon-mahjong-tickets-1998913994567",
+      "eventTitle": "Full Moon Mahjong",
+      "nextDate": "2026-09-26",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Santa Monica Public Library",
+      "city": "Santa Monica",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-at-main-tickets-1998988822379",
+      "eventTitle": "Mahjong at Main",
+      "nextDate": "2026-09-16",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "HomeState",
+      "city": "Los Angeles",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/american-mahjong-open-play-at-homestate-sherman-oaks-x-mahj-los-angeles-tickets-1998309822472",
+      "eventTitle": "American Mahjong Open Play at Homestate Sherman Oaks x Mahj Los Angeles",
+      "nextDate": "2026-09-08",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "The Hudson Theatres",
+      "city": "Los Angeles",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-workshop-production-tickets-1996467790906",
+      "eventTitle": "Mahjong! workshop production",
+      "nextDate": "2026-09-27",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "ARTIST LOUNGE",
+      "city": "Los Angeles",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-and-music-introductory-class-tickets-1999096150400",
+      "eventTitle": "Mahjong and Music- Introductory Class",
+      "nextDate": "2026-09-27",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "ARTIST LOUNGE",
+      "city": "Los Angeles",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-and-music-open-play-tickets-1999095495441",
+      "eventTitle": "Mahjong and Music- Open Play",
+      "nextDate": "2026-09-17",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Found Coffee",
+      "city": "Los Angeles",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/found-coffee-mahjong-night-tickets-1999273280200",
+      "eventTitle": "Found Coffee Mahjong Night",
+      "nextDate": "2026-09-18",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Cross Creek Ranch",
+      "city": "Malibu",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/818-mahj-x-malibu-mahjong-monday-meetup-open-play-tickets-1998025030652",
+      "eventTitle": "818 MAHJ x Malibu Mahjong Monday Meetup (Open Play)",
+      "nextDate": "2026-08-31",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Malibu Lumber Yard",
+      "city": "Malibu",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/818-mahj-x-malibu-mahjong-monday-meetup-open-play-tickets-1998025595341",
+      "eventTitle": "818 MAHJ x Malibu Mahjong Monday Meetup (Open Play)",
+      "nextDate": "2026-09-28",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Runway Playa Vista",
+      "city": "Los Angeles",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mah-jong-nights-at-runway-tickets-1997777232481",
+      "eventTitle": "Mah Jong Nights at RUNWAY",
+      "nextDate": "2026-09-01",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Ace Hotel & Swim Club Palm Springs",
+      "city": "Palm Springs",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/ace-mahjong-club-tickets-1995757012950",
+      "eventTitle": "Ace Mahjong Club",
+      "nextDate": "2026-09-02",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "RustiCucina",
+      "city": "San Diego",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/beginners-mahjong-class-tickets-1996760538522",
+      "eventTitle": "Beginner's Mahjong Class",
+      "nextDate": "2026-10-01",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Cork & Stem",
+      "city": "San Diego",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/september-mahjong-at-cork-stem-tickets-1995858119362",
+      "eventTitle": "September Mahjong at Cork & Stem",
+      "nextDate": "2026-09-24",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Four Seasons Residence Club Aviara, North San Diego",
+      "city": "Carlsbad",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/midweek-mahjong-social-tickets-1996482389571",
+      "eventTitle": "Midweek Mahjong Social",
+      "nextDate": "2026-09-16",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "The Well Community for Women",
+      "city": "La Mesa",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-merienda-tickets-1996920366572",
+      "eventTitle": "Mahjong + Merienda",
+      "nextDate": "2026-09-12",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Paname SF",
+      "city": "San Francisco",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/hong-kong-mahjong-tuesday-paname-tickets-1994596218984",
+      "eventTitle": "HONG KONG MAHJONG TUESDAY @PANAME",
+      "nextDate": "2026-09-15",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Sunset Commons",
+      "city": "San Francisco",
+      "state": "CA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/sunset-mah-jong-social-registration-1999058505804",
+      "eventTitle": "Sunset Mah Jong Social",
+      "nextDate": "2026-09-05",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "LiveTrends Boutique",
+      "city": "Winter Garden",
+      "state": "FL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/september-mahjong-open-play-at-livetrends-boutique-tickets-1990020346426",
+      "eventTitle": "September Mahjong Open Play at LiveTrends Boutique",
+      "nextDate": "2026-09-15",
+      "matchedListings": [
+        {
+          "id": "livetrends-boutique-mahjong-events-winter-garden-florida-600-pm",
+          "hasUrl": true
+        }
+      ],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Swirlery",
+      "city": "Orlando",
+      "state": "FL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/american-mahjong-class-at-swirlery-wine-bar-tickets-1998507302139",
+      "eventTitle": "American Mahjong Class at Swirlery Wine Bar",
+      "nextDate": "2026-09-02",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Three Birds Tavern",
+      "city": "St. Petersburg",
+      "state": "FL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/beginner-mahjong-lesson-tavern-style-sept-3-tickets-1998697693605",
+      "eventTitle": "Beginner Mahjong Lesson - Tavern Style - Sept. 3",
+      "nextDate": "2026-09-03",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Boston Coffee House",
+      "city": "Altamonte Springs",
+      "state": "FL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/introduction-to-american-mahjong-at-boston-coffee-tickets-1998482620315",
+      "eventTitle": "Introduction to American Mahjong at Boston Coffee",
+      "nextDate": "2026-08-31",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Haraz Coffee House",
+      "city": "Winter Park",
+      "state": "FL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/learn-mahjong-at-haraz-portion-of-all-tickets-go-to-maitland-middle-school-tickets-1999093807392",
+      "eventTitle": "Learn Mahjong at Haraz (Portion of all tickets go to Maitland Middle School",
+      "nextDate": "2026-09-17",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Tanner Hall",
+      "city": "Winter Garden",
+      "state": "FL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/september-open-play-and-mahjong-101-winter-garden-tickets-1998419764311",
+      "eventTitle": "September Open play and  Mahjong 101 - Winter Garden",
+      "nextDate": "2026-09-16",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Panera Bread",
+      "city": "Orlando",
+      "state": "FL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-101-intro-to-american-mahjong-registration-1998921401722",
+      "eventTitle": "Mahjong 101- Intro to American Mahjong",
+      "nextDate": "2026-11-19",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Hollywood Art and Culture Center",
+      "city": "Hollywood",
+      "state": "FL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/weekday-mahjong-at-the-center-open-play-tables-tickets-1998136398757",
+      "eventTitle": "Weekday Mahjong at the Center  - Open Play Tables",
+      "nextDate": "2026-09-02",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Hilton Aventura Miami",
+      "city": "Aventura",
+      "state": "FL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-game-101-tickets-1998221801198",
+      "eventTitle": "Mahjong Game 101",
+      "nextDate": "2026-10-15",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Ramen Lab West Boca- Mission Bay Plaza",
+      "city": "Boca Raton",
+      "state": "FL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-night-at-ramen-lab-hosted-by-marni-mahjong-tickets-1992212515262",
+      "eventTitle": "Mahjong Night at Ramen Lab | Hosted by Marni Mahjong",
+      "nextDate": "2026-09-23",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Fuku",
+      "city": "Coral Gables",
+      "state": "FL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/fuku-x-mahjong-tickets-1997212492328",
+      "eventTitle": "FUKU x MAHJONG",
+      "nextDate": "2026-09-13",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Ironside Cafe Bistro",
+      "city": "Miami",
+      "state": "FL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/miami-mahjong-magic-all-levels-2-hours-class-tickets-1992439034788",
+      "eventTitle": "Miami Mahjong Magic: All Levels 2-hours Class",
+      "nextDate": "2026-09-01",
+      "matchedListings": [
+        {
+          "id": "miami-mahjong-magic-beginner-class-miami-florida",
+          "hasUrl": true
+        }
+      ],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Swedish Hill Westlake",
+      "city": "West Lake Hills",
+      "state": "TX",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-night-swedish-hill-westlake-tickets-1995789186181",
+      "eventTitle": "Mahjong Night: Swedish Hill Westlake",
+      "nextDate": "2026-09-13",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Dell JCC",
+      "city": "Austin",
+      "state": "TX",
+      "eventbriteUrl": "https://www.eventbrite.com/e/nw-momlink-mahjong-night-tickets-1998496843858",
+      "eventTitle": "NW MomLink Mahjong Night",
+      "nextDate": "2026-10-21",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Swedish Hill South First",
+      "city": "Austin",
+      "state": "TX",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-night-swedish-hill-s-1st-tickets-1995789294505",
+      "eventTitle": "Mahjong Night: Swedish Hill S. 1st",
+      "nextDate": "2026-09-27",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Miraval Austin Resort and Spa",
+      "city": "Austin",
+      "state": "TX",
+      "eventbriteUrl": "https://www.eventbrite.com/e/exclusive-mahjong-wellness-retreat-join-the-elite-circle-tickets-1993948433440",
+      "eventTitle": "Exclusive Mahjong & Wellness Retreat | Join the Elite Circle",
+      "nextDate": "2026-10-04",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Mansfield Public Library",
+      "city": "Mansfield",
+      "state": "TX",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjongg-instructional-play-tickets-1996471519057",
+      "eventTitle": "MahJongg: Instructional Play",
+      "nextDate": "2026-09-01",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Delta Hotels Dallas Southlake",
+      "city": "Southlake",
+      "state": "TX",
+      "eventbriteUrl": "https://www.eventbrite.com/e/the-scout-guide-merry-market-mahjong-game-night-tickets-1995170472592",
+      "eventTitle": "The Scout Guide - Merry Market & Mahjong Game Night",
+      "nextDate": "2026-12-02",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Magnolia Terrace Wedding and Event Venue",
+      "city": "Frisco",
+      "state": "TX",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-at-magnolia-tickets-1997451821167",
+      "eventTitle": "Mahjong at Magnolia",
+      "nextDate": "2026-09-11",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Kendra Scott",
+      "city": "Dallas",
+      "state": "TX",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-bubbly-at-kendra-scott-tickets-1998932279257",
+      "eventTitle": "Mahjong & Bubbly at Kendra Scott",
+      "nextDate": "2026-09-28",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Sixty Vines",
+      "city": "Plano",
+      "state": "TX",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mid-day-mahjong-sixty-vines-plano-september-8th-tickets-1998134365676",
+      "eventTitle": "Mid-Day Mahjong @ Sixty Vines Plano September  8th",
+      "nextDate": "2026-09-08",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Terilli's Restaurant",
+      "city": "Dallas",
+      "state": "TX",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-martinis-at-terillis-tickets-1988917417536",
+      "eventTitle": "Mahjong & Martinis at Terilli's",
+      "nextDate": "2026-09-09",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Lone Star Winery",
+      "city": "McKinney",
+      "state": "TX",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-101-learn-to-play-at-lone-star-winery-tickets-1993562405821",
+      "eventTitle": "Mahjong 101: Learn to play at Lone Star Winery",
+      "nextDate": "2026-09-16",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "The Devonshire Club",
+      "city": "Dallas",
+      "state": "TX",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-ladies-night-tickets-1998404862740",
+      "eventTitle": "Mahjong Ladies Night",
+      "nextDate": "2026-09-02",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Whitehall Center - at the Carleen Bright Arboretum",
+      "city": "Woodway",
+      "state": "TX",
+      "eventbriteUrl": "https://www.eventbrite.com/e/beginner-mahjong-lesson-tickets-1994571700649",
+      "eventTitle": "Beginner Mahjong Lesson",
+      "nextDate": "2026-09-15",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "HIGHLAND PARK HARVEY R. \"BUM\" BRIGHT LIBRARY",
+      "city": "Dallas",
+      "state": "TX",
+      "eventbriteUrl": "https://www.eventbrite.com/e/open-play-mahjong-tickets-1994908405743",
+      "eventTitle": "Open Play Mahjong",
+      "nextDate": "2026-09-10",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Pinnacle Brewing Company",
+      "city": "Scottsdale",
+      "state": "AZ",
+      "eventbriteUrl": "https://www.eventbrite.com/e/learn-american-mahjong-series-sept-tickets-1999001961679",
+      "eventTitle": "Learn American Mahjong Series - Sept",
+      "nextDate": "2026-09-14",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Halo-Halo Kitchen",
+      "city": "Phoenix",
+      "state": "AZ",
+      "eventbriteUrl": "https://www.eventbrite.com/e/tiles-rice-mahjong-after-dark-tickets-1998942698421",
+      "eventTitle": "Tiles & Rice: Mahjong After Dark",
+      "nextDate": "2026-09-19",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Desert Broom Library",
+      "city": "Cave Creek",
+      "state": "AZ",
+      "eventbriteUrl": "https://www.eventbrite.com/e/american-mahjong-open-play-tickets-1997097437195",
+      "eventTitle": "American Mahjong Open Play",
+      "nextDate": "2026-09-10",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Desert Ridge Marketplace",
+      "city": "Phoenix",
+      "state": "AZ",
+      "eventbriteUrl": "https://www.eventbrite.com/e/american-mahjong-open-play-tickets-1994956125474",
+      "eventTitle": "American Mahjong Open Play",
+      "nextDate": "2026-11-07",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Unwined on White",
+      "city": "Wake Forest",
+      "state": "NC",
+      "eventbriteUrl": "https://www.eventbrite.com/e/sept-13-mahjong-wine-tickets-1995452291520",
+      "eventTitle": "Sept 13- Mahjong & Wine",
+      "nextDate": "2026-09-13",
+      "matchedListings": [
+        {
+          "id": "mahjong-and-wine-unwined-on-white-wake-forest-north-carolina",
+          "hasUrl": false
+        }
+      ],
+      "listingsWithoutAnyUrl": [
+        "mahjong-and-wine-unwined-on-white-wake-forest-north-carolina"
+      ]
+    },
+    {
+      "venue": "Cary Regional Library",
+      "city": "Cary",
+      "state": "NC",
+      "eventbriteUrl": "https://www.eventbrite.com/e/learn-to-play-american-mah-jongg-part-3-tickets-1995020935322",
+      "eventTitle": "Learn to Play American Mah Jongg: Part 3",
+      "nextDate": "2026-09-02",
+      "matchedListings": [
+        {
+          "id": "cary-mah-jongg-mondays-cary-nc-monday-09-30-0f6092f2",
+          "hasUrl": false
+        },
+        {
+          "id": "mah-jongg-mondays-at-cary-regional-libra-cary-nc-monday-09-3-36568c65",
+          "hasUrl": true
+        }
+      ],
+      "listingsWithoutAnyUrl": [
+        "cary-mah-jongg-mondays-cary-nc-monday-09-30-0f6092f2"
+      ]
+    },
+    {
+      "venue": "1808 Craft & Vine",
+      "city": "Greensboro",
+      "state": "NC",
+      "eventbriteUrl": "https://www.eventbrite.com/e/sip-shuffle-mahjong-1808-craft-vine-greensboro-tickets-1993475068593",
+      "eventTitle": "Sip & Shuffle Mahjong @ 1808 Craft & Vine, Greensboro",
+      "nextDate": "2026-09-21",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Inn at The Colonnade Baltimore - a DoubleTree by Hilton Hotel",
+      "city": "Baltimore",
+      "state": "MD",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-night-at-the-inn-at-colonnade-tickets-1999040043583",
+      "eventTitle": "Mahjong Night at The Inn at Colonnade",
+      "nextDate": "2026-09-08",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "GiftPoke",
+      "city": "Timonium",
+      "state": "MD",
+      "eventbriteUrl": "https://www.eventbrite.com/e/learn-to-play-mahjong-giftpoke-event-with-dallas-mahj-club-tickets-1997498893963",
+      "eventTitle": "Learn to Play Mahjong: GiftPoke Event with Dallas Mahj Club",
+      "nextDate": "2026-10-04",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Charles Village Pub & Patio Towson",
+      "city": "Towson",
+      "state": "MD",
+      "eventbriteUrl": "https://www.eventbrite.com/e/not-your-grannys-mahjong-mondays-at-cvp-towson-tickets-1998252820979",
+      "eventTitle": "Not Your Granny’s Mahjong | Monday’s at Cvp Towson",
+      "nextDate": "2026-09-21",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "WE MAKE DC - Dupont Circle",
+      "city": "Washington",
+      "state": "DC",
+      "eventbriteUrl": "https://www.eventbrite.com/e/a-beginners-guide-to-mahjong-with-girls-who-mahjong-tickets-1996256859003",
+      "eventTitle": "A Beginner's Guide to Mahjong with Girls Who Mahjong",
+      "nextDate": "2026-09-13",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "The Den Coffeehouse & Wine Bar at Politics and Prose Bookstore",
+      "city": "Washington",
+      "state": "DC",
+      "eventbriteUrl": "https://www.eventbrite.com/e/learn-mahjong-at-the-den-tickets-1999110920578",
+      "eventTitle": "Learn Mahjong at The Den",
+      "nextDate": "2026-09-17",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Bear Chase Brewing Company",
+      "city": "Bluemont",
+      "state": "VA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-201-at-bear-chase-tickets-1997504799627",
+      "eventTitle": "Mahjong 201 at Bear Chase!",
+      "nextDate": "2026-09-10",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Great Mane Brewery",
+      "city": "Haymarket",
+      "state": "VA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-101-at-great-mane-brewery-haymarket-tickets-1996342362747",
+      "eventTitle": "Mahjong 101 at Great Mane Brewery- Haymarket",
+      "nextDate": "2026-09-14",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Shop Made in DC - Georgetown",
+      "city": "Washington",
+      "state": "DC",
+      "eventbriteUrl": "https://www.eventbrite.com/e/a-beginners-guide-to-mahjong-with-girls-who-mahjong-tickets-1996256919183",
+      "eventTitle": "A Beginner's Guide to Mahjong with Girls Who Mahjong",
+      "nextDate": "2026-10-10",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "The Winery at La Grange",
+      "city": "Haymarket",
+      "state": "VA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-at-the-vineyard-winery-at-la-grange-tickets-1996757299835",
+      "eventTitle": "Mahjong at the Vineyard | Winery at La Grange",
+      "nextDate": "2026-09-19",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Aroma II Tasting Room",
+      "city": "Haymarket",
+      "state": "VA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-102-at-aroma-ii-tasting-room-tickets-1993873961693",
+      "eventTitle": "Mahjong 102 at Aroma II Tasting Room",
+      "nextDate": "2026-09-11",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Haraz Coffee House",
+      "city": "Philadelphia",
+      "state": "PA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/matcha-mahjong-98-tickets-1998558088041",
+      "eventTitle": "Matcha & Mahjong 9/8",
+      "nextDate": "2026-09-08",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Flor Coffee + Books",
+      "city": "Washington",
+      "state": "DC",
+      "eventbriteUrl": "https://www.eventbrite.com/e/analog-dinner-nights-mahjong-tickets-1993775234397",
+      "eventTitle": "Analog Dinner Nights: Mahjong!",
+      "nextDate": "2026-09-10",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "The Grove Bar and Grill",
+      "city": "POTOMAC",
+      "state": "MD",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-night-gathering-to-play-and-socialize-together-tickets-1997984636833",
+      "eventTitle": "Mahjong Night Gathering to Play and Socialize Together",
+      "nextDate": "2026-09-14",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Old Bust Head Brewing Company",
+      "city": "New Baltimore",
+      "state": "VA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-101-at-old-bust-head-brewing-company-tickets-1997642629881",
+      "eventTitle": "Mahjong 101 at Old Bust Head Brewing Company",
+      "nextDate": "2026-09-28",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Trouvaille Brewing Company",
+      "city": "Haymarket",
+      "state": "VA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-101-or-open-play-at-trouvaille-brewing-company-tickets-1997330901493",
+      "eventTitle": "Mahjong 101 OR Open Play at Trouvaille Brewing Company",
+      "nextDate": "2026-09-02",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Chinese American Museum DC",
+      "city": "Washington",
+      "state": "DC",
+      "eventbriteUrl": "https://www.eventbrite.com/e/friday-night-mahjong-club-september-25th-tickets-1998340154195",
+      "eventTitle": "Friday Night Mahjong Club - September 25th",
+      "nextDate": "2026-09-25",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "The Winery at Sunshine Ridge Farm",
+      "city": "Gainesville",
+      "state": "VA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-open-play-at-the-winery-at-sunshine-ridge-farm-tickets-1997330972706",
+      "eventTitle": "Mahjong Open Play at The Winery at Sunshine Ridge Farm",
+      "nextDate": "2026-09-03",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Aslin Beer Company - Alexandria",
+      "city": "Alexandria",
+      "state": "VA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/gather-around-the-table-a-september-mahjong-social-tickets-1998410906818",
+      "eventTitle": "Gather Around the Table: A September Mahjong Social",
+      "nextDate": "2026-09-02",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "UPSIDE on Moore",
+      "city": "Arlington",
+      "state": "VA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-monday-at-upside-on-moore-tickets-1993956299969",
+      "eventTitle": "Mahjong Monday at UPSIDE on Moore",
+      "nextDate": "2026-08-31",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Cafe Landwer",
+      "city": "Boston",
+      "state": "MA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahj-mingle-a-curated-mahjong-social-by-the-birdbam-edit-tickets-1997213608667",
+      "eventTitle": "\"Mahj & Mingle\" – A Curated Mahjong Social by The Birdbam Edit",
+      "nextDate": "2026-09-02",
+      "matchedListings": [
+        {
+          "id": "city-mahj-mahjong-101-boston-massachusetts",
+          "hasUrl": true
+        },
+        {
+          "id": "city-mahj-open-play-at-cafe-landwer-boston-massachusetts",
+          "hasUrl": true
+        }
+      ],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Belmont Country Club",
+      "city": "Belmont",
+      "state": "MA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-canasta-event-tickets-1996769117181",
+      "eventTitle": "Mahjong & Canasta Event",
+      "nextDate": "2026-10-06",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Sol de Mexico",
+      "city": "Milford",
+      "state": "MA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/a-mahjong-league-of-their-own-fall-2026-troop-mahjong-league-tickets-1996520681102",
+      "eventTitle": "A Mahjong League of their Own : Fall 2026 Troop Mahjong League",
+      "nextDate": "2026-09-23",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Allstonway",
+      "city": "Boston",
+      "state": "MA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/monthly-mahjong-series-tickets-1990525574577",
+      "eventTitle": "Monthly Mahjong Series",
+      "nextDate": "2026-09-28",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Aeronaut Brewing Company",
+      "city": "Somerville",
+      "state": "MA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/wednesday-tile-club-mahjong-at-aeronaut-tickets-1994687464903",
+      "eventTitle": "Wednesday Tile Club: Mahjong at Aeronaut",
+      "nextDate": "2026-10-28",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "West on Main",
+      "city": "Watertown",
+      "state": "MA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-mondays-with-cindyplaysmahjong-101-tickets-1995192594760",
+      "eventTitle": "Mahjong Mondays With @CindyPlaysMahjong 101",
+      "nextDate": "2026-09-14",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "The Bar Method Wellesley",
+      "city": "Wellesley",
+      "state": "MA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/planks-pungs-barre-mahjong-social-all-levels-welcome-tickets-1997526519592",
+      "eventTitle": "Planks & Pungs: Barre + Mahjong Social (All Levels Welcome)",
+      "nextDate": "2026-09-01",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Farthest Star Sake",
+      "city": "Medfield",
+      "state": "MA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahj-invasion-mahjong-play-and-learn-at-farthest-star-sake-tickets-1999164771648",
+      "eventTitle": "MAHJ INVASION! Mahjong Play and Learn at Farthest Star Sake",
+      "nextDate": "2026-09-17",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Off The Common Antiques",
+      "city": "Grafton",
+      "state": "MA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahj-101-an-intro-into-the-art-of-american-mahjong-tickets-1997143956335",
+      "eventTitle": "MAHJ 101 / an intro into the art of American Mahjong",
+      "nextDate": "2026-09-26",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Breezy Hill Farm",
+      "city": "Holliston",
+      "state": "MA",
+      "eventbriteUrl": "https://www.eventbrite.com/e/rack-em-up-at-the-ranch-troop-mahjong-open-play-event-tickets-1997699869085",
+      "eventTitle": "Rack em' Up at the Ranch! Troop Mahjong Open Play Event",
+      "nextDate": "2026-09-12",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Little Dom's Pizza & Italian Cuisine",
+      "city": "Sea Girt",
+      "state": "NJ",
+      "eventbriteUrl": "https://www.eventbrite.com/e/monday-is-for-mahjong-tickets-1988319141075",
+      "eventTitle": "Monday is for Mahjong",
+      "nextDate": "2026-09-14",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "The Parlour at Park & Oak",
+      "city": "Glen Ellyn",
+      "state": "IL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/beginner-mahjong-101-night-tickets-1996244405755",
+      "eventTitle": "Beginner Mahjong 101 Night",
+      "nextDate": "2026-09-02",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Prairie Food Co-Op",
+      "city": "Lombard",
+      "state": "IL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/learn-mahjong-at-prairie-food-co-op-tickets-1993526400127",
+      "eventTitle": "Learn Mahjong at Prairie Food Co-op",
+      "nextDate": "2026-09-18",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Cadence Kitchen & Co",
+      "city": "Downers Grove",
+      "state": "IL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/introduction-to-mahjong-at-cadence-kitchen-tickets-1992169115452",
+      "eventTitle": "Introduction to Mahjong at Cadence Kitchen",
+      "nextDate": "2026-09-09",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Neat Kitchen + Bar",
+      "city": "Westmont",
+      "state": "IL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-101-tickets-1998620257993",
+      "eventTitle": "Mahjong 101",
+      "nextDate": "2026-09-28",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Roasted Elements Coffee",
+      "city": "Downers Grove",
+      "state": "IL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/learn-to-play-american-mahjong-tickets-1998618475662",
+      "eventTitle": "Learn to play American Mahjong!",
+      "nextDate": "2026-09-10",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "The Cottage",
+      "city": "Wheaton",
+      "state": "IL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/fall-mahjong-social-league-tickets-1997501909984",
+      "eventTitle": "Fall Mahjong Social League",
+      "nextDate": "2026-09-21",
+      "matchedListings": [
+        {
+          "id": "blue-tiger-mahj-club-weekly-social-league-wheaton-wheaton-illinois",
+          "hasUrl": true
+        }
+      ],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "à la main | apothecary and refillery | Glen Ellyn",
+      "city": "Glen Ellyn",
+      "state": "IL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/october-mahjong-social-club-tickets-1997503334244",
+      "eventTitle": "October Mahjong Social Club",
+      "nextDate": "2026-09-14",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "Brewpoint Craft Elmhurst",
+      "city": "Elmhurst",
+      "state": "IL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/beginner-mahjong-at-brewpoint-registration-1998511618048",
+      "eventTitle": "Beginner Mahjong at Brewpoint",
+      "nextDate": "2026-09-01",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "KS Tile Society",
+      "city": "Downers Grove",
+      "state": "IL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-101-beginner-class-ks-tile-society-tickets-1999172422532",
+      "eventTitle": "Mahjong 101 Beginner Class @ KS Tile Society",
+      "nextDate": "2026-09-09",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "WineStyles Chicago",
+      "city": "Chicago",
+      "state": "IL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-101-workshop-tickets-1998995195441",
+      "eventTitle": "Mahjong 101 Workshop",
+      "nextDate": "2026-09-02",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    },
+    {
+      "venue": "KS Tile Society",
+      "city": "Downers Grove",
+      "state": "IL",
+      "eventbriteUrl": "https://www.eventbrite.com/e/mahjong-guided-open-play-tickets-1999176719384",
+      "eventTitle": "Mahjong Guided Open Play",
+      "nextDate": "2026-09-10",
+      "matchedListings": [],
+      "listingsWithoutAnyUrl": []
+    }
+  ]
+}
