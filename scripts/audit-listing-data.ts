@@ -61,7 +61,7 @@
 
 import fs from "fs";
 import path from "path";
-import { streetAddressOnly } from "../src/lib/utils";
+import { streetAddressOnly, normalizeWebsiteUrl, instagramHandle } from "../src/lib/utils";
 
 const args = process.argv.slice(2);
 const BASE_URL = args.includes("--url")
@@ -82,6 +82,7 @@ interface Listing {
   isRecurring: boolean;
   eventDate: string | null;
   website?: string;
+  instagram?: string;
   registrationLink?: string;
   lastVerified?: string;
   recurringSchedule?: { dayOfWeek?: string; startTime?: string } | null;
@@ -263,6 +264,59 @@ async function main() {
     addrCount++;
   }
 
+  // --- 1c. Broken and swapped link fields ---
+  // A website with no scheme ("beachmahj.com") resolves RELATIVE to the
+  // current page once it reaches an href, so the link lands back on
+  // mahjnearme.com instead of the organiser. The two fields are also mixed
+  // up in both directions: Instagram handles filed under website, and full
+  // URLs filed under instagram (which produced instagram.com/https://...).
+  let linkFixes = 0;
+  for (const g of all) {
+    if (g.status !== "active") continue;
+    const rawSite = (g.website || "").trim();
+    const rawIg = (g.instagram || "").trim();
+    const updates: Record<string, unknown> = {};
+    const notes: string[] = [];
+
+    // A handle sitting in website belongs in instagram.
+    if (rawSite.startsWith("@")) {
+      updates.website = "";
+      notes.push(`moved "${rawSite}" out of website (it is a handle, not a site)`);
+      if (!rawIg) {
+        updates.instagram = rawSite;
+        notes.push("filed it under instagram instead");
+      }
+    } else if (rawSite && !/^https?:\/\//i.test(rawSite)) {
+      const fixed = normalizeWebsiteUrl(rawSite);
+      if (fixed) {
+        updates.website = fixed;
+        notes.push(`added the missing scheme: "${rawSite}" -> "${fixed}"`);
+      }
+    }
+
+    // Normalise instagram to a bare @handle; blank it when it is not one.
+    if (rawIg) {
+      const handle = instagramHandle(rawIg);
+      if (handle && rawIg !== `@${handle}`) {
+        updates.instagram = `@${handle}`;
+        notes.push(`normalised instagram "${rawIg}" -> "@${handle}"`);
+      } else if (!handle) {
+        const asSite = normalizeWebsiteUrl(rawIg);
+        updates.instagram = "";
+        notes.push(`cleared instagram "${rawIg}" — not an Instagram profile, so it linked to instagram.com/${rawIg}`);
+        if (asSite && !rawSite) {
+          updates.website = asSite;
+          notes.push(`kept it as the website instead`);
+        }
+      }
+    }
+
+    if (Object.keys(updates).length) {
+      corrections.push({ id: g.id, updates, reason: notes.join("; ") });
+      linkFixes++;
+    }
+  }
+
   // --- 2. Stale eventDate on scheduled recurring listings ---
   let staleCount = 0;
   const staleNoSchedule: Listing[] = [];
@@ -426,6 +480,7 @@ async function main() {
   console.log(`  stale eventDate cleared          : ${staleCount}`);
   console.log(`  addresses reduced to street only : ${addrCount}`);
   console.log(`    ...of which cleared entirely   : ${addrCleared}`);
+  console.log(`  broken / swapped link fields     : ${linkFixes}`);
   console.log(`  -> ${correctionsPath} (${corrections.length} corrections)\n`);
   console.log("DUPLICATE MERGE (apply separately, after reviewing)");
   console.log(`  duplicate groups                 : ${duplicates.length} (${redundant} redundant listings)`);

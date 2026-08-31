@@ -11433,6 +11433,3266 @@
     "reason": "Strip locality from address: \"608 Breakers Ave, Fort Lauderdale, FL 33304\" -> \"608 Breakers Ave\". The schema and the JSON-LD both expect street-only"
   },
   {
+    "id": "2026-card-review-and-open-play-westport-connecticut-paid",
+    "updates": {
+      "website": "",
+      "instagram": "@thehausofmahj"
+    },
+    "reason": "moved \"@thehausofmahj\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "2026-crak-the-card-april-22-spring-texas-630-pm-2026-04-22",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.mahjongrodeo.com"
+    },
+    "reason": "cleared instagram \"https://www.mahjongrodeo.com\" — not an Instagram profile, so it linked to instagram.com/https://www.mahjongrodeo.com; kept it as the website instead"
+  },
+  {
+    "id": "2026-nmjl-card-deep-dive-palms-30a-florida",
+    "updates": {
+      "website": "https://beachmahj.com"
+    },
+    "reason": "added the missing scheme: \"beachmahj.com\" -> \"https://beachmahj.com\""
+  },
+  {
+    "id": "2026-nmjl-card-strategy-class-west-palm-beach-florida-thursday-2026-04-16",
+    "updates": {
+      "website": "https://mahjonthebeach.com"
+    },
+    "reason": "added the missing scheme: \"mahjonthebeach.com\" -> \"https://mahjonthebeach.com\""
+  },
+  {
+    "id": "21st-annual-victoria-mah-jongg-tournament-victoria-texas",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"21st Annual Victoria Mah Jongg Tournament\" — not an Instagram profile, so it linked to instagram.com/21st Annual Victoria Mah Jongg Tournament"
+  },
+  {
+    "id": "2Nj4XcjTYJF3tsHnnlaX",
+    "updates": {
+      "website": "https://www.focomahjong.com"
+    },
+    "reason": "added the missing scheme: \"www.focomahjong.com\" -> \"https://www.focomahjong.com\""
+  },
+  {
+    "id": "30a-mahjong-studio-santa-rosa-beach-florida",
+    "updates": {
+      "website": "",
+      "instagram": "@30amahjongstudio"
+    },
+    "reason": "moved \"@30amahjongstudio\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "4-blondes-mahjong-providence-lessons-events-providence-rhode-island",
+    "updates": {
+      "website": "https://4blondesmahjong.com"
+    },
+    "reason": "added the missing scheme: \"4blondesmahjong.com\" -> \"https://4blondesmahjong.com\""
+  },
+  {
+    "id": "ARxo6Eo0uegVa9EBUeVF",
+    "updates": {
+      "instagram": "@Mahjong.byHeidi"
+    },
+    "reason": "normalised instagram \"Mahjong.byHeidi\" -> \"@Mahjong.byHeidi\""
+  },
+  {
+    "id": "F22l5GArhjjoUKRX0Vxq",
+    "updates": {
+      "website": "https://mahjongrepublic.com",
+      "instagram": "@mahjongrepublic"
+    },
+    "reason": "added the missing scheme: \"mahjongrepublic.com\" -> \"https://mahjongrepublic.com\"; normalised instagram \"mahjongrepublic\" -> \"@mahjongrepublic\""
+  },
+  {
+    "id": "MX3aU6OpoDgibhAKWRiF",
+    "updates": {
+      "instagram": "@Mahjong.byHeidi"
+    },
+    "reason": "normalised instagram \"Mahjong.byHeidi\" -> \"@Mahjong.byHeidi\""
+  },
+  {
+    "id": "Oz80SXwn3XiBVHDs322r",
+    "updates": {
+      "website": "https://www.mahjongmamanwa.com"
+    },
+    "reason": "added the missing scheme: \"www.mahjongmamanwa.com\" -> \"https://www.mahjongmamanwa.com\""
+  },
+  {
+    "id": "SDuJRpCpwHCBzTtZ1s3K",
+    "updates": {
+      "website": "https://arworkshop.com/tallahassee"
+    },
+    "reason": "added the missing scheme: \"arworkshop.com/tallahassee\" -> \"https://arworkshop.com/tallahassee\""
+  },
+  {
+    "id": "XGMtSTWbOiDniiMCn8IS",
+    "updates": {
+      "instagram": "@mahjong.lv"
+    },
+    "reason": "normalised instagram \"mahjong.lv\" -> \"@mahjong.lv\""
+  },
+  {
+    "id": "ZqfVlERIeq1SUF3VPSmS",
+    "updates": {
+      "website": "https://www.focomahjong.com"
+    },
+    "reason": "added the missing scheme: \"www.focomahjong.com\" -> \"https://www.focomahjong.com\""
+  },
+  {
+    "id": "aBJuedl9tpYhWXIYvLpl",
+    "updates": {
+      "instagram": "@Mahjong.byHeidi"
+    },
+    "reason": "normalised instagram \"Mahjong.byHeidi\" -> \"@Mahjong.byHeidi\""
+  },
+  {
+    "id": "aauw-madison-area-mah-jongg-group-madison-new-jersey",
+    "updates": {
+      "website": "https://madisonareaaauw.org/mah-jongg"
+    },
+    "reason": "added the missing scheme: \"madisonareaaauw.org/mah-jongg\" -> \"https://madisonareaaauw.org/mah-jongg\""
+  },
+  {
+    "id": "aauw-madison-area-spring-mah-jongg-tournament-madison-new-jersey-2026-05-27",
+    "updates": {
+      "website": "https://madisonareaaauw.org/mah-jongg"
+    },
+    "reason": "added the missing scheme: \"madisonareaaauw.org/mah-jongg\" -> \"https://madisonareaaauw.org/mah-jongg\""
+  },
+  {
+    "id": "adios-25-card-party-moorpark-california-1800-2026-04-07",
+    "updates": {
+      "website": "https://linktr.ee/Mahjwithme.nikimarie",
+      "instagram": "@mahjwithme.nikimarie"
+    },
+    "reason": "added the missing scheme: \"linktr.ee/Mahjwithme.nikimarie\" -> \"https://linktr.ee/Mahjwithme.nikimarie\"; normalised instagram \"mahjwithme.nikimarie\" -> \"@mahjwithme.nikimarie\""
+  },
+  {
+    "id": "afvdEUPjRT3kqtPNpPQw",
+    "updates": {
+      "website": "https://mahjongrepublic.com",
+      "instagram": "@mahjongrepublic"
+    },
+    "reason": "added the missing scheme: \"mahjongrepublic.com\" -> \"https://mahjongrepublic.com\"; normalised instagram \"mahjongrepublic\" -> \"@mahjongrepublic\""
+  },
+  {
+    "id": "american-mahjong-101-at-ludlow-liquors-chicago-illinois-1800-2026-04-06",
+    "updates": {
+      "website": "https://thismahjongmoment.chicago"
+    },
+    "reason": "added the missing scheme: \"thismahjongmoment.chicago\" -> \"https://thismahjongmoment.chicago\""
+  },
+  {
+    "id": "auburn-mahjong-club-nmjl-card-review-auburn-alabama-2026-04-07",
+    "updates": {
+      "website": "",
+      "instagram": "@auburnmahjongclub"
+    },
+    "reason": "moved \"@auburnmahjongclub\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "auburn-mahjong-club-piccolo-open-play-auburn-alabama-2026-04-06",
+    "updates": {
+      "website": "",
+      "instagram": "@auburnmahjongclub"
+    },
+    "reason": "moved \"@auburnmahjongclub\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "auburn-mahjong-club-tiles-tigers-threads-retreat-auburn-alabama-2026-04-11",
+    "updates": {
+      "instagram": "",
+      "website": "https://linktr.ee/aumahjongclub"
+    },
+    "reason": "cleared instagram \"linktr.ee/aumahjongclub\" — not an Instagram profile, so it linked to instagram.com/linktr.ee/aumahjongclub; kept it as the website instead"
+  },
+  {
+    "id": "bad-luck-club-mahjong-meetup-april-honolulu-hawaii-2026-04-14",
+    "updates": {
+      "website": "https://linktr.ee/hibadluckclub",
+      "instagram": "@hibadluckclub"
+    },
+    "reason": "added the missing scheme: \"linktr.ee/hibadluckclub\" -> \"https://linktr.ee/hibadluckclub\"; normalised instagram \"hibadluckclub\" -> \"@hibadluckclub\""
+  },
+  {
+    "id": "bamboo-haus-mahjong-open-play-at-red-pine-boca-raton-florida",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@bamboohausmahjong\" out of website (it is a handle, not a site); cleared instagram \"@bamboohausmahjong on IG\" — not an Instagram profile, so it linked to instagram.com/@bamboohausmahjong on IG"
+  },
+  {
+    "id": "bams-blooms-night-of-mahjong-wayzata-minnesota-1830-2026-04-15",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"@tonkatiles @letsmahjongyall\" — not an Instagram profile, so it linked to instagram.com/@tonkatiles @letsmahjongyall"
+  },
+  {
+    "id": "bams-breakfast-2026-nmjl-card-launch-newport-beach-california-paid",
+    "updates": {
+      "website": "",
+      "instagram": "@mahjongoc"
+    },
+    "reason": "moved \"@mahjongoc\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "bams-in-bloom-at-polish-boutique-virginia-beach-virginia-1800-2026-04-23",
+    "updates": {
+      "instagram": "@mahjongvb"
+    },
+    "reason": "normalised instagram \"mahjongvb\" -> \"@mahjongvb\""
+  },
+  {
+    "id": "beginner-mah-jongg-class-bridgewater-new-jersey",
+    "updates": {
+      "website": "https://www.ssbjcc.org"
+    },
+    "reason": "added the missing scheme: \"www.ssbjcc.org\" -> \"https://www.ssbjcc.org\""
+  },
+  {
+    "id": "beginner-mahjong-101-at-margerum-tasting-room-santa-barbara-california-paid",
+    "updates": {
+      "website": "https://www.eatplaytravelmahjong.com"
+    },
+    "reason": "added the missing scheme: \"www.eatplaytravelmahjong.com\" -> \"https://www.eatplaytravelmahjong.com\""
+  },
+  {
+    "id": "beginner-series-at-dilworth-tasting-room-southpark-lesson-1-charlotte-north-carolina-1600-2026-04-15",
+    "updates": {
+      "instagram": "@queencitymahjong"
+    },
+    "reason": "normalised instagram \"queencitymahjong\" -> \"@queencitymahjong\""
+  },
+  {
+    "id": "beginner-series-at-dilworth-tasting-room-southpark-lesson-2-charlotte-north-carolina-1600-2026-04-22",
+    "updates": {
+      "instagram": "@queencitymahjong"
+    },
+    "reason": "normalised instagram \"queencitymahjong\" -> \"@queencitymahjong\""
+  },
+  {
+    "id": "beginners-mahjong-101-at-pali-wine-co-santa-barbara-california-paid",
+    "updates": {
+      "website": "https://www.eatplaytravelmahjong.com"
+    },
+    "reason": "added the missing scheme: \"www.eatplaytravelmahjong.com\" -> \"https://www.eatplaytravelmahjong.com\""
+  },
+  {
+    "id": "benton-birdbam-room-mahj-101-apr-14-benton-illinois-1830-2026-04-14",
+    "updates": {
+      "instagram": "@bentonbirdbamroom"
+    },
+    "reason": "normalised instagram \"https://instagram.com/bentonbirdbamroom\" -> \"@bentonbirdbamroom\""
+  },
+  {
+    "id": "benton-birdbam-room-mahj-101-apr-21-benton-illinois-1830-2026-04-21",
+    "updates": {
+      "instagram": "@bentonbirdbamroom"
+    },
+    "reason": "normalised instagram \"https://instagram.com/bentonbirdbamroom\" -> \"@bentonbirdbamroom\""
+  },
+  {
+    "id": "benton-birdbam-room-mahjong-bubbles-apr-17-benton-illinois-1800-2026-04-17",
+    "updates": {
+      "instagram": "@bentonbirdbamroom"
+    },
+    "reason": "normalised instagram \"https://instagram.com/bentonbirdbamroom\" -> \"@bentonbirdbamroom\""
+  },
+  {
+    "id": "benton-birdbam-room-open-play-apr-14-benton-illinois-1800-2026-04-14",
+    "updates": {
+      "instagram": "@bentonbirdbamroom"
+    },
+    "reason": "normalised instagram \"https://instagram.com/bentonbirdbamroom\" -> \"@bentonbirdbamroom\""
+  },
+  {
+    "id": "benton-birdbam-room-open-play-apr-21-benton-illinois-1800-2026-04-21",
+    "updates": {
+      "instagram": "@bentonbirdbamroom"
+    },
+    "reason": "normalised instagram \"https://instagram.com/bentonbirdbamroom\" -> \"@bentonbirdbamroom\""
+  },
+  {
+    "id": "bentonville-mahj-garage-1",
+    "updates": {
+      "website": "https://mahjgarage.com"
+    },
+    "reason": "added the missing scheme: \"mahjgarage.com\" -> \"https://mahjgarage.com\""
+  },
+  {
+    "id": "bentonville-mahj-garage-2",
+    "updates": {
+      "website": "https://mahjgarage.com"
+    },
+    "reason": "added the missing scheme: \"mahjgarage.com\" -> \"https://mahjgarage.com\""
+  },
+  {
+    "id": "bentonville-mahj-garage-3",
+    "updates": {
+      "website": "https://mahjgarage.com"
+    },
+    "reason": "added the missing scheme: \"mahjgarage.com\" -> \"https://mahjgarage.com\""
+  },
+  {
+    "id": "bentonville-mahj-garage-5",
+    "updates": {
+      "website": "https://mahjgarage.com"
+    },
+    "reason": "added the missing scheme: \"mahjgarage.com\" -> \"https://mahjgarage.com\""
+  },
+  {
+    "id": "bentonville-mahj-garage-6",
+    "updates": {
+      "website": "https://mahjgarage.com"
+    },
+    "reason": "added the missing scheme: \"mahjgarage.com\" -> \"https://mahjgarage.com\""
+  },
+  {
+    "id": "bentonville-mahj-garage-7",
+    "updates": {
+      "website": "https://mahjgarage.com"
+    },
+    "reason": "added the missing scheme: \"mahjgarage.com\" -> \"https://mahjgarage.com\""
+  },
+  {
+    "id": "bentonville-mahjong-club-weekly-open-night-fayetteville-arkansas-630-pm",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"Bentonville Mahjong Club (Facebook group)\" — not an Instagram profile, so it linked to instagram.com/Bentonville Mahjong Club (Facebook group)"
+  },
+  {
+    "id": "beth-el-temple-mah-jongg-game-night-west-hartford-connecticut-600-pm",
+    "updates": {
+      "website": "https://bethelwh.org"
+    },
+    "reason": "added the missing scheme: \"bethelwh.org\" -> \"https://bethelwh.org\""
+  },
+  {
+    "id": "bgmj²-free-mahjong-social-atlanta-georgia-wednesday",
+    "updates": {
+      "instagram": "@blackgirlsmahjongtoo"
+    },
+    "reason": "normalised instagram \"blackgirlsmahjongtoo\" -> \"@blackgirlsmahjongtoo\""
+  },
+  {
+    "id": "bgmj²-mahj-matinee-atlanta-georgia-friday-2026-04-25",
+    "updates": {
+      "instagram": "@blackgirlsmahjongtoo"
+    },
+    "reason": "normalised instagram \"blackgirlsmahjongtoo\" -> \"@blackgirlsmahjongtoo\""
+  },
+  {
+    "id": "bgmj²-mahjong-night-at-the-legion-atlanta-georgia-tuesday",
+    "updates": {
+      "instagram": "@blackgirlsmahjongtoo"
+    },
+    "reason": "normalised instagram \"blackgirlsmahjongtoo\" -> \"@blackgirlsmahjongtoo\""
+  },
+  {
+    "id": "bgmj²-north-texas-community-launch-dallas-texas-2026-04-17",
+    "updates": {
+      "instagram": "@blackgirlsmahjongtoo"
+    },
+    "reason": "normalised instagram \"blackgirlsmahjongtoo\" -> \"@blackgirlsmahjongtoo\""
+  },
+  {
+    "id": "birdie-bam-mahjong-101-milton-april-milton-massachusetts",
+    "updates": {
+      "website": "",
+      "instagram": "@birdiebammahjong"
+    },
+    "reason": "moved \"@birdiebammahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "birdie-bam-mahjong-102-milton-april-milton-massachusetts",
+    "updates": {
+      "website": "",
+      "instagram": "@birdiebammahjong"
+    },
+    "reason": "moved \"@birdiebammahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "birdys-2026-card-flyover-open-play-birdy-basics-tulsa-oklahoma-1800-2026-04-09",
+    "updates": {
+      "website": "https://calendly.com/mahj918"
+    },
+    "reason": "added the missing scheme: \"calendly.com/mahj918\" -> \"https://calendly.com/mahj918\""
+  },
+  {
+    "id": "bishops-corner-senior-center-mahjong-west-hartford-connecticut",
+    "updates": {
+      "website": "https://westhartfordct.gov"
+    },
+    "reason": "added the missing scheme: \"westhartfordct.gov\" -> \"https://westhartfordct.gov\""
+  },
+  {
+    "id": "bluebird-mahj-club-spring-tiles-at-the-olde-farm-bristol-virginia-1700-2026-04-07",
+    "updates": {
+      "instagram": "@bluebirdmahjclub"
+    },
+    "reason": "normalised instagram \"https://instagram.com/bluebirdmahjclub\" -> \"@bluebirdmahjclub\""
+  },
+  {
+    "id": "board-game-x-mahjong-night-at-pinkfrog-brooklyn-new-york-1700",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"mahjongscoring.org\" — not an Instagram profile, so it linked to instagram.com/mahjongscoring.org"
+  },
+  {
+    "id": "boston-mahjong-lessons-newton-massachusetts",
+    "updates": {
+      "instagram": "@bostonmahjong"
+    },
+    "reason": "normalised instagram \"bostonmahjong\" -> \"@bostonmahjong\""
+  },
+  {
+    "id": "brookfield-library-mah-jongg-brookfield-connecticut-1000-am",
+    "updates": {
+      "website": "https://brookfieldlib.librarycalendar.com"
+    },
+    "reason": "added the missing scheme: \"brookfieldlib.librarycalendar.com\" -> \"https://brookfieldlib.librarycalendar.com\""
+  },
+  {
+    "id": "camel-city-mahj-mahj-madness-winston-salem-north-carolina-varies",
+    "updates": {
+      "instagram": "@camelcitymahj"
+    },
+    "reason": "normalised instagram \"camelcitymahj\" -> \"@camelcitymahj\""
+  },
+  {
+    "id": "camel-city-mahj-mahjong-101-winston-salem-north-carolina-wednesday-2026-04-16",
+    "updates": {
+      "instagram": "@camelcitymahj"
+    },
+    "reason": "normalised instagram \"camelcitymahj\" -> \"@camelcitymahj\""
+  },
+  {
+    "id": "camel-city-mahj-new-card-class-winston-salem-north-carolina-monday-2026-04-28",
+    "updates": {
+      "instagram": "@camelcitymahj"
+    },
+    "reason": "normalised instagram \"camelcitymahj\" -> \"@camelcitymahj\""
+  },
+  {
+    "id": "camel-city-mahj-spring-into-scoring-winston-salem-north-carolina-tuesday-2026-04-07",
+    "updates": {
+      "instagram": "@camelcitymahj"
+    },
+    "reason": "normalised instagram \"camelcitymahj\" -> \"@camelcitymahj\""
+  },
+  {
+    "id": "cap-city-mahj-mahj-101-columbus-ohio-monday-2026-04-07",
+    "updates": {
+      "instagram": "@capcitymahjoh"
+    },
+    "reason": "normalised instagram \"capcitymahjoh\" -> \"@capcitymahjoh\""
+  },
+  {
+    "id": "carmel-moov-1",
+    "updates": {
+      "website": "https://moov.health"
+    },
+    "reason": "added the missing scheme: \"moov.health\" -> \"https://moov.health\""
+  },
+  {
+    "id": "ccm-spring-league-monday-sessions-winston-salem-north-carolina-600-pm",
+    "updates": {
+      "instagram": "@camelcitymahj"
+    },
+    "reason": "normalised instagram \"camelcitymahj\" -> \"@camelcitymahj\""
+  },
+  {
+    "id": "ccm-spring-league-wednesday-sessions-winston-salem-north-carolina-1000-am",
+    "updates": {
+      "instagram": "@camelcitymahj"
+    },
+    "reason": "normalised instagram \"camelcitymahj\" -> \"@camelcitymahj\""
+  },
+  {
+    "id": "cda-mahj-mahj-102guided-play-apr-21-evening-coeur-dalene-idaho-1730-2026-04-21",
+    "updates": {
+      "instagram": "@cdamahj"
+    },
+    "reason": "normalised instagram \"https://instagram.com/cdamahj\" -> \"@cdamahj\""
+  },
+  {
+    "id": "cda-mahj-mahjong-101-apr-14-coeur-dalene-idaho",
+    "updates": {
+      "instagram": "",
+      "website": "https://linktr.ee/cdamahj"
+    },
+    "reason": "cleared instagram \"linktr.ee/cdamahj\" — not an Instagram profile, so it linked to instagram.com/linktr.ee/cdamahj; kept it as the website instead"
+  },
+  {
+    "id": "cda-mahj-mahjong-102guided-play-apr-16-coeur-dalene-idaho",
+    "updates": {
+      "instagram": "",
+      "website": "https://linktr.ee/cdamahj"
+    },
+    "reason": "cleared instagram \"linktr.ee/cdamahj\" — not an Instagram profile, so it linked to instagram.com/linktr.ee/cdamahj; kept it as the website instead"
+  },
+  {
+    "id": "cda-mahj-open-play-apr-21-afternoon-coeur-dalene-idaho-1300-2026-04-21",
+    "updates": {
+      "instagram": "@cdamahj"
+    },
+    "reason": "normalised instagram \"https://instagram.com/cdamahj\" -> \"@cdamahj\""
+  },
+  {
+    "id": "cda-mahj-open-play-apr-22-coeur-dalene-idaho-1730-2026-04-22",
+    "updates": {
+      "instagram": "@cdamahj"
+    },
+    "reason": "normalised instagram \"https://instagram.com/cdamahj\" -> \"@cdamahj\""
+  },
+  {
+    "id": "cda-mahj-open-play-apr-25-coeur-dalene-idaho",
+    "updates": {
+      "instagram": "",
+      "website": "https://linktr.ee/cdamahj"
+    },
+    "reason": "cleared instagram \"linktr.ee/cdamahj\" — not an Instagram profile, so it linked to instagram.com/linktr.ee/cdamahj; kept it as the website instead"
+  },
+  {
+    "id": "cda-mahj-the-mane-event-apr-15-coeur-dalene-idaho",
+    "updates": {
+      "instagram": "",
+      "website": "https://linktr.ee/cdamahj"
+    },
+    "reason": "cleared instagram \"linktr.ee/cdamahj\" — not an Instagram profile, so it linked to instagram.com/linktr.ee/cdamahj; kept it as the website instead"
+  },
+  {
+    "id": "central-park-mahjong-open-play-events-denver-colorado",
+    "updates": {
+      "instagram": "",
+      "website": "https://central-park-mahjong.square.site"
+    },
+    "reason": "cleared instagram \"central-park-mahjong.square.site\" — not an Instagram profile, so it linked to instagram.com/central-park-mahjong.square.site; kept it as the website instead"
+  },
+  {
+    "id": "charleston-mahjong-club-at-the-card-room-charleston-sc-b46104f4",
+    "updates": {
+      "instagram": "@charlestonmahjongclub"
+    },
+    "reason": "normalised instagram \"https://www.instagram.com/charlestonmahjongclub/\" -> \"@charlestonmahjongclub\""
+  },
+  {
+    "id": "chicago-north-shore-mahjong-chicago-illinois",
+    "updates": {
+      "website": "",
+      "instagram": "@chicagonorthshoremahjong"
+    },
+    "reason": "moved \"@chicagonorthshoremahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "cincinnati-scramble-cincinnati-ohio",
+    "updates": {
+      "website": "https://mahjongmonkey.com"
+    },
+    "reason": "added the missing scheme: \"mahjongmonkey.com\" -> \"https://mahjongmonkey.com\""
+  },
+  {
+    "id": "cincy-mahjong-club-at-liberty-collective-open-play-mahj-101-cincinnati-ohio",
+    "updates": {
+      "instagram": "",
+      "website": "https://linktr.ee/cincymahjongclub"
+    },
+    "reason": "cleared instagram \"linktr.ee/cincymahjongclub\" — not an Instagram profile, so it linked to instagram.com/linktr.ee/cincymahjongclub; kept it as the website instead"
+  },
+  {
+    "id": "citizen-house-mahj-citizen-house-oklahoma-city-oklahoma",
+    "updates": {
+      "website": "https://okletsmahjong.com/events"
+    },
+    "reason": "added the missing scheme: \"okletsmahjong.com/events\" -> \"https://okletsmahjong.com/events\""
+  },
+  {
+    "id": "city-mahj-mahjong-101-boston-massachusetts",
+    "updates": {
+      "website": ""
+    },
+    "reason": "moved \"@citymahj on IG\" out of website (it is a handle, not a site)"
+  },
+  {
+    "id": "city-mahj-open-play-at-cafe-landwer-boston-massachusetts",
+    "updates": {
+      "website": ""
+    },
+    "reason": "moved \"@citymahj on IG\" out of website (it is a handle, not a site)"
+  },
+  {
+    "id": "cleveland-mahjongmaison-1",
+    "updates": {
+      "website": "https://mahjong-maison.com"
+    },
+    "reason": "added the missing scheme: \"mahjong-maison.com\" -> \"https://mahjong-maison.com\""
+  },
+  {
+    "id": "come-and-learn-mahjong-millie-lynn-boutique-mount-pleasant-south-carolina",
+    "updates": {
+      "website": "https://littlepalmettomahtjong.com"
+    },
+    "reason": "added the missing scheme: \"littlepalmettomahtjong.com\" -> \"https://littlepalmettomahtjong.com\""
+  },
+  {
+    "id": "coventry-senior-center-library-mah-jongg-coventry-connecticut",
+    "updates": {
+      "website": "https://ct-coventry.civicplus.com"
+    },
+    "reason": "added the missing scheme: \"ct-coventry.civicplus.com\" -> \"https://ct-coventry.civicplus.com\""
+  },
+  {
+    "id": "cowtown-mahj-spring-league-fort-worth-texas-1830",
+    "updates": {
+      "website": "https://cowtownmahj.com",
+      "instagram": "@cowtownmahj"
+    },
+    "reason": "added the missing scheme: \"cowtownmahj.com\" -> \"https://cowtownmahj.com\"; normalised instagram \"cowtownmahj\" -> \"@cowtownmahj\""
+  },
+  {
+    "id": "cranston-senior-center-mahjong-cranston-rhode-island",
+    "updates": {
+      "website": "https://cranstonri.gov"
+    },
+    "reason": "added the missing scheme: \"cranstonri.gov\" -> \"https://cranstonri.gov\""
+  },
+  {
+    "id": "dallas-pie-tap-2",
+    "updates": {
+      "website": "https://www.crakqueenmahjong.com"
+    },
+    "reason": "added the missing scheme: \"www.crakqueenmahjong.com\" -> \"https://www.crakqueenmahjong.com\""
+  },
+  {
+    "id": "denver-mahj-madness-guided-play-denver-colorado-monday",
+    "updates": {
+      "instagram": "@denvermahjmadness"
+    },
+    "reason": "normalised instagram \"denvermahjmadness\" -> \"@denvermahjmadness\""
+  },
+  {
+    "id": "denver-mahj-madness-open-play-denver-colorado-monday",
+    "updates": {
+      "instagram": "@denvermahjmadness"
+    },
+    "reason": "normalised instagram \"denvermahjmadness\" -> \"@denvermahjmadness\""
+  },
+  {
+    "id": "dfw-young-social-club-american-mahjong-social-play-farmers-branch-texas-1800",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@dfwyoungsocial\" out of website (it is a handle, not a site); cleared instagram \"@dfwyoungsocial on IG\" — not an Instagram profile, so it linked to instagram.com/@dfwyoungsocial on IG"
+  },
+  {
+    "id": "dfw-young-social-club-intro-to-american-mahjong-farmers-branch-texas-1800",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@dfwyoungsocial\" out of website (it is a handle, not a site); cleared instagram \"@dfwyoungsocial on IG\" — not an Instagram profile, so it linked to instagram.com/@dfwyoungsocial on IG"
+  },
+  {
+    "id": "dorris-van-doren-library-mahjong-el-paso-texas",
+    "updates": {
+      "website": "https://elpasolibrary.org"
+    },
+    "reason": "added the missing scheme: \"elpasolibrary.org\" -> \"https://elpasolibrary.org\""
+  },
+  {
+    "id": "el-paso-mahjong-society-lessons-el-paso-texas",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"917-565-0183\" — not an Instagram profile, so it linked to instagram.com/917-565-0183"
+  },
+  {
+    "id": "emanuel-synagogue-sisterhood-mah-jongg-tournament-west-hartford-connecticut-830-am",
+    "updates": {
+      "website": "https://emanuelsynagogue.org"
+    },
+    "reason": "added the missing scheme: \"emanuelsynagogue.org\" -> \"https://emanuelsynagogue.org\""
+  },
+  {
+    "id": "fayetteville-public-library-mah-jongg-madness-intro-classes-fayetteville-arkansas-1000-am",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"Northwest Arkansas Mahjong FB\" — not an Instagram profile, so it linked to instagram.com/Northwest Arkansas Mahjong FB"
+  },
+  {
+    "id": "five-mile-mahj-april-happenings-norwalk-connecticut",
+    "updates": {
+      "website": "https://www.fivemilemahj.com"
+    },
+    "reason": "added the missing scheme: \"www.fivemilemahj.com\" -> \"https://www.fivemilemahj.com\""
+  },
+  {
+    "id": "five-mile-mahj-card-reveal-party-norwalk-connecticut-friday-2026-04-24",
+    "updates": {
+      "instagram": "@fivemilemahj"
+    },
+    "reason": "normalised instagram \"fivemilemahj\" -> \"@fivemilemahj\""
+  },
+  {
+    "id": "five-mile-mahj-mahj-101-norwalk-connecticut-monday",
+    "updates": {
+      "instagram": "@fivemilemahj"
+    },
+    "reason": "normalised instagram \"fivemilemahj\" -> \"@fivemilemahj\""
+  },
+  {
+    "id": "five-mile-mahj-mahj-102-norwalk-connecticut-tuesday",
+    "updates": {
+      "instagram": "@fivemilemahj"
+    },
+    "reason": "normalised instagram \"fivemilemahj\" -> \"@fivemilemahj\""
+  },
+  {
+    "id": "five-mile-mahj-spring-break-kids-camp-norwalk-connecticut-tuesday-2026-04-07",
+    "updates": {
+      "instagram": "@fivemilemahj"
+    },
+    "reason": "normalised instagram \"fivemilemahj\" -> \"@fivemilemahj\""
+  },
+  {
+    "id": "flowers-flatbreads-2026-nmjl-card-launch-newport-beach-california-paid",
+    "updates": {
+      "website": "",
+      "instagram": "@mahjongoc"
+    },
+    "reason": "moved \"@mahjongoc\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "free-open-play-lawless-coastal-florida",
+    "updates": {
+      "website": "https://beachmahj.com"
+    },
+    "reason": "added the missing scheme: \"beachmahj.com\" -> \"https://beachmahj.com\""
+  },
+  {
+    "id": "free-open-play-obscure-wine-florida",
+    "updates": {
+      "website": "https://beachmahj.com"
+    },
+    "reason": "added the missing scheme: \"beachmahj.com\" -> \"https://beachmahj.com\""
+  },
+  {
+    "id": "free-open-play-palms-30a-inlet-beach-florida",
+    "updates": {
+      "website": "https://beachmahj.com"
+    },
+    "reason": "added the missing scheme: \"beachmahj.com\" -> \"https://beachmahj.com\""
+  },
+  {
+    "id": "free-open-play-sweet-henriettas-florida",
+    "updates": {
+      "website": "https://beachmahj.com"
+    },
+    "reason": "added the missing scheme: \"beachmahj.com\" -> \"https://beachmahj.com\""
+  },
+  {
+    "id": "frequent-flyers-league-tulsa-oklahoma-1800-2026-04-16",
+    "updates": {
+      "website": "https://calendly.com/mahj918"
+    },
+    "reason": "added the missing scheme: \"calendly.com/mahj918\" -> \"https://calendly.com/mahj918\""
+  },
+  {
+    "id": "frequent-flyers-league-tulsa-oklahoma-1800-2026-04-30",
+    "updates": {
+      "website": "https://calendly.com/mahj918"
+    },
+    "reason": "added the missing scheme: \"calendly.com/mahj918\" -> \"https://calendly.com/mahj918\""
+  },
+  {
+    "id": "gaudie-and-co-mahjong-101-april-12-houston-texas-1200-pm-2026-04-12",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.mahjongrodeo.com"
+    },
+    "reason": "cleared instagram \"https://www.mahjongrodeo.com\" — not an Instagram profile, so it linked to instagram.com/https://www.mahjongrodeo.com; kept it as the website instead"
+  },
+  {
+    "id": "gems-mahjong-nights-learn-to-play-apr-14-swampscott-massachusetts-600-pm-2026-04-14",
+    "updates": {
+      "instagram": "@greater_essex_mahjong_social"
+    },
+    "reason": "normalised instagram \"greater_essex_mahjong_social\" -> \"@greater_essex_mahjong_social\""
+  },
+  {
+    "id": "gems-mahjong-nights-learn-to-play-apr-28-swampscott-massachusetts-600-pm-2026-04-28",
+    "updates": {
+      "instagram": "@greater_essex_mahjong_social"
+    },
+    "reason": "normalised instagram \"greater_essex_mahjong_social\" -> \"@greater_essex_mahjong_social\""
+  },
+  {
+    "id": "gems-mahjong-nights-learn-to-play-apr-7-swampscott-massachusetts-600-pm-2026-04-07",
+    "updates": {
+      "instagram": "@greater_essex_mahjong_social"
+    },
+    "reason": "normalised instagram \"greater_essex_mahjong_social\" -> \"@greater_essex_mahjong_social\""
+  },
+  {
+    "id": "gems-mahjong-nights-learn-to-play-may-5-swampscott-massachusetts-600-pm-2026-05-05",
+    "updates": {
+      "instagram": "@greater_essex_mahjong_social"
+    },
+    "reason": "normalised instagram \"greater_essex_mahjong_social\" -> \"@greater_essex_mahjong_social\""
+  },
+  {
+    "id": "get-cracking-at-mahjong-retreat-charleston-south-carolina-2026-05-01",
+    "updates": {
+      "instagram": "@getcrackingat"
+    },
+    "reason": "normalised instagram \"getcrackingat\" -> \"@getcrackingat\""
+  },
+  {
+    "id": "get-your-mahj-on-with-casa-mahj-jupiter-florida-wednesday-2026-04-15",
+    "updates": {
+      "website": ""
+    },
+    "reason": "moved \"@casamahj\" out of website (it is a handle, not a site)"
+  },
+  {
+    "id": "gilded-birds-learn-play-east-greenwich-apr-28-providence-rhode-island-1200-2026-04-28",
+    "updates": {
+      "instagram": "@thegildedbirds"
+    },
+    "reason": "normalised instagram \"https://instagram.com/thegildedbirds\" -> \"@thegildedbirds\""
+  },
+  {
+    "id": "gilded-birds-learn-play-east-greenwich-may-19-providence-rhode-island-1200-2026-05-19",
+    "updates": {
+      "instagram": "@thegildedbirds"
+    },
+    "reason": "normalised instagram \"https://instagram.com/thegildedbirds\" -> \"@thegildedbirds\""
+  },
+  {
+    "id": "gilded-birds-learn-play-track-15-apr-7-providence-rhode-island-1200-2026-04-07",
+    "updates": {
+      "instagram": "@thegildedbirds"
+    },
+    "reason": "normalised instagram \"https://instagram.com/thegildedbirds\" -> \"@thegildedbirds\""
+  },
+  {
+    "id": "gilded-birds-learn-play-track-15-may-5-providence-rhode-island-1200-2026-05-05",
+    "updates": {
+      "instagram": "@thegildedbirds"
+    },
+    "reason": "normalised instagram \"https://instagram.com/thegildedbirds\" -> \"@thegildedbirds\""
+  },
+  {
+    "id": "grapevine-library-1",
+    "updates": {
+      "website": "https://grapevinetexas.gov"
+    },
+    "reason": "added the missing scheme: \"grapevinetexas.gov\" -> \"https://grapevinetexas.gov\""
+  },
+  {
+    "id": "green-tile-social-club-arts-crafts-and-camp-new-york-new-york-2026-04-11",
+    "updates": {
+      "website": "https://linktr.ee/greentilesocialclub"
+    },
+    "reason": "added the missing scheme: \"linktr.ee/greentilesocialclub\" -> \"https://linktr.ee/greentilesocialclub\""
+  },
+  {
+    "id": "green-tile-social-club-intro-to-mahjong-new-york-new-york-2026-03-27",
+    "updates": {
+      "website": "https://linktr.ee/greentilesocialclub"
+    },
+    "reason": "added the missing scheme: \"linktr.ee/greentilesocialclub\" -> \"https://linktr.ee/greentilesocialclub\""
+  },
+  {
+    "id": "green-tile-social-club-mahjong-after-hours-new-york-new-york-2026-03-29",
+    "updates": {
+      "website": "https://linktr.ee/greentilesocialclub"
+    },
+    "reason": "added the missing scheme: \"linktr.ee/greentilesocialclub\" -> \"https://linktr.ee/greentilesocialclub\""
+  },
+  {
+    "id": "green-tile-social-club-mahjong-at-bonnies-new-york-new-york-2026-05-18",
+    "updates": {
+      "website": "https://linktr.ee/greentilesocialclub"
+    },
+    "reason": "added the missing scheme: \"linktr.ee/greentilesocialclub\" -> \"https://linktr.ee/greentilesocialclub\""
+  },
+  {
+    "id": "green-valley-recreation-open-mah-jongg-green-valley-arizona",
+    "updates": {
+      "website": "https://gvrec.org"
+    },
+    "reason": "added the missing scheme: \"gvrec.org\" -> \"https://gvrec.org\""
+  },
+  {
+    "id": "hamptons-mahj-colorpop-event-southampton-new-york",
+    "updates": {
+      "website": "",
+      "instagram": "@hamptonsmahj"
+    },
+    "reason": "moved \"@hamptonsmahj\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "hartford-area-private-instructors-hartford-area-connecticut",
+    "updates": {
+      "website": "https://modernmahjong.com/pages/connecticut"
+    },
+    "reason": "added the missing scheme: \"modernmahjong.com/pages/connecticut\" -> \"https://modernmahjong.com/pages/connecticut\""
+  },
+  {
+    "id": "hawaii-state-library-system-mahjong-players-club-multiple-branches-honolulu-hawaii",
+    "updates": {
+      "website": "https://librarieshawaii.org"
+    },
+    "reason": "added the missing scheme: \"librarieshawaii.org\" -> \"https://librarieshawaii.org\""
+  },
+  {
+    "id": "hi-buzzy-family-mini-mahjer-at-the-lawn-wilmette-wilmette-illinois",
+    "updates": {
+      "website": "",
+      "instagram": "@hi.buzzy"
+    },
+    "reason": "moved \"@hi.buzzy\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "highlands-ranch-evergreen-1",
+    "updates": {
+      "website": "https://evergreenmahjongcollective.com"
+    },
+    "reason": "added the missing scheme: \"evergreenmahjongcollective.com\" -> \"https://evergreenmahjongcollective.com\""
+  },
+  {
+    "id": "holly-springs-bottle-theory-1",
+    "updates": {
+      "website": "https://HollySpringsMahjong.com"
+    },
+    "reason": "added the missing scheme: \"HollySpringsMahjong.com\" -> \"https://HollySpringsMahjong.com\""
+  },
+  {
+    "id": "hurst-wildflower-mahjong-1",
+    "updates": {
+      "website": "https://wildflowermahjong.com"
+    },
+    "reason": "added the missing scheme: \"wildflowermahjong.com\" -> \"https://wildflowermahjong.com\""
+  },
+  {
+    "id": "hutchison-school-mahjong-madness-mixer-memphis-tennessee",
+    "updates": {
+      "website": "https://hutchisonschool.org"
+    },
+    "reason": "added the missing scheme: \"hutchisonschool.org\" -> \"https://hutchisonschool.org\""
+  },
+  {
+    "id": "itsamahjing-crash-course-austin-texas-930-am-2026-04-10",
+    "updates": {
+      "instagram": "@itsamahjing"
+    },
+    "reason": "normalised instagram \"itsamahjing\" -> \"@itsamahjing\""
+  },
+  {
+    "id": "jamestown-senior-center-mah-jongg-play-jamestown-rhode-island-500-pm",
+    "updates": {
+      "website": "https://jplri.org"
+    },
+    "reason": "added the missing scheme: \"jplri.org\" -> \"https://jplri.org\""
+  },
+  {
+    "id": "jmahj-dallas-april-showers-may-flowers-theme-night-dallas-texas-600-pm-2026-04-14",
+    "updates": {
+      "instagram": "@jmahjdallas"
+    },
+    "reason": "normalised instagram \"jmahjdallas\" -> \"@jmahjdallas\""
+  },
+  {
+    "id": "jose-cisneros-cielo-vista-library-mahjong-el-paso-texas",
+    "updates": {
+      "website": "https://elpasolibrary.org"
+    },
+    "reason": "added the missing scheme: \"elpasolibrary.org\" -> \"https://elpasolibrary.org\""
+  },
+  {
+    "id": "kaneohe-community-senior-center-mahjong-kaneohe-hawaii",
+    "updates": {
+      "website": "https://honolulu.gov/dpr"
+    },
+    "reason": "added the missing scheme: \"honolulu.gov/dpr\" -> \"https://honolulu.gov/dpr\""
+  },
+  {
+    "id": "kmc-spring-mahjong-league-houston-texas-2026-03-26-to-2026-04-30",
+    "updates": {
+      "website": "https://heyletsmahj.com"
+    },
+    "reason": "added the missing scheme: \"heyletsmahj.com\" -> \"https://heyletsmahj.com\""
+  },
+  {
+    "id": "lafayette-maison-de-mahj-1",
+    "updates": {
+      "website": "https://maison-demahj.com",
+      "instagram": ""
+    },
+    "reason": "added the missing scheme: \"maison-demahj.com\" -> \"https://maison-demahj.com\"; cleared instagram \"@maison-demahj\" — not an Instagram profile, so it linked to instagram.com/@maison-demahj"
+  },
+  {
+    "id": "lanakila-senior-center-mahjong-honolulu-hawaii",
+    "updates": {
+      "website": "https://catholiccharitieshawaii.org"
+    },
+    "reason": "added the missing scheme: \"catholiccharitieshawaii.org\" -> \"https://catholiccharitieshawaii.org\""
+  },
+  {
+    "id": "le-mahj-club-brews-bams-mahjong-101-roswell-georgia-1400-2026-04-12",
+    "updates": {
+      "website": "https://www.lemahjclub.com"
+    },
+    "reason": "added the missing scheme: \"www.lemahjclub.com\" -> \"https://www.lemahjclub.com\""
+  },
+  {
+    "id": "le-mahj-club-guided-open-play-atlanta-georgia-wednesday",
+    "updates": {
+      "instagram": "@lemahjclub"
+    },
+    "reason": "normalised instagram \"lemahjclub\" -> \"@lemahjclub\""
+  },
+  {
+    "id": "le-mahj-club-mahj-mingle-open-play-roswell-georgia-1400-2026-05-03",
+    "updates": {
+      "website": "https://www.lemahjclub.com"
+    },
+    "reason": "added the missing scheme: \"www.lemahjclub.com\" -> \"https://www.lemahjclub.com\""
+  },
+  {
+    "id": "le-mahj-club-mahjong-101-atlanta-georgia-monday",
+    "updates": {
+      "instagram": "@lemahjclub"
+    },
+    "reason": "normalised instagram \"lemahjclub\" -> \"@lemahjclub\""
+  },
+  {
+    "id": "le-mahj-club-mahjong-next-moves-102-roswell-georgia-1400-2026-04-26",
+    "updates": {
+      "website": "https://www.lemahjclub.com"
+    },
+    "reason": "added the missing scheme: \"www.lemahjclub.com\" -> \"https://www.lemahjclub.com\""
+  },
+  {
+    "id": "learn-the-2026-nmjl-card-houston-texas-tuesday-2026-04-21",
+    "updates": {
+      "website": "https://heyletsmahj.com"
+    },
+    "reason": "added the missing scheme: \"heyletsmahj.com\" -> \"https://heyletsmahj.com\""
+  },
+  {
+    "id": "learn-to-play-mahjong-3-lesson-beginner-series-new-orleans-louisiana",
+    "updates": {
+      "website": "",
+      "instagram": "@mahjong_orleans"
+    },
+    "reason": "moved \"@mahjong_orleans\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "learn-to-play-mahjong-minneapolis-minnesota-130-pm-2026-04-15",
+    "updates": {
+      "instagram": "",
+      "website": "https://hclib.bibliocommons.com/v2/events?q=mahjong"
+    },
+    "reason": "cleared instagram \"https://hclib.bibliocommons.com/v2/events?q=mahjong\" — not an Instagram profile, so it linked to instagram.com/https://hclib.bibliocommons.com/v2/events?q=mahjong; kept it as the website instead"
+  },
+  {
+    "id": "learn-to-play-mahjong-minneapolis-minnesota-130-pm-2026-05-20",
+    "updates": {
+      "instagram": "",
+      "website": "https://hclib.bibliocommons.com/v2/events?q=mahjong"
+    },
+    "reason": "cleared instagram \"https://hclib.bibliocommons.com/v2/events?q=mahjong\" — not an Instagram profile, so it linked to instagram.com/https://hclib.bibliocommons.com/v2/events?q=mahjong; kept it as the website instead"
+  },
+  {
+    "id": "learn-to-play-mahjong-minneapolis-minnesota-130-pm-2026-06-17",
+    "updates": {
+      "instagram": "",
+      "website": "https://hclib.bibliocommons.com/v2/events?q=mahjong"
+    },
+    "reason": "cleared instagram \"https://hclib.bibliocommons.com/v2/events?q=mahjong\" — not an Instagram profile, so it linked to instagram.com/https://hclib.bibliocommons.com/v2/events?q=mahjong; kept it as the website instead"
+  },
+  {
+    "id": "lessons-open-play-at-dear-olivia-fort-lauderdale-florida-tuesday-2026-04-29",
+    "updates": {
+      "website": "https://mahjonthebeach.com"
+    },
+    "reason": "added the missing scheme: \"mahjonthebeach.com\" -> \"https://mahjonthebeach.com\""
+  },
+  {
+    "id": "lessons-open-play-at-replay-club-west-palm-beach-florida-monday-2026-04-28",
+    "updates": {
+      "website": "https://mahjonthebeach.com"
+    },
+    "reason": "added the missing scheme: \"mahjonthebeach.com\" -> \"https://mahjonthebeach.com\""
+  },
+  {
+    "id": "lessons-open-play-at-the-skinny-dip-palm-beach-palm-beach-florida",
+    "updates": {
+      "website": "https://linktr.ee/mahjonthebeach",
+      "instagram": "@mahjonthebeach"
+    },
+    "reason": "added the missing scheme: \"linktr.ee/mahjonthebeach\" -> \"https://linktr.ee/mahjonthebeach\"; normalised instagram \"mahjonthebeach\" -> \"@mahjonthebeach\""
+  },
+  {
+    "id": "lewisville-ntwc-1",
+    "updates": {
+      "website": "https://ntwclub.weebly.com"
+    },
+    "reason": "added the missing scheme: \"ntwclub.weebly.com\" -> \"https://ntwclub.weebly.com\""
+  },
+  {
+    "id": "little-lighthouse-fundraiser-gaillardia-country-club-oklahoma-city-oklahoma",
+    "updates": {
+      "website": "https://okletsmahjong.com/events"
+    },
+    "reason": "added the missing scheme: \"okletsmahjong.com/events\" -> \"https://okletsmahjong.com/events\""
+  },
+  {
+    "id": "long-island-mahjong-club-at-twisted-cow-distillery-northport-new-york",
+    "updates": {
+      "website": "",
+      "instagram": "@longislandmahj"
+    },
+    "reason": "moved \"@longislandmahj\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "magic-of-mahjong-open-play-tuscaloosa-alabama-tuesday",
+    "updates": {
+      "instagram": "@magicofmahjong"
+    },
+    "reason": "normalised instagram \"magicofmahjong\" -> \"@magicofmahjong\""
+  },
+  {
+    "id": "magic-of-mahjong-tuesday-night-league-new-jersey-tuesday",
+    "updates": {
+      "website": "https://magicofmahjong.com"
+    },
+    "reason": "added the missing scheme: \"magicofmahjong.com\" -> \"https://magicofmahjong.com\""
+  },
+  {
+    "id": "magpie-mahjong-mahj-101-at-polished-prints-apr-16-st-louis-illinois-2026-04-16",
+    "updates": {
+      "instagram": "@magpiemahjong"
+    },
+    "reason": "normalised instagram \"https://instagram.com/magpiemahjong\" -> \"@magpiemahjong\""
+  },
+  {
+    "id": "magpie-mahjong-mahj-101-at-stubborn-german-brewing-apr-9-st-louis-illinois-2026-04-09",
+    "updates": {
+      "instagram": "@magpiemahjong"
+    },
+    "reason": "normalised instagram \"https://instagram.com/magpiemahjong\" -> \"@magpiemahjong\""
+  },
+  {
+    "id": "magpie-mahjong-mahj-101-at-stupp-center-apr-6-st-louis-missouri-2026-04-06",
+    "updates": {
+      "instagram": "@magpiemahjong"
+    },
+    "reason": "normalised instagram \"https://instagram.com/magpiemahjong\" -> \"@magpiemahjong\""
+  },
+  {
+    "id": "magpie-mahjong-mahj-102-at-stupp-center-apr-13-st-louis-missouri-2026-04-13",
+    "updates": {
+      "instagram": "@magpiemahjong"
+    },
+    "reason": "normalised instagram \"https://instagram.com/magpiemahjong\" -> \"@magpiemahjong\""
+  },
+  {
+    "id": "magpie-mahjong-meet-me-at-mahj-open-play-apr-20-st-louis-missouri-2026-04-20",
+    "updates": {
+      "instagram": "@magpiemahjong"
+    },
+    "reason": "normalised instagram \"https://instagram.com/magpiemahjong\" -> \"@magpiemahjong\""
+  },
+  {
+    "id": "magpie-mahjong-open-play-saturday-mornin-st-louis-mo-saturda-d67622fb",
+    "updates": {
+      "instagram": "@magpiemahjong"
+    },
+    "reason": "normalised instagram \"magpiemahjong\" -> \"@magpiemahjong\""
+  },
+  {
+    "id": "magpie-mahjong-open-play-saturday-noon-st-louis-mo-saturday--263a8d4e",
+    "updates": {
+      "instagram": "@magpiemahjong"
+    },
+    "reason": "normalised instagram \"magpiemahjong\" -> \"@magpiemahjong\""
+  },
+  {
+    "id": "magpie-mahjong-open-play-sunday-st-louis-mo-sunday-12-00-c0a9711b",
+    "updates": {
+      "instagram": "@magpiemahjong"
+    },
+    "reason": "normalised instagram \"magpiemahjong\" -> \"@magpiemahjong\""
+  },
+  {
+    "id": "mah-jongg-at-shames-jcc-on-the-hudson-tarrytown-ny-friday-11-671fbdea",
+    "updates": {
+      "instagram": "@shamesjcc"
+    },
+    "reason": "normalised instagram \"shamesjcc\" -> \"@shamesjcc\""
+  },
+  {
+    "id": "mah-jongg-fun-la-tournament-culver-city-california",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.mahjonggfunla.com/schedule.html"
+    },
+    "reason": "cleared instagram \"https://www.mahjonggfunla.com/schedule.html\" — not an Instagram profile, so it linked to instagram.com/https://www.mahjonggfunla.com/schedule.html; kept it as the website instead"
+  },
+  {
+    "id": "mah-jongg-game-day-northridge-california",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.valleyjcc.org/lessons"
+    },
+    "reason": "cleared instagram \"https://www.valleyjcc.org/lessons\" — not an Instagram profile, so it linked to instagram.com/https://www.valleyjcc.org/lessons; kept it as the website instead"
+  },
+  {
+    "id": "mahj-101-brookhaven-georgia-630-pm-2026-04-30",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@mahjongsocialatl\" out of website (it is a handle, not a site); cleared instagram \"mahjongsocialatl.com\" — not an Instagram profile, so it linked to instagram.com/mahjongsocialatl.com"
+  },
+  {
+    "id": "mahj-101-winterberry-lake-barrington-illinois",
+    "updates": {
+      "website": "https://northshoremajong.com"
+    },
+    "reason": "added the missing scheme: \"northshoremajong.com\" -> \"https://northshoremajong.com\""
+  },
+  {
+    "id": "mahj-102-guided-play-raleigh-north-carolina-1830-2026-04-06",
+    "updates": {
+      "website": "https://mahj-with-read.bamgoodtime.com",
+      "instagram": "@mahjwithrm"
+    },
+    "reason": "added the missing scheme: \"mahj-with-read.bamgoodtime.com\" -> \"https://mahj-with-read.bamgoodtime.com\"; normalised instagram \"mahjwithrm\" -> \"@mahjwithrm\""
+  },
+  {
+    "id": "mahj-and-mulligans-at-cohens-retreat-savannah-georgia-paid",
+    "updates": {
+      "website": "",
+      "instagram": "@cohensretreat"
+    },
+    "reason": "moved \"@cohensretreat\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mahj-club-kc-mahj-101102-at-pink-antler-apr-1623-kansas-city-missouri-1800-2026-04-16",
+    "updates": {
+      "instagram": "@mahjclubkc"
+    },
+    "reason": "normalised instagram \"https://instagram.com/mahjclubkc\" -> \"@mahjclubkc\""
+  },
+  {
+    "id": "mahj-for-kicks-open-play-zionsville-indiana-free",
+    "updates": {
+      "website": "https://meetatmahj.com"
+    },
+    "reason": "added the missing scheme: \"meetatmahj.com\" -> \"https://meetatmahj.com\""
+  },
+  {
+    "id": "mahj-garage-nwa-craking-the-2026-nmjl-card-bentonville-arkansas-0930-2026-04-23",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@mahjgaragenwa\" out of website (it is a handle, not a site); cleared instagram \"mahjgarage.com\" — not an Instagram profile, so it linked to instagram.com/mahjgarage.com"
+  },
+  {
+    "id": "mahj-garage-nwa-craking-the-2026-nmjl-card-bentonville-arkansas-1830-2026-04-16",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@mahjgaragenwa\" out of website (it is a handle, not a site); cleared instagram \"mahjgarage.com\" — not an Instagram profile, so it linked to instagram.com/mahjgarage.com"
+  },
+  {
+    "id": "mahj-garage-nwa-mahjong-101-beginner-bentonville-arkansas-1800-2026-04-12",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@mahjgaragenwa\" out of website (it is a handle, not a site); cleared instagram \"mahjgarage.com\" — not an Instagram profile, so it linked to instagram.com/mahjgarage.com"
+  },
+  {
+    "id": "mahj-garage-nwa-mahjong-102-learning-bentonville-arkansas-1800-2026-04-19",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@mahjgaragenwa\" out of website (it is a handle, not a site); cleared instagram \"mahjgarage.com\" — not an Instagram profile, so it linked to instagram.com/mahjgarage.com"
+  },
+  {
+    "id": "mahj-garage-nwa-open-play-at-bike-rack-bentonville-arkansas-1830-2026-04-09",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@mahjgaragenwa\" out of website (it is a handle, not a site); cleared instagram \"mahjgarage.com\" — not an Instagram profile, so it linked to instagram.com/mahjgarage.com"
+  },
+  {
+    "id": "mahj-garage-nwa-open-play-bentonville-arkansas-1830-2026-04-23",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@mahjgaragenwa\" out of website (it is a handle, not a site); cleared instagram \"mahjgarage.com\" — not an Instagram profile, so it linked to instagram.com/mahjgarage.com"
+  },
+  {
+    "id": "mahj-garage-nwa-special-101-class-bentonville-arkansas-1700-2026-04-24",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@mahjgaragenwa\" out of website (it is a handle, not a site); cleared instagram \"mahjgarage.com\" — not an Instagram profile, so it linked to instagram.com/mahjgarage.com"
+  },
+  {
+    "id": "mahj-in-the-city-gbr-crak-the-card-denham-springs-louisiana-tuesday-2026-04-14",
+    "updates": {
+      "instagram": "@mahjinthecity_gbr"
+    },
+    "reason": "normalised instagram \"mahjinthecity_gbr\" -> \"@mahjinthecity_gbr\""
+  },
+  {
+    "id": "mahj-mania-by-celebrate-by-lisa-lou-houston-texas",
+    "updates": {
+      "instagram": "",
+      "website": "https://themahjongline.com/?ref=LADYMAHJ"
+    },
+    "reason": "cleared instagram \"themahjongline.com/?ref=LADYMAHJ\" — not an Instagram profile, so it linked to instagram.com/themahjongline.com/?ref=LADYMAHJ; kept it as the website instead"
+  },
+  {
+    "id": "mahj-maniacs-memphis-tournament-memphis-tennessee",
+    "updates": {
+      "instagram": "",
+      "website": "https://mahjmaniacs.com"
+    },
+    "reason": "cleared instagram \"mahjmaniacs.com\" — not an Instagram profile, so it linked to instagram.com/mahjmaniacs.com; kept it as the website instead"
+  },
+  {
+    "id": "mahj-matinee-the-michael-experience-social-seat-marietta-georgia-1200-2026-04-25",
+    "updates": {
+      "website": "https://blackgirlsmahjongtoo.com",
+      "instagram": "@blackgirlsmahjongtoo"
+    },
+    "reason": "added the missing scheme: \"blackgirlsmahjongtoo.com\" -> \"https://blackgirlsmahjongtoo.com\"; normalised instagram \"blackgirlsmahjongtoo\" -> \"@blackgirlsmahjongtoo\""
+  },
+  {
+    "id": "mahj-monday-luv-crepes-cafe-north-richland-hills-texas",
+    "updates": {
+      "website": "https://wildflowermahjong.com"
+    },
+    "reason": "added the missing scheme: \"wildflowermahjong.com\" -> \"https://wildflowermahjong.com\""
+  },
+  {
+    "id": "mahj-mondays-tiles-and-taps-open-play-raleigh-north-carolina-1830",
+    "updates": {
+      "website": "https://mahj-with-read.bamgoodtime.com",
+      "instagram": "@mahjwithrm"
+    },
+    "reason": "added the missing scheme: \"mahj-with-read.bamgoodtime.com\" -> \"https://mahj-with-read.bamgoodtime.com\"; normalised instagram \"mahjwithrm\" -> \"@mahjwithrm\""
+  },
+  {
+    "id": "mahj-on-the-beach-boca-raton-historical-society-boca-raton-florida-sunday-2026-04-20",
+    "updates": {
+      "instagram": "@mahjonthebeach"
+    },
+    "reason": "normalised instagram \"mahjonthebeach\" -> \"@mahjonthebeach\""
+  },
+  {
+    "id": "mahj-on-the-beach-dear-olivia-boca-raton-florida-tuesday-2026-04-29",
+    "updates": {
+      "instagram": "@mahjonthebeach"
+    },
+    "reason": "normalised instagram \"mahjonthebeach\" -> \"@mahjonthebeach\""
+  },
+  {
+    "id": "mahj-on-the-beach-emilys-garden-boca-raton-florida-saturday-2026-04-26",
+    "updates": {
+      "instagram": "@mahjonthebeach"
+    },
+    "reason": "normalised instagram \"mahjonthebeach\" -> \"@mahjonthebeach\""
+  },
+  {
+    "id": "mahj-on-the-beach-happy-monkey-boca-raton-florida-tuesday-2026-04-22",
+    "updates": {
+      "instagram": "@mahjonthebeach"
+    },
+    "reason": "normalised instagram \"mahjonthebeach\" -> \"@mahjonthebeach\""
+  },
+  {
+    "id": "mahj-on-the-beach-lessons-open-play-at-dear-olivia-delray-beach-florida",
+    "updates": {
+      "website": "https://linktr.ee/mahjonthebeach"
+    },
+    "reason": "added the missing scheme: \"linktr.ee/mahjonthebeach\" -> \"https://linktr.ee/mahjonthebeach\""
+  },
+  {
+    "id": "mahj-on-the-beach-lessons-open-play-at-replay-club-boca-raton-florida",
+    "updates": {
+      "website": "https://linktr.ee/mahjonthebeach"
+    },
+    "reason": "added the missing scheme: \"linktr.ee/mahjonthebeach\" -> \"https://linktr.ee/mahjonthebeach\""
+  },
+  {
+    "id": "mahj-on-the-beach-lessons-open-play-at-the-skinny-dip-west-palm-beach-florida",
+    "updates": {
+      "instagram": "",
+      "website": "https://linktr.ee/mahjonthebeach"
+    },
+    "reason": "cleared instagram \"linktr.ee/mahjonthebeach\" — not an Instagram profile, so it linked to instagram.com/linktr.ee/mahjonthebeach; kept it as the website instead"
+  },
+  {
+    "id": "mahj-on-the-beach-nmjl-card-strategy-class-boca-raton-florida-2026-04-14",
+    "updates": {
+      "website": "",
+      "instagram": "@mahjonthebeach"
+    },
+    "reason": "moved \"@mahjonthebeach\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mahj-on-the-beach-replay-club-lessons-boca-raton-florida-monday",
+    "updates": {
+      "instagram": "@mahjonthebeach"
+    },
+    "reason": "normalised instagram \"mahjonthebeach\" -> \"@mahjonthebeach\""
+  },
+  {
+    "id": "mahj-on-the-beach-skinny-dip-boca-raton-florida-wednesday-2026-04-23",
+    "updates": {
+      "instagram": "@mahjonthebeach"
+    },
+    "reason": "normalised instagram \"mahjonthebeach\" -> \"@mahjonthebeach\""
+  },
+  {
+    "id": "mahj-open-play-mirage-38-new-orleans-louisiana",
+    "updates": {
+      "website": "https://mahjeltovwithjillian.com"
+    },
+    "reason": "added the missing scheme: \"mahjeltovwithjillian.com\" -> \"https://mahjeltovwithjillian.com\""
+  },
+  {
+    "id": "mahj-social-club-intro-to-mahj-at-satellite-atx-austin-texas-saturday-2026-04-19",
+    "updates": {
+      "website": "https://mahjsocialclub.fun/events"
+    },
+    "reason": "added the missing scheme: \"mahjsocialclub.fun/events\" -> \"https://mahjsocialclub.fun/events\""
+  },
+  {
+    "id": "mahj-social-club-mahj-20-assisted-play-at-manana-coffee-austin-texas-saturday-2026-04-12",
+    "updates": {
+      "website": "https://mahjsocialclub.fun/events"
+    },
+    "reason": "added the missing scheme: \"mahjsocialclub.fun/events\" -> \"https://mahjsocialclub.fun/events\""
+  },
+  {
+    "id": "mahj-social-club-open-play-east-austin-austin-texas-tuesday-2026-04-15",
+    "updates": {
+      "website": "https://mahjsocialclub.fun/events"
+    },
+    "reason": "added the missing scheme: \"mahjsocialclub.fun/events\" -> \"https://mahjsocialclub.fun/events\""
+  },
+  {
+    "id": "mahj-social-club-open-play-lakeway-lakeway-texas-monday-2026-04-14",
+    "updates": {
+      "website": "https://mahjsocialclub.fun/events"
+    },
+    "reason": "added the missing scheme: \"mahjsocialclub.fun/events\" -> \"https://mahjsocialclub.fun/events\""
+  },
+  {
+    "id": "mahj-y-margs-open-play-houston-texas-tuesday-2026-04-28",
+    "updates": {
+      "website": ""
+    },
+    "reason": "moved \"@marchesamahjong\" out of website (it is a handle, not a site)"
+  },
+  {
+    "id": "mahj918-birdy-basics-beginner-lessons-tulsa-oklahoma",
+    "updates": {
+      "website": "https://calendly.com/mahj918"
+    },
+    "reason": "added the missing scheme: \"calendly.com/mahj918\" -> \"https://calendly.com/mahj918\""
+  },
+  {
+    "id": "mahj918-open-play-birdy-basics-claremore-oklahoma-1800-2026-04-22",
+    "updates": {
+      "website": "https://calendly.com/mahj918"
+    },
+    "reason": "added the missing scheme: \"calendly.com/mahj918\" -> \"https://calendly.com/mahj918\""
+  },
+  {
+    "id": "mahj918-open-play-birdy-basics-tulsa-oklahoma-1800-2026-04-23",
+    "updates": {
+      "website": "https://calendly.com/mahj918"
+    },
+    "reason": "added the missing scheme: \"calendly.com/mahj918\" -> \"https://calendly.com/mahj918\""
+  },
+  {
+    "id": "mahj918-open-play-tulsa-oklahoma-1800-2026-04-13",
+    "updates": {
+      "website": "https://calendly.com/mahj918"
+    },
+    "reason": "added the missing scheme: \"calendly.com/mahj918\" -> \"https://calendly.com/mahj918\""
+  },
+  {
+    "id": "mahj918-open-play-tulsa-oklahoma-1800-2026-04-27",
+    "updates": {
+      "website": "https://calendly.com/mahj918"
+    },
+    "reason": "added the missing scheme: \"calendly.com/mahj918\" -> \"https://calendly.com/mahj918\""
+  },
+  {
+    "id": "mahj918-private-events-tournaments-tulsa-oklahoma",
+    "updates": {
+      "website": "https://calendly.com/mahj918"
+    },
+    "reason": "added the missing scheme: \"calendly.com/mahj918\" -> \"https://calendly.com/mahj918\""
+  },
+  {
+    "id": "mahjmixers-guided-open-play-timonium-baltimore-maryland-1830-2026-04-21",
+    "updates": {
+      "instagram": "@mahjmixers"
+    },
+    "reason": "normalised instagram \"https://instagram.com/mahjmixers\" -> \"@mahjmixers\""
+  },
+  {
+    "id": "mahjong-101-at-aioli-bakery-west-palm-beach-florida-wednesday-2026-04-30",
+    "updates": {
+      "website": "https://mahjonthebeach.com"
+    },
+    "reason": "added the missing scheme: \"mahjonthebeach.com\" -> \"https://mahjonthebeach.com\""
+  },
+  {
+    "id": "mahjong-101-at-ar-workshop-worthington-worthington-ohio-paid",
+    "updates": {
+      "website": "",
+      "instagram": "@letsgetmahjd"
+    },
+    "reason": "moved \"@letsgetmahjd\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mahjong-101-at-circa-events-new-roads-new-roads-louisiana-1700-2026-04-29",
+    "updates": {
+      "website": "https://www.mahjonghousebr.com",
+      "instagram": "@themahjonghousebatonrouge"
+    },
+    "reason": "added the missing scheme: \"www.mahjonghousebr.com\" -> \"https://www.mahjonghousebr.com\"; normalised instagram \"themahjonghousebatonrouge\" -> \"@themahjonghousebatonrouge\""
+  },
+  {
+    "id": "mahjong-101-beginner-lesson-houston-texas-wednesday-2026-04-29",
+    "updates": {
+      "website": "https://heyletsmahj.com"
+    },
+    "reason": "added the missing scheme: \"heyletsmahj.com\" -> \"https://heyletsmahj.com\""
+  },
+  {
+    "id": "mahjong-101-bottle-theory-apex-north-carolina",
+    "updates": {
+      "website": "https://hollyspringsmahjong.com"
+    },
+    "reason": "added the missing scheme: \"hollyspringsmahjong.com\" -> \"https://hollyspringsmahjong.com\""
+  },
+  {
+    "id": "mahjong-101-camp-creek-watersound-club-florida",
+    "updates": {
+      "website": "https://beachmahj.com"
+    },
+    "reason": "added the missing scheme: \"beachmahj.com\" -> \"https://beachmahj.com\""
+  },
+  {
+    "id": "mahjong-101-palms-30a-inlet-beach-florida",
+    "updates": {
+      "website": "https://beachmahj.com"
+    },
+    "reason": "added the missing scheme: \"beachmahj.com\" -> \"https://beachmahj.com\""
+  },
+  {
+    "id": "mahjong-101-palms-30a-the-big-chill-florida",
+    "updates": {
+      "website": "https://beachmahj.com"
+    },
+    "reason": "added the missing scheme: \"beachmahj.com\" -> \"https://beachmahj.com\""
+  },
+  {
+    "id": "mahjong-101-peoples-organic-southdale-minnesota",
+    "updates": {
+      "website": "https://belleofthebam.as.me/mahjong101"
+    },
+    "reason": "added the missing scheme: \"belleofthebam.as.me/mahjong101\" -> \"https://belleofthebam.as.me/mahjong101\""
+  },
+  {
+    "id": "mahjong-101-stonehouse-golf-club-toano-virginia",
+    "updates": {
+      "website": "https://www.msmahjongmuse.com"
+    },
+    "reason": "added the missing scheme: \"www.msmahjongmuse.com\" -> \"https://www.msmahjongmuse.com\""
+  },
+  {
+    "id": "mahjong-102-2026-card-stonehouse-golf-club-toano-virginia",
+    "updates": {
+      "website": "https://www.msmahjongmuse.com"
+    },
+    "reason": "added the missing scheme: \"www.msmahjongmuse.com\" -> \"https://www.msmahjongmuse.com\""
+  },
+  {
+    "id": "mahjong-102-april-15th-houston-texas-600-pm-2026-04-15",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.mahjongrodeo.com"
+    },
+    "reason": "cleared instagram \"https://www.mahjongrodeo.com\" — not an Instagram profile, so it linked to instagram.com/https://www.mahjongrodeo.com; kept it as the website instead"
+  },
+  {
+    "id": "mahjong-addison-monthly-mahj-101-tulsa-oklahoma-1400",
+    "updates": {
+      "website": "https://linkbio.co/Mahjongaddison",
+      "instagram": "@mahjongaddison"
+    },
+    "reason": "added the missing scheme: \"linkbio.co/Mahjongaddison\" -> \"https://linkbio.co/Mahjongaddison\"; normalised instagram \"mahjongaddison\" -> \"@mahjongaddison\""
+  },
+  {
+    "id": "mahjong-addison-monthly-open-play-tulsa-oklahoma-1800",
+    "updates": {
+      "website": "https://linkbio.co/Mahjongaddison",
+      "instagram": "@mahjongaddison"
+    },
+    "reason": "added the missing scheme: \"linkbio.co/Mahjongaddison\" -> \"https://linkbio.co/Mahjongaddison\"; normalised instagram \"mahjongaddison\" -> \"@mahjongaddison\""
+  },
+  {
+    "id": "mahjong-at-aroma-cafe-milwaukee-wisconsin-1600-2026-04-25",
+    "updates": {
+      "instagram": "@mkemahjong"
+    },
+    "reason": "normalised instagram \"https://instagram.com/mkemahjong\" -> \"@mkemahjong\""
+  },
+  {
+    "id": "mahjong-at-chatsworth-branch-library-los-angeles-california-100-pm",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"(213) 228-7430\" — not an Instagram profile, so it linked to instagram.com/(213) 228-7430"
+  },
+  {
+    "id": "mahjong-at-deenas-third-thursday-open-play-solana-beach-california-300-pm",
+    "updates": {
+      "instagram": "",
+      "website": "https://linktr.ee/mahjongatdeenas"
+    },
+    "reason": "cleared instagram \"linktr.ee/mahjongatdeenas\" — not an Instagram profile, so it linked to instagram.com/linktr.ee/mahjongatdeenas; kept it as the website instead"
+  },
+  {
+    "id": "mahjong-at-ironside-miami-florida-1800",
+    "updates": {
+      "website": "",
+      "instagram": "@mahjongclubmiami"
+    },
+    "reason": "moved \"@mahjongclubmiami\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mahjong-at-the-maidstone-east-hampton-east-hampton-new-york",
+    "updates": {
+      "website": "",
+      "instagram": "@hamptonsmahj"
+    },
+    "reason": "moved \"@hamptonsmahj\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mahjong-at-wildflower-boutique-new-orleans-louisiana",
+    "updates": {
+      "website": "https://linktr.ee/mahjongorleans"
+    },
+    "reason": "added the missing scheme: \"linktr.ee/mahjongorleans\" -> \"https://linktr.ee/mahjongorleans\""
+  },
+  {
+    "id": "mahjong-beer-pong-ou-beta-house-norman-oklahoma",
+    "updates": {
+      "website": "https://okletsmahjong.com/events"
+    },
+    "reason": "added the missing scheme: \"okletsmahjong.com/events\" -> \"https://okletsmahjong.com/events\""
+  },
+  {
+    "id": "mahjong-for-a-cause-chicago-chicago-illinois",
+    "updates": {
+      "website": "",
+      "instagram": "@themahjsociety"
+    },
+    "reason": "moved \"@themahjsociety\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mahjong-for-a-cause-national-mahjong-day-chicago-illinois-700-pm-2026-04-30",
+    "updates": {
+      "website": "",
+      "instagram": "@themahjsociety"
+    },
+    "reason": "moved \"@themahjsociety\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mahjong-for-a-fresh-start-charity-tournament-phoenix-arizona-1730-2026-04-16",
+    "updates": {
+      "instagram": "@sonoran_mahjong_co"
+    },
+    "reason": "normalised instagram \"https://instagram.com/sonoran_mahjong_co\" -> \"@sonoran_mahjong_co\""
+  },
+  {
+    "id": "mahjong-haven-bldg-at-hotel-marcel-new-haven-connecticut-wednesday-2026-04-09",
+    "updates": {
+      "instagram": "@mahjong_haven"
+    },
+    "reason": "normalised instagram \"mahjong_haven\" -> \"@mahjong_haven\""
+  },
+  {
+    "id": "mahjong-haven-elm-city-games-new-haven-connecticut-friday-2026-04-25",
+    "updates": {
+      "instagram": "@mahjong_haven"
+    },
+    "reason": "normalised instagram \"mahjong_haven\" -> \"@mahjong_haven\""
+  },
+  {
+    "id": "mahjong-haven-mecha-nhv-new-haven-connecticut-monday-2026-04-14",
+    "updates": {
+      "instagram": "@mahjong_haven"
+    },
+    "reason": "normalised instagram \"mahjong_haven\" -> \"@mahjong_haven\""
+  },
+  {
+    "id": "mahjong-haven-nebco-branford-new-haven-connecticut-sunday-2026-04-13",
+    "updates": {
+      "instagram": "@mahjong_haven"
+    },
+    "reason": "normalised instagram \"mahjong_haven\" -> \"@mahjong_haven\""
+  },
+  {
+    "id": "mahjong-madness-tournament-in-fredericksburg-fredericksburg-texas",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"Mahjong Madness Tournament in Fredericksburg\" — not an Instagram profile, so it linked to instagram.com/Mahjong Madness Tournament in Fredericksburg"
+  },
+  {
+    "id": "mahjong-mama-nwa-may-mahj-club-bentonville-arkansas-1730-2026-05-05",
+    "updates": {
+      "website": "",
+      "instagram": "@mahjongmamamahjclub"
+    },
+    "reason": "moved \"@mahjongmamamahjclub\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mahjong-miami-2026-miami-beach-florida",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.instagram.com/reel/DTQY2OBgDlM"
+    },
+    "reason": "cleared instagram \"https://www.instagram.com/reel/DTQY2OBgDlM\" — not an Instagram profile, so it linked to instagram.com/https://www.instagram.com/reel/DTQY2OBgDlM; kept it as the website instead"
+  },
+  {
+    "id": "mahjong-monday-april-milwaukee-wisconsin-1700-2026-04-20",
+    "updates": {
+      "instagram": "@mkemahjong"
+    },
+    "reason": "normalised instagram \"https://instagram.com/mkemahjong\" -> \"@mkemahjong\""
+  },
+  {
+    "id": "mahjong-on-the-green-austin-texas",
+    "updates": {
+      "website": "https://www.eventbrite.com"
+    },
+    "reason": "added the missing scheme: \"www.eventbrite.com\" -> \"https://www.eventbrite.com\""
+  },
+  {
+    "id": "mahjong-on-the-plains-auburn-alabama-2026-04-25",
+    "updates": {
+      "instagram": "",
+      "website": "https://linktr.ee/aumahjongclub"
+    },
+    "reason": "cleared instagram \"linktr.ee/aumahjongclub\" — not an Instagram profile, so it linked to instagram.com/linktr.ee/aumahjongclub; kept it as the website instead"
+  },
+  {
+    "id": "mahjong-open-play-stonehouse-golf-club-toano-virginia",
+    "updates": {
+      "website": "https://www.msmahjongmuse.com"
+    },
+    "reason": "added the missing scheme: \"www.msmahjongmuse.com\" -> \"https://www.msmahjongmuse.com\""
+  },
+  {
+    "id": "mahjong-rouge-mahj-monday-open-play-baton-rouge-louisiana-600-pm-2026-04-27",
+    "updates": {
+      "instagram": "@mahjong_rouge"
+    },
+    "reason": "normalised instagram \"mahjong_rouge\" -> \"@mahjong_rouge\""
+  },
+  {
+    "id": "mahjong-social-bg-morning-mahj-bowling-green-kentucky-wednesday",
+    "updates": {
+      "instagram": "@mahjongsocialbg"
+    },
+    "reason": "normalised instagram \"mahjongsocialbg\" -> \"@mahjongsocialbg\""
+  },
+  {
+    "id": "mahjong-social-bg-tile-nights-bowling-green-kentucky-varies",
+    "updates": {
+      "instagram": "@mahjongsocialbg"
+    },
+    "reason": "normalised instagram \"mahjongsocialbg\" -> \"@mahjongsocialbg\""
+  },
+  {
+    "id": "mahjong-social-co-lessons-open-play-chicago-western-suburbs-illinois",
+    "updates": {
+      "website": "https://eventbrite.com/o/120960494599",
+      "instagram": "@mahjongsocialco_"
+    },
+    "reason": "added the missing scheme: \"eventbrite.com/o/120960494599\" -> \"https://eventbrite.com/o/120960494599\"; normalised instagram \"mahjongsocialco_\" -> \"@mahjongsocialco_\""
+  },
+  {
+    "id": "mahjong-social-marietta-recurring-events-marietta-georgia",
+    "updates": {
+      "instagram": "",
+      "website": "https://app.acuityscheduling.com/schedule.php?owner=34028060"
+    },
+    "reason": "cleared instagram \"app.acuityscheduling.com/schedule.php?owner=34028060\" — not an Instagram profile, so it linked to instagram.com/app.acuityscheduling.com/schedule.php?owner=34028060; kept it as the website instead"
+  },
+  {
+    "id": "mahjong-switch-craft-holly-springs-north-carolina",
+    "updates": {
+      "website": "https://hollyspringsmahjong.com"
+    },
+    "reason": "added the missing scheme: \"hollyspringsmahjong.com\" -> \"https://hollyspringsmahjong.com\""
+  },
+  {
+    "id": "mahjong-tournaments-tucson-dangling-dragons-events-tucson-arizona",
+    "updates": {
+      "website": "https://mahjonggtournaments.com"
+    },
+    "reason": "added the missing scheme: \"mahjonggtournaments.com\" -> \"https://mahjonggtournaments.com\""
+  },
+  {
+    "id": "mahjong-vegas-at-page-rye-las-vegas-nevada",
+    "updates": {
+      "website": "",
+      "instagram": "@paigeandryeevents"
+    },
+    "reason": "moved \"@paigeandryeevents\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mahjong-with-a-mission-columbia-missouri-1800-2026-04-08",
+    "updates": {
+      "instagram": "@mahjongcomo"
+    },
+    "reason": "normalised instagram \"mahjongcomo\" -> \"@mahjongcomo\""
+  },
+  {
+    "id": "mahjong-with-a-view-pescado-30a-florida",
+    "updates": {
+      "website": "https://beachmahj.com"
+    },
+    "reason": "added the missing scheme: \"beachmahj.com\" -> \"https://beachmahj.com\""
+  },
+  {
+    "id": "mahjong-with-caitlyn-card-review-boca-raton-florida-40",
+    "updates": {
+      "website": "",
+      "instagram": "@mahjongwithcaitlyn"
+    },
+    "reason": "moved \"@mahjongwithcaitlyn\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mahjong-with-caitlyn-mothers-day-mahjong-boca-raton-florida-75",
+    "updates": {
+      "website": "",
+      "instagram": "@mahjongwithcaitlyn"
+    },
+    "reason": "moved \"@mahjongwithcaitlyn\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mahjong-with-marci-tiles-and-tastings-league-austin-texas-600-pm-2026-04-01",
+    "updates": {
+      "website": "https://linktr.ee/mahjwithmarci"
+    },
+    "reason": "added the missing scheme: \"linktr.ee/mahjwithmarci\" -> \"https://linktr.ee/mahjwithmarci\""
+  },
+  {
+    "id": "mahjong-with-mary-charleston-class-omaha-nebraska-1100-2026-05-04",
+    "updates": {
+      "website": "https://www.mahjongwithmary.com"
+    },
+    "reason": "added the missing scheme: \"www.mahjongwithmary.com\" -> \"https://www.mahjongwithmary.com\""
+  },
+  {
+    "id": "mahjong-with-mary-open-play-apr-10-omaha-nebraska-1200-2026-04-10-1",
+    "updates": {
+      "instagram": "@mahjongwithmary"
+    },
+    "reason": "normalised instagram \"https://instagram.com/mahjongwithmary\" -> \"@mahjongwithmary\""
+  },
+  {
+    "id": "mahjong-with-mary-open-play-apr-21-omaha-nebraska-1200-2026-04-21-1",
+    "updates": {
+      "instagram": "@mahjongwithmary"
+    },
+    "reason": "normalised instagram \"https://instagram.com/mahjongwithmary\" -> \"@mahjongwithmary\""
+  },
+  {
+    "id": "mahjong-with-mary-open-play-apr-24-omaha-nebraska-1200-2026-04-24-1",
+    "updates": {
+      "instagram": "@mahjongwithmary"
+    },
+    "reason": "normalised instagram \"https://instagram.com/mahjongwithmary\" -> \"@mahjongwithmary\""
+  },
+  {
+    "id": "mahjong-with-mysie-wurster-tupelo-mississippi-monday-2026-04-13",
+    "updates": {
+      "instagram": "@mississippimahjonggirl"
+    },
+    "reason": "normalised instagram \"mississippimahjonggirl\" -> \"@mississippimahjonggirl\""
+  },
+  {
+    "id": "mainely-mahjong-mahjong-and-margaritas-portland-maine-2026-05-12",
+    "updates": {
+      "website": "",
+      "instagram": "@mainelymahjong"
+    },
+    "reason": "moved \"@mainelymahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mandell-jcc-adult-mah-jongg-open-play-west-hartford-connecticut",
+    "updates": {
+      "website": "https://mandelljcc.org"
+    },
+    "reason": "added the missing scheme: \"mandelljcc.org\" -> \"https://mandelljcc.org\""
+  },
+  {
+    "id": "mandell-jcc-mah-jongg-beginner-classes-west-hartford-connecticut",
+    "updates": {
+      "website": "https://mandelljcc.org"
+    },
+    "reason": "added the missing scheme: \"mandelljcc.org\" -> \"https://mandelljcc.org\""
+  },
+  {
+    "id": "mariposa-mahjong-beginner-class-burr-ridge-burr-ridge-illinois",
+    "updates": {
+      "website": "",
+      "instagram": "@mariposamahjong"
+    },
+    "reason": "moved \"@mariposamahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mariposa-mahjong-beginner-class-lemont-lemont-illinois",
+    "updates": {
+      "website": "",
+      "instagram": "@mariposamahjong"
+    },
+    "reason": "moved \"@mariposamahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mariposa-mahjong-guided-play-downers-grove-downers-grove-illinois",
+    "updates": {
+      "website": "",
+      "instagram": "@mariposamahjong"
+    },
+    "reason": "moved \"@mariposamahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mariposa-mahjong-guided-play-frame-food-co-op-naperville-illinois",
+    "updates": {
+      "website": "",
+      "instagram": "@mariposamahjong"
+    },
+    "reason": "moved \"@mariposamahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mariposa-mahjong-intro-at-cadence-kitchen-downers-grove-illinois",
+    "updates": {
+      "website": "",
+      "instagram": "@mariposamahjong"
+    },
+    "reason": "moved \"@mariposamahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mariposa-mahjong-intro-at-le-chocolate-naperville-naperville-illinois-paid",
+    "updates": {
+      "website": "",
+      "instagram": "@mariposamahjong"
+    },
+    "reason": "moved \"@mariposamahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mariposa-mahjong-virtual-2026-card-review-naperville-illinois",
+    "updates": {
+      "website": "",
+      "instagram": "@mariposamahjong"
+    },
+    "reason": "moved \"@mariposamahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mary-teaches-mahjong-lessons-events-cleveland-ohio",
+    "updates": {
+      "instagram": "@maryteachesmahjong"
+    },
+    "reason": "normalised instagram \"maryteachesmahjong\" -> \"@maryteachesmahjong\""
+  },
+  {
+    "id": "master-mahjong-columbus-georgia-2026-04-10",
+    "updates": {
+      "website": "https://www.bamgoodtime.com"
+    },
+    "reason": "added the missing scheme: \"www.bamgoodtime.com\" -> \"https://www.bamgoodtime.com\""
+  },
+  {
+    "id": "master-your-mahjong-intro-to-mahjong-tampa-bay-florida",
+    "updates": {
+      "instagram": "",
+      "website": "https://masteryourmahjong.com"
+    },
+    "reason": "cleared instagram \"masteryourmahjong.com\" — not an Instagram profile, so it linked to instagram.com/masteryourmahjong.com; kept it as the website instead"
+  },
+  {
+    "id": "master-your-mahjong-mahjong-102-tampa-bay-florida",
+    "updates": {
+      "instagram": "",
+      "website": "https://masteryourmahjong.com"
+    },
+    "reason": "cleared instagram \"masteryourmahjong.com\" — not an Instagram profile, so it linked to instagram.com/masteryourmahjong.com; kept it as the website instead"
+  },
+  {
+    "id": "master-your-mahjong-open-play-social-tampa-bay-florida",
+    "updates": {
+      "instagram": "",
+      "website": "https://masteryourmahjong.com"
+    },
+    "reason": "cleared instagram \"masteryourmahjong.com\" — not an Instagram profile, so it linked to instagram.com/masteryourmahjong.com; kept it as the website instead"
+  },
+  {
+    "id": "masters-and-mahjong-curated-pawleys-pawleys-island-south-carolina-monday-2026-04-20",
+    "updates": {
+      "website": ""
+    },
+    "reason": "moved \"@curatedpawleys\" out of website (it is a handle, not a site)"
+  },
+  {
+    "id": "mckinney-northwind-1",
+    "updates": {
+      "website": "https://northwindsocial.com"
+    },
+    "reason": "added the missing scheme: \"northwindsocial.com\" -> \"https://northwindsocial.com\""
+  },
+  {
+    "id": "mingletiles-mahjong-open-play-in-york-york-pennsylvania",
+    "updates": {
+      "website": "https://mingletiles.com",
+      "instagram": "@mingletilesmahjong"
+    },
+    "reason": "added the missing scheme: \"mingletiles.com\" -> \"https://mingletiles.com\"; normalised instagram \"mingletilesmahjong\" -> \"@mingletilesmahjong\""
+  },
+  {
+    "id": "mj-102-taps-tiles-oakton-virginia-1730-2026-04-19",
+    "updates": {
+      "website": "https://www.mamamahj.com",
+      "instagram": "@mama_mahj"
+    },
+    "reason": "added the missing scheme: \"www.mamamahj.com\" -> \"https://www.mamamahj.com\"; normalised instagram \"mama_mahj\" -> \"@mama_mahj\""
+  },
+  {
+    "id": "mockingbird-magnolia-mahjong-102-advanced-play-fayetteville-arkansas-varies",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@mockingbirdmagnolia\" out of website (it is a handle, not a site); cleared instagram \"Northwest Arkansas Mahjong Community (FB)\" — not an Instagram profile, so it linked to instagram.com/Northwest Arkansas Mahjong Community (FB)"
+  },
+  {
+    "id": "mockingbird-magnolia-social-open-play-fayetteville-arkansas-varies",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@mockingbirdmagnolia\" out of website (it is a handle, not a site); cleared instagram \"Northwest Arkansas Mahjong Community (FB)\" — not an Instagram profile, so it linked to instagram.com/Northwest Arkansas Mahjong Community (FB)"
+  },
+  {
+    "id": "mocomahjong-learn-the-2026-card-bethesda-maryland",
+    "updates": {
+      "website": "",
+      "instagram": "@mocomahjong"
+    },
+    "reason": "moved \"@mocomahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mocomahjong-spring-league-bethesda-maryland-2026-04-13",
+    "updates": {
+      "website": "https://ohmymahjong.com"
+    },
+    "reason": "added the missing scheme: \"ohmymahjong.com\" -> \"https://ohmymahjong.com\""
+  },
+  {
+    "id": "modern-day-mahj-open-play-at-brya-zan-plano-plano-texas",
+    "updates": {
+      "website": "https://www.moderndaymahj.com",
+      "instagram": "@moderndaymahj"
+    },
+    "reason": "added the missing scheme: \"www.moderndaymahj.com\" -> \"https://www.moderndaymahj.com\"; normalised instagram \"moderndaymahj\" -> \"@moderndaymahj\""
+  },
+  {
+    "id": "modern-day-mahj-open-play-at-clubs-of-prestonwood-the-creek-dallas-texas",
+    "updates": {
+      "website": "https://www.moderndaymahj.com",
+      "instagram": "@moderndaymahj"
+    },
+    "reason": "added the missing scheme: \"www.moderndaymahj.com\" -> \"https://www.moderndaymahj.com\"; normalised instagram \"moderndaymahj\" -> \"@moderndaymahj\""
+  },
+  {
+    "id": "modern-mahjong-monday-midland-texas-monday-weekly",
+    "updates": {
+      "website": "https://www.modernmahj.com"
+    },
+    "reason": "added the missing scheme: \"www.modernmahj.com\" -> \"https://www.modernmahj.com\""
+  },
+  {
+    "id": "moiliili-senior-center-mahjong-honolulu-hawaii",
+    "updates": {
+      "website": "https://moiliilicc.org"
+    },
+    "reason": "added the missing scheme: \"moiliilicc.org\" -> \"https://moiliilicc.org\""
+  },
+  {
+    "id": "monday-open-play-at-whiskey-cake-houston-texas-monday-2026-04-27",
+    "updates": {
+      "website": "https://heyletsmahj.com"
+    },
+    "reason": "added the missing scheme: \"heyletsmahj.com\" -> \"https://heyletsmahj.com\""
+  },
+  {
+    "id": "motor-city-mahjong-private-lessons-detroit-michigan",
+    "updates": {
+      "website": "https://motorcitymahjong.com",
+      "instagram": "@motorcitymahjong"
+    },
+    "reason": "added the missing scheme: \"motorcitymahjong.com\" -> \"https://motorcitymahjong.com\"; normalised instagram \"motorcitymahjong\" -> \"@motorcitymahjong\""
+  },
+  {
+    "id": "mr-mahjongs-mahjong-nights-san-francisco-california-1730",
+    "updates": {
+      "website": "",
+      "instagram": "@mrmahjongs"
+    },
+    "reason": "moved \"@mrmahjongs\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "mr-mahjongs-teaching-tuesday-san-francisco-california-530-pm",
+    "updates": {
+      "instagram": "@mrmahjongs"
+    },
+    "reason": "normalised instagram \"mrmahjongs\" -> \"@mrmahjongs\""
+  },
+  {
+    "id": "my-magnolia-mahjongg-beginner-class-atlanta-georgia-sunday-2026-04-19",
+    "updates": {
+      "instagram": "@mymagnoliamahjongg"
+    },
+    "reason": "normalised instagram \"mymagnoliamahjongg\" -> \"@mymagnoliamahjongg\""
+  },
+  {
+    "id": "national-mahjong-day-open-play-at-lafayette-club-minnetonka-minnesota-2026-04-30",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"@letsmahjongyall @tonkatiles\" — not an Instagram profile, so it linked to instagram.com/@letsmahjongyall @tonkatiles"
+  },
+  {
+    "id": "new-card-workshop-hazelwood-oklahoma-city-oklahoma-evening",
+    "updates": {
+      "website": "https://okletsmahjong.com/events"
+    },
+    "reason": "added the missing scheme: \"okletsmahjong.com/events\" -> \"https://okletsmahjong.com/events\""
+  },
+  {
+    "id": "new-card-workshop-hazelwood-oklahoma-city-oklahoma-morning",
+    "updates": {
+      "website": "https://okletsmahjong.com/events"
+    },
+    "reason": "added the missing scheme: \"okletsmahjong.com/events\" -> \"https://okletsmahjong.com/events\""
+  },
+  {
+    "id": "new-mahjong-card-launch-party-at-the-nest-little-rock-arkansas",
+    "updates": {
+      "instagram": "",
+      "website": "https://flow.page/littlerockmahjong"
+    },
+    "reason": "cleared instagram \"flow.page/littlerockmahjong\" — not an Instagram profile, so it linked to instagram.com/flow.page/littlerockmahjong; kept it as the website instead"
+  },
+  {
+    "id": "newport-mahjong-more-lessons-events-portsmouth-rhode-island",
+    "updates": {
+      "website": "https://newportmahj.com"
+    },
+    "reason": "added the missing scheme: \"newportmahj.com\" -> \"https://newportmahj.com\""
+  },
+  {
+    "id": "nomi-league-season-4-new-york-new-york",
+    "updates": {
+      "website": "",
+      "instagram": "@nycriichinomi"
+    },
+    "reason": "moved \"@nycriichinomi\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "norman-mahjong-club-recurring-events-norman-oklahoma",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.normanmahjongclub.com"
+    },
+    "reason": "cleared instagram \"www.normanmahjongclub.com\" — not an Instagram profile, so it linked to instagram.com/www.normanmahjongclub.com; kept it as the website instead"
+  },
+  {
+    "id": "north-shore-mahjong-mahjong-mimosas-chicago-illinois-saturday-2026-04-19",
+    "updates": {
+      "instagram": "@northshoremahjong"
+    },
+    "reason": "normalised instagram \"northshoremahjong\" -> \"@northshoremahjong\""
+  },
+  {
+    "id": "north-shore-mahjong-open-play-at-the-picklr-chicago-illinois-saturday-2026-04-18",
+    "updates": {
+      "instagram": "@northshoremahjong"
+    },
+    "reason": "normalised instagram \"northshoremahjong\" -> \"@northshoremahjong\""
+  },
+  {
+    "id": "northwest-arkansas-mahjong-community-facebook-group-fayetteville-arkansas-na",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"Northwest Arkansas Mahjong Community (Facebook group)\" — not an Instagram profile, so it linked to instagram.com/Northwest Arkansas Mahjong Community (Facebook group)"
+  },
+  {
+    "id": "northwest-florida-mahjong-club-mahjong-101-crestview-florida",
+    "updates": {
+      "website": "https://www.eventbrite.com/e/northwest-florida-mahjong-club-mahjong-for-beginners-tickets-198433357"
+    },
+    "reason": "added the missing scheme: \"www.eventbrite.com/e/northwest-florida-mahjong-club-mahjong-for-beginners-tickets-198433357\" -> \"https://www.eventbrite.com/e/northwest-florida-mahjong-club-mahjong-for-beginners-tickets-198433357\""
+  },
+  {
+    "id": "nwa-mahjong-beginner-classes-rotating-venues-fayetteville-arkansas-600-pm",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@nwamahjong\" out of website (it is a handle, not a site); cleared instagram \"Northwest Arkansas Mahjong FB\" — not an Instagram profile, so it linked to instagram.com/Northwest Arkansas Mahjong FB"
+  },
+  {
+    "id": "nwa-mahjong-beginner-mahjong-bentonville-apr-28-fayetteville-arkansas-2026-04-28",
+    "updates": {
+      "instagram": "@nwamahjong"
+    },
+    "reason": "normalised instagram \"https://instagram.com/nwamahjong\" -> \"@nwamahjong\""
+  },
+  {
+    "id": "nwa-mahjong-marrs-on-main-bentonville-fayetteville-arkansas-600-pm",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@nwamahjong\" out of website (it is a handle, not a site); cleared instagram \"Northwest Arkansas Mahjong FB\" — not an Instagram profile, so it linked to instagram.com/Northwest Arkansas Mahjong FB"
+  },
+  {
+    "id": "nwa-mahjong-samanthas-garden-flower-market-springdale-fayetteville-arkansas-600-pm",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@nwamahjong\" out of website (it is a handle, not a site); cleared instagram \"Northwest Arkansas Mahjong FB\" — not an Instagram profile, so it linked to instagram.com/Northwest Arkansas Mahjong FB"
+  },
+  {
+    "id": "nwa-mahjong-shadow-valley-country-club-rogers-fayetteville-arkansas-600-pm",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@nwamahjong\" out of website (it is a handle, not a site); cleared instagram \"Northwest Arkansas Mahjong FB\" — not an Instagram profile, so it linked to instagram.com/Northwest Arkansas Mahjong FB"
+  },
+  {
+    "id": "oakwood-mahjong-club-crank-arm-brewery-raleigh-north-carolina-monday-2026-04-13",
+    "updates": {
+      "instagram": "@oakwoodmahjongclub"
+    },
+    "reason": "normalised instagram \"oakwoodmahjongclub\" -> \"@oakwoodmahjongclub\""
+  },
+  {
+    "id": "oakwood-mahjong-club-honesharpen-raleigh-north-carolina-wednesday-2026-04-15",
+    "updates": {
+      "instagram": "@oakwoodmahjongclub"
+    },
+    "reason": "normalised instagram \"oakwoodmahjongclub\" -> \"@oakwoodmahjongclub\""
+  },
+  {
+    "id": "oakwood-mahjong-club-hummingbird-raleigh-north-carolina-tuesday-2026-04-14",
+    "updates": {
+      "instagram": "@oakwoodmahjongclub"
+    },
+    "reason": "normalised instagram \"oakwoodmahjongclub\" -> \"@oakwoodmahjongclub\""
+  },
+  {
+    "id": "oakwood-mahjong-club-little-rey-raleigh-north-carolina-thursday-2026-04-09",
+    "updates": {
+      "instagram": "@oakwoodmahjongclub"
+    },
+    "reason": "normalised instagram \"oakwoodmahjongclub\" -> \"@oakwoodmahjongclub\""
+  },
+  {
+    "id": "oakwood-mahjong-club-raleigh-wine-shop-raleigh-north-carolina-monday-2026-04-06",
+    "updates": {
+      "instagram": "@oakwoodmahjongclub"
+    },
+    "reason": "normalised instagram \"oakwoodmahjongclub\" -> \"@oakwoodmahjongclub\""
+  },
+  {
+    "id": "ok-lets-mahjong-kc-lessons-overland-park-kansas",
+    "updates": {
+      "instagram": "",
+      "website": "https://okletsmahjong.com/kansas-city"
+    },
+    "reason": "cleared instagram \"okletsmahjong.com/kansas-city\" — not an Instagram profile, so it linked to instagram.com/okletsmahjong.com/kansas-city; kept it as the website instead"
+  },
+  {
+    "id": "olli-american-mahjong-for-beginners-windward-cc-kaneohe-hawaii",
+    "updates": {
+      "website": "https://olliuhm.augusoft.net"
+    },
+    "reason": "added the missing scheme: \"olliuhm.augusoft.net\" -> \"https://olliuhm.augusoft.net\""
+  },
+  {
+    "id": "olli-uh-manoa-classical-chinese-mahjong-class-honolulu-hawaii",
+    "updates": {
+      "website": "https://olliuhm.augusoft.net"
+    },
+    "reason": "added the missing scheme: \"olliuhm.augusoft.net\" -> \"https://olliuhm.augusoft.net\""
+  },
+  {
+    "id": "open-play-at-american-solera-oklahoma-city-oklahoma-once",
+    "updates": {
+      "website": "https://www.mahjong-connection.com"
+    },
+    "reason": "added the missing scheme: \"www.mahjong-connection.com\" -> \"https://www.mahjong-connection.com\""
+  },
+  {
+    "id": "open-play-at-las-cruces-tex-mex-new-orleans-louisiana",
+    "updates": {
+      "website": "",
+      "instagram": "@mardijong @mahjong_orleans"
+    },
+    "reason": "moved \"@mardijong @mahjong_orleans\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "open-play-at-macushla-chicago-illinois-saturday-2026-04-19",
+    "updates": {
+      "website": "https://northshoremahjong.com"
+    },
+    "reason": "added the missing scheme: \"northshoremahjong.com\" -> \"https://northshoremahjong.com\""
+  },
+  {
+    "id": "open-play-at-sailor-and-the-dock-oklahoma-city-oklahoma-sunday-2026-04-19",
+    "updates": {
+      "website": ""
+    },
+    "reason": "moved \"@themahjongconnection\" out of website (it is a handle, not a site)"
+  },
+  {
+    "id": "ozark-mah-jongg-private-101102-group-lessons-fayetteville-arkansas-varies",
+    "updates": {
+      "website": "",
+      "instagram": "@ozarkmahjongg"
+    },
+    "reason": "moved \"@ozarkmahjongg\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "palm-beach-mahjong-lessons-and-open-play-palm-beach-florida",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.palmbeachmahjong.com"
+    },
+    "reason": "cleared instagram \"www.palmbeachmahjong.com\" — not an Instagram profile, so it linked to instagram.com/www.palmbeachmahjong.com; kept it as the website instead"
+  },
+  {
+    "id": "palm-beach-mahjong-west-palm-beach-florida",
+    "updates": {
+      "website": "",
+      "instagram": "@palmbeachmahjong"
+    },
+    "reason": "moved \"@palmbeachmahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "palm-springs-mahjong-the-rack-pack-palm-springs-california-400-pm",
+    "updates": {
+      "website": "https://palmspringsmahjong.square.site"
+    },
+    "reason": "added the missing scheme: \"palmspringsmahjong.square.site\" -> \"https://palmspringsmahjong.square.site\""
+  },
+  {
+    "id": "park-house-dallas-mahjong-classes-guided-dallas-tx-e78e1581",
+    "updates": {
+      "instagram": "@themahjongteacher"
+    },
+    "reason": "normalised instagram \"themahjongteacher\" -> \"@themahjongteacher\""
+  },
+  {
+    "id": "park-house-dallas-mahjong-nicki-farris-1",
+    "updates": {
+      "instagram": "@themahjongteacher"
+    },
+    "reason": "normalised instagram \"themahjongteacher\" -> \"@themahjongteacher\""
+  },
+  {
+    "id": "park-ridge-library-mah-jongg-park-ridge-new-jersey",
+    "updates": {
+      "website": "https://parkridgelibrarynj.org"
+    },
+    "reason": "added the missing scheme: \"parkridgelibrarynj.org\" -> \"https://parkridgelibrarynj.org\""
+  },
+  {
+    "id": "pdx-mahjong-club-mahj-101-portland-oregon",
+    "updates": {
+      "instagram": "@pdxmahjongclub"
+    },
+    "reason": "normalised instagram \"pdxmahjongclub\" -> \"@pdxmahjongclub\""
+  },
+  {
+    "id": "peo-chapter-social-play-fundraiser-austin-texas",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"PEO Chapter Social Play Fundraiser in Austin\" — not an Instagram profile, so it linked to instagram.com/PEO Chapter Social Play Fundraiser in Austin"
+  },
+  {
+    "id": "pghmahj-corner-2026-card-bootcamp-apr-16-pittsburgh-pennsylvania-2026-04-16",
+    "updates": {
+      "instagram": "@pghmahjcorner"
+    },
+    "reason": "normalised instagram \"https://instagram.com/pghmahjcorner\" -> \"@pghmahjcorner\""
+  },
+  {
+    "id": "pghmahj-corner-2026-card-bootcamp-apr-20-pittsburgh-pennsylvania-2026-04-20",
+    "updates": {
+      "instagram": "@pghmahjcorner"
+    },
+    "reason": "normalised instagram \"https://instagram.com/pghmahjcorner\" -> \"@pghmahjcorner\""
+  },
+  {
+    "id": "pghmahj-corner-2026-card-bootcamp-pittsburgh-pennsylvania",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.pghmahjcorner.com"
+    },
+    "reason": "cleared instagram \"www.pghmahjcorner.com\" — not an Instagram profile, so it linked to instagram.com/www.pghmahjcorner.com; kept it as the website instead"
+  },
+  {
+    "id": "pghmahj-corner-mahj-101-apr-11-pittsburgh-pennsylvania-2026-04-11",
+    "updates": {
+      "instagram": "@pghmahjcorner"
+    },
+    "reason": "normalised instagram \"https://instagram.com/pghmahjcorner\" -> \"@pghmahjcorner\""
+  },
+  {
+    "id": "pghmahj-corner-mahj-101-apr-7-pittsburgh-pennsylvania-2026-04-07",
+    "updates": {
+      "instagram": "@pghmahjcorner"
+    },
+    "reason": "normalised instagram \"https://instagram.com/pghmahjcorner\" -> \"@pghmahjcorner\""
+  },
+  {
+    "id": "pghmahj-corner-mahj-101-pittsburgh-pennsylvania",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.pghmahjcorner.com"
+    },
+    "reason": "cleared instagram \"www.pghmahjcorner.com\" — not an Instagram profile, so it linked to instagram.com/www.pghmahjcorner.com; kept it as the website instead"
+  },
+  {
+    "id": "pghmahj-corner-mahj-102-apr-21-pittsburgh-pennsylvania-2026-04-21",
+    "updates": {
+      "instagram": "@pghmahjcorner"
+    },
+    "reason": "normalised instagram \"https://instagram.com/pghmahjcorner\" -> \"@pghmahjcorner\""
+  },
+  {
+    "id": "pghmahj-corner-mahj-102-apr-8-pittsburgh-pennsylvania-2026-04-08",
+    "updates": {
+      "instagram": "@pghmahjcorner"
+    },
+    "reason": "normalised instagram \"https://instagram.com/pghmahjcorner\" -> \"@pghmahjcorner\""
+  },
+  {
+    "id": "pghmahj-corner-mahj-102-pittsburgh-pennsylvania",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.pghmahjcorner.com"
+    },
+    "reason": "cleared instagram \"www.pghmahjcorner.com\" — not an Instagram profile, so it linked to instagram.com/www.pghmahjcorner.com; kept it as the website instead"
+  },
+  {
+    "id": "pghmahj-corner-national-mahjong-day-event-apr-30-pittsburgh-pennsylvania-2026-04-30",
+    "updates": {
+      "instagram": "@pghmahjcorner"
+    },
+    "reason": "normalised instagram \"https://instagram.com/pghmahjcorner\" -> \"@pghmahjcorner\""
+  },
+  {
+    "id": "pghmahj-corner-swing-into-spring-mahj-brunch-apr-18-pittsburgh-pennsylvania-2026-04-18",
+    "updates": {
+      "instagram": "@pghmahjcorner"
+    },
+    "reason": "normalised instagram \"https://instagram.com/pghmahjcorner\" -> \"@pghmahjcorner\""
+  },
+  {
+    "id": "pghmahj-corner-swing-into-spring-mahj-brunch-pittsburgh-pennsylvania",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.pghmahjcorner.com"
+    },
+    "reason": "cleared instagram \"www.pghmahjcorner.com\" — not an Instagram profile, so it linked to instagram.com/www.pghmahjcorner.com; kept it as the website instead"
+  },
+  {
+    "id": "phoenix-mahjong-club-mahj-juniors-summer-camp-week-1-scottsdale-arizona-830-am-2026-06-01",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.phoenixmahjongclub.com"
+    },
+    "reason": "cleared instagram \"https://www.phoenixmahjongclub.com\" — not an Instagram profile, so it linked to instagram.com/https://www.phoenixmahjongclub.com; kept it as the website instead"
+  },
+  {
+    "id": "phoenix-mahjong-club-mahj-juniors-summer-camp-week-2-scottsdale-arizona-830-am-2026-06-08",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.phoenixmahjongclub.com"
+    },
+    "reason": "cleared instagram \"https://www.phoenixmahjongclub.com\" — not an Instagram profile, so it linked to instagram.com/https://www.phoenixmahjongclub.com; kept it as the website instead"
+  },
+  {
+    "id": "phoenix-mahjong-club-mahj-juniors-summer-camp-week-3-scottsdale-arizona-830-am-2026-06-15",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.phoenixmahjongclub.com"
+    },
+    "reason": "cleared instagram \"https://www.phoenixmahjongclub.com\" — not an Instagram profile, so it linked to instagram.com/https://www.phoenixmahjongclub.com; kept it as the website instead"
+  },
+  {
+    "id": "phoenix-mahjong-club-mahj-juniors-summer-camp-week-4-scottsdale-arizona-830-am-2026-06-22",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.phoenixmahjongclub.com"
+    },
+    "reason": "cleared instagram \"https://www.phoenixmahjongclub.com\" — not an Instagram profile, so it linked to instagram.com/https://www.phoenixmahjongclub.com; kept it as the website instead"
+  },
+  {
+    "id": "phoenix-mahjong-club-open-sessions-scottsdale-az-46742f15",
+    "updates": {
+      "instagram": "@phoenixmahjongclub"
+    },
+    "reason": "normalised instagram \"phoenixmahjongclub\" -> \"@phoenixmahjongclub\""
+  },
+  {
+    "id": "pink-poppy-mahj-learn-to-play-mt-pleasant-south-carolina-tuesday-2026-04-15",
+    "updates": {
+      "instagram": "@pinkpoppymahj"
+    },
+    "reason": "normalised instagram \"pinkpoppymahj\" -> \"@pinkpoppymahj\""
+  },
+  {
+    "id": "pink-poppy-mahj-open-play-mt-pleasant-south-carolina-tuesday",
+    "updates": {
+      "instagram": "@pinkpoppymahj"
+    },
+    "reason": "normalised instagram \"pinkpoppymahj\" -> \"@pinkpoppymahj\""
+  },
+  {
+    "id": "q42kQi4w0rzSfToWbrK0",
+    "updates": {
+      "instagram": "@Mahjong.byHeidi"
+    },
+    "reason": "normalised instagram \"Mahjong.byHeidi\" -> \"@Mahjong.byHeidi\""
+  },
+  {
+    "id": "raleigh-mahj-open-play-at-the-flourish-m-raleigh-nc-thursday-bb8c119e",
+    "updates": {
+      "instagram": "@raleighmahj"
+    },
+    "reason": "normalised instagram \"raleighmahj\" -> \"@raleighmahj\""
+  },
+  {
+    "id": "raleigh-mahj-tournament-raleigh-north-carolina",
+    "updates": {
+      "instagram": "",
+      "website": "https://raleighmahj.com"
+    },
+    "reason": "cleared instagram \"https://raleighmahj.com\" — not an Instagram profile, so it linked to instagram.com/https://raleighmahj.com; kept it as the website instead"
+  },
+  {
+    "id": "red-eye-mahjong-after-hours-tampa-florida-2026-04-18",
+    "updates": {
+      "website": "",
+      "instagram": "@redeyemahjong"
+    },
+    "reason": "moved \"@redeyemahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "relish-food-hall-junkyard-social-club-mahjong-louisville-kentucky",
+    "updates": {
+      "instagram": "@relishagoodtime"
+    },
+    "reason": "normalised instagram \"https://www.instagram.com/relishagoodtime/\" -> \"@relishagoodtime\""
+  },
+  {
+    "id": "riichi-nomi-nyc-sunday-meetup-new-york-new-york-1200-pm",
+    "updates": {
+      "website": "",
+      "instagram": "@nycriichinomi"
+    },
+    "reason": "moved \"@nycriichinomi\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "river-bend-bookshop-learn-to-play-mahjong-101-series-west-hartford-connecticut-600-pm",
+    "updates": {
+      "website": "https://riverbendbookshop.com"
+    },
+    "reason": "added the missing scheme: \"riverbendbookshop.com\" -> \"https://riverbendbookshop.com\""
+  },
+  {
+    "id": "sacramento-bike-dog-1",
+    "updates": {
+      "website": "https://sites.google.com/view/sacmahjongcrew"
+    },
+    "reason": "added the missing scheme: \"sites.google.com/view/sacmahjongcrew\" -> \"https://sites.google.com/view/sacmahjongcrew\""
+  },
+  {
+    "id": "sacramento-tandem-1",
+    "updates": {
+      "website": "https://sites.google.com/view/sacmahjongcrew"
+    },
+    "reason": "added the missing scheme: \"sites.google.com/view/sacmahjongcrew\" -> \"https://sites.google.com/view/sacmahjongcrew\""
+  },
+  {
+    "id": "san-diego-mahjong-club-zung-jung-weekly-san-diego-california",
+    "updates": {
+      "website": "",
+      "instagram": "@sandiegomahjongclub"
+    },
+    "reason": "moved \"@sandiegomahjongclub\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "sarasota-mahjong-club-spring-bouquet-soiree-sarasota-florida-730-pm",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"402-440-7616\" — not an Instagram profile, so it linked to instagram.com/402-440-7616"
+  },
+  {
+    "id": "scottsdale-mahjong-society-at-village-dc-ranch-scottsdale-arizona",
+    "updates": {
+      "instagram": "@scottsdalemahjjongsociety"
+    },
+    "reason": "normalised instagram \"scottsdalemahjjongsociety\" -> \"@scottsdalemahjjongsociety\""
+  },
+  {
+    "id": "scottsdale-mahjong-society-mahj-101-scottsdale-arizona-wednesday",
+    "updates": {
+      "instagram": "@scottsdalemahjjongsociety"
+    },
+    "reason": "normalised instagram \"scottsdalemahjjongsociety\" -> \"@scottsdalemahjjongsociety\""
+  },
+  {
+    "id": "scottsdale-mahjong-society-mahjong-101-scottsdale-arizona-100-pm-2026-04-09",
+    "updates": {
+      "website": "",
+      "instagram": "@scottsdalemahjongsociety"
+    },
+    "reason": "moved \"@scottsdalemahjongsociety\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "scottsdale-mahjong-society-sunset-series-scottsdale-arizona-sunday-2026-04-06",
+    "updates": {
+      "instagram": "@scottsdalemahjjongsociety"
+    },
+    "reason": "normalised instagram \"scottsdalemahjjongsociety\" -> \"@scottsdalemahjjongsociety\""
+  },
+  {
+    "id": "sonoran-mahjong-co-2026-card-decoded-phoenix-arizona",
+    "updates": {
+      "instagram": "@sonoran_mahjong_co"
+    },
+    "reason": "normalised instagram \"sonoran_mahjong_co\" -> \"@sonoran_mahjong_co\""
+  },
+  {
+    "id": "sonoran-mahjong-co-aqua-mahj-scottsdale-arizona-sunday-2026-04-12",
+    "updates": {
+      "instagram": "@sonoran_mahjong_co"
+    },
+    "reason": "normalised instagram \"sonoran_mahjong_co\" -> \"@sonoran_mahjong_co\""
+  },
+  {
+    "id": "sonoran-mahjong-co-beginner-bootcamp-am-phoenix-arizona-wednesday-2026-04-08",
+    "updates": {
+      "instagram": "@sonoran_mahjong_co"
+    },
+    "reason": "normalised instagram \"sonoran_mahjong_co\" -> \"@sonoran_mahjong_co\""
+  },
+  {
+    "id": "sonoran-mahjong-co-beginner-bootcamp-pm-phoenix-arizona-wednesday-2026-04-08",
+    "updates": {
+      "instagram": "@sonoran_mahjong_co"
+    },
+    "reason": "normalised instagram \"sonoran_mahjong_co\" -> \"@sonoran_mahjong_co\""
+  },
+  {
+    "id": "sonoran-mahjong-co-conquering-the-card-scottsdale-arizona-tuesday-2026-04-14",
+    "updates": {
+      "instagram": "@sonoran_mahjong_co"
+    },
+    "reason": "normalised instagram \"sonoran_mahjong_co\" -> \"@sonoran_mahjong_co\""
+  },
+  {
+    "id": "sonoran-mahjong-co-mahjong-monday-scottsdale-arizona-monday-2026-04-13",
+    "updates": {
+      "instagram": "@sonoran_mahjong_co"
+    },
+    "reason": "normalised instagram \"sonoran_mahjong_co\" -> \"@sonoran_mahjong_co\""
+  },
+  {
+    "id": "sonoran-mahjong-co-open-play-events-phoenix-arizona-1730-monthly",
+    "updates": {
+      "instagram": "@sonoran_mahjong_co"
+    },
+    "reason": "normalised instagram \"sonoran_mahjong_co\" -> \"@sonoran_mahjong_co\""
+  },
+  {
+    "id": "spring-bambird-scramble-raleigh-north-carolina-paid",
+    "updates": {
+      "website": "",
+      "instagram": "@letsmahjraleigh"
+    },
+    "reason": "moved \"@letsmahjraleigh\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "spring-shuffle-guided-play-alpharetta-georgia-600-pm-2026-05-06",
+    "updates": {
+      "website": "https://lemahjclub.com"
+    },
+    "reason": "added the missing scheme: \"lemahjclub.com\" -> \"https://lemahjclub.com\""
+  },
+  {
+    "id": "spring-shuffle-open-play-alpharetta-georgia-600-pm-2026-05-06",
+    "updates": {
+      "website": "https://lemahjclub.com"
+    },
+    "reason": "added the missing scheme: \"lemahjclub.com\" -> \"https://lemahjclub.com\""
+  },
+  {
+    "id": "spring-tiles-morning-smiles-intermediate-guided-play-vienna-virginia-0930-2026-04-09",
+    "updates": {
+      "website": "https://www.mamamahj.com",
+      "instagram": "@mama_mahj"
+    },
+    "reason": "added the missing scheme: \"www.mamamahj.com\" -> \"https://www.mamamahj.com\"; normalised instagram \"mama_mahj\" -> \"@mama_mahj\""
+  },
+  {
+    "id": "springtime-mahjong-tournament-in-marble-falls-marble-falls-texas",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"Springtime Mahjong Tournament in Marble Falls\" — not an Instagram profile, so it linked to instagram.com/Springtime Mahjong Tournament in Marble Falls"
+  },
+  {
+    "id": "st-louis-taylor-tiles-1",
+    "updates": {
+      "website": "https://taylorwiththetiles.as.me"
+    },
+    "reason": "added the missing scheme: \"taylorwiththetiles.as.me\" -> \"https://taylorwiththetiles.as.me\""
+  },
+  {
+    "id": "stl-mahjong-club-mahj-101-cottleville-missouri",
+    "updates": {
+      "website": "https://stlmahjongclub.com"
+    },
+    "reason": "added the missing scheme: \"stlmahjongclub.com\" -> \"https://stlmahjongclub.com\""
+  },
+  {
+    "id": "stl-mahjong-club-mahj-102-cottleville-missouri",
+    "updates": {
+      "website": "https://stlmahjongclub.com"
+    },
+    "reason": "added the missing scheme: \"stlmahjongclub.com\" -> \"https://stlmahjongclub.com\""
+  },
+  {
+    "id": "stl-mahjong-club-open-play-cottleville-missouri",
+    "updates": {
+      "website": "https://stlmahjongclub.com"
+    },
+    "reason": "added the missing scheme: \"stlmahjongclub.com\" -> \"https://stlmahjongclub.com\""
+  },
+  {
+    "id": "talk-kaimuki-x-hale-mahj-honolulu-hawaii",
+    "updates": {
+      "instagram": "@talkkaimuki"
+    },
+    "reason": "normalised instagram \"talkkaimuki\" -> \"@talkkaimuki\""
+  },
+  {
+    "id": "tallahassee-mahjong-league-tallytiletribe-1",
+    "updates": {
+      "instagram": "@tallytiletribe"
+    },
+    "reason": "normalised instagram \"tallytiletribe\" -> \"@tallytiletribe\""
+  },
+  {
+    "id": "tampa-mahj-collective-lesson-tampa-florida-1830-2026-04-06",
+    "updates": {
+      "instagram": "@tampamahjcollective"
+    },
+    "reason": "normalised instagram \"tampamahjcollective\" -> \"@tampamahjcollective\""
+  },
+  {
+    "id": "tampa-mahj-collective-lesson-tampa-florida-1830-2026-04-21",
+    "updates": {
+      "instagram": "@tampamahjcollective"
+    },
+    "reason": "normalised instagram \"tampamahjcollective\" -> \"@tampamahjcollective\""
+  },
+  {
+    "id": "tampa-mahj-collective-open-play-at-josephines-tampa-florida-1830-2026-04-13",
+    "updates": {
+      "instagram": "@tampamahjcollective"
+    },
+    "reason": "normalised instagram \"tampamahjcollective\" -> \"@tampamahjcollective\""
+  },
+  {
+    "id": "tampa-mahj-collective-open-play-at-josephines-tampa-florida-1830-2026-04-23",
+    "updates": {
+      "instagram": "@tampamahjcollective"
+    },
+    "reason": "normalised instagram \"tampamahjcollective\" -> \"@tampamahjcollective\""
+  },
+  {
+    "id": "temple-beth-el-mah-jongg-socials-providence-rhode-island",
+    "updates": {
+      "website": "https://templebethel.org"
+    },
+    "reason": "added the missing scheme: \"templebethel.org\" -> \"https://templebethel.org\""
+  },
+  {
+    "id": "temple-israel-mah-jongg-tournament-sisterhood-memphis-tennessee",
+    "updates": {
+      "website": "https://timemphis.org"
+    },
+    "reason": "added the missing scheme: \"timemphis.org\" -> \"https://timemphis.org\""
+  },
+  {
+    "id": "the-curated-table-a-mahjong-retreat-noblesville-indiana-saturday-2026-04-18",
+    "updates": {
+      "website": ""
+    },
+    "reason": "moved \"@luckytilesmahjong\" out of website (it is a handle, not a site)"
+  },
+  {
+    "id": "the-curated-table-mahjong-retreat-noblesville-indiana",
+    "updates": {
+      "website": "",
+      "instagram": "@luckytilesmahjong"
+    },
+    "reason": "moved \"@luckytilesmahjong\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "the-gilded-birds-mahjong-at-track-15-providence-providence-rhode-island",
+    "updates": {
+      "website": "https://thegildedbirds.com"
+    },
+    "reason": "added the missing scheme: \"thegildedbirds.com\" -> \"https://thegildedbirds.com\""
+  },
+  {
+    "id": "the-gilded-birds-mahjong-lessons-events-retreats-east-greenwich-rhode-island",
+    "updates": {
+      "website": "https://thegildedbirds.com"
+    },
+    "reason": "added the missing scheme: \"thegildedbirds.com\" -> \"https://thegildedbirds.com\""
+  },
+  {
+    "id": "the-mahj-connection-lessons-events-dallas-texas",
+    "updates": {
+      "instagram": "@themahjconnection"
+    },
+    "reason": "normalised instagram \"themahjconnection\" -> \"@themahjconnection\""
+  },
+  {
+    "id": "the-mahj-social-club-open-guided-play-san-antonio-texas",
+    "updates": {
+      "website": ""
+    },
+    "reason": "moved \"@themahjsocialclub on IG\" out of website (it is a handle, not a site)"
+  },
+  {
+    "id": "the-mahjmont-society-belmont-massachusetts",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"@Venmo @emahoney33\" — not an Instagram profile, so it linked to instagram.com/@Venmo @emahoney33"
+  },
+  {
+    "id": "the-mahjong-miss-nashville-lessons-events-nashville-tennessee",
+    "updates": {
+      "website": "",
+      "instagram": "@the_mahjong_miss"
+    },
+    "reason": "moved \"@the_mahjong_miss\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "the-mahjong-parlour-charlotte-north-carolina",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@themahjongparlour\" out of website (it is a handle, not a site); cleared instagram \"mahjongparlour.com\" — not an Instagram profile, so it linked to instagram.com/mahjongparlour.com"
+  },
+  {
+    "id": "the-mahjong-social-chattanooga-chattanooga-tennessee",
+    "updates": {
+      "instagram": "@themahjongsocialchatt"
+    },
+    "reason": "normalised instagram \"https://instagram.com/themahjongsocialchatt\" -> \"@themahjongsocialchatt\""
+  },
+  {
+    "id": "the-mahjong-studio-nc-afternoon-open-play-charlotte-north-carolina-tuesday",
+    "updates": {
+      "instagram": "@themahjongstudionc"
+    },
+    "reason": "normalised instagram \"themahjongstudionc\" -> \"@themahjongstudionc\""
+  },
+  {
+    "id": "the-mahjong-studio-nc-evening-open-play-charlotte-north-carolina-tuesday",
+    "updates": {
+      "instagram": "@themahjongstudionc"
+    },
+    "reason": "normalised instagram \"themahjongstudionc\" -> \"@themahjongstudionc\""
+  },
+  {
+    "id": "the-pepper-pot-tuesday-open-play-afternoon-wichita-kansas-1300-2026-04-07",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"@thepepperpot.co\" — not an Instagram profile, so it linked to instagram.com/@thepepperpot.co"
+  },
+  {
+    "id": "the-pepper-pot-tuesday-open-play-afternoon-wichita-kansas-1300-2026-04-14",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"@thepepperpot.co\" — not an Instagram profile, so it linked to instagram.com/@thepepperpot.co"
+  },
+  {
+    "id": "the-pepper-pot-tuesday-open-play-afternoon-wichita-kansas-1300-2026-04-21",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"@thepepperpot.co\" — not an Instagram profile, so it linked to instagram.com/@thepepperpot.co"
+  },
+  {
+    "id": "the-pepper-pot-tuesday-open-play-afternoon-wichita-kansas-1300-2026-04-28",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"@thepepperpot.co\" — not an Instagram profile, so it linked to instagram.com/@thepepperpot.co"
+  },
+  {
+    "id": "the-pepper-pot-tuesday-open-play-evening-wichita-kansas-1800-2026-04-07",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"@thepepperpot.co\" — not an Instagram profile, so it linked to instagram.com/@thepepperpot.co"
+  },
+  {
+    "id": "the-pepper-pot-tuesday-open-play-evening-wichita-kansas-1800-2026-04-14",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"@thepepperpot.co\" — not an Instagram profile, so it linked to instagram.com/@thepepperpot.co"
+  },
+  {
+    "id": "the-pepper-pot-tuesday-open-play-evening-wichita-kansas-1800-2026-04-21",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"@thepepperpot.co\" — not an Instagram profile, so it linked to instagram.com/@thepepperpot.co"
+  },
+  {
+    "id": "the-pepper-pot-tuesday-open-play-evening-wichita-kansas-1800-2026-04-28",
+    "updates": {
+      "instagram": ""
+    },
+    "reason": "cleared instagram \"@thepepperpot.co\" — not an Instagram profile, so it linked to instagram.com/@thepepperpot.co"
+  },
+  {
+    "id": "the-tallahassee-mahjong-league-tallahassee-fl-dde85a9b",
+    "updates": {
+      "instagram": "@tallytiletribe"
+    },
+    "reason": "normalised instagram \"tallytiletribe\" -> \"@tallytiletribe\""
+  },
+  {
+    "id": "the-tile-society-spring-league-ethereal-rejuvenation-apr-20-seattle-washington-1830-2026-04-20",
+    "updates": {
+      "instagram": "@mahjongcorner"
+    },
+    "reason": "normalised instagram \"https://instagram.com/mahjongcorner\" -> \"@mahjongcorner\""
+  },
+  {
+    "id": "the-tile-society-spring-league-island-books-apr-27-seattle-washington-1830-2026-04-27",
+    "updates": {
+      "instagram": "@mahjongcorner"
+    },
+    "reason": "normalised instagram \"https://instagram.com/mahjongcorner\" -> \"@mahjongcorner\""
+  },
+  {
+    "id": "the-tile-society-spring-league-jo-malone-apr-6-seattle-washington-1830-2026-04-06",
+    "updates": {
+      "instagram": "@mahjongcorner"
+    },
+    "reason": "normalised instagram \"https://instagram.com/mahjongcorner\" -> \"@mahjongcorner\""
+  },
+  {
+    "id": "the-tile-society-spring-league-the-mahjong-corner-may-18-seattle-washington-1830-2026-05-18",
+    "updates": {
+      "instagram": "@mahjongcorner"
+    },
+    "reason": "normalised instagram \"https://instagram.com/mahjongcorner\" -> \"@mahjongcorner\""
+  },
+  {
+    "id": "the-tile-society-spring-league-yogasix-may-4-seattle-washington-1830-2026-05-04",
+    "updates": {
+      "instagram": "@mahjongcorner"
+    },
+    "reason": "normalised instagram \"https://instagram.com/mahjongcorner\" -> \"@mahjongcorner\""
+  },
+  {
+    "id": "this-mahjong-moment-chicago-mahj-101-at-ludlow-liquors-chicago-illinois-paid",
+    "updates": {
+      "website": "",
+      "instagram": "@thismahjongmoment.chicago"
+    },
+    "reason": "moved \"@thismahjongmoment.chicago\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "this-mahjong-moment-chicago-open-play-at-ludlow-liquors-chicago-illinois-paid",
+    "updates": {
+      "website": "",
+      "instagram": "@thismahjongmoment.chicago"
+    },
+    "reason": "moved \"@thismahjongmoment.chicago\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "thursday-spring-league-2026-pm-spring-texas",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.mahjongrodeo.com"
+    },
+    "reason": "cleared instagram \"https://www.mahjongrodeo.com\" — not an Instagram profile, so it linked to instagram.com/https://www.mahjongrodeo.com; kept it as the website instead"
+  },
+  {
+    "id": "troop-mahjong-lessons-open-play-leagues-san-antonio-texas",
+    "updates": {
+      "instagram": "",
+      "website": "https://stylinbrunette.com"
+    },
+    "reason": "cleared instagram \"stylinbrunette.com\" — not an Instagram profile, so it linked to instagram.com/stylinbrunette.com; kept it as the website instead"
+  },
+  {
+    "id": "tuesday-spring-league-2026-am-spring-texas",
+    "updates": {
+      "instagram": "",
+      "website": "https://www.mahjongrodeo.com"
+    },
+    "reason": "cleared instagram \"https://www.mahjongrodeo.com\" — not an Instagram profile, so it linked to instagram.com/https://www.mahjongrodeo.com; kept it as the website instead"
+  },
+  {
+    "id": "vienna-moms-inc-mj-101-private-event-vienna-virginia",
+    "updates": {
+      "website": "https://www.mamamahj.com",
+      "instagram": "@mama_mahj"
+    },
+    "reason": "added the missing scheme: \"www.mamamahj.com\" -> \"https://www.mamamahj.com\"; normalised instagram \"mama_mahj\" -> \"@mama_mahj\""
+  },
+  {
+    "id": "voxqsC0lyw6dV2HwjDVi",
+    "updates": {
+      "instagram": "@Mobilemahjong"
+    },
+    "reason": "normalised instagram \"Mobilemahjong\" -> \"@Mobilemahjong\""
+  },
+  {
+    "id": "waianae-style-pima-county-library-mahjong-open-play-multiple-branches-tucson-arizona",
+    "updates": {
+      "website": "https://library.pima.gov"
+    },
+    "reason": "added the missing scheme: \"library.pima.gov\" -> \"https://library.pima.gov\""
+  },
+  {
+    "id": "wanna-mahj-club-2026-new-card-lesson-huntsville-alabama-1800-2026-04-16",
+    "updates": {
+      "website": "https://wannamahj.com"
+    },
+    "reason": "added the missing scheme: \"wannamahj.com\" -> \"https://wannamahj.com\""
+  },
+  {
+    "id": "wanna-mahj-club-mahj-101-at-the-southern-gem-huntsville-alabama-1800-2026-04-08",
+    "updates": {
+      "website": "https://wannamahj.com"
+    },
+    "reason": "added the missing scheme: \"wannamahj.com\" -> \"https://wannamahj.com\""
+  },
+  {
+    "id": "wanna-mahj-club-mahj-monday-at-design-theory-huntsville-alabama-2026-04-27",
+    "updates": {
+      "website": "https://wannamahj.com"
+    },
+    "reason": "added the missing scheme: \"wannamahj.com\" -> \"https://wannamahj.com\""
+  },
+  {
+    "id": "wanna-mahj-club-masters-open-play-huntsville-alabama-1000-2026-04-11",
+    "updates": {
+      "website": "https://wannamahj.com"
+    },
+    "reason": "added the missing scheme: \"wannamahj.com\" -> \"https://wannamahj.com\""
+  },
+  {
+    "id": "west-hartford-public-library-mah-jong-open-play-west-hartford-connecticut",
+    "updates": {
+      "website": "https://westhartfordlibrary.org"
+    },
+    "reason": "added the missing scheme: \"westhartfordlibrary.org\" -> \"https://westhartfordlibrary.org\""
+  },
+  {
+    "id": "wild-tile-mahj-group-lessons-denver-denver-colorado",
+    "updates": {
+      "instagram": "@wildtilemahj"
+    },
+    "reason": "normalised instagram \"wildtilemahj\" -> \"@wildtilemahj\""
+  },
+  {
+    "id": "winds-wine-2026-nmjl-card-launch-costa-mesa-california-paid",
+    "updates": {
+      "website": "",
+      "instagram": "@mahjongoc"
+    },
+    "reason": "moved \"@mahjongoc\" out of website (it is a handle, not a site); filed it under instagram instead"
+  },
+  {
+    "id": "wny-mahjong-summer-open-play-aug-18-amherst-new-york",
+    "updates": {
+      "instagram": "",
+      "website": "https://wnymahjong.com"
+    },
+    "reason": "cleared instagram \"wnymahjong.com\" — not an Instagram profile, so it linked to instagram.com/wnymahjong.com; kept it as the website instead"
+  },
+  {
+    "id": "wny-mahjong-summer-open-play-aug-25-hamburg-new-york",
+    "updates": {
+      "instagram": "",
+      "website": "https://wnymahjong.com"
+    },
+    "reason": "cleared instagram \"wnymahjong.com\" — not an Instagram profile, so it linked to instagram.com/wnymahjong.com; kept it as the website instead"
+  },
+  {
+    "id": "wny-mahjong-summer-open-play-aug-4-hamburg-new-york",
+    "updates": {
+      "instagram": "",
+      "website": "https://wnymahjong.com"
+    },
+    "reason": "cleared instagram \"wnymahjong.com\" — not an Instagram profile, so it linked to instagram.com/wnymahjong.com; kept it as the website instead"
+  },
+  {
+    "id": "wny-mahjong-summer-open-play-jul-21-hamburg-new-york",
+    "updates": {
+      "instagram": "",
+      "website": "https://wnymahjong.com"
+    },
+    "reason": "cleared instagram \"wnymahjong.com\" — not an Instagram profile, so it linked to instagram.com/wnymahjong.com; kept it as the website instead"
+  },
+  {
+    "id": "wny-mahjong-summer-open-play-jul-28-amherst-new-york",
+    "updates": {
+      "instagram": "",
+      "website": "https://wnymahjong.com"
+    },
+    "reason": "cleared instagram \"wnymahjong.com\" — not an Instagram profile, so it linked to instagram.com/wnymahjong.com; kept it as the website instead"
+  },
+  {
+    "id": "wny-mahjong-summer-open-play-jun-16-amherst-new-york",
+    "updates": {
+      "instagram": "",
+      "website": "https://wnymahjong.com"
+    },
+    "reason": "cleared instagram \"wnymahjong.com\" — not an Instagram profile, so it linked to instagram.com/wnymahjong.com; kept it as the website instead"
+  },
+  {
+    "id": "wny-mahjong-summer-open-play-jun-30-hamburg-new-york",
+    "updates": {
+      "instagram": "",
+      "website": "https://wnymahjong.com"
+    },
+    "reason": "cleared instagram \"wnymahjong.com\" — not an Instagram profile, so it linked to instagram.com/wnymahjong.com; kept it as the website instead"
+  },
+  {
+    "id": "wny-mahjong-summer-open-play-may-19-amherst-new-york",
+    "updates": {
+      "instagram": "",
+      "website": "https://wnymahjong.com"
+    },
+    "reason": "cleared instagram \"wnymahjong.com\" — not an Instagram profile, so it linked to instagram.com/wnymahjong.com; kept it as the website instead"
+  },
+  {
+    "id": "wny-mahjong-summer-open-play-may-26-hamburg-new-york",
+    "updates": {
+      "instagram": "",
+      "website": "https://wnymahjong.com"
+    },
+    "reason": "cleared instagram \"wnymahjong.com\" — not an Instagram profile, so it linked to instagram.com/wnymahjong.com; kept it as the website instead"
+  },
+  {
+    "id": "womans-club-mahjong-wilmette-illinois-monday",
+    "updates": {
+      "instagram": "@womansclubofwilmette"
+    },
+    "reason": "normalised instagram \"womansclubofwilmette\" -> \"@womansclubofwilmette\""
+  },
+  {
+    "id": "wong-kong-har-tong-of-hawaii-mahjong-classes-honolulu-hawaii",
+    "updates": {
+      "website": "https://wkhtofhawaii.com"
+    },
+    "reason": "added the missing scheme: \"wkhtofhawaii.com\" -> \"https://wkhtofhawaii.com\""
+  },
+  {
+    "id": "x4cB7GABvTUl3e7ANIA0",
+    "updates": {
+      "instagram": "@mahjong.lv"
+    },
+    "reason": "normalised instagram \"mahjong.lv\" -> \"@mahjong.lv\""
+  },
+  {
+    "id": "your-mahjong-mama-galentines-open-play-fort-lauderdale-florida",
+    "updates": {
+      "website": "",
+      "instagram": ""
+    },
+    "reason": "moved \"@your.mahjong.mama\" out of website (it is a handle, not a site); cleared instagram \"@your.mahjong.mama on IG\" — not an Instagram profile, so it linked to instagram.com/@your.mahjong.mama on IG"
+  },
+  {
     "id": "13-orphans-mahjong-speakeasy-oakland-california-600-pm",
     "updates": {
       "eventDate": null

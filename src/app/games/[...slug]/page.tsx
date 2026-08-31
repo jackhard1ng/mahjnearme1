@@ -16,6 +16,8 @@ import {
   getStateName,
   isEventExpired,
   streetAddressOnly,
+  normalizeWebsiteUrl,
+  instagramUrl,
 } from "@/lib/utils";
 import { SKILL_LEVEL_COLORS, SKILL_LEVEL_LABELS } from "@/lib/constants";
 import { SITE_NAME, SITE_URL, GAME_STYLE_LABELS } from "@/lib/constants";
@@ -776,9 +778,9 @@ export default function GameDetailPage() {
                       {game.contactPhone}
                     </a>
                   )}
-                  {game.website && (
+                  {normalizeWebsiteUrl(game.website) && (
                     <a
-                      href={game.website}
+                      href={normalizeWebsiteUrl(game.website)!}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 text-hotpink-500 hover:text-hotpink-600 transition-colors"
@@ -787,9 +789,9 @@ export default function GameDetailPage() {
                       {game.website}
                     </a>
                   )}
-                  {game.instagram && (
+                  {instagramUrl(game.instagram) && (
                     <a
-                      href={`https://instagram.com/${game.instagram.replace("@", "")}`}
+                      href={instagramUrl(game.instagram)!}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 text-hotpink-500 hover:text-hotpink-600 transition-colors"

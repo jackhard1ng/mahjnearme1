@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Game } from "@/types";
-import { getGameTypeColor, getGameTypeLabel, getVerificationStatus, formatSchedule, slugify, daysSinceVerified, STALE_THRESHOLD_DAYS } from "@/lib/utils";
+import { getGameTypeColor, getGameTypeLabel, getVerificationStatus, formatSchedule, slugify, daysSinceVerified, STALE_THRESHOLD_DAYS, normalizeWebsiteUrl, instagramUrl, instagramHandle } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
 import { SKILL_LEVEL_LABELS } from "@/lib/constants";
 import { useAuth } from "@/contexts/AuthContext";
@@ -170,6 +170,12 @@ export default function GameCard({
   const typeLabel = getGameTypeLabel(game.type);
   const schedule = formatSchedule(game);
   const gameSlug = slugify(`${game.city}-${game.state}`) + "/" + slugify(game.name);
+  // Normalised so a scheme-less value ("beachmahj.com") is not rendered as a
+  // relative href, and a full URL sitting in the instagram field is not
+  // pasted onto instagram.com/. Both return null when the value is not
+  // actually a link of that kind, which also hides the chip.
+  const websiteUrl = normalizeWebsiteUrl(game.website);
+  const igUrl = instagramUrl(game.instagram);
   const isGreatForUser = userSkillLevel && game.skillLevels.includes(userSkillLevel as "beginner" | "intermediate" | "advanced");
   const suit = getTileSuit(game.id);
   const tileNumber = getTileNumber(game.id);
@@ -450,14 +456,14 @@ export default function GameCard({
                       <Phone className="w-3 h-3" /> Call
                     </a>
                   )}
-                  {game.website && (
-                    <a href={game.website} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-skyblue-600 hover:text-skyblue-500 bg-skyblue-100 px-2 py-1 rounded-full transition-colors">
+                  {websiteUrl && (
+                    <a href={websiteUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-skyblue-600 hover:text-skyblue-500 bg-skyblue-100 px-2 py-1 rounded-full transition-colors">
                       <Globe className="w-3 h-3" /> Website
                     </a>
                   )}
-                  {game.instagram && (
-                    <a href={`https://instagram.com/${game.instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
-                      <Instagram className="w-3 h-3" /> {game.instagram}
+                  {igUrl && (
+                    <a href={igUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-xs text-hotpink-600 hover:text-hotpink-700 bg-hotpink-50 px-2 py-1 rounded-full transition-colors">
+                      <Instagram className="w-3 h-3" /> @{instagramHandle(game.instagram)}
                     </a>
                   )}
                   {game.facebookGroup && (

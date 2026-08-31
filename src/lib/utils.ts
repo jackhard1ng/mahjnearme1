@@ -173,6 +173,63 @@ export function streetAddressOnly(
 }
 
 /**
+ * Turn a stored `website` value into a safe absolute URL, or null.
+ *
+ * A value with no scheme ("beachmahj.com") is a genuine bug once it reaches
+ * an href: the browser resolves it relative to the current page, so the link
+ * lands on mahjnearme.com/games/<slug>/beachmahj.com instead of the
+ * organiser's site. 162 live listings are stored that way.
+ *
+ * The field is also sometimes filled with an Instagram handle
+ * ("@thehausofmahj"). That is not a website and must not be linkified as one,
+ * so it returns null and the caller falls through to the Instagram link.
+ */
+export function normalizeWebsiteUrl(raw: string | null | undefined): string | null {
+  const v = (raw || "").trim();
+  if (!v) return null;
+  if (v.startsWith("@")) return null; // a handle, not a site
+  if (/^https?:\/\//i.test(v)) return v;
+  // Require something that at least looks like a hostname before prefixing.
+  if (!/^[\w-]+(\.[\w-]+)+/.test(v)) return null;
+  return `https://${v}`;
+}
+
+/**
+ * Extract a bare Instagram handle (no @) from whatever ended up in the field,
+ * or null when the value is not an Instagram reference at all.
+ *
+ * Callers previously built `instagram.com/${value.replace("@","")}`, which
+ * works for "@handle" and "handle" but produces
+ * instagram.com/https://www.instagram.com/foo/ when the field holds a full
+ * URL, and instagram.com/mahjongscoring.org when it holds some other site.
+ */
+export function instagramHandle(raw: string | null | undefined): string | null {
+  const v = (raw || "").trim();
+  if (!v) return null;
+
+  const urlMatch = v.match(/instagram\.com\/([A-Za-z0-9._]+)/i);
+  if (urlMatch) {
+    const handle = urlMatch[1];
+    // /reel/, /p/ and /explore/ are content paths, not profiles.
+    if (/^(reel|p|explore|stories)$/i.test(handle)) return null;
+    return handle.replace(/\.$/, "");
+  }
+
+  // Any other URL or domain in this field is not an Instagram account.
+  if (/^https?:\/\//i.test(v) || /\.(com|org|net|co|io|site|shop)\b/i.test(v)) return null;
+  if (/\s/.test(v.replace(/^@/, ""))) return null; // free text like "Foo Mahjong FB"
+
+  const handle = v.replace(/^@/, "").replace(/\/+$/, "");
+  return /^[A-Za-z0-9._]+$/.test(handle) ? handle : null;
+}
+
+/** Full profile URL for a stored Instagram value, or null if it isn't one. */
+export function instagramUrl(raw: string | null | undefined): string | null {
+  const handle = instagramHandle(raw);
+  return handle ? `https://instagram.com/${handle}` : null;
+}
+
+/**
  * Returns true if a one-time event's date is in the past.
  * Recurring events never expire via this check.
  */
