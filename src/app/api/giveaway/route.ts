@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { requireAdmin } from "@/lib/api-auth";
 import { sendEmail } from "@/lib/email";
-import { CURRENT_GIVEAWAY } from "@/lib/giveaway-config";
+import { CURRENT_GIVEAWAY, defaultDrawDate, defaultMonthLabel } from "@/lib/giveaway-config";
 
 // LEGAL NOTE: Sweepstakes laws vary by state. Have this reviewed by legal counsel before launch.
 
@@ -50,8 +50,10 @@ export async function GET(request: NextRequest) {
       prizeDescription: liveConfig?.prizeDescription ?? CURRENT_GIVEAWAY.prizeDescription,
       prizeLink: liveConfig?.prizeLink ?? CURRENT_GIVEAWAY.prizeLink,
       numberOfWinners: liveConfig?.numberOfWinners ?? CURRENT_GIVEAWAY.numberOfWinners,
-      drawDate: liveConfig?.drawDate ?? CURRENT_GIVEAWAY.drawDate,
-      month: liveConfig?.month ?? CURRENT_GIVEAWAY.month,
+      // Falls back to the calendar rather than to a frozen string, so an
+      // unset override can never advertise a draw that already happened.
+      drawDate: liveConfig?.drawDate ?? CURRENT_GIVEAWAY.drawDate ?? defaultDrawDate(),
+      month: liveConfig?.month ?? CURRENT_GIVEAWAY.monthLabel ?? defaultMonthLabel(),
       // When paused there is no active drawing. The /giveaways page hides the
       // prize and draw date rather than advertising a stale one.
       paused: liveConfig?.paused ?? CURRENT_GIVEAWAY.paused,
@@ -356,7 +358,7 @@ export async function POST(request: NextRequest) {
             prizeName: CURRENT_GIVEAWAY.prizeName,
             prizeValue: CURRENT_GIVEAWAY.prizeValue,
             prizeLink: CURRENT_GIVEAWAY.prizeLink,
-            month: CURRENT_GIVEAWAY.month,
+            month: defaultMonthLabel(),
           });
           notified = sent;
           if (sent) {

@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { Gift, Trophy, ArrowRight, Check, Loader2, Users, Target, Phone, ExternalLink } from "lucide-react";
-import { CURRENT_GIVEAWAY } from "@/lib/giveaway-config";
+import { CURRENT_GIVEAWAY, defaultDrawDate, defaultMonthLabel } from "@/lib/giveaway-config";
 
 interface Winner {
   id: string;
@@ -70,8 +70,12 @@ export default function GiveawaysPage() {
   const { user, hasAccess, userProfile } = useAuth();
   const [data, setData] = useState<GiveawayInfo | null>(null);
   const [loading, setLoading] = useState(true);
-  const [subscriberCount, setSubscriberCount] = useState(0);
-  const [totalEntries, setTotalEntries] = useState(0);
+  // null means "not loaded yet", which is not the same as zero. Initialising
+  // these to 0 rendered "Entries so far 0" on a giveaway page until the fetch
+  // came back, so the first thing a visitor saw was a contest nobody had
+  // entered. The real number is over a hundred.
+  const [subscriberCount, setSubscriberCount] = useState<number | null>(null);
+  const [totalEntries, setTotalEntries] = useState<number | null>(null);
 
   useEffect(() => {
     fetchGiveaway();
@@ -113,8 +117,11 @@ export default function GiveawaysPage() {
 
   function getDrawDate(): string {
     if (data?.drawDate) return data.drawDate;
-    return CURRENT_GIVEAWAY.drawDate;
+    // Falls back to the calendar, never to a frozen string.
+    return CURRENT_GIVEAWAY.drawDate ?? defaultDrawDate();
   }
+
+  const monthLabel = data?.month || CURRENT_GIVEAWAY.monthLabel || defaultMonthLabel();
 
   // Whether a drawing is currently running. The API (Firestore siteConfig)
   // wins so this can be toggled from admin without a deploy; the config file
@@ -154,8 +161,8 @@ export default function GiveawaysPage() {
   const entryInfo = getUserEntryInfo();
 
   // Next milestone
-  const nextMilestone = MILESTONES.find((m) => subscriberCount < m.members) || MILESTONES[MILESTONES.length - 1];
-  const membersToNext = Math.max(0, nextMilestone.members - subscriberCount);
+  const nextMilestone = MILESTONES.find((m) => (subscriberCount ?? 0) < m.members) || MILESTONES[MILESTONES.length - 1];
+  const membersToNext = Math.max(0, nextMilestone.members - (subscriberCount ?? 0));
 
   return (
     <>
@@ -168,7 +175,7 @@ export default function GiveawaysPage() {
         <div className="max-w-5xl mx-auto px-4 pt-16 pb-12 sm:pt-20 sm:pb-14 text-center relative">
           <Gift className="w-12 h-12 text-skyblue-200 mx-auto mb-4" />
           <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-4xl sm:text-5xl text-white mb-3 tracking-tight drop-shadow-lg">
-            {isPaused ? "Mahjong" : `${data?.month || CURRENT_GIVEAWAY.month} Mahjong`}{" "}
+            {isPaused ? "Mahjong" : `${monthLabel} Mahjong`}{" "}
             <span className="text-skyblue-200">{isPaused ? "Giveaways" : "Giveaway"}</span>
           </h1>
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
@@ -247,7 +254,7 @@ export default function GiveawaysPage() {
             <div className="text-center mb-6">
               <div className="inline-flex items-center gap-2 bg-hotpink-100 text-hotpink-600 px-4 py-1.5 rounded-full text-sm font-bold mb-3">
                 <Gift className="w-4 h-4" />
-                {data?.month || CURRENT_GIVEAWAY.month} Giveaway
+                {monthLabel} Giveaway
               </div>
               {(data?.prizePhoto) && (
                 <div className="mb-4 flex justify-center">
@@ -291,7 +298,11 @@ export default function GiveawaysPage() {
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="bg-slate-50 rounded-lg p-3 text-center">
                 <p className="text-xs text-slate-500 mb-1">Entries so far</p>
-                <p className="text-2xl font-extrabold text-hotpink-500">{totalEntries}</p>
+                <p className="text-2xl font-extrabold text-hotpink-500">
+                  {totalEntries === null
+                    ? <span className="inline-block w-10 h-6 rounded bg-hotpink-100 animate-pulse align-middle" aria-label="loading" />
+                    : totalEntries}
+                </p>
               </div>
               <div className="bg-slate-50 rounded-lg p-3 text-center">
                 <p className="text-xs text-slate-500 mb-1">Winners</p>
@@ -442,7 +453,7 @@ export default function GiveawaysPage() {
         </div>
 
         {/* Milestone Giveaways — hidden until there are subscribers */}
-        {subscriberCount > 0 && <div className="mb-12">
+        {(subscriberCount ?? 0) > 0 && <div className="mb-12">
           <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3 text-center">
             Community Milestones
           </h2>
@@ -462,7 +473,7 @@ export default function GiveawaysPage() {
             <div className="w-full bg-slate-100 rounded-full h-3">
               <div
                 className="bg-gradient-to-r from-hotpink-500 to-skyblue-400 h-3 rounded-full transition-all"
-                style={{ width: `${Math.min((subscriberCount / nextMilestone.members) * 100, 100)}%` }}
+                style={{ width: `${Math.min(((subscriberCount ?? 0) / nextMilestone.members) * 100, 100)}%` }}
               />
             </div>
             <p className="text-xs text-slate-400 mt-1">
@@ -474,7 +485,7 @@ export default function GiveawaysPage() {
 
           <div className="space-y-4">
             {MILESTONES.map((milestone) => {
-              const reached = subscriberCount >= milestone.members;
+              const reached = (subscriberCount ?? 0) >= milestone.members;
               return (
                 <div
                   key={milestone.members}
