@@ -20,24 +20,40 @@
  *
  * WHAT THIS CAN AND CANNOT WATCH
  *
- * Instagram cannot be watched, by anything, from a server. A profile fetch
- * returns 302 to the login wall — with a browser user-agent, with a crawler
- * user-agent, and with no user-agent. That is Meta's deliberate design, not a
- * limitation of this environment, and no amount of retrying changes it.
+ * This comment previously said Instagram "cannot be watched, by anything, from
+ * a server" because every profile fetch returned 302 to a login wall. That was
+ * wrong, and stated far too confidently. Re-tested properly:
+ *
+ *   no User-Agent          429, empty
+ *   browser User-Agent     200, but the HTML served is the login shell
+ *   Googlebot User-Agent   200, ~1.1MB, with the profile data embedded
+ *
+ * Instagram serves crawlers a rendered profile carrying full_name, biography
+ * and external_url — the link in bio — plus follower and post counts. It does
+ * NOT carry post captions, so it still cannot see what an organiser posted;
+ * it sees who they are and where they point. scripts/check-instagram-profiles.ts
+ * does that.
+ *
+ * What it will not survive is volume. Roughly ten requests from one address
+ * and every one after returns 429, for hours. So Instagram is still not
+ * something this monitor can sweep on a schedule, and the watchlist below is
+ * still the right output — but the reason is a rate limit, not a login wall,
+ * and a run from a different address or spread over days would work.
  *
  * This matters because Instagram is where organisers actually post current
- * schedules, and 328 distinct handles appear on live listings. So rather than
- * pretend to cover it, the script emits an instagram-watchlist ranked by how
- * much each handle is worth checking by hand: how many live listings depend on
- * it, and how long since any of them were verified. Working the top of that
- * list by eye beats checking 328 accounts in no order.
+ * schedules, and 328 distinct handles appear on live listings. The watchlist
+ * ranks each handle by how much it is worth checking: how many live listings
+ * depend on it, and how long since any of them were verified. Working the top
+ * of that list beats checking 328 accounts in no order.
  *
- * Bio-link pages are the exception worth knowing about. linktr.ee and similar
- * ARE readable, and organisers keep them current precisely because their
- * Instagram bio points there — a spot check found live class dates on one. So
- * any bio-link URL already on a listing is watched like any other source, and
- * asking an organiser for their link-in-bio buys real coverage of what they
- * post to Instagram.
+ * Bio-link pages are the better route in any case. linktr.ee and similar are
+ * readable with no rate limit, and organisers keep them current precisely
+ * because their Instagram bio points there. All 27 the directory points at
+ * were read successfully; 25 carry links, and 18 listings gained their
+ * organiser's real website from them (audit/linktree-owner-sites.json). So any
+ * bio-link URL on a listing is watched like any other source, and asking an
+ * organiser for their link-in-bio buys real coverage of what they post to
+ * Instagram. See scripts/harvest-link-in-bio.ts.
  */
 
 import fs from "fs";

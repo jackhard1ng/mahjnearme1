@@ -162,3 +162,27 @@ has a stem equal to the slug.
 
 All 18 domains were requested before this file was written; a nineteenth op
 for `mahjandmiami.com` was dropped because it returns 404.
+
+### `dead-links.json` — 66 ops, website / registrationLink only
+
+`npx tsx scripts/check-links.ts`
+
+1,873 live URLs checked across active listings. 176 findings, of which 71 are
+a confirmed 404 or 410.
+
+Where the dead URL is an event page that aged out — a JCC calendar entry dated
+February, a library event permalink — and the organisation's own domain still
+answers, the field is set to that root: 65 of the 73 fields. Only 8 are cleared
+outright, where the domain is gone too. Emptying the field on a stale event URL
+throws the organiser away along with it.
+
+The remaining 105 findings are in `link-report.json` and are NOT operations:
+65 cross-domain redirects, 22 connection failures and 11 timeouts. Those want a
+human look, not an automatic edit — a redirect is often a site that simply
+moved, and a timeout is often nothing.
+
+Two false-positive classes are excluded by construction. A 404 is only believed
+once GET agrees, because some servers answer HEAD with 404 while serving the
+page fine (92ny.org does, and taking its HEAD at face value would have cleared
+a working link). And 403 and 5xx are not counted at all — healthy library and
+JCC sites flap between those and 200 depending on which edge node answers.

@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-08-31T00:38:14.616Z",
-  "note": "Instagram cannot be fetched from a server — a profile request 302s to the login wall regardless of user-agent. This is the manual check queue, ranked by how many live listings depend on each account and how long since any of them were verified. Asking organisers for a link-in-bio page (linktr.ee and similar ARE readable) converts an entry here into a source the monitor can watch.",
+  "note": "CORRECTED 2026-08-31. This note previously said Instagram cannot be fetched from a server because a profile request 302s to the login wall regardless of user-agent. That was wrong. A crawler User-Agent (Googlebot) gets HTTP 200 and a rendered profile carrying full_name, biography and external_url — the link in bio — plus follower and post counts; a browser User-Agent gets the login shell and no User-Agent gets 429. Post captions are not served, so this reads who an organiser is and where they point, not what they posted. The real limit is rate: about ten requests from one address and everything after returns 429 for hours, so this remains a queue to work through slowly or from several addresses rather than a sweep. See scripts/check-instagram-profiles.ts. Link-in-bio pages have no such limit and are the better route — see scripts/harvest-link-in-bio.ts, which recovered 18 organiser websites from the 27 the directory already points at.",
   "handles": [
     {
       "handle": "@themahjsociety",
