@@ -1,0 +1,3969 @@
+{
+  "generatedAt": "2026-08-31T00:38:14.616Z",
+  "note": "Instagram cannot be fetched from a server — a profile request 302s to the login wall regardless of user-agent. This is the manual check queue, ranked by how many live listings depend on each account and how long since any of them were verified. Asking organisers for a link-in-bio page (linktr.ee and similar ARE readable) converts an entry here into a source the monitor can watch.",
+  "handles": [
+    {
+      "handle": "@themahjsociety",
+      "url": "https://instagram.com/themahjsociety",
+      "liveListings": 11,
+      "daysSinceOldestVerification": 147,
+      "priority": 114.02739726027397,
+      "cities": [
+        "Chicago, IL"
+      ],
+      "listingIds": [
+        "bring-a-beginner-at-midwest-coast-brewing-the-mahjong-society-chicago-illinois-630-pm",
+        "date-night-mahjong-at-koval-distillery-the-mahjong-society-chicago-illinois-630-pm",
+        "mahjong-101-at-burning-bush-brewery-the-mahjong-society-chicago-illinois-630-pm",
+        "mahjong-101-at-dovetail-brewery-the-mahjong-society-chicago-illinois-630-pm",
+        "mahjong-101-at-firehouse-grill-evanston-the-mahjong-society-chicago-illinois-630-pm",
+        "mahjong-101-at-the-silver-room-the-mahjong-society-chicago-illinois-600-pm",
+        "mahjong-at-half-acre-beer-co-the-mahjong-society-chicago-illinois-630-pm",
+        "mahjong-wine-tasting-at-bottlesup-the-mahjong-society-chicago-illinois-630-pm",
+        "open-play-at-punch-bowl-social-the-mahjong-society-chicago-illinois-700-pm",
+        "the-mahjong-society-lessons-brewery-pop-ups-chicago-illinois-630-pm-typical",
+        "the-mahjong-society-the-lucky-league-2026-chicago-illinois"
+      ]
+    },
+    {
+      "handle": "@beachmahj30a",
+      "url": "https://instagram.com/beachmahj30a",
+      "liveListings": 8,
+      "daysSinceOldestVerification": null,
+      "priority": 80,
+      "cities": [
+        "Inlet Beach, FL",
+        "30A, FL",
+        "Watersound, FL"
+      ],
+      "listingIds": [
+        "2026-nmjl-card-deep-dive-palms-30a-florida",
+        "free-open-play-lawless-coastal-florida",
+        "free-open-play-obscure-wine-florida",
+        "free-open-play-palms-30a-inlet-beach-florida",
+        "free-open-play-sweet-henriettas-florida",
+        "mahjong-101-camp-creek-watersound-club-florida",
+        "mahjong-101-palms-30a-inlet-beach-florida",
+        "mahjong-101-palms-30a-the-big-chill-florida"
+      ]
+    },
+    {
+      "handle": "@troopmahjong",
+      "url": "https://instagram.com/troopmahjong",
+      "liveListings": 7,
+      "daysSinceOldestVerification": 178,
+      "priority": 74.87671232876713,
+      "cities": [
+        "San Antonio, TX",
+        "Boerne, TX",
+        "New Braunfels, TX"
+      ],
+      "listingIds": [
+        "camp-troop-mahjong-annual-retreat-san-antonio-texas-varies",
+        "troop-mahjong-boerne-winter-league-boerne-texas-varies",
+        "troop-mahjong-kids-classes-san-antonio-texas-varies",
+        "troop-mahjong-mahjong-101-lessons-san-antonio-texas-varies",
+        "troop-mahjong-new-braunfels-winter-league-new-braunfels-texas-varies",
+        "troop-mahjong-san-antonio-fall-league-san-antonio-texas-varies",
+        "troop-mahjong-society-open-play-san-antonio-texas-630-pm"
+      ]
+    },
+    {
+      "handle": "@magpiemahjong",
+      "url": "https://instagram.com/magpiemahjong",
+      "liveListings": 6,
+      "daysSinceOldestVerification": 147,
+      "priority": 64.02739726027397,
+      "cities": [
+        "St. Louis, MO"
+      ],
+      "listingIds": [
+        "magpie-mahjong-101-beginner-classes-st-louis-missouri-630-pm",
+        "magpie-mahjong-open-play-saturday-mornin-st-louis-mo-saturda-d67622fb",
+        "magpie-mahjong-open-play-saturday-noon-st-louis-mo-saturday--263a8d4e",
+        "magpie-mahjong-open-play-sunday-st-louis-mo-sunday-12-00-c0a9711b",
+        "magpie-mahjong-private-lessons-parties-st-louis-missouri",
+        "magpie-mahjong-st-louis-classes-open-play-st-louis-missouri"
+      ]
+    },
+    {
+      "handle": "@meetatmahj",
+      "url": "https://instagram.com/meetatmahj",
+      "liveListings": 5,
+      "daysSinceOldestVerification": 176,
+      "priority": 54.821917808219176,
+      "cities": [
+        "Zionsville, IN"
+      ],
+      "listingIds": [
+        "mahj-for-kicks-open-play-zionsville-indiana-free",
+        "meet-at-mahj-101-102-classes-zionsville-indiana",
+        "meet-at-mahj-scramble-leagues-zionsville-indiana",
+        "meet-at-mahj-studio-open-play-leagues-zionsville-indiana",
+        "meet-at-mahj-tournament-charity-zionsville-indiana-january-annual"
+      ]
+    },
+    {
+      "handle": "@mahjonthebeach",
+      "url": "https://instagram.com/mahjonthebeach",
+      "liveListings": 5,
+      "daysSinceOldestVerification": 160,
+      "priority": 54.38356164383562,
+      "cities": [
+        "Palm Beach, FL",
+        "Boca Raton, FL",
+        "Delray Beach, FL"
+      ],
+      "listingIds": [
+        "lessons-open-play-at-the-skinny-dip-palm-beach-palm-beach-florida",
+        "mahj-on-the-beach-boca-raton-florida",
+        "mahj-on-the-beach-lessons-open-play-at-dear-olivia-delray-beach-florida",
+        "mahj-on-the-beach-lessons-open-play-at-replay-club-boca-raton-florida",
+        "mahj-on-the-beach-replay-club-lessons-boca-raton-florida-monday"
+      ]
+    },
+    {
+      "handle": "@settingsunvb",
+      "url": "https://instagram.com/settingsunvb",
+      "liveListings": 5,
+      "daysSinceOldestVerification": 147,
+      "priority": 54.02739726027397,
+      "cities": [
+        "Virginia Beach, VA"
+      ],
+      "listingIds": [
+        "setting-sun-beginner-mahjong-lessons-virginia-beach-virginia",
+        "setting-sun-monthly-riichi-tournament-virginia-beach-virginia",
+        "setting-sun-riichi-mahjong-sundays-virginia-beach-va-sunday--0015bd5b",
+        "setting-sun-riichi-mahjong-tuesdays-virginia-beach-va-tuesda-0daf70ab",
+        "setting-sun-riichi-mahjong-wednesdays-virginia-beach-va-wedn-3f2fec43"
+      ]
+    },
+    {
+      "handle": "@okletsmahjong",
+      "url": "https://instagram.com/okletsmahjong",
+      "liveListings": 4,
+      "daysSinceOldestVerification": 180,
+      "priority": 44.93150684931507,
+      "cities": [
+        "Kansas City, KS",
+        "Oklahoma City, OK",
+        "Tulsa, OK"
+      ],
+      "listingIds": [
+        "ok-lets-mahjong-kansas-city-private-lessons-kansas-city-kansas-varies",
+        "ok-lets-mahjong-kansas-city-social-play-night-kansas-city-kansas-varies",
+        "ok-lets-mahjong-okc-lessons-social-events-oklahoma-city-oklahoma",
+        "ok-lets-mahjong-tulsa-lessons-events-tulsa-oklahoma"
+      ]
+    },
+    {
+      "handle": "@wnymahjong",
+      "url": "https://instagram.com/wnymahjong",
+      "liveListings": 4,
+      "daysSinceOldestVerification": 177,
+      "priority": 44.84931506849315,
+      "cities": [
+        "Buffalo, NY"
+      ],
+      "listingIds": [
+        "wny-mahjong-beginner-lessons-buffalo-new-york",
+        "wny-mahjong-community-annual-holiday-charity-events-buffalo-new-york",
+        "wny-mahjong-guided-open-play-buffalo-new-york",
+        "wny-mahjong-private-lessons-buffalo-new-york"
+      ]
+    },
+    {
+      "handle": "@mama_mahjong",
+      "url": "https://instagram.com/mama_mahjong",
+      "liveListings": 4,
+      "daysSinceOldestVerification": 160,
+      "priority": 44.38356164383562,
+      "cities": [
+        "Nashville, TN",
+        "Brentwood, TN"
+      ],
+      "listingIds": [
+        "mama-mahjong-nashville-lessons-open-play-events-nashville-tennessee-varies",
+        "mama-mahjong-spring-lunch-league-at-chuys-brentwood-nashville-tennessee-1200",
+        "nashville-mama-mahjong-2",
+        "nashville-mama-mahjong-4"
+      ]
+    },
+    {
+      "handle": "@themahjongsocialclub",
+      "url": "https://instagram.com/themahjongsocialclub",
+      "liveListings": 4,
+      "daysSinceOldestVerification": 147,
+      "priority": 44.02739726027397,
+      "cities": [
+        "Tulsa, OK"
+      ],
+      "listingIds": [
+        "club-mahj-open-play-beginner-lesson-at-american-solera-tulsa-oklahoma-600-pm",
+        "tmsc-friday-social-league-at-american-solera-tulsa-oklahoma-1200-pm",
+        "tmsc-winter-league-bam-crak-at-american-solera-tulsa-oklahoma-600-pm",
+        "tmsc-winter-league-dot-at-american-solera-tulsa-oklahoma-1200-pm"
+      ]
+    },
+    {
+      "handle": "@holymahj",
+      "url": "https://instagram.com/holymahj",
+      "liveListings": 4,
+      "daysSinceOldestVerification": 147,
+      "priority": 44.02739726027397,
+      "cities": [
+        "Charleston, SC"
+      ],
+      "listingIds": [
+        "holy-mahj-at-the-card-room-charleston-south-carolina",
+        "holy-mahj-beginners-series-charleston-south-carolina",
+        "holy-mahj-card-room-rental-charleston-south-carolina",
+        "holy-mahj-private-lessons-events-charleston-south-carolina"
+      ]
+    },
+    {
+      "handle": "@dotsanddragons",
+      "url": "https://instagram.com/dotsanddragons",
+      "liveListings": 4,
+      "daysSinceOldestVerification": null,
+      "priority": 40,
+      "cities": [
+        "Mobile, AL"
+      ],
+      "listingIds": [
+        "EM8SdOBVNHQ8ATEqhN18",
+        "KKrdkVjt1TiUMjVtIN31",
+        "ixxOxpUp7YrfxO0rc9hO",
+        "ldExzb6sEGRYR7iFjGZo"
+      ]
+    },
+    {
+      "handle": "@mahjongwithmary",
+      "url": "https://instagram.com/mahjongwithmary",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 180,
+      "priority": 34.93150684931507,
+      "cities": [
+        "Omaha, NE"
+      ],
+      "listingIds": [
+        "mahjong-with-mary-pop-up-at-big-grove-brewery-omaha-nebraska",
+        "mahjong-with-mary-studio-lessons-omaha-nebraska",
+        "mangelsens-mahjong-lesson-series-mary-mcbride-omaha-nebraska"
+      ]
+    },
+    {
+      "handle": "@abqmahj",
+      "url": "https://instagram.com/abqmahj",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 177,
+      "priority": 34.84931506849315,
+      "cities": [
+        "Albuquerque, NM"
+      ],
+      "listingIds": [
+        "abq-mahjong-beginner-mahjong-classes-albuquerque-new-mexico",
+        "abq-mahjong-brewery-social-pop-ups-albuquerque-new-mexico",
+        "abq-mahjong-private-lessons-mahjong-parties-albuquerque-new-mexico"
+      ]
+    },
+    {
+      "handle": "@mahjong_orleans",
+      "url": "https://instagram.com/mahjong_orleans",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 158,
+      "priority": 34.32876712328767,
+      "cities": [
+        "New Orleans, LA"
+      ],
+      "listingIds": [
+        "mahjong-at-wildflower-boutique-new-orleans-louisiana",
+        "mahjong-orleans-new-orleans-louisiana",
+        "mahjong-orleans-private-lessons-events-new-orleans-louisiana"
+      ]
+    },
+    {
+      "handle": "@mahjongsocialbg",
+      "url": "https://instagram.com/mahjongsocialbg",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 154,
+      "priority": 34.21917808219178,
+      "cities": [
+        "Bowling Green, KY"
+      ],
+      "listingIds": [
+        "mahjong-social-bg-morning-mahj-bowling-green-kentucky-wednesday",
+        "mahjong-social-bg-tile-nights-bowling-green-kentucky-varies",
+        "tile-nights-bowling-green-kentucky"
+      ]
+    },
+    {
+      "handle": "@elpasolibrary",
+      "url": "https://instagram.com/elpasolibrary",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "El Paso, TX"
+      ],
+      "listingIds": [
+        "armijo-library-mahjong-meetup-el-paso-texas",
+        "el-paso-public-library-main-branch-mahjong-friday-el-paso-texas-330-pm",
+        "el-paso-public-library-main-branch-mahjong-tuesday-el-paso-texas-1030-am"
+      ]
+    },
+    {
+      "handle": "@austinmahjongsocial",
+      "url": "https://instagram.com/austinmahjongsocial",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "Austin, TX"
+      ],
+      "listingIds": [
+        "austin-mahjong-social-league-spring-2026-austin-texas",
+        "austin-mahjong-social-mahjong-micheladas-at-vacancy-brewing-austin-texas-600-pm",
+        "austin-mahjong-social-tuesday-intro-classes-austin-texas-600-pm"
+      ]
+    },
+    {
+      "handle": "@camelcitymahj",
+      "url": "https://instagram.com/camelcitymahj",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "Winston-Salem, NC"
+      ],
+      "listingIds": [
+        "camel-city-mahj-mahj-madness-winston-salem-north-carolina-varies",
+        "ccm-spring-league-monday-sessions-winston-salem-north-carolina-600-pm",
+        "ccm-spring-league-wednesday-sessions-winston-salem-north-carolina-1000-am"
+      ]
+    },
+    {
+      "handle": "@mahjong_rouge",
+      "url": "https://instagram.com/mahjong_rouge",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "Baton Rouge, LA"
+      ],
+      "listingIds": [
+        "club-mahj-mahjong-league-morning-sessions-baton-rouge-louisiana-1000-am",
+        "greater-baton-rouge-bambird-scramble-league-baton-rouge-louisiana",
+        "mahjong-rouge-private-lessons-corporate-events-baton-rouge-louisiana"
+      ]
+    },
+    {
+      "handle": "@edmondmahjmoms",
+      "url": "https://instagram.com/edmondmahjmoms",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "Oklahoma City, OK",
+        "Edmond, OK"
+      ],
+      "listingIds": [
+        "edmond-mahj-moms-lessons-custom-oklahoma-sets-oklahoma-city-oklahoma",
+        "edmond-mahj-moms-spring-league-the-mahj-house-oklahoma-city-oklahoma",
+        "the-mahj-house-edmond-oklahoma"
+      ]
+    },
+    {
+      "handle": "@elpasomahjongsociety",
+      "url": "https://instagram.com/elpasomahjongsociety",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "El Paso, TX"
+      ],
+      "listingIds": [
+        "el-paso-mahjong-society-mahjong-101-class-el-paso-texas-600-pm",
+        "el-paso-mahjong-society-open-play-el-paso-texas",
+        "el-paso-mahjong-society-privatehome-lessons-el-paso-texas"
+      ]
+    },
+    {
+      "handle": "@fivemilemahj",
+      "url": "https://instagram.com/fivemilemahj",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "Norwalk, CT"
+      ],
+      "listingIds": [
+        "five-mile-mahj-april-happenings-norwalk-connecticut",
+        "five-mile-mahj-mahj-101-norwalk-connecticut-monday",
+        "five-mile-mahj-mahj-102-norwalk-connecticut-tuesday"
+      ]
+    },
+    {
+      "handle": "@mahj.918",
+      "url": "https://instagram.com/mahj.918",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "Tulsa, OK"
+      ],
+      "listingIds": [
+        "frequent-flyers-league-tulsa-oklahoma-1800-2026-04-16",
+        "mahj918-birdy-basics-beginner-lessons-tulsa-oklahoma",
+        "mahj918-private-events-tournaments-tulsa-oklahoma"
+      ]
+    },
+    {
+      "handle": "@greentilesocialclub",
+      "url": "https://instagram.com/greentilesocialclub",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "New York, NY"
+      ],
+      "listingIds": [
+        "green-tile-social-club-intro-to-mahjong-new-york-new-york-2026-03-27",
+        "green-tile-social-club-mahjong-after-hours-new-york-new-york-2026-03-29",
+        "green-tile-social-club-new-york-new-york"
+      ]
+    },
+    {
+      "handle": "@jmahjdallas",
+      "url": "https://instagram.com/jmahjdallas",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "Dallas, TX"
+      ],
+      "listingIds": [
+        "j-mahj-competitive-league-mon-evenings-apr-13-may-18-2026-dallas-texas-evening-2026-04-13",
+        "j-mahj-get-your-mahjon-beginner-series-apr-28-2026-dallas-texas-2026-04-28",
+        "j-mahj-open-table-play-jcc-dallas-dallas-texas-630-pm"
+      ]
+    },
+    {
+      "handle": "@master.your.mahjong",
+      "url": "https://instagram.com/master.your.mahjong",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "St. Petersburg, FL",
+        "Gulfport, FL"
+      ],
+      "listingIds": [
+        "mahj-mingle-at-pour-décor-st-petersburg-florida-230-pm",
+        "master-your-mahjong-group-classes-gulfport-florida-varies",
+        "master-your-mahjong-private-lessons-gulfport-florida-varies"
+      ]
+    },
+    {
+      "handle": "@modmahj",
+      "url": "https://instagram.com/modmahj",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "Chicago, IL",
+        "Phoenix, AZ",
+        "Wichita, KS"
+      ],
+      "listingIds": [
+        "mod-mahj-chicagoland-guided-play-chicago-illinois",
+        "mod-mahj-phoenix-lessons-leagues-phoenix-arizona-varies",
+        "mod-mahj-wichita-guided-play-wichita-kansas-1"
+      ]
+    },
+    {
+      "handle": "@queencitymahjong",
+      "url": "https://instagram.com/queencitymahjong",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "Charlotte, NC"
+      ],
+      "listingIds": [
+        "queen-city-mahjong-assisted-open-play-charlotte-north-carolina-630-pm",
+        "queen-city-mahjong-beginner-boot-camp-charlotte-north-carolina",
+        "queen-city-mahjong-league-charlotte-north-carolina"
+      ]
+    },
+    {
+      "handle": "@sandiegomahjongclub",
+      "url": "https://instagram.com/sandiegomahjongclub",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "San Diego, CA"
+      ],
+      "listingIds": [
+        "san-diego-mahjong-club-american-mah-jongg-mondays-san-diego-california-100-pm",
+        "san-diego-mahjong-club-mid-week-wednesdays-san-diego-california-600-pm",
+        "san-diego-mahjong-club-zung-jung-fridays-san-diego-california-600-pm"
+      ]
+    },
+    {
+      "handle": "@stlmahjongclub",
+      "url": "https://instagram.com/stlmahjongclub",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "Cottleville, MO"
+      ],
+      "listingIds": [
+        "stl-mahjong-club-mahj-101-cottleville-missouri",
+        "stl-mahjong-club-mahj-102-cottleville-missouri",
+        "stl-mahjong-club-open-play-cottleville-missouri"
+      ]
+    },
+    {
+      "handle": "@themahjsocialclub",
+      "url": "https://instagram.com/themahjsocialclub",
+      "liveListings": 3,
+      "daysSinceOldestVerification": 147,
+      "priority": 34.02739726027397,
+      "cities": [
+        "San Antonio, TX"
+      ],
+      "listingIds": [
+        "the-mahj-social-club-mahjong-and-mimosas-san-antonio-texas-1000-am",
+        "the-mahj-social-club-open-guided-play-san-antonio-texas",
+        "the-mahj-social-club-san-antonio-texas-varies"
+      ]
+    },
+    {
+      "handle": "@mahjongwithjovann",
+      "url": "https://instagram.com/mahjongwithjovann",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 181,
+      "priority": 24.958904109589042,
+      "cities": [
+        "Dallas, TX"
+      ],
+      "listingIds": [
+        "mahjong-at-sixty-vines-uptown-plano-dallas-texas",
+        "mahjong-with-jovann-55-seventy-wine-club-rotating-venues-dallas-texas-evenings"
+      ]
+    },
+    {
+      "handle": "@madam_mahj",
+      "url": "https://instagram.com/madam_mahj",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 178,
+      "priority": 24.876712328767123,
+      "cities": [
+        "Houston, TX"
+      ],
+      "listingIds": [
+        "graffiti-raw-tiles-cocktails-series-houston-texas-1230-pm",
+        "madam-mahj-allie-russo-houston-texas-varies"
+      ]
+    },
+    {
+      "handle": "@lemondropmahjong",
+      "url": "https://instagram.com/lemondropmahjong",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 177,
+      "priority": 24.84931506849315,
+      "cities": [
+        "Boise, ID"
+      ],
+      "listingIds": [
+        "lemondrop-mahjong-co-private-lessons-boise-idaho",
+        "lemondrop-mahjong-co-social-events-classes-boise-idaho"
+      ]
+    },
+    {
+      "handle": "@maryteachesmahjong",
+      "url": "https://instagram.com/maryteachesmahjong",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 177,
+      "priority": 24.84931506849315,
+      "cities": [
+        "Shaker Heights, OH",
+        "Cleveland, OH"
+      ],
+      "listingIds": [
+        "mary-murphy-mahjong-classes-shaker-heights-ohio",
+        "mary-teaches-mahjong-lessons-events-cleveland-ohio"
+      ]
+    },
+    {
+      "handle": "@mahjongmemphis",
+      "url": "https://instagram.com/mahjongmemphis",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 177,
+      "priority": 24.84931506849315,
+      "cities": [
+        "Memphis, TN"
+      ],
+      "listingIds": [
+        "memphis-brooks-museum-mahjong-lessons-open-play-memphis-tennessee",
+        "the-mahjologist-private-lessons-memphis-memphis-tennessee"
+      ]
+    },
+    {
+      "handle": "@motorcitymahjong",
+      "url": "https://instagram.com/motorcitymahjong",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 177,
+      "priority": 24.84931506849315,
+      "cities": [
+        "Royal Oak, MI",
+        "Detroit, MI"
+      ],
+      "listingIds": [
+        "motor-city-mahjong-lessons-classes-royal-oak-michigan",
+        "motor-city-mahjong-private-lessons-detroit-michigan"
+      ]
+    },
+    {
+      "handle": "@thegildedbirds",
+      "url": "https://instagram.com/thegildedbirds",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 177,
+      "priority": 24.84931506849315,
+      "cities": [
+        "Providence, RI",
+        "East Greenwich, RI"
+      ],
+      "listingIds": [
+        "the-gilded-birds-mahjong-at-track-15-providence-providence-rhode-island",
+        "the-gilded-birds-mahjong-lessons-events-retreats-east-greenwich-rhode-island"
+      ]
+    },
+    {
+      "handle": "@mahjongqueens",
+      "url": "https://instagram.com/mahjongqueens",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 176,
+      "priority": 24.821917808219176,
+      "cities": [
+        "Louisville, KY"
+      ],
+      "listingIds": [
+        "angels-envy-distillery-mahjong-with-mahjong-queens-louisville-kentucky-400-pm",
+        "mahjong-queens-classes-open-play-louisville-kentucky"
+      ]
+    },
+    {
+      "handle": "@mahjsquad",
+      "url": "https://instagram.com/mahjsquad",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 160,
+      "priority": 24.383561643835616,
+      "cities": [
+        "Minnetonka, MN",
+        "Minneapolis, MN"
+      ],
+      "listingIds": [
+        "mahj-squad-mahjong-101-open-play-in-minnetonka-minneapolis-minnesota",
+        "mahj-squad-minneapolis-lessons-minneapolis-minnesota"
+      ]
+    },
+    {
+      "handle": "@moderndaymahj",
+      "url": "https://instagram.com/moderndaymahj",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 160,
+      "priority": 24.383561643835616,
+      "cities": [
+        "Plano, TX",
+        "Dallas, TX"
+      ],
+      "listingIds": [
+        "modern-day-mahj-open-play-at-brya-zan-plano-plano-texas",
+        "modern-day-mahj-open-play-at-clubs-of-prestonwood-the-creek-dallas-texas"
+      ]
+    },
+    {
+      "handle": "@eatplaytravelmahjong",
+      "url": "https://instagram.com/eatplaytravelmahjong",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 158,
+      "priority": 24.328767123287673,
+      "cities": [
+        "Santa Barbara, CA"
+      ],
+      "listingIds": [
+        "beginner-mahjong-101-at-margerum-tasting-room-santa-barbara-california-paid",
+        "beginners-mahjong-101-at-pali-wine-co-santa-barbara-california-paid"
+      ]
+    },
+    {
+      "handle": "@mahjong_gallery",
+      "url": "https://instagram.com/mahjong_gallery",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 155,
+      "priority": 24.246575342465754,
+      "cities": [
+        "Baton Rouge, LA"
+      ],
+      "listingIds": [
+        "april-schedule-open-and-guided-play-baton-rouge-louisiana-friday",
+        "hola-mimosa-and-mahjong-baton-rouge-louisiana"
+      ]
+    },
+    {
+      "handle": "@magicofmahjong",
+      "url": "https://instagram.com/magicofmahjong",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 154,
+      "priority": 24.21917808219178,
+      "cities": [
+        "Tuscaloosa, AL",
+        ", NJ"
+      ],
+      "listingIds": [
+        "magic-of-mahjong-open-play-tuscaloosa-alabama-tuesday",
+        "magic-of-mahjong-tuesday-night-league-new-jersey-tuesday"
+      ]
+    },
+    {
+      "handle": "@mahjontherocks",
+      "url": "https://instagram.com/mahjontherocks",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 154,
+      "priority": 24.21917808219178,
+      "cities": [
+        "New York, NY"
+      ],
+      "listingIds": [
+        "mahj-on-the-rocks-lessons-new-york-new-york-monday",
+        "mahj-on-the-rocks-weekly-open-play-new-york-new-york-monday"
+      ]
+    },
+    {
+      "handle": "@themahjongstudionc",
+      "url": "https://instagram.com/themahjongstudionc",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 154,
+      "priority": 24.21917808219178,
+      "cities": [
+        "Charlotte, NC"
+      ],
+      "listingIds": [
+        "the-mahjong-studio-nc-afternoon-open-play-charlotte-north-carolina-tuesday",
+        "the-mahjong-studio-nc-evening-open-play-charlotte-north-carolina-tuesday"
+      ]
+    },
+    {
+      "handle": "@atlmahjong",
+      "url": "https://instagram.com/atlmahjong",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Atlanta, GA"
+      ],
+      "listingIds": [
+        "atlanta-mahjong-studio-classes-and-open-play-atlanta-georgia",
+        "intermediate-plus-league-unseriously-serious-atlanta-georgia"
+      ]
+    },
+    {
+      "handle": "@tidesandtilesmahjong",
+      "url": "https://instagram.com/tidesandtilesmahjong",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Annapolis, MD"
+      ],
+      "listingIds": [
+        "beginner-lessons-open-plays-leagues-tournaments-annapolis-maryland",
+        "tides-tiles-mahjong-annapolis-lessons-annapolis-maryland"
+      ]
+    },
+    {
+      "handle": "@blackgirlsmahjongtoo",
+      "url": "https://instagram.com/blackgirlsmahjongtoo",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Atlanta, GA"
+      ],
+      "listingIds": [
+        "bgmj²-free-mahjong-social-atlanta-georgia-wednesday",
+        "bgmj²-mahjong-night-at-the-legion-atlanta-georgia-tuesday"
+      ]
+    },
+    {
+      "handle": "@charlottemahjong",
+      "url": "https://instagram.com/charlottemahjong",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Charlotte, NC"
+      ],
+      "listingIds": [
+        "charlotte-mahjong-mahj-101-beginner-lessons-charlotte-north-carolina",
+        "charlotte-mahjong-monthly-social-mad-for-mahjong-charlotte-north-carolina"
+      ]
+    },
+    {
+      "handle": "@citymahj",
+      "url": "https://instagram.com/citymahj",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Boston, MA"
+      ],
+      "listingIds": [
+        "city-mahj-mahjong-101-boston-massachusetts",
+        "city-mahj-open-play-at-cafe-landwer-boston-massachusetts"
+      ]
+    },
+    {
+      "handle": "@columbusmahjongclub",
+      "url": "https://instagram.com/columbusmahjongclub",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Columbus, GA",
+        "Columbus, OH"
+      ],
+      "listingIds": [
+        "columbus-mahjong-club-columbus-georgia",
+        "columbus-mahjong-club-columbus-ohio"
+      ]
+    },
+    {
+      "handle": "@cordiallyphoenix",
+      "url": "https://instagram.com/cordiallyphoenix",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Phoenix, AZ"
+      ],
+      "listingIds": [
+        "cordially-phoenix-beginner-mahjong-course-phoenix-arizona-varies",
+        "cordially-phoenix-mahjong-lounge-open-play-phoenix-arizona-varies"
+      ]
+    },
+    {
+      "handle": "@cowtownmahj",
+      "url": "https://instagram.com/cowtownmahj",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Fort Worth, TX"
+      ],
+      "listingIds": [
+        "cowtown-mahj-leagues-lessons-private-parties-fort-worth-fort-worth-texas-varies",
+        "cowtown-mahj-spring-league-fort-worth-texas-1830"
+      ]
+    },
+    {
+      "handle": "@denvermahjmadness",
+      "url": "https://instagram.com/denvermahjmadness",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Denver, CO"
+      ],
+      "listingIds": [
+        "denver-mahj-madness-guided-play-denver-colorado-monday",
+        "denver-mahj-madness-open-play-denver-colorado-monday"
+      ]
+    },
+    {
+      "handle": "@mahjclubkc",
+      "url": "https://instagram.com/mahjclubkc",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Kansas City, MO",
+        "Kansas City, KS"
+      ],
+      "listingIds": [
+        "kansas-city-mahjong-club-2026-active-community-kansas-city-missouri-varies",
+        "kc-mahjong-club-at-blair-blythe-kansas-city-kansas-varies"
+      ]
+    },
+    {
+      "handle": "@lemahjclub",
+      "url": "https://instagram.com/lemahjclub",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Atlanta, GA"
+      ],
+      "listingIds": [
+        "le-mahj-club-guided-open-play-atlanta-georgia-wednesday",
+        "le-mahj-club-mahjong-101-atlanta-georgia-monday"
+      ]
+    },
+    {
+      "handle": "@letsmahjrva",
+      "url": "https://instagram.com/letsmahjrva",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Richmond, VA"
+      ],
+      "listingIds": [
+        "lets-mahj-rva-beginner-lessons-richmond-virginia",
+        "lets-mahj-rva-storefront-events-richmond-virginia"
+      ]
+    },
+    {
+      "handle": "@mahjmixers",
+      "url": "https://instagram.com/mahjmixers",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Baltimore, MD"
+      ],
+      "listingIds": [
+        "mahj-mixers-guided-open-play-baltimore-maryland",
+        "mahj-mixers-private-lessons-pop-ups-baltimore-maryland"
+      ]
+    },
+    {
+      "handle": "@mahjongaddison",
+      "url": "https://instagram.com/mahjongaddison",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Tulsa, OK"
+      ],
+      "listingIds": [
+        "mahjong-addison-monthly-mahj-101-tulsa-oklahoma-1400",
+        "mahjong-addison-monthly-open-play-tulsa-oklahoma-1800"
+      ]
+    },
+    {
+      "handle": "@mahjongatdeenas",
+      "url": "https://instagram.com/mahjongatdeenas",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "San Diego, CA"
+      ],
+      "listingIds": [
+        "mahjong-at-deenas-beginner-lessons-san-diego-california-varies",
+        "mahjong-at-deenas-open-play-san-diego-california-varies"
+      ]
+    },
+    {
+      "handle": "@modmahjwichita",
+      "url": "https://instagram.com/modmahjwichita",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Wichita, KS"
+      ],
+      "listingIds": [
+        "mod-mahj-wichita-beginner-lessons-wichita-kansas",
+        "mod-mahj-wichita-guided-play-wichita-kansas-2"
+      ]
+    },
+    {
+      "handle": "@mrmahjongs",
+      "url": "https://instagram.com/mrmahjongs",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "San Francisco, CA"
+      ],
+      "listingIds": [
+        "mr-mahjongs-cocktail-bar-lounge-san-francisco-california-530-pm",
+        "mr-mahjongs-teaching-tuesday-san-francisco-california-530-pm"
+      ]
+    },
+    {
+      "handle": "@themrsmahj",
+      "url": "https://instagram.com/themrsmahj",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Cincinnati, OH"
+      ],
+      "listingIds": [
+        "mrs-mahj-cincinnati-american-mahjong-teacher-cincinnati-ohio",
+        "say-sha-sha-mrs-mahj-lessons-events-cincinnati-ohio"
+      ]
+    },
+    {
+      "handle": "@peacelovemahjong",
+      "url": "https://instagram.com/peacelovemahjong",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Dallas, TX"
+      ],
+      "listingIds": [
+        "peace-love-mahjong-guided-play-wednesdays-dallas-texas-630-pm",
+        "peace-love-mahjong-mahjong-101-class-tuesdays-dallas-texas-600-pm"
+      ]
+    },
+    {
+      "handle": "@pghmahjclub",
+      "url": "https://instagram.com/pghmahjclub",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Sewickley, PA",
+        "Pittsburgh, PA"
+      ],
+      "listingIds": [
+        "pgh-mahjong-club-beginner-101-102-classes-sewickley-pennsylvania-600-pm",
+        "pittsburgh-mahjong-club-monthly-meetups-pittsburgh-pennsylvania-600-pm"
+      ]
+    },
+    {
+      "handle": "@raleighmahj",
+      "url": "https://instagram.com/raleighmahj",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Raleigh, NC"
+      ],
+      "listingIds": [
+        "raleigh-mahj-monthly-open-play-raleigh-north-carolina",
+        "raleigh-mahj-open-play-at-the-flourish-m-raleigh-nc-thursday-bb8c119e"
+      ]
+    },
+    {
+      "handle": "@scottsdalemahjjongsociety",
+      "url": "https://instagram.com/scottsdalemahjjongsociety",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Scottsdale, AZ"
+      ],
+      "listingIds": [
+        "scottsdale-mahjong-society-at-village-dc-ranch-scottsdale-arizona",
+        "scottsdale-mahjong-society-mahj-101-scottsdale-arizona-wednesday"
+      ]
+    },
+    {
+      "handle": "@sonoran_mahjong_co",
+      "url": "https://instagram.com/sonoran_mahjong_co",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Phoenix, AZ"
+      ],
+      "listingIds": [
+        "sonoran-mahjong-co-2026-card-decoded-phoenix-arizona",
+        "sonoran-mahjong-co-open-play-events-phoenix-arizona-1730-monthly"
+      ]
+    },
+    {
+      "handle": "@tampamahjongclub",
+      "url": "https://instagram.com/tampamahjongclub",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Tampa, FL"
+      ],
+      "listingIds": [
+        "tampa-mahjong-club-open-play-tampa-florida-varies",
+        "tampa-mahjong-club-spring-fling-league-tampa-florida-varies"
+      ]
+    },
+    {
+      "handle": "@themahjclubhouse",
+      "url": "https://instagram.com/themahjclubhouse",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Fort Worth, TX"
+      ],
+      "listingIds": [
+        "the-mahj-clubhouse-nci-trailblazers-charity-event-2026-fort-worth-texas",
+        "the-mahj-clubhouse-private-party-bookings-ongoing-fort-worth-texas-varies"
+      ]
+    },
+    {
+      "handle": "@themahjonghousebatonrouge",
+      "url": "https://instagram.com/themahjonghousebatonrouge",
+      "liveListings": 2,
+      "daysSinceOldestVerification": 147,
+      "priority": 24.027397260273972,
+      "cities": [
+        "Baton Rouge, LA"
+      ],
+      "listingIds": [
+        "the-mahjong-house-baton-rouge-private-events-mahjong-staycations-baton-rouge-louisiana",
+        "the-mahjong-house-baton-rouge-themed-open-play-events-baton-rouge-louisiana"
+      ]
+    },
+    {
+      "handle": "@focomahj",
+      "url": "https://instagram.com/focomahj",
+      "liveListings": 2,
+      "daysSinceOldestVerification": null,
+      "priority": 20,
+      "cities": [
+        "Red Feather Lakes, CO"
+      ],
+      "listingIds": [
+        "2Nj4XcjTYJF3tsHnnlaX",
+        "ZqfVlERIeq1SUF3VPSmS"
+      ]
+    },
+    {
+      "handle": "@mahjongrepublic",
+      "url": "https://instagram.com/mahjongrepublic",
+      "liveListings": 2,
+      "daysSinceOldestVerification": null,
+      "priority": 20,
+      "cities": [
+        "Carlsbad, CA"
+      ],
+      "listingIds": [
+        "F22l5GArhjjoUKRX0Vxq",
+        "afvdEUPjRT3kqtPNpPQw"
+      ]
+    },
+    {
+      "handle": "@sparrowsneststudio",
+      "url": "https://instagram.com/sparrowsneststudio",
+      "liveListings": 2,
+      "daysSinceOldestVerification": null,
+      "priority": 20,
+      "cities": [
+        "New York, NY"
+      ],
+      "listingIds": [
+        "new-york-sparrows-nest-1",
+        "new-york-sparrows-nest-2"
+      ]
+    },
+    {
+      "handle": "@themahjongteacher",
+      "url": "https://instagram.com/themahjongteacher",
+      "liveListings": 2,
+      "daysSinceOldestVerification": null,
+      "priority": 20,
+      "cities": [
+        "Dallas, TX"
+      ],
+      "listingIds": [
+        "park-house-dallas-mahjong-classes-guided-dallas-tx-e78e1581",
+        "park-house-dallas-mahjong-nicki-farris-1"
+      ]
+    },
+    {
+      "handle": "@sacmahjongcrew",
+      "url": "https://instagram.com/sacmahjongcrew",
+      "liveListings": 2,
+      "daysSinceOldestVerification": null,
+      "priority": 20,
+      "cities": [
+        "Sacramento, CA"
+      ],
+      "listingIds": [
+        "sacramento-bike-dog-1",
+        "sacramento-tandem-1"
+      ]
+    },
+    {
+      "handle": "@tallytiletribe",
+      "url": "https://instagram.com/tallytiletribe",
+      "liveListings": 2,
+      "daysSinceOldestVerification": null,
+      "priority": 20,
+      "cities": [
+        "Tallahassee, FL"
+      ],
+      "listingIds": [
+        "tallahassee-mahjong-league-tallytiletribe-1",
+        "the-tallahassee-mahjong-league-tallahassee-fl-dde85a9b"
+      ]
+    },
+    {
+      "handle": "@lone_star_riichi",
+      "url": "https://instagram.com/lone_star_riichi",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 181,
+      "priority": 14.958904109589042,
+      "cities": [
+        "Plano, TX"
+      ],
+      "listingIds": [
+        "lone-star-riichi-club-sunday-open-play-dub-tea-n-eats-dallas-texas"
+      ]
+    },
+    {
+      "handle": "@themagnoliafwcoupe",
+      "url": "https://instagram.com/themagnoliafwcoupe",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 181,
+      "priority": 14.958904109589042,
+      "cities": [
+        "Fort Worth, TX"
+      ],
+      "listingIds": [
+        "mahj-nolia-open-play-the-magnolia-wine-bar-biweekly-mondays-fort-worth-texas-500-pm"
+      ]
+    },
+    {
+      "handle": "@themarvelousmrsmahjong",
+      "url": "https://instagram.com/themarvelousmrsmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 181,
+      "priority": 14.958904109589042,
+      "cities": [
+        "Dallas, TX"
+      ],
+      "listingIds": [
+        "mahjong-martini-mondays-catbird-thompson-hotel-dallas-texas-630-pm"
+      ]
+    },
+    {
+      "handle": "@missminimahjer",
+      "url": "https://instagram.com/missminimahjer",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 181,
+      "priority": 14.958904109589042,
+      "cities": [
+        "Dallas, TX"
+      ],
+      "listingIds": [
+        "miss-mini-mahjer-kids-mahjong-lessons-select-saturdays-dallas-texas-530-pm"
+      ]
+    },
+    {
+      "handle": "@thisisbabas.house",
+      "url": "https://instagram.com/thisisbabas.house",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 178,
+      "priority": 14.876712328767123,
+      "cities": [
+        "Oakland, CA"
+      ],
+      "listingIds": [
+        "13-orphans-mahjong-speakeasy-oakland-california-600-pm"
+      ]
+    },
+    {
+      "handle": "@4blondesmahjong",
+      "url": "https://instagram.com/4blondesmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 178,
+      "priority": 14.876712328767123,
+      "cities": [
+        "Various, MA"
+      ],
+      "listingIds": [
+        "4-blondes-mahjong-lessons-events-various-massachusetts"
+      ]
+    },
+    {
+      "handle": "@mahjbrooklyn",
+      "url": "https://instagram.com/mahjbrooklyn",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 178,
+      "priority": 14.876712328767123,
+      "cities": [
+        "Brooklyn, NY"
+      ],
+      "listingIds": [
+        "mahj-brooklyn-brooklyn-new-york"
+      ]
+    },
+    {
+      "handle": "@mahjinmiami",
+      "url": "https://instagram.com/mahjinmiami",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 178,
+      "priority": 14.876712328767123,
+      "cities": [
+        "Miami, FL"
+      ],
+      "listingIds": [
+        "mahj-in-miami-lessons-miami-florida"
+      ]
+    },
+    {
+      "handle": "@mahjongking.nyc",
+      "url": "https://instagram.com/mahjongking.nyc",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 178,
+      "priority": 14.876712328767123,
+      "cities": [
+        "New York, NY"
+      ],
+      "listingIds": [
+        "mahjong-king-nyc-new-york-new-york"
+      ]
+    },
+    {
+      "handle": "@mahjongmasster",
+      "url": "https://instagram.com/mahjongmasster",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 178,
+      "priority": 14.876712328767123,
+      "cities": [
+        "Various, MA"
+      ],
+      "listingIds": [
+        "mahjong-masster-greater-boston-lessons-various-massachusetts"
+      ]
+    },
+    {
+      "handle": "@miamimahjclub",
+      "url": "https://instagram.com/miamimahjclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 178,
+      "priority": 14.876712328767123,
+      "cities": [
+        "Miami, FL"
+      ],
+      "listingIds": [
+        "miami-mahjong-club-miami-florida"
+      ]
+    },
+    {
+      "handle": "@themahjongsociety",
+      "url": "https://instagram.com/themahjongsociety",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 178,
+      "priority": 14.876712328767123,
+      "cities": [
+        "New York, NY"
+      ],
+      "listingIds": [
+        "the-mahjong-society-nyc-events-new-york-new-york-630-pm"
+      ]
+    },
+    {
+      "handle": "@mrsmerrimanmahjong",
+      "url": "https://instagram.com/mrsmerrimanmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Charlotte, NC"
+      ],
+      "listingIds": [
+        "allison-merriman-mahjong-pop-ups-private-lessons-charlotte-north-carolina"
+      ]
+    },
+    {
+      "handle": "@hibadluckclub",
+      "url": "https://instagram.com/hibadluckclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Honolulu, HI"
+      ],
+      "listingIds": [
+        "bad-luck-club-monthly-mahjong-socials-honolulu-hawaii"
+      ]
+    },
+    {
+      "handle": "@bpmahjong",
+      "url": "https://instagram.com/bpmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Orlando, FL"
+      ],
+      "listingIds": [
+        "baldwin-park-mahjong-club-orlando-florida-varies"
+      ]
+    },
+    {
+      "handle": "@ccbafresno",
+      "url": "https://instagram.com/ccbafresno",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Fresno, CA"
+      ],
+      "listingIds": [
+        "ccba-fresno-moonlight-mahjong-fresno-california"
+      ]
+    },
+    {
+      "handle": "@richcharlotte",
+      "url": "https://instagram.com/richcharlotte",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Matthews, NC"
+      ],
+      "listingIds": [
+        "charlotte-riichi-mahjong-club-weekly-sessions-matthews-north-carolina-1200-pm"
+      ]
+    },
+    {
+      "handle": "@fresnolibrary",
+      "url": "https://instagram.com/fresnolibrary",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Fresno, CA"
+      ],
+      "listingIds": [
+        "fresno-county-library-mahjong-at-the-library-fresno-california"
+      ]
+    },
+    {
+      "handle": "@hopstix",
+      "url": "https://instagram.com/hopstix",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Tampa, FL"
+      ],
+      "listingIds": [
+        "hopstix-mahjong-mondays-tampa-florida-500-pm"
+      ]
+    },
+    {
+      "handle": "@jadesocietylv",
+      "url": "https://instagram.com/jadesocietylv",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Las Vegas, NV"
+      ],
+      "listingIds": [
+        "jade-society-lv-mahjong-night-las-vegas-nevada-630-pm"
+      ]
+    },
+    {
+      "handle": "@mahjcentral",
+      "url": "https://instagram.com/mahjcentral",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Baton Rouge, LA"
+      ],
+      "listingIds": [
+        "mahj-central-classes-social-events-baton-rouge-louisiana"
+      ]
+    },
+    {
+      "handle": "@makeitmahjong",
+      "url": "https://instagram.com/makeitmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Winter Park, FL"
+      ],
+      "listingIds": [
+        "make-it-mahjong-winter-park-lessons-winter-park-florida-varies"
+      ]
+    },
+    {
+      "handle": "@mamahuhu_sj",
+      "url": "https://instagram.com/mamahuhu_sj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Palo Alto — Mamahuhu's fourth location is in Palo Alto, not San Jose, CA"
+      ],
+      "listingIds": [
+        "mamahuhu-mahjong-social-san-jose-california-600-pm"
+      ]
+    },
+    {
+      "handle": "@memphismahjong",
+      "url": "https://instagram.com/memphismahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Memphis, TN"
+      ],
+      "listingIds": [
+        "memphis-mahjong-club-social-events-memphis-tennessee"
+      ]
+    },
+    {
+      "handle": "@mkemahjong",
+      "url": "https://instagram.com/mkemahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Milwaukee, WI"
+      ],
+      "listingIds": [
+        "mke-mahjong-social-group-milwaukee-wisconsin"
+      ]
+    },
+    {
+      "handle": "@modernmahjong",
+      "url": "https://instagram.com/modernmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Orlando, FL"
+      ],
+      "listingIds": [
+        "modern-mahjong-orlando-events-orlando-florida-1230-pm"
+      ]
+    },
+    {
+      "handle": "@pompommahj",
+      "url": "https://instagram.com/pompommahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Orlando, FL"
+      ],
+      "listingIds": [
+        "pom-pom-mahj-lessons-orlando-florida-varies"
+      ]
+    },
+    {
+      "handle": "@reedleyrec",
+      "url": "https://instagram.com/reedleyrec",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Reedley, CA"
+      ],
+      "listingIds": [
+        "reedley-senior-center-hobby-time-reedley-california-1200-pm"
+      ]
+    },
+    {
+      "handle": "@southtampamahjong",
+      "url": "https://instagram.com/southtampamahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Tampa, FL"
+      ],
+      "listingIds": [
+        "south-tampa-mahjong-4-the-love-of-mahj-tampa-florida-varies"
+      ]
+    },
+    {
+      "handle": "@southpark_mahjong",
+      "url": "https://instagram.com/southpark_mahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Charlotte, NC"
+      ],
+      "listingIds": [
+        "southpark-mahjong-socials-throw-downs-charlotte-north-carolina"
+      ]
+    },
+    {
+      "handle": "@tbifresno",
+      "url": "https://instagram.com/tbifresno",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Fresno, CA"
+      ],
+      "listingIds": [
+        "temple-beth-israel-sisterhood-mah-jongg-fresno-california"
+      ]
+    },
+    {
+      "handle": "@themahjongmingle",
+      "url": "https://instagram.com/themahjongmingle",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Northville, MI"
+      ],
+      "listingIds": [
+        "the-mahjong-mingle-lessons-game-nights-northville-michigan"
+      ]
+    },
+    {
+      "handle": "@twobirdbamstudio",
+      "url": "https://instagram.com/twobirdbamstudio",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Concord Township, OH"
+      ],
+      "listingIds": [
+        "two-bird-bam-studios-concord-township-ohio-600-pm"
+      ]
+    },
+    {
+      "handle": "@vegasdragonsmahjongclub",
+      "url": "https://instagram.com/vegasdragonsmahjongclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 177,
+      "priority": 14.849315068493151,
+      "cities": [
+        "Las Vegas, NV"
+      ],
+      "listingIds": [
+        "vegas-dragons-mahjong-club-las-vegas-nevada"
+      ]
+    },
+    {
+      "handle": "@cdamahj",
+      "url": "https://instagram.com/cdamahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 176,
+      "priority": 14.821917808219178,
+      "cities": [
+        "Coeur d'Alene, ID"
+      ],
+      "listingIds": [
+        "cda-mahj-coeur-dalene-lessons-open-play-coeur-dalene-idaho"
+      ]
+    },
+    {
+      "handle": "@happymediumbookscafe",
+      "url": "https://instagram.com/happymediumbookscafe",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 176,
+      "priority": 14.821917808219178,
+      "cities": [
+        "Jacksonville, FL"
+      ],
+      "listingIds": [
+        "happy-medium-books-café-mahjong-meetups-jacksonville-florida"
+      ]
+    },
+    {
+      "handle": "@lindentreegifts",
+      "url": "https://instagram.com/lindentreegifts",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 176,
+      "priority": 14.821917808219178,
+      "cities": [
+        "Carmel, IN"
+      ],
+      "listingIds": [
+        "linden-tree-mahjong-lessons-carmel-carmel-indiana"
+      ]
+    },
+    {
+      "handle": "@relishagoodtime",
+      "url": "https://instagram.com/relishagoodtime",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 176,
+      "priority": 14.821917808219178,
+      "cities": [
+        "Louisville, KY"
+      ],
+      "listingIds": [
+        "relish-food-hall-junkyard-social-club-mahjong-louisville-kentucky"
+      ]
+    },
+    {
+      "handle": "@sacmahjong",
+      "url": "https://instagram.com/sacmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 176,
+      "priority": 14.821917808219178,
+      "cities": [
+        "Sacramento, CA"
+      ],
+      "listingIds": [
+        "sacramento-mahjong-crew-hangouts-sacramento-california-100-pm"
+      ]
+    },
+    {
+      "handle": "@dashhomeliving",
+      "url": "https://instagram.com/dashhomeliving",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Jacksonville, FL"
+      ],
+      "listingIds": [
+        "904mahj-guided-play-at-dash-home-living-jacksonville-florida"
+      ]
+    },
+    {
+      "handle": "@auburnmahjongclub",
+      "url": "https://instagram.com/auburnmahjongclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Auburn, AL"
+      ],
+      "listingIds": [
+        "auburn-mahjong-club-auburn-alabama-unknown"
+      ]
+    },
+    {
+      "handle": "@canastaandmahjongcoach",
+      "url": "https://instagram.com/canastaandmahjongcoach",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Miami, FL"
+      ],
+      "listingIds": [
+        "canasta-and-mahjong-coach-miami-miami-florida"
+      ]
+    },
+    {
+      "handle": "@dcmahj",
+      "url": "https://instagram.com/dcmahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Washington, DC"
+      ],
+      "listingIds": [
+        "dc-mahj-collective-washington-district-of-columbia"
+      ]
+    },
+    {
+      "handle": "@fresnohistory",
+      "url": "https://instagram.com/fresnohistory",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Fresno, CA"
+      ],
+      "listingIds": [
+        "fresno-city-county-historical-society-monthly-mahjong-social-fresno-california"
+      ]
+    },
+    {
+      "handle": "@shareteagreenway",
+      "url": "https://instagram.com/shareteagreenway",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Houston, TX"
+      ],
+      "listingIds": [
+        "houston-mahjong-meetup-houston-texas-1300"
+      ]
+    },
+    {
+      "handle": "@larafrie",
+      "url": "https://instagram.com/larafrie",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Gulfport, MS"
+      ],
+      "listingIds": [
+        "lagniappe-mahjong-mahjong-friendly-venues-ms-gulf-coast-gulfport-mississippi"
+      ]
+    },
+    {
+      "handle": "@mahjinbloom",
+      "url": "https://instagram.com/mahjinbloom",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Bloomington, IN"
+      ],
+      "listingIds": [
+        "mahj-in-bloom-bloomington-lessons-bloomington-indiana"
+      ]
+    },
+    {
+      "handle": "@birdbambeth",
+      "url": "https://instagram.com/birdbambeth",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Fayetteville, AR"
+      ],
+      "listingIds": [
+        "mahjong-102-classes-fayetteville-arkansas"
+      ]
+    },
+    {
+      "handle": "@mahjongabbywpb",
+      "url": "https://instagram.com/mahjongabbywpb",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "West Palm Beach, FL"
+      ],
+      "listingIds": [
+        "mahjong-abby-wpb-west-palm-beach-florida"
+      ]
+    },
+    {
+      "handle": "@mahjonganna",
+      "url": "https://instagram.com/mahjonganna",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Fayetteville, AR"
+      ],
+      "listingIds": [
+        "mahjong-anna-fayetteville-arkansas"
+      ]
+    },
+    {
+      "handle": "@mahjongbythebay",
+      "url": "https://instagram.com/mahjongbythebay",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Fairhope, AL"
+      ],
+      "listingIds": [
+        "mahjong-by-the-bay-fairhope-fairhope-alabama-unknown"
+      ]
+    },
+    {
+      "handle": "@mahjongclubmiami",
+      "url": "https://instagram.com/mahjongclubmiami",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Miami, FL"
+      ],
+      "listingIds": [
+        "mahjong-club-miami-tuesday-open-play-miami-florida-600-pm"
+      ]
+    },
+    {
+      "handle": "@mahjonglex",
+      "url": "https://instagram.com/mahjonglex",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Lexington, KY"
+      ],
+      "listingIds": [
+        "mahjong-lex-lexington-classes-monthly-sessions-lexington-kentucky"
+      ]
+    },
+    {
+      "handle": "@mahjongandmulligans",
+      "url": "https://instagram.com/mahjongandmulligans",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Lynnfield, MA"
+      ],
+      "listingIds": [
+        "mahjong-mondays-at-marketstreet-lynnfield-4-class-series-boston-massachusetts-600-pm"
+      ]
+    },
+    {
+      "handle": "@mahjongstudio1",
+      "url": "https://instagram.com/mahjongstudio1",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Louisville, KY"
+      ],
+      "listingIds": [
+        "mahjong-studio-one-louisville-classes-play-louisville-kentucky"
+      ]
+    },
+    {
+      "handle": "@mainstreetmercantilewi",
+      "url": "https://instagram.com/mainstreetmercantilewi",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Waukesha, WI"
+      ],
+      "listingIds": [
+        "main-street-mercantile-wi-waukesha-wisconsin"
+      ]
+    },
+    {
+      "handle": "@northwestfloridamahjongclub",
+      "url": "https://instagram.com/northwestfloridamahjongclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Crestview, FL"
+      ],
+      "listingIds": [
+        "northwest-florida-mahjong-club-mahjong-101-crestview-florida"
+      ]
+    },
+    {
+      "handle": "@psmahjong",
+      "url": "https://instagram.com/psmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Palm Springs, CA"
+      ],
+      "listingIds": [
+        "palm-springs-mahjong-the-rack-pack-palm-springs-california-400-pm"
+      ]
+    },
+    {
+      "handle": "@talkkaimuki",
+      "url": "https://instagram.com/talkkaimuki",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Honolulu, HI"
+      ],
+      "listingIds": [
+        "talk-kaimuki-x-hale-mahj-honolulu-hawaii"
+      ]
+    },
+    {
+      "handle": "@talktilestome",
+      "url": "https://instagram.com/talktilestome",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Washington, DC"
+      ],
+      "listingIds": [
+        "talk-tiles-to-me-winery-day-social-play-bus-trip-sold-out-washington-district-of-columbia"
+      ]
+    },
+    {
+      "handle": "@txtmahj",
+      "url": "https://instagram.com/txtmahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Houston, TX"
+      ],
+      "listingIds": [
+        "texas-tea-mahj-houston-texas"
+      ]
+    },
+    {
+      "handle": "@themahjongsocialchatt",
+      "url": "https://instagram.com/themahjongsocialchatt",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 160,
+      "priority": 14.383561643835616,
+      "cities": [
+        "Chattanooga, TN"
+      ],
+      "listingIds": [
+        "the-mahjong-social-chattanooga-chattanooga-tennessee"
+      ]
+    },
+    {
+      "handle": "@birdiebamindiana",
+      "url": "https://instagram.com/birdiebamindiana",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 158,
+      "priority": 14.328767123287673,
+      "cities": [
+        "Indianapolis, IN"
+      ],
+      "listingIds": [
+        "birdie-bam-indiana-indianapolis-indiana"
+      ]
+    },
+    {
+      "handle": "@bostonmahjong",
+      "url": "https://instagram.com/bostonmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 158,
+      "priority": 14.328767123287673,
+      "cities": [
+        "Newton, MA"
+      ],
+      "listingIds": [
+        "boston-mahjong-lessons-newton-massachusetts"
+      ]
+    },
+    {
+      "handle": "@community_mahjong_bham",
+      "url": "https://instagram.com/community_mahjong_bham",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 158,
+      "priority": 14.328767123287673,
+      "cities": [
+        "Birmingham, AL"
+      ],
+      "listingIds": [
+        "community-mahjong-birmingham-birmingham-alabama"
+      ]
+    },
+    {
+      "handle": "@mahjonggrandforks",
+      "url": "https://instagram.com/mahjonggrandforks",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 158,
+      "priority": 14.328767123287673,
+      "cities": [
+        "Grand Forks, ND"
+      ],
+      "listingIds": [
+        "mahjong-grand-forks-grand-forks-north-dakota"
+      ]
+    },
+    {
+      "handle": "@pdxmahjongclub",
+      "url": "https://instagram.com/pdxmahjongclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 158,
+      "priority": 14.328767123287673,
+      "cities": [
+        "Portland, OR"
+      ],
+      "listingIds": [
+        "pdx-mahjong-club-mahj-101-portland-oregon"
+      ]
+    },
+    {
+      "handle": "@seekonk_mahj",
+      "url": "https://instagram.com/seekonk_mahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 158,
+      "priority": 14.328767123287673,
+      "cities": [
+        "Seekonk, MA"
+      ],
+      "listingIds": [
+        "seekonk-mahj-seekonk-massachusetts"
+      ]
+    },
+    {
+      "handle": "@themahjconnection",
+      "url": "https://instagram.com/themahjconnection",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 158,
+      "priority": 14.328767123287673,
+      "cities": [
+        "Dallas, TX"
+      ],
+      "listingIds": [
+        "the-mahj-connection-lessons-events-dallas-texas"
+      ]
+    },
+    {
+      "handle": "@wildtilemahj",
+      "url": "https://instagram.com/wildtilemahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 158,
+      "priority": 14.328767123287673,
+      "cities": [
+        "Denver, CO"
+      ],
+      "listingIds": [
+        "wild-tile-mahj-group-lessons-denver-denver-colorado"
+      ]
+    },
+    {
+      "handle": "@3beemahj",
+      "url": "https://instagram.com/3beemahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 156,
+      "priority": 14.273972602739725,
+      "cities": [
+        "Rockport / Boerne / Fredericksburg, TX"
+      ],
+      "listingIds": [
+        "3-bee-mahj-texas-tournament-tour-austin-texas"
+      ]
+    },
+    {
+      "handle": "@queenoftilestriad",
+      "url": "https://instagram.com/queenoftilestriad",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 156,
+      "priority": 14.273972602739725,
+      "cities": [
+        "Greensboro, NC"
+      ],
+      "listingIds": [
+        "queen-of-tiles-triad-high-tea-affair-greensboro-north-carolina"
+      ]
+    },
+    {
+      "handle": "@arbormahjongclub",
+      "url": "https://instagram.com/arbormahjongclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 155,
+      "priority": 14.246575342465754,
+      "cities": [
+        "Ann Arbor, MI"
+      ],
+      "listingIds": [
+        "april-calendar-arbor-mahjong-club-ann-arbor-michigan"
+      ]
+    },
+    {
+      "handle": "@royalmahjongok",
+      "url": "https://instagram.com/royalmahjongok",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 155,
+      "priority": 14.246575342465754,
+      "cities": [
+        "Oklahoma City, OK"
+      ],
+      "listingIds": [
+        "april-events-royal-mahjong-ok-oklahoma-city-oklahoma"
+      ]
+    },
+    {
+      "handle": "@bamboohousemahjong",
+      "url": "https://instagram.com/bamboohousemahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 155,
+      "priority": 14.246575342465754,
+      "cities": [
+        "Delray Beach, FL"
+      ],
+      "listingIds": [
+        "happy-hour-social-play-delray-beach-florida"
+      ]
+    },
+    {
+      "handle": "@gotchamahjonghq",
+      "url": "https://instagram.com/gotchamahjonghq",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 155,
+      "priority": 14.246575342465754,
+      "cities": [
+        "Houston, TX"
+      ],
+      "listingIds": [
+        "learn-mahjong-three-part-series-houston-texas"
+      ]
+    },
+    {
+      "handle": "@2karinasone",
+      "url": "https://instagram.com/2karinasone",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 155,
+      "priority": 14.246575342465754,
+      "cities": [
+        "Columbia, MO"
+      ],
+      "listingIds": [
+        "mahj-mondays-open-play-columbia-missouri-monday"
+      ]
+    },
+    {
+      "handle": "@bloom.memorial",
+      "url": "https://instagram.com/bloom.memorial",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 155,
+      "priority": 14.246575342465754,
+      "cities": [
+        "Houston, TX"
+      ],
+      "listingIds": [
+        "mahjong-at-bloom-memorial-houston-texas-once"
+      ]
+    },
+    {
+      "handle": "@midnight.mahj",
+      "url": "https://instagram.com/midnight.mahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 155,
+      "priority": 14.246575342465754,
+      "cities": [
+        "Wilmington, DE"
+      ],
+      "listingIds": [
+        "upcoming-events-midnight-mahj-wilmington-delaware"
+      ]
+    },
+    {
+      "handle": "@heyletsmahj",
+      "url": "https://instagram.com/heyletsmahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 154,
+      "priority": 14.219178082191782,
+      "cities": [
+        "Houston, TX"
+      ],
+      "listingIds": [
+        "kmc-spring-mahjong-league-houston-texas-2026-03-26-to-2026-04-30"
+      ]
+    },
+    {
+      "handle": "@shoplittlebeansmarket",
+      "url": "https://instagram.com/shoplittlebeansmarket",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 154,
+      "priority": 14.219178082191782,
+      "cities": [
+        "Houston, TX"
+      ],
+      "listingIds": [
+        "monthly-mahj-morning-open-play-houston-texas-saturday-2026-04-11"
+      ]
+    },
+    {
+      "handle": "@12sparrowmahjong",
+      "url": "https://instagram.com/12sparrowmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Boston, MA"
+      ],
+      "listingIds": [
+        "12-sparrow-mahjong-lessons-events-boston-massachusetts"
+      ]
+    },
+    {
+      "handle": "@4_blondes_mahjong",
+      "url": "https://instagram.com/4_blondes_mahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "San Antonio, TX"
+      ],
+      "listingIds": [
+        "4-blondes-mahjong-san-antonio-texas-varies"
+      ]
+    },
+    {
+      "handle": "@abbybostonmahjong",
+      "url": "https://instagram.com/abbybostonmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Boston, MA"
+      ],
+      "listingIds": [
+        "abby-boston-mahjong-instruction-boston-massachusetts"
+      ]
+    },
+    {
+      "handle": "@apexmahjongclub",
+      "url": "https://instagram.com/apexmahjongclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Apex, NC"
+      ],
+      "listingIds": [
+        "apex-mahjong-club-apex-north-carolina"
+      ]
+    },
+    {
+      "handle": "@saintmahj",
+      "url": "https://instagram.com/saintmahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "New Orleans, LA"
+      ],
+      "listingIds": [
+        "april-mahjong-schedule-hotel-st-vincent-new-orleans-louisiana"
+      ]
+    },
+    {
+      "handle": "@mahjongmovement",
+      "url": "https://instagram.com/mahjongmovement",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "San Francisco, CA"
+      ],
+      "listingIds": [
+        "asian-art-museum-mahjong-movement-sundays-san-francisco-california-varies"
+      ]
+    },
+    {
+      "handle": "@atlmahjongmentors",
+      "url": "https://instagram.com/atlmahjongmentors",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Atlanta, GA"
+      ],
+      "listingIds": [
+        "atlanta-mahjong-mentors-atlanta-georgia-varies"
+      ]
+    },
+    {
+      "handle": "@bambirdboutique",
+      "url": "https://instagram.com/bambirdboutique",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Dallas, TX"
+      ],
+      "listingIds": [
+        "bam-bird-boutique-open-play-monthufri-dallas-texas-600-pm"
+      ]
+    },
+    {
+      "handle": "@bamcrackledot",
+      "url": "https://instagram.com/bamcrackledot",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Atlanta, GA"
+      ],
+      "listingIds": [
+        "bam-crackle-dot-atlanta-events-atlanta-georgia-varies"
+      ]
+    },
+    {
+      "handle": "@blairandblythe",
+      "url": "https://instagram.com/blairandblythe",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Kansas City, KS"
+      ],
+      "listingIds": [
+        "blair-blythe-open-play-mahjong-2026-schedule-kansas-city-kansas-varies"
+      ]
+    },
+    {
+      "handle": "@bluetigermahjclub",
+      "url": "https://instagram.com/bluetigermahjclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Wheaton, IL"
+      ],
+      "listingIds": [
+        "blue-tiger-mahj-club-weekly-social-league-wheaton-wheaton-illinois"
+      ]
+    },
+    {
+      "handle": "@bon.mahj",
+      "url": "https://instagram.com/bon.mahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Raleigh, NC"
+      ],
+      "listingIds": [
+        "bon-mahj-raleigh-north-carolina"
+      ]
+    },
+    {
+      "handle": "@capcitymahjoh",
+      "url": "https://instagram.com/capcitymahjoh",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Columbus, OH"
+      ],
+      "listingIds": [
+        "cap-city-mahj-mahjong-lessons-columbus-ohio"
+      ]
+    },
+    {
+      "handle": "@carymahjongclub",
+      "url": "https://instagram.com/carymahjongclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Cary, NC"
+      ],
+      "listingIds": [
+        "cary-mahjong-club-cary-north-carolina"
+      ]
+    },
+    {
+      "handle": "@centeratwestpark",
+      "url": "https://instagram.com/centeratwestpark",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Charlotte, NC"
+      ],
+      "listingIds": [
+        "center-at-west-park-mah-jongg-lessons-open-play-charlotte-north-carolina"
+      ]
+    },
+    {
+      "handle": "@centralparkmahjong",
+      "url": "https://instagram.com/centralparkmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Denver, CO"
+      ],
+      "listingIds": [
+        "central-park-mahjong-open-play-lessons-denver-colorado"
+      ]
+    },
+    {
+      "handle": "@chicitymahjong",
+      "url": "https://instagram.com/chicitymahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Chicago, IL"
+      ],
+      "listingIds": [
+        "chi-city-mahjong-missy-mahjong-free-lessons-open-play-chicago-illinois"
+      ]
+    },
+    {
+      "handle": "@cincy_mahjong_club",
+      "url": "https://instagram.com/cincy_mahjong_club",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Cincinnati, OH"
+      ],
+      "listingIds": [
+        "cincy-mahjong-club-open-play-cincinnati-ohio"
+      ]
+    },
+    {
+      "handle": "@mahbasel",
+      "url": "https://instagram.com/mahbasel",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Colorado Springs, CO"
+      ],
+      "listingIds": [
+        "colorado-springs-mahjong-events-colorado-springs-colorado"
+      ]
+    },
+    {
+      "handle": "@cbebk",
+      "url": "https://instagram.com/cbebk",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Brooklyn, NY"
+      ],
+      "listingIds": [
+        "congregation-beth-elohim-cbe-mah-jongg-brooklyn-new-york-1000-am"
+      ]
+    },
+    {
+      "handle": "@dallasmahjclub",
+      "url": "https://instagram.com/dallasmahjclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Dallas, TX"
+      ],
+      "listingIds": [
+        "dallas-mahj-club-weekly-play-lessons-dallas-texas"
+      ]
+    },
+    {
+      "handle": "@tucsonmahjongg",
+      "url": "https://instagram.com/tucsonmahjongg",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Oro Valley, AZ"
+      ],
+      "listingIds": [
+        "dangling-dragons-mah-jongg-tournaments-oro-valley-arizona"
+      ]
+    },
+    {
+      "handle": "@dragonwell",
+      "url": "https://instagram.com/dragonwell",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "San Francisco, CA"
+      ],
+      "listingIds": [
+        "dragon-well-mahjong-lair-san-francisco-california-500-pm-1"
+      ]
+    },
+    {
+      "handle": "@dunwoodymahjco",
+      "url": "https://instagram.com/dunwoodymahjco",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Atlanta, GA"
+      ],
+      "listingIds": [
+        "dunwoody-mahj-co-mommy-me-mahjong-lesson-atlanta-georgia-1100-2026-04-26"
+      ]
+    },
+    {
+      "handle": "@emeraldcitytileclub",
+      "url": "https://instagram.com/emeraldcitytileclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Seattle, WA"
+      ],
+      "listingIds": [
+        "emerald-city-tile-club-seattle-washington"
+      ]
+    },
+    {
+      "handle": "@foothillsbrewing",
+      "url": "https://instagram.com/foothillsbrewing",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Winston-Salem, NC"
+      ],
+      "listingIds": [
+        "foothills-brewing-mahjong-classes-winston-salem-north-carolina"
+      ]
+    },
+    {
+      "handle": "@gatewaymahjong",
+      "url": "https://instagram.com/gatewaymahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Various, MA"
+      ],
+      "listingIds": [
+        "gateway-mahjong-metrowest-lessons-various-massachusetts"
+      ]
+    },
+    {
+      "handle": "@gaysiantileparty",
+      "url": "https://instagram.com/gaysiantileparty",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "New York, NY"
+      ],
+      "listingIds": [
+        "gaysian-tile-party-new-york-new-york"
+      ]
+    },
+    {
+      "handle": "@msmahjongmuse",
+      "url": "https://instagram.com/msmahjongmuse",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Williamsburg, VA"
+      ],
+      "listingIds": [
+        "guided-play-with-ms-mahjong-muse-williamsburg-virginia"
+      ]
+    },
+    {
+      "handle": "@hiddentilemahjong",
+      "url": "https://instagram.com/hiddentilemahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Victor, NY"
+      ],
+      "listingIds": [
+        "hidden-tile-mahjong-lessons-open-play-victor-new-york"
+      ]
+    },
+    {
+      "handle": "@kansascitymahjong",
+      "url": "https://instagram.com/kansascitymahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Kansas City, MO"
+      ],
+      "listingIds": [
+        "kansas-city-mahjong-lessons-events-kansas-city-missouri-varies"
+      ]
+    },
+    {
+      "handle": "@lalimahjong",
+      "url": "https://instagram.com/lalimahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Los Angeles, CA"
+      ],
+      "listingIds": [
+        "la-la-mahjong-los-angeles-california"
+      ]
+    },
+    {
+      "handle": "@lamahjongleague",
+      "url": "https://instagram.com/lamahjongleague",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Los Angeles, CA"
+      ],
+      "listingIds": [
+        "la-mahjong-league-los-angeles-california"
+      ]
+    },
+    {
+      "handle": "@ladymahjhouston",
+      "url": "https://instagram.com/ladymahjhouston",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Houston, TX"
+      ],
+      "listingIds": [
+        "lady-mahj-houston-becky-livingstone-houston-texas-varies"
+      ]
+    },
+    {
+      "handle": "@lilypadmahjongparlor",
+      "url": "https://instagram.com/lilypadmahjongparlor",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Chicago, IL"
+      ],
+      "listingIds": [
+        "lily-pad-mahjong-parlor-classes-open-play-leagues-chicago-illinois"
+      ]
+    },
+    {
+      "handle": "@longhorn_riichi",
+      "url": "https://instagram.com/longhorn_riichi",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Austin, TX"
+      ],
+      "listingIds": [
+        "longhorn-riichi-weekly-sunday-games-austin-texas-200-pm"
+      ]
+    },
+    {
+      "handle": "@mahjville",
+      "url": "https://instagram.com/mahjville",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Nashville, TN"
+      ],
+      "listingIds": [
+        "mah-jongg-around-nashville-weekly-events-nashville-tennessee-weekly"
+      ]
+    },
+    {
+      "handle": "@mahjongmaven",
+      "url": "https://instagram.com/mahjongmaven",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Atlanta, GA"
+      ],
+      "listingIds": [
+        "mah-jongg-maven-atlanta-retreats-retail-atlanta-georgia-varies"
+      ]
+    },
+    {
+      "handle": "@mahjinthecity",
+      "url": "https://instagram.com/mahjinthecity",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Charlotte, NC"
+      ],
+      "listingIds": [
+        "mahj-in-the-city-bambird-scramble-league-charlotte-north-carolina"
+      ]
+    },
+    {
+      "handle": "@mahjmamamd",
+      "url": "https://instagram.com/mahjmamamd",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Baltimore, MD"
+      ],
+      "listingIds": [
+        "mahj-mama-md-baltimore-maryland"
+      ]
+    },
+    {
+      "handle": "@mahjwithrm",
+      "url": "https://instagram.com/mahjwithrm",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Raleigh, NC"
+      ],
+      "listingIds": [
+        "mahj-mondays-tiles-and-taps-open-play-raleigh-north-carolina-1830"
+      ]
+    },
+    {
+      "handle": "@mahjsocialclub",
+      "url": "https://instagram.com/mahjsocialclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Austin, TX"
+      ],
+      "listingIds": [
+        "mahj-social-club-lessons-open-play-austin-texas-600-pm"
+      ]
+    },
+    {
+      "handle": "@mahj.squad",
+      "url": "https://instagram.com/mahj.squad",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Denver, CO"
+      ],
+      "listingIds": [
+        "mahj-squad-girls-lessons-social-events-denver-denver-colorado"
+      ]
+    },
+    {
+      "handle": "@mahjwithbrooke",
+      "url": "https://instagram.com/mahjwithbrooke",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Miami, FL"
+      ],
+      "listingIds": [
+        "mahj-with-brooke-april-lessons-and-events-miami-florida"
+      ]
+    },
+    {
+      "handle": "@mahjwithclaire",
+      "url": "https://instagram.com/mahjwithclaire",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Austin, TX"
+      ],
+      "listingIds": [
+        "mahj-with-claire-private-lessons-open-play-austin-texas"
+      ]
+    },
+    {
+      "handle": "@mahj_with_mandee",
+      "url": "https://instagram.com/mahj_with_mandee",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Gig Harbor, WA"
+      ],
+      "listingIds": [
+        "mahj-with-mandee-april-lessons-gig-harbor-washington"
+      ]
+    },
+    {
+      "handle": "@mahjwithmeg",
+      "url": "https://instagram.com/mahjwithmeg",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Cincinnati, OH"
+      ],
+      "listingIds": [
+        "mahj-with-meg-beginner-lessons-cincinnati-ohio"
+      ]
+    },
+    {
+      "handle": "@mahjaholic",
+      "url": "https://instagram.com/mahjaholic",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Houston, TX"
+      ],
+      "listingIds": [
+        "mahjaholic-houston-texas-varies"
+      ]
+    },
+    {
+      "handle": "@mahjbos",
+      "url": "https://instagram.com/mahjbos",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Boston, MA"
+      ],
+      "listingIds": [
+        "mahjbos-boston-mahjong-instructor-boston-massachusetts"
+      ]
+    },
+    {
+      "handle": "@mahj.margs",
+      "url": "https://instagram.com/mahj.margs",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Midland, TX"
+      ],
+      "listingIds": [
+        "mahjong-and-margs-midland-texas-friday"
+      ]
+    },
+    {
+      "handle": "@mahjongatsea",
+      "url": "https://instagram.com/mahjongatsea",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Galveston, TX"
+      ],
+      "listingIds": [
+        "mahjong-at-sea-5-night-caribbean-cruise-galveston-texas-2026-09-28"
+      ]
+    },
+    {
+      "handle": "@mahjongcorner",
+      "url": "https://instagram.com/mahjongcorner",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Bellevue, WA"
+      ],
+      "listingIds": [
+        "mahjong-corner-bellevue-bellevue-washington"
+      ]
+    },
+    {
+      "handle": "@mahjong.girl",
+      "url": "https://instagram.com/mahjong.girl",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Houston, TX"
+      ],
+      "listingIds": [
+        "mahjong-girl-daniela-garduño-houston-texas-varies"
+      ]
+    },
+    {
+      "handle": "@mahjong_in_the_heights",
+      "url": "https://instagram.com/mahjong_in_the_heights",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Beachwood, OH"
+      ],
+      "listingIds": [
+        "mahjong-in-the-heights-beachwood-ohio-1230"
+      ]
+    },
+    {
+      "handle": "@mahjongmafiaatx",
+      "url": "https://instagram.com/mahjongmafiaatx",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Austin, TX"
+      ],
+      "listingIds": [
+        "mahjong-mafia-atx-monthly-meetups-austin-texas"
+      ]
+    },
+    {
+      "handle": "@mahjongmistress",
+      "url": "https://instagram.com/mahjongmistress",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Los Angeles, CA"
+      ],
+      "listingIds": [
+        "mahjong-mistress-los-angeles-california"
+      ]
+    },
+    {
+      "handle": "@mustangmahjclub",
+      "url": "https://instagram.com/mustangmahjclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Oklahoma City, OK"
+      ],
+      "listingIds": [
+        "mahjong-monday-open-play-oklahoma-city-oklahoma-monday-2026-04-13"
+      ]
+    },
+    {
+      "handle": "@keyworth_brewing",
+      "url": "https://instagram.com/keyworth_brewing",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Keyport, NJ"
+      ],
+      "listingIds": [
+        "mahjong-night-at-keyworth-brewing-keyport-new-jersey"
+      ]
+    },
+    {
+      "handle": "@howwesweat",
+      "url": "https://instagram.com/howwesweat",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Austin, TX"
+      ],
+      "listingIds": [
+        "mahjong-on-the-green-austin-texas"
+      ]
+    },
+    {
+      "handle": "@mahjongpalace",
+      "url": "https://instagram.com/mahjongpalace",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "New York, NY"
+      ],
+      "listingIds": [
+        "mahjong-palace-nyc-new-york-new-york"
+      ]
+    },
+    {
+      "handle": "@hyphenspace",
+      "url": "https://instagram.com/hyphenspace",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Dallas, TX"
+      ],
+      "listingIds": [
+        "mahjong-parlor-214-hyphen-space-recurring-open-play-hong-kong-style-dallas-texas-varies"
+      ]
+    },
+    {
+      "handle": "@getcrackingatl",
+      "url": "https://instagram.com/getcrackingatl",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Charleston, SC"
+      ],
+      "listingIds": [
+        "mahjong-retreat-at-the-nickel-hotel-charleston-south-carolina-friday-2026-05-01-to-2026-05-03"
+      ]
+    },
+    {
+      "handle": "@mahjongsocialco_",
+      "url": "https://instagram.com/mahjongsocialco_",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Chicago Western Suburbs, IL"
+      ],
+      "listingIds": [
+        "mahjong-social-co-lessons-open-play-chicago-western-suburbs-illinois"
+      ]
+    },
+    {
+      "handle": "@generalleesla",
+      "url": "https://instagram.com/generalleesla",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Los Angeles, CA"
+      ],
+      "listingIds": [
+        "mahjong-underground-at-general-lees-los-angeles-california-800-pm"
+      ]
+    },
+    {
+      "handle": "@mahjwithmarci",
+      "url": "https://instagram.com/mahjwithmarci",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Austin, TX"
+      ],
+      "listingIds": [
+        "mahjong-with-marci-tiles-and-tastings-league-austin-texas-600-pm-2026-04-01"
+      ]
+    },
+    {
+      "handle": "@mahjongg_withtracy",
+      "url": "https://instagram.com/mahjongg_withtracy",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Nashville, TN"
+      ],
+      "listingIds": [
+        "mahjongg-with-tracy-lessons-open-play-league-nashville-tennessee-varies"
+      ]
+    },
+    {
+      "handle": "@mandeljcc",
+      "url": "https://instagram.com/mandeljcc",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Beachwood, OH"
+      ],
+      "listingIds": [
+        "mandel-jcc-mah-jongg-programs-beachwood-ohio"
+      ]
+    },
+    {
+      "handle": "@marchesamahjong",
+      "url": "https://instagram.com/marchesamahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Houston, TX"
+      ],
+      "listingIds": [
+        "marchesa-mahjong-houston-texas-varies"
+      ]
+    },
+    {
+      "handle": "@marni_mahjong",
+      "url": "https://instagram.com/marni_mahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Boca Raton, FL"
+      ],
+      "listingIds": [
+        "marni-mahjong-april-group-beginner-lessons-boca-raton-florida-1830"
+      ]
+    },
+    {
+      "handle": "@ma_mahjong",
+      "url": "https://instagram.com/ma_mahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Baltimore, MD"
+      ],
+      "listingIds": [
+        "mid-atlantic-mahjong-baltimore-maryland"
+      ]
+    },
+    {
+      "handle": "@milehighmahj",
+      "url": "https://instagram.com/milehighmahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Denver, CO"
+      ],
+      "listingIds": [
+        "mile-high-mahjong-open-play-at-le-french-9co-denver-colorado"
+      ]
+    },
+    {
+      "handle": "@mingletilesmahjong",
+      "url": "https://instagram.com/mingletilesmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "York, PA"
+      ],
+      "listingIds": [
+        "mingletiles-mahjong-open-play-in-york-york-pennsylvania"
+      ]
+    },
+    {
+      "handle": "@mixandmahj",
+      "url": "https://instagram.com/mixandmahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Webster Groves, MO"
+      ],
+      "listingIds": [
+        "mix-and-mahj-lessons-at-paisley-boutique-webster-groves-missouri-600-pm"
+      ]
+    },
+    {
+      "handle": "@mochamahj",
+      "url": "https://instagram.com/mochamahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Houston, TX"
+      ],
+      "listingIds": [
+        "mocha-mahj-houston-texas-varies"
+      ]
+    },
+    {
+      "handle": "@mocomahjong",
+      "url": "https://instagram.com/mocomahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Bethesda, MD"
+      ],
+      "listingIds": [
+        "mocomahjong-spring-league-bethesda-maryland-2026-04-13"
+      ]
+    },
+    {
+      "handle": "@modmahjchicago",
+      "url": "https://instagram.com/modmahjchicago",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Chicago, IL"
+      ],
+      "listingIds": [
+        "mod-mahj-chicago-north-shore-lessons-league-events-chicago-illinois"
+      ]
+    },
+    {
+      "handle": "@modernmahj",
+      "url": "https://instagram.com/modernmahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Midland, TX"
+      ],
+      "listingIds": [
+        "modern-mahjong-monday-midland-texas-monday-weekly"
+      ]
+    },
+    {
+      "handle": "@mymagnoliamahjong",
+      "url": "https://instagram.com/mymagnoliamahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Atlanta, GA"
+      ],
+      "listingIds": [
+        "my-magnolia-mahjongg-atlanta-georgia-varies"
+      ]
+    },
+    {
+      "handle": "@mymagnoliamahjongg",
+      "url": "https://instagram.com/mymagnoliamahjongg",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Atlanta, GA"
+      ],
+      "listingIds": [
+        "my-magnolia-mahjongg-open-play-atlanta-georgia"
+      ]
+    },
+    {
+      "handle": "@nashvillemahjongclub",
+      "url": "https://instagram.com/nashvillemahjongclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Nashville, TN"
+      ],
+      "listingIds": [
+        "nashville-mahjong-club-nashville-tennessee"
+      ]
+    },
+    {
+      "handle": "@naturalstatemahjong",
+      "url": "https://instagram.com/naturalstatemahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Little Rock, AR"
+      ],
+      "listingIds": [
+        "natural-state-mahjong-little-rock-arkansas"
+      ]
+    },
+    {
+      "handle": "@noambitiontileclub",
+      "url": "https://instagram.com/noambitiontileclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "San Diego, CA"
+      ],
+      "listingIds": [
+        "no-ambition-tile-club-san-diego-california-varies"
+      ]
+    },
+    {
+      "handle": "@normanmahjongclub",
+      "url": "https://instagram.com/normanmahjongclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Oklahoma City, OK"
+      ],
+      "listingIds": [
+        "norman-mahjong-club-classes-social-play-norman-oklahoma-city-oklahoma"
+      ]
+    },
+    {
+      "handle": "@northofbostonmahjong",
+      "url": "https://instagram.com/northofbostonmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Various, MA"
+      ],
+      "listingIds": [
+        "north-of-boston-mahjong-lessons-various-massachusetts"
+      ]
+    },
+    {
+      "handle": "@ok.mahjong",
+      "url": "https://instagram.com/ok.mahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Oklahoma City, OK"
+      ],
+      "listingIds": [
+        "oklahoma-mahjong-equinox-in-person-league-oklahoma-city-oklahoma"
+      ]
+    },
+    {
+      "handle": "@pacificmahjongleague",
+      "url": "https://instagram.com/pacificmahjongleague",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Fremont, CA"
+      ],
+      "listingIds": [
+        "pacific-mahjong-league-pml-fremont-california-varies"
+      ]
+    },
+    {
+      "handle": "@parkbooksmd",
+      "url": "https://instagram.com/parkbooksmd",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Severna Park, MD"
+      ],
+      "listingIds": [
+        "park-books-mahjong-at-park-books-severna-park-maryland"
+      ]
+    },
+    {
+      "handle": "@pinkpoppymahj",
+      "url": "https://instagram.com/pinkpoppymahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Mt Pleasant, SC"
+      ],
+      "listingIds": [
+        "pink-poppy-mahj-open-play-mt-pleasant-south-carolina-tuesday"
+      ]
+    },
+    {
+      "handle": "@playmahjongvb",
+      "url": "https://instagram.com/playmahjongvb",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Virginia Beach, VA"
+      ],
+      "listingIds": [
+        "play-mahjong-vb-discord-community-virginia-beach-virginia"
+      ]
+    },
+    {
+      "handle": "@qtmahjongclub",
+      "url": "https://instagram.com/qtmahjongclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Seattle, WA"
+      ],
+      "listingIds": [
+        "qt-mahjong-club-seattle-washington-2"
+      ]
+    },
+    {
+      "handle": "@radarbrewingco",
+      "url": "https://instagram.com/radarbrewingco",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Winston-Salem, NC"
+      ],
+      "listingIds": [
+        "radar-brewing-company-open-play-winston-salem-north-carolina"
+      ]
+    },
+    {
+      "handle": "@redeyemahjong",
+      "url": "https://instagram.com/redeyemahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "St. Petersburg, FL"
+      ],
+      "listingIds": [
+        "red-eye-mahjong-open-play-events-st-petersburg-florida-600-pm"
+      ]
+    },
+    {
+      "handle": "@richmahj",
+      "url": "https://instagram.com/richmahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Richmond, VA"
+      ],
+      "listingIds": [
+        "richmahj-mahjong-lessons-events-richmond-virginia"
+      ]
+    },
+    {
+      "handle": "@rocketmahjong",
+      "url": "https://instagram.com/rocketmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Atlanta, GA"
+      ],
+      "listingIds": [
+        "rocket-mahjong-atlanta-chapter-atlanta-georgia-varies"
+      ]
+    },
+    {
+      "handle": "@rockymountainmahjong",
+      "url": "https://instagram.com/rockymountainmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Denver, CO"
+      ],
+      "listingIds": [
+        "rocky-mountain-mahjong-weekly-open-play-downtown-denver-denver-colorado"
+      ]
+    },
+    {
+      "handle": "@savannah_badbam_mahjong",
+      "url": "https://instagram.com/savannah_badbam_mahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Savannah, GA"
+      ],
+      "listingIds": [
+        "savannah-badbam-mahjong-savannah-georgia"
+      ]
+    },
+    {
+      "handle": "@savannahmahjong",
+      "url": "https://instagram.com/savannahmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Savannah, GA"
+      ],
+      "listingIds": [
+        "savannah-mahjong-savannah-georgia"
+      ]
+    },
+    {
+      "handle": "@smahjongs",
+      "url": "https://instagram.com/smahjongs",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "San Francisco, CA"
+      ],
+      "listingIds": [
+        "secret-mahjong-society-sf-events-san-francisco-california-varies"
+      ]
+    },
+    {
+      "handle": "@sijcc",
+      "url": "https://instagram.com/sijcc",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Los Angeles, CA"
+      ],
+      "listingIds": [
+        "silver-lake-independent-jcc-mahjong-night-los-angeles-california-700-pm"
+      ]
+    },
+    {
+      "handle": "@slightlyclassymahjsociety",
+      "url": "https://instagram.com/slightlyclassymahjsociety",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Joshua, TX"
+      ],
+      "listingIds": [
+        "slightly-classy-mahj-society-april-open-play-joshua-texas-1500-2026-04-12"
+      ]
+    },
+    {
+      "handle": "@sobamfun",
+      "url": "https://instagram.com/sobamfun",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Austin, TX"
+      ],
+      "listingIds": [
+        "so-bam-fun-mahjong-at-bar-peached-austin-texas-1"
+      ]
+    },
+    {
+      "handle": "@southshoremahjong",
+      "url": "https://instagram.com/southshoremahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Various, MA"
+      ],
+      "listingIds": [
+        "south-shore-mahjong-lessons-various-massachusetts"
+      ]
+    },
+    {
+      "handle": "@southernbellemahjong",
+      "url": "https://instagram.com/southernbellemahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Cincinnati, OH"
+      ],
+      "listingIds": [
+        "southern-belle-mahjong-lessons-events-cincinnati-ohio"
+      ]
+    },
+    {
+      "handle": "@luckytilesmahjong",
+      "url": "https://instagram.com/luckytilesmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Noblesville, IN"
+      ],
+      "listingIds": [
+        "spring-mahjong-league-afternoons-noblesville-indiana-1200-pm-2026-04-06"
+      ]
+    },
+    {
+      "handle": "@storylinebookshop",
+      "url": "https://instagram.com/storylinebookshop",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Upper Arlington, OH"
+      ],
+      "listingIds": [
+        "storyline-bookshop-mahjong-101-upper-arlington-ohio"
+      ]
+    },
+    {
+      "handle": "@swooziesbuckhead",
+      "url": "https://instagram.com/swooziesbuckhead",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Atlanta, GA"
+      ],
+      "listingIds": [
+        "swoozies-buckhead-mahjong-atlanta-georgia"
+      ]
+    },
+    {
+      "handle": "@tampabaymahj",
+      "url": "https://instagram.com/tampabaymahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Tampa, FL"
+      ],
+      "listingIds": [
+        "tampa-bay-mahj-holly-lewis-lessons-tampa-florida-varies"
+      ]
+    },
+    {
+      "handle": "@thebambamroomkc",
+      "url": "https://instagram.com/thebambamroomkc",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Kansas City, KS"
+      ],
+      "listingIds": [
+        "the-bam-bam-room-kc-mahjong-101-102-lessons-kansas-city-kansas-varies"
+      ]
+    },
+    {
+      "handle": "@fourwindsmahjong",
+      "url": "https://instagram.com/fourwindsmahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Los Angeles, CA"
+      ],
+      "listingIds": [
+        "the-four-winds-club-los-angeles-california-1100-am"
+      ]
+    },
+    {
+      "handle": "@thefourwindsclub",
+      "url": "https://instagram.com/thefourwindsclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Los Angeles, CA"
+      ],
+      "listingIds": [
+        "the-four-winds-club-mahjong-lessons-los-angeles-california-saturday"
+      ]
+    },
+    {
+      "handle": "@thejoyeofmahjtucson",
+      "url": "https://instagram.com/thejoyeofmahjtucson",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Tucson, AZ"
+      ],
+      "listingIds": [
+        "the-joye-of-mahj-tucson-tucson-arizona"
+      ]
+    },
+    {
+      "handle": "@mahjonggtable",
+      "url": "https://instagram.com/mahjonggtable",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "New York, NY"
+      ],
+      "listingIds": [
+        "the-mah-jongg-table-tribeca-new-york-new-york"
+      ]
+    },
+    {
+      "handle": "@themahjhauslbk",
+      "url": "https://instagram.com/themahjhauslbk",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Lubbock, TX"
+      ],
+      "listingIds": [
+        "the-mahj-haus-weekly-open-play-lubbock-texas-monday"
+      ]
+    },
+    {
+      "handle": "@themahjonghouse",
+      "url": "https://instagram.com/themahjonghouse",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Houston, TX"
+      ],
+      "listingIds": [
+        "the-mahjong-house-houston-texas-varies"
+      ]
+    },
+    {
+      "handle": "@themahjongproject",
+      "url": "https://instagram.com/themahjongproject",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Oakland, CA"
+      ],
+      "listingIds": [
+        "the-mahjong-project-bay-area-pop-ups-oakland-california-varies"
+      ]
+    },
+    {
+      "handle": "@thequeensmahjery",
+      "url": "https://instagram.com/thequeensmahjery",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Charlotte, NC"
+      ],
+      "listingIds": [
+        "the-queens-mahjery-studio-opening-summer-2026-charlotte-north-carolina"
+      ]
+    },
+    {
+      "handle": "@tylermahjclub",
+      "url": "https://instagram.com/tylermahjclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Tyler, TX"
+      ],
+      "listingIds": [
+        "tyler-mahj-club-tyler-texas"
+      ]
+    },
+    {
+      "handle": "@uga_mahjong",
+      "url": "https://instagram.com/uga_mahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Athens, GA"
+      ],
+      "listingIds": [
+        "uga-mahjong-club-athens-georgia"
+      ]
+    },
+    {
+      "handle": "@mama_mahj",
+      "url": "https://instagram.com/mama_mahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Vienna, VA"
+      ],
+      "listingIds": [
+        "vienna-moms-inc-mj-101-private-event-vienna-virginia"
+      ]
+    },
+    {
+      "handle": "@womansclubofwilmette",
+      "url": "https://instagram.com/womansclubofwilmette",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "Wilmette, IL"
+      ],
+      "listingIds": [
+        "womans-club-mahjong-wilmette-illinois-monday"
+      ]
+    },
+    {
+      "handle": "@yllmahjongclub",
+      "url": "https://instagram.com/yllmahjongclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": 147,
+      "priority": 14.027397260273972,
+      "cities": [
+        "San Francisco, CA"
+      ],
+      "listingIds": [
+        "yll-mahjong-club-bay-area-parties-san-francisco-california-varies"
+      ]
+    },
+    {
+      "handle": "@classiccitymahj",
+      "url": "https://instagram.com/classiccitymahj",
+      "liveListings": 1,
+      "daysSinceOldestVerification": null,
+      "priority": 10,
+      "cities": [
+        "Athens, GA"
+      ],
+      "listingIds": [
+        "HCJpMVZQ0tSotejtVTjY"
+      ]
+    },
+    {
+      "handle": "@arworkshoptallahassee",
+      "url": "https://instagram.com/arworkshoptallahassee",
+      "liveListings": 1,
+      "daysSinceOldestVerification": null,
+      "priority": 10,
+      "cities": [
+        "Tallahassee, FL"
+      ],
+      "listingIds": [
+        "SDuJRpCpwHCBzTtZ1s3K"
+      ]
+    },
+    {
+      "handle": "@charlestonmahjongclub",
+      "url": "https://instagram.com/charlestonmahjongclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": null,
+      "priority": 10,
+      "cities": [
+        "Charleston, SC"
+      ],
+      "listingIds": [
+        "charleston-mahjong-club-at-the-card-room-charleston-sc-b46104f4"
+      ]
+    },
+    {
+      "handle": "@mahjongmaison",
+      "url": "https://instagram.com/mahjongmaison",
+      "liveListings": 1,
+      "daysSinceOldestVerification": null,
+      "priority": 10,
+      "cities": [
+        "Cleveland, OH"
+      ],
+      "listingIds": [
+        "cleveland-mahjongmaison-1"
+      ]
+    },
+    {
+      "handle": "@wildflowermahjong",
+      "url": "https://instagram.com/wildflowermahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": null,
+      "priority": 10,
+      "cities": [
+        "Hurst, TX"
+      ],
+      "listingIds": [
+        "hurst-wildflower-mahjong-1"
+      ]
+    },
+    {
+      "handle": "@devine_mahjong",
+      "url": "https://instagram.com/devine_mahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": null,
+      "priority": 10,
+      "cities": [
+        "Little Rock, AR"
+      ],
+      "listingIds": [
+        "little-rock-devine-mahjong-1"
+      ]
+    },
+    {
+      "handle": "@shamesjcc",
+      "url": "https://instagram.com/shamesjcc",
+      "liveListings": 1,
+      "daysSinceOldestVerification": null,
+      "priority": 10,
+      "cities": [
+        "Tarrytown, NY"
+      ],
+      "listingIds": [
+        "mah-jongg-at-shames-jcc-on-the-hudson-tarrytown-ny-friday-11-671fbdea"
+      ]
+    },
+    {
+      "handle": "@phoenixmahjongclub",
+      "url": "https://instagram.com/phoenixmahjongclub",
+      "liveListings": 1,
+      "daysSinceOldestVerification": null,
+      "priority": 10,
+      "cities": [
+        "Scottsdale, AZ"
+      ],
+      "listingIds": [
+        "phoenix-mahjong-club-open-sessions-scottsdale-az-46742f15"
+      ]
+    },
+    {
+      "handle": "@mobilemahjong",
+      "url": "https://instagram.com/mobilemahjong",
+      "liveListings": 1,
+      "daysSinceOldestVerification": null,
+      "priority": 10,
+      "cities": [
+        "Mobile, AL"
+      ],
+      "listingIds": [
+        "voxqsC0lyw6dV2HwjDVi"
+      ]
+    },
+    {
+      "handle": "@mahjong.lv",
+      "url": "https://instagram.com/mahjong.lv",
+      "liveListings": 1,
+      "daysSinceOldestVerification": null,
+      "priority": 10,
+      "cities": [
+        "Las Vegas, NV"
+      ],
+      "listingIds": [
+        "x4cB7GABvTUl3e7ANIA0"
+      ]
+    }
+  ]
+}
