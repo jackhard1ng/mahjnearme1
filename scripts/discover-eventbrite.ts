@@ -147,6 +147,121 @@ const to12 = (t: string) => {
 };
 const DAYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
+
+/* ------------------------------------------------------------------ *
+ * Turning candidates into listings
+ *
+ * Emitted by the same run that found them, rather than by a builder run
+ * afterwards by hand. Three passes over the same data, each writing the
+ * import file a slightly different way, is how a batch ends up disagreeing
+ * with the run that produced it.
+ * ------------------------------------------------------------------ */
+
+const LESSON = /\b(101|102|103|learn|lesson|class|beginner|intro|introduction|basics|workshop|teach)\b/i;
+const LEAGUE = /\bleague\b/i;
+const RIICHI = /\briichi\b|japanese mahjong/i;
+const CHINESE = /\b(chinese|hong kong|cantonese)\b/i;
+const AMERICAN = /\bamerican\b|\bnmjl\b|mah jongg/i;
+/** A "venue" that is only a street number and road: a home, or the address typed into the name field. */
+const BARE_ADDRESS = /^\s*\d+\s+[A-Za-z0-9. ]+$/;
+/**
+ * A venue name that says outright it is somebody's house.
+ *
+ * Anchored to the whole value. A looser test on a trailing "home" catches
+ * "Clive Daniel Home" and "Wild Iris Home", which are a furniture showroom and
+ * a home-goods shop — both perfectly good public venues.
+ */
+const PRIVATE_RESIDENCE = /^\s*(private\s+(residence|home|address)|my\s+home|tbd|tba)\s*$/i;
+const DAY_SET = new Set(["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]);
+
+function styleOf(text: string): [string, string] {
+  if (RIICHI.test(text)) return ["riichi", "title or summary says riichi / Japanese mahjong"];
+  if (CHINESE.test(text)) return ["chinese", "title or summary says Chinese, Hong Kong or Cantonese"];
+  if (AMERICAN.test(text)) return ["american", 'title or summary says American, NMJL, or spells it "mah jongg"'];
+  return ["american", "STYLE NOT STATED — recorded as american on the base rate for US social play"];
+}
+
+function typeOf(title: string): string {
+  if (LEAGUE.test(title)) return "league";
+  return LESSON.test(title) ? "lesson" : "open_play";
+}
+
+/** Frequency from the real gaps between posted dates, not from a guess. */
+function frequencyOf(dates: string[]): string {
+  if (dates.length < 2) return "weekly";
+  const ms = dates.map((d) => new Date(d + "T12:00:00").getTime()).sort((a, b) => a - b);
+  const gap = Math.min(...ms.slice(1).map((t, i) => Math.round((t - ms[i]) / 86_400_000)));
+  return gap <= 8 ? "weekly" : gap <= 16 ? "biweekly" : "monthly";
+}
+
+const slugify = (v: string) => v.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
+
+function toListings(cands: Record<string, unknown>[], passNote: string): Record<string, unknown>[] {
+  const out: Record<string, unknown>[] = [];
+  const used = new Set<string>();
+  for (const c of cands) {
+    const titles = c.titles as string[];
+    const title = titles[0] ?? "";
+    const summary = String(c.summary ?? "");
+    const [gameStyle, styleNote] = styleOf(`${title} ${summary}`);
+    const type = typeOf(title);
+    const venue = String(c.venueName ?? "");
+    const address = String(c.address ?? "");
+    const bare = BARE_ADDRESS.test(venue) || PRIVATE_RESIDENCE.test(venue);
+    // An "address" that is just the city is not an address. Eventbrite falls
+    // back to the city when a host publishes no street, which produced a San
+    // Jose listing whose address read "San Jose".
+    const addressIsJustTheCity =
+      address.trim().toLowerCase() === String(c.city ?? "").trim().toLowerCase();
+    const dates = c.dates as string[];
+    const occurrences = Number(c.occurrences ?? 1);
+
+    const stem = slugify(`${c.city}-${venue || address}-${title}`).slice(0, 56);
+    let id = stem, n = 2;
+    while (used.has(id)) id = `${stem}-${n++}`;
+    used.add(id);
+
+    const days = String(c.dayOfWeek ?? "").split("|").filter((d) => DAY_SET.has(d));
+    let notes =
+      `Discovered ${TODAY} on Eventbrite${passNote}. Venue, street address, city, state and times ` +
+      `come from Eventbrite's structured event record, not from prose. ${occurrences} dated ` +
+      `occurrence(s): ${dates.slice(0, 4).join(", ")}. ${styleNote}.`;
+    if (addressIsJustTheCity) {
+      notes +=
+        " NO STREET ADDRESS: Eventbrite gave the city as the address, which is what it falls back " +
+        "to when a host publishes no street. The field is left empty rather than repeating the " +
+        "city that city already holds.";
+    }
+    if (bare) {
+      notes +=
+        " VENUE NAME IS A BARE STREET ADDRESS, which usually means a private home or an organiser " +
+        "who typed the address into the name field. Kept because Eventbrite publishes it openly on " +
+        "a public ticket page — unlike a Meetup venue, which is shown only to members — but worth " +
+        "a look before featuring it.";
+    }
+
+    out.push({
+      id, name: title.slice(0, 110), type, gameStyle,
+      city: c.city, state: c.state, generalArea: "",
+      venueName: bare ? "" : venue, address: addressIsJustTheCity ? "" : address,
+      isRecurring: occurrences >= 2 && days.length > 0,
+      dayOfWeek: occurrences >= 2 && days.length > 0 ? days.join("|") : "",
+      startTime: c.startTime, endTime: c.endTime,
+      frequency: occurrences >= 2 && days.length > 0 ? frequencyOf(dates) : "",
+      eventDate: occurrences >= 2 && days.length > 0 ? null : dates[0],
+      cost: "", costAmount: null,
+      contactName: "", contactEmail: "", contactPhone: "",
+      website: c.url, instagram: "", facebookGroup: "", registrationLink: c.url,
+      description: (summary.trim() || `${title.trim()} at ${venue || address} in ${c.city}.`).slice(0, 600),
+      howToJoin: "Tickets through Eventbrite.",
+      skillLevels: type === "lesson" ? "beginner" : "beginner|intermediate|advanced",
+      dropInFriendly: false, setsProvided: true, typicalGroupSize: "",
+      source: "manual", sourceURL: c.url, notes,
+    });
+  }
+  return out;
+}
+
 async function main() {
   console.log(`Fetching current listings from ${BASE_URL}/api/listings ...`);
   const res = await fetch(`${BASE_URL}/api/listings`);
@@ -199,17 +314,40 @@ async function main() {
 
   console.log(`Reading ${urls.length} search pages across ${PLACES.length} places ...`);
   const all: EbEvent[] = [];
-  const failed: string[] = [];
-  for (let i = 0; i < urls.length; i += CONCURRENCY) {
-    const batch = urls.slice(i, i + CONCURRENCY);
-    const got = await Promise.all(batch.map((u) => get(u)));
-    got.forEach((g, j) => {
-      if (g.status !== 200) { failed.push(batch[j]); return; }
-      all.push(...eventsFrom(serverData(g.html)).events);
-    });
-    process.stdout.write(`  ${Math.min(i + CONCURRENCY, urls.length)}/${urls.length}\r`);
+
+  /**
+   * Read a list of pages, returning the ones that did not come back 200.
+   *
+   * Eventbrite rate-limits under sustained load: a 40-place run at
+   * concurrency 3 lost 52 of 160 pages, and dropping to concurrency 2 still
+   * lost 34 of 60. Those are not empty cities — they are pages never read, and
+   * each one is finds left behind, so they are retried rather than counted as
+   * a result.
+   */
+  const sweep = async (list: string[], pause: number): Promise<string[]> => {
+    const missed: string[] = [];
+    for (let i = 0; i < list.length; i += CONCURRENCY) {
+      const batch = list.slice(i, i + CONCURRENCY);
+      const got = await Promise.all(batch.map((u) => get(u)));
+      got.forEach((g, j) => {
+        if (g.status !== 200) { missed.push(batch[j]); return; }
+        all.push(...eventsFrom(serverData(g.html)).events);
+      });
+      process.stdout.write(`  ${Math.min(i + CONCURRENCY, list.length)}/${list.length}\r`);
+      if (pause) await new Promise((r) => setTimeout(r, pause));
+    }
+    console.log("");
+    return missed;
+  };
+
+  let failed = await sweep(urls, Number(arg("--delay", "0")));
+  // Two retries, backing further off each time. Most rate-limited pages come
+  // back on the first slow retry.
+  for (const pause of [3000, 8000]) {
+    if (!failed.length) break;
+    console.log(`  retrying ${failed.length} pages, ${pause}ms between batches ...`);
+    failed = await sweep(failed, pause);
   }
-  console.log("");
 
   // A result is kept only when its own name says mahjong.
   const seenUrl = new Set<string>();
@@ -307,6 +445,17 @@ async function main() {
     alreadyKnown,
   }, null, 2));
   console.log(`\n  -> ${out}`);
+
+  // ...and the import-shaped file, from the same candidates in the same run.
+  const listings = toListings(candidates, tag ? ` (pass ${tag})` : "");
+  const listingsPath = path.join(OUT_DIR, `mahjong-listings-eventbrite-${stamp}.json`);
+  fs.writeFileSync(listingsPath, JSON.stringify({
+    generatedAt: TODAY,
+    source: `Eventbrite search across ${PLACES.length} places, ${PAGES} page(s) each`,
+    note: "Every listing is an Eventbrite event whose own TITLE names mahjong, at a physical venue with a street address, on a date not yet past, at a venue neither the directory nor an earlier batch already holds. Venue, address, city, state and times come from Eventbrite's structured record rather than from prose.",
+    listings,
+  }, null, 2));
+  console.log(`  -> ${listingsPath}  (${listings.length} listings, ${listings.filter((l) => l.isRecurring).length} recurring)`);
   for (const c of candidates.slice(0, 25)) {
     console.log(`   ${String(c.city).slice(0, 15).padEnd(16)} ${c.state}  ${String(c.venueName).slice(0, 28).padEnd(30)} ${String(c.dayOfWeek).slice(0, 18).padEnd(19)} x${c.occurrences}`);
   }

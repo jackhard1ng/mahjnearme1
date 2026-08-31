@@ -58,7 +58,7 @@ about up front:
 
     npx tsx scripts/validate-research-listings.ts     # run this before importing anything
 
-Fourteen batch files in `research/`, each with a matching
+Eighteen batch files in `research/`, each with a matching
 `research-report-*.md` explaining what was found, what was rejected and why.
 
 | | |
