@@ -152,3 +152,55 @@ Three options, fastest first:
 Separately, `/api/listings` still returns full details without a subscription.
 That is documented in `audit/SECURITY-paywall-bypass.md` and is **not** fixed in
 this branch; closing it needs a real subscriber session to test against.
+
+## 9. Optional: isolating the code change from the research data
+
+PR #108 reports ~170 files and ~130k/197k lines. Almost none of that is code:
+
+| Category | Files | Additions | Deletions |
+|---|---|---|---|
+| `src/` (the actual fix) | 38 | 1,889 | 701 |
+| `audit/` | 24 | 58,590 | 0 |
+| `research/` | 60 | 44,393 | 0 |
+| `scripts/` | 12 | 3,676 | 67 |
+| lockfile | 1 | 548 | 529 |
+| `public/` deletions | 2 | 0 | 195,469 |
+
+The 197k deletions are 195,469 from the two `public/verification-audit-*.json`
+files, which is a deliberate removal (see section 8). A further 112,557 lines
+move rather than change: `public/listings.json` becomes `data/listings.json`,
+a pure rename that git pairs for free when rename detection is on.
+
+Of 49 commits, 34 touch only `audit/`, `research/` and `scripts/`.
+
+To review or ship only the code, without rewriting shared history and without
+discarding anything (the research branch stays as the archive):
+
+```sh
+git fetch origin main
+git switch -c release/admin-save-and-giveaway-status origin/main
+
+# Replace the tree rather than overlaying it: a plain `git checkout <branch> --
+# src/` adds and updates files but does not DELETE files the branch removed,
+# which leaves src/lib/data-loader.ts behind and breaks the build, because the
+# branch also drops its `xlsx` dependency.
+rm -rf src
+git checkout claude/website-updates-research-xx0e6w -- \
+  src/ package.json package-lock.json eslint.config.mjs tsconfig.json \
+  tsconfig.tests.json tests/
+
+git mv public/listings.json data/listings.json
+git rm public/verification-audit-complete.json public/verification-audit-2026-04-06.json
+
+git commit -m "Admin save fixes and giveaway status, code only"
+```
+
+Verified in this container: the resulting `src/`, `package.json`,
+`package-lock.json` and `eslint.config.mjs` are byte-identical to the feature
+branch, typecheck is clean and the production build succeeds. The diff against
+`main` is 44 files, ~2,500 insertions and ~196,700 deletions, of which 195,469
+are the intended `public/` removal.
+
+Cherry-picking the 15 code-touching commits individually does **not** work
+cleanly: 4 of them conflict, because the research commits in between touched
+the same files.
