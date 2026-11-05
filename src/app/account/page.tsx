@@ -907,7 +907,7 @@ export default function AccountPage() {
               </li>
               <li className="flex items-start gap-2 text-sm text-slate-600">
                 <span className="text-slate-400 mt-0.5 shrink-0">&bull;</span>
-                <span><strong className="text-charcoal">You&apos;ll be removed from the monthly giveaway.</strong> Only active subscribers are entered. If you resubscribe later, you&apos;ll be re-entered going forward.</span>
+                <span><strong className="text-charcoal">You&apos;ll be removed from giveaway drawings.</strong> Only active subscribers are entered. If you resubscribe later, you&apos;ll be re-entered going forward.</span>
               </li>
             </ul>
             <div className="flex flex-col sm:flex-row gap-3">

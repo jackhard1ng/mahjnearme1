@@ -5,8 +5,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
-import { Gift, Trophy, ArrowRight, Check, Loader2, Users, Target, Phone, ExternalLink } from "lucide-react";
-import { CURRENT_GIVEAWAY, defaultDrawDate, defaultMonthLabel } from "@/lib/giveaway-config";
+import { Gift, Trophy, ArrowRight, Check, Loader2, Users, Target, Phone, ExternalLink, AlertTriangle } from "lucide-react";
+import { CURRENT_GIVEAWAY, defaultDrawDate, defaultMonthLabel, isRunning, type GiveawayStatus } from "@/lib/giveaway-config";
 
 interface Winner {
   id: string;
@@ -32,11 +32,16 @@ interface GiveawayInfo {
   prizePhoto?: string;
   prizeDescription?: string;
   prizeLink?: string;
-  numberOfWinners?: number;
-  drawDate?: string;
+  numberOfWinners?: number | null;
+  drawDate?: string | null;
   entryCount?: number;
   userEntries?: number;
+  status?: GiveawayStatus;
+  statusHeadline?: string;
+  statusNotice?: string;
+  /** @deprecated superseded by `status` */
   paused?: boolean;
+  /** @deprecated superseded by `statusNotice` */
   pausedMessage?: string;
 }
 
@@ -123,11 +128,16 @@ export default function GiveawaysPage() {
 
   const monthLabel = data?.month || CURRENT_GIVEAWAY.monthLabel || defaultMonthLabel();
 
-  // Whether a drawing is currently running. The API (Firestore siteConfig)
-  // wins so this can be toggled from admin without a deploy; the config file
-  // is the fallback, and also what's used before the fetch resolves.
-  const isPaused = data?.paused ?? CURRENT_GIVEAWAY.paused;
-  const pausedMessage = data?.pausedMessage ?? CURRENT_GIVEAWAY.pausedMessage;
+  // Programme status. The API (Firestore siteConfig) wins so this can be
+  // changed from admin without a deploy; the config file is the fallback, and
+  // also what is used before the fetch resolves — which matters, because the
+  // pre-fetch render must not flash a drawing that is not running.
+  const status: GiveawayStatus =
+    data?.status ?? (data?.paused === false ? "running" : CURRENT_GIVEAWAY.status);
+  const running = isRunning(status);
+  const statusHeadline = data?.statusHeadline ?? CURRENT_GIVEAWAY.statusHeadline;
+  const statusNotice =
+    data?.statusNotice ?? data?.pausedMessage ?? CURRENT_GIVEAWAY.statusNotice;
 
   // Calculate user's accumulated entries (1 per 6 months subscribed, max 6)
   function getUserEntryInfo(): { entries: number; explanation: string } {
@@ -175,11 +185,17 @@ export default function GiveawaysPage() {
         <div className="max-w-5xl mx-auto px-4 pt-16 pb-12 sm:pt-20 sm:pb-14 text-center relative">
           <Gift className="w-12 h-12 text-skyblue-200 mx-auto mb-4" />
           <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-4xl sm:text-5xl text-white mb-3 tracking-tight drop-shadow-lg">
-            {isPaused ? "Mahjong" : `${monthLabel} Mahjong`}{" "}
-            <span className="text-skyblue-200">{isPaused ? "Giveaways" : "Giveaway"}</span>
+            {running ? `${monthLabel} Mahjong` : "Mahjong"}{" "}
+            <span className="text-skyblue-200">{running ? "Giveaway" : "Giveaways"}</span>
           </h1>
+          {/* The present tense is only true while a drawing is open. Saying
+              "every month, we give away" above a notice explaining that
+              monthly drawings have not run since April is the contradiction
+              this page was reported for. */}
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
-            Every month, we give away mahjong prizes to paid members. The prize changes month to month.
+            {running
+              ? "We give away mahjong prizes to paid members. The prize changes from drawing to drawing."
+              : "Paid members are entered automatically whenever a drawing is open. No drawing is open right now — see below."}
           </p>
         </div>
       </section>
@@ -222,20 +238,35 @@ export default function GiveawaysPage() {
 
         {/* Current Giveaway — hidden while paused so we never advertise a
             prize or a draw date for a drawing that isn't running. */}
-        {isPaused ? (
+        {!running ? (
           <div className="mb-12">
-            <div className="mahj-tile p-6 sm:p-8 text-center">
-              <div className="w-14 h-14 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4">
-                <Gift className="w-7 h-7 text-slate-400" />
+            {/* Update notice. No prize, no value, no winner count, no date —
+                none of those exist while a drawing is not open, and the API
+                returns null for each rather than a placeholder string. */}
+            <div className={`mahj-tile p-6 sm:p-8 ${status === "reviewing" ? "border-2 border-amber-300 bg-amber-50/40" : ""}`}>
+              <div className="flex items-start gap-4 text-left">
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${status === "reviewing" ? "bg-amber-100" : "bg-slate-100"}`}>
+                  {status === "reviewing" ? (
+                    <AlertTriangle className="w-6 h-6 text-amber-600" />
+                  ) : (
+                    <Gift className="w-6 h-6 text-slate-400" />
+                  )}
+                </div>
+                <div className="flex-1">
+                  <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl sm:text-2xl text-charcoal mb-2">
+                    {statusHeadline}
+                  </h2>
+                  <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line">{statusNotice}</p>
+                </div>
               </div>
-              <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-2">
-                No drawing running right now
-              </h2>
-              <p className="text-sm text-slate-500 max-w-md mx-auto mb-5">{pausedMessage}</p>
+              <div className="text-center mt-6">
               {hasAccess ? (
+                /* Entitlement is unchanged: membership still carries automatic
+                   entry into any drawing that opens. Nothing here cancels or
+                   narrows that — it only stops claiming a drawing is open. */
                 <p className="text-sm text-green-600 font-medium">
                   <Check className="w-4 h-4 inline mr-1" />
-                  You&apos;re a paid member — you&apos;ll be entered automatically when the next drawing opens.
+                  You&apos;re a paid member — your entry is automatic when the next drawing opens.
                 </p>
               ) : (
                 <Link
@@ -245,6 +276,7 @@ export default function GiveawaysPage() {
                   View Plans <ArrowRight className="w-4 h-4" />
                 </Link>
               )}
+              </div>
             </div>
           </div>
         ) : (
@@ -330,10 +362,10 @@ export default function GiveawaysPage() {
             ) : (
               <div className="bg-hotpink-50 border border-hotpink-200 rounded-lg p-4">
                 <p className="font-semibold text-charcoal mb-1">
-                  Paid members are automatically entered every month.
+                  Paid members are entered automatically.
                 </p>
                 <p className="text-sm text-slate-500 mb-3">
-                  Upgrade to be included in this month&apos;s drawing. Must have an active subscription at the time of drawing to be eligible.
+                  Upgrade to be included in this drawing. Must have an active subscription at the time of the drawing to be eligible.
                 </p>
                 <p className="text-xs text-slate-400 mt-2">
                   No purchase necessary. See{" "}
@@ -364,7 +396,7 @@ export default function GiveawaysPage() {
               </div>
               <h3 className="font-semibold text-charcoal mb-2">Subscribe</h3>
               <p className="text-sm text-slate-500">
-                All paid subscribers are automatically entered every month. No action required.
+                All paid subscribers are entered automatically in every drawing. No action required.
               </p>
             </div>
             <div className="mahj-tile p-6 text-center">
@@ -382,7 +414,9 @@ export default function GiveawaysPage() {
               </div>
               <h3 className="font-semibold text-charcoal mb-2">Win!</h3>
               <p className="text-sm text-slate-500">
-                When a drawing is running, the winner is drawn on the last day of the month. Prize delivered to your door.
+                {running
+                  ? `The winner is drawn ${getDrawDate()}. Prize delivered to your door.`
+                  : "When a drawing is open, the winner is drawn on the date published here, and the prize is delivered to your door."}
               </p>
             </div>
           </div>
@@ -404,9 +438,9 @@ export default function GiveawaysPage() {
             <div className="mahj-tile p-8 text-center">
               <Trophy className="w-10 h-10 text-slate-300 mx-auto mb-3" />
               <p className="text-slate-500">
-                {isPaused
-                  ? "No winners to show yet. Check back when the next drawing opens!"
-                  : `No winners yet. The first drawing is ${FIRST_DRAW_DATE}!`}
+                {running
+                  ? `No winners yet. The first drawing is ${FIRST_DRAW_DATE}!`
+                  : "No winners to show yet."}
               </p>
             </div>
           ) : (
@@ -458,7 +492,7 @@ export default function GiveawaysPage() {
             Community Milestones
           </h2>
           <p className="text-center text-slate-500 text-sm mb-6 max-w-xl mx-auto">
-            When we hit a subscriber milestone, the following month&apos;s giveaway gets a major upgrade. One special drawing, then we continue with our regular monthly prizes.
+            When we hit a subscriber milestone, the next drawing gets a major upgrade. One special drawing, then back to the regular prizes.
           </p>
 
           {/* Progress bar */}

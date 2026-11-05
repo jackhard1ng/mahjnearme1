@@ -37,10 +37,11 @@ const faqs = [
     ],
   },
   {
-    category: "Monthly Giveaway",
+    category: "Giveaways",
     questions: [
-      { q: "How does the monthly giveaway work?", a: "Every month we give away a mahjong accessory — sets, mats, tile racks, and more. Paid subscribers are automatically entered. Annual subscribers get 2x entries. You can also enter for free by submitting your email on the giveaway page." },
-      { q: "Do I need to buy something to enter?", a: "No purchase necessary. You can enter for free each month via the giveaway page. Paid subscribers are entered automatically with bonus entries." },
+      { q: "How do the giveaways work?", a: "We give away mahjong accessories — sets, mats, tile racks, and more. Paid subscribers are entered automatically in every drawing, and annual subscribers get 2x entries. You also earn one bonus entry for every 6 months subscribed, up to 6." },
+      { q: "Is a drawing running right now?", a: "The giveaways page always shows the current status, including when no drawing is open. Monthly drawings have not run since April 2026 and no new date is scheduled yet; the giveaways page carries the details." },
+      { q: "Do I need to buy something to enter?", a: "No purchase necessary. There is a free mail-in method of entry — the address and requirements are in the Official Rules. Paid subscribers are entered automatically with bonus entries." },
     ],
   },
 ];

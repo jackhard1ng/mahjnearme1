@@ -4,6 +4,19 @@ import { requireAdmin } from "@/lib/api-auth";
 import { clearListingsCache, docToGame } from "@/lib/listings-firestore";
 
 /**
+ * Cache policy for a listings response.
+ *
+ * The public (active-only) body is shared and long-lived. The admin body
+ * (`?status=all`) is not cacheable: it carries inactive and pending rows, and
+ * it is read immediately after a write by the screen that performed it.
+ */
+function cacheHeaderFor(statusParam: string): string {
+  return statusParam === "all"
+    ? "private, no-store, max-age=0, must-revalidate"
+    : "public, s-maxage=60, stale-while-revalidate=300";
+}
+
+/**
  * GET /api/listings - Returns all active listings from Firestore.
  * Auto-seeds Firestore from listings.json on first request if empty.
  * Cached at the CDN layer for 60s with stale-while-revalidate.
@@ -68,7 +81,7 @@ export async function GET(request: NextRequest) {
           (g) => statusParam === "all" || g.status === statusParam
         );
         const res = NextResponse.json({ listings: games, count: games.length, source: "json" });
-        res.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
+        res.headers.set("Cache-Control", cacheHeaderFor(statusParam));
         return res;
       }
     }
@@ -130,7 +143,14 @@ export async function GET(request: NextRequest) {
     }
 
     const res = NextResponse.json({ listings, count: listings.length, source: "firestore" });
-    res.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
+    // `status=all` is the admin view, and it must never be served from a
+    // cache. The public variant is cached for 60s with a 5-minute
+    // stale-while-revalidate window; applying that to the admin read meant an
+    // admin could save a listing, reload, and be handed the pre-save body by
+    // the CDN for minutes afterwards — identical in appearance to the write
+    // having failed. It also keeps inactive and pending rows out of a shared
+    // cache, which is where they belong.
+    res.headers.set("Cache-Control", cacheHeaderFor(statusParam));
     return res;
   } catch (err) {
     console.error("Listings GET error:", err);
@@ -192,7 +212,7 @@ export async function POST(request: NextRequest) {
     const now = new Date().toISOString();
 
     const listingData = {
-      ...body,
+      ...trimStrings(body),
       status: body.status || "active",
       organizerEdited: false,
       createdAt: now,
@@ -261,6 +281,33 @@ export async function DELETE(request: NextRequest) {
   }
 }
 
+/**
+ * Trim the string values of an update payload.
+ *
+ * Padded values arrive from organizer submissions and pasted imports — the two
+ * live "Mahjong in the Mountains" records carry a trailing space on name, city
+ * ("Red Feather Lakes ") and address. `docToGame` trims on read, which fixes
+ * display, but the stored value stays padded and anything grouping records by
+ * exact name or venue still sees two distinct values. Trimming on write makes
+ * the stored copy clean as well.
+ *
+ * `description` is trimmed only at the ends: collapsing its internal
+ * whitespace would destroy the author's paragraph breaks.
+ */
+function trimStrings(updates: Record<string, unknown>): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(updates)) {
+    if (typeof value !== "string") {
+      out[key] = value;
+      continue;
+    }
+    out[key] = key === "description" || key === "howToJoin" || key === "whatToBring"
+      ? value.trim()
+      : value.replace(/\s+/g, " ").trim();
+  }
+  return out;
+}
+
 export async function PUT(request: NextRequest) {
   const denied = requireAdmin(request);
   if (denied) return denied;
@@ -268,19 +315,57 @@ export async function PUT(request: NextRequest) {
   try {
     const db = getAdminDb();
     const body = await request.json();
-    const { id, ...updates } = body;
+    const { id, ...rest } = body;
 
     if (!id) {
       return NextResponse.json({ error: "Listing ID is required" }, { status: 400 });
     }
 
-    const now = new Date().toISOString();
-    await db.collection("listings").doc(id).update({ ...updates, updatedAt: now });
-    clearListingsCache();
+    const updates = trimStrings(rest);
+    if (Object.keys(updates).length === 0) {
+      return NextResponse.json({ error: "No fields to update" }, { status: 400 });
+    }
 
-    return NextResponse.json({ success: true });
+    const now = new Date().toISOString();
+    const ref = db.collection("listings").doc(id);
+
+    // set(..., { merge: true }) rather than update().
+    //
+    // update() rejects a document that does not exist, and plenty of listing
+    // IDs are in exactly that state: the collection is seeded from
+    // data/listings.json only when it holds fewer than 1000 documents, and the
+    // seed skips IDs already present. A listing the admin screen is showing
+    // from the JSON fallback therefore has an ID that update() throws
+    // NOT_FOUND on, which surfaced as "Failed to update listing" — or, before
+    // the client checked the response at all, as a success message over a
+    // write that never happened.
+    //
+    // merge:true writes the named fields and leaves the rest of the document
+    // alone, and creates it where it was missing. The field semantics are the
+    // same as update() for an existing document.
+    await ref.set({ ...updates, id, updatedAt: now }, { merge: true });
+
+    // Read back what was actually stored, so the response is evidence the
+    // write landed rather than an assertion that it should have.
+    const saved = await ref.get();
+    if (!saved.exists) {
+      return NextResponse.json(
+        { error: "Write did not persist. The listing could not be read back." },
+        { status: 500 }
+      );
+    }
+
+    clearListingsCache();
+    return NextResponse.json({
+      success: true,
+      listing: docToGame(saved.data() as Record<string, unknown>, saved.id),
+    });
   } catch (err) {
     console.error("Listings PUT error:", err);
-    return NextResponse.json({ error: "Failed to update listing" }, { status: 500 });
+    const detail = err instanceof Error ? err.message : "";
+    return NextResponse.json(
+      { error: detail ? `Failed to update listing: ${detail}` : "Failed to update listing" },
+      { status: 500 }
+    );
   }
 }

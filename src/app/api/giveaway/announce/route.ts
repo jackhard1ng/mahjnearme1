@@ -7,6 +7,15 @@ import {
   MONTHLY_REFERRAL_COMMISSION,
   ANNUAL_REFERRAL_COMMISSION,
 } from "@/lib/constants";
+import { CURRENT_GIVEAWAY, type GiveawayStatus } from "@/lib/giveaway-config";
+
+/** Same resolution rule as /api/giveaway: a legacy `paused` doc means paused. */
+function resolveAnnounceStatus(cfg: Record<string, unknown> | null | undefined): GiveawayStatus {
+  const live = cfg?.status;
+  if (live === "running" || live === "paused" || live === "reviewing") return live;
+  if (typeof cfg?.paused === "boolean") return cfg.paused ? "paused" : "running";
+  return CURRENT_GIVEAWAY.status;
+}
 
 // POST: Send contributor giveaway announcement emails — Protected
 export async function POST(request: NextRequest) {
@@ -22,6 +31,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "Prize name and value are required" },
         { status: 400 }
+      );
+    }
+
+    // Do not announce a drawing that is not open.
+    //
+    // This endpoint emails every approved contributor that "the giveaway is
+    // live this month". Sending that while the giveaways page carries a notice
+    // saying monthly drawings have not run is the same contradiction in a
+    // channel nobody can correct after the fact.
+    const statusDoc = await db.collection("siteConfig").doc("giveaway").get();
+    const status = resolveAnnounceStatus(statusDoc.exists ? statusDoc.data() : null);
+    if (status !== "running") {
+      return NextResponse.json(
+        {
+          error: `Giveaway status is "${status}". Set it to "Drawing open" with a prize before announcing.`,
+        },
+        { status: 409 }
       );
     }
 

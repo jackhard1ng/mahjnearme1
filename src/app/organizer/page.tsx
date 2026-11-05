@@ -1806,7 +1806,7 @@ function ReferralsTab({ userId }: { userId: string }) {
               },
               {
                 label: "Giveaway angle 🎁",
-                text: `Want to win a free mahjong set? 🀄🎁 MahjNearMe does a monthly giveaway — every subscriber gets an entry automatically. Use my code ${data.code} for 15% off when you sign up: ${data.shareLink}`,
+                text: `Want to win a free mahjong set? 🀄🎁 MahjNearMe runs prize giveaways and every subscriber gets an entry automatically. Use my code ${data.code} for 15% off when you sign up: ${data.shareLink}`,
               },
             ].map(({ label, text }) => (
               <div key={label} className="bg-white rounded-lg border border-slate-200 p-3">

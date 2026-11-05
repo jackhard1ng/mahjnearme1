@@ -42,7 +42,13 @@ function fetchListings(includeInactive = false) {
     }
   };
 
-  fetch(includeInactive ? "/api/listings?status=all" : "/api/listings")
+  // The admin variant bypasses the HTTP cache: it is read right after a write
+  // by the screen that made it, and the shared cache would otherwise hand back
+  // the pre-save body. The public variant keeps its CDN caching.
+  fetch(
+    includeInactive ? "/api/listings?status=all" : "/api/listings",
+    includeInactive ? { cache: "no-store" } : undefined
+  )
     .then((r) => r.json())
     .then((data) => {
       settle(data.listings && data.listings.length > 0 ? (data.listings as Game[]) : mockGames);

@@ -209,10 +209,18 @@ export default async function HomePage() {
           <div className="bg-gradient-to-r from-hotpink-50 to-skyblue-50 border border-hotpink-200 rounded-xl p-6 sm:p-8 text-center">
             <div className="text-3xl mb-3">🎁</div>
             <p className="font-[family-name:var(--font-heading)] font-bold text-lg text-charcoal mb-2">
-              Every month we give away a mahjong prize to one lucky member. Sets, mats, accessories, and more.
+              Mahjong prize giveaways for paid members. Sets, mats, accessories, and more.
             </p>
+            {/* Cadence-neutral on purpose. This block is statically rendered,
+                so it cannot reflect a status change made in admin — and
+                "every month we give away" was still being served while the
+                giveaways page carried a notice saying monthly drawings had not
+                run since April 2026. The entitlement (automatic entry, 2x for
+                annual) is unchanged and stated; the schedule lives on the
+                giveaways page, which reads it live. */}
             <p className="text-sm text-slate-500 mb-4">
-              Paid subscribers are automatically entered. Annual members get 2x entries.
+              Paid subscribers are entered automatically, and annual members get 2x entries. See the
+              giveaways page for the current drawing status.
             </p>
             <Link
               href="/giveaways"
@@ -254,7 +262,7 @@ export default async function HomePage() {
                 Ready to find your next game?
               </h3>
               <p className="text-slate-600 mb-6">
-                See all {Math.floor(liveGameCount / 100) * 100}+ games with full details, plus enter our monthly set giveaway.
+                See all {Math.floor(liveGameCount / 100) * 100}+ games with full details, plus automatic entry in our prize giveaways.
               </p>
               <Link
                 href="/signup"

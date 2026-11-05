@@ -18,13 +18,7 @@ import {
 } from "lucide-react";
 import { Game, GameType, GameStyle, SkillLevel } from "@/types";
 
-async function adminFetch(route: string, method = "GET", body?: unknown) {
-  return fetch("/api/admin-proxy", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ route, method, body }),
-  });
-}
+import { adminFetch } from "@/lib/admin-fetch";
 
 // All editable fields for an event
 interface EditForm {
@@ -256,6 +250,13 @@ function EventCard({
   };
 
   const save = async () => {
+    // A one-time event with no date cannot be placed on a calendar, and would
+    // store as a listing with neither a schedule nor a date.
+    if (!form.dayOfWeek && !form.eventDate) {
+      setMessage("Pick an event date, or choose a day of the week for a recurring session.");
+      return;
+    }
+
     setSaving(true);
     setMessage("");
 
@@ -289,11 +290,33 @@ function EventCard({
       status: form.status,
       verified: form.verified,
       promoted: form.promoted,
-      isRecurring: !!form.dayOfWeek,
-      recurringSchedule: form.dayOfWeek
-        ? { dayOfWeek: form.dayOfWeek, startTime: form.startTime, endTime: form.endTime, frequency: form.frequency }
-        : null,
-      eventDate: form.eventDate || null,
+      // A listing is either a recurring session or a dated one-off, never
+      // both. Writing `eventDate` alongside a `recurringSchedule` is how
+      // records ended up describing a three-day retreat as a weekly Tuesday
+      // game — "Mahjong in the Mountains" carries a Tuesday 10:00–22:00
+      // schedule and eventDate 2026-07-21 at the same time. The unselected
+      // shape is explicitly nulled so a mode change clears the old fields
+      // instead of leaving them underneath.
+      ...(form.dayOfWeek
+        ? {
+            isRecurring: true,
+            recurringSchedule: {
+              dayOfWeek: form.dayOfWeek,
+              startTime: form.startTime,
+              endTime: form.endTime,
+              frequency: form.frequency,
+            },
+            eventDate: null,
+            eventStartTime: null,
+            eventEndTime: null,
+          }
+        : {
+            isRecurring: false,
+            recurringSchedule: null,
+            eventDate: form.eventDate,
+            eventStartTime: form.startTime || null,
+            eventEndTime: form.endTime || null,
+          }),
     };
 
     // Re-geocode if address changed
@@ -438,15 +461,32 @@ function EventCard({
               ]} />
               <Field label="Start" value={form.startTime} onChange={set("startTime")} type="time" />
               <Field label="End" value={form.endTime} onChange={set("endTime")} type="time" />
-              <SelectField label="Frequency" value={form.frequency} onChange={set("frequency")} options={[
-                { value: "weekly", label: "Weekly" },
-                { value: "biweekly", label: "Biweekly" },
-                { value: "monthly", label: "Monthly" },
-              ]} />
+              {form.dayOfWeek && (
+                <SelectField label="Frequency" value={form.frequency} onChange={set("frequency")} options={[
+                  { value: "weekly", label: "Weekly" },
+                  { value: "biweekly", label: "Biweekly" },
+                  { value: "monthly", label: "Monthly" },
+                ]} />
+              )}
             </div>
-            <div className="mt-3">
-              <Field label="Event Date (one-time events)" value={form.eventDate} onChange={set("eventDate")} type="date" />
-            </div>
+            {/* Shown only for a one-time event. Day = "One-time" is the mode
+                switch; a recurring session has no single date. */}
+            {!form.dayOfWeek && (
+              <div className="mt-3">
+                <Field label="Event Date (required for a one-time event)" value={form.eventDate} onChange={set("eventDate")} type="date" />
+                {form.eventDate && form.eventDate < new Date().toISOString().slice(0, 10) && (
+                  <p className="text-xs text-amber-600 mt-1">
+                    This date has passed. The listing stays active until you change its status above.
+                  </p>
+                )}
+              </div>
+            )}
+            {form.dayOfWeek && form.eventDate && (
+              <p className="text-xs text-amber-600 mt-3">
+                This record also stores the one-time date {form.eventDate}. Saving as a recurring
+                session will clear that date.
+              </p>
+            )}
           </section>
 
           {/* Details */}

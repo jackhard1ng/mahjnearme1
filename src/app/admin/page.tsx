@@ -83,8 +83,13 @@ interface GiveawayData {
   prizePhoto?: string | null;
   prizeDescription?: string | null;
   prizeLink?: string | null;
-  numberOfWinners?: number;
-  drawDate?: string;
+  numberOfWinners?: number | null;
+  drawDate?: string | null;
+  status?: GiveawayStatus;
+  statusHeadline?: string | null;
+  statusNotice?: string | null;
+  /** @deprecated superseded by `status` */
+  paused?: boolean;
 }
 
 // Mask helpers for PII when admin is screen-recording the draw
@@ -102,26 +107,8 @@ function maskEmail(email: string): string {
 }
 
 // Helper to route admin API calls through the secure proxy.
-// Sends the current user's Firebase ID token so the proxy can verify
-// the caller is an admin before forwarding with CRON_SECRET attached.
-async function adminFetch(route: string, method: string = "GET", body?: unknown): Promise<Response> {
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
-  try {
-    const { getFirebaseAuth } = await import("@/lib/firebase");
-    const user = getFirebaseAuth().currentUser;
-    if (user) {
-      const idToken = await user.getIdToken();
-      headers.Authorization = `Bearer ${idToken}`;
-    }
-  } catch (err) {
-    console.error("[adminFetch] Failed to get ID token:", err);
-  }
-  return fetch("/api/admin-proxy", {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ route, method, body }),
-  });
-}
+import { adminFetch } from "@/lib/admin-fetch";
+import type { GiveawayStatus } from "@/lib/giveaway-config";
 
 export default function AdminDashboardPage() {
   // true: the dashboard shows a status badge per listing, so it needs the
@@ -152,7 +139,14 @@ export default function AdminDashboardPage() {
   const [cfgPrizeDescription, setCfgPrizeDescription] = useState("");
   const [cfgNumberOfWinners, setCfgNumberOfWinners] = useState(1);
   const [cfgDrawDate, setCfgDrawDate] = useState("");
-  const [cfgPaused, setCfgPaused] = useState(false);
+  // Programme status, not a boolean. "reviewing" exists so a notice about
+  // drawings that did not happen can be published without a prize, a value, a
+  // winner count or a date — the fields that previously had to be filled with
+  // placeholder text ("prize to be announced", "Not yet scheduled") to get a
+  // notice onto the page at all.
+  const [cfgStatus, setCfgStatus] = useState<GiveawayStatus>("running");
+  const [cfgStatusHeadline, setCfgStatusHeadline] = useState("");
+  const [cfgStatusNotice, setCfgStatusNotice] = useState("");
   const [savingCfg, setSavingCfg] = useState(false);
   const [cfgSaved, setCfgSaved] = useState(false);
   // When recording the draw, hide full names and emails in the entry pool table
@@ -214,7 +208,9 @@ export default function AdminDashboardPage() {
         setCfgPrizeDescription(data.prizeDescription || "");
         setCfgNumberOfWinners(data.numberOfWinners || 1);
         setCfgDrawDate(data.drawDate || "");
-        setCfgPaused(Boolean(data.paused));
+        setCfgStatus(data.status ?? (data.paused ? "paused" : "running"));
+        setCfgStatusHeadline(data.statusHeadline || "");
+        setCfgStatusNotice(data.statusNotice || "");
       } else {
         const data = await res.json().catch(() => ({}));
         setGiveawayError(data.error || `Failed to load (${res.status})`);
@@ -722,7 +718,7 @@ export default function AdminDashboardPage() {
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="font-semibold text-lg text-charcoal flex items-center gap-2">
-              <Gift className="w-5 h-5 text-hotpink-500" /> Monthly Giveaway
+              <Gift className="w-5 h-5 text-hotpink-500" /> Giveaways
             </h2>
             <button onClick={fetchGiveaway} className="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1">
               <RefreshCw className="w-3.5 h-3.5" /> Refresh
@@ -760,35 +756,97 @@ export default function AdminDashboardPage() {
                 </div>
               </div>
 
-              {/* Open New Monthly Giveaway */}
+              {/* Status + prize configuration */}
               <div className="bg-white border border-slate-200 rounded-xl p-6">
-                <h3 className="font-semibold text-charcoal mb-3">Open Monthly Giveaway</h3>
+                <h3 className="font-semibold text-charcoal mb-3">Giveaway Status &amp; Prize</h3>
                 <p className="text-sm text-slate-500 mb-4">
-                  Set the prize details for this month&apos;s giveaway. These show on the public giveaways page immediately after saving.
+                  Choose the status first. Prize and drawing fields only apply while a drawing is
+                  open, and are hidden otherwise — a notice does not need a prize.
                 </p>
 
-                {/* Pause switch — when on, the public giveaways page hides the
-                    prize and draw date instead of advertising a stale one. */}
-                <label className="flex items-start gap-3 mb-4 p-3 rounded-lg border border-slate-200 bg-slate-50 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={cfgPaused}
-                    onChange={(e) => setCfgPaused(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 accent-hotpink-500"
-                  />
-                  <span>
-                    <span className="block text-sm font-medium text-charcoal">
-                      Pause giveaways (no drawing running)
-                    </span>
-                    <span className="block text-xs text-slate-500">
-                      The public page hides the prize, draw date and entry stats, and shows a
-                      &ldquo;no drawing running right now&rdquo; notice instead. Past winners stay
-                      visible. Uncheck and save when you open the next drawing.
-                    </span>
-                  </span>
-                </label>
+                {/* Status, not a pause checkbox. Picking "Posting an update"
+                    publishes the headline and notice below with no prize,
+                    value, winner count or date attached. */}
+                <div className="mb-4 p-4 rounded-lg border border-slate-200 bg-slate-50">
+                  <label className="block text-xs font-medium text-slate-600 mb-2">Status</label>
+                  <div className="space-y-2">
+                    {([
+                      {
+                        value: "running" as GiveawayStatus,
+                        label: "Drawing open",
+                        hint: "The prize, winner count and draw date below are shown publicly. Required before you can draw a winner.",
+                      },
+                      {
+                        value: "paused" as GiveawayStatus,
+                        label: "Paused",
+                        hint: "No drawing is open and none is promised. The notice below is shown instead of a prize.",
+                      },
+                      {
+                        value: "reviewing" as GiveawayStatus,
+                        label: "Posting an update",
+                        hint: "Same as paused, shown as a highlighted notice. Use this to disclose missed or rescheduled drawings.",
+                      },
+                    ]).map((opt) => (
+                      <label key={opt.value} className="flex items-start gap-3 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="giveaway-status"
+                          checked={cfgStatus === opt.value}
+                          onChange={() => setCfgStatus(opt.value)}
+                          className="mt-0.5 w-4 h-4 accent-hotpink-500"
+                        />
+                        <span>
+                          <span className="block text-sm font-medium text-charcoal">{opt.label}</span>
+                          <span className="block text-xs text-slate-500">{opt.hint}</span>
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                  <p className="text-xs text-slate-400 mt-3 pt-3 border-t border-slate-200">
+                    Past winners, recorded entries and subscriber records are never changed by this
+                    setting. Paid members keep automatic entry into whatever drawing opens next.
+                  </p>
+                </div>
 
-                <div className={`grid sm:grid-cols-2 gap-3 mb-4 ${cfgPaused ? "opacity-50" : ""}`}>
+                {/* Notice fields — the only fields that apply when no drawing
+                    is open. */}
+                {cfgStatus !== "running" && (
+                  <div className="grid gap-3 mb-4">
+                    <div>
+                      <label className="block text-xs font-medium text-slate-600 mb-1">
+                        Notice Headline
+                      </label>
+                      <input
+                        type="text"
+                        value={cfgStatusHeadline}
+                        onChange={(e) => setCfgStatusHeadline(e.target.value)}
+                        placeholder="e.g. Monthly drawings are paused"
+                        className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-slate-600 mb-1">
+                        Notice Text
+                      </label>
+                      <textarea
+                        rows={4}
+                        value={cfgStatusNotice}
+                        onChange={(e) => setCfgStatusNotice(e.target.value)}
+                        placeholder="What happened, what you are doing about it, and whether a date is set."
+                        className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink-300"
+                      />
+                      <p className="text-xs text-slate-400 mt-1">
+                        Shown on /giveaways in place of a prize. Say what is true, including that no
+                        date is scheduled — do not put a date here until one is real.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Hidden, not dimmed. A greyed-out "Number of Winners: 1"
+                    next to a paused programme is what made the old screen read
+                    as though a one-winner drawing were scheduled. */}
+                <div className={`grid sm:grid-cols-2 gap-3 mb-4 ${cfgStatus !== "running" ? "hidden" : ""}`}>
                   <div>
                     <label className="block text-xs font-medium text-slate-600 mb-1">Month Label</label>
                     <input
@@ -872,9 +930,16 @@ export default function AdminDashboardPage() {
                 </div>
                 <button
                   onClick={async () => {
-                    // A prize is only required when a drawing is actually
-                    // running — you can save a paused state with no prize set.
-                    if (!cfgPaused && !cfgPrizeName.trim()) { alert("Prize name is required."); return; }
+                    // A prize is only required when a drawing is open. A
+                    // notice needs text instead; the server enforces both.
+                    if (cfgStatus === "running" && !cfgPrizeName.trim()) {
+                      alert("A prize name is required to open a drawing.");
+                      return;
+                    }
+                    if (cfgStatus !== "running" && !cfgStatusNotice.trim()) {
+                      alert("Add notice text explaining the current status.");
+                      return;
+                    }
                     setSavingCfg(true);
                     setCfgSaved(false);
                     try {
@@ -888,7 +953,9 @@ export default function AdminDashboardPage() {
                         prizeDescription: cfgPrizeDescription.trim() || null,
                         numberOfWinners: cfgNumberOfWinners,
                         drawDate: cfgDrawDate.trim() || null,
-                        paused: cfgPaused,
+                        status: cfgStatus,
+                        statusHeadline: cfgStatusHeadline.trim() || null,
+                        statusNotice: cfgStatusNotice.trim() || null,
                       });
                       if (res.ok) {
                         setCfgSaved(true);
@@ -907,7 +974,7 @@ export default function AdminDashboardPage() {
                   disabled={savingCfg}
                   className="flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors disabled:opacity-50"
                 >
-                  {savingCfg ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : <><Gift className="w-4 h-4" /> {cfgSaved ? "Saved!" : "Save Giveaway Details"}</>}
+                  {savingCfg ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : <><Gift className="w-4 h-4" /> {cfgSaved ? "Saved!" : cfgStatus === "running" ? "Save Drawing Details" : "Publish Update Notice"}</>}
                 </button>
               </div>
 
@@ -974,20 +1041,35 @@ export default function AdminDashboardPage() {
                 </div>
               </div>
 
-              {/* Spin Wheel + Draw */}
-              <GiveawayWheel
-                entries={giveawayData.eligibleEntries}
-                onSpin={async () => {
-                  // Call API first to get the official winner
-                  const res = await adminFetch("/api/giveaway", "POST", { action: "draw" });
-                  const data = await res.json();
-                  if (!data.success) {
-                    throw new Error(data.error || "Draw failed");
-                  }
-                  fetchGiveaway();
-                  return data.winner.winnerName;
-                }}
-              />
+              {/* Spin Wheel + Draw.
+                  Only offered while a drawing is open. The public page says no
+                  drawing is scheduled in the other states, and the draw cannot
+                  be undone — so the action is withheld here rather than left
+                  clickable for the server to refuse. */}
+              {cfgStatus === "running" ? (
+                <GiveawayWheel
+                  entries={giveawayData.eligibleEntries}
+                  onSpin={async () => {
+                    // Call API first to get the official winner
+                    const res = await adminFetch("/api/giveaway", "POST", { action: "draw" });
+                    const data = await res.json();
+                    if (!data.success) {
+                      throw new Error(data.error || "Draw failed");
+                    }
+                    fetchGiveaway();
+                    return data.winner.winnerName;
+                  }}
+                />
+              ) : (
+                <div className="bg-white border border-slate-200 rounded-xl p-6 text-center">
+                  <Gift className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+                  <p className="text-sm font-medium text-charcoal mb-1">No drawing is open</p>
+                  <p className="text-xs text-slate-500 max-w-md mx-auto">
+                    The entry pool above is live and nothing about it has changed. To draw a winner,
+                    set the status to &ldquo;Drawing open&rdquo; with a prize above and save first.
+                  </p>
+                </div>
+              )}
 
               {/* Manual Entry (Mail-In AMOE) */}
               <div className="bg-white border border-slate-200 rounded-xl p-6">

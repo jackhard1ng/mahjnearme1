@@ -1,19 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { mockGames } from "@/lib/mock-data";
 import { GAME_TYPE_LABELS, GAME_STYLE_LABELS, SKILL_LEVEL_LABELS, DAYS_OF_WEEK } from "@/lib/constants";
 import { getVerificationStatus, getGameTypeLabel, formatSchedule } from "@/lib/utils";
 import { GameType, GameStyle, SkillLevel, Game } from "@/types";
+import { adminFetch, adminWrite } from "@/lib/admin-fetch";
 
-// Helper to route admin API calls through the secure proxy
-async function adminFetch(route: string, method: string = "GET", body?: unknown): Promise<Response> {
-  return fetch("/api/admin-proxy", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ route, method, body }),
-  });
-}
 
 import {
   Plus,
@@ -36,6 +29,64 @@ import { geocodeAddress } from "@/lib/geocode";
 
 type View = "list" | "add" | "csv" | "bulk";
 
+type ScheduleMode = "recurring" | "one_time";
+
+/**
+ * Collapse internal runs of whitespace and strip the ends.
+ *
+ * Padded values reach the database from organizer submissions and from pasted
+ * imports: the two live "Mahjong in the Mountains " records carry a trailing
+ * space on the name, the city ("Red Feather Lakes ") and the address. Reads
+ * normalise too, but a value saved from this form should be clean in storage —
+ * otherwise exact-match grouping on name or venue keeps treating the padded
+ * and unpadded forms as different records.
+ */
+function clean(v: string): string {
+  return v.replace(/\s+/g, " ").trim();
+}
+
+/**
+ * The defaults every new listing starts from.
+ *
+ * Only the fields the create form does not collect live here; the caller
+ * spreads its own cleaned values over the top. Previously this was a 50-line
+ * object literal inside the save handler, duplicating the field list that the
+ * update path built separately — which is how the two drifted apart.
+ */
+function emptyGameShape(name: string): Partial<Game> {
+  return {
+    name,
+    organizerId: null,
+    metroRegion: null,
+    isRecurring: true,
+    recurringSchedule: null,
+    eventDate: null,
+    eventStartTime: null,
+    eventEndTime: null,
+    costAmount: null,
+    contactPhone: "",
+    website: "",
+    instagram: "",
+    facebookGroup: "",
+    registrationLink: "",
+    howToJoin: "",
+    whatToBring: "",
+    maxPlayers: null,
+    typicalGroupSize: "",
+    imageUrl: "",
+    goingCount: 0,
+    beenHereCount: 0,
+    headsUpCount: 0,
+    status: "active",
+    verified: false,
+    claimedBy: null,
+    source: "manual",
+    promoted: false,
+    organizerEdited: false,
+    lastVerified: "",
+  };
+}
+
 const emptyForm = {
   name: "",
   organizerName: "",
@@ -46,9 +97,16 @@ const emptyForm = {
   venueName: "",
   address: "",
   generalArea: "",
+  // "recurring": a weekly/monthly session, described by dayOfWeek + times.
+  // "one_time": a dated event, described by eventDate + times.
+  // The two are mutually exclusive in storage, and this field decides which
+  // set of inputs the form shows and which fields the save writes.
+  scheduleMode: "recurring" as ScheduleMode,
   dayOfWeek: "monday",
+  frequency: "weekly",
   startTime: "18:00",
   endTime: "20:00",
+  eventDate: "",
   cost: "",
   contactEmail: "",
   description: "",
@@ -69,19 +127,33 @@ export default function AdminGamesPage() {
   const [games, setGames] = useState<Game[]>(mockGames);
   const [organizers, setOrganizers] = useState<{ id: string; name: string; email: string; website: string; instagram: string; city: string; state: string }[]>([]);
 
-  // Load listings from Firestore on mount
-  useEffect(() => {
-    // status=all: this screen edits and deletes listings, so it has to be able
-    // to see the inactive and pending ones the public endpoint filters out.
-    fetch("/api/listings?status=all")
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.listings && data.listings.length > 0) {
-          setGames(data.listings as Game[]);
-        }
-      })
-      .catch(() => {}); // keep mockGames on error
+  /**
+   * Re-read every listing from the server.
+   *
+   * `status=all`: this screen edits and deletes listings, so it has to see the
+   * inactive and pending ones the public endpoint filters out.
+   *
+   * `cache: "no-store"`: the same URL is served to the public with
+   * `s-maxage=60, stale-while-revalidate=300`. Without this, a save followed
+   * by a reload could be answered from the CDN with the pre-save body for up
+   * to five minutes — indistinguishable from the write having failed, and part
+   * of why edits looked like they were not persisting even once the write
+   * itself succeeded. The route now marks this variant uncacheable too; this
+   * is the client half of the same fix.
+   */
+  const reloadGames = useCallback(async () => {
+    const res = await fetch("/api/listings?status=all", { cache: "no-store" });
+    if (!res.ok) throw new Error(`Could not reload listings (HTTP ${res.status}).`);
+    const data = await res.json();
+    if (data.listings && data.listings.length > 0) {
+      setGames(data.listings as Game[]);
+    }
   }, []);
+
+  // Load listings on mount. Keeps mockGames on error.
+  useEffect(() => {
+    reloadGames().catch(() => {});
+  }, [reloadGames]);
 
   // Load organizers for autofill
   useEffect(() => {
@@ -242,141 +314,123 @@ export default function AdminGamesPage() {
     setEditingGameId(null);
   };
 
+  // Guards against a double-submit and lets the button show progress. The
+  // save is a network round trip now that its result is actually awaited.
+  const [saving, setSaving] = useState(false);
+
   const handleSaveGame = async () => {
-    // Validate required fields
-    if (!form.name.trim() || !form.city.trim() || !form.state.trim()) {
+    // Trim before validating, so a field holding only spaces fails the check
+    // rather than being stored as blank-but-present.
+    const name = clean(form.name);
+    const city = clean(form.city);
+    const state = clean(form.state).toUpperCase();
+
+    if (!name || !city || !state) {
       showToast("Name, City, and State are required.", "error");
       return;
     }
 
-    // Auto-geocode the address
-    const addressToGeocode = form.address || `${form.venueName}, ${form.city}, ${form.state}`;
-    const geopoint = await geocodeAddress(addressToGeocode);
-
-    if (editingGameId) {
-      // Update existing game
-      setGames((prev) =>
-        prev.map((g) =>
-          g.id === editingGameId
-            ? {
-                ...g,
-                name: form.name,
-                organizerName: form.organizerName,
-                type: form.type,
-                gameStyle: form.gameStyle,
-                city: form.city,
-                state: form.state,
-                venueName: form.venueName,
-                address: form.address,
-                generalArea: form.generalArea,
-                geopoint,
-                cost: form.cost || "Contact for price",
-                contactEmail: form.contactEmail,
-                description: form.description,
-                skillLevels: form.skillLevels,
-                dropInFriendly: form.dropInFriendly,
-                setsProvided: form.setsProvided,
-                isRecurring: true,
-                recurringSchedule: {
-                  dayOfWeek: form.dayOfWeek,
-                  startTime: form.startTime,
-                  endTime: form.endTime,
-                  frequency: "weekly",
-                },
-                updatedAt: new Date().toISOString(),
-              }
-            : g
-        )
-      );
-      // Save to Firestore
-      adminFetch("/api/listings", "PUT", {
-        id: editingGameId,
-        name: form.name,
-        organizerName: form.organizerName,
-        type: form.type,
-        gameStyle: form.gameStyle,
-        city: form.city,
-        state: form.state,
-        venueName: form.venueName,
-        address: form.address,
-        generalArea: form.generalArea,
-        geopoint,
-        cost: form.cost || "Contact for price",
-        contactEmail: form.contactEmail,
-        description: form.description,
-        skillLevels: form.skillLevels,
-        dropInFriendly: form.dropInFriendly,
-        setsProvided: form.setsProvided,
-        isRecurring: true,
-        recurringSchedule: { dayOfWeek: form.dayOfWeek, startTime: form.startTime, endTime: form.endTime, frequency: "weekly" },
-      }).catch(() => {});
-      showToast(`"${form.name}" has been updated.`);
-    } else {
-      // Create new game
-      const newGame: Game = {
-        id: `new-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`,
-        name: form.name,
-        organizerName: form.organizerName,
-        organizerId: null,
-        type: form.type,
-        gameStyle: form.gameStyle,
-        city: form.city,
-        state: form.state,
-        generalArea: form.generalArea,
-        venueName: form.venueName,
-        address: form.address,
-        geopoint,
-        metroRegion: null,
-        isRecurring: true,
-        recurringSchedule: {
-          dayOfWeek: form.dayOfWeek,
-          startTime: form.startTime,
-          endTime: form.endTime,
-          frequency: "weekly",
-        },
-        eventDate: null,
-        eventStartTime: null,
-        eventEndTime: null,
-        cost: form.cost || "Contact for price",
-        costAmount: null,
-        contactName: form.organizerName,
-        contactEmail: form.contactEmail,
-        contactPhone: "",
-        website: "",
-        instagram: "",
-        facebookGroup: "",
-        registrationLink: "",
-        description: form.description,
-        howToJoin: "",
-        whatToBring: "",
-        skillLevels: form.skillLevels,
-        dropInFriendly: form.dropInFriendly,
-        setsProvided: form.setsProvided,
-        maxPlayers: null,
-        typicalGroupSize: "",
-        imageUrl: "",
-        goingCount: 0,
-        beenHereCount: 0,
-        headsUpCount: 0,
-        status: "active",
-        verified: false,
-        claimedBy: null,
-        source: "manual",
-        promoted: false,
-        organizerEdited: false,
-        lastVerified: "",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-
-      setGames((prev) => [newGame, ...prev]);
-      // Save to Firestore
-      adminFetch("/api/listings", "POST", newGame).catch(() => {});
-      showToast(`"${form.name}" has been created and saved.`);
+    const oneTime = form.scheduleMode === "one_time";
+    if (oneTime && !form.eventDate) {
+      showToast("A one-time event needs a date. Pick one, or switch to Recurring.", "error");
+      return;
     }
 
-    resetForm();
-    setView("list");
+    // The two schedule shapes are mutually exclusive in storage. Writing both
+    // is what produced records like "Mahjong in the Mountains": a weekly
+    // Tuesday schedule sitting on a dated three-day retreat. Whichever mode
+    // is not selected gets explicitly nulled rather than left behind.
+    const scheduleFields = oneTime
+      ? {
+          isRecurring: false,
+          recurringSchedule: null,
+          eventDate: form.eventDate,
+          eventStartTime: form.startTime,
+          eventEndTime: form.endTime,
+        }
+      : {
+          isRecurring: true,
+          recurringSchedule: {
+            dayOfWeek: form.dayOfWeek,
+            startTime: form.startTime,
+            endTime: form.endTime,
+            frequency: form.frequency || "weekly",
+          },
+          eventDate: null,
+          eventStartTime: null,
+          eventEndTime: null,
+        };
+
+    const fields = {
+      name,
+      organizerName: clean(form.organizerName),
+      type: form.type,
+      gameStyle: form.gameStyle,
+      city,
+      state,
+      venueName: clean(form.venueName),
+      address: clean(form.address),
+      generalArea: clean(form.generalArea),
+      cost: clean(form.cost) || "Contact for price",
+      contactEmail: clean(form.contactEmail),
+      // Description is free text: trim the ends but keep the author's
+      // paragraph breaks, which clean() would collapse into single spaces.
+      description: form.description.trim(),
+      skillLevels: form.skillLevels,
+      dropInFriendly: form.dropInFriendly,
+      setsProvided: form.setsProvided,
+      ...scheduleFields,
+    };
+
+    setSaving(true);
+    try {
+      // Geocode from the cleaned values, and only keep a usable result. The
+      // previous version stored whatever came back, which is how records ended
+      // up at { lat: 0, lng: 0 } — a point in the Gulf of Guinea that the
+      // distance sort treats as a real location.
+      const addressToGeocode = fields.address || [fields.venueName, city, state].filter(Boolean).join(", ");
+      const geocoded = await geocodeAddress(addressToGeocode);
+      const geopoint = geocoded && geocoded.lat !== 0 && geocoded.lng !== 0 ? geocoded : null;
+
+      if (editingGameId) {
+        // Write first, then touch local state. Updating the row optimistically
+        // and firing the request unawaited is what made a failed save look
+        // like a successful one: the table showed the new value, the toast
+        // said "updated", and the record in Firestore was untouched. A reload
+        // was the only thing that revealed it.
+        const payload: Record<string, unknown> = { id: editingGameId, ...fields };
+        if (geopoint) payload.geopoint = geopoint;
+        await adminWrite("/api/listings", "PUT", payload);
+
+        // Confirmed. Re-read from the server rather than trusting the local
+        // merge, so what the table shows is what was actually stored.
+        await reloadGames();
+        showToast(`"${name}" has been updated.`);
+      } else {
+        const newGame: Game = {
+          ...(emptyGameShape(fields.name) as Game),
+          ...fields,
+          id: `new-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`,
+          geopoint: geopoint || { lat: 0, lng: 0 },
+          contactName: fields.organizerName,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        } as Game;
+
+        await adminWrite("/api/listings", "POST", newGame);
+        await reloadGames();
+        showToast(`"${name}" has been created and saved.`);
+      }
+
+      resetForm();
+      setView("list");
+    } catch (err) {
+      // Stay on the form so the edit is not lost, and say what went wrong.
+      const message = err instanceof Error ? err.message : "Save failed.";
+      showToast(message, "error");
+    } finally {
+      setSaving(false);
+    }
   };
 
   function handleExportForAudit() {
@@ -478,27 +532,35 @@ export default function AdminGamesPage() {
     showToast(`Exported ${items.length} active listings for audit.`);
   }
 
-  const handleVerifyToggle = (gameId: string) => {
+  /**
+   * Toggle a listing's verified flag.
+   *
+   * This used to update local component state and show a confirmation, and
+   * never call the API at all — so every verification was lost on reload while
+   * reporting success, the same failure mode as the edit form but with no
+   * request to fail. The write happens first now, and the row only changes
+   * once the server has confirmed it.
+   */
+  const handleVerifyToggle = async (gameId: string) => {
     const game = games.find((g) => g.id === gameId);
     if (!game) return;
     const newVerified = !game.verified;
-    setGames((prev) =>
-      prev.map((g) =>
-        g.id === gameId
-          ? {
-              ...g,
-              verified: newVerified,
-              lastVerified: newVerified ? new Date().toISOString() : g.lastVerified,
-            }
-          : g
-      )
-    );
-    showToast(
-      newVerified
-        ? `"${game.name}" has been verified.`
-        : `"${game.name}" has been unverified.`,
-      newVerified ? "success" : "info"
-    );
+    const lastVerified = newVerified ? new Date().toISOString() : game.lastVerified;
+
+    try {
+      await adminWrite("/api/listings", "PUT", { id: gameId, verified: newVerified, lastVerified });
+      setGames((prev) =>
+        prev.map((g) => (g.id === gameId ? { ...g, verified: newVerified, lastVerified } : g))
+      );
+      showToast(
+        newVerified
+          ? `"${game.name}" has been verified.`
+          : `"${game.name}" has been unverified.`,
+        newVerified ? "success" : "info"
+      );
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Could not update verification.", "error");
+    }
   };
 
   const handleDelete = async (gameId: string) => {
@@ -535,9 +597,19 @@ export default function AdminGamesPage() {
       venueName: game.venueName,
       address: game.address,
       generalArea: game.generalArea,
+      // Which shape is this record actually in? A record carrying an
+      // eventDate and no recurrence is a dated event; `isRecurring` alone is
+      // not enough to go on, because the old form wrote `isRecurring: true`
+      // onto every record it saved while leaving any eventDate in place. Both
+      // "Mahjong in the Mountains" rows are in exactly that state: a weekly
+      // Tuesday schedule and eventDate 2026-07-21, for a three-day retreat.
+      // Prefer the explicit flag, and fall back to the presence of a date.
+      scheduleMode: (game.isRecurring ? "recurring" : game.eventDate ? "one_time" : "recurring") as ScheduleMode,
       dayOfWeek: game.recurringSchedule?.dayOfWeek || "monday",
-      startTime: game.recurringSchedule?.startTime || "18:00",
-      endTime: game.recurringSchedule?.endTime || "20:00",
+      frequency: game.recurringSchedule?.frequency || "weekly",
+      startTime: game.recurringSchedule?.startTime || game.eventStartTime || "18:00",
+      endTime: game.recurringSchedule?.endTime || game.eventEndTime || "20:00",
+      eventDate: game.eventDate || "",
       cost: game.cost,
       contactEmail: game.contactEmail,
       description: game.description,
@@ -806,12 +878,59 @@ export default function AdminGamesPage() {
                 {Object.entries(GAME_STYLE_LABELS).map(([v, l]) => <option key={v} value={v}>{l}</option>)}
               </select>
             </div>
+            {/* Recurring session vs dated event. The form used to offer only
+                weekday + time and wrote isRecurring:true onto everything it
+                saved, so a one-off event could not be described at all and an
+                existing event's date survived underneath a weekly schedule. */}
             <div>
-              <label className="block text-xs font-medium text-slate-600 mb-1">Day</label>
-              <select value={form.dayOfWeek} onChange={(e) => setForm({...form, dayOfWeek: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
-                {DAYS_OF_WEEK.map((d) => <option key={d} value={d}>{d.charAt(0).toUpperCase() + d.slice(1)}</option>)}
+              <label className="block text-xs font-medium text-slate-600 mb-1">Schedule</label>
+              <select
+                value={form.scheduleMode}
+                onChange={(e) => setForm({ ...form, scheduleMode: e.target.value as ScheduleMode })}
+                className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+              >
+                <option value="recurring">Recurring session</option>
+                <option value="one_time">One-time event (has a date)</option>
               </select>
             </div>
+            {form.scheduleMode === "recurring" ? (
+              <>
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Day</label>
+                  <select value={form.dayOfWeek} onChange={(e) => setForm({...form, dayOfWeek: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+                    {DAYS_OF_WEEK.map((d) => <option key={d} value={d}>{d.charAt(0).toUpperCase() + d.slice(1)}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Frequency</label>
+                  <select value={form.frequency} onChange={(e) => setForm({...form, frequency: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+                    <option value="weekly">Weekly</option>
+                    <option value="biweekly">Every other week</option>
+                    <option value="monthly">Monthly</option>
+                  </select>
+                </div>
+              </>
+            ) : (
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">
+                  Event Date <span className="text-slate-400">(required)</span>
+                </label>
+                <input
+                  type="date"
+                  value={form.eventDate}
+                  onChange={(e) => setForm({ ...form, eventDate: e.target.value })}
+                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+                />
+                {/* A past date is stated, not acted on. Deactivating on a date
+                    the record may simply have recorded badly would hide live
+                    listings, so this is left to a deliberate status change. */}
+                {form.eventDate && form.eventDate < new Date().toISOString().slice(0, 10) && (
+                  <p className="text-xs text-amber-600 mt-1">
+                    This date has passed. The listing stays active until you change its status.
+                  </p>
+                )}
+              </div>
+            )}
             <div>
               <label className="block text-xs font-medium text-slate-600 mb-1">Cost</label>
               <input type="text" value={form.cost} onChange={(e) => setForm({...form, cost: e.target.value})} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" placeholder="e.g., $15 or Free" />
@@ -835,11 +954,13 @@ export default function AdminGamesPage() {
           <div className="flex gap-3">
             <button
               onClick={handleSaveGame}
-              className="bg-hotpink-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
+              disabled={saving}
+              className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {editingGameId ? "Update Game" : "Save Game"}
+              {saving && <Loader2 className="w-4 h-4 animate-spin" />}
+              {saving ? "Saving\u2026" : editingGameId ? "Update Game" : "Save Game"}
             </button>
-            <button onClick={() => { resetForm(); setView("list"); }} className="text-sm text-slate-500 hover:text-slate-700 font-medium">
+            <button onClick={() => { resetForm(); setView("list"); }} disabled={saving} className="text-sm text-slate-500 hover:text-slate-700 font-medium disabled:opacity-60">
               Cancel
             </button>
           </div>
@@ -916,6 +1037,31 @@ export default function AdminGamesPage() {
                               <div>
                                 <span className="text-xs font-medium text-slate-400 uppercase">Schedule</span>
                                 <p className="text-charcoal">{formatSchedule(game)}</p>
+                                {/* Name both dates when a record carries both.
+                                    formatSchedule() prefers the recurring
+                                    shape and silently drops the eventDate, so
+                                    a dated event saved through the old form —
+                                    which wrote isRecurring:true onto
+                                    everything — reads as an ordinary weekly
+                                    game with its real date invisible. Showing
+                                    the conflict is what makes it fixable. */}
+                                {game.isRecurring && game.recurringSchedule && game.eventDate && (
+                                  <p className="text-xs text-amber-600 mt-1">
+                                    Also stores a one-time date of {game.eventDate}. Only the
+                                    recurring schedule is shown publicly — edit to pick one.
+                                  </p>
+                                )}
+                                {!game.isRecurring && game.eventDate && game.eventDate < new Date().toISOString().slice(0, 10) && (
+                                  <p className="text-xs text-amber-600 mt-1">
+                                    This date has passed.
+                                  </p>
+                                )}
+                                {game.isRecurring && !game.recurringSchedule && (
+                                  <p className="text-xs text-slate-400 mt-1">
+                                    Marked recurring with no stored day or time; the day shown
+                                    publicly is inferred from the listing text.
+                                  </p>
+                                )}
                               </div>
                               <div>
                                 <span className="text-xs font-medium text-slate-400 uppercase">Cost</span>

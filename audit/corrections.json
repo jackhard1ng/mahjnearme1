@@ -14709,9 +14709,11 @@
   {
     "id": "2Nj4XcjTYJF3tsHnnlaX",
     "updates": {
-      "eventDate": null
+      "isRecurring": false,
+      "recurringSchedule": null,
+      "eventDate": "2026-07-21"
     },
-    "reason": "Recurring listing carries a past one-off eventDate (2026-07-21); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+    "reason": "Stored as a weekly Tuesday 10:00-22:00 session with eventDate 2026-07-21 underneath. The listing description states \"Mahjong in the Mountains | July 21-23 | Red Feather Lakes, CO\", so this is a dated three-day retreat, not a recurring game. Recording it as one-time lets the expiry filter retire it; the previously queued correction dropped the date instead, which would have made an ended retreat a permanent weekly listing. Status left untouched."
   },
   {
     "id": "4s-ranch-library-drop-in-mahjong-san-diego-california-200-pm",
@@ -14723,9 +14725,11 @@
   {
     "id": "ZqfVlERIeq1SUF3VPSmS",
     "updates": {
-      "eventDate": null
+      "isRecurring": false,
+      "recurringSchedule": null,
+      "eventDate": "2026-07-21"
     },
-    "reason": "Recurring listing carries a past one-off eventDate (2026-07-21); timing comes from recurringSchedule.dayOfWeek=\"tuesday\", so the stale date is dead data that can render as a false upcoming date"
+    "reason": "Stored as a weekly Tuesday 10:00-22:00 session with eventDate 2026-07-21 underneath. The listing description states \"Mahjong in the Mountains | July 21-23 | Red Feather Lakes, CO\", so this is a dated three-day retreat, not a recurring game. Recording it as one-time lets the expiry filter retire it; the previously queued correction dropped the date instead, which would have made an ended retreat a permanent weekly listing. Status left untouched."
   },
   {
     "id": "aauw-mahjong-groups-walnut-creek-walnut-creek-california-930-am",
@@ -16994,5 +16998,123 @@
       "eventDate": null
     },
     "reason": "Recurring listing carries a past one-off eventDate (2026-03-30); timing comes from recurringSchedule.dayOfWeek=\"monday|wednesday\", so the stale date is dead data that can render as a false upcoming date"
+  },
+  {
+    "id": "XGMtSTWbOiDniiMCn8IS",
+    "updates": {
+      "city": "Las Vegas",
+      "state": "NV"
+    },
+    "reason": "City field contained \"NV\" (the state code) instead of the city. Verified against the live record on 2026-11-05: city=\"NV\", state=\"NV\", address=\"Las Vegas\". Sibling records under the same organizerId (cg0D4wc8pEtpoRjggkY8) use city=\"Las Vegas\", state=\"NV\"."
+  },
+  {
+    "id": "2Nj4XcjTYJF3tsHnnlaX",
+    "updates": {
+      "address": "100 Beaver Meadows Place",
+      "cost": "$892 pp double occupancy"
+    },
+    "reason": "Trim leading/trailing whitespace in address, cost. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
+  },
+  {
+    "id": "ARxo6Eo0uegVa9EBUeVF",
+    "updates": {
+      "contactName": "MahjongbyHeidi"
+    },
+    "reason": "Trim leading/trailing whitespace in contactName. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
+  },
+  {
+    "id": "HCJpMVZQ0tSotejtVTjY",
+    "updates": {
+      "address": "166 W Clayton St."
+    },
+    "reason": "Trim leading/trailing whitespace in address. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
+  },
+  {
+    "id": "LMsocRQiPXoGLTQNovas",
+    "updates": {
+      "address": "166 W Clayton St."
+    },
+    "reason": "Trim leading/trailing whitespace in address. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
+  },
+  {
+    "id": "MX3aU6OpoDgibhAKWRiF",
+    "updates": {
+      "contactName": "MahjongbyHeidi"
+    },
+    "reason": "Trim leading/trailing whitespace in contactName. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
+  },
+  {
+    "id": "OLj6ZrBjRWTBJilcXWVC",
+    "updates": {
+      "address": "166 W Clayton St."
+    },
+    "reason": "Trim leading/trailing whitespace in address. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
+  },
+  {
+    "id": "R4A87ShiiZfWh3MyXb5H",
+    "updates": {
+      "address": "2350 E. Harmony rd.",
+      "cost": "Sign up for May club on website  or drop in"
+    },
+    "reason": "Trim leading/trailing whitespace in address, cost. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
+  },
+  {
+    "id": "RKkpoG0OSdtyJHvvfmBg",
+    "updates": {
+      "address": "4195 S. Grand Canyon Dr Suite101"
+    },
+    "reason": "Trim leading/trailing whitespace in address. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
+  },
+  {
+    "id": "XuKBHHZMtruYf2wgQY6U",
+    "updates": {
+      "address": "4245 S. Grand Canyon Drive",
+      "cost": "$25 open play $45 Lesson"
+    },
+    "reason": "Trim leading/trailing whitespace in address, cost. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
+  },
+  {
+    "id": "ZqfVlERIeq1SUF3VPSmS",
+    "updates": {
+      "address": "100 Beaver Meadows Place",
+      "cost": "$892 pp double occupancy"
+    },
+    "reason": "Trim leading/trailing whitespace in address, cost. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
+  },
+  {
+    "id": "aBJuedl9tpYhWXIYvLpl",
+    "updates": {
+      "contactName": "MahjongbyHeidi"
+    },
+    "reason": "Trim leading/trailing whitespace in contactName. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
+  },
+  {
+    "id": "ia3IWCD7lRHCJpEGZOcV",
+    "updates": {
+      "address": "166 W Clayton St."
+    },
+    "reason": "Trim leading/trailing whitespace in address. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
+  },
+  {
+    "id": "q42kQi4w0rzSfToWbrK0",
+    "updates": {
+      "contactName": "MahjongbyHeidi"
+    },
+    "reason": "Trim leading/trailing whitespace in contactName. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
+  },
+  {
+    "id": "qMPUL2IhQXwYtRHvxMh6",
+    "updates": {
+      "address": "4195 S. Grand Canyon Dr Suite101"
+    },
+    "reason": "Trim leading/trailing whitespace in address. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
+  },
+  {
+    "id": "xJuY7XcUob7M4f0PMfH0",
+    "updates": {
+      "address": "144 S Mason St.",
+      "cost": "$15 drop in on website"
+    },
+    "reason": "Trim leading/trailing whitespace in address, cost. Reads already trim via docToGame, and saves now trim via the listings route, but the stored values stay padded until rewritten — and exact-match grouping on venue or address treats the padded and unpadded forms as different records."
   }
 ]

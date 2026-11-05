@@ -1,29 +1,79 @@
 /**
  * Giveaway configuration.
  *
- * Jack: edit this file to update the current month's giveaway.
- * Change the prize name, value, and description before each draw.
+ * Jack: edit this file to update the current month's giveaway. Change the
+ * prize name, value, and description before each draw.
  *
- * To PAUSE giveaways (no active drawing right now), set `paused: true`.
- * The /giveaways page then stops advertising a prize and a draw date, and
- * instead shows `pausedMessage`. Past winners, "How It Works" and the
- * milestone section stay visible so the page is still worth landing on.
+ * `status` is the important field:
  *
- * `paused` can also be flipped from the admin panel without a deploy — the
- * Firestore siteConfig/giveaway doc overrides this file. This value is the
- * fallback used when that doc is missing or doesn't set `paused`.
+ *   "running"   - a drawing is open. Prize, value, winner count and draw date
+ *                 are all meaningful and are shown.
+ *   "paused"    - no drawing is open right now, and none is being promised.
+ *   "reviewing" - no drawing is open, and there is something to disclose about
+ *                 drawings that did not happen.
+ *
+ * In the two non-running states the API returns null for prizeName,
+ * prizeValue, prizeDescription, numberOfWinners and drawDate, and the page
+ * shows `statusHeadline` + `statusNotice` instead. Nothing has to be invented
+ * to fill a required field.
+ *
+ * That last part is why this exists. With only a boolean `paused` and a prize
+ * record that always wanted values, the live config had been pressed into
+ * service as a notice board: prizeName "Giveaway update", prizeValue "prize to
+ * be announced", drawDate "Not yet scheduled", numberOfWinners forced to 1.
+ * The page then rendered those strings through prize-shaped UI, so a visitor
+ * read "Prize: Giveaway update (prize to be announced)". The disclosure was
+ * honest; the presentation was not.
+ *
+ * `status` can also be flipped from the admin panel without a deploy — the
+ * Firestore siteConfig/giveaway doc overrides this file. These values are the
+ * fallback used when that doc is missing or does not set them.
+ *
+ * Past winners and entry records are never touched by any of this.
  */
+
+export type GiveawayStatus = "running" | "paused" | "reviewing";
+
+/** True when `status` means a drawing is actually open. */
+export function isRunning(status: GiveawayStatus | undefined | null): boolean {
+  return status === "running";
+}
 
 export const CURRENT_GIVEAWAY = {
   /**
-   * When true, no giveaway is currently running. Set to false and update
-   * the fields below when you start the next one.
+   * Current state of the programme. See the file header.
+   *
+   * "reviewing" is the accurate value as of November 2026: the April 2026
+   * drawing ran, May onwards did not, and no new date has been set. Set this
+   * to "running" and fill in the prize fields below to open the next one.
+   */
+  status: "reviewing" as GiveawayStatus,
+
+  /** Short heading for the notice shown while not running. */
+  statusHeadline: "Monthly drawings are paused",
+
+  /**
+   * The notice body shown while not running.
+   *
+   * This text is a disclosure, not marketing. It says what did not happen and
+   * does not promise a date. Keep it accurate rather than reassuring, and do
+   * not replace it with a date until one is real.
+   */
+  statusNotice:
+    "The May 2026 drawing did not take place, and monthly drawings have not run since April 2026. We are reviewing the missed drawings and will publish a catch-up plan on this page. No new drawing date has been scheduled.",
+
+  /**
+   * Legacy boolean, kept so an existing Firestore doc that sets `paused`
+   * still parks the programme instead of silently reopening it. New code
+   * should read `status`.
+   *
+   * @deprecated use `status`
    */
   paused: true,
 
-  /** Shown on /giveaways while `paused` is true. */
+  /** @deprecated use `statusNotice` */
   pausedMessage:
-    "Our monthly giveaway is on a short break. Paid members are automatically entered whenever a drawing is running — subscribe now and you'll be in for the next one.",
+    "No drawing is open right now. Paid members are entered automatically whenever one is running — subscribe now and you'll be in for the next one.",
 
 
 
