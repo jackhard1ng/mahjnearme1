@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Game } from "@/types";
+import type { Game } from "@/types";
 import { mockGames } from "@/lib/mock-data";
 
 // Module-level cache shared across all hook instances (single fetch per session)

@@ -138,7 +138,10 @@ export async function GET(request: NextRequest) {
       // `mode` lets a caller tell this response apart from the full one, whose
       // `count` means something different (every row returned, expired included).
       const res = NextResponse.json({ mode: "count", count: live.length, source: "firestore" });
-      res.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
+      // Same policy rule as the full response. `?status=all&count=1` counts
+      // inactive rows too, and serving that from a shared cache would hand an
+      // admin a stale number, so the status decides here as well.
+      res.headers.set("Cache-Control", cacheHeaderFor(statusParam));
       return res;
     }
 
@@ -329,21 +332,54 @@ export async function PUT(request: NextRequest) {
     const now = new Date().toISOString();
     const ref = db.collection("listings").doc(id);
 
-    // set(..., { merge: true }) rather than update().
+    // Decide between update and create explicitly, and never write a partial
+    // document.
     //
-    // update() rejects a document that does not exist, and plenty of listing
-    // IDs are in exactly that state: the collection is seeded from
-    // data/listings.json only when it holds fewer than 1000 documents, and the
-    // seed skips IDs already present. A listing the admin screen is showing
-    // from the JSON fallback therefore has an ID that update() throws
-    // NOT_FOUND on, which surfaced as "Failed to update listing" — or, before
-    // the client checked the response at all, as a success message over a
-    // write that never happened.
+    // merge:true on a missing document CREATES it, holding only the fields
+    // this request happened to send. docToGame then fills the gaps with
+    // defaults on read, which is actively dangerous: `status` would default to
+    // "active" (silently republishing a listing that was inactive), `source`
+    // to "csv_import", and `verified`/`promoted` to false — so an edit would
+    // quietly reactivate and de-verify a record. Worse, the JSON seed skips
+    // IDs already present, so the partial document would shadow the complete
+    // one permanently.
     //
-    // merge:true writes the named fields and leaves the rest of the document
-    // alone, and creates it where it was missing. The field semantics are the
-    // same as update() for an existing document.
-    await ref.set({ ...updates, id, updatedAt: now }, { merge: true });
+    // As of 2026-11-05 every id in data/listings.json is also a Firestore
+    // document (2,744 of 3,801), so this path is unreachable in normal
+    // operation. It becomes reachable when a Firestore read fails and GET
+    // serves `source: "json-fallback"`: the admin screen cannot tell the
+    // difference, and an edit made during an outage would land here.
+    const existing = await ref.get();
+
+    if (!existing.exists) {
+      // Rebuild the full record from the static dataset, then apply the edit
+      // on top, so the created document is complete rather than a fragment.
+      let base: Record<string, unknown> | null = null;
+      try {
+        const { loadListings } = require("@/lib/listings-data");
+        base = (loadListings() as Record<string, unknown>[]).find((g) => g.id === id) || null;
+      } catch (err) {
+        console.error("Listings PUT: could not load the static dataset:", err);
+      }
+
+      if (!base) {
+        // Not in Firestore and not in the dataset: there is nothing to edit,
+        // and inventing a listing from a partial form payload is worse than
+        // refusing.
+        return NextResponse.json(
+          {
+            error:
+              `Listing ${id} does not exist in the database or the static dataset, so it cannot be updated.`,
+          },
+          { status: 404 }
+        );
+      }
+
+      await ref.set({ ...base, ...updates, id, createdAt: base.createdAt || now, updatedAt: now });
+    } else {
+      // The document exists: merge the named fields and leave the rest alone.
+      await ref.set({ ...updates, id, updatedAt: now }, { merge: true });
+    }
 
     // Read back what was actually stored, so the response is evidence the
     // write landed rather than an assertion that it should have.

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useParams, useRouter, notFound } from "next/navigation";
 import Link from "next/link";
-import { Game } from "@/types";
+import type { Game } from "@/types";
 import { mockGames } from "@/lib/mock-data";
 import { useFirestoreListingsWithStatus } from "@/hooks/useFirestoreListings";
 import {

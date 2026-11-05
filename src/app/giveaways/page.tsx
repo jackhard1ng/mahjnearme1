@@ -195,7 +195,7 @@ export default function GiveawaysPage() {
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
             {running
               ? "We give away mahjong prizes to paid members. The prize changes from drawing to drawing."
-              : "Paid members are entered automatically whenever a drawing is open. No drawing is open right now — see below."}
+              : "Paid members are entered automatically whenever a drawing is open. No drawing is open right now. See below."}
           </p>
         </div>
       </section>
@@ -266,7 +266,7 @@ export default function GiveawaysPage() {
                    narrows that — it only stops claiming a drawing is open. */
                 <p className="text-sm text-green-600 font-medium">
                   <Check className="w-4 h-4 inline mr-1" />
-                  You&apos;re a paid member — your entry is automatic when the next drawing opens.
+                  You&apos;re a paid member, so your entry is automatic when the next drawing opens.
                 </p>
               ) : (
                 <Link

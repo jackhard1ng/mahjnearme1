@@ -4,7 +4,7 @@
  * Falls back to the static JSON file if Firestore is unavailable.
  */
 
-import { Game } from "@/types";
+import type { Game } from "@/types";
 import { findMetroForCity } from "@/lib/metro-regions";
 
 // In-memory cache with TTL (5 minutes)

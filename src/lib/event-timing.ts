@@ -1,4 +1,4 @@
-import { Game } from "@/types";
+import type { Game } from "@/types";
 import { formatTime, daysSinceVerified, STALE_THRESHOLD_DAYS } from "@/lib/utils";
 import { resolveRecurringSchedule } from "@/lib/schedule-recovery";
 

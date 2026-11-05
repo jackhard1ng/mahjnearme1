@@ -39,6 +39,103 @@ export function isRunning(status: GiveawayStatus | undefined | null): boolean {
   return status === "running";
 }
 
+/**
+ * Resolve the programme status from the live Firestore config doc, falling
+ * back to this file.
+ *
+ * A doc written before `status` existed may carry only the legacy `paused`
+ * boolean. That is treated as paused/running accordingly — never as a default
+ * to "running", so an older doc can never reopen a drawing that is not
+ * actually running.
+ *
+ * Shared by /api/giveaway and /api/giveaway/announce: the two had separate
+ * copies of this rule, which is exactly how a gate drifts open on one path.
+ */
+export function resolveGiveawayStatus(
+  liveConfig: Record<string, unknown> | null | undefined
+): GiveawayStatus {
+  const live = liveConfig?.status;
+  if (live === "running" || live === "paused" || live === "reviewing") return live;
+  if (typeof liveConfig?.paused === "boolean") {
+    return liveConfig.paused ? "paused" : "running";
+  }
+  return CURRENT_GIVEAWAY.status;
+}
+
+/**
+ * The public shape of the giveaway, given a status and the live config.
+ *
+ * Outside "running" every prize and drawing field is null. Returning
+ * placeholder strings is what forced the notice into the prize record in the
+ * first place: something had to fill `prizeName`, so it held "Giveaway
+ * update", and `drawDate` held "Not yet scheduled" — a sentence rendered where
+ * a date goes.
+ *
+ * A "running" status with no usable prize name is downgraded, so a doc edited
+ * directly in the console cannot publish an empty prize block.
+ */
+export function giveawayPublicFields(
+  liveConfig: Record<string, unknown> | null | undefined,
+  computed: { drawDate: string; month: string }
+): {
+  status: GiveawayStatus;
+  statusHeadline: string;
+  statusNotice: string;
+  prizeName: string | null;
+  prizeValue: string | null;
+  prizePhoto: string | null;
+  prizeDescription: string | null;
+  prizeLink: string | null;
+  numberOfWinners: number | null;
+  drawDate: string | null;
+  month: string | null;
+} {
+  const resolved = resolveGiveawayStatus(liveConfig);
+  const prizeName =
+    (liveConfig?.prizeName as string | undefined) ?? CURRENT_GIVEAWAY.prizeName;
+  const status: GiveawayStatus =
+    resolved === "running" && !String(prizeName || "").trim() ? "paused" : resolved;
+
+  const statusFields = {
+    status,
+    statusHeadline:
+      (liveConfig?.statusHeadline as string | undefined) ?? CURRENT_GIVEAWAY.statusHeadline,
+    statusNotice:
+      (liveConfig?.statusNotice as string | undefined) ??
+      (liveConfig?.pausedMessage as string | undefined) ??
+      CURRENT_GIVEAWAY.statusNotice,
+  };
+
+  if (!isRunning(status)) {
+    return {
+      ...statusFields,
+      prizeName: null,
+      prizeValue: null,
+      prizePhoto: null,
+      prizeDescription: null,
+      prizeLink: null,
+      numberOfWinners: null,
+      drawDate: null,
+      month: null,
+    };
+  }
+
+  return {
+    ...statusFields,
+    prizeName,
+    prizeValue: (liveConfig?.prizeValue as string | null) ?? CURRENT_GIVEAWAY.prizeValue,
+    prizePhoto: (liveConfig?.prizePhoto as string | null) ?? null,
+    prizeDescription:
+      (liveConfig?.prizeDescription as string | null) ?? CURRENT_GIVEAWAY.prizeDescription,
+    prizeLink: (liveConfig?.prizeLink as string | null) ?? CURRENT_GIVEAWAY.prizeLink,
+    numberOfWinners:
+      (liveConfig?.numberOfWinners as number | undefined) ?? CURRENT_GIVEAWAY.numberOfWinners,
+    drawDate:
+      (liveConfig?.drawDate as string | null) ?? CURRENT_GIVEAWAY.drawDate ?? computed.drawDate,
+    month: (liveConfig?.month as string | null) ?? CURRENT_GIVEAWAY.monthLabel ?? computed.month,
+  };
+}
+
 export const CURRENT_GIVEAWAY = {
   /**
    * Current state of the programme. See the file header.
@@ -73,7 +170,7 @@ export const CURRENT_GIVEAWAY = {
 
   /** @deprecated use `statusNotice` */
   pausedMessage:
-    "No drawing is open right now. Paid members are entered automatically whenever one is running — subscribe now and you'll be in for the next one.",
+    "No drawing is open right now. Paid members are entered automatically whenever one is running, so subscribe now and you'll be in for the next one.",
 
 
 

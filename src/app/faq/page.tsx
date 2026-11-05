@@ -15,23 +15,23 @@ const faqs = [
       { q: "How do I find mahjong games near me?", a: "Type your city, zip code, or address into the search bar on the homepage. You can also tap 'Use my location' for GPS-based results. Results are sorted by distance with an interactive map showing all nearby games." },
       { q: "Can I search for games in a city I'm traveling to?", a: "Yes! Search any city in the US to see what games are happening near your destination." },
       { q: "What types of mahjong games are listed?", a: "We list American Mahjong (NMJL), Chinese/Hong Kong Mahjong, and Japanese Riichi Mahjong. You can filter by game style, day of week, skill level, and whether games are drop-in friendly." },
-      { q: "How do I know if a listing is current?", a: "Every listing shows a 'Verified' date — the last time our team confirmed the details. We update the directory weekly with new games and events." },
+      { q: "How do I know if a listing is current?", a: "Every listing shows a 'Verified' date, which is the last time our team confirmed the details. We update the directory weekly with new games and events." },
       { q: "What does 'Drop-in Friendly' mean?", a: "Drop-in friendly means you can show up without an RSVP or registration. Just walk in and join a game!" },
     ],
   },
   {
     category: "Free vs. Paid",
     questions: [
-      { q: "What can I see for free?", a: "Everyone can search the full directory, see the map with all game pins, and view complete details for the top result in each search. To unlock details on all other listings — names, venues, contact info, schedules — you need a subscription." },
-      { q: "Why can't I see the names of other listings?", a: "Locked listings show the game type, day, distance, and skill level — enough to know a game exists near you. Names and venue details are hidden so the directory can't be bypassed. Subscribing unlocks everything." },
-      { q: "How much does a subscription cost?", a: `We offer two plans: ${formatCurrency(MONTHLY_PRICE)}/month or ${formatCurrency(ANNUAL_PRICE)}/year (that's just ${formatCurrency(ANNUAL_PRICE / 12)}/month — a ${Math.round((1 - ANNUAL_PRICE / 12 / MONTHLY_PRICE) * 100)}% savings). Both unlock every listing in all 50 states.` },
+      { q: "What can I see for free?", a: "Everyone can search the full directory, see the map with all game pins, and view complete details for the top result in each search. To unlock details on all other listings (names, venues, contact info, schedules) you need a subscription." },
+      { q: "Why can't I see the names of other listings?", a: "Locked listings show the game type, day, distance, and skill level, which is enough to know a game exists near you. Names and venue details are hidden so the directory can't be bypassed. Subscribing unlocks everything." },
+      { q: "How much does a subscription cost?", a: `We offer two plans: ${formatCurrency(MONTHLY_PRICE)}/month or ${formatCurrency(ANNUAL_PRICE)}/year (that's just ${formatCurrency(ANNUAL_PRICE / 12)}/month, a ${Math.round((1 - ANNUAL_PRICE / 12 / MONTHLY_PRICE) * 100)}% savings). Both unlock every listing in all 50 states.` },
       { q: "Can I cancel anytime?", a: "Yes. No contracts, no cancellation fees. Cancel from your account settings anytime. Your access continues until the end of your billing period." },
     ],
   },
   {
     category: "Listing a Group",
     questions: [
-      { q: "My group isn't listed. How do I add it?", a: "Go to the 'List Your Group' page and fill out the form. We'll add your group to the directory within 48 hours — completely free." },
+      { q: "My group isn't listed. How do I add it?", a: "Go to the 'List Your Group' page and fill out the form. We'll add your group to the directory within 48 hours, completely free." },
       { q: "Does it cost anything to get listed?", a: "No. Listing your group is always free. We want every mahjong game in the country on here." },
       { q: "How do I update my listing?", a: "Use the contact form on our site or DM us on Instagram @mahjnearme. We'll update your info quickly." },
     ],
@@ -39,9 +39,9 @@ const faqs = [
   {
     category: "Giveaways",
     questions: [
-      { q: "How do the giveaways work?", a: "We give away mahjong accessories — sets, mats, tile racks, and more. Paid subscribers are entered automatically in every drawing, and annual subscribers get 2x entries. You also earn one bonus entry for every 6 months subscribed, up to 6." },
+      { q: "How do the giveaways work?", a: "We give away mahjong accessories: sets, mats, tile racks, and more. Paid subscribers are entered automatically in every drawing, and annual subscribers get 2x entries. You also earn one bonus entry for every 6 months subscribed, up to 6." },
       { q: "Is a drawing running right now?", a: "The giveaways page always shows the current status, including when no drawing is open. Monthly drawings have not run since April 2026 and no new date is scheduled yet; the giveaways page carries the details." },
-      { q: "Do I need to buy something to enter?", a: "No purchase necessary. There is a free mail-in method of entry — the address and requirements are in the Official Rules. Paid subscribers are entered automatically with bonus entries." },
+      { q: "Do I need to buy something to enter?", a: "No purchase necessary. There is a free mail-in method of entry, and the address and requirements are in the Official Rules. Paid subscribers are entered automatically with bonus entries." },
     ],
   },
 ];

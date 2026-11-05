@@ -13,7 +13,7 @@ import {
 } from "firebase/auth";
 import { getFirebaseAuth, getFirebaseDb } from "@/lib/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { UserProfile, AccountType, SubscriptionStatus, ContributorStatus } from "@/types";
+import type { UserProfile, AccountType, SubscriptionStatus, ContributorStatus } from "@/types";
 
 interface AuthContextType {
   user: User | null;

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Game } from "@/types";
+import type { Game } from "@/types";
 import { getGameTypeColor, getGameTypeLabel, getVerificationStatus, formatSchedule, slugify, daysSinceVerified, STALE_THRESHOLD_DAYS, normalizeWebsiteUrl, resolvedInstagramUrl } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
 import { SKILL_LEVEL_LABELS } from "@/lib/constants";

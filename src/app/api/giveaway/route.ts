@@ -2,24 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { requireAdmin } from "@/lib/api-auth";
 import { sendEmail } from "@/lib/email";
-import { CURRENT_GIVEAWAY, defaultDrawDate, defaultMonthLabel, isRunning, type GiveawayStatus } from "@/lib/giveaway-config";
-
-/**
- * Resolve the programme status from the live config doc, falling back to the
- * config file.
- *
- * A doc written before `status` existed may carry only the legacy `paused`
- * boolean. Treat that as "paused" rather than defaulting to "running", so an
- * older doc can never reopen a drawing that is not actually running.
- */
-function resolveStatus(liveConfig: Record<string, unknown> | null | undefined): GiveawayStatus {
-  const live = liveConfig?.status;
-  if (live === "running" || live === "paused" || live === "reviewing") return live;
-  if (typeof liveConfig?.paused === "boolean") return liveConfig.paused ? "paused" : "running";
-  return CURRENT_GIVEAWAY.status;
-}
-
-// LEGAL NOTE: Sweepstakes laws vary by state. Have this reviewed by legal counsel before launch.
+import {
+  CURRENT_GIVEAWAY,
+  defaultDrawDate,
+  defaultMonthLabel,
+  isRunning,
+  resolveGiveawayStatus,
+  giveawayPublicFields,
+} from "@/lib/giveaway-config";
 
 // GET: Get current month's giveaway info, past winners, and entry pool
 export async function GET(request: NextRequest) {
@@ -58,66 +48,13 @@ export async function GET(request: NextRequest) {
     // Live prize config (overrides file-based defaults). Falls back if doc missing.
     const configDoc = await db.collection("siteConfig").doc("giveaway").get();
     const liveConfig = configDoc.exists ? configDoc.data() : null;
-    const resolvedStatus = resolveStatus(liveConfig);
-    const prizeNameForStatus = (liveConfig?.prizeName as string | undefined) ?? CURRENT_GIVEAWAY.prizeName;
-
-    // A drawing is only treated as open if it also has a prize to show.
-    //
-    // Belt and braces: save_config already refuses to set "running" without a
-    // prize name, but a doc written before that check existed, or edited
-    // directly in the console, could still say running with a blank prize —
-    // and the page would then render an empty prize block, which reads as a
-    // drawing whose prize nobody has decided. Falling back to a notice is the
-    // honest failure direction.
-    const status = resolvedStatus === "running" && !String(prizeNameForStatus || "").trim()
-      ? "paused"
-      : resolvedStatus;
-    const running = isRunning(status);
-
-    const statusFields = {
-      status,
-      statusHeadline:
-        (liveConfig?.statusHeadline as string | undefined) ??
-        // An older doc carrying only the legacy pausedMessage has no headline.
-        CURRENT_GIVEAWAY.statusHeadline,
-      statusNotice:
-        (liveConfig?.statusNotice as string | undefined) ??
-        (liveConfig?.pausedMessage as string | undefined) ??
-        CURRENT_GIVEAWAY.statusNotice,
-    };
-
-    // While a drawing is not running, every prize and drawing field is null.
-    //
-    // Returning placeholder strings here is what forced the notice into the
-    // prize record: something had to fill `prizeName`, so it held "Giveaway
-    // update", and `drawDate` held "Not yet scheduled" — a sentence rendered
-    // in the slot where a date goes. Null is the honest value, and it lets the
-    // page omit the field rather than describe it.
-    const prize = running
-      ? {
-          ...statusFields,
-          prizeName: liveConfig?.prizeName ?? CURRENT_GIVEAWAY.prizeName,
-          prizeValue: liveConfig?.prizeValue ?? CURRENT_GIVEAWAY.prizeValue,
-          prizePhoto: liveConfig?.prizePhoto ?? null,
-          prizeDescription: liveConfig?.prizeDescription ?? CURRENT_GIVEAWAY.prizeDescription,
-          prizeLink: liveConfig?.prizeLink ?? CURRENT_GIVEAWAY.prizeLink,
-          numberOfWinners: liveConfig?.numberOfWinners ?? CURRENT_GIVEAWAY.numberOfWinners,
-          // Falls back to the calendar rather than to a frozen string, so an
-          // unset override can never advertise a draw that already happened.
-          drawDate: liveConfig?.drawDate ?? CURRENT_GIVEAWAY.drawDate ?? defaultDrawDate(),
-          month: liveConfig?.month ?? CURRENT_GIVEAWAY.monthLabel ?? defaultMonthLabel(),
-        }
-      : {
-          ...statusFields,
-          prizeName: null,
-          prizeValue: null,
-          prizePhoto: null,
-          prizeDescription: null,
-          prizeLink: null,
-          numberOfWinners: null,
-          drawDate: null,
-          month: null,
-        };
+    // One shared, tested implementation decides the status and which fields
+    // are publishable. See giveawayPublicFields in src/lib/giveaway-config.ts.
+    const prize = giveawayPublicFields(liveConfig, {
+      drawDate: defaultDrawDate(),
+      month: defaultMonthLabel(),
+    });
+    const status = prize.status;
 
     if (admin) {
       const denied = requireAdmin(request);
@@ -342,7 +279,7 @@ export async function POST(request: NextRequest) {
       // "paused" or "reviewing"; drawing anyway would make that a lie after
       // the fact, and the draw is not reversible.
       const statusDoc = await db.collection("siteConfig").doc("giveaway").get();
-      const drawStatus = resolveStatus(statusDoc.exists ? statusDoc.data() : null);
+      const drawStatus = resolveGiveawayStatus(statusDoc.exists ? statusDoc.data() : null);
       if (!isRunning(drawStatus)) {
         return NextResponse.json(
           {
@@ -550,7 +487,7 @@ async function sendWinnerEmail(opts: {
 
   const text = `Hi ${firstName},
 
-Congratulations — you were drawn as the winner of the ${opts.month} MahjNearMe giveaway!
+Congratulations! You were drawn as the winner of the ${opts.month} MahjNearMe giveaway.
 
 Prize: ${opts.prizeName}${valueStr}
 ${opts.prizeLink ? `Browse the collection: ${opts.prizeLink}\n` : ""}
@@ -570,7 +507,7 @@ Thanks for being part of MahjNearMe!
   </div>
   <div style="background:white;padding:32px;border:1px solid #eee;border-radius:0 0 12px 12px">
     <p>Hi ${escapeHtml(firstName)},</p>
-    <p>Congratulations — you were drawn as the winner of the <strong>${escapeHtml(opts.month)} MahjNearMe giveaway</strong>!</p>
+    <p>Congratulations! You were drawn as the winner of the <strong>${escapeHtml(opts.month)} MahjNearMe giveaway</strong>.</p>
     <div style="background:#FFF0F5;border:1px solid #FFB6C1;border-radius:12px;padding:16px;margin:16px 0">
       <p style="margin:0;font-weight:bold;color:#FF1493">${escapeHtml(opts.prizeName)}${escapeHtml(valueStr)}</p>
       ${opts.prizeLink ? `<p style="margin:8px 0 0"><a href="${escapeAttr(opts.prizeLink)}" style="color:#FF1493">Browse the collection &rarr;</a></p>` : ""}

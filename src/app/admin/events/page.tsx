@@ -16,9 +16,10 @@ import {
   Plus,
   Trash2,
 } from "lucide-react";
-import { Game, GameType, GameStyle, SkillLevel } from "@/types";
+import type { Game, GameType, GameStyle, SkillLevel } from "@/types";
 
 import { adminFetch } from "@/lib/admin-fetch";
+import { scheduleFieldsFor } from "@/lib/schedule-fields";
 
 // All editable fields for an event
 interface EditForm {
@@ -290,33 +291,17 @@ function EventCard({
       status: form.status,
       verified: form.verified,
       promoted: form.promoted,
-      // A listing is either a recurring session or a dated one-off, never
-      // both. Writing `eventDate` alongside a `recurringSchedule` is how
-      // records ended up describing a three-day retreat as a weekly Tuesday
-      // game — "Mahjong in the Mountains" carries a Tuesday 10:00–22:00
-      // schedule and eventDate 2026-07-21 at the same time. The unselected
-      // shape is explicitly nulled so a mode change clears the old fields
-      // instead of leaving them underneath.
-      ...(form.dayOfWeek
-        ? {
-            isRecurring: true,
-            recurringSchedule: {
-              dayOfWeek: form.dayOfWeek,
-              startTime: form.startTime,
-              endTime: form.endTime,
-              frequency: form.frequency,
-            },
-            eventDate: null,
-            eventStartTime: null,
-            eventEndTime: null,
-          }
-        : {
-            isRecurring: false,
-            recurringSchedule: null,
-            eventDate: form.eventDate,
-            eventStartTime: form.startTime || null,
-            eventEndTime: form.endTime || null,
-          }),
+      // One shared, tested helper builds both shapes and nulls the other's
+      // fields, so a mode change cannot leave a stale schedule or date behind.
+      // Day = "One-time" (empty dayOfWeek) is this screen's mode switch.
+      ...scheduleFieldsFor({
+        mode: form.dayOfWeek ? "recurring" : "one_time",
+        dayOfWeek: form.dayOfWeek,
+        frequency: form.frequency,
+        startTime: form.startTime,
+        endTime: form.endTime,
+        eventDate: form.eventDate,
+      }),
     };
 
     // Re-geocode if address changed

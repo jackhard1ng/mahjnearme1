@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Game } from "@/types";
+import type { Game } from "@/types";
 import { slugify } from "@/lib/utils";
 import { getEventTiming } from "@/lib/event-timing";
 import type L from "leaflet";

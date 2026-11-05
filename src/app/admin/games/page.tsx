@@ -4,8 +4,9 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { mockGames } from "@/lib/mock-data";
 import { GAME_TYPE_LABELS, GAME_STYLE_LABELS, SKILL_LEVEL_LABELS, DAYS_OF_WEEK } from "@/lib/constants";
 import { getVerificationStatus, getGameTypeLabel, formatSchedule } from "@/lib/utils";
-import { GameType, GameStyle, SkillLevel, Game } from "@/types";
+import type { GameType, GameStyle, SkillLevel, Game } from "@/types";
 import { adminFetch, adminWrite } from "@/lib/admin-fetch";
+import { scheduleFieldsFor, scheduleModeOf, type ScheduleMode } from "@/lib/schedule-fields";
 
 
 import {
@@ -28,8 +29,6 @@ import Papa from "papaparse";
 import { geocodeAddress } from "@/lib/geocode";
 
 type View = "list" | "add" | "csv" | "bulk";
-
-type ScheduleMode = "recurring" | "one_time";
 
 /**
  * Collapse internal runs of whitespace and strip the ends.
@@ -336,30 +335,17 @@ export default function AdminGamesPage() {
       return;
     }
 
-    // The two schedule shapes are mutually exclusive in storage. Writing both
-    // is what produced records like "Mahjong in the Mountains": a weekly
-    // Tuesday schedule sitting on a dated three-day retreat. Whichever mode
-    // is not selected gets explicitly nulled rather than left behind.
-    const scheduleFields = oneTime
-      ? {
-          isRecurring: false,
-          recurringSchedule: null,
-          eventDate: form.eventDate,
-          eventStartTime: form.startTime,
-          eventEndTime: form.endTime,
-        }
-      : {
-          isRecurring: true,
-          recurringSchedule: {
-            dayOfWeek: form.dayOfWeek,
-            startTime: form.startTime,
-            endTime: form.endTime,
-            frequency: form.frequency || "weekly",
-          },
-          eventDate: null,
-          eventStartTime: null,
-          eventEndTime: null,
-        };
+    // One shared, tested helper builds both shapes and nulls the other's
+    // fields. See src/lib/schedule-fields.ts for why nulls rather than
+    // FieldValue.delete().
+    const scheduleFields = scheduleFieldsFor({
+      mode: form.scheduleMode,
+      dayOfWeek: form.dayOfWeek,
+      frequency: form.frequency,
+      startTime: form.startTime,
+      endTime: form.endTime,
+      eventDate: form.eventDate,
+    });
 
     const fields = {
       name,
@@ -604,7 +590,7 @@ export default function AdminGamesPage() {
       // "Mahjong in the Mountains" rows are in exactly that state: a weekly
       // Tuesday schedule and eventDate 2026-07-21, for a three-day retreat.
       // Prefer the explicit flag, and fall back to the presence of a date.
-      scheduleMode: (game.isRecurring ? "recurring" : game.eventDate ? "one_time" : "recurring") as ScheduleMode,
+      scheduleMode: scheduleModeOf(game),
       dayOfWeek: game.recurringSchedule?.dayOfWeek || "monday",
       frequency: game.recurringSchedule?.frequency || "weekly",
       startTime: game.recurringSchedule?.startTime || game.eventStartTime || "18:00",

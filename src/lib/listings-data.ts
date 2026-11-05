@@ -11,7 +11,7 @@
  * mixed-case values, freeform frequencies, etc.
  */
 
-import { Game, GameType, GameStyle, SkillLevel, Frequency } from "@/types";
+import type { Game, GameType, GameStyle, SkillLevel, Frequency } from "@/types";
 import { findMetroForCity } from "@/lib/metro-regions";
 import { US_STATES } from "@/lib/constants";
 

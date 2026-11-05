@@ -45,7 +45,7 @@ export async function requireAdminUser(
   }
   const idToken = match[1].trim();
 
-  let decoded: { uid: string; email?: string };
+  let decoded: { uid: string; email?: string; email_verified?: boolean };
   try {
     decoded = await getAdminAuth().verifyIdToken(idToken);
   } catch (err) {
@@ -55,8 +55,24 @@ export async function requireAdminUser(
 
   const email = (decoded.email || "").toLowerCase();
 
+  // The email allowlist requires a VERIFIED email.
+  //
+  // Firebase email/password signup accepts an arbitrary address and leaves
+  // email_verified false until the user clicks through. Matching the allowlist
+  // on an unverified claim therefore means: if an address in ADMIN_EMAILS is
+  // not already registered in Firebase Auth, anyone can register it and be
+  // granted full admin on their next request. Requiring the verified flag
+  // closes that without affecting a real admin, whose address is verified.
   if (ADMIN_EMAILS.includes(email)) {
-    return { uid: decoded.uid, email };
+    if (decoded.email_verified) {
+      return { uid: decoded.uid, email };
+    }
+    console.warn(
+      `[requireAdminUser] allowlisted email ${email} presented an UNVERIFIED token (uid ${decoded.uid}); refusing admin`
+    );
+    // Fall through to the accountType check rather than returning early: a
+    // legitimate admin whose address is unverified may still hold
+    // accountType "admin" on their user document.
   }
 
   // Fall back to user doc accountType check

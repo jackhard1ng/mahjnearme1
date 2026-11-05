@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/contexts/AuthContext";
-import { Game } from "@/types";
+import type { Game } from "@/types";
 import { useFirestoreListings } from "@/hooks/useFirestoreListings";
 import { useEnrichedGames } from "@/hooks/useOrganizerOverrides";
 import { isEventExpired, slugify, formatTime, getStateName, getGameTypeColor, getGameTypeLabel } from "@/lib/utils";

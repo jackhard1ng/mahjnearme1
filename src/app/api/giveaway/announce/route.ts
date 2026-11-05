@@ -7,15 +7,7 @@ import {
   MONTHLY_REFERRAL_COMMISSION,
   ANNUAL_REFERRAL_COMMISSION,
 } from "@/lib/constants";
-import { CURRENT_GIVEAWAY, type GiveawayStatus } from "@/lib/giveaway-config";
-
-/** Same resolution rule as /api/giveaway: a legacy `paused` doc means paused. */
-function resolveAnnounceStatus(cfg: Record<string, unknown> | null | undefined): GiveawayStatus {
-  const live = cfg?.status;
-  if (live === "running" || live === "paused" || live === "reviewing") return live;
-  if (typeof cfg?.paused === "boolean") return cfg.paused ? "paused" : "running";
-  return CURRENT_GIVEAWAY.status;
-}
+import { resolveGiveawayStatus } from "@/lib/giveaway-config";
 
 // POST: Send contributor giveaway announcement emails — Protected
 export async function POST(request: NextRequest) {
@@ -41,7 +33,7 @@ export async function POST(request: NextRequest) {
     // saying monthly drawings have not run is the same contradiction in a
     // channel nobody can correct after the fact.
     const statusDoc = await db.collection("siteConfig").doc("giveaway").get();
-    const status = resolveAnnounceStatus(statusDoc.exists ? statusDoc.data() : null);
+    const status = resolveGiveawayStatus(statusDoc.exists ? statusDoc.data() : null);
     if (status !== "running") {
       return NextResponse.json(
         {
@@ -128,7 +120,7 @@ export async function POST(request: NextRequest) {
       try {
         sent = await sendEmail({
           to: data.email,
-          subject: `${prizeName} giveaway is live — share your code`,
+          subject: `${prizeName} giveaway is live: share your code`,
           text: `Hi ${contributorName},\n\nThis month's MahjNearMe giveaway is live: ${prizeValue} ${prizeName}.\n\nReady-to-post caption:\n\n${caption}\n\nYour referral link: ${baseUrl}/pricing?ref=${encodeURIComponent(referralCode)}\n\nActive referrals: ${activeReferrals}\nCurrent monthly earnings: ${formatCurrency(monthlyEarnings)}\n\n- Jack @ MahjNearMe`,
           html: emailHtml,
         });

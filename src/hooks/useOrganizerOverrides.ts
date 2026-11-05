@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Game } from "@/types";
+import type { Game } from "@/types";
 
 interface OrganizerOverride {
   displayName: string;

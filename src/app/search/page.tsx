@@ -19,7 +19,7 @@ import SkeletonCard from "@/components/SkeletonCard";
 import { useFirestoreListings } from "@/hooks/useFirestoreListings";
 import { useEnrichedGames } from "@/hooks/useOrganizerOverrides";
 import { useAuth } from "@/contexts/AuthContext";
-import { SearchFilters, Game } from "@/types";
+import type { SearchFilters, Game } from "@/types";
 import { isEventExpired, scheduleDays } from "@/lib/utils";
 import { haversineDistance, formatDistance } from "@/lib/distance";
 import { geocodeSearchQuery } from "@/lib/geocode";

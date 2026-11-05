@@ -130,7 +130,7 @@ export default function WelcomePage() {
             <div className="flex items-start gap-3 bg-green-50 rounded-lg p-3">
               <Gift className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
               <div>
-                <p className="font-medium text-charcoal text-sm">Giveaway Entry{isAnnual ? " — 2x Entries!" : ""}</p>
+                <p className="font-medium text-charcoal text-sm">Giveaway Entry{isAnnual ? " (2x Entries!)" : ""}</p>
                 <p className="text-xs text-slate-500">
                   {isAnnual
                     ? "As an annual member, you get 2 entries in every mahjong prize drawing we run."

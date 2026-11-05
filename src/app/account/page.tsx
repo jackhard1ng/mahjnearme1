@@ -332,7 +332,7 @@ export default function AccountPage() {
                   Cancel
                 </button>
                 {saveStatus === "saved" && <span className="text-xs text-green-600 font-medium">Saved</span>}
-                {saveStatus === "error" && <span className="text-xs text-red-500 font-medium">Save failed — try again</span>}
+                {saveStatus === "error" && <span className="text-xs text-red-500 font-medium">Save failed. Try again</span>}
               </div>
             )}
           </div>

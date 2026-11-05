@@ -19,7 +19,7 @@ const freeFeatures = [
 
 const subscriberFeatures = [
   { text: "Everything in Free, plus:", included: true },
-  { text: "Full details on every listing — names, venues, contact info", included: true },
+  { text: "Full details on every listing: names, venues, contact info", included: true },
   { text: "Addresses and directions for every game", included: true },
   { text: "Schedules, descriptions, and how-to-join info", included: true },
   { text: "Instagram handles, websites, and registration links", included: true },
@@ -30,7 +30,7 @@ const faqs = [
   {
     question: "What can I see for free?",
     answer:
-      "You can search the full directory, see the map with all game pins, and view complete details for the top result in each search. Other listings show game type, day, distance, and skill level — but names and contact info are locked.",
+      "You can search the full directory, see the map with all game pins, and view complete details for the top result in each search. Other listings show game type, day, distance, and skill level, but names and contact info are locked.",
   },
   {
     question: "Can I cancel anytime?",
@@ -417,7 +417,7 @@ function PricingContent() {
           <div className="card-white p-8">
             <div className="text-3xl mb-3">🀄</div>
             <h3 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3">Don&apos;t see your group?</h3>
-            <p className="text-slate-500 mb-6">We&apos;re building the most complete mahjong directory in the country. If your group isn&apos;t listed, let us know — it&apos;s free.</p>
+            <p className="text-slate-500 mb-6">We&apos;re building the most complete mahjong directory in the country. If your group isn&apos;t listed, let us know. It&apos;s free.</p>
             <Link href="/add-your-group" className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-hotpink-600 transition-colors">
               List Your Group <ArrowRight className="w-4 h-4" />
             </Link>
