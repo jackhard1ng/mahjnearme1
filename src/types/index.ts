@@ -35,6 +35,19 @@ export interface Game {
   isRecurring: boolean;
   recurringSchedule: RecurringSchedule | null;
   eventDate: string | null;
+  /**
+   * Last day of a multi-day one-off event, "YYYY-MM-DD".
+   *
+   * Null for a single-day event. Distinct from leagueStartDate/leagueEndDate,
+   * which are a league SEASON ("Season Start"/"Season End" in the admin bar)
+   * and render nowhere public.
+   *
+   * Without this the schema could not hold a multi-day event at all: the
+   * "Mahjong in the Mountains" retreat is three days (the organizer's own page
+   * says "3 days, Jul 21-23, two nights"), and storing only the first day both
+   * misreported it and expired it two days early.
+   */
+  eventEndDate?: string | null;
   eventStartTime: string | null;
   eventEndTime: string | null;
 

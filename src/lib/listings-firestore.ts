@@ -59,6 +59,7 @@ function docToGame(data: Record<string, unknown>, id: string): Game {
     isRecurring: (data.isRecurring as boolean) ?? false,
     recurringSchedule: (data.recurringSchedule as Game["recurringSchedule"]) || null,
     eventDate: (data.eventDate as string) || null,
+    eventEndDate: (data.eventEndDate as string) || null,
     eventStartTime: (data.eventStartTime as string) || null,
     eventEndTime: (data.eventEndTime as string) || null,
     cost: str(data.cost) || "Contact for price",

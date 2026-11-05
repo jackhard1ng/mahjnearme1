@@ -121,7 +121,7 @@ export function formatDayOfWeek(dayOfWeek: string): string {
   return `${days.slice(0, -1).join(", ")} & ${days[days.length - 1]}`;
 }
 
-export function formatSchedule(game: { isRecurring: boolean; recurringSchedule: { dayOfWeek: string; startTime: string; endTime: string; frequency: string } | null; eventDate: string | null; eventStartTime: string | null; eventEndTime: string | null }): string {
+export function formatSchedule(game: { isRecurring: boolean; recurringSchedule: { dayOfWeek: string; startTime: string; endTime: string; frequency: string } | null; eventDate: string | null; eventEndDate?: string | null; eventStartTime: string | null; eventEndTime: string | null }): string {
   if (game.isRecurring && game.recurringSchedule) {
     const { dayOfWeek, startTime, endTime, frequency } = game.recurringSchedule;
     const freqLabel = frequency === "weekly" ? "Every" : frequency === "biweekly" ? "Every other" : frequency === "monthly" ? "Monthly," : "";
@@ -137,7 +137,22 @@ export function formatSchedule(game: { isRecurring: boolean; recurringSchedule: 
     // Parse as local date (not UTC) to avoid timezone offset showing wrong day
     const [year, month, day] = game.eventDate.split("-").map(Number);
     const date = new Date(year, month - 1, day);
-    const dateStr = date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+    let dateStr = date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+
+    // A multi-day event reads as a span: "July 21-23, 2026", or
+    // "July 30 - August 2, 2026" when it crosses a month.
+    if (game.eventEndDate && game.eventEndDate !== game.eventDate) {
+      const [ey, em, ed] = game.eventEndDate.split("-").map(Number);
+      const end = new Date(ey, em - 1, ed);
+      if (ey === year && em === month) {
+        dateStr = `${date.toLocaleDateString("en-US", { month: "long", day: "numeric" })}-${ed}, ${year}`;
+      } else if (ey === year) {
+        dateStr = `${date.toLocaleDateString("en-US", { month: "long", day: "numeric" })} to ${end.toLocaleDateString("en-US", { month: "long", day: "numeric" })}, ${year}`;
+      } else {
+        dateStr = `${dateStr} to ${end.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`;
+      }
+    }
+
     const timeStr = game.eventStartTime && game.eventEndTime
       ? `, ${formatTime(game.eventStartTime)} - ${formatTime(game.eventEndTime)}`
       : game.eventStartTime
@@ -338,10 +353,17 @@ export function resolvedInstagramUrl(game: {
  * Returns true if a one-time event's date is in the past.
  * Recurring events never expire via this check.
  */
-export function isEventExpired(game: { isRecurring: boolean; eventDate: string | null }): boolean {
+export function isEventExpired(game: {
+  isRecurring: boolean;
+  eventDate: string | null;
+  eventEndDate?: string | null;
+}): boolean {
   if (game.isRecurring) return false;
-  if (!game.eventDate) return false;
-  const [year, month, day] = game.eventDate.split("-").map(Number);
+  // A multi-day event is live until the end of its LAST day. Using the start
+  // date alone retired a three-day retreat two days into itself.
+  const last = game.eventEndDate || game.eventDate;
+  if (!last) return false;
+  const [year, month, day] = last.split("-").map(Number);
   const eventDay = new Date(year, month - 1, day);
   const today = new Date();
   today.setHours(0, 0, 0, 0);

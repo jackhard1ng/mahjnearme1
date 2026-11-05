@@ -36,6 +36,7 @@ interface EditForm {
   endTime: string;
   frequency: string;
   eventDate: string;
+  eventEndDate: string;
   cost: string;
   description: string;
   contactName: string;
@@ -72,6 +73,7 @@ function gameToForm(g: Game): EditForm {
     endTime: g.recurringSchedule?.endTime || "",
     frequency: g.recurringSchedule?.frequency || "weekly",
     eventDate: g.eventDate || "",
+    eventEndDate: g.eventEndDate || "",
     cost: g.cost || "",
     description: g.description || "",
     contactName: g.contactName || "",
@@ -301,6 +303,7 @@ function EventCard({
         startTime: form.startTime,
         endTime: form.endTime,
         eventDate: form.eventDate,
+        eventEndDate: form.eventEndDate,
       }),
     };
 
@@ -459,6 +462,9 @@ function EventCard({
             {!form.dayOfWeek && (
               <div className="mt-3">
                 <Field label="Event Date (required for a one-time event)" value={form.eventDate} onChange={set("eventDate")} type="date" />
+                <div className="mt-2">
+                  <Field label="End Date (only for a multi-day event)" value={form.eventEndDate} onChange={set("eventEndDate")} type="date" />
+                </div>
                 {form.eventDate && form.eventDate < new Date().toISOString().slice(0, 10) && (
                   <p className="text-xs text-amber-600 mt-1">
                     This date has passed. The listing stays active until you change its status above.

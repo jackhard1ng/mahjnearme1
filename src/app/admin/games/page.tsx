@@ -106,6 +106,7 @@ const emptyForm = {
   startTime: "18:00",
   endTime: "20:00",
   eventDate: "",
+  eventEndDate: "",
   cost: "",
   contactEmail: "",
   description: "",
@@ -334,6 +335,10 @@ export default function AdminGamesPage() {
       showToast("A one-time event needs a date. Pick one, or switch to Recurring.", "error");
       return;
     }
+    if (oneTime && form.eventEndDate && form.eventEndDate < form.eventDate) {
+      showToast("The end date cannot be before the start date.", "error");
+      return;
+    }
 
     // One shared, tested helper builds both shapes and nulls the other's
     // fields. See src/lib/schedule-fields.ts for why nulls rather than
@@ -345,6 +350,7 @@ export default function AdminGamesPage() {
       startTime: form.startTime,
       endTime: form.endTime,
       eventDate: form.eventDate,
+      eventEndDate: form.eventEndDate,
     });
 
     const fields = {
@@ -596,6 +602,7 @@ export default function AdminGamesPage() {
       startTime: game.recurringSchedule?.startTime || game.eventStartTime || "18:00",
       endTime: game.recurringSchedule?.endTime || game.eventEndTime || "20:00",
       eventDate: game.eventDate || "",
+      eventEndDate: game.eventEndDate || "",
       cost: game.cost,
       contactEmail: game.contactEmail,
       description: game.description,
@@ -909,11 +916,25 @@ export default function AdminGamesPage() {
                 />
                 {/* A past date is stated, not acted on. Deactivating on a date
                     the record may simply have recorded badly would hide live
-                    listings, so this is left to a deliberate status change. */}
-                {form.eventDate && form.eventDate < new Date().toISOString().slice(0, 10) && (
-                  <p className="text-xs text-amber-600 mt-1">
-                    This date has passed. The listing stays active until you change its status.
-                  </p>
+                    listings, so this is left to a deliberate status change.
+                    A multi-day event is judged on its LAST day. */}
+                {(form.eventEndDate || form.eventDate) &&
+                  (form.eventEndDate || form.eventDate) < new Date().toISOString().slice(0, 10) && (
+                    <p className="text-xs text-amber-600 mt-1">
+                      This date has passed. The listing stays active until you change its status.
+                    </p>
+                  )}
+                <label className="block text-xs font-medium text-slate-600 mt-2 mb-1">
+                  End Date <span className="text-slate-400">(only for a multi-day event)</span>
+                </label>
+                <input
+                  type="date"
+                  value={form.eventEndDate}
+                  onChange={(e) => setForm({ ...form, eventEndDate: e.target.value })}
+                  className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+                />
+                {form.eventEndDate && form.eventDate && form.eventEndDate < form.eventDate && (
+                  <p className="text-xs text-red-600 mt-1">End date is before the start date.</p>
                 )}
               </div>
             )}

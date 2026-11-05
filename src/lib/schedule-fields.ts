@@ -38,6 +38,8 @@ export interface ScheduleInput {
   endTime: string;
   /** "YYYY-MM-DD". Required when mode is "one_time". */
   eventDate: string;
+  /** "YYYY-MM-DD". Optional last day of a multi-day one-off. */
+  eventEndDate?: string;
 }
 
 export interface ScheduleFields {
@@ -49,6 +51,7 @@ export interface ScheduleFields {
     frequency: string;
   } | null;
   eventDate: string | null;
+  eventEndDate: string | null;
   eventStartTime: string | null;
   eventEndTime: string | null;
 }
@@ -66,6 +69,12 @@ export function scheduleFieldsFor(input: ScheduleInput): ScheduleFields {
       isRecurring: false,
       recurringSchedule: null,
       eventDate: input.eventDate || null,
+      // A single-day event stores no end date rather than repeating the start,
+      // so "is this multi-day?" has one answer everywhere.
+      eventEndDate:
+        input.eventEndDate && input.eventEndDate !== input.eventDate
+          ? input.eventEndDate
+          : null,
       // Times are preserved across a mode change rather than discarded: a
       // 10:00-22:00 session keeps its hours when it becomes a dated event.
       eventStartTime: input.startTime || null,
@@ -81,6 +90,7 @@ export function scheduleFieldsFor(input: ScheduleInput): ScheduleFields {
       frequency: input.frequency || "weekly",
     },
     eventDate: null,
+    eventEndDate: null,
     eventStartTime: null,
     eventEndTime: null,
   };

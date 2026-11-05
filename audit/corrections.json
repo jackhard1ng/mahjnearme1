@@ -14711,9 +14711,12 @@
     "updates": {
       "isRecurring": false,
       "recurringSchedule": null,
-      "eventDate": "2026-07-21"
+      "eventDate": "2026-07-21",
+      "eventEndDate": "2026-07-23"
     },
-    "reason": "Stored as a weekly Tuesday 10:00-22:00 session with eventDate 2026-07-21 underneath. The listing description states \"Mahjong in the Mountains | July 21-23 | Red Feather Lakes, CO\", so this is a dated three-day retreat, not a recurring game. Recording it as one-time lets the expiry filter retire it; the previously queued correction dropped the date instead, which would have made an ended retreat a permanent weekly listing. Status left untouched."
+    "reason": "Stored as a weekly Tuesday 10:00-22:00 session with eventDate 2026-07-21 underneath, so the site showed an ended three-day retreat as a live weekly game (isEventExpired short-circuits on isRecurring). SOURCE: the organizer's own retreat page, https://www.focomahjong.com/retreat, fetched 2026-11-05, states \"July 21-23, 2026 - Beaver Meadows Resort Ranch\" and \"3 days  Jul 21-23, two nights\", with a per-day schedule for July 21, 22 and 23. Venue and locality on that page (Beaver Meadows Resort Ranch, Red Feather Lakes, CO) match the stored record. The year is taken from that page, not inferred from the listing title. Recorded as a one-time event spanning 2026-07-21 to 2026-07-23 so the multi-day nature is preserved and expiry falls after the last day. Times are left as stored: the source page describes the days loosely (\"this is the shape of it, not a schedule\") and does not support replacing them. Status is not changed by this correction.",
+    "source": "https://www.focomahjong.com/retreat",
+    "verifiedAt": "2026-11-05"
   },
   {
     "id": "4s-ranch-library-drop-in-mahjong-san-diego-california-200-pm",
@@ -14727,9 +14730,12 @@
     "updates": {
       "isRecurring": false,
       "recurringSchedule": null,
-      "eventDate": "2026-07-21"
+      "eventDate": "2026-07-21",
+      "eventEndDate": "2026-07-23"
     },
-    "reason": "Stored as a weekly Tuesday 10:00-22:00 session with eventDate 2026-07-21 underneath. The listing description states \"Mahjong in the Mountains | July 21-23 | Red Feather Lakes, CO\", so this is a dated three-day retreat, not a recurring game. Recording it as one-time lets the expiry filter retire it; the previously queued correction dropped the date instead, which would have made an ended retreat a permanent weekly listing. Status left untouched."
+    "reason": "Stored as a weekly Tuesday 10:00-22:00 session with eventDate 2026-07-21 underneath, so the site showed an ended three-day retreat as a live weekly game (isEventExpired short-circuits on isRecurring). SOURCE: the organizer's own retreat page, https://www.focomahjong.com/retreat, fetched 2026-11-05, states \"July 21-23, 2026 - Beaver Meadows Resort Ranch\" and \"3 days  Jul 21-23, two nights\", with a per-day schedule for July 21, 22 and 23. Venue and locality on that page (Beaver Meadows Resort Ranch, Red Feather Lakes, CO) match the stored record. The year is taken from that page, not inferred from the listing title. Recorded as a one-time event spanning 2026-07-21 to 2026-07-23 so the multi-day nature is preserved and expiry falls after the last day. Times are left as stored: the source page describes the days loosely (\"this is the shape of it, not a schedule\") and does not support replacing them. Status is not changed by this correction.",
+    "source": "https://www.focomahjong.com/retreat",
+    "verifiedAt": "2026-11-05"
   },
   {
     "id": "aauw-mahjong-groups-walnut-creek-walnut-creek-california-930-am",

@@ -177,3 +177,102 @@ describe("multi-day events", () => {
     assert.equal(out.eventEndTime, "22:00");
   });
 });
+
+describe("multi-day events are representable and expire on their last day", () => {
+  const retreat = {
+    ...base,
+    mode: "one_time" as const,
+    eventDate: "2026-07-21",
+    eventEndDate: "2026-07-23",
+  };
+
+  test("the span is stored", () => {
+    const out = scheduleFieldsFor(retreat);
+    assert.equal(out.eventDate, "2026-07-21");
+    assert.equal(out.eventEndDate, "2026-07-23");
+  });
+
+  test("a single-day event stores no end date rather than repeating the start", () => {
+    const out = scheduleFieldsFor({ ...retreat, eventEndDate: "2026-07-21" });
+    assert.equal(out.eventEndDate, null);
+  });
+
+  test("an absent end date is null", () => {
+    const out = scheduleFieldsFor({ ...retreat, eventEndDate: undefined });
+    assert.equal(out.eventEndDate, null);
+  });
+
+  test("switching to recurring clears the end date too", () => {
+    const out = scheduleFieldsFor({ ...retreat, mode: "recurring" });
+    assert.ok("eventEndDate" in out);
+    assert.equal(out.eventEndDate, null);
+  });
+
+  test("a multi-day event is live on its middle and last day", () => {
+    // Expiry is judged on the last day; using the start date retired a
+    // three-day retreat two days into itself.
+    const g = { isRecurring: false, eventDate: "2026-07-21", eventEndDate: "2026-07-23" };
+    const asOf = (iso: string) => {
+      const saved = Date.now;
+      Date.now = () => new Date(iso).getTime();
+      try {
+        // isEventExpired builds `new Date()` internally, so patch the clock.
+        const RealDate = Date;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (globalThis as any).Date = class extends RealDate {
+          constructor(...a: unknown[]) {
+            // @ts-expect-error passthrough
+            super(...(a.length ? a : [iso]));
+          }
+          static now() {
+            return new RealDate(iso).getTime();
+          }
+        };
+        const r = isEventExpired(g);
+        (globalThis as any).Date = RealDate;
+        return r;
+      } finally {
+        Date.now = saved;
+      }
+    };
+    assert.equal(asOf("2026-07-22T12:00:00"), false, "live on day 2");
+    assert.equal(asOf("2026-07-23T12:00:00"), false, "live on the last day");
+    assert.equal(asOf("2026-07-24T12:00:00"), true, "expired the day after");
+  });
+
+  test("the public label reads as a span, not a single day", () => {
+    const label = formatSchedule({
+      isRecurring: false,
+      recurringSchedule: null,
+      eventDate: "2026-07-21",
+      eventEndDate: "2026-07-23",
+      eventStartTime: null,
+      eventEndTime: null,
+    });
+    assert.equal(label, "July 21-23, 2026");
+  });
+
+  test("a span crossing a month boundary names both months", () => {
+    const label = formatSchedule({
+      isRecurring: false,
+      recurringSchedule: null,
+      eventDate: "2026-07-30",
+      eventEndDate: "2026-08-02",
+      eventStartTime: null,
+      eventEndTime: null,
+    });
+    assert.equal(label, "July 30 to August 2, 2026");
+  });
+
+  test("a single-day event still reads as one date", () => {
+    const label = formatSchedule({
+      isRecurring: false,
+      recurringSchedule: null,
+      eventDate: "2026-08-25",
+      eventEndDate: null,
+      eventStartTime: null,
+      eventEndTime: null,
+    });
+    assert.equal(label, "August 25, 2026");
+  });
+});
