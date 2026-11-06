@@ -1,12 +1,18 @@
 /**
- * Loads and normalizes the real listings data from /public/listings.json.
+ * Loads and normalizes the real listings data from data/listings.json.
+ *
+ * The file lives in data/ rather than public/ on purpose. Anything in public/
+ * is served as a static asset, so public/listings.json handed the entire
+ * directory, venue addresses and organizer contact details included, to anyone
+ * who requested the URL, with no subscription and no authentication. This is a
+ * build-time require, so bundling is unaffected by the move.
  * This replaces mock-data.ts as the primary data source.
  *
  * Handles all the messy real-world data: inconsistent type names,
  * mixed-case values, freeform frequencies, etc.
  */
 
-import { Game, GameType, GameStyle, SkillLevel, Frequency } from "@/types";
+import type { Game, GameType, GameStyle, SkillLevel, Frequency } from "@/types";
 import { findMetroForCity } from "@/lib/metro-regions";
 import { US_STATES } from "@/lib/constants";
 
@@ -286,7 +292,7 @@ let _cachedRawData: ListingsJSON | null = null;
 function loadRawData(): ListingsJSON {
   if (_cachedRawData) return _cachedRawData;
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  _cachedRawData = require("../../public/listings.json") as ListingsJSON;
+  _cachedRawData = require("../../data/listings.json") as ListingsJSON;
   return _cachedRawData;
 }
 

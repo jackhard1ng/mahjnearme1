@@ -13,15 +13,27 @@ export async function POST(req: Request) {
 
   try {
     const db = getAdminDb();
-    const baseUrl = process.env.NEXT_PUBLIC_URL || "https://www.mahjnearme.com";
 
-    // Load listings
-    const listingsRes = await fetch(`${baseUrl}/listings.json`);
-    if (!listingsRes.ok) {
+    // Read the dataset directly rather than fetching it over HTTP.
+    //
+    // This used to `fetch(`${baseUrl}/listings.json`)`, i.e. request the
+    // server's own data back from its own public URL. That required the
+    // dataset to be world-readable to work at all, which is precisely the
+    // exposure being closed here. Reading the module is also faster, cannot
+    // fail on a network hiccup, and needs no base URL.
+    // Shape kept loose, exactly as `await res.json()` previously returned it,
+    // so the consuming loop below is unchanged by this swap.
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    let listings: any[];
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const raw = require("../../../../../data/listings.json") as { listings?: any[] };
+      listings = raw.listings || [];
+    } catch (err) {
+      console.error("[organizers/populate] could not load data/listings.json:", err);
       return NextResponse.json({ error: "Could not load listings" }, { status: 500 });
     }
-    const data = await listingsRes.json();
-    const listings = data.listings || [];
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 
     // Extract organizers
     const orgMap = new Map<string, {

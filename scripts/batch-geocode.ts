@@ -1,7 +1,7 @@
 /**
  * Batch geocoding script for listings.json.
  *
- * Reads public/listings.json, geocodes every listing that's missing lat/lng,
+ * Reads data/listings.json, geocodes every listing that's missing lat/lng,
  * and writes the updated data back. Uses OpenStreetMap Nominatim (free, no key).
  *
  * Rate limited to 1 request/second per Nominatim usage policy.
@@ -17,7 +17,7 @@
 import * as fs from "fs";
 import * as path from "path";
 
-const LISTINGS_PATH = path.join(process.cwd(), "public", "listings.json");
+const LISTINGS_PATH = path.join(process.cwd(), "data", "listings.json");
 const RATE_LIMIT_MS = 1100; // 1.1 seconds between requests
 
 interface Listing {
