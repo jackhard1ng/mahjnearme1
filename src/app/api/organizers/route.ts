@@ -2,8 +2,33 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { requireAdmin } from "@/lib/api-auth";
 
-// GET: List organizers, optionally filtered by metro
+/**
+ * GET: List organizers. Admin only.
+ *
+ * This had no authorization check, and the `all=true` branch, commented
+ * "Admin view", returned every organizer document with `...doc.data()` —
+ * i.e. every stored field. Against production that is 1,779 records
+ * carrying, among others, 277 contact emails, 42 Firebase auth uids, 29
+ * personal names, 5 Stripe promotion ids and 1,448 location/address blocks,
+ * served to anyone who requested the URL.
+ *
+ * Every caller is an admin screen going through /api/admin-proxy, which
+ * attaches CRON_SECRET after verifying an admin user: admin/page.tsx
+ * (?all=true and ?id=...), admin/games/page.tsx (?all=true) and
+ * admin/mobile/page.tsx (?limit=500). No public page calls this route; the
+ * public surfaces use /api/organizers/overrides and
+ * /api/organizers/instructors, which both return an explicit field
+ * projection and expose no internal fields. So requiring admin here breaks
+ * no caller.
+ *
+ * The spread is left in place deliberately: this is now an admin-only
+ * endpoint and the admin screens read a wide set of fields. The guard, not a
+ * projection, is what makes it safe.
+ */
 export async function GET(request: NextRequest) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
+
   try {
     const db = getAdminDb();
     const { searchParams } = new URL(request.url);

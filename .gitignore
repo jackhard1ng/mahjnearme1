@@ -38,3 +38,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Verification audit exports.
+#
+# scripts/export-for-verification.ts writes verification-audit-<date>.json into
+# the project root, and the admin screen offers the same export as a browser
+# download. Two of these were at one point committed into public/, which is
+# served verbatim, so the whole directory including venue addresses and
+# organizer contact details was readable by anyone with the URL. Ignoring them
+# keeps a working copy from being committed again by accident; the test in
+# tests/public-data-exposure.test.ts catches anything bulk that reaches public/.
+verification-audit-*.json

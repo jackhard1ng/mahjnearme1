@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Node's test runner strips types and resolves real files, so test imports
+    // carry an explicit .ts extension. The app config forbids that, hence a
+    // separate config rather than loosening the app's.
+    //
+    // Resolution stays "bundler" (inherited): it is what resolves the "@/*"
+    // paths mapping.
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": ["tests/**/*.ts", "src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

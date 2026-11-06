@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { findMetroForCity } from "@/lib/metro-regions";
-import { requireUser } from "@/lib/api-auth";
+import { requireUser, requireAdmin } from "@/lib/api-auth";
 
 // GET: Look up the approved contributor for a given city (resolves to metro)
 export async function GET(request: NextRequest) {
@@ -172,7 +172,31 @@ export async function POST(request: NextRequest) {
 // PATCH: Approve or reject a contributor application (admin action)
 // When approved: set accountType to "contributor" (full paid access, permanently free)
 // When rejected: user stays on free tier (cannot re-apply)
+/**
+ * PATCH - approve or reject a contributor application. Admin only.
+ *
+ * This handler had no authorization check of any kind. It reads
+ * `applicationId` and `action` from the request body and, on "approve",
+ * writes accountType "contributor", isContributor true and a referral code to
+ * the application's user: permanent complimentary full paid access, granted
+ * without authenticating at all.
+ *
+ * Exploitation needed an application id the API does not hand out (POST
+ * returns only { success, metroRegion, metroName }, and GET resolves
+ * contributors by city/metro without exposing document ids), so this was
+ * latent rather than actively exploitable. It is still an unauthenticated
+ * entitlement grant, and an id can leak through a log, a screenshot or a
+ * future endpoint.
+ *
+ * `/api/contributor-apply` is not in the admin-proxy allowlist, so no admin
+ * screen reaches this route today and adding the guard breaks no caller. If
+ * contributor approval is wired into the admin UI later, add the path to the
+ * allowlist in src/app/api/admin-proxy/route.ts.
+ */
 export async function PATCH(request: NextRequest) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
+
   try {
     const db = getAdminDb();
     const body = await request.json();
