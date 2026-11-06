@@ -49,3 +49,7 @@ next-env.d.ts
 # keeps a working copy from being committed again by accident; the test in
 # tests/public-data-exposure.test.ts catches anything bulk that reaches public/.
 verification-audit-*.json
+
+# Scratch output from ad-hoc curl probes.
+o.txt
+probe.json
