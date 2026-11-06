@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import { Game } from "@/types";
+import type { Game } from "@/types";
 
 /**
  * Client-side listings cache.

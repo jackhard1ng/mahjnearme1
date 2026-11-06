@@ -1,6 +1,6 @@
 "use client";
 
-import { Game } from "@/types";
+import type { Game } from "@/types";
 import { getMapPinColor, getGameTypeLabel } from "@/lib/utils";
 import { MapPin } from "lucide-react";
 

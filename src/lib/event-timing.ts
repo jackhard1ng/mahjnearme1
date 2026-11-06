@@ -1,5 +1,6 @@
-import { Game } from "@/types";
+import type { Game } from "@/types";
 import { formatTime, daysSinceVerified, STALE_THRESHOLD_DAYS } from "@/lib/utils";
+import { resolveRecurringSchedule } from "@/lib/schedule-recovery";
 
 // --- Time Urgency Tiers ---
 
@@ -30,18 +31,25 @@ const DEFAULT_DURATION_HOURS = 2;
  * what urgency tier it falls into, and generates the display label.
  */
 export function getEventTiming(game: Game, now: Date = new Date()): EventTiming {
-  if (game.isRecurring && game.recurringSchedule) {
-    return getRecurringTiming(game, now);
+  // 83% of recurring listings were imported without a dayOfWeek, which leaves
+  // this function unable to compute a next occurrence at all. The day is
+  // usually still recoverable from the listing's own id or text, so resolve it
+  // here rather than rendering "Schedule TBD" for most of the directory.
+  const schedule = resolveRecurringSchedule(game);
+  const resolved: Game = schedule === game.recurringSchedule ? game : { ...game, recurringSchedule: schedule };
+
+  if (resolved.isRecurring && resolved.recurringSchedule) {
+    return getRecurringTiming(resolved, now);
   }
 
   // Non-recurring with a valid event date
-  if (game.eventDate) {
-    return getOneTimeTiming(game, now);
+  if (resolved.eventDate) {
+    return getOneTimeTiming(resolved, now);
   }
 
   // Non-recurring but has a dayOfWeek (data inconsistency) — treat as recurring
-  if (game.recurringSchedule && game.recurringSchedule.dayOfWeek) {
-    return getRecurringTiming(game, now);
+  if (resolved.recurringSchedule && resolved.recurringSchedule.dayOfWeek) {
+    return getRecurringTiming(resolved, now);
   }
 
   // No schedule data at all

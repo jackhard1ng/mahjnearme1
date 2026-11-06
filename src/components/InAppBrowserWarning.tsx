@@ -5,7 +5,12 @@ import { AlertTriangle, ExternalLink, X } from "lucide-react";
 
 function isInAppBrowser(): boolean {
   if (typeof window === "undefined") return false;
-  const ua = navigator.userAgent || (navigator as any).vendor || (window as any).opera || "";
+  // navigator.vendor and window.opera are legacy, non-standard properties that
+  // are not in lib.dom, but still the most reliable UA source in some in-app
+  // browsers. Narrow structural casts rather than `any`.
+  const nav = navigator as Navigator & { vendor?: string };
+  const win = window as Window & { opera?: string };
+  const ua = navigator.userAgent || nav.vendor || win.opera || "";
   return /FBAN|FBAV|FB_IAB|FBIOS|Instagram|MessengerForiOS|musical\.ly/i.test(ua);
 }
 

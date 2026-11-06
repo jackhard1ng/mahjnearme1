@@ -1,12 +1,17 @@
 /**
- * Loads and normalizes the real listings data from /public/listings.json.
+ * Loads and normalizes the real listings data from /data/listings.json.
+ *
+ * Deliberately NOT under public/. The file carries organiser emails, phone
+ * numbers and street addresses, which the site paywalls behind
+ * `canSeeDetails`; served statically it handed the whole paywalled dataset to
+ * anyone who guessed the filename.
  * This replaces mock-data.ts as the primary data source.
  *
  * Handles all the messy real-world data: inconsistent type names,
  * mixed-case values, freeform frequencies, etc.
  */
 
-import { Game, GameType, GameStyle, SkillLevel, Frequency } from "@/types";
+import type { Game, GameType, GameStyle, SkillLevel, Frequency } from "@/types";
 import { findMetroForCity } from "@/lib/metro-regions";
 import { US_STATES } from "@/lib/constants";
 
@@ -285,8 +290,7 @@ let _cachedRawData: ListingsJSON | null = null;
 
 function loadRawData(): ListingsJSON {
   if (_cachedRawData) return _cachedRawData;
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  _cachedRawData = require("../../public/listings.json") as ListingsJSON;
+  _cachedRawData = require("../../data/listings.json") as ListingsJSON;
   return _cachedRawData;
 }
 
@@ -338,7 +342,6 @@ export function getCitiesWithGames(): { city: string; state: string; count: numb
 
 export function getStatesWithGames(): { state: string; stateName: string; count: number; gameCount: number; cityCount: number }[] {
   const { isEventExpired } = require("@/lib/utils");
-  const { US_STATES } = require("@/lib/constants");
   const stateMap = new Map<string, { cities: Set<string>; count: number }>();
   for (const g of loadListings()) {
     if (g.status !== "active" || isEventExpired(g)) continue;

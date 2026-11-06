@@ -5,8 +5,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
-import { Gift, Trophy, ArrowRight, Check, Loader2, Users, Target, Phone, ExternalLink } from "lucide-react";
-import { CURRENT_GIVEAWAY } from "@/lib/giveaway-config";
+import { Gift, Trophy, ArrowRight, Check, Loader2, Users, Target, Phone, ExternalLink, AlertTriangle } from "lucide-react";
+import { CURRENT_GIVEAWAY, defaultDrawDate, defaultMonthLabel, isRunning, type GiveawayStatus } from "@/lib/giveaway-config";
 
 interface Winner {
   id: string;
@@ -32,10 +32,17 @@ interface GiveawayInfo {
   prizePhoto?: string;
   prizeDescription?: string;
   prizeLink?: string;
-  numberOfWinners?: number;
-  drawDate?: string;
+  numberOfWinners?: number | null;
+  drawDate?: string | null;
   entryCount?: number;
   userEntries?: number;
+  status?: GiveawayStatus;
+  statusHeadline?: string;
+  statusNotice?: string;
+  /** @deprecated superseded by `status` */
+  paused?: boolean;
+  /** @deprecated superseded by `statusNotice` */
+  pausedMessage?: string;
 }
 
 const MILESTONES = [
@@ -68,8 +75,12 @@ export default function GiveawaysPage() {
   const { user, hasAccess, userProfile } = useAuth();
   const [data, setData] = useState<GiveawayInfo | null>(null);
   const [loading, setLoading] = useState(true);
-  const [subscriberCount, setSubscriberCount] = useState(0);
-  const [totalEntries, setTotalEntries] = useState(0);
+  // null means "not loaded yet", which is not the same as zero. Initialising
+  // these to 0 rendered "Entries so far 0" on a giveaway page until the fetch
+  // came back, so the first thing a visitor saw was a contest nobody had
+  // entered. The real number is over a hundred.
+  const [subscriberCount, setSubscriberCount] = useState<number | null>(null);
+  const [totalEntries, setTotalEntries] = useState<number | null>(null);
 
   useEffect(() => {
     fetchGiveaway();
@@ -111,8 +122,22 @@ export default function GiveawaysPage() {
 
   function getDrawDate(): string {
     if (data?.drawDate) return data.drawDate;
-    return CURRENT_GIVEAWAY.drawDate;
+    // Falls back to the calendar, never to a frozen string.
+    return CURRENT_GIVEAWAY.drawDate ?? defaultDrawDate();
   }
+
+  const monthLabel = data?.month || CURRENT_GIVEAWAY.monthLabel || defaultMonthLabel();
+
+  // Programme status. The API (Firestore siteConfig) wins so this can be
+  // changed from admin without a deploy; the config file is the fallback, and
+  // also what is used before the fetch resolves — which matters, because the
+  // pre-fetch render must not flash a drawing that is not running.
+  const status: GiveawayStatus =
+    data?.status ?? (data?.paused === false ? "running" : CURRENT_GIVEAWAY.status);
+  const running = isRunning(status);
+  const statusHeadline = data?.statusHeadline ?? CURRENT_GIVEAWAY.statusHeadline;
+  const statusNotice =
+    data?.statusNotice ?? data?.pausedMessage ?? CURRENT_GIVEAWAY.statusNotice;
 
   // Calculate user's accumulated entries (1 per 6 months subscribed, max 6)
   function getUserEntryInfo(): { entries: number; explanation: string } {
@@ -146,8 +171,8 @@ export default function GiveawaysPage() {
   const entryInfo = getUserEntryInfo();
 
   // Next milestone
-  const nextMilestone = MILESTONES.find((m) => subscriberCount < m.members) || MILESTONES[MILESTONES.length - 1];
-  const membersToNext = Math.max(0, nextMilestone.members - subscriberCount);
+  const nextMilestone = MILESTONES.find((m) => (subscriberCount ?? 0) < m.members) || MILESTONES[MILESTONES.length - 1];
+  const membersToNext = Math.max(0, nextMilestone.members - (subscriberCount ?? 0));
 
   return (
     <>
@@ -160,11 +185,17 @@ export default function GiveawaysPage() {
         <div className="max-w-5xl mx-auto px-4 pt-16 pb-12 sm:pt-20 sm:pb-14 text-center relative">
           <Gift className="w-12 h-12 text-skyblue-200 mx-auto mb-4" />
           <h1 className="font-[family-name:var(--font-heading)] font-extrabold text-4xl sm:text-5xl text-white mb-3 tracking-tight drop-shadow-lg">
-            {data?.month || CURRENT_GIVEAWAY.month} Mahjong{" "}
-            <span className="text-skyblue-200">Giveaway</span>
+            {running ? `${monthLabel} Mahjong` : "Mahjong"}{" "}
+            <span className="text-skyblue-200">{running ? "Giveaway" : "Giveaways"}</span>
           </h1>
+          {/* The present tense is only true while a drawing is open. Saying
+              "every month, we give away" above a notice explaining that
+              monthly drawings have not run since April is the contradiction
+              this page was reported for. */}
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
-            Every month, we give away mahjong prizes to paid members. The prize changes month to month.
+            {running
+              ? "We give away mahjong prizes to paid members. The prize changes from drawing to drawing."
+              : "Paid members are entered automatically whenever a drawing is open. No drawing is open right now. See below."}
           </p>
         </div>
       </section>
@@ -205,14 +236,57 @@ export default function GiveawaysPage() {
           );
         })()}
 
-        {/* Current Giveaway */}
+        {/* Current Giveaway — hidden while paused so we never advertise a
+            prize or a draw date for a drawing that isn't running. */}
+        {!running ? (
+          <div className="mb-12">
+            {/* Update notice. No prize, no value, no winner count, no date —
+                none of those exist while a drawing is not open, and the API
+                returns null for each rather than a placeholder string. */}
+            <div className={`mahj-tile p-6 sm:p-8 ${status === "reviewing" ? "border-2 border-amber-300 bg-amber-50/40" : ""}`}>
+              <div className="flex items-start gap-4 text-left">
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${status === "reviewing" ? "bg-amber-100" : "bg-slate-100"}`}>
+                  {status === "reviewing" ? (
+                    <AlertTriangle className="w-6 h-6 text-amber-600" />
+                  ) : (
+                    <Gift className="w-6 h-6 text-slate-400" />
+                  )}
+                </div>
+                <div className="flex-1">
+                  <h2 className="font-[family-name:var(--font-heading)] font-bold text-xl sm:text-2xl text-charcoal mb-2">
+                    {statusHeadline}
+                  </h2>
+                  <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line">{statusNotice}</p>
+                </div>
+              </div>
+              <div className="text-center mt-6">
+              {hasAccess ? (
+                /* Entitlement is unchanged: membership still carries automatic
+                   entry into any drawing that opens. Nothing here cancels or
+                   narrows that — it only stops claiming a drawing is open. */
+                <p className="text-sm text-green-600 font-medium">
+                  <Check className="w-4 h-4 inline mr-1" />
+                  You&apos;re a paid member, so your entry is automatic when the next drawing opens.
+                </p>
+              ) : (
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center gap-2 bg-hotpink-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-hotpink-600 transition-colors"
+                >
+                  View Plans <ArrowRight className="w-4 h-4" />
+                </Link>
+              )}
+              </div>
+            </div>
+          </div>
+        ) : (
         <div className="mb-12">
           <div className="mahj-tile p-6 sm:p-8">
             {/* Prize headline */}
             <div className="text-center mb-6">
               <div className="inline-flex items-center gap-2 bg-hotpink-100 text-hotpink-600 px-4 py-1.5 rounded-full text-sm font-bold mb-3">
                 <Gift className="w-4 h-4" />
-                {data?.month || CURRENT_GIVEAWAY.month} Giveaway
+                {monthLabel} Giveaway
               </div>
               {(data?.prizePhoto) && (
                 <div className="mb-4 flex justify-center">
@@ -256,7 +330,11 @@ export default function GiveawaysPage() {
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="bg-slate-50 rounded-lg p-3 text-center">
                 <p className="text-xs text-slate-500 mb-1">Entries so far</p>
-                <p className="text-2xl font-extrabold text-hotpink-500">{totalEntries}</p>
+                <p className="text-2xl font-extrabold text-hotpink-500">
+                  {totalEntries === null
+                    ? <span className="inline-block w-10 h-6 rounded bg-hotpink-100 animate-pulse align-middle" aria-label="loading" />
+                    : totalEntries}
+                </p>
               </div>
               <div className="bg-slate-50 rounded-lg p-3 text-center">
                 <p className="text-xs text-slate-500 mb-1">Winners</p>
@@ -284,10 +362,10 @@ export default function GiveawaysPage() {
             ) : (
               <div className="bg-hotpink-50 border border-hotpink-200 rounded-lg p-4">
                 <p className="font-semibold text-charcoal mb-1">
-                  Paid members are automatically entered every month.
+                  Paid members are entered automatically.
                 </p>
                 <p className="text-sm text-slate-500 mb-3">
-                  Upgrade to be included in this month&apos;s drawing. Must have an active subscription at the time of drawing to be eligible.
+                  Upgrade to be included in this drawing. Must have an active subscription at the time of the drawing to be eligible.
                 </p>
                 <p className="text-xs text-slate-400 mt-2">
                   No purchase necessary. See{" "}
@@ -304,6 +382,7 @@ export default function GiveawaysPage() {
             )}
           </div>
         </div>
+        )}
 
         {/* How Entries Work */}
         <div className="mb-12">
@@ -317,7 +396,7 @@ export default function GiveawaysPage() {
               </div>
               <h3 className="font-semibold text-charcoal mb-2">Subscribe</h3>
               <p className="text-sm text-slate-500">
-                All paid subscribers are automatically entered every month. No action required.
+                All paid subscribers are entered automatically in every drawing. No action required.
               </p>
             </div>
             <div className="mahj-tile p-6 text-center">
@@ -335,7 +414,9 @@ export default function GiveawaysPage() {
               </div>
               <h3 className="font-semibold text-charcoal mb-2">Win!</h3>
               <p className="text-sm text-slate-500">
-                Winner drawn on the last day of each month. Prize delivered to your door.
+                {running
+                  ? `The winner is drawn ${getDrawDate()}. Prize delivered to your door.`
+                  : "When a drawing is open, the winner is drawn on the date published here, and the prize is delivered to your door."}
               </p>
             </div>
           </div>
@@ -357,7 +438,9 @@ export default function GiveawaysPage() {
             <div className="mahj-tile p-8 text-center">
               <Trophy className="w-10 h-10 text-slate-300 mx-auto mb-3" />
               <p className="text-slate-500">
-                No winners yet. The first drawing is {FIRST_DRAW_DATE}!
+                {running
+                  ? `No winners yet. The first drawing is ${FIRST_DRAW_DATE}!`
+                  : "No winners to show yet."}
               </p>
             </div>
           ) : (
@@ -404,12 +487,12 @@ export default function GiveawaysPage() {
         </div>
 
         {/* Milestone Giveaways — hidden until there are subscribers */}
-        {subscriberCount > 0 && <div className="mb-12">
+        {(subscriberCount ?? 0) > 0 && <div className="mb-12">
           <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-charcoal mb-3 text-center">
             Community Milestones
           </h2>
           <p className="text-center text-slate-500 text-sm mb-6 max-w-xl mx-auto">
-            When we hit a subscriber milestone, the following month&apos;s giveaway gets a major upgrade. One special drawing, then we continue with our regular monthly prizes.
+            When we hit a subscriber milestone, the next drawing gets a major upgrade. One special drawing, then back to the regular prizes.
           </p>
 
           {/* Progress bar */}
@@ -424,7 +507,7 @@ export default function GiveawaysPage() {
             <div className="w-full bg-slate-100 rounded-full h-3">
               <div
                 className="bg-gradient-to-r from-hotpink-500 to-skyblue-400 h-3 rounded-full transition-all"
-                style={{ width: `${Math.min((subscriberCount / nextMilestone.members) * 100, 100)}%` }}
+                style={{ width: `${Math.min(((subscriberCount ?? 0) / nextMilestone.members) * 100, 100)}%` }}
               />
             </div>
             <p className="text-xs text-slate-400 mt-1">
@@ -436,7 +519,7 @@ export default function GiveawaysPage() {
 
           <div className="space-y-4">
             {MILESTONES.map((milestone) => {
-              const reached = subscriberCount >= milestone.members;
+              const reached = (subscriberCount ?? 0) >= milestone.members;
               return (
                 <div
                   key={milestone.members}

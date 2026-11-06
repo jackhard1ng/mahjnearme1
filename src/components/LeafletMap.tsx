@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Game } from "@/types";
+import type { Game } from "@/types";
 import { getMapPinColor, getGameTypeLabel, slugify } from "@/lib/utils";
 import { haversineDistance, formatDistance } from "@/lib/distance";
 import { getEventTiming, getUrgencyPinColor } from "@/lib/event-timing";

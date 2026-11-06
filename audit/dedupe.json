@@ -1,0 +1,532 @@
+[
+  {
+    "id": "clinton-ct-hch-mj-monday-afternoon-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of afternoon-mahjong-meetups-at-henry-carte-clinton-ct-monday-1-716e617f — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "torrance-panera-mj-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of american-mah-jongg-at-panera-bread-torra-torrance-ca-thursda-d4073f3a — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "cooper-city-fl-rec-center-mj-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of american-mahjong-at-cooper-city-recreati-cooper-city-fl-wedn-7c183911 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "hiawatha-ia-library-mj-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of american-mahjong-at-hiawatha-public-libr-hiawatha-ia-wednesd-1e1214c2 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "ann-arbor-district-library-mahjong-open--ann-arbor-mi-saturd-0a1e8b36",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of ann-arbor-district-library-mahjong-open-play-ann-arbor-michigan — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "bay-area-mahjong-meetup-parkmerced-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of bay-area-mahjong-meetup-free-open-play-a-san-francisco-ca-tu-10c89a20 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "tarrytown-shames-jcc-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of beginner-mah-jongg-class-at-shames-jcc-o-tarrytown-ny-tuesda-9db7af3a — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mahjong-at-levis-jcc-sandler-center-mond-boca-raton-fl-monda-088266d1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of boca-raton-fl-levis-jcc-mj-mon-1 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mahjong-at-levis-jcc-sandler-center-wedn-boca-raton-fl-wedne-1142a14b",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of boca-raton-fl-levis-jcc-mj-wed-1 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "brandywine-hundred-library-american-mahjong-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of brandywine-hundred-library-american-mahj-wilmington-de-wedne-c02d7e0e — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "northshore-mahjongg-at-dengeos-buffalo-g-buffalo-grove-il-mo-b7ae58db",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of buffalogrove-northshore-dengeos-1 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "sunday-mah-jongg-at-wegmans-burlington-burlington-ma-sunday--715268a0",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of burlington-ma-wegmans-sunday-mj-1 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mahjong-open-play-at-tye-preston-library-canyon-lake-tx-tues-276beef9",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of canyon-lake-tx-tye-preston-mj-1 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "cherry-hill-public-library-american-mah--cherry-hill-nj-tues-f39e15f2",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of cherry-hill-public-library-american-mah-jongg-cherry-hill-new-jersey — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "schaumburg-chicago-area-mahjong-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of chicago-area-mahjong-weekend-riichi-sess-schaumburg-il-satur-b09154a6 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mah-jongg-at-dripping-springs-library-dripping-springs-tx-tu-7dcca2a6",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of dripping-springs-tx-library-mj-1 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "drop-in-american-mahjong-at-blake-librar-stuart-fl-tuesday-1-dac2111d",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of drop-in-american-mahjong-at-blake-librar-stuart-fl-tuesday-1-217d9229 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "enoch-pratt-free-library-mah-jongg-free--baltimore-md-61a02681",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of enoch-pratt-free-library-mah-jongg-free-play-baltimore-maryland — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "queens-gotham-go-jacx-sat-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of gotham-go-group-mahjong-jacx-food-hall-s-long-island-city-ny-e21b0288 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "queens-gotham-go-jacx-thu-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of gotham-go-group-mahjong-jacx-food-hall-t-long-island-city-ny-358672c4 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "jerseycity-gotham-go-wholefoods-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of gotham-go-group-mahjong-whole-foods-jers-jersey-city-nj-wedn-81a2be25 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "gresham-library-mahjong-club-gresham-or-c0a47b7a",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of gresham-library-mahjong-club-1 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "gresham-library-mahjong-club-gresham-or-monday-13-00-0c97c3b2",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of gresham-library-mahjong-club-gresham-or-monday-1-00-pm-6a06fc6c — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "hiawatha-public-library-mahjong-hiawatha-ia-wednesday-14-00-779471c0",
+    "updates": {
+      "howToJoin": "Drop in. Check library calendar for exact dates.",
+      "generalArea": "Cedar Rapids"
+    },
+    "reason": "Merge duplicates of \"Hiawatha Public Library Mahjong\" (Hiawatha, IA): backfill howToJoin, generalArea from 1 duplicate record(s) before deactivating them"
+  },
+  {
+    "id": "hiawatha-public-library-mahjong-hiawatha-ia-wednesday-14-00-779471c0x",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of hiawatha-public-library-mahjong-hiawatha-ia-wednesday-14-00-779471c0 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "hussey-mayfield-zionsville-american-mahjong-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of hussey-mayfield-library-daytime-american-zionsville-in-monda-9f36173b — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "lewisboro-ny-intermediate-mj-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of intermediate-mahjong-at-lewisboro-librar-south-salem-ny-tues-3a11f987 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "introduction-to-american-mah-jongg-at-ca-searsport-me-monday-46a344c2",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of introduction-to-american-mah-jongg-at-ca-searsport-me-monday-46a344c2x — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mahjongg-beginners-at-livingston-senior--livingston-nj-satur-ad6ab238",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of livingston-nj-senior-mj-sat-1 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mahjongg-fun-at-livingston-senior-center-livingston-nj-thurs-86912145",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of livingston-nj-senior-mj-thu-1 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mahjongg-beginners-at-livingston-senior--livingston-nj-tuesd-d08de28a",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of livingston-nj-senior-mj-tue-1 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mechanicsburg-pa-cumberland-mj-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mah-jongg-at-cumberland-county-libraries-mechanicsburg-pa-th-8edf63e6 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mah-jongg-at-dripping-springs-community--dripping-springs-tx-48283361x",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mah-jongg-at-dripping-springs-community--dripping-springs-tx-48283361 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mah-jongg-at-livingston-senior-community-livingston-nj-tuesd-4e6d9f03",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mah-jongg-at-livingston-senior-community-livingston-nj-satur-27fd97e9 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "rockyhill-ct-senior-mj-thu-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mah-jongg-at-rocky-hill-senior-center-th-rocky-hill-ct-thurs-f03bed58 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "rockyhill-ct-senior-mj-tue-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mah-jongg-at-rocky-hill-senior-center-tu-rocky-hill-ct-tuesd-3cf8e545 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "rockyhill-ct-senior-mj-wed-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mah-jongg-at-rocky-hill-senior-center-we-rocky-hill-ct-wedne-d0445f36 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mah-jongg-at-st-john-s-lutheran-church-des-moines-ia-monday--8cb5d541",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mah-jongg-at-st-john-s-lutheran-church-des-moines-ia-monday--462fd752 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mah-jongg-game-day-northridge-california",
+    "updates": {
+      "address": "17035 Chatsworth St, Granada Hills, CA 91344",
+      "costAmount": 0
+    },
+    "reason": "Merge duplicates of \"Mah Jongg Game Day\" (Northridge, CA): backfill address, costAmount from 1 duplicate record(s) before deactivating them"
+  },
+  {
+    "id": "mah-jongg-game-day-northridge-ca-monday-10-00-94a0a7fd",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mah-jongg-game-day-northridge-california — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mah-jongg-open-play-at-evelyn-rubenstein-houston-tx-monday-1-324a3161x",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mah-jongg-open-play-at-evelyn-rubenstein-houston-tx-monday-1-324a3161 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mahjong-at-dick-eardley-senior-center-boise-id-tuesday-13-00-3870351ax",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mahjong-at-dick-eardley-senior-center-boise-id-tuesday-13-00-3870351a — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mahjong-canasta-open-play-at-boulder-jcc-boulder-co-monday-1-5e979a8ex",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mahjong-canasta-open-play-at-boulder-jcc-boulder-co-monday-1-5e979a8e — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "north-miami-beach-library-mj-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mahjong-club-at-north-miami-beach-librar-north-miami-beach-f-1f36f4f2 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mountain-view-hi-mj-players-club-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mahjong-players-club-at-mountain-view-li-mountain-view-hi-fr-c8416882 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "san-diego-mira-mesa-mahjong-club-adults-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mira-mesa-library-mahjong-club-for-adult-san-diego-ca-wednes-680e3543 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "mod-mahj-wichita-guided-play-wichita-kansas-1",
+    "updates": {
+      "contactName": "Amy",
+      "organizerName": "Amy"
+    },
+    "reason": "Merge duplicates of \"MOD MAHJ — Wichita Guided Play\" (Wichita, KS): backfill contactName, organizerName from 1 duplicate record(s) before deactivating them"
+  },
+  {
+    "id": "mod-mahj-wichita-guided-play-wichita-kansas-2",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of mod-mahj-wichita-guided-play-wichita-kansas-1 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "my-favorite-things-tallahassee-mahjong-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of my-favorite-things-mahjong-open-play-3rd-tallahassee-fl-thur-8a12f625 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "new-orleans-jcc-mah-jongg-new-orleans-la-tuesday-12-00-d62f8239",
+    "updates": {
+      "howToJoin": "Drop in or contact Josh Brooks at 504-897-0143.",
+      "generalArea": "New Orleans"
+    },
+    "reason": "Merge duplicates of \"New Orleans JCC Mah Jongg\" (New Orleans, LA): backfill howToJoin, generalArea from 1 duplicate record(s) before deactivating them"
+  },
+  {
+    "id": "new-orleans-jcc-mah-jongg-new-orleans-la-tuesday-12-00-d62f8239x",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of new-orleans-jcc-mah-jongg-new-orleans-la-tuesday-12-00-d62f8239 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "newbridge-madison-mahjong-madison-wi-thursday-13-00-738f5773",
+    "updates": {
+      "website": "https://www.newbridgemadison.org"
+    },
+    "reason": "Merge duplicates of \"NewBridge Madison Mahjong\" (Madison, WI): backfill website from 1 duplicate record(s) before deactivating them"
+  },
+  {
+    "id": "newbridge-madison-mahjong-madison-wi-thursday-13-00-738f5773x",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of newbridge-madison-mahjong-madison-wi-thursday-13-00-738f5773 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "ocean-springs-library-mahjong-club-ocean-springs-ms-thursday-a826e861x",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of ocean-springs-library-mahjong-club-ocean-springs-ms-thursday-a826e861 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "omaha-american-mah-jongg-mon-eve-omaha-ne-monday-18-30-275e9c71",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of omaha-american-mah-jongg-mon-eve-omaha-ne-monday-18-30-275e9c71x — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "park-city-newcomers-mah-jongg-park-city-ut-tuesday-13-00-bae1db4ax",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of park-city-newcomers-mah-jongg-park-city-ut-tuesday-13-00-bae1db4a — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "park-house-dallas-mahjong-nicki-farris-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of park-house-dallas-mahjong-classes-guided-dallas-tx-e78e1581 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "portsmouth-public-library-mah-jongg-portsmouth-nh-saturday-1-1de960b6x",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of portsmouth-public-library-mah-jongg-portsmouth-nh-saturday-1-1de960b6 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "salt-lake-mahjong-club-open-play-salt-lake-city-utah",
+    "updates": {
+      "venueName": "Salt Lake Mahjong Club",
+      "costAmount": 0
+    },
+    "reason": "Merge duplicates of \"Salt Lake Mahjong Club — Open Play\" (Salt Lake City, UT): backfill venueName, costAmount from 1 duplicate record(s) before deactivating them"
+  },
+  {
+    "id": "salt-lake-mahjong-club-open-play-salt-lake-city-ut-7ac27487",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of salt-lake-mahjong-club-open-play-salt-lake-city-utah — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "seattle-mahjong-club-newbies-friday-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of seattle-mahjong-club-mahjong-for-newbies-seatac-wa-friday-10-076d88d4 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "seattle-mahjong-club-newbies-thursday-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of seattle-mahjong-club-mahjong-for-newbies-seatac-wa-thursday--93e1141a — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "seattle-mahjong-club-newbies-tuesday-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of seattle-mahjong-club-mahjong-for-newbies-seatac-wa-tuesday-1-283786b1 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "seattle-mahjong-club-newbies-wednesday-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of seattle-mahjong-club-mahjong-for-newbies-seatac-wa-wednesday-dbcf9c3a — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "senior-game-room-mah-jongg-at-memphis-jc-memphis-tn-thursday-4606f4e2x",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of senior-game-room-mah-jongg-at-memphis-jc-memphis-tn-thursday-4606f4e2 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "social-mahjong-club-at-sunset-branch-san-francisco-ca-saturd-6e118549",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of sf-sunset-branch-social-mahjong-1 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "spokane-valley-senior-center-mah-jongg-spokane-valley-wa-e08a26aex",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of spokane-valley-senior-center-mah-jongg-spokane-valley-wa-e08a26ae — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "st-john-s-lutheran-mah-jongg-des-moines-ia-monday-12-00-7b9cb56d",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of st-john-s-lutheran-mah-jongg-des-moines-ia-monday-12-00-7b9cb56dx — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "sunday-mahj-at-wegmans-burlington-burlington-vt-sunday-449ce5cf",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of sunday-mahj-at-wegmans-burlington-burlington-vt-sunday-10-00-9b1bd17b — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "the-tallahassee-mahjong-league-tallahassee-fl-dde85a9b",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of tallahassee-mahjong-league-tallytiletribe-1 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "tallahassee-senior-center-mahjong-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of tallahassee-senior-center-mah-jongg-tallahassee-fl-d495bac5 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "the-center-charlottesville-american-mah-jongg-wed-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of the-center-charlottesville-american-mah--charlottesville-va--11e398ae — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "the-center-charlottesville-american-mah-jongg-thu-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of the-center-charlottesville-american-mah--charlottesville-va--2f21a273 — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "yountville-library-tile-tuesday-1",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of tile-tuesday-american-mah-jongg-open-pla-yountville-ca-tuesd-62726f1a — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "windward-mahjong-night-kailua-hi-monday-18-00-e09e8a7a",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of windward-mahjong-night-kailua-hi-monday-18-00-e09e8a7ax — same name+city+state. Keeper chosen by human-owned > promoted > verified > most complete > most recently verified. Set inactive rather than deleted, so this is reversible."
+  }
+]

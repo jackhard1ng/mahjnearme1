@@ -134,9 +134,13 @@ export async function sendWelcomeEmail(data: {
   // Round down to nearest 100 for a clean number
   const totalListings = Math.floor(2700 / 100) * 100;
 
+  // Cadence-neutral. This line is sent to every new paying subscriber, and
+  // promising a monthly giveaway while monthly drawings are suspended put a
+  // contradiction in the welcome email itself. The entitlement is unchanged
+  // and still stated — what is dropped is the schedule claim.
   const giveawayLine = data.plan === "annual"
-    ? "<li><strong>2 entries every month</strong> in our premium mahjong set giveaway (annual perk!)</li>"
-    : "<li>Automatic entry in our monthly giveaway</li>";
+    ? "<li><strong>2x entries</strong> in every mahjong prize drawing we run (annual perk!)</li>"
+    : "<li>Automatic entry in our mahjong prize drawings</li>";
 
   const html = data.isSubscriber
     ? `<div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto"><div style="background:#FF1493;padding:24px;text-align:center;border-radius:12px 12px 0 0"><h1 style="color:white;margin:0;font-size:24px">Welcome to MahjNearMe!</h1></div><div style="background:white;padding:32px;border:1px solid #eee;border-radius:0 0 12px 12px"><p>Hi ${data.name || "there"},</p><p>Thanks for subscribing! Your <strong>${data.plan === "annual" ? "annual" : "monthly"}</strong> plan is active.</p><ul><li>Full details on ${totalListings}+ listings across the country</li><li>Venue names, addresses, and contact info for every game</li>${giveawayLine}<li>Exclusive access to Destination Events</li><li>Email notifications when new games are added in your area</li></ul><p><a href="https://www.mahjnearme.com/search" style="color:#FF1493;font-weight:bold">Start searching</a></p></div></div>`

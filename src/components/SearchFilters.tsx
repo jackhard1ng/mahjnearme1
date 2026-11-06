@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SearchFilters } from "@/types";
+import type { SearchFilters } from "@/types";
 import { DAYS_OF_WEEK, GAME_STYLE_LABELS, SKILL_LEVEL_LABELS, GAME_TYPE_LABELS } from "@/lib/constants";
 import { Filter, X, ChevronDown } from "lucide-react";
 

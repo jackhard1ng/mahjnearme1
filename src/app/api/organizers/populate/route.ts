@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { requireAdmin } from "@/lib/api-auth";
+import { loadListings } from "@/lib/listings-data";
 
 /**
  * POST /api/organizers/populate
@@ -13,15 +14,13 @@ export async function POST(req: Request) {
 
   try {
     const db = getAdminDb();
-    const baseUrl = process.env.NEXT_PUBLIC_URL || "https://www.mahjnearme.com";
 
-    // Load listings
-    const listingsRes = await fetch(`${baseUrl}/listings.json`);
-    if (!listingsRes.ok) {
-      return NextResponse.json({ error: "Could not load listings" }, { status: 500 });
-    }
-    const data = await listingsRes.json();
-    const listings = data.listings || [];
+    // Read the seed data from disk rather than fetching it over HTTP. The
+    // previous version pulled /listings.json from the public site, which is
+    // the only reason that file had to be publicly served — and it carries the
+    // organiser emails and phone numbers this site paywalls. This route is
+    // admin-only and runs on the server, so it can just load it.
+    const listings = loadListings();
 
     // Extract organizers
     const orgMap = new Map<string, {
@@ -83,7 +82,11 @@ export async function POST(req: Request) {
       if (l.facebookGroup && !org.facebookGroup) org.facebookGroup = l.facebookGroup;
 
       // Extract location if it has address or geopoint
-      if (l.venueName || l.address || (l.latitude && l.longitude)) {
+      // loadListings() returns normalised Game objects, where coordinates live
+      // on geopoint rather than as flat latitude/longitude as in the raw JSON.
+      const lat = l.geopoint?.lat ?? 0;
+      const lng = l.geopoint?.lng ?? 0;
+      if (l.venueName || l.address || (lat && lng)) {
         const locKey = `${l.venueName || ""}-${l.city}-${l.state}`.toLowerCase();
         if (!org.locations.has(locKey)) {
           org.locations.set(locKey, {
@@ -91,8 +94,8 @@ export async function POST(req: Request) {
             address: l.address || "",
             city: l.city || "",
             state: l.state || "",
-            lat: l.latitude ? Number(l.latitude) : 0,
-            lng: l.longitude ? Number(l.longitude) : 0,
+            lat: Number(lat) || 0,
+            lng: Number(lng) || 0,
           });
         }
       }

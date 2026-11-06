@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Game, GameType, GameStyle, SkillLevel } from "@/types";
+import type { Game, GameType, GameStyle, SkillLevel } from "@/types";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   Pencil,

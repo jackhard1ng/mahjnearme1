@@ -1,0 +1,713 @@
+{
+  "generatedAt": "2026-08-31T15:33:10.765Z",
+  "citiesSearched": 20,
+  "citiesFailed": [],
+  "note": "Candidates only. Every group here has at least one upcoming event whose TITLE mentions mahjong, a venue with a street address, and a venue+city not already in the directory. Confirm before importing — a venue can be right while the session details are not.",
+  "searched": [
+    {
+      "city": "us--ma--Brookline",
+      "status": 200,
+      "slugs": 9,
+      "newSlugs": 9
+    },
+    {
+      "city": "us--ma--Framingham",
+      "status": 200,
+      "slugs": 9,
+      "newSlugs": 9
+    },
+    {
+      "city": "us--ma--Andover",
+      "status": 200,
+      "slugs": 9,
+      "newSlugs": 9
+    },
+    {
+      "city": "us--ri--Newport",
+      "status": 200,
+      "slugs": 8,
+      "newSlugs": 7
+    },
+    {
+      "city": "us--ct--West Hartford",
+      "status": 200,
+      "slugs": 9,
+      "newSlugs": 9
+    },
+    {
+      "city": "us--nh--Portsmouth",
+      "status": 200,
+      "slugs": 8,
+      "newSlugs": 8
+    },
+    {
+      "city": "us--me--Portland",
+      "status": 200,
+      "slugs": 8,
+      "newSlugs": 8
+    },
+    {
+      "city": "us--vt--Burlington",
+      "status": 200,
+      "slugs": 4,
+      "newSlugs": 4
+    },
+    {
+      "city": "us--ny--Ithaca",
+      "status": 200,
+      "slugs": 8,
+      "newSlugs": 8
+    },
+    {
+      "city": "us--ny--Poughkeepsie",
+      "status": 200,
+      "slugs": 8,
+      "newSlugs": 8
+    },
+    {
+      "city": "us--pa--Lancaster",
+      "status": 200,
+      "slugs": 10,
+      "newSlugs": 9
+    },
+    {
+      "city": "us--pa--Erie",
+      "status": 200,
+      "slugs": 10,
+      "newSlugs": 10
+    },
+    {
+      "city": "us--wv--Morgantown",
+      "status": 200,
+      "slugs": 11,
+      "newSlugs": 11
+    },
+    {
+      "city": "us--ky--Bowling Green",
+      "status": 200,
+      "slugs": 5,
+      "newSlugs": 5
+    },
+    {
+      "city": "us--in--Bloomington",
+      "status": 200,
+      "slugs": 9,
+      "newSlugs": 9
+    },
+    {
+      "city": "us--mi--Traverse City",
+      "status": 200,
+      "slugs": 11,
+      "newSlugs": 11
+    },
+    {
+      "city": "us--wi--Kenosha",
+      "status": 200,
+      "slugs": 9,
+      "newSlugs": 7
+    },
+    {
+      "city": "us--mn--Duluth",
+      "status": 200,
+      "slugs": 10,
+      "newSlugs": 10
+    },
+    {
+      "city": "us--sd--Sioux Falls",
+      "status": 200,
+      "slugs": 8,
+      "newSlugs": 8
+    },
+    {
+      "city": "us--nd--Fargo",
+      "status": 200,
+      "slugs": 6,
+      "newSlugs": 6
+    }
+  ],
+  "candidates": [],
+  "cityLevelCandidates": [
+    {
+      "group": "https://www.meetup.com/friendstodothingswith",
+      "sourceURL": "https://www.meetup.com/friendstodothingswith/events/",
+      "venueName": "",
+      "address": "",
+      "city": "Burlington",
+      "state": "ON",
+      "dayOfWeek": "friday",
+      "startTime": "2:00 PM",
+      "endTime": "4:00 PM",
+      "upcomingCount": 3,
+      "sampleTitles": [
+        "*FRIDAY* afternoon (weekly) *HONG KONG* MAHJONG (for beginners OR experienced)"
+      ],
+      "nextDates": [
+        "2026-09-04",
+        "2026-09-11",
+        "2026-09-18"
+      ],
+      "reviewFlags": [],
+      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
+      "meetupRecurrence": ""
+    },
+    {
+      "group": "https://www.meetup.com/friendstodothingswith",
+      "sourceURL": "https://www.meetup.com/friendstodothingswith/events/",
+      "venueName": "",
+      "address": "",
+      "city": "Burlington",
+      "state": "ON",
+      "dayOfWeek": "wednesday",
+      "startTime": "6:30 PM",
+      "endTime": "8:30 PM",
+      "upcomingCount": 1,
+      "sampleTitles": [
+        "*WEDNESDAY evening* --HONG KONG-- MAHJONG (for beginners OR experienced)"
+      ],
+      "nextDates": [
+        "2026-09-16"
+      ],
+      "reviewFlags": [],
+      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
+      "meetupRecurrence": ""
+    },
+    {
+      "group": "https://www.meetup.com/friendstodothingswith",
+      "sourceURL": "https://www.meetup.com/friendstodothingswith/events/",
+      "venueName": "",
+      "address": "",
+      "city": "Burlington",
+      "state": "ON",
+      "dayOfWeek": "tuesday",
+      "startTime": "2:00 PM",
+      "endTime": "4:00 PM",
+      "upcomingCount": 1,
+      "sampleTitles": [
+        "*TUESDAY* afternoon (weekly) *HONG KONG* MAHJONG (for beginners OR experienced)"
+      ],
+      "nextDates": [
+        "2026-09-22"
+      ],
+      "reviewFlags": [],
+      "note": "Organiser publishes no venue — address is given to members after RSVP. City-level only; do NOT invent a street address.",
+      "meetupRecurrence": ""
+    }
+  ],
+  "rejectedGroups": [
+    {
+      "group": "massgo",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "emeiqigongchan",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "needham-cribbage-meetup",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "cape-cod-qigong-moving-meditation-with-david-silver",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "boardgames-boston",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "quincy-board-game-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "20s-30s-social-boston",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "arlington-hearts-and-spades",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "milford-go-out-to-lunch-meetup-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "euchre-fun-in-boston",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "greater-boston-cube-cartel",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "excelsior-comics-and-games",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "boston-social-strategy-gamers",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "things-to-do-in-newburyport",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "greater-boston-crokinole",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "wakefield-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "chelmsford-lesbian-meetup",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "burlington-board-game-meetup",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "chinese-35",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "newport-board-game-enthusiasts",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "rigaming",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "playyourcourt-newport-tennis",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "meetup-group-upcvasbg",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "lets-play-setback",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "ct-backgammon-club",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "southington-area-movies-meetup",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "gameonct",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "new-england-volleyball-and-socializing-nevas",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "happy-hours-and-then-some",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "side-quest-gaming-anime-community",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "glastonbury-chess-meetup-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "seacoast-nh-board-game-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "rockingham",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "a-little-beach-bump",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "empoweringpath",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "portland-board-games-meetup-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "portland-game-night",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "friendcon-board-game-rpg-meetups",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "maine-tabletop",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "greaterportlandwomen",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "the-language-table-portland-me",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "friendlytabletopgamers",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "montreal-backgammon-club-meetup",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "meetup-group-zcngssof",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "ithaca-craft-beer-social-club",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "lehigh-taiji-meetup",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "learn-tai-chi-in-rochester",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "belonging-circle",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "booksandbrewsbookclub",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "ithacafantasyromancebookclub",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "eckankarcentralnewyork",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "boards-brews",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "westchester-gaming-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "poughkeepsie-get-in-shape-meetup-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "learntosing-meetup",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "hudson-valley-game-knights",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "mineola-board-games-night-meetup-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "302spades",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "boardgames-601",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "play-spades-eat-and-socialize-in-gaithersburg",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "meetup-group-jofixfre",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "meet-people-lancaster",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "sparkdate-philly-singles-mixers",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "london-volleyball-badminton",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "erie-social-club-eat-play-explore",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "songwriters-cafe",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "5920chorleypl",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "ozs-music-songwriters-open-mic",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "ascend-erie-meetup",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "maple-leaf-pickleball",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "machine-learning-workshop",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "zentanglers-in-pittsburgh",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "bicycles-plus",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "loveswig",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "pittsburgh-postgres",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "mon-valley-pa-bicycleoutdoors",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "pittsburgh-sketching-meetup-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "conscious-women-manifesting-abundance-pittsburgh",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "eckankarofpa",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "bowling-green-league-of-bicyclists",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "vocalists-164",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "tennessee-speed-dating-events",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "nashvillemusician",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "nashville-photography-community",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "meetup-group-gitpqwgn",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "among-vets",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "bloomington-board-games-meetup",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "indiana-speed-dating-events",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "indianapolis-zen-center",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "bloomington-atheists-and-rationally-awesome-people",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "movingwater-flatwater-kayaking-camping-outdoor-watersports",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "traverse-city-board-gamers",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "build-guild-traverse-city",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "traverse-city-freestyle-frisbee-meetup-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "grand-traverse-chapter-north-country-trail-association",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "vegmichigan-meetup",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "sierraclubclearwatergroup",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "smerconish-mingle-meetup-traverse-city-michigan",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "eckankar-n-e-wisconsin-spiritual-experiences-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "meetup-group-kvuijddb",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "racine-and-kenosha-county-coed-soccer",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "modernistfiction",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "circle-of-friends-womens-social-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "libertyville-recommended-boardgames-meetup-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "west-suburban-millenials",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "camping-190",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "sd-scuba-buddies",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "play-outside-outdoor-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "arrowhead-nct-hikers",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "eckankar-new-richmond-somerset-hudson-spiritual-experiences",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "italian-conversation-and-culture",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "geekgaming",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "sip-and-chat",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "twin-cities-tarot-collective",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "minneapolis-real-estate-investors",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "meetup-group-rhzognvm",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "the-mankind-project-mkp-omaha-open-circle",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "writersroundtable",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "sfspanishclub",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "sioux-falls-french-club",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "feeding-sioux-falls-community-outreach-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "eckankar-in-nebraska-meetup-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "omaha-cyber-security-for-control-systems",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "rfr-dakotas-chapter",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "the-winnipeg-spiritual-experiences-group",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "winnipeg-english",
+      "reason": "no upcoming event whose title mentions mahjong"
+    },
+    {
+      "group": "discoveru-winnipeg",
+      "reason": "no upcoming event whose title mentions mahjong"
+    }
+  ],
+  "skippedVenues": [
+    {
+      "group": "american-mah-jongg-sun-wed",
+      "venue": "Wegmans",
+      "reason": "venue already known (live directory or an earlier batch)"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Game } from "@/types";
+import type { Game } from "@/types";
 import { useAuth } from "@/contexts/AuthContext";
 
 const LeafletMap = dynamic(() => import("@/components/LeafletMap"), {

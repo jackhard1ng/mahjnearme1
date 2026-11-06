@@ -35,6 +35,13 @@ export default function Error({
           >
             Try Again
           </button>
+          {/*
+            Deliberately a plain <a>, not next/link. This is the error
+            boundary: the React tree is already in a broken state, and a
+            client-side navigation would carry that broken tree to the new
+            route. A full document load is the recovery.
+          */}
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a
             href="/"
             className="bg-skyblue-100 text-charcoal px-6 py-2.5 rounded-xl font-semibold hover:bg-skyblue-200 transition-colors"

@@ -1,0 +1,1414 @@
+{
+  "checked": 1873,
+  "issues": [
+    {
+      "listingId": "14th-street-y-mah-jongg-club-open-play-new-york-new-york-630-pm",
+      "listingName": "14th Street Y — Mah Jongg Club Open Play",
+      "field": "website",
+      "url": "https://www.14streety.org/event/new-mah-jongg-club-open-play/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "albany-jcc-learn-to-play-mah-jongg-beginner-series-albany-new-york-1100-am",
+      "listingName": "Albany JCC — Learn to Play Mah Jongg (Beginner Ser",
+      "field": "website",
+      "url": "https://albanyjcc.org",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "albany-jcc-mah-jongg-open-play-albany-new-york",
+      "listingName": "Albany JCC — Mah Jongg Open Play",
+      "field": "website",
+      "url": "https://albanyjcc.org",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "alpert-jcc-long-beach-drop-in-mah-jongg-long-beach-california-600-pm",
+      "listingName": "Alpert JCC Long Beach — Drop-in Mah Jongg",
+      "field": "website",
+      "url": "https://alpertjcc.org/event/mah-jongg-club/",
+      "status": "redirect",
+      "detail": "Redirected to jewishlongbeach.org"
+    },
+    {
+      "listingId": "american-mahjong-at-cooper-city-recreati-cooper-city-fl-wedn-7c183911",
+      "listingName": "American Mahjong at Cooper City Recreation Center",
+      "field": "website",
+      "url": "https://www.coopercityfl.org/",
+      "status": "redirect",
+      "detail": "Redirected to coopercity.gov"
+    },
+    {
+      "listingId": "anderson-township-library-game-day-mahjong-cincinnati-ohio",
+      "listingName": "Anderson Township Library – Game Day (Mahjong)",
+      "field": "website",
+      "url": "https://www.andersontownship.org/",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "ann-arbor-district-library-mahjong-open--ann-arbor-mi-saturd-0a1e8b36",
+      "listingName": "Ann Arbor District Library Mahjong Open Play",
+      "field": "website",
+      "url": "https://aadl.org/node/641490",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "ann-arbor-district-library-mahjong-open-play-ann-arbor-michigan",
+      "listingName": "Ann Arbor District Library — Mahjong Open Play",
+      "field": "website",
+      "url": "https://aadl.org/",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "ann-arbor-ymca-riichi-mahjong-instruction-ann-arbor-michigan",
+      "listingName": "Ann Arbor YMCA — Riichi Mahjong Instruction",
+      "field": "website",
+      "url": "https://www.annarborymca.org/class/riichi-mahjong/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "avondale-library-mahjong-mondays-chattanooga-tn-monday-14-00-e1f2b7ff",
+      "listingName": "Avondale Library Mahjong Mondays",
+      "field": "website",
+      "url": "https://chattanooga.gov/things-to-do/calendar/mahjong-mondays-adults-18",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "baldwin-park-mahjong-club-orlando-florida-varies",
+      "listingName": "Baldwin Park Mahjong Club",
+      "field": "website",
+      "url": "https://www.bpmahjong.com",
+      "status": "redirect",
+      "detail": "Redirected to centralfloridamahjong.com"
+    },
+    {
+      "listingId": "bccc-mahjong-sacramento-parks-rec-sacramento-california",
+      "listingName": "BCCC Mahjong (Sacramento Parks & Rec)",
+      "field": "website",
+      "url": "https://apm.activecommunities.com/cityofsacparksandrec/Activity_Search/bccc-mahjong/25096",
+      "status": "redirect",
+      "detail": "Redirected to anc.apm.activecommunities.com"
+    },
+    {
+      "listingId": "bccc-mahjong-sacramento-parks-rec-sacramento-california",
+      "listingName": "BCCC Mahjong (Sacramento Parks & Rec)",
+      "field": "registrationLink",
+      "url": "https://apm.activecommunities.com/cityofsacparksandrec/Activity_Search/bccc-mahjong/25096",
+      "status": "redirect",
+      "detail": "Redirected to anc.apm.activecommunities.com"
+    },
+    {
+      "listingId": "beginner-mah-jongg-at-jcc-greater-boston-newton-ma-saturday--fe49f0ec",
+      "listingName": "Beginner Mah Jongg at JCC Greater Boston (Sat)",
+      "field": "website",
+      "url": "https://www.bostonjcc.org/calendar/beginner-mah-jongg-saturday-2/2026-02-28/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "beginner-mah-jongg-at-jcc-greater-boston-newton-ma-tuesday-1-8eeaa5d5",
+      "listingName": "Beginner Mah Jongg at JCC Greater Boston (Tue)",
+      "field": "website",
+      "url": "https://www.bostonjcc.org/calendar/beginner-mah-jongg-tuesday-2/2026-01-06/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "beginner-mahjong-in-the-afternoon-triangle-raleigh-north-carolina",
+      "listingName": "Beginner Mahjong in the Afternoon — Triangle",
+      "field": "website",
+      "url": "https://thetriangleweekender.com/event/beginner-mahjong-in-the-afternoon-a-beginner-series-of-lessons/2025-07-30/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "beth-el-congregation-mah-jongg-for-beginners-baltimore-maryland",
+      "listingName": "Beth El Congregation — Mah Jongg for Beginners",
+      "field": "website",
+      "url": "https://ae.bethelbalto.com/courses/mah-jongg-for-beginners/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "blue-ash-recreation-center-mahjong-blue-ash-ohio",
+      "listingName": "Blue Ash Recreation Center – Mahjong",
+      "field": "website",
+      "url": "https://www.blueashrecreation.com/",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "brown-university-mahjong-club-providence-rhode-island",
+      "listingName": "Brown University Mahjong Club",
+      "field": "website",
+      "url": "https://www.brownmahjong.com/",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "camp-troop-mahjong-annual-retreat-san-antonio-texas-varies",
+      "listingName": "Camp Troop Mahjong — Annual Retreat",
+      "field": "website",
+      "url": "https://troopmahjong.com",
+      "status": "redirect",
+      "detail": "Redirected to stylinbrunette.com"
+    },
+    {
+      "listingId": "canfield-library-mah-jongg-practice-canfield-ohio-100-pm",
+      "listingName": "Canfield Library Mah-Jongg Practice",
+      "field": "website",
+      "url": "https://www.canfieldlibrary.org/",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "center-for-health-wellbeing-mahjong-winter-park-florida-varies",
+      "listingName": "Center for Health & Wellbeing - Mahjong",
+      "field": "website",
+      "url": "https://www.centerfhw.org/",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "charlestown-foundation-kitchen-1",
+      "listingName": "Mahjong 101",
+      "field": "registrationLink",
+      "url": "https://checkout.square.site/...",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "charlotte-mahjong-mahj-101-beginner-lessons-charlotte-north-carolina",
+      "listingName": "Charlotte Mahjong — Mahj 101 Beginner Lessons",
+      "field": "registrationLink",
+      "url": "https://charlottemahjong.com/charlotte-mahjong-events",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "charlotte-mahjong-monthly-social-mad-for-mahjong-charlotte-north-carolina",
+      "listingName": "Charlotte Mahjong — Monthly Social (Mad for Mahjon",
+      "field": "registrationLink",
+      "url": "https://charlottemahjong.com/charlotte-mahjong-events",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "charlotte-riichi-mahjong-club-weekly-sessions-matthews-north-carolina-1200-pm",
+      "listingName": "Charlotte Riichi Mahjong Club — Weekly Sessions",
+      "field": "website",
+      "url": "https://richcharlotte.com",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "chi-city-mahjong-missy-mahjong-free-lessons-open-play-chicago-illinois",
+      "listingName": "Chi City Mahjong (Missy Mahjong) — Free Lessons & ",
+      "field": "website",
+      "url": "https://www.chicitymahjong.com/",
+      "status": "redirect",
+      "detail": "Redirected to missymahjong.com"
+    },
+    {
+      "listingId": "chi-city-mahjong-missy-mahjong-free-lessons-open-play-chicago-illinois",
+      "listingName": "Chi City Mahjong (Missy Mahjong) — Free Lessons & ",
+      "field": "registrationLink",
+      "url": "https://www.chicitymahjong.com/chicago-mahjong-events",
+      "status": "redirect",
+      "detail": "Redirected to missymahjong.com"
+    },
+    {
+      "listingId": "cobb-county-library-mahjong-meetup-marietta-georgia-varies",
+      "listingName": "Cobb County Library — Mahjong Meetup",
+      "field": "website",
+      "url": "https://www.cobbcat.org",
+      "status": "redirect",
+      "detail": "Redirected to cobbcounty.gov"
+    },
+    {
+      "listingId": "columbus-mahjong-club-columbus-georgia",
+      "listingName": "Columbus Mahjong Club",
+      "field": "website",
+      "url": "https://www.columbusmahjongclub.com/about",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "columbus-mahjong-club-columbus-ohio",
+      "listingName": "Columbus Mahjong Club",
+      "field": "website",
+      "url": "https://www.columbusmahjongclub.com/about",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "cooper-city-fl-rec-center-mj-1",
+      "listingName": "American Mahjong at Cooper City Recreation Center",
+      "field": "website",
+      "url": "https://www.coopercityfl.org/",
+      "status": "redirect",
+      "detail": "Redirected to coopercity.gov"
+    },
+    {
+      "listingId": "cowtown-mahj-leagues-lessons-private-parties-fort-worth-fort-worth-texas-varies",
+      "listingName": "Cowtown Mahj – Leagues, Lessons & Private Parties ",
+      "field": "website",
+      "url": "https://cowtownmahj.com",
+      "status": "redirect",
+      "detail": "Redirected to cowtownmahj.carrd.co"
+    },
+    {
+      "listingId": "cowtown-mahj-leagues-lessons-private-parties-fort-worth-fort-worth-texas-varies",
+      "listingName": "Cowtown Mahj – Leagues, Lessons & Private Parties ",
+      "field": "registrationLink",
+      "url": "https://cowtownmahj.com",
+      "status": "redirect",
+      "detail": "Redirected to cowtownmahj.carrd.co"
+    },
+    {
+      "listingId": "cupertino-senior-center-mahjong-cupertino-california-900-am",
+      "listingName": "Cupertino Senior Center — Mahjong",
+      "field": "website",
+      "url": "https://www.cupertino.org/our-city/departments/parks-recreation/senior-center",
+      "status": "redirect",
+      "detail": "Redirected to cupertino.gov"
+    },
+    {
+      "listingId": "delray-beach-library-mahjong-club-delray-beach-florida",
+      "listingName": "Delray Beach Library Mahjong Club",
+      "field": "website",
+      "url": "https://www.delraylibrary.org/classes-programs/summer-mahjong-club/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "denham-springs-walker-library-mahjong-meetup-denham-springs-louisiana",
+      "listingName": "Denham Springs-Walker Library — Mahjong Meetup",
+      "field": "website",
+      "url": "https://www.mylibraryla.com",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "denver-mahjong-drop-in-at-clements-community-center-lakewood-denver-colorado-1215-pm",
+      "listingName": "Denver – Mahjong Drop-In at Clements Community Cen",
+      "field": "website",
+      "url": "https://www.lakewood.org/Government/Departments/Community-Resources/Active-Adult-Services/Lloyd-G.-Clements-Community-Center",
+      "status": "redirect",
+      "detail": "Redirected to lakewoodco.gov"
+    },
+    {
+      "listingId": "dyker-library-bpl-mahjong-brooklyn-new-york-100-pm",
+      "listingName": "Dyker Library (BPL) — Mahjong",
+      "field": "website",
+      "url": "https://www.bklynlibrary.org/calendar",
+      "status": "redirect",
+      "detail": "Redirected to discover.bklynlibrary.org"
+    },
+    {
+      "listingId": "east-greenbush-community-library-mah-jongg-open-play-east-greenbush-new-york",
+      "listingName": "East Greenbush Community Library — Mah Jongg Open ",
+      "field": "website",
+      "url": "https://eastgreenbushlibrary.org",
+      "status": "redirect",
+      "detail": "Redirected to eglibrary.org"
+    },
+    {
+      "listingId": "five-mile-mahj-card-reveal-party-norwalk-connecticut-friday-2026-04-24",
+      "listingName": "Five Mile Mahj - Card Reveal Party",
+      "field": "website",
+      "url": "https://www.fivemilemahj.com",
+      "status": "redirect",
+      "detail": "Redirected to 5milemahj.com"
+    },
+    {
+      "listingId": "five-mile-mahj-card-reveal-party-norwalk-connecticut-friday-2026-04-24",
+      "listingName": "Five Mile Mahj - Card Reveal Party",
+      "field": "registrationLink",
+      "url": "https://www.fivemilemahj.com",
+      "status": "redirect",
+      "detail": "Redirected to 5milemahj.com"
+    },
+    {
+      "listingId": "five-mile-mahj-mahj-101-norwalk-connecticut-monday",
+      "listingName": "Five Mile Mahj - Mahj 101",
+      "field": "website",
+      "url": "https://www.fivemilemahj.com",
+      "status": "redirect",
+      "detail": "Redirected to 5milemahj.com"
+    },
+    {
+      "listingId": "five-mile-mahj-mahj-101-norwalk-connecticut-monday",
+      "listingName": "Five Mile Mahj - Mahj 101",
+      "field": "registrationLink",
+      "url": "https://www.fivemilemahj.com",
+      "status": "redirect",
+      "detail": "Redirected to 5milemahj.com"
+    },
+    {
+      "listingId": "five-mile-mahj-mahj-102-norwalk-connecticut-tuesday",
+      "listingName": "Five Mile Mahj - Mahj 102",
+      "field": "website",
+      "url": "https://www.fivemilemahj.com",
+      "status": "redirect",
+      "detail": "Redirected to 5milemahj.com"
+    },
+    {
+      "listingId": "five-mile-mahj-mahj-102-norwalk-connecticut-tuesday",
+      "listingName": "Five Mile Mahj - Mahj 102",
+      "field": "registrationLink",
+      "url": "https://www.fivemilemahj.com",
+      "status": "redirect",
+      "detail": "Redirected to 5milemahj.com"
+    },
+    {
+      "listingId": "five-mile-mahj-spring-break-kids-camp-norwalk-connecticut-tuesday-2026-04-07",
+      "listingName": "Five Mile Mahj - Spring Break Kids Camp",
+      "field": "website",
+      "url": "https://www.fivemilemahj.com",
+      "status": "redirect",
+      "detail": "Redirected to 5milemahj.com"
+    },
+    {
+      "listingId": "five-mile-mahj-spring-break-kids-camp-norwalk-connecticut-tuesday-2026-04-07",
+      "listingName": "Five Mile Mahj - Spring Break Kids Camp",
+      "field": "registrationLink",
+      "url": "https://www.fivemilemahj.com",
+      "status": "redirect",
+      "detail": "Redirected to 5milemahj.com"
+    },
+    {
+      "listingId": "fruitland-park-library-mahjong-fruitland-park-florida-1100-am",
+      "listingName": "Fruitland Park Library - Mahjong",
+      "field": "website",
+      "url": "https://www.fruitlandpark.org/library/page/mahjong",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "gamelandia-mahjong-night-san-jose-california-600-pm",
+      "listingName": "Gamelandia — Mahjong Night",
+      "field": "website",
+      "url": "https://www.gamelandia.com/",
+      "status": "redirect",
+      "detail": "Redirected to gamelandia.fun"
+    },
+    {
+      "listingId": "greer-bigjokerenergy-1",
+      "listingName": "Mahj & Margs - Cinco de Mayo Soirée",
+      "field": "registrationLink",
+      "url": "https://mahjandmargs.eventbrite.com/",
+      "status": "redirect",
+      "detail": "Redirected to eventbrite.com"
+    },
+    {
+      "listingId": "guided-mahjong-play-at-gather-goods-co-cary-cary-north-carolina",
+      "listingName": "Guided Mahjong Play at Gather Goods Co — Cary",
+      "field": "website",
+      "url": "https://www.visitraleigh.com/event/guided-&-open-mahjong-play/102136/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "holy-city-mahjong-via-partyplease-charleston-south-carolina",
+      "listingName": "Holy City Mahjong via PartyPlease",
+      "field": "website",
+      "url": "https://partyplease.co/product/american-mahjong-lessons-1708974702479x352418071318888450",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "intermediate-plus-league-unseriously-serious-atlanta-georgia",
+      "listingName": "Intermediate PLUS League (\"Unseriously Serious\")",
+      "field": "registrationLink",
+      "url": "https://atlmahjong.com/products/the-unseriously-serious-league",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "j-dallas-competitive-mahj-league-dallas-tx-monday-e823d523",
+      "listingName": "J Dallas Competitive Mahj League",
+      "field": "website",
+      "url": "https://www.jccdallas.org/events/j-dallas-competitive-mahj-league-monday-evenings",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "j-dallas-social-mahj-league-dallas-tx-thursday-548377bc",
+      "listingName": "J Dallas Social Mahj League",
+      "field": "website",
+      "url": "https://www.jccdallas.org/events/j-dallas-social-mahj-league-thursday-evenings",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "j-mahj-advanced-strategy-class-apr-23-2026-dallas-texas-2026-04-23",
+      "listingName": "J Mahj – Advanced Strategy Class (Apr 23, 2026)",
+      "field": "registrationLink",
+      "url": "https://www.jccdallas.org/events/mah-jongg-advanced-strategy-3",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "j-mahj-competitive-league-mon-evenings-apr-13-may-18-2026-dallas-texas-evening-2026-04-13",
+      "listingName": "J Mahj – Competitive League Mon Evenings (Apr 13–M",
+      "field": "registrationLink",
+      "url": "https://www.jccdallas.org/events/j-dallas-competitive-mahj-league-monday-evenings-2",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "j-mahj-get-your-mahjon-beginner-series-apr-28-2026-dallas-texas-2026-04-28",
+      "listingName": "J Mahj – Get Your MahjON! Beginner Series (Apr 28,",
+      "field": "registrationLink",
+      "url": "https://www.jccdallas.org/events/get-your-mahjon-beginner-class-series-april-may",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "jcc-asheville-mahj-mania-asheville-north-carolina",
+      "listingName": "JCC Asheville Mahj Mania",
+      "field": "website",
+      "url": "https://jcc-asheville.org/mahj-mania-registration-3",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "jcc-st-louis-mah-jongg-open-play-classes-chesterfield-missouri",
+      "listingName": "JCC St. Louis Mah Jongg Open Play & Classes",
+      "field": "website",
+      "url": "https://jccstl.com/programs/mah-jongg/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "johnscreek-ga-spruill-oaks-mj-monday-1",
+      "listingName": "Mahjong Mondays at Northeast Spruill Oaks Library",
+      "field": "website",
+      "url": "https://johnscreekga.gov/",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "la-jolla-newcomers-club-friday-mahjong-la-jolla-california-varies",
+      "listingName": "La Jolla Newcomers Club - Friday Mahjong",
+      "field": "website",
+      "url": "https://lajollanewcomers.org/interestgroups.html",
+      "status": "redirect",
+      "detail": "Redirected to lajollanewcomersclub.org"
+    },
+    {
+      "listingId": "lan-su-chinese-garden-mahjong-portland-oregon",
+      "listingName": "Lan Su Chinese Garden — Mahjong",
+      "field": "website",
+      "url": "https://lansugarden.org/things-to-do/ongoing-programs/mahjong/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "magnolia-mahjong-101-wednesday-lessons-charleston-sc-wednesd-6fe15fb3",
+      "listingName": "Magnolia Mahjong 101 - Wednesday Lessons",
+      "field": "website",
+      "url": "https://www.magnoliaplantation.com/magnolia-events/mahjong-101",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "magnolia-mahjong-wednesday-open-play-charleston-sc-wednesday-843eb942",
+      "listingName": "Magnolia Mahjong - Wednesday Open Play",
+      "field": "website",
+      "url": "https://www.magnoliaplantation.com/magnolia-events/mahjong-101-open-play",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "magpie-mahjong-meet-me-at-mahj-open-play-apr-20-st-louis-missouri-2026-04-20",
+      "listingName": "Magpie Mahjong - Meet Me at Mahj Open Play (Apr 20",
+      "field": "website",
+      "url": "https://www.joplinpubliclibrary.org",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "mah-jong-at-spirit-lake-public-library-m-spirit-lake-ia-mond-b2bac142",
+      "listingName": "Mah-Jong at Spirit Lake Public Library (Monday)",
+      "field": "website",
+      "url": "https://slpublib.com/services-1/mah-jong",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "mah-jong-at-spirit-lake-public-library-t-spirit-lake-ia-thur-e0b3d79a",
+      "listingName": "Mah-Jong at Spirit Lake Public Library (Thursday)",
+      "field": "website",
+      "url": "https://slpublib.com/services-1/mah-jong",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "mah-jongg-at-caryl-community-center-dove-dover-ma-thursday-1-0efaf46f",
+      "listingName": "Mah Jongg at Caryl Community Center (Dover COA)",
+      "field": "website",
+      "url": "http://www.doverma.org/town-government/caryl-community-center/",
+      "status": "redirect",
+      "detail": "Redirected to doverma.gov"
+    },
+    {
+      "listingId": "mah-jongg-at-dedham-council-on-aging-dedham-ma-wednesday-13--e3dd0349",
+      "listingName": "Mah Jongg at Dedham Council on Aging",
+      "field": "website",
+      "url": "https://www.dedham-ma.gov/town-departments/council-on-aging",
+      "status": "redirect",
+      "detail": "Redirected to dedhamma.gov"
+    },
+    {
+      "listingId": "mah-jongg-at-fontana-regional-library-sylva-nc-8a02f411",
+      "listingName": "Mah Jongg at Fontana Regional Library",
+      "field": "website",
+      "url": "https://fontanalib.org/events/mah-jongg-0",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mah-jongg-at-sabes-jcc-minneapolis-mon-minneapolis-mn-monday-02f2b365",
+      "listingName": "Mah Jongg at Sabes JCC Minneapolis (Mon)",
+      "field": "website",
+      "url": "https://minnesotajcc.org/art-culture/enrichment-learning/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mah-jongg-at-sabes-jcc-minneapolis-wed-minneapolis-mn-wednes-c3dc596e",
+      "listingName": "Mah Jongg at Sabes JCC Minneapolis (Wed)",
+      "field": "website",
+      "url": "https://minnesotajcc.org/art-culture/enrichment-learning/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mah-jongg-canasta-at-mandel-jcc-palm-bea-palm-beach-gardens--722a428e",
+      "listingName": "Mah Jongg & Canasta at Mandel JCC Palm Beach",
+      "field": "website",
+      "url": "https://pbg.jcconline.com/programs/adult/mahjongg/",
+      "status": "redirect",
+      "detail": "Redirected to jcconline.com"
+    },
+    {
+      "listingId": "mah-jongg-club-at-riverdale-public-libra-fort-myers-fl-wedne-05f2b757",
+      "listingName": "Mah Jongg Club at Riverdale Public Library",
+      "field": "website",
+      "url": "https://www.leelibrary.net/",
+      "status": "redirect",
+      "detail": "Redirected to leegov.com"
+    },
+    {
+      "listingId": "mah-jongg-fever-west-palm-beach-tournament-west-palm-beach-florida-2026-04-17",
+      "listingName": "Mah Jongg Fever West Palm Beach Tournament",
+      "field": "registrationLink",
+      "url": "https://mahjonggfever.com/event/west-palm-beach-fl-2026-tournament/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mah-jongg-maven-atlanta-retreats-retail-atlanta-georgia-varies",
+      "listingName": "Mah Jongg Maven — Atlanta Retreats & Retail",
+      "field": "website",
+      "url": "https://www.mahjongmaven.com",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "mah-jongg-maven-idaho-players-network-coeur-dalene-idaho",
+      "listingName": "Mah Jongg Maven — Idaho Players Network",
+      "field": "website",
+      "url": "https://www.mahjonggmaven.com/idaho-mah-jongg-players/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mah-jongg-open-play-at-cooper-siegel-com-fox-chapel-pa-frida-ff358652",
+      "listingName": "Mah Jongg Open Play at Cooper-Siegel Community Lib",
+      "field": "website",
+      "url": "https://coopersiegellibrary.org",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "mah-jongg-open-play-at-jcc-on-the-cohn-c-tampa-fl-tuesday-13-301f7271",
+      "listingName": "Mah Jongg Open Play at JCC on the Cohn Campus",
+      "field": "website",
+      "url": "https://www.jcccohncampus.com/",
+      "status": "redirect",
+      "detail": "Redirected to shannaandbryanglazerjcc.com"
+    },
+    {
+      "listingId": "mah-jongg-social-club-mount-dora-mount-dora-florida-1000-am",
+      "listingName": "Mah Jongg Social Club - Mount Dora",
+      "field": "website",
+      "url": "https://www.ci.mount-dora.fl.us/Calendar.aspx",
+      "status": "redirect",
+      "detail": "Redirected to mountdora.gov"
+    },
+    {
+      "listingId": "mahj-in-the-city-bambird-scramble-league-charlotte-north-carolina",
+      "listingName": "Mahj In The City — Bambird Scramble League",
+      "field": "registrationLink",
+      "url": "https://www.mahjinthecity.com/scramble",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mahjong-at-st-petersburg-woman-s-club-st-petersburg-fl-monda-bdcf489b",
+      "listingName": "Mahjong at St. Petersburg Woman's Club",
+      "field": "website",
+      "url": "https://stpetersburgwomansclub.org/",
+      "status": "redirect",
+      "detail": "Redirected to gfwc-spwc.org"
+    },
+    {
+      "listingId": "mahjong-at-winter-springs-civic-center-winter-springs-florida-varies",
+      "listingName": "Mahjong at Winter Springs Civic Center",
+      "field": "website",
+      "url": "https://www.winterspringsfl.org/parksrec/page/mahjong",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mahjong-club-at-north-miami-beach-librar-north-miami-beach-f-1f36f4f2",
+      "listingName": "Mahjong Club at North Miami Beach Library",
+      "field": "website",
+      "url": "https://citynmb.com/library",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mahjong-for-a-mission-waco-waco-texas",
+      "listingName": "Mahjong for a Mission — Waco",
+      "field": "website",
+      "url": "https://www.lovelyvillage.org/mahjong",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mahjong-for-beginners-raleigh-raleigh-north-carolina",
+      "listingName": "Mahjong for Beginners — Raleigh",
+      "field": "website",
+      "url": "https://www.visitraleigh.com/event/mahjong-for-beginners/100982/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mahjong-in-the-village-hyde-park-tampa-florida-varies",
+      "listingName": "Mahjong in the Village - Hyde Park",
+      "field": "website",
+      "url": "https://hydeparkvillage.com/event/mahjong-in-the-village-2/2030-08-29/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mahjong-lex-lexington-classes-monthly-sessions-lexington-kentucky",
+      "listingName": "Mahjong-Lex — Lexington Classes & Monthly Sessions",
+      "field": "website",
+      "url": "https://lextoday.6amcity.com/culture/play-mahjong-lexington-ky",
+      "status": "redirect",
+      "detail": "Redirected to 6amcity.com"
+    },
+    {
+      "listingId": "mahjong-megan-mcgrath-santa-monica-santa-monica-california",
+      "listingName": "Mahjong Megan McGrath — Santa Monica",
+      "field": "website",
+      "url": "https://mahjongmegan.com",
+      "status": "redirect",
+      "detail": "Redirected to sites.google.com"
+    },
+    {
+      "listingId": "mahjong-mondays-at-marketstreet-lynnfield-4-class-series-boston-massachusetts-600-pm",
+      "listingName": "Mahjong Mondays at MarketStreet Lynnfield — 4-Clas",
+      "field": "registrationLink",
+      "url": "https://bit.ly/MahjinMarch",
+      "status": "redirect",
+      "detail": "Redirected to docs.google.com"
+    },
+    {
+      "listingId": "mahjong-mondays-at-northeast-spruill-oak-johns-creek-ga-mond-fa68ac9f",
+      "listingName": "Mahjong Mondays at Northeast Spruill Oaks Library",
+      "field": "website",
+      "url": "https://johnscreekga.gov/",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "mahjong-social-co-mahjong-101-beginner-class-chicago-illinois-1100-2026-04-13",
+      "listingName": "Mahjong Social Co. - Mahjong 101 Beginner Class",
+      "field": "registrationLink",
+      "url": "https://www.eventbrite.com/o/mahjong-social-co",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mahjong-social-co-mahjong-101-beginner-class-chicago-illinois-1830-2026-04-22",
+      "listingName": "Mahjong Social Co. - Mahjong 101 Beginner Class",
+      "field": "registrationLink",
+      "url": "https://www.eventbrite.com/o/mahjong-social-co",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mahjong-social-co-mahjong-social-play-guided-chicago-illinois-1130-2026-04-27",
+      "listingName": "Mahjong Social Co. - Mahjong Social Play (Guided)",
+      "field": "registrationLink",
+      "url": "https://www.eventbrite.com/o/mahjong-social-co",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mahjong-social-co-social-play-shine-bright-play-right-chicago-illinois-1900-2026-04-23",
+      "listingName": "Mahjong Social Co. - Social Play Shine Bright Play",
+      "field": "registrationLink",
+      "url": "https://www.eventbrite.com/o/mahjong-social-co",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mahjong-social-pop-ups-at-spokane-cafes-spokane-washington",
+      "listingName": "Mahjong Social Pop-ups at Spokane Cafes",
+      "field": "website",
+      "url": "https://inwmahjong.group",
+      "status": "redirect",
+      "detail": "Redirected to linktr.ee"
+    },
+    {
+      "listingId": "mahjong-tuesdays-at-senior-services-cent-chatham-nj-tuesday--9840ba97",
+      "listingName": "Mahjong Tuesdays at Senior Services Center of the ",
+      "field": "website",
+      "url": "https://chathamrecreation.org/senior-services-center-of-the-chathams/",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "mahjongg-with-tracy-lessons-open-play-league-nashville-tennessee-varies",
+      "listingName": "Mahjongg with Tracy — Lessons, Open Play & League",
+      "field": "registrationLink",
+      "url": "https://calendly.com/mahjongg_withtracy",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mama-mahjong-nashville-lessons-open-play-events-nashville-tennessee-varies",
+      "listingName": "Mama Mahjong Nashville — Lessons & Open Play Event",
+      "field": "registrationLink",
+      "url": "https://www.mamamahjong.com/events",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "mandel-jcc-beginner-mah-jongg-palm-beach-gardens-florida-900-am",
+      "listingName": "Mandel JCC Beginner Mah Jongg",
+      "field": "website",
+      "url": "https://pbg.jcconline.com/programs/adult/mahjongg/",
+      "status": "redirect",
+      "detail": "Redirected to jcconline.com"
+    },
+    {
+      "listingId": "mandel-jcc-mah-jongg-programs-beachwood-ohio",
+      "listingName": "Mandel JCC Mah Jongg Programs",
+      "field": "website",
+      "url": "https://mandeljcc.org",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "mandel-jcc-mah-jongg-programs-beachwood-ohio",
+      "listingName": "Mandel JCC Mah Jongg Programs",
+      "field": "registrationLink",
+      "url": "https://mandeljcc.org",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "mississippi-mahj-club-jackson-mississippi-unknown",
+      "listingName": "Mississippi Mahj Club",
+      "field": "website",
+      "url": "https://msmahj.club/",
+      "status": "redirect",
+      "detail": "Redirected to menageamahj.com"
+    },
+    {
+      "listingId": "mount-laurel-township-library-mahjong-mount-laurel-new-jersey-100-pm",
+      "listingName": "Mount Laurel Township Library Mahjong",
+      "field": "website",
+      "url": "https://www.mountlaurel.librarycalendar.com",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "mountain-mahjongg-evening-drop-in-at-relish-food-hall-louisville-denver-colorado-600-pm-2026-03-16-next-confirmed",
+      "listingName": "Mountain Mahjongg – Evening Drop-In at Relish Food",
+      "field": "website",
+      "url": "https://mountainmahjongg.com",
+      "status": "redirect",
+      "detail": "Redirected to coloradomahjongg.com"
+    },
+    {
+      "listingId": "newbridge-madison-mahjong-1",
+      "listingName": "NewBridge Madison — Mahjong In-Person",
+      "field": "website",
+      "url": "https://www.newbridgemadison.org/classes/mahjong",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "newbridge-madison-mahjong-in-person-madison-wi-thursday-1-00-325a24d9",
+      "listingName": "NewBridge Madison — Mahjong In-Person",
+      "field": "website",
+      "url": "https://www.newbridgemadison.org/classes/mahjong",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "north-miami-beach-library-mj-1",
+      "listingName": "Mahjong Club at North Miami Beach Library",
+      "field": "website",
+      "url": "https://citynmb.com/library",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "olli-at-uc-mahjong-course-cincinnati-ohio",
+      "listingName": "OLLI at UC – Mahjong Course",
+      "field": "website",
+      "url": "https://www.uc.edu/ce/olli.html",
+      "status": "redirect",
+      "detail": "Redirected to ccps.uc.edu"
+    },
+    {
+      "listingId": "opelika-bamboo-belles-1",
+      "listingName": "Open Play at Taylor Made Designs",
+      "field": "website",
+      "url": "https://calendly.com/bambooobellesal",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "opelika-bamboo-belles-1",
+      "listingName": "Open Play at Taylor Made Designs",
+      "field": "registrationLink",
+      "url": "https://calendly.com/bambooobellesal",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "opelika-bamboo-belles-2",
+      "listingName": "Open Play at John Emerald Distillery",
+      "field": "website",
+      "url": "https://calendly.com/bambooobellesal",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "opelika-bamboo-belles-2",
+      "listingName": "Open Play at John Emerald Distillery",
+      "field": "registrationLink",
+      "url": "https://calendly.com/bambooobellesal",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "opelika-bamboo-belles-3",
+      "listingName": "Mahjong 101",
+      "field": "website",
+      "url": "https://calendly.com/bambooobellesal",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "opelika-bamboo-belles-3",
+      "listingName": "Mahjong 101",
+      "field": "registrationLink",
+      "url": "https://calendly.com/bambooobellesal",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "opelika-bamboo-belles-4",
+      "listingName": "Mahjong 102",
+      "field": "website",
+      "url": "https://calendly.com/bambooobellesal",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "opelika-bamboo-belles-4",
+      "listingName": "Mahjong 102",
+      "field": "registrationLink",
+      "url": "https://calendly.com/bambooobellesal",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "orange-park-community-center-mahjong-orange-park-florida",
+      "listingName": "Orange Park Community Center Mahjong",
+      "field": "website",
+      "url": "http://www.orangeparkfl.gov/index.asp?NID=118",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "pink-palmetto-mahjong-hilton-head-island-south-carolina",
+      "listingName": "Pink Palmetto Mahjong",
+      "field": "website",
+      "url": "https://pinkpalmettomahjong.com/",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "punch-bowl-social-mahjong-open-play-portland-oregon",
+      "listingName": "Punch Bowl Social — Mahjong Open Play",
+      "field": "website",
+      "url": "https://punchbowlsocial.com/happenings/mahjong-social-portland",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "punch-bowl-social-mahjong-open-play-portland-oregon",
+      "listingName": "Punch Bowl Social — Mahjong Open Play",
+      "field": "registrationLink",
+      "url": "https://punchbowlsocial.com/happenings/mahjong-social-portland",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "r-u-game-mahjong-at-game-store-saline-michigan",
+      "listingName": "R U Game — Mahjong at Game Store",
+      "field": "website",
+      "url": "https://www.rugamesaline.com/",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "raleigh-mahj-tournament-raleigh-north-carolina",
+      "listingName": "Raleigh Mahj Tournament",
+      "field": "instagram",
+      "url": "https://raleighmahj.com",
+      "status": "redirect",
+      "detail": "Redirected to linktr.ee"
+    },
+    {
+      "listingId": "red-eye-mahjong-open-play-events-st-petersburg-florida-600-pm",
+      "listingName": "Red-Eye Mahjong - Open Play & Events",
+      "field": "website",
+      "url": "https://www.redeyemahjong.com/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "rocket-mahjong-atlanta-chapter-atlanta-georgia-varies",
+      "listingName": "Rocket Mahjong — Atlanta Chapter",
+      "field": "website",
+      "url": "https://www.rocketmahjong.com",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "rory-bellow-rb-mahjong-houston-texas-varies",
+      "listingName": "Rory Bellow (RB Mahjong)",
+      "field": "website",
+      "url": "https://www.rory-mahjong.com",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "rory-bellow-rb-mahjong-houston-texas-varies",
+      "listingName": "Rory Bellow (RB Mahjong)",
+      "field": "registrationLink",
+      "url": "https://www.rory-mahjong.com",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "roseville-fab-club-mahjong-maidu-center-roseville-california",
+      "listingName": "Roseville FAB Club Mahjong (Maidu Center)",
+      "field": "website",
+      "url": "https://www.roseville.ca.us/government/departments/parks/programs_classes/FAB",
+      "status": "redirect",
+      "detail": "Redirected to roseville.ca.gov"
+    },
+    {
+      "listingId": "san-jose-public-library-mahjong-at-berryessa-san-jose-california-100-pm",
+      "listingName": "San Jose Public Library — Mahjong at Berryessa",
+      "field": "website",
+      "url": "https://www.sjpl.org/locations/berryessa-branch",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "schenectady-county-library-mah-jongg-for-beginners-schenectady-new-york",
+      "listingName": "Schenectady County Library — Mah Jongg for Beginne",
+      "field": "website",
+      "url": "https://schenectadylibrary.org",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "schenectady-jcc-mah-jongg-program-schenectady-new-york",
+      "listingName": "Schenectady JCC — Mah Jongg Program",
+      "field": "website",
+      "url": "https://schenectadyjcc.org",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "scottsdale-mahjong-society-at-village-dc-ranch-scottsdale-arizona",
+      "listingName": "Scottsdale Mahjong Society at Village DC Ranch",
+      "field": "website",
+      "url": "https://scottsdalemahjjongsociety.com",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "scottsdale-mahjong-society-mahj-101-scottsdale-arizona-wednesday",
+      "listingName": "Scottsdale Mahjong Society Mahj 101",
+      "field": "website",
+      "url": "https://scottsdalemahjjongsociety.com",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "scottsdale-mahjong-society-sunset-series-scottsdale-arizona-sunday-2026-04-06",
+      "listingName": "Scottsdale Mahjong Society Sunset Series",
+      "field": "website",
+      "url": "https://scottsdalemahjjongsociety.com",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "shaare-emeth-mah-jongg-tournament-st-louis-missouri-february-annual",
+      "listingName": "Shaare Emeth Mah Jongg Tournament",
+      "field": "website",
+      "url": "https://shaare-emeth.org",
+      "status": "redirect",
+      "detail": "Redirected to baysidesoccer.net"
+    },
+    {
+      "listingId": "sid-jacobson-jcc-mah-jongg-east-hills-new-york",
+      "listingName": "Sid Jacobson JCC — Mah Jongg",
+      "field": "registrationLink",
+      "url": "https://onlineedge.sjjcc.org",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "sisterhood-mah-jongg-club-etz-hayim-flushing-new-york-100-pm",
+      "listingName": "Sisterhood Mah Jongg Club — Etz Hayim",
+      "field": "website",
+      "url": "https://www.etzhayimhhb.org/events/sisterhood-mah-jongg-club-14/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "siwei-board-games-mahjong-san-jose-california-1200-pm",
+      "listingName": "Siwei Board Games — Mahjong",
+      "field": "website",
+      "url": "https://www.siweigames.com/",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "solana-beach-senior-center-mahjong-solana-beach-california-930-am",
+      "listingName": "Solana Beach Senior Center - Mahjong",
+      "field": "website",
+      "url": "https://www.cityofsolanabeach.org/en/news/solana-beach-senior-center-january-events",
+      "status": "redirect",
+      "detail": "Redirected to cityofsolanabeach.ca.gov"
+    },
+    {
+      "listingId": "southwest-community-center-mah-jong-class-series-fort-worth-texas",
+      "listingName": "Southwest Community Center – Mah Jong Class Series",
+      "field": "registrationLink",
+      "url": "https://www.active.com/fort-worth-tx/mah-jong",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "spokane-public-library-mahjong-drop-in-play-spokane-washington",
+      "listingName": "Spokane Public Library Mahjong Drop-In Play",
+      "field": "website",
+      "url": "https://www.spokanelibrary.org/calendar/",
+      "status": "redirect",
+      "detail": "Redirected to events.spokanelibrary.org"
+    },
+    {
+      "listingId": "st-petersburg-womans-club-mahjong-st-petersburg-florida-200-pm",
+      "listingName": "St. Petersburg Woman's Club - Mahjong",
+      "field": "website",
+      "url": "https://stpetersburgwomansclub.org/",
+      "status": "redirect",
+      "detail": "Redirected to gfwc-spwc.org"
+    },
+    {
+      "listingId": "sunset-park-library-bpl-mahjong-club-brooklyn-new-york-200-pm",
+      "listingName": "Sunset Park Library (BPL) — Mahjong Club",
+      "field": "website",
+      "url": "https://www.bklynlibrary.org/calendar",
+      "status": "redirect",
+      "detail": "Redirected to discover.bklynlibrary.org"
+    },
+    {
+      "listingId": "tenafly-senior-center-mahjong-tenafly-new-jersey",
+      "listingName": "Tenafly Senior Center Mahjong",
+      "field": "website",
+      "url": "https://tenaflynj.gov",
+      "status": "timeout",
+      "detail": "Request timed out after 10s"
+    },
+    {
+      "listingId": "the-dirty-mahj-collective-raleigh-north-carolina",
+      "listingName": "The Dirty Mahj Collective",
+      "field": "website",
+      "url": "https://thedirtymahjcollective.com",
+      "status": "redirect",
+      "detail": "Redirected to dirtymahj.com"
+    },
+    {
+      "listingId": "the-mahj-house-edmond-oklahoma",
+      "listingName": "The Mahj House",
+      "field": "registrationLink",
+      "url": "https://edmondmahjmoms.com/pages/calendar",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "the-mahjong-aviary-columbia-south-carolina",
+      "listingName": "The Mahjong Aviary",
+      "field": "registrationLink",
+      "url": "https://tinyurl.com/TMAApr19",
+      "status": "redirect",
+      "detail": "Redirected to docs.google.com"
+    },
+    {
+      "listingId": "the-mahjong-studio-nc-afternoon-open-play-charlotte-north-carolina-tuesday",
+      "listingName": "The Mahjong Studio NC - Afternoon Open Play",
+      "field": "website",
+      "url": "https://bit.ly/MahjongStudioEvents",
+      "status": "redirect",
+      "detail": "Redirected to eventbrite.com"
+    },
+    {
+      "listingId": "the-mahjong-studio-nc-afternoon-open-play-charlotte-north-carolina-tuesday",
+      "listingName": "The Mahjong Studio NC - Afternoon Open Play",
+      "field": "registrationLink",
+      "url": "https://bit.ly/MahjongStudioEvents",
+      "status": "redirect",
+      "detail": "Redirected to eventbrite.com"
+    },
+    {
+      "listingId": "the-mahjong-studio-nc-evening-open-play-charlotte-north-carolina-tuesday",
+      "listingName": "The Mahjong Studio NC - Evening Open Play",
+      "field": "website",
+      "url": "https://bit.ly/MahjongStudioEvents",
+      "status": "redirect",
+      "detail": "Redirected to eventbrite.com"
+    },
+    {
+      "listingId": "the-mahjong-studio-nc-evening-open-play-charlotte-north-carolina-tuesday",
+      "listingName": "The Mahjong Studio NC - Evening Open Play",
+      "field": "registrationLink",
+      "url": "https://bit.ly/MahjongStudioEvents",
+      "status": "redirect",
+      "detail": "Redirected to eventbrite.com"
+    },
+    {
+      "listingId": "the-traveling-mahjong-series-coppa-osteria-houston-texas-1130-am",
+      "listingName": "The Traveling Mahjong Series — Coppa Osteria",
+      "field": "registrationLink",
+      "url": "https://www.thetravelingmahjongseries.com/events",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "the-traveling-mahjong-series-flora-mexican-kitchen-houston-texas-1130-am",
+      "listingName": "The Traveling Mahjong Series — Flora Mexican Kitch",
+      "field": "registrationLink",
+      "url": "https://www.thetravelingmahjongseries.com/events",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "tiles-tasty-bites-at-trager-family-jcc-louisville-kentucky-600-pm",
+      "listingName": "Tiles & Tasty Bites at Trager Family JCC",
+      "field": "website",
+      "url": "https://www.jcclouisville.org/",
+      "status": "redirect",
+      "detail": "Redirected to jewishlouisville.org"
+    },
+    {
+      "listingId": "tiles-tasty-bites-at-trager-family-jcc-louisville-kentucky-600-pm",
+      "listingName": "Tiles & Tasty Bites at Trager Family JCC",
+      "field": "registrationLink",
+      "url": "https://www.jcclouisville.org/",
+      "status": "redirect",
+      "detail": "Redirected to jewishlouisville.org"
+    },
+    {
+      "listingId": "tiles-teas-hotel-crescent-court-the-conservatory-dallas-texas-afternoon",
+      "listingName": "Tiles & Teas – Hotel Crescent Court (The Conservat",
+      "field": "website",
+      "url": "https://www.crescentcourthotel.com",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "tiles-teas-hotel-crescent-court-the-conservatory-dallas-texas-afternoon",
+      "listingName": "Tiles & Teas – Hotel Crescent Court (The Conservat",
+      "field": "registrationLink",
+      "url": "https://www.crescentcourthotel.com",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "troop-mahjong-boerne-winter-league-boerne-texas-varies",
+      "listingName": "Troop Mahjong — Boerne Winter League",
+      "field": "website",
+      "url": "https://troopmahjong.com",
+      "status": "redirect",
+      "detail": "Redirected to stylinbrunette.com"
+    },
+    {
+      "listingId": "troop-mahjong-kids-classes-san-antonio-texas-varies",
+      "listingName": "Troop Mahjong — Kids Classes",
+      "field": "website",
+      "url": "https://troopmahjong.com",
+      "status": "redirect",
+      "detail": "Redirected to stylinbrunette.com"
+    },
+    {
+      "listingId": "troop-mahjong-mahjong-101-lessons-san-antonio-texas-varies",
+      "listingName": "Troop Mahjong — Mahjong 101 Lessons",
+      "field": "website",
+      "url": "https://troopmahjong.com",
+      "status": "redirect",
+      "detail": "Redirected to stylinbrunette.com"
+    },
+    {
+      "listingId": "troop-mahjong-mahjong-101-lessons-san-antonio-texas-varies",
+      "listingName": "Troop Mahjong — Mahjong 101 Lessons",
+      "field": "registrationLink",
+      "url": "https://troopmahjong.com",
+      "status": "redirect",
+      "detail": "Redirected to stylinbrunette.com"
+    },
+    {
+      "listingId": "troop-mahjong-new-braunfels-winter-league-new-braunfels-texas-varies",
+      "listingName": "Troop Mahjong — New Braunfels Winter League",
+      "field": "website",
+      "url": "https://troopmahjong.com",
+      "status": "redirect",
+      "detail": "Redirected to stylinbrunette.com"
+    },
+    {
+      "listingId": "troop-mahjong-san-antonio-fall-league-san-antonio-texas-varies",
+      "listingName": "Troop Mahjong — San Antonio Fall League",
+      "field": "website",
+      "url": "https://troopmahjong.com",
+      "status": "redirect",
+      "detail": "Redirected to stylinbrunette.com"
+    },
+    {
+      "listingId": "troop-mahjong-society-open-play-san-antonio-texas-630-pm",
+      "listingName": "Troop Mahjong Society — Open Play",
+      "field": "website",
+      "url": "https://troopmahjong.com",
+      "status": "redirect",
+      "detail": "Redirected to stylinbrunette.com"
+    },
+    {
+      "listingId": "troop-mahjong-society-open-play-san-antonio-texas-630-pm",
+      "listingName": "Troop Mahjong Society — Open Play",
+      "field": "registrationLink",
+      "url": "https://troopmahjong.com",
+      "status": "redirect",
+      "detail": "Redirected to stylinbrunette.com"
+    },
+    {
+      "listingId": "university-of-michigan-mahjong-club-ann-arbor-michigan",
+      "listingName": "University of Michigan — Mahjong Club",
+      "field": "website",
+      "url": "https://maizepages.umich.edu/organization/mahjong",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "uuss-mah-jongg-players-sacramento-california-evening",
+      "listingName": "UUSS Mah Jongg Players",
+      "field": "website",
+      "url": "https://www.uuss.org/group/mahjongg/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "vivalon-open-play-mah-jongg-san-rafael-san-rafael-california-varies",
+      "listingName": "Vivalon — Open Play Mah-Jongg (San Rafael)",
+      "field": "registrationLink",
+      "url": "https://vivalon.org/series/open-play-mah-jongg-in-person/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "warwick-senior-center-mahjong-warwick-rhode-island",
+      "listingName": "Warwick Senior Center — Mahjong",
+      "field": "website",
+      "url": "https://www.warwickri.gov/senior-services-pilgrim-senior-center",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "waukesha-55-programs-mahjong-waukesha-wisconsin",
+      "listingName": "Waukesha 55+ Programs – Mahjong",
+      "field": "website",
+      "url": "https://www.elmgrovelibrary.org/",
+      "status": "redirect",
+      "detail": "Redirected to elmgrovewi.org"
+    },
+    {
+      "listingId": "wild-alchemy-mahjong-game-night-bensenville-illinois-1800-2026-04-24",
+      "listingName": "Wild Alchemy Mahjong Game Night",
+      "field": "registrationLink",
+      "url": "https://lucyandaloemcreations.com/collections/events",
+      "status": "error",
+      "detail": "Connection failed"
+    },
+    {
+      "listingId": "wilshire-boulevard-temple-mahjongg-los-angeles-california-1100-am",
+      "listingName": "Wilshire Boulevard Temple — MahJongg",
+      "field": "website",
+      "url": "https://www.wbtla.org/mahjongg",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "yolo-county-library-mahjong-for-beginners-west-sacramento-california",
+      "listingName": "Yolo County Library Mahjong for Beginners",
+      "field": "website",
+      "url": "https://yolocountylibrary.org/event/mahjong-for-beginners/",
+      "status": 404,
+      "detail": "HTTP 404"
+    },
+    {
+      "listingId": "yolo-county-library-mahjong-for-beginners-west-sacramento-california",
+      "listingName": "Yolo County Library Mahjong for Beginners",
+      "field": "registrationLink",
+      "url": "https://yolocountylibrary.org/event/mahjong-for-beginners/",
+      "status": 404,
+      "detail": "HTTP 404"
+    }
+  ],
+  "timestamp": "2026-08-31T16:28:26.152Z"
+}

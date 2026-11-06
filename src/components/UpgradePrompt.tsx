@@ -18,12 +18,12 @@ const MESSAGES: Record<PromptType, { title: string; subtitle: string }> = {
     subtitle: "Post, reply, and connect with players in every metro.",
   },
   giveaway: {
-    title: "Paid members are automatically entered every month.",
-    subtitle: "One lucky member wins a premium mahjong set every month. That's worth more than 5 years of membership.",
+    title: "Paid members are entered automatically.",
+    subtitle: "Every drawing, a member wins a premium mahjong prize worth more than 5 years of membership.",
   },
   general: {
     title: "Unlock full access to MahjNearMe.",
-    subtitle: "See all listings, post in forums, and enter monthly giveaways.",
+    subtitle: "See all listings, post in forums, and get automatic giveaway entry.",
   },
 };
 

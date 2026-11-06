@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { requireAdmin } from "@/lib/api-auth";
 import { sendEmail } from "@/lib/email";
-import { CURRENT_GIVEAWAY } from "@/lib/giveaway-config";
-
-// LEGAL NOTE: Sweepstakes laws vary by state. Have this reviewed by legal counsel before launch.
+import {
+  CURRENT_GIVEAWAY,
+  defaultDrawDate,
+  defaultMonthLabel,
+  isRunning,
+  resolveGiveawayStatus,
+  giveawayPublicFields,
+} from "@/lib/giveaway-config";
 
 // GET: Get current month's giveaway info, past winners, and entry pool
 export async function GET(request: NextRequest) {
@@ -43,16 +48,13 @@ export async function GET(request: NextRequest) {
     // Live prize config (overrides file-based defaults). Falls back if doc missing.
     const configDoc = await db.collection("siteConfig").doc("giveaway").get();
     const liveConfig = configDoc.exists ? configDoc.data() : null;
-    const prize = {
-      prizeName: liveConfig?.prizeName ?? CURRENT_GIVEAWAY.prizeName,
-      prizeValue: liveConfig?.prizeValue ?? CURRENT_GIVEAWAY.prizeValue,
-      prizePhoto: liveConfig?.prizePhoto ?? null,
-      prizeDescription: liveConfig?.prizeDescription ?? CURRENT_GIVEAWAY.prizeDescription,
-      prizeLink: liveConfig?.prizeLink ?? CURRENT_GIVEAWAY.prizeLink,
-      numberOfWinners: liveConfig?.numberOfWinners ?? CURRENT_GIVEAWAY.numberOfWinners,
-      drawDate: liveConfig?.drawDate ?? CURRENT_GIVEAWAY.drawDate,
-      month: liveConfig?.month ?? CURRENT_GIVEAWAY.month,
-    };
+    // One shared, tested implementation decides the status and which fields
+    // are publishable. See giveawayPublicFields in src/lib/giveaway-config.ts.
+    const prize = giveawayPublicFields(liveConfig, {
+      drawDate: defaultDrawDate(),
+      month: defaultMonthLabel(),
+    });
+    const status = prize.status;
 
     if (admin) {
       const denied = requireAdmin(request);
@@ -214,10 +216,50 @@ export async function POST(request: NextRequest) {
         "prizeLink",
         "numberOfWinners",
         "drawDate",
+        "status",
+        "statusHeadline",
+        "statusNotice",
+        // Legacy; still writable so an older admin build does not break.
+        "paused",
+        "pausedMessage",
       ] as const;
+      if ("status" in body && !["running", "paused", "reviewing"].includes(body.status)) {
+        return NextResponse.json(
+          { error: 'status must be "running", "paused" or "reviewing"' },
+          { status: 400 }
+        );
+      }
+
+      // Opening a drawing requires the fields a drawing needs. Without this a
+      // status flip to "running" could publish a prize-shaped block with
+      // nothing in it, which is the failure this status field exists to end.
+      if (body.status === "running") {
+        const configDoc = await db.collection("siteConfig").doc("giveaway").get();
+        const current = configDoc.exists ? configDoc.data() : {};
+        const prizeName = "prizeName" in body ? body.prizeName : current?.prizeName;
+        const winners = "numberOfWinners" in body ? body.numberOfWinners : current?.numberOfWinners;
+        if (!prizeName || typeof prizeName !== "string" || !prizeName.trim()) {
+          return NextResponse.json(
+            { error: "A prize name is required to open a drawing." },
+            { status: 400 }
+          );
+        }
+        if (!winners || Number(winners) < 1) {
+          return NextResponse.json(
+            { error: "Number of winners must be at least 1 to open a drawing." },
+            { status: 400 }
+          );
+        }
+      }
+
       const update: Record<string, unknown> = { updatedAt: new Date().toISOString() };
       for (const key of allowed) {
         if (key in body) update[key] = body[key];
+      }
+      // Keep the legacy boolean consistent with `status` so anything still
+      // reading `paused` agrees with the page.
+      if (typeof update.status === "string") {
+        update.paused = update.status !== "running";
       }
       if (Object.keys(update).length === 1) {
         return NextResponse.json({ error: "No fields to save" }, { status: 400 });
@@ -231,6 +273,22 @@ export async function POST(request: NextRequest) {
     if (body.action === "draw") {
       const denied = requireAdmin(request);
       if (denied) return denied;
+
+      // A drawing can only be run while the programme says one is open.
+      // The page tells visitors no drawing is scheduled while status is
+      // "paused" or "reviewing"; drawing anyway would make that a lie after
+      // the fact, and the draw is not reversible.
+      const statusDoc = await db.collection("siteConfig").doc("giveaway").get();
+      const drawStatus = resolveGiveawayStatus(statusDoc.exists ? statusDoc.data() : null);
+      if (!isRunning(drawStatus)) {
+        return NextResponse.json(
+          {
+            error: `Giveaway status is "${drawStatus}". Set it to "running" with a prize before drawing a winner.`,
+          },
+          { status: 409 }
+        );
+      }
+
       const now = new Date();
       const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 
@@ -344,13 +402,19 @@ export async function POST(request: NextRequest) {
       let notified = false;
       if (winner.email) {
         try {
+          // Read the prize from the live config, not the config file. The
+          // admin panel writes the prize to Firestore, so a prize set there
+          // meant the winner was emailed whatever the file still said —
+          // naming a different prize from the one the page advertised.
+          const prizeDoc = await db.collection("siteConfig").doc("giveaway").get();
+          const livePrize = prizeDoc.exists ? prizeDoc.data() : null;
           const sent = await sendWinnerEmail({
             to: winner.email,
             name: winner.name,
-            prizeName: CURRENT_GIVEAWAY.prizeName,
-            prizeValue: CURRENT_GIVEAWAY.prizeValue,
-            prizeLink: CURRENT_GIVEAWAY.prizeLink,
-            month: CURRENT_GIVEAWAY.month,
+            prizeName: (livePrize?.prizeName as string) || CURRENT_GIVEAWAY.prizeName,
+            prizeValue: (livePrize?.prizeValue as string | null) ?? CURRENT_GIVEAWAY.prizeValue,
+            prizeLink: (livePrize?.prizeLink as string | null) ?? CURRENT_GIVEAWAY.prizeLink,
+            month: (livePrize?.month as string) || defaultMonthLabel(),
           });
           notified = sent;
           if (sent) {
@@ -423,7 +487,7 @@ async function sendWinnerEmail(opts: {
 
   const text = `Hi ${firstName},
 
-Congratulations — you were drawn as the winner of the ${opts.month} MahjNearMe giveaway!
+Congratulations! You were drawn as the winner of the ${opts.month} MahjNearMe giveaway.
 
 Prize: ${opts.prizeName}${valueStr}
 ${opts.prizeLink ? `Browse the collection: ${opts.prizeLink}\n` : ""}
@@ -443,7 +507,7 @@ Thanks for being part of MahjNearMe!
   </div>
   <div style="background:white;padding:32px;border:1px solid #eee;border-radius:0 0 12px 12px">
     <p>Hi ${escapeHtml(firstName)},</p>
-    <p>Congratulations — you were drawn as the winner of the <strong>${escapeHtml(opts.month)} MahjNearMe giveaway</strong>!</p>
+    <p>Congratulations! You were drawn as the winner of the <strong>${escapeHtml(opts.month)} MahjNearMe giveaway</strong>.</p>
     <div style="background:#FFF0F5;border:1px solid #FFB6C1;border-radius:12px;padding:16px;margin:16px 0">
       <p style="margin:0;font-weight:bold;color:#FF1493">${escapeHtml(opts.prizeName)}${escapeHtml(valueStr)}</p>
       ${opts.prizeLink ? `<p style="margin:8px 0 0"><a href="${escapeAttr(opts.prizeLink)}" style="color:#FF1493">Browse the collection &rarr;</a></p>` : ""}

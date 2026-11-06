@@ -7,6 +7,7 @@ import {
   MONTHLY_REFERRAL_COMMISSION,
   ANNUAL_REFERRAL_COMMISSION,
 } from "@/lib/constants";
+import { resolveGiveawayStatus } from "@/lib/giveaway-config";
 
 // POST: Send contributor giveaway announcement emails — Protected
 export async function POST(request: NextRequest) {
@@ -22,6 +23,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "Prize name and value are required" },
         { status: 400 }
+      );
+    }
+
+    // Do not announce a drawing that is not open.
+    //
+    // This endpoint emails every approved contributor that "the giveaway is
+    // live this month". Sending that while the giveaways page carries a notice
+    // saying monthly drawings have not run is the same contradiction in a
+    // channel nobody can correct after the fact.
+    const statusDoc = await db.collection("siteConfig").doc("giveaway").get();
+    const status = resolveGiveawayStatus(statusDoc.exists ? statusDoc.data() : null);
+    if (status !== "running") {
+      return NextResponse.json(
+        {
+          error: `Giveaway status is "${status}". Set it to "Drawing open" with a prize before announcing.`,
+        },
+        { status: 409 }
       );
     }
 
@@ -102,7 +120,7 @@ export async function POST(request: NextRequest) {
       try {
         sent = await sendEmail({
           to: data.email,
-          subject: `${prizeName} giveaway is live — share your code`,
+          subject: `${prizeName} giveaway is live: share your code`,
           text: `Hi ${contributorName},\n\nThis month's MahjNearMe giveaway is live: ${prizeValue} ${prizeName}.\n\nReady-to-post caption:\n\n${caption}\n\nYour referral link: ${baseUrl}/pricing?ref=${encodeURIComponent(referralCode)}\n\nActive referrals: ${activeReferrals}\nCurrent monthly earnings: ${formatCurrency(monthlyEarnings)}\n\n- Jack @ MahjNearMe`,
           html: emailHtml,
         });

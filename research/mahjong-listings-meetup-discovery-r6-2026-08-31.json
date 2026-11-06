@@ -1,0 +1,42 @@
+{
+  "generatedAt": "2026-08-31",
+  "source": "Meetup city search, round 6 (20 smaller markets: NY, NJ, PA, MD, VA, WV, KY, IN, MI, WI, MN, IA, MO, AR, MS, AL, NM, MT)",
+  "note": "One listing from 143 groups examined. See the report — this round is mainly evidence that Meetup city search is close to exhausted as a channel, which is worth knowing before spending more on it.",
+  "listings": [
+    {
+      "id": "harrisburg-giant-linglestown-riichi-mahjong-monday",
+      "name": "Central PA Game Club — Riichi Mahjong",
+      "type": "open_play",
+      "gameStyle": "riichi",
+      "city": "Harrisburg",
+      "state": "PA",
+      "generalArea": "",
+      "venueName": "Giant Supermarket",
+      "address": "2300 Linglestown Rd",
+      "isRecurring": true,
+      "dayOfWeek": "monday",
+      "startTime": "6:30 PM",
+      "endTime": "9:30 PM",
+      "frequency": "weekly",
+      "eventDate": null,
+      "cost": "Free",
+      "costAmount": 0,
+      "contactName": "",
+      "contactEmail": "",
+      "contactPhone": "",
+      "website": "https://www.meetup.com/centralpagameclub",
+      "instagram": "",
+      "facebookGroup": "",
+      "registrationLink": "https://www.meetup.com/centralpagameclub",
+      "description": "Riichi Mahjong every Monday evening in the community room at the Giant supermarket on Linglestown Road, run by the Central PA Game Club. Played with real tiles, light refreshments provided, and beginners are welcome.",
+      "howToJoin": "Organised through the group's Meetup page.",
+      "skillLevels": "beginner|intermediate|advanced",
+      "dropInFriendly": true,
+      "setsProvided": true,
+      "typicalGroupSize": "",
+      "source": "manual",
+      "sourceURL": "https://www.meetup.com/centralpagameclub/events/",
+      "notes": "Discovered 2026-08-31 via Meetup city search of Harrisburg, verified on the group's own events page: 3 upcoming \"Riichi Mahjong\" sessions, Mondays 18:30-21:30, with Meetup recording \"Every week on Monday\". Everything here is quoted from the event description: \"The RIICHI Mahjong group meets on Mondays at 6:30 pm at: Giant Supermarket 2300 Linglestown Rd. Harrisburg, PA 17110  Light refreshments. Beginners welcome. This is real Mah with tiles.\" Meetup's venue name is just \"GIANT\"; the description's \"Giant Supermarket\" is used instead, since \"GIANT\" alone reads as a shout rather than a place. Only the second riichi listing in Pennsylvania."
+    }
+  ]
+}

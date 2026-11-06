@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { notifyAdmin } from "@/lib/admin-notify";
 import { requireUser } from "@/lib/api-auth";
+import { scheduleSignature } from "@/lib/listing-identity";
 
 /**
  * API for organizers to manage their own listings.
@@ -281,29 +282,55 @@ export async function POST(request: NextRequest) {
     const now = new Date().toISOString();
     const org = profile.organizer as Record<string, unknown>;
 
-    // Check if admin already imported this event (same name+city+state, no owner)
-    // If so, claim it instead of creating a duplicate.
+    // Two different collisions are checked here.
+    //
+    // 1. An admin already imported this event and nobody owns it: claim that
+    //    record rather than creating a second copy. This check existed.
+    //
+    // 2. This organizer has ALREADY submitted this exact session: treat the
+    //    second request as an update of the first. This check did not exist,
+    //    and its absence is how both "Mahjong in the Mountains" records were
+    //    created 27 seconds apart. The existing check could not catch it,
+    //    because by the time the second request arrived the first record had
+    //    an organizerId and a claimedBy, so it failed the "no owner" test.
+    //
+    // The identity key includes the SCHEDULE, not just name + city + state. An
+    // organizer legitimately runs several same-named sessions in one city on
+    // different days or dates, and 86 live records are in exactly that shape,
+    // so a name-only key would reject real submissions.
     let existingUnownedId: string | null = null;
+    let ownDuplicateId: string | null = null;
+
     if (listing.name && listing.city && listing.state) {
       const nameNorm = (listing.name as string).toLowerCase().trim();
-      const cityNorm = (listing.city as string).toLowerCase().trim();
       const stateNorm = (listing.state as string).toUpperCase().trim();
+      const incomingSignature = scheduleSignature(listing as Record<string, unknown>);
       const dupSnap = await db.collection("listings")
         .where("city", "==", listing.city)
         .where("state", "==", stateNorm)
         .get();
       for (const doc of dupSnap.docs) {
         const d = doc.data();
+        if ((d.name as string || "").toLowerCase().trim() !== nameNorm) continue;
+
+        if (!d.organizerId && !d.claimedBy) {
+          existingUnownedId = existingUnownedId || doc.id;
+          continue;
+        }
+        // Same organizer, same session: this is a re-submit, not a new game.
         if (
-          (d.name as string || "").toLowerCase().trim() === nameNorm &&
-          !d.organizerId &&
-          !d.claimedBy
+          d.organizerId === profile.organizerProfileId &&
+          scheduleSignature(d) === incomingSignature
         ) {
-          existingUnownedId = doc.id;
-          break;
+          ownDuplicateId = ownDuplicateId || doc.id;
         }
       }
     }
+
+    // Prefer updating the organizer's own existing record over claiming an
+    // unowned one: it is already theirs, and it is the one a double-submit
+    // would otherwise duplicate.
+    const targetExistingId = ownDuplicateId || existingUnownedId;
 
     // Add organizer reference to listing
     const listingData = {
@@ -327,16 +354,17 @@ export async function POST(request: NextRequest) {
       };
 
       let listingId: string;
-      if (existingUnownedId) {
-        // Claim the pre-imported listing instead of creating a duplicate
-        await db.collection("listings").doc(existingUnownedId).update({
+      if (targetExistingId) {
+        // Claim the pre-imported listing, or fold a re-submit into the
+        // organizer's own existing record, instead of creating a duplicate.
+        await db.collection("listings").doc(targetExistingId).update({
           ...listingData,
           organizerEdited: true,
           verified: true,
           promoted: isSubscribed(profile.user),
           updatedAt: now,
         });
-        listingId = existingUnownedId;
+        listingId = targetExistingId;
       } else {
         const ref = await db.collection("listings").add(newListing);
         listingId = ref.id;
@@ -353,10 +381,17 @@ export async function POST(request: NextRequest) {
 
       notifyAdmin(
         `[New Event Live] ${profile.user.displayName || profile.user.email} added a new event`,
-        `Organizer: ${(org.organizerName as string) || "Unknown"}\nEvent: ${listing.name || "Untitled"}\nCity: ${listing.city || ""}, ${listing.state || ""}${existingUnownedId ? "\n\nNote: claimed a pre-imported listing (no duplicate created)." : "\n\nThis event is live now (verified organizer)."}`
+        `Organizer: ${(org.organizerName as string) || "Unknown"}\nEvent: ${listing.name || "Untitled"}\nCity: ${listing.city || ""}, ${listing.state || ""}${ownDuplicateId ? "\n\nNote: folded into this organizer's existing record for the same session (re-submit, no duplicate created)." : existingUnownedId ? "\n\nNote: claimed a pre-imported listing (no duplicate created)." : "\n\nThis event is live now (verified organizer)."}`
       ).catch(() => {});
 
-      return NextResponse.json({ success: true, instant: true, listingId: ref.id, claimed: !!existingUnownedId });
+      return NextResponse.json({
+        success: true,
+        instant: true,
+        listingId: ref.id,
+        claimed: !!existingUnownedId,
+        // Lets the client say "updated" rather than "created" on a re-submit.
+        deduplicated: !!ownDuplicateId,
+      });
     } else {
       // Free: goes to approval queue
       const approvalData = {

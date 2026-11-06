@@ -1,0 +1,79 @@
+[
+  {
+    "id": "burlington-ma-wegmans-sunday-mj-1",
+    "updates": {
+      "website": "https://www.meetup.com/american-mah-jongg-sun-wed",
+      "registrationLink": "https://www.meetup.com/american-mah-jongg-sun-wed",
+      "recurringSchedule": {
+        "dayOfWeek": "sunday",
+        "startTime": "10:00",
+        "endTime": "12:00",
+        "frequency": "weekly"
+      }
+    },
+    "reason": "Kept as the single record for this session; the other three below are deactivated. meetup.com/sunday-mah-jongg-burlington returns \"Group not found\". Verified 2026-08-31 on Meetup. The live group is meetup.com/american-mah-jongg-sun-wed, which posts 17 upcoming \"Sunday Mah Jongg in Burlington\" sessions at Wegmans, 53 3rd Ave, Burlington MA, every Sunday 10:00-12:00 through 27 December. meetup.com/sunday-mahj-and-more serves the identical 27 event ids and is the same group under a second slug. Schedule added: the record had no dayOfWeek at all, so it showed \"Schedule TBD\" and could never appear in a \"what's on this week\" surface despite running every Sunday."
+  },
+  {
+    "id": "sunday-mah-jongg-at-wegmans-burlington-burlington-ma-sunday--715268a0",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of burlington-ma-wegmans-sunday-mj-1 — same name, venue, address, city, state, cost and (dead) website. It also lacks isRecurring, so it renders as a one-off with no date. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "sunday-mahj-at-wegmans-burlington-burlington-vt-sunday-10-00-9b1bd17b",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "WRONG STATE, and a duplicate. Filed as Burlington, VERMONT, with Vermont coordinates (44.476, -73.213), but its own website field points at meetup.com/sunday-mahj-and-more, whose every event is at Wegmans, 53 3rd Ave, Burlington MASSACHUSETTS. Wegmans publishes 115 stores across NY, PA, VA, MD, NJ, NC, MA, CT, DE and DC — none in Vermont, and exactly one Burlington, wegmans.com/stores/burlington-ma. So this put a Massachusetts session on the map in Vermont, 200 miles away. It is the same session as burlington-ma-wegmans-sunday-mj-1, so it is deactivated rather than moved."
+  },
+  {
+    "id": "sunday-mahj-at-wegmans-burlington-burlington-vt-sunday-449ce5cf",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Same wrong state and same session as the record above — Burlington VT with Vermont coordinates for a Wegmans that only exists in Burlington MA — and a duplicate of that record too (same name, same venue in different words, same geopoint, no website). Deactivated."
+  },
+  {
+    "id": "buffalogrove-northshore-dengeos-1",
+    "updates": {
+      "website": "https://www.meetup.com/northshore-mahjongg-meetup-group",
+      "registrationLink": "https://www.meetup.com/northshore-mahjongg-meetup-group",
+      "recurringSchedule": {
+        "dayOfWeek": "monday",
+        "startTime": "18:00",
+        "endTime": "21:00",
+        "frequency": "weekly"
+      }
+    },
+    "reason": "Kept as the single record for this session. Verified 2026-08-31: meetup.com/northshore-mahjongg (the stored website) returns \"Group not found\"; meetup.com/northshore-mahjongg-meetup-group is live and posts 5 upcoming \"NorthShore Mahjongg Monday's\" sessions at Dengeos - Buffalo Grove, 195 W Dundee Rd, every Monday 18:00-21:00, with Meetup recording the series as \"Every week on Monday\". The record had no dayOfWeek, so it showed \"Schedule TBD\"."
+  },
+  {
+    "id": "northshore-mahjongg-at-dengeos-buffalo-g-buffalo-grove-il-mo-b7ae58db",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of buffalogrove-northshore-dengeos-1 — byte-identical in every field but the id. Both carry the same name, so both currently generate the same detail-page slug. Set inactive rather than deleted, so this is reversible."
+  },
+  {
+    "id": "glenview-northshore-dengeos-1",
+    "updates": {
+      "website": "https://www.meetup.com/northshore-mahjongg-meetup-group",
+      "registrationLink": "https://www.meetup.com/northshore-mahjongg-meetup-group",
+      "recurringSchedule": {
+        "dayOfWeek": "thursday",
+        "startTime": "13:30",
+        "endTime": "16:30",
+        "frequency": "weekly"
+      }
+    },
+    "reason": "Kept as the single record for this session. Verified 2026-08-31 on meetup.com/northshore-mahjongg-meetup-group: 3 upcoming \"NorthShore Mahjongg Thursday's\" sessions at Dengeos Glenview, 2131 Willow Rd, every Thursday 13:30-16:30, Meetup recording \"Every week on Thursday\". The stored website meetup.com/northshore-mahjongg returns \"Group not found\". The record had no dayOfWeek, so it showed \"Schedule TBD\"."
+  },
+  {
+    "id": "northshore-mahjongg-at-dengeos-glenview-glenview-il-thursday-d1cca7f6",
+    "updates": {
+      "status": "inactive"
+    },
+    "reason": "Duplicate of glenview-northshore-dengeos-1 — byte-identical in every field but the id, and sharing its name and therefore its detail-page slug. Set inactive rather than deleted, so this is reversible."
+  }
+]

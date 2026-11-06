@@ -16,15 +16,10 @@ import {
   Plus,
   Trash2,
 } from "lucide-react";
-import { Game, GameType, GameStyle, SkillLevel } from "@/types";
+import type { Game, GameType, GameStyle, SkillLevel } from "@/types";
 
-async function adminFetch(route: string, method = "GET", body?: unknown) {
-  return fetch("/api/admin-proxy", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ route, method, body }),
-  });
-}
+import { adminFetch } from "@/lib/admin-fetch";
+import { scheduleFieldsFor } from "@/lib/schedule-fields";
 
 // All editable fields for an event
 interface EditForm {
@@ -41,6 +36,7 @@ interface EditForm {
   endTime: string;
   frequency: string;
   eventDate: string;
+  eventEndDate: string;
   cost: string;
   description: string;
   contactName: string;
@@ -77,6 +73,7 @@ function gameToForm(g: Game): EditForm {
     endTime: g.recurringSchedule?.endTime || "",
     frequency: g.recurringSchedule?.frequency || "weekly",
     eventDate: g.eventDate || "",
+    eventEndDate: g.eventEndDate || "",
     cost: g.cost || "",
     description: g.description || "",
     contactName: g.contactName || "",
@@ -256,6 +253,13 @@ function EventCard({
   };
 
   const save = async () => {
+    // A one-time event with no date cannot be placed on a calendar, and would
+    // store as a listing with neither a schedule nor a date.
+    if (!form.dayOfWeek && !form.eventDate) {
+      setMessage("Pick an event date, or choose a day of the week for a recurring session.");
+      return;
+    }
+
     setSaving(true);
     setMessage("");
 
@@ -289,11 +293,18 @@ function EventCard({
       status: form.status,
       verified: form.verified,
       promoted: form.promoted,
-      isRecurring: !!form.dayOfWeek,
-      recurringSchedule: form.dayOfWeek
-        ? { dayOfWeek: form.dayOfWeek, startTime: form.startTime, endTime: form.endTime, frequency: form.frequency }
-        : null,
-      eventDate: form.eventDate || null,
+      // One shared, tested helper builds both shapes and nulls the other's
+      // fields, so a mode change cannot leave a stale schedule or date behind.
+      // Day = "One-time" (empty dayOfWeek) is this screen's mode switch.
+      ...scheduleFieldsFor({
+        mode: form.dayOfWeek ? "recurring" : "one_time",
+        dayOfWeek: form.dayOfWeek,
+        frequency: form.frequency,
+        startTime: form.startTime,
+        endTime: form.endTime,
+        eventDate: form.eventDate,
+        eventEndDate: form.eventEndDate,
+      }),
     };
 
     // Re-geocode if address changed
@@ -438,15 +449,35 @@ function EventCard({
               ]} />
               <Field label="Start" value={form.startTime} onChange={set("startTime")} type="time" />
               <Field label="End" value={form.endTime} onChange={set("endTime")} type="time" />
-              <SelectField label="Frequency" value={form.frequency} onChange={set("frequency")} options={[
-                { value: "weekly", label: "Weekly" },
-                { value: "biweekly", label: "Biweekly" },
-                { value: "monthly", label: "Monthly" },
-              ]} />
+              {form.dayOfWeek && (
+                <SelectField label="Frequency" value={form.frequency} onChange={set("frequency")} options={[
+                  { value: "weekly", label: "Weekly" },
+                  { value: "biweekly", label: "Biweekly" },
+                  { value: "monthly", label: "Monthly" },
+                ]} />
+              )}
             </div>
-            <div className="mt-3">
-              <Field label="Event Date (one-time events)" value={form.eventDate} onChange={set("eventDate")} type="date" />
-            </div>
+            {/* Shown only for a one-time event. Day = "One-time" is the mode
+                switch; a recurring session has no single date. */}
+            {!form.dayOfWeek && (
+              <div className="mt-3">
+                <Field label="Event Date (required for a one-time event)" value={form.eventDate} onChange={set("eventDate")} type="date" />
+                <div className="mt-2">
+                  <Field label="End Date (only for a multi-day event)" value={form.eventEndDate} onChange={set("eventEndDate")} type="date" />
+                </div>
+                {form.eventDate && form.eventDate < new Date().toISOString().slice(0, 10) && (
+                  <p className="text-xs text-amber-600 mt-1">
+                    This date has passed. The listing stays active until you change its status above.
+                  </p>
+                )}
+              </div>
+            )}
+            {form.dayOfWeek && form.eventDate && (
+              <p className="text-xs text-amber-600 mt-3">
+                This record also stores the one-time date {form.eventDate}. Saving as a recurring
+                session will clear that date.
+              </p>
+            )}
           </section>
 
           {/* Details */}
@@ -565,15 +596,17 @@ export default function AdminEventsPage() {
       const bust = `_t=${Date.now()}`;
       const res = await fetch(`/api/listings?status=all&${bust}`);
       const data = await res.json();
-      // /api/listings only returns active; also fetch pending via admin proxy
-      const adminRes = await adminFetch(`/api/listings?${bust}`);
+      // status=all on both: the endpoint returns active listings by default,
+      // and the merge below prefers the admin response, so without it here the
+      // inactive and pending rows this screen exists to manage are dropped.
+      const adminRes = await adminFetch(`/api/listings?status=all&${bust}`);
       const adminData = await adminRes.json();
       // Merge: prefer admin data which may include pending
       const all = adminData.listings || data.listings || [];
       setGames(all as Game[]);
     } catch {
       // Fallback to public endpoint
-      fetch(`/api/listings?_t=${Date.now()}`)
+      fetch(`/api/listings?status=all&_t=${Date.now()}`)
         .then((r) => r.json())
         .then((d) => setGames(d.listings || []))
         .catch(() => {})

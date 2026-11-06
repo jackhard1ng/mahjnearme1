@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { getAdminDb } from "@/lib/firebase-admin";
-import { Game } from "@/types";
+import type { Game } from "@/types";
 import {
   MapPin,
   Globe,

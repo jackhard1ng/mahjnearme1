@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { userFetch } from "@/lib/firebase";
-import { Game } from "@/types";
+import type { Game } from "@/types";
 import Link from "next/link";
 import {
   Edit3,
@@ -167,9 +167,9 @@ export default function OrganizerDashboardPage() {
           <div className="flex items-start gap-3">
             <span className="text-2xl">🌟</span>
             <div>
-              <p className="font-bold text-amber-800 text-sm">You&apos;re featured — your visibility just went way up</p>
+              <p className="font-bold text-amber-800 text-sm">You&apos;re featured, and your visibility just went way up</p>
               <p className="text-amber-700 text-xs mt-1">
-                Your profile and events are now shown to <strong>every visitor</strong> on MahjNearMe — subscribers and free members alike. You appear at the top of the instructor directory with a Featured badge, and your events are prioritized in search results. Share your profile link to start driving students your way.
+                Your profile and events are now shown to <strong>every visitor</strong> on MahjNearMe, subscribers and free members alike. You appear at the top of the instructor directory with a Featured badge, and your events are prioritized in search results. Share your profile link to start driving students your way.
               </p>
               {organizer?.slug && (
                 <div className="flex items-center gap-2 bg-white border border-amber-200 rounded-lg px-3 py-1.5 mt-2 max-w-sm">
@@ -195,7 +195,7 @@ export default function OrganizerDashboardPage() {
             <div>
               <p className="font-bold text-slate-800 text-sm">Early access: paid organizers are visible to everyone right now</p>
               <p className="text-xs text-slate-600 mt-0.5">
-                Your profile is shown in the instructor directory to <strong>every visitor</strong> — including free members. This free traffic perk may not last as the platform grows, so now is the best time to lock it in.
+                Your profile is shown in the instructor directory to <strong>every visitor</strong>, including free members. This free traffic perk may not last as the platform grows, so now is the best time to lock it in.
               </p>
             </div>
           </div>
@@ -1788,13 +1788,13 @@ function ReferralsTab({ userId }: { userId: string }) {
           <div className="bg-gradient-to-br from-hotpink-50 to-skyblue-50 border border-hotpink-200 rounded-xl p-5 space-y-4">
             <div>
               <h3 className="font-semibold text-slate-800 mb-1 flex items-center gap-2">💬 Promote to your players</h3>
-              <p className="text-xs text-slate-500">Copy one of these and share it wherever your players are — Facebook group, email, Instagram, next session.</p>
+              <p className="text-xs text-slate-500">Copy one of these and share it wherever your players are: Facebook group, email, Instagram, next session.</p>
             </div>
 
             {[
               {
                 label: "Facebook group / email",
-                text: `Hey everyone! 🀄 All of my events are now listed on MahjNearMe — the easiest way to find and keep track of our games. Use my code ${data.code} at checkout for 15% off a subscription. Check it out: ${data.shareLink}`,
+                text: `Hey everyone! 🀄 All of my events are now listed on MahjNearMe, the easiest way to find and keep track of our games. Use my code ${data.code} at checkout for 15% off a subscription. Check it out: ${data.shareLink}`,
               },
               {
                 label: "Instagram caption",
@@ -1806,7 +1806,7 @@ function ReferralsTab({ userId }: { userId: string }) {
               },
               {
                 label: "Giveaway angle 🎁",
-                text: `Want to win a free mahjong set? 🀄🎁 MahjNearMe does a monthly giveaway — every subscriber gets an entry automatically. Use my code ${data.code} for 15% off when you sign up: ${data.shareLink}`,
+                text: `Want to win a free mahjong set? 🀄🎁 MahjNearMe runs prize giveaways and every subscriber gets an entry automatically. Use my code ${data.code} for 15% off when you sign up: ${data.shareLink}`,
               },
             ].map(({ label, text }) => (
               <div key={label} className="bg-white rounded-lg border border-slate-200 p-3">

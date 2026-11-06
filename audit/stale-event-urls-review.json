@@ -1,0 +1,186 @@
+{
+  "generatedAt": "2026-08-31T07:17:44.125Z",
+  "note": "These listings link to a SINGLE library-calendar occurrence that has already happened — the page is reachable and still mentions mahjong, but the only date on it is in the past, in some cases by years. A subscriber clicking through lands on a finished event. Proposed replacement is the library's own mahjong search, which is the right library and cannot expire; it is NOT verified to return results, because libcal renders them in JavaScript, so confirm before applying.",
+  "listings": [
+    {
+      "id": "mah-jongg-at-manatee-library-bradenton-fl-tuesday-11-30-3c2dee08",
+      "name": "Mah Jongg at Manatee Library",
+      "city": "Bradenton, FL",
+      "field": "website",
+      "currentUrl": "https://manateelibrary.libcal.com/event/8959633",
+      "lastDateOnPage": "2022-07-12",
+      "yearsStale": 4.1,
+      "proposedUrl": "https://manateelibrary.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "brentwood-mah-jongg-club-at-john-p-holt-library-nashville-tennessee-1230-pm",
+      "name": "Brentwood Mah Jongg Club at John P. Holt Library",
+      "city": "Brentwood, TN",
+      "field": "registrationLink",
+      "currentUrl": "https://brentwood-tn.libcal.com/event/9325628",
+      "lastDateOnPage": "2022-07-18",
+      "yearsStale": 4.1,
+      "proposedUrl": "https://brentwood-tn.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "mah-jongg-at-tredyffrin-public-library-strafford-pa-f374659e",
+      "name": "Mah Jongg at Tredyffrin Public Library",
+      "city": "Strafford, PA",
+      "field": "website",
+      "currentUrl": "https://ccls.libcal.com/event/12393148",
+      "lastDateOnPage": "2024-05-28",
+      "yearsStale": 2.3,
+      "proposedUrl": "https://ccls.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "mahjong-at-port-charlotte-library-port-charlotte-fl-thursday-748b4a47",
+      "name": "Mahjong at Port Charlotte Library",
+      "city": "Port Charlotte, FL",
+      "field": "website",
+      "currentUrl": "https://charlottecountyfl.libcal.com/event/12375521",
+      "lastDateOnPage": "2024-11-21",
+      "yearsStale": 1.8,
+      "proposedUrl": "https://charlottecountyfl.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "mah-jongg-for-everyone-at-sussex-county--newton-nj-tuesday-1-b7e0db47",
+      "name": "Mah Jongg for Everyone at Sussex County Library Main",
+      "city": "Newton, NJ",
+      "field": "website",
+      "currentUrl": "https://sussexcountylibrary.libcal.com/event/14252719",
+      "lastDateOnPage": "2025-04-08",
+      "yearsStale": 1.4,
+      "proposedUrl": "https://sussexcountylibrary.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "hussey-mayfield-library-daytime-american-zionsville-in-monda-9f36173b",
+      "name": "Hussey-Mayfield Library — Daytime American Mahjong Club",
+      "city": "Zionsville, IN",
+      "field": "website",
+      "currentUrl": "https://hmmpl.libcal.com/event/14844297",
+      "lastDateOnPage": "2025-09-22",
+      "yearsStale": 0.9,
+      "proposedUrl": "https://hmmpl.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "hussey-mayfield-zionsville-american-mahjong-1",
+      "name": "Hussey-Mayfield Library — Daytime American Mahjong Club",
+      "city": "Zionsville, IN",
+      "field": "website",
+      "currentUrl": "https://hmmpl.libcal.com/event/14844297",
+      "lastDateOnPage": "2025-09-22",
+      "yearsStale": 0.9,
+      "proposedUrl": "https://hmmpl.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "brandywine-hundred-library-american-mahj-wilmington-de-wedne-c02d7e0e",
+      "name": "Brandywine Hundred Library — American Mahjong",
+      "city": "Wilmington, DE",
+      "field": "website",
+      "currentUrl": "https://delawarelibraries.libcal.com/event/16072003",
+      "lastDateOnPage": "2025-12-31",
+      "yearsStale": 0.7,
+      "proposedUrl": "https://delawarelibraries.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "brandywine-hundred-library-american-mahjong-1",
+      "name": "Brandywine Hundred Library — American Mahjong",
+      "city": "Wilmington, DE",
+      "field": "website",
+      "currentUrl": "https://delawarelibraries.libcal.com/event/16072003",
+      "lastDateOnPage": "2025-12-31",
+      "yearsStale": 0.7,
+      "proposedUrl": "https://delawarelibraries.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "idyllwild-library-mah-jongg-idyllwild-ca-tuesday-12-00-pm-2f657121",
+      "name": "Idyllwild Library — Mah Jongg",
+      "city": "Idyllwild, CA",
+      "field": "website",
+      "currentUrl": "https://rivlib.libcal.com/event/16045327",
+      "lastDateOnPage": "2026-01-20",
+      "yearsStale": 0.6,
+      "proposedUrl": "https://rivlib.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "mah-jong-at-riverside-county-library-riverside-ca-tuesday-1cc3ed55",
+      "name": "Mah Jong at Riverside County Library",
+      "city": "Riverside, CA",
+      "field": "website",
+      "currentUrl": "https://rivlib.libcal.com/event/16045327",
+      "lastDateOnPage": "2026-01-20",
+      "yearsStale": 0.6,
+      "proposedUrl": "https://rivlib.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "riverside-county-idyllwild-mah-jongg-1",
+      "name": "Idyllwild Library — Mah Jongg",
+      "city": "Idyllwild, CA",
+      "field": "website",
+      "currentUrl": "https://rivlib.libcal.com/event/16045327",
+      "lastDateOnPage": "2026-01-20",
+      "yearsStale": 0.6,
+      "proposedUrl": "https://rivlib.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "wallkill-public-library-mahjong-mondays-1",
+      "name": "Wallkill Public Library — Mahjong Mondays",
+      "city": "Wallkill, NY",
+      "field": "website",
+      "currentUrl": "https://wallkillpubliclibrary.libcal.com/event/16290268",
+      "lastDateOnPage": "2026-02-23",
+      "yearsStale": 0.5,
+      "proposedUrl": "https://wallkillpubliclibrary.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "wallkill-public-library-mahjong-mondays-wallkill-ny-monday-1-97ee3c87",
+      "name": "Wallkill Public Library — Mahjong Mondays",
+      "city": "Wallkill, NY",
+      "field": "website",
+      "currentUrl": "https://wallkillpubliclibrary.libcal.com/event/16290268",
+      "lastDateOnPage": "2026-02-23",
+      "yearsStale": 0.5,
+      "proposedUrl": "https://wallkillpubliclibrary.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "charlotte-county-punta-gorda-learn-mahjong-1",
+      "name": "Punta Gorda Library — Learn Mahjong",
+      "city": "Punta Gorda, FL",
+      "field": "website",
+      "currentUrl": "https://charlottecountyfl.libcal.com/event/16092514",
+      "lastDateOnPage": "2026-03-10",
+      "yearsStale": 0.5,
+      "proposedUrl": "https://charlottecountyfl.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "learn-mahjong-at-punta-gorda-library-punta-gorda-fl-tuesday--0ccb4cb7",
+      "name": "Learn Mahjong at Punta Gorda Library",
+      "city": "Punta Gorda, FL",
+      "field": "website",
+      "currentUrl": "https://charlottecountyfl.libcal.com/event/16092514",
+      "lastDateOnPage": "2026-03-10",
+      "yearsStale": 0.5,
+      "proposedUrl": "https://charlottecountyfl.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "punta-gorda-library-learn-mahjong-punta-gorda-fl-tuesday-2-0-f015fd7d",
+      "name": "Punta Gorda Library — Learn Mahjong",
+      "city": "Punta Gorda, FL",
+      "field": "website",
+      "currentUrl": "https://charlottecountyfl.libcal.com/event/16092514",
+      "lastDateOnPage": "2026-03-10",
+      "yearsStale": 0.5,
+      "proposedUrl": "https://charlottecountyfl.libcal.com/calendar?q=mahjong"
+    },
+    {
+      "id": "american-mahjong-at-brandywine-hundred-l-wilmington-de-wedne-a44d5cf9",
+      "name": "American Mahjong at Brandywine Hundred Library",
+      "city": "Wilmington, DE",
+      "field": "website",
+      "currentUrl": "https://delawarelibraries.libcal.com/event/16072036",
+      "lastDateOnPage": "2026-08-19",
+      "yearsStale": 0,
+      "proposedUrl": "https://delawarelibraries.libcal.com/calendar?q=mahjong"
+    }
+  ]
+}

@@ -98,6 +98,23 @@ export default function AccountPage() {
     }
   }, [user, loading, router]);
 
+  // Saved cities autocomplete.
+  //
+  // This must sit ABOVE the loading early-return below. It used to live
+  // further down, which meant a signed-in user rendered one fewer hook while
+  // auth was resolving and one more once it had, and React refuses that:
+  // "Rendered more hooks than during the previous render." Every dependency
+  // is available this early — allCities is module scope, savedCity is state
+  // declared above, and userProfile is read optionally.
+  const citySuggestions = useMemo(() => {
+    if (!savedCity.trim()) return [];
+    const q = savedCity.toLowerCase();
+    const saved = new Set(userProfile?.savedCities || []);
+    return allCities
+      .filter((c) => c.toLowerCase().includes(q) && !saved.has(c))
+      .slice(0, 6);
+  }, [savedCity, userProfile?.savedCities]);
+
   if (loading || !user || !userProfile) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-10">
@@ -176,16 +193,6 @@ export default function AccountPage() {
   }
 
   const isFieldEditing = (field: string) => editingAll || editing === field;
-
-  // Saved cities autocomplete
-  const citySuggestions = useMemo(() => {
-    if (!savedCity.trim()) return [];
-    const q = savedCity.toLowerCase();
-    const saved = new Set(userProfile?.savedCities || []);
-    return allCities
-      .filter((c) => c.toLowerCase().includes(q) && !saved.has(c))
-      .slice(0, 6);
-  }, [savedCity, userProfile?.savedCities]);
 
   function addSavedCity(city: string) {
     if (!userProfile || (userProfile.savedCities || []).includes(city)) return;
@@ -325,7 +332,7 @@ export default function AccountPage() {
                   Cancel
                 </button>
                 {saveStatus === "saved" && <span className="text-xs text-green-600 font-medium">Saved</span>}
-                {saveStatus === "error" && <span className="text-xs text-red-500 font-medium">Save failed — try again</span>}
+                {saveStatus === "error" && <span className="text-xs text-red-500 font-medium">Save failed. Try again</span>}
               </div>
             )}
           </div>
@@ -900,7 +907,7 @@ export default function AccountPage() {
               </li>
               <li className="flex items-start gap-2 text-sm text-slate-600">
                 <span className="text-slate-400 mt-0.5 shrink-0">&bull;</span>
-                <span><strong className="text-charcoal">You&apos;ll be removed from the monthly giveaway.</strong> Only active subscribers are entered. If you resubscribe later, you&apos;ll be re-entered going forward.</span>
+                <span><strong className="text-charcoal">You&apos;ll be removed from giveaway drawings.</strong> Only active subscribers are entered. If you resubscribe later, you&apos;ll be re-entered going forward.</span>
               </li>
             </ul>
             <div className="flex flex-col sm:flex-row gap-3">

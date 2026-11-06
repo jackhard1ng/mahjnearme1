@@ -1,0 +1,1032 @@
+{
+  "generatedAt": "2026-08-31T17:12:21.940Z",
+  "places": [
+    "ny--new-york",
+    "ca--los-angeles",
+    "il--chicago",
+    "tx--houston",
+    "tx--dallas",
+    "tx--austin",
+    "ca--san-francisco",
+    "ca--san-diego",
+    "fl--miami",
+    "fl--orlando",
+    "ga--atlanta",
+    "wa--seattle",
+    "ma--boston",
+    "pa--philadelphia",
+    "az--phoenix",
+    "co--denver",
+    "nv--las-vegas",
+    "or--portland",
+    "nc--charlotte",
+    "dc--washington"
+  ],
+  "pagesPerPlace": 8,
+  "failedPages": [
+    "https://www.eventbrite.com/d/nv--las-vegas/mahjong/?page=8",
+    "https://www.eventbrite.com/d/or--portland/mahjong/?page=2",
+    "https://www.eventbrite.com/d/or--portland/mahjong/?page=3",
+    "https://www.eventbrite.com/d/or--portland/mahjong/?page=4",
+    "https://www.eventbrite.com/d/nc--charlotte/mahjong/?page=1",
+    "https://www.eventbrite.com/d/nc--charlotte/mahjong/?page=2",
+    "https://www.eventbrite.com/d/nc--charlotte/mahjong/?page=6",
+    "https://www.eventbrite.com/d/dc--washington/mahjong/?page=2",
+    "https://www.eventbrite.com/d/dc--washington/mahjong/?page=4",
+    "https://www.eventbrite.com/d/dc--washington/mahjong/?page=5"
+  ],
+  "note": "Candidates only. Every one is an Eventbrite listing whose own title names mahjong, at a physical venue with a street address, on a date not yet past, at a venue the directory does not already have.",
+  "candidates": [
+    {
+      "name": "Mahjong Social — Every Tuesday @United Dumplings San Francisco",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-social-every-tuesday-united-dumplings-san-francisco-tickets-1996759235625",
+      "venueName": "525 Cortland Ave",
+      "address": "525 Cortland Avenue",
+      "city": "San Francisco",
+      "state": "CA",
+      "postalCode": "94110",
+      "lat": "37.7392364",
+      "lng": "-122.4160436",
+      "dayOfWeek": "tuesday",
+      "startTime": "5:30 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 2,
+      "dates": [
+        "2026-09-01",
+        "2026-09-15"
+      ],
+      "titles": [
+        "Mahjong Social — Every Tuesday @United Dumplings San Francisco",
+        "Mahjong Learning Night — Every Other Tuesday@United Dumplings San Francisco"
+      ],
+      "summary": "Cozy community Mahjong night for all levels. Friendly tables, optional guidance, relaxed vibe. No experience needed—just come play!"
+    },
+    {
+      "name": "Mahjong Monday",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-monday-tickets-1998642622887",
+      "venueName": "2057 N Los Robles Ave",
+      "address": "2057 North Los Robles Avenue",
+      "city": "Pasadena",
+      "state": "CA",
+      "postalCode": "91104",
+      "lat": "34.1811359",
+      "lng": "-118.1422548",
+      "dayOfWeek": "monday",
+      "startTime": "6:30 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-07"
+      ],
+      "titles": [
+        "Mahjong Monday"
+      ],
+      "summary": "Join your community for a fun evening of beginner-friendly, open mahjong play. Hosted by a book and boba cafe."
+    },
+    {
+      "name": "Mahjong Madness",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-madness-tickets-1998658960754",
+      "venueName": "648 S Broadway",
+      "address": "648 South Broadway",
+      "city": "Los Angeles",
+      "state": "CA",
+      "postalCode": "90014",
+      "lat": "34.0453504",
+      "lng": "-118.2529238",
+      "dayOfWeek": "sunday",
+      "startTime": "12:00 PM",
+      "endTime": "7:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-06"
+      ],
+      "titles": [
+        "Mahjong Madness"
+      ],
+      "summary": "Gather your tile-clackers at The Sanctuary at Clifton's for Mahjong Madness!"
+    },
+    {
+      "name": "Mahjong 101 at Bering's Westheimer",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-101-at-berings-westheimer-tickets-1999273891027",
+      "venueName": "6102 Westheimer Rd",
+      "address": "6102 Westheimer Road",
+      "city": "Houston",
+      "state": "TX",
+      "postalCode": "77057",
+      "lat": "29.73823699999999",
+      "lng": "-95.4889608",
+      "dayOfWeek": "sunday",
+      "startTime": "1:00 PM",
+      "endTime": "3:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-13"
+      ],
+      "titles": [
+        "Mahjong 101 at Bering's Westheimer"
+      ],
+      "summary": "Perfect for beginners! Learn the basics, the card, Charleston, and how to confidently call “Mahjong!”⁠"
+    },
+    {
+      "name": "Mahjong 101: Girls’ Night",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-101-girls-night-tickets-1998455375826",
+      "venueName": "9430 Fry Rd",
+      "address": "9430 Fry Road",
+      "city": "cypress",
+      "state": "TX",
+      "postalCode": "77433",
+      "lat": "29.920807",
+      "lng": "-95.728034",
+      "dayOfWeek": "friday",
+      "startTime": "6:30 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-11"
+      ],
+      "titles": [
+        "Mahjong 101: Girls’ Night"
+      ],
+      "summary": "Learn the basics of Mahjong at our beginner-friendly girls’ night! Come learn, play, sip, and connect while enjoying a fun night at BODYBAR."
+    },
+    {
+      "name": "Play with a Purpose - Mahjong Supporting Family Hope",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/play-with-a-purpose-mahjong-supporting-family-hope-tickets-1996920193053",
+      "venueName": "28410 Hoffman Spring Ln",
+      "address": "28410 Hoffman Spring Lane",
+      "city": "Fulshear",
+      "state": "TX",
+      "postalCode": "77441",
+      "lat": "29.709277",
+      "lng": "-95.86716",
+      "dayOfWeek": "tuesday",
+      "startTime": "10:00 AM",
+      "endTime": "1:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-15"
+      ],
+      "titles": [
+        "Play with a Purpose - Mahjong Supporting Family Hope"
+      ],
+      "summary": "Join us for a fun Mahjong day where every tile played helps support families in need!"
+    },
+    {
+      "name": "Martini Mahjong Mondays  @ 55 Seventy",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/martini-mahjong-mondays-55-seventy-tickets-1998137200154",
+      "venueName": "55 Seventy Private Members Club",
+      "address": "6130 Berkshire Lane",
+      "city": "Dallas",
+      "state": "TX",
+      "postalCode": "75225",
+      "lat": "32.8642604",
+      "lng": "-96.8048743",
+      "dayOfWeek": "monday",
+      "startTime": "6:30 PM",
+      "endTime": "9:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-21"
+      ],
+      "titles": [
+        "Martini Mahjong Mondays  @ 55 Seventy"
+      ],
+      "summary": "Where Mondays Become Your Favorite Night of the Week"
+    },
+    {
+      "name": "The Mahjong Lunch Club: Labor Day Edition at 55 Seventy",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/the-mahjong-lunch-club-labor-day-edition-at-55-seventy-tickets-1998936337395",
+      "venueName": "55 Seventy Private Members Club",
+      "address": "6130 Berkshire Lane",
+      "city": "Dallas",
+      "state": "TX",
+      "postalCode": "75225",
+      "lat": "32.8642604",
+      "lng": "-96.8048743",
+      "dayOfWeek": "monday",
+      "startTime": "11:30 AM",
+      "endTime": "2:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-07"
+      ],
+      "titles": [
+        "The Mahjong Lunch Club: Labor Day Edition at 55 Seventy"
+      ],
+      "summary": "Lunch. Laughs. Mahj. Spend your Labor Day with good friends, good tiles & great times at 55 Seventy."
+    },
+    {
+      "name": "WCR ETX:  Mahjong & Brunch: Beginner’s Class",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/wcr-etx-mahjong-brunch-beginners-class-tickets-1998787554381",
+      "venueName": "270 Saddle Creek Dr",
+      "address": "270 Saddle Creek Drive",
+      "city": "Tyler",
+      "state": "TX",
+      "postalCode": "75703",
+      "lat": "32.233788",
+      "lng": "-95.30301999999999",
+      "dayOfWeek": "wednesday",
+      "startTime": "10:00 AM",
+      "endTime": "1:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-23"
+      ],
+      "titles": [
+        "WCR ETX:  Mahjong & Brunch: Beginner’s Class"
+      ],
+      "summary": "Learn the basics of Mahjong while enjoying brunch, networking & fun giveaways!  Beginner-friendly—no experience needed!"
+    },
+    {
+      "name": "MAHJONG AT LOCALPRO REALTY",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-at-localpro-realty-tickets-1998989737115",
+      "venueName": "5801 Headquarters Dr suite 775",
+      "address": "5801 Headquarters Drive",
+      "city": "Plano",
+      "state": "TX",
+      "postalCode": "75024",
+      "lat": "33.0845825",
+      "lng": "-96.8222251",
+      "dayOfWeek": "friday",
+      "startTime": "1:00 PM",
+      "endTime": "3:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-25"
+      ],
+      "titles": [
+        "MAHJONG AT LOCALPRO REALTY"
+      ],
+      "summary": "Get ready to test your tile skills and have a blast with friends over some Mahjong fun!  Instruction available for beginners."
+    },
+    {
+      "name": "MahJongg for Beginners",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjongg-for-beginners-tickets-1998930904144",
+      "venueName": "One Health Center at 1714 SW 17th Street, Ocala, FL  34471",
+      "address": "1714 Southwest 17th Street",
+      "city": "Ocala",
+      "state": "FL",
+      "postalCode": "34471",
+      "lat": "29.1701874",
+      "lng": "-82.1546201",
+      "dayOfWeek": "friday",
+      "startTime": "1:00 PM",
+      "endTime": "3:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-04"
+      ],
+      "titles": [
+        "MahJongg for Beginners"
+      ],
+      "summary": "Jump into the fun world of MahJongg with easy tips and tricks perfect for total newbies."
+    },
+    {
+      "name": "MAHJ 101 an intro into the art of American Mahjong",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahj-101-an-intro-into-the-art-of-american-mahjong-tickets-1998787992692",
+      "venueName": "900 Washington St",
+      "address": "900 Washington Street",
+      "city": "Holliston",
+      "state": "MA",
+      "postalCode": "01746",
+      "lat": "42.1970695",
+      "lng": "-71.43173399999999",
+      "dayOfWeek": "tuesday",
+      "startTime": "6:00 PM",
+      "endTime": "10:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-15"
+      ],
+      "titles": [
+        "MAHJ 101 an intro into the art of American Mahjong"
+      ],
+      "summary": "Join Bunkhouse Creative Art Studio for MAHJ 101, an intro into American Mahjong."
+    },
+    {
+      "name": "American Mahjong Open Play at LK Home & Gifts",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/american-mahjong-open-play-at-lk-home-gifts-tickets-1999171163767",
+      "venueName": "LK Home & Gifts",
+      "address": "201 West Boylston Street",
+      "city": "West Boylston",
+      "state": "MA",
+      "postalCode": "01583",
+      "lat": "42.3494104",
+      "lng": "-71.7853002",
+      "dayOfWeek": "sunday",
+      "startTime": "6:00 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-20"
+      ],
+      "titles": [
+        "American Mahjong Open Play at LK Home & Gifts"
+      ],
+      "summary": "Join for American Mahjong Open Play at LK Home & Gifts. This event is for people who know the game. There is no guided play or teaching."
+    },
+    {
+      "name": "Learn to Play American MahJong-A 3 Part Series",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/learn-to-play-american-mahjong-a-3-part-series-tickets-1998254174026",
+      "venueName": "Lawrence Wetlands Preserve",
+      "address": "301 South Mill Street",
+      "city": "Chestertown",
+      "state": "MD",
+      "postalCode": "21620",
+      "lat": "39.2077375",
+      "lng": "-76.07070399999999",
+      "dayOfWeek": "sunday",
+      "startTime": "11:00 AM",
+      "endTime": "1:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-11-08"
+      ],
+      "titles": [
+        "Learn to Play American MahJong-A 3 Part Series"
+      ],
+      "summary": "This is a three-part class that will meet on consecutive Sundays in November from 11:00am - 1:00 pm."
+    },
+    {
+      "name": "Morrison Ranch Mahjong 101",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/morrison-ranch-mahjong-101-tickets-1998092410186",
+      "venueName": "2957 E Pinto Dr",
+      "address": "2957 East Pinto Drive",
+      "city": "Gilbert",
+      "state": "AZ",
+      "postalCode": "85296",
+      "lat": "33.3375772",
+      "lng": "-111.7265709",
+      "dayOfWeek": "thursday",
+      "startTime": "5:00 PM",
+      "endTime": "8:00 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-17"
+      ],
+      "titles": [
+        "Morrison Ranch Mahjong 101"
+      ],
+      "summary": "I'm teaching the basics from square one — how the tiles work, how a hand comes together, and the little tips that make it click."
+    },
+    {
+      "name": "Mahjong and Minis",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/mahjong-and-minis-tickets-1997211377995",
+      "venueName": "1720 W Craig Rd",
+      "address": "1720 West Craig Road",
+      "city": "North Las Vegas",
+      "state": "NV",
+      "postalCode": "89031",
+      "lat": "36.2399356",
+      "lng": "-115.1650501",
+      "dayOfWeek": "monday",
+      "startTime": "6:00 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-07"
+      ],
+      "titles": [
+        "Mahjong and Minis"
+      ],
+      "summary": "Join us for Mahjong and Minis, a full beginner-friendly Mahjong lesson followed by practice games.\nWhat is provided?\nA full beginner-friendly lesson and practice gamesAll Mahjong pieces and parts neededA complimentary 4-count Chick-n-Minis for each participant\nEvent Details\nDate: September 7, 2026Ti"
+    },
+    {
+      "name": "Introduction to Mah Jongg (two sessions) in Montgomery County, Md.",
+      "organizer": "",
+      "url": "https://www.eventbrite.com/e/introduction-to-mah-jongg-two-sessions-in-montgomery-county-md-tickets-1994476089674",
+      "venueName": "Locally Crafted Workshop",
+      "address": "35 Grand Corner Avenue",
+      "city": "Gaithersburg",
+      "state": "MD",
+      "postalCode": "20878",
+      "lat": "39.118428",
+      "lng": "-77.203451",
+      "dayOfWeek": "tuesday",
+      "startTime": "6:30 PM",
+      "endTime": "8:30 PM",
+      "occurrences": 1,
+      "dates": [
+        "2026-09-15"
+      ],
+      "titles": [
+        "Introduction to Mah Jongg (two sessions) in Montgomery County, Md."
+      ],
+      "summary": "Learn the game of Mah Jongg (American style). This two-evening workshop introduces beginners to the basic rules and simple strategies."
+    }
+  ],
+  "alreadyKnown": [
+    {
+      "venue": "Kings Co Imperial",
+      "city": "Brooklyn"
+    },
+    {
+      "venue": "Mojo Coffee Company",
+      "city": "Hoboken"
+    },
+    {
+      "venue": "pinkFROG cafe",
+      "city": "Brooklyn"
+    },
+    {
+      "venue": "Nook",
+      "city": "Brooklyn"
+    },
+    {
+      "venue": "Sparrow's Nest Studio",
+      "city": "New York"
+    },
+    {
+      "venue": "pinkFROG cafe",
+      "city": "Brooklyn"
+    },
+    {
+      "venue": "pinkFROG cafe",
+      "city": "Brooklyn"
+    },
+    {
+      "venue": "The Living Room (45 W 8th)",
+      "city": "New York"
+    },
+    {
+      "venue": "HomeState",
+      "city": "Santa Monica"
+    },
+    {
+      "venue": "HomeState",
+      "city": "Los Angeles"
+    },
+    {
+      "venue": "Lafayette Square",
+      "city": "Los Angeles"
+    },
+    {
+      "venue": "Lafayette Square",
+      "city": "Los Angeles"
+    },
+    {
+      "venue": "BLANKSPACES Santa Monica Downtown",
+      "city": "Santa Monica"
+    },
+    {
+      "venue": "Santa Monica Public Library",
+      "city": "Santa Monica"
+    },
+    {
+      "venue": "The Hudson Theatres",
+      "city": "Los Angeles"
+    },
+    {
+      "venue": "Found Coffee",
+      "city": "Los Angeles"
+    },
+    {
+      "venue": "ARTIST LOUNGE",
+      "city": "Los Angeles"
+    },
+    {
+      "venue": "ARTIST LOUNGE",
+      "city": "Los Angeles"
+    },
+    {
+      "venue": "Runway Playa Vista",
+      "city": "Los Angeles"
+    },
+    {
+      "venue": "Four Seasons Residence Club Aviara, North San Diego",
+      "city": "Carlsbad"
+    },
+    {
+      "venue": "Cross Creek Ranch",
+      "city": "Malibu"
+    },
+    {
+      "venue": "Malibu Lumber Yard",
+      "city": "Malibu"
+    },
+    {
+      "venue": "District Brew Yards",
+      "city": "Chicago"
+    },
+    {
+      "venue": "Solemn Oath Brewery Still Life",
+      "city": "Chicago"
+    },
+    {
+      "venue": "WineStyles Chicago",
+      "city": "Chicago"
+    },
+    {
+      "venue": "The Parlour at Park & Oak",
+      "city": "Glen Ellyn"
+    },
+    {
+      "venue": "Brewpoint Craft Elmhurst",
+      "city": "Elmhurst"
+    },
+    {
+      "venue": "Prairie Food Co-Op",
+      "city": "Lombard"
+    },
+    {
+      "venue": "Cadence Kitchen & Co",
+      "city": "Downers Grove"
+    },
+    {
+      "venue": "Neat Kitchen + Bar",
+      "city": "Westmont"
+    },
+    {
+      "venue": "Roasted Elements Coffee",
+      "city": "Downers Grove"
+    },
+    {
+      "venue": "à la main | apothecary and refillery | Glen Ellyn",
+      "city": "Glen Ellyn"
+    },
+    {
+      "venue": "KS Tile Society",
+      "city": "Downers Grove"
+    },
+    {
+      "venue": "KS Tile Society",
+      "city": "Downers Grove"
+    },
+    {
+      "venue": "Sunday Press",
+      "city": "Houston"
+    },
+    {
+      "venue": "Four Seasons Hotel Houston",
+      "city": "Houston"
+    },
+    {
+      "venue": "TMC3 Collaborative Building",
+      "city": "Houston"
+    },
+    {
+      "venue": "Bayou & Bottle",
+      "city": "Houston"
+    },
+    {
+      "venue": "Simone on Sunset",
+      "city": "Houston"
+    },
+    {
+      "venue": "Painting with a Twist - Pasadena, TX",
+      "city": "Pasadena"
+    },
+    {
+      "venue": "Bering's Hardware",
+      "city": "Houston"
+    },
+    {
+      "venue": "Kendra Scott",
+      "city": "Dallas"
+    },
+    {
+      "venue": "Terilli's Restaurant",
+      "city": "Dallas"
+    },
+    {
+      "venue": "The Devonshire Club",
+      "city": "Dallas"
+    },
+    {
+      "venue": "HIGHLAND PARK HARVEY R. \"BUM\" BRIGHT LIBRARY",
+      "city": "Dallas"
+    },
+    {
+      "venue": "Bar Leonessa",
+      "city": "Dallas"
+    },
+    {
+      "venue": "Swoozie's",
+      "city": "Dallas"
+    },
+    {
+      "venue": "NorthPark Center",
+      "city": "Dallas"
+    },
+    {
+      "venue": "Magnolia Terrace Wedding and Event Venue",
+      "city": "Frisco"
+    },
+    {
+      "venue": "Sixty Vines",
+      "city": "Plano"
+    },
+    {
+      "venue": "Lone Star Winery",
+      "city": "McKinney"
+    },
+    {
+      "venue": "Whitehall Center - at the Carleen Bright Arboretum",
+      "city": "Woodway"
+    },
+    {
+      "venue": "Delta Hotels Dallas Southlake",
+      "city": "Southlake"
+    },
+    {
+      "venue": "Mansfield Public Library",
+      "city": "Mansfield"
+    },
+    {
+      "venue": "Swedish Hill Westlake",
+      "city": "West Lake Hills"
+    },
+    {
+      "venue": "Dell JCC",
+      "city": "Austin"
+    },
+    {
+      "venue": "Swedish Hill South First",
+      "city": "Austin"
+    },
+    {
+      "venue": "The Commonwealth Texas",
+      "city": "Temple"
+    },
+    {
+      "venue": "Miraval Austin Resort and Spa",
+      "city": "Austin"
+    },
+    {
+      "venue": "The Jay, Autograph Collection",
+      "city": "San Francisco"
+    },
+    {
+      "venue": "The Corner and Meeting House of Wake Forest",
+      "city": "Wake Forest"
+    },
+    {
+      "venue": "Bar 888 & Bistro 888",
+      "city": "San Francisco"
+    },
+    {
+      "venue": "Jewish Community Center of San Francisco",
+      "city": "San Francisco"
+    },
+    {
+      "venue": "Edmond Unplugged",
+      "city": "Edmond"
+    },
+    {
+      "venue": "Mr. Mahjong’s",
+      "city": "San Francisco"
+    },
+    {
+      "venue": "Pier 23 Cafe Restaurant & Bar",
+      "city": "San Francisco"
+    },
+    {
+      "venue": "Paname SF",
+      "city": "San Francisco"
+    },
+    {
+      "venue": "Sunset Commons",
+      "city": "San Francisco"
+    },
+    {
+      "venue": "The Well Community for Women",
+      "city": "La Mesa"
+    },
+    {
+      "venue": "RustiCucina",
+      "city": "San Diego"
+    },
+    {
+      "venue": "Cork & Stem",
+      "city": "San Diego"
+    },
+    {
+      "venue": "Sky Deck at Del Mar Highlands Town Center",
+      "city": "San Diego"
+    },
+    {
+      "venue": "Ace Hotel & Swim Club Palm Springs",
+      "city": "Palm Springs"
+    },
+    {
+      "venue": "Fuku",
+      "city": "Coral Gables"
+    },
+    {
+      "venue": "Ironside Cafe Bistro",
+      "city": "Miami"
+    },
+    {
+      "venue": "Hilton Aventura Miami",
+      "city": "Aventura"
+    },
+    {
+      "venue": "Hollywood Art and Culture Center",
+      "city": "Hollywood"
+    },
+    {
+      "venue": "Ramen Lab West Boca- Mission Bay Plaza",
+      "city": "Boca Raton"
+    },
+    {
+      "venue": "Swirlery",
+      "city": "Orlando"
+    },
+    {
+      "venue": "Panera Bread",
+      "city": "Orlando"
+    },
+    {
+      "venue": "Haraz Coffee House",
+      "city": "Winter Park"
+    },
+    {
+      "venue": "LiveTrends Boutique",
+      "city": "Winter Garden"
+    },
+    {
+      "venue": "Boston Coffee House",
+      "city": "Altamonte Springs"
+    },
+    {
+      "venue": "Tanner Hall",
+      "city": "Winter Garden"
+    },
+    {
+      "venue": "Three Birds Tavern",
+      "city": "St. Petersburg"
+    },
+    {
+      "venue": "Elaine Sterling Institute",
+      "city": "Atlanta"
+    },
+    {
+      "venue": "Art of Living Atlanta - Happiness Center",
+      "city": "Marietta"
+    },
+    {
+      "venue": "Solomon Brothers Jewelers",
+      "city": "Alpharetta"
+    },
+    {
+      "venue": "Three Strands Vineyard and Winery",
+      "city": "Dallas"
+    },
+    {
+      "venue": "1182 Canton Street, Roswell, GA, USA",
+      "city": "Roswell"
+    },
+    {
+      "venue": "Peachtree City Library",
+      "city": "Peachtree City"
+    },
+    {
+      "venue": "Newnan Carnegie Library",
+      "city": "Newnan"
+    },
+    {
+      "venue": "Third Place Commons",
+      "city": "Lake Forest Park"
+    },
+    {
+      "venue": "14525 148th Ave NE #211",
+      "city": "Woodinville"
+    },
+    {
+      "venue": "Blackmoor Bar and Kitchen",
+      "city": "Boston"
+    },
+    {
+      "venue": "Hong Kong Restaurant (Harvard Square)",
+      "city": "Cambridge"
+    },
+    {
+      "venue": "Forbes House Museum",
+      "city": "Milton"
+    },
+    {
+      "venue": "Publico Street Bistro",
+      "city": "Boston"
+    },
+    {
+      "venue": "Cafe Landwer",
+      "city": "Boston"
+    },
+    {
+      "venue": "Allstonway",
+      "city": "Boston"
+    },
+    {
+      "venue": "Aeronaut Brewing Company",
+      "city": "Somerville"
+    },
+    {
+      "venue": "West on Main",
+      "city": "Watertown"
+    },
+    {
+      "venue": "Belmont Country Club",
+      "city": "Belmont"
+    },
+    {
+      "venue": "Chatham Bars Inn",
+      "city": "Chatham"
+    },
+    {
+      "venue": "Coastal Bubbles + Wine Bar",
+      "city": "New Bedford"
+    },
+    {
+      "venue": "Wenham Tea House Courts",
+      "city": "Wenham"
+    },
+    {
+      "venue": "Fiorella's Trattoria",
+      "city": "Wellesley"
+    },
+    {
+      "venue": "Trillium - Canton",
+      "city": "Canton"
+    },
+    {
+      "venue": "Humble Warrior Power Yoga - Kittery",
+      "city": "Kittery"
+    },
+    {
+      "venue": "The Getty Bagel",
+      "city": "Portsmouth"
+    },
+    {
+      "venue": "Sol de Mexico",
+      "city": "Milford"
+    },
+    {
+      "venue": "Community Campus",
+      "city": "Portsmouth"
+    },
+    {
+      "venue": "Community Campus",
+      "city": "Portsmouth"
+    },
+    {
+      "venue": "The Bar Method Wellesley",
+      "city": "Wellesley"
+    },
+    {
+      "venue": "Farthest Star Sake",
+      "city": "Medfield"
+    },
+    {
+      "venue": "Breezy Hill Farm",
+      "city": "Holliston"
+    },
+    {
+      "venue": "Off The Common Antiques",
+      "city": "Grafton"
+    },
+    {
+      "venue": "Haraz Coffee House",
+      "city": "Philadelphia"
+    },
+    {
+      "venue": "Cherry Hill Public Library",
+      "city": "Cherry Hill"
+    },
+    {
+      "venue": "Metropolitan Cafe",
+      "city": "Freehold"
+    },
+    {
+      "venue": "Little Dom's Pizza & Italian Cuisine",
+      "city": "Sea Girt"
+    },
+    {
+      "venue": "Rising Stars School of Dance",
+      "city": "Englishtown"
+    },
+    {
+      "venue": "The Bar Method Marlboro",
+      "city": "Marlboro Township"
+    },
+    {
+      "venue": "Inn at The Colonnade Baltimore - a DoubleTree by Hilton Hotel",
+      "city": "Baltimore"
+    },
+    {
+      "venue": "GiftPoke",
+      "city": "Timonium"
+    },
+    {
+      "venue": "Charles Village Pub & Patio Towson",
+      "city": "Towson"
+    },
+    {
+      "venue": "Halo-Halo Kitchen",
+      "city": "Phoenix"
+    },
+    {
+      "venue": "Pinnacle Brewing Company",
+      "city": "Scottsdale"
+    },
+    {
+      "venue": "Desert Broom Library",
+      "city": "Cave Creek"
+    },
+    {
+      "venue": "Desert Ridge Marketplace",
+      "city": "Phoenix"
+    },
+    {
+      "venue": "Olive Juice Beauty Bar",
+      "city": "Highlands Ranch"
+    },
+    {
+      "venue": "Monk & Mongoose Coffee Co",
+      "city": "Lone Tree"
+    },
+    {
+      "venue": "The Racquet Club",
+      "city": "Portland"
+    },
+    {
+      "venue": "CORE - Collective Oregon Eateries",
+      "city": "Portland"
+    },
+    {
+      "venue": "WE MAKE DC - Dupont Circle",
+      "city": "Washington"
+    },
+    {
+      "venue": "Shop Made in DC - Georgetown",
+      "city": "Washington"
+    },
+    {
+      "venue": "Flor Coffee + Books",
+      "city": "Washington"
+    },
+    {
+      "venue": "Chinese American Museum DC",
+      "city": "Washington"
+    },
+    {
+      "venue": "Aslin Beer Company - Alexandria",
+      "city": "Alexandria"
+    },
+    {
+      "venue": "UPSIDE on Moore",
+      "city": "Arlington"
+    },
+    {
+      "venue": "The Den Coffeehouse & Wine Bar at Politics and Prose Bookstore",
+      "city": "Washington"
+    },
+    {
+      "venue": "The Stacks",
+      "city": "Washington"
+    },
+    {
+      "venue": "Bear Chase Brewing Company",
+      "city": "Bluemont"
+    },
+    {
+      "venue": "Great Mane Brewery",
+      "city": "Haymarket"
+    },
+    {
+      "venue": "The Winery at La Grange",
+      "city": "Haymarket"
+    },
+    {
+      "venue": "Aroma II Tasting Room",
+      "city": "Haymarket"
+    },
+    {
+      "venue": "The Grove Bar and Grill",
+      "city": "POTOMAC"
+    },
+    {
+      "venue": "Old Bust Head Brewing Company",
+      "city": "New Baltimore"
+    },
+    {
+      "venue": "Trouvaille Brewing Company",
+      "city": "Haymarket"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { MapPin, Users, ArrowRight, Lock, Clock } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Game } from "@/types";
+import type { Game } from "@/types";
 import { slugify, getGameTypeLabel, getGameTypeColor, formatSchedule } from "@/lib/utils";
 import { getCityTile } from "@/lib/city-tiles";
 import { SKILL_LEVEL_LABELS, GAME_STYLE_LABELS } from "@/lib/constants";
